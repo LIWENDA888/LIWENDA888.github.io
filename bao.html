@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="bao.ico" type="image/x-icon">
+  <title>字造</title>
+  <style>
+    /* 全局样式 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 导航栏样式 */
+    header {
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 44px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      margin-right: 20px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    nav ul li {
+      margin: 0 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* 折叠按钮样式 */
+    .toggle-button {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* iframe 样式 */
+    .iframe-container {
+      overflow: hidden;
+      width: 100%;
+      height: calc(100vh - 44px);
+    }
+
+    iframe {
+      width: 100%;
+      height: 110%;/* 调整页面总长度 */
+      border: none;
+      display: block;
+      transform: translateY(-25px); /* 调整顶部显示 */
+    }
+
+    /* 媒体查询，当屏幕宽度小于600px时 */
+    @media (max-width: 600px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 44px;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 10px 20px;
+      }
+
+      .toggle-button {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 导航栏 -->
+  <header>
+    <div class="logo">
+      <!-- 请将这里的 logo.png 替换为你实际的 logo 图片文件名 -->
+      <a href="index.html">
+      <img src="logo.png" alt="网站 logo">
+    </div>
+    <button class="toggle-button" onclick="toggleNav()">☰</button>
+    <nav>
+      <ul id="nav-ul">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="fonts.html">字库产品</a></li>
+        <li><a href="bao.html">百宝库</a></li>
+        <li><a href="hao.html">字造导航</a></li>
+        <li><a href="more.html">更多服务</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 嵌入的网址作为主体页面 -->
+  <div class="iframe-container">
+    <iframe src="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c" frameborder="0"></iframe>
+  </div>
+
+  <script>
+    function toggleNav() {
+      const navUl = document.getElementById('nav-ul');
+      navUl.classList.toggle('show');
+    }
+  </script>
+</body>
+
+</html>
