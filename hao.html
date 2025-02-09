@@ -2,132 +2,293 @@
 <html lang="zh-CN">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="index.ico" type="image/x-icon">
-  <title>字造</title>
-  <style>
-    /* 全局样式 */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="index.ico" type="image/x-icon">
+    <title>字造导航 - 你的设计灵感百宝库</title>
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-    /* 导航栏样式 */
-    header {
-      background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 44px;
-      position: relative;
-      z-index: 1;
-    }
+        /* 导航栏样式 */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 44px;
+            position: relative;
+            z-index: 3;
+            transition: background-color 0.3s ease;
+            padding: 0 200px;
+        }
 
-    .logo {
-      margin-right: 20px;
-    }
+        header:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
 
-    nav ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-    }
+        .logo {
+            margin-right: 20px;
+            transition: transform 0.3s ease;
+        }
 
-    nav ul li {
-      margin: 0 20px;
-    }
+        .logo a img {
+            display: block;
+        }
 
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 14px;
-    }
+        .logo:hover {
+            transform: scale(1.1);
+        }
 
-    /* 折叠按钮样式 */
-    .toggle-button {
-      display: none;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-    }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
 
-    /* iframe 样式 */
-    .iframe-container {
-      overflow: hidden;
-      width: 100%;
-      height: calc(100vh - 44px);
-    }
+        nav > ul > li {
+            margin: 0 20px;
+            position: relative;
+        }
 
-    iframe {
-      width: 100%;
-      height: 150%;/* 调整页面总长度 */
-      border: none;
-      display: block;
-      transform: translateY(-125px); /* 调整顶部显示 */
-    }
+        nav > ul > li > a {
+            color: #d6d6d6;
+            text-decoration: none;
+            font-size: 12px;
+            position: relative;
+            display: block;
+            padding: 10px 0;
+            transition: color 0.3s ease;
+        }
 
-    /* 媒体查询，当屏幕宽度小于600px时 */
-    @media (max-width: 600px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 44px;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        width: 100%;
-      }
+        nav > ul > li > a:hover {
+            color: #fff;
+        }
 
-      nav ul.show {
-        display: flex;
-      }
+        /* 导航栏一级链接下划线动画 */
+        nav > ul > li > a::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #fff;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
 
-      nav ul li {
-        margin: 10px 20px;
-      }
+        nav > ul > li > a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
 
-      .toggle-button {
-        display: block;
-      }
-    }
-  </style>
+        /* 子菜单样式 */
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            background-color: #fff;
+            min-width: 200px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 4;
+        }
+
+        nav ul li:hover ul {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav ul li ul li {
+            margin: 0;
+        }
+
+        nav ul li ul li a {
+            color: #333;
+            padding: 12px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 13px;
+            display: block;
+            text-decoration: none;
+        }
+
+        nav ul li ul li a:hover {
+            background-color: #f5f5f5;
+            color: #0070c9;
+        }
+
+        /* 折叠按钮样式 */
+        .toggle-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #d6d6d6;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            color: #fff;
+        }
+
+        /* 嵌入网页容器样式 */
+        .iframe-container {
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .iframe-container iframe {
+            position: absolute;
+            top: -125px; /* 隐藏顶部 100px 的内容 */
+            bottom: -400px; /* 隐藏底部 100px 的内容 */
+            width: 100%;
+            height: calc(100% + 500px); /* 增加高度以补偿隐藏的部分 */
+            border: none;
+        }
+
+        /* 媒体查询，当屏幕宽度小于600px时 */
+        @media (max-width: 600px) {
+            header {
+                padding: 0 10px;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 44px;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.8);
+                width: 100%;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 10px 20px;
+            }
+
+            .toggle-button {
+                display: block;
+            }
+
+            nav ul li ul {
+                position: static;
+                background-color: transparent;
+                box-shadow: none;
+                transform: none;
+                opacity: 1;
+                visibility: visible;
+                display: none;
+            }
+
+            nav ul li:hover ul {
+                display: block;
+            }
+
+            nav ul li ul li a {
+                color: #fff;
+            }
+        }
+
+        /* 媒体查询，当屏幕宽度在601px - 768px之间时（平板） */
+        @media (min-width: 601px) and (max-width: 768px) {
+            header {
+                padding: 0 20px;
+            }
+
+            nav > ul > li {
+                margin: 0 10px;
+            }
+
+            nav > ul > li > a {
+                font-size: 10px;
+            }
+        }
+
+        /* 媒体查询，当屏幕宽度在769px - 992px之间时（小桌面） */
+        @media (min-width: 769px) and (max-width: 992px) {
+            header {
+                padding: 0 50px;
+            }
+
+            nav > ul > li {
+                margin: 0 15px;
+            }
+        }
+
+        /* 媒体查询，当屏幕宽度在993px - 1200px之间时（大桌面） */
+        @media (min-width: 993px) and (max-width: 1200px) {
+            header {
+                padding: 0 100px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <!-- 导航栏 -->
-  <header>
-    <div class="logo">
-      <!-- 请将这里的 logo.png 替换为你实际的 logo 图片文件名 -->
-      <img src="logo.png" alt="网站 logo">
+    <!-- 导航栏 -->
+    <header>
+        <div class="logo">
+            <!-- 将 logo 图片用 a 标签包裹，点击返回首页 -->
+            <a href="index.html">
+                <img src="logo.png" alt="网站 logo">
+            </a>
+        </div>
+        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单">☰</button>
+        <nav>
+            <ul id="nav-ul">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="fonts.html">字库产品</a>
+                    <ul>
+                        <li><a href="">Z系列（基础字库）</a></li>
+                        <li><a href="">Δ系列（可变字体）</a></li>
+                        <li><a href="">Ω系列（典藏字体）</a></li>
+                    </ul>
+                </li>
+                <li><a href="bao.html">百宝库</a>
+                </li>
+                <li><a href="hao.html">字造导航</a>
+                </li>
+                <li><a href="more.html">更多服务</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 嵌入网页容器 -->
+    <div class="iframe-container">
+        <iframe src="https://www.yuque.com/zizao/home/hao"></iframe>
     </div>
-    <button class="toggle-button" onclick="toggleNav()">☰</button>
-    <nav>
-      <ul id="nav-ul">
-        <li><a href="index.html">首页</a></li>
-        <li><a href="fonts.html">字库产品</a></li>
-        <li><a href="bao.html">百宝库</a></li>
-        <li><a href="hao.html">字造导航</a></li>
-        <li><a href="more.html">更多服务</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <!-- 嵌入的网址作为主体页面 -->
-  <div class="iframe-container">
-    <iframe src="https://www.yuque.com/zizao/home/hao" frameborder="0"></iframe>
-  </div>
-
-  <script>
-    function toggleNav() {
-      const navUl = document.getElementById('nav-ul');
-      navUl.classList.toggle('show');
-    }
-  </script>
+    <script>
+        function toggleNav() {
+            const navUl = document.getElementById('nav-ul');
+            navUl.classList.toggle('show');
+        }
+    </script>
 </body>
 
 </html>

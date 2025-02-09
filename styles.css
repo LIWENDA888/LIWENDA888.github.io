@@ -1,0 +1,376 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 导航栏和轮播图容器样式 */
+.header-slider-container {
+    position: relative;
+}
+
+/* 导航栏样式 */
+header {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 44px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    transition: background-color 0.3s ease;
+    padding: 0 200px;
+}
+
+header:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.logo {
+    margin-right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.logo a img {
+    display: block;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav > ul > li {
+    margin: 0 20px;
+    position: relative;
+}
+
+nav > ul > li > a {
+    color: #d6d6d6;
+    text-decoration: none;
+    font-size: 12px;
+    position: relative;
+    display: block;
+    padding: 10px 0;
+    transition: color 0.3s ease;
+}
+
+nav > ul > li > a:hover {
+    color: #fff;
+}
+
+/* 导航栏一级链接下划线动画 */
+nav > ul > li > a::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+nav > ul > li > a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* 子菜单样式 */
+nav ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -20px;
+    background-color: #fff;
+    min-width: 200px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 4;
+}
+
+nav ul li:hover ul {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+nav ul li ul li {
+    margin: 0;
+}
+
+nav ul li ul li a {
+    color: #333;
+    padding: 12px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 13px;
+    display: block;
+    text-decoration: none;
+}
+
+nav ul li ul li a:hover {
+    background-color: #f5f5f5;
+    color: #0070c9;
+}
+
+/* 折叠按钮样式 */
+.toggle-button {
+    display: none;
+    background: none;
+    border: none;
+    color: #d6d6d6;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.toggle-button:hover {
+    color: #fff;
+}
+
+/* 轮播图样式 */
+.slider {
+    width: 100%;
+    height: 0;
+    padding-bottom: 24%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 1;
+}
+
+.slider img.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* 轮播图切换按钮样式 */
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 3;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider-button.prev {
+    left: 20px;
+}
+
+.slider-button.next {
+    right: 20px;
+}
+
+.slider-button:hover {
+    opacity: 1;
+}
+
+/* 绘制三角形 */
+.slider-button.prev::after {
+    content: "";
+    border: solid #fff;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(135deg);
+}
+
+.slider-button.next::after {
+    content: "";
+    border: solid #fff;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-45deg);
+}
+
+/* 新增图片位容器样式 */
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    line-height: 0; /* 去除行间距 */
+}
+
+.image-item {
+    width: 25%;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-item:hover img {
+    transform: scale(1.1);
+}
+
+/* 修改后的图片标题样式 */
+.image-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(transparent, rgba(0, 0, 0, 0.7)); /* 使用径向渐变实现四周阴影效果 */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.image-item:hover .image-title {
+    opacity: 1;
+}
+
+/* 媒体查询，当屏幕宽度小于600px时 */
+@media (max-width: 600px) {
+    header {
+        padding: 0 10px;
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 44px;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    nav ul li {
+        margin: 10px 20px;
+    }
+
+    .toggle-button {
+        display: block;
+    }
+
+    nav ul li ul {
+        position: static;
+        background-color: transparent;
+        box-shadow: none;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        display: none;
+    }
+
+    nav ul li:hover ul {
+        display: block;
+    }
+
+    nav ul li ul li a {
+        color: #fff;
+    }
+
+    .slider {
+        padding-bottom: 50%;
+    }
+
+    .slider-button {
+        width: 25px;
+        height: 25px;
+    }
+
+    .slider-button.prev {
+        left: 10px;
+    }
+
+    .slider-button.next {
+        right: 10px;
+    }
+
+    .image-item {
+        width: 50%;
+    }
+}
+
+/* 媒体查询，当屏幕宽度在601px - 768px之间时（平板） */
+@media (min-width: 601px) and (max-width: 768px) {
+    header {
+        padding: 0 20px;
+    }
+
+    nav > ul > li {
+        margin: 0 10px;
+    }
+
+    nav > ul > li > a {
+        font-size: 10px;
+    }
+
+    .slider {
+        padding-bottom: 35%;
+    }
+}
+
+/* 媒体查询，当屏幕宽度在769px - 992px之间时（小桌面） */
+@media (min-width: 769px) and (max-width: 992px) {
+    header {
+        padding: 0 50px;
+    }
+
+    nav > ul > li {
+        margin: 0 15px;
+    }
+
+    .slider {
+        padding-bottom: 30%;
+    }
+}
+
+/* 媒体查询，当屏幕宽度在993px - 1200px之间时（大桌面） */
+@media (min-width: 993px
