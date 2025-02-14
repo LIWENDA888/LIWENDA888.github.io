@@ -5,48 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="index.ico" type="image/x-icon">
-    <title>字造导航 - 你的设计灵感百宝库</title>
+    <title>字造 - 始终如一的创造</title>
     <style>
         /* 全局样式 */
         body {
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
         }
 
-        /* 导航栏样式 */
+        /* 公共样式 */
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.1);
+        }
+
+        .hover-color {
+            transition: color 0.3s ease;
+        }
+
+        .hover-color:hover {
+            color: #0070c9;
+        }
+
+        /* 导航栏整体样式 */
         header {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: #f5f5f7;
             backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 44px;
+            height: 66px;
+            padding: 0 10%;
             position: relative;
             z-index: 3;
             transition: background-color 0.3s ease;
-            padding: 0 200px;
         }
 
         header:hover {
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: #e8e8ea;
         }
 
+        /* 导航栏 logo 样式 */
         .logo {
             margin-right: 20px;
-            transition: transform 0.3s ease;
         }
 
         .logo a img {
             display: block;
+            max-width: 100%;
+            height: auto;
         }
 
-        .logo:hover {
-            transform: scale(1.1);
-        }
-
+        /* 导航菜单样式 */
         nav ul {
             list-style-type: none;
             margin: 0;
@@ -54,40 +70,35 @@
             display: flex;
         }
 
-        nav > ul > li {
-            margin: 0 20px;
+        nav>ul>li {
+            margin: 0 15px;
             position: relative;
         }
 
-        nav > ul > li > a {
-            color: #d6d6d6;
+        nav>ul>li>a {
+            color: #333;
             text-decoration: none;
-            font-size: 12px;
-            position: relative;
-            display: block;
+            font-size: 15px;
             padding: 10px 0;
+            display: block;
+            position: relative;
             transition: color 0.3s ease;
         }
 
-        nav > ul > li > a:hover {
-            color: #fff;
-        }
-
-        /* 导航栏一级链接下划线动画 */
-        nav > ul > li > a::after {
+        nav>ul>li>a::after {
             content: "";
             position: absolute;
             width: 100%;
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: #fff;
+            background-color: #000;
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.3s ease;
         }
 
-        nav > ul > li > a:hover::after {
+        nav>ul>li>a:hover::after {
             transform: scaleX(1);
             transform-origin: bottom left;
         }
@@ -97,7 +108,7 @@
             display: none;
             position: absolute;
             top: 100%;
-            left: -20px;
+            left: -15px;
             background-color: #fff;
             min-width: 200px;
             border-radius: 0 0 10px 10px;
@@ -123,10 +134,10 @@
         nav ul li ul li a {
             color: #333;
             padding: 12px 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 13px;
             display: block;
             text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         nav ul li ul li a:hover {
@@ -139,156 +150,678 @@
             display: none;
             background: none;
             border: none;
-            color: #d6d6d6;
+            color: #333;
             font-size: 20px;
             cursor: pointer;
             transition: color 0.3s ease;
         }
 
         .toggle-button:hover {
-            color: #fff;
+            color: #000;
         }
 
-        /* 嵌入网页容器样式 */
-        .iframe-container {
-            flex: 1;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .iframe-container iframe {
-            position: absolute;
-            top: -125px; /* 隐藏顶部 100px 的内容 */
-            bottom: -400px; /* 隐藏底部 100px 的内容 */
-            width: 100%;
-            height: calc(100% + 500px); /* 增加高度以补偿隐藏的部分 */
-            border: none;
-        }
-
-        /* 媒体查询，当屏幕宽度小于600px时 */
-        @media (max-width: 600px) {
+        /* 响应式导航菜单 */
+        @media (max-width: 768px) {
             header {
-                padding: 0 10px;
+                padding: 0 20px;
             }
 
             nav ul {
                 display: none;
-                flex-direction: column;
                 position: absolute;
-                top: 44px;
+                top: 66px;
                 left: 0;
-                background-color: rgba(0, 0, 0, 0.8);
                 width: 100%;
+                background-color: #f5f5f7;
+                flex-direction: column;
             }
 
             nav ul.show {
                 display: flex;
             }
 
-            nav ul li {
-                margin: 10px 20px;
+            nav>ul>li {
+                margin: 0;
+            }
+
+            nav>ul>li>a {
+                padding: 15px 20px;
+            }
+
+            nav ul li ul {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                display: none;
+            }
+
+            nav ul li.active ul {
+                display: block;
             }
 
             .toggle-button {
                 display: block;
             }
-
-            nav ul li ul {
-                position: static;
-                background-color: transparent;
-                box-shadow: none;
-                transform: none;
-                opacity: 1;
-                visibility: visible;
-                display: none;
-            }
-
-            nav ul li:hover ul {
-                display: block;
-            }
-
-            nav ul li ul li a {
-                color: #fff;
-            }
         }
 
-        /* 媒体查询，当屏幕宽度在601px - 768px之间时（平板） */
-        @media (min-width: 601px) and (max-width: 768px) {
-            header {
-                padding: 0 20px;
-            }
-
-            nav > ul > li {
-                margin: 0 10px;
-            }
-
-            nav > ul > li > a {
-                font-size: 10px;
-            }
+        /* 左侧目录样式 */
+        .sidebar {
+            position: fixed;
+            top: 66px; /* Adjusted to be below the header */
+            left: 0;
+            width: 150px;
+            height: calc(100vh - 66px); /* Adjusted height */
+            background-color: #f5f5f7;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
         }
 
-        /* 媒体查询，当屏幕宽度在769px - 992px之间时（小桌面） */
-        @media (min-width: 769px) and (max-width: 992px) {
-            header {
-                padding: 0 50px;
-            }
-
-            nav > ul > li {
-                margin: 0 15px;
-            }
+        .sidebar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
         }
 
-        /* 媒体查询，当屏幕宽度在993px - 1200px之间时（大桌面） */
-        @media (min-width: 993px) and (max-width: 1200px) {
-            header {
-                padding: 0 100px;
-            }
+        .sidebar li {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #555;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: #fff;
+            background-color: #000000;
+        }
+
+        .sidebar a:not(:hover):not(.active) {
+            background-color: #f8f9fa;
+            /* Even lighter gray */
+            color: #555;
+        }
+
+        /* 网址导航样式 */
+        .nav-container {
+            margin-left: 210px;
+            padding: 30px;
+        }
+
+        .category {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .category h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: left;
+            color: #495057;
+        }
+
+        .category ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category li {
+            margin-bottom: 0;
+            width: calc(12% - 10px);
+            /* Three items per row */
+        }
+
+        .category .website-block {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            /* 添加鼠标悬停样式 */
+        }
+
+        .category .website-block:hover {
+            transform: translateY(-3px);
+        }
+
+        .category a {
+            color: #212529;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 0;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .category a:hover {
+            color: #007bff;
+        }
+
+        .category p {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 5px;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            background-color: #f5f5f7;
+            backdrop-filter: blur(20px);
+            padding: 20px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #e8e8ea;
+        }
+
+        .search-engine-select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            /* 微微圆弧 */
+            font-size: 14px;
+            background-color: white;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-left: none;
+            font-size: 14px;
+            width: 450px;
+            outline: none;
+            border-radius: 0;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            padding: 0 20px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            /* 微微圆弧 */
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-button:hover {
+            background-color: #333;
         }
     </style>
+    <script>
+        // 搜索功能
+        function search() {
+            const searchEngine = document.getElementById('searchEngine').value;
+            const searchInput = document.getElementById('searchInput').value;
+            if (searchInput) { // 确保搜索关键词不为空
+                window.open(searchEngine + encodeURIComponent(searchInput), '_blank');
+            }
+        }
+
+        // 监听回车键
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') { // 回车键
+                event.preventDefault(); // 阻止默认行为
+                search(); // 调用搜索函数
+            }
+        }
+
+        // 页面加载完成后绑定事件
+        window.onload = function () {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', handleKeyPress);
+            }
+
+            // Add active class to sidebar links based on scroll position
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            const sections = document.querySelectorAll('.category');
+
+            function setActiveLink() {
+                let currentSection = null;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 100) {
+                        currentSection = section.id;
+                    }
+                });
+
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', setActiveLink);
+            setActiveLink(); // Set active link on page load
+        };
+
+        // 网站块点击跳转
+        function goToWebsite(event, url) {
+            event.stopPropagation(); // 阻止事件冒泡
+            window.open(url, '_blank');
+        }
+
+        // Toggle navigation menu (for mobile)
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.querySelector('.toggle-button');
+            const navUl = document.querySelector('#nav-ul');
+
+            toggleButton.addEventListener('click', function () {
+                navUl.classList.toggle('show');
+            });
+        });
+    </script>
 </head>
 
 <body>
     <!-- 导航栏 -->
     <header>
         <div class="logo">
-            <!-- 将 logo 图片用 a 标签包裹，点击返回首页 -->
             <a href="index.html">
-                <img src="logo.png" alt="网站 logo">
+                <img src="logo.png" alt="网站 logo" class="hover-scale">
             </a>
         </div>
-        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单">☰</button>
+        <button class="toggle-button" aria-label="切换导航菜单">☰</button>
         <nav>
             <ul id="nav-ul">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="fonts.html">字库产品</a>
-                    <ul>
-                        <li><a href="">Z系列（基础字库）</a></li>
-                        <li><a href="">Δ系列（可变字体）</a></li>
-                        <li><a href="">Ω系列（典藏字体）</a></li>
-                    </ul>
-                </li>
-                <li><a href="bao.html">百宝库</a>
-                </li>
-                <li><a href="hao.html">字造导航</a>
-                </li>
-                <li><a href="more.html">更多服务</a>
-                </li>
+                <li><a href="index.html" class="hover-color">首页</a></li>
+                <li><a href="fonts.html" class="hover-color">字库产品</a></li>
+                <li><a href="bao.html" class="hover-color">百宝库</a></li>
+                <li><a href="hao.html" class="hover-color">字造导航</a></li>
+                <li><a href="more.html" class="hover-color">更多服务</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- 嵌入网页容器 -->
-    <div class="iframe-container">
-        <iframe src="https://www.yuque.com/zizao/home/hao"></iframe>
+    <!-- 搜索框 -->
+    <div class="search-container">
+        <select class="search-engine-select" id="searchEngine">
+            <option value="https://www.baidu.com/s?wd=">百度</option>
+            <option value="https://www.sogou.com/web?query=">搜狗</option>
+        </select>
+        <div class="search-input-wrapper">
+            <input type="text" class="search-input" id="searchInput" placeholder="输入关键词进行搜索">
+            <button class="search-button" onclick="search()">搜索</button>
+        </div>
     </div>
 
-    <script>
-        function toggleNav() {
-            const navUl = document.getElementById('nav-ul');
-            navUl.classList.toggle('show');
-        }
-    </script>
+    <!-- 左侧目录 -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="#zizaohao1">精选推荐</a></li>
+            <li><a href="#zizaohao2">灵感创意</a></li>
+            <li><a href="#zizaohao3">字体工具</a></li>
+            <li><a href="#zizaohao4">AI图片</a></li>
+            <li><a href="#zizaohao5">AI聊天</a></li>
+            <li><a href="#zizaohao6">AI音视频</a></li>
+            <li><a href="#zizaohao7">在线神器</a></li>
+            <li><a href="#zizaohao8">免版权字体</a></li>
+            <li><a href="#zizaohao9">免版权图片</a></li>
+            <li><a href="#zizaohao10">免版权音视频</a></li>
+            <li><a href="#zizaohao11">配色方案</a></li>
+            <li><a href="#zizaohao12">效率神器</a></li>
+            <li><a href="#zizaohao13">摄影鉴赏</a></li>
+            <li><a href="#zizaohao14">知识社区</a></li>
+            <li><a href="#zizaohao15">软件资源</a></li>
+        </ul>
+    </div>
+
+    <!-- 网址导航 -->
+    <div class="nav-container">
+        <!-- 精选推荐 -->
+        <div class="category" id="zizaohao1">
+            <h2>精选推荐</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 灵感创意 -->
+        <div class="category" id="zizaohao2">
+            <h2>灵感创意</h2>
+            <h4>精选推荐</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+
+            <h4>精选推荐</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 字体工具 -->
+        <div class="category" id="zizaohao3">
+            <h2>字体工具</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- AI图片 -->
+        <div class="category" id="zizaohao4">
+            <h2>AI图片</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- AI聊天 -->
+        <div class="category" id="zizaohao5">
+            <h2>AI聊天</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- AI音视频 -->
+        <div class="category" id="zizaohao6">
+            <h2>AI音视频</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 在线神器 -->
+        <div class="category" id="zizaohao7">
+            <h2>在线神器</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 免版权字体 -->
+        <div class="category" id="zizaohao8">
+            <h2>免版权字体</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 免版权图片 -->
+        <div class="category" id="zizaohao9">
+            <h2>免版权图片</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 免版权音视频 -->
+        <div class="category" id="zizaohao10">
+            <h2>免版权音视频</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 配色方案 -->
+        <div class="category" id="zizaohao11">
+            <h2>配色方案</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 效率神器 -->
+        <div class="category" id="zizaohao12">
+            <h2>效率神器</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 摄影鉴赏 -->
+        <div class="category" id="zizaohao13">
+            <h2>摄影鉴赏</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 知识社区 -->
+        <div class="category" id="zizaohao14">
+            <h2>知识社区</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 软件资源 -->
+        <div class="category" id="zizaohao15">
+            <h2>软件资源</h2>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
+                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
+                        <p>全球最大中文搜索，提供多种服务</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
 </body>
 
 </html>
