@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="index.ico" type="image/x-icon">
-    <title>字造 - 始终如一的创造</title>
+    <title>字造导航-设计师的灵感百宝库</title>
     <style>
         /* 全局样式 */
         body {
@@ -204,24 +204,29 @@
             }
 
             .toggle-button {
-                display: block;
+                display: block; /* 确保按钮可见 */
+                background: none;
+                border: none;
+                color: #333;
+                font-size: 20px;
+                cursor: pointer;
+                transition: color 0.3s ease;
             }
         }
 
         /* 左侧目录样式 */
         .sidebar {
             position: fixed;
-            top: 66px; /* Adjusted to be below the header */
-            left: 0;
+            top: 66px;
+            /* Adjusted to be below the header */
+            left: 40px;
             width: 150px;
-            height: calc(100vh - 66px); /* Adjusted height */
-            background-color: #f5f5f7;
+            height: calc(100vh - 66px);      
             overflow-y: auto;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
         }
 
         .sidebar ul {
@@ -244,35 +249,46 @@
             padding: 8px;
             border-radius: 5px;
             display: block;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* 添加阴影 */
         }
+        /*
 
         .sidebar a:hover,
         .sidebar a.active {
             color: #fff;
             background-color: #000000;
         }
+        */
 
         .sidebar a:not(:hover):not(.active) {
             background-color: #f8f9fa;
             /* Even lighter gray */
             color: #555;
         }
+        
 
         /* 网址导航样式 */
         .nav-container {
             margin-left: 210px;
-            padding: 30px;
+            padding: 48.54px;
         }
 
         .category {
-            margin-bottom: 30px;
-            padding-bottom: 30px;
+            margin-bottom: 48.54px;
+            padding-bottom: 48.54px;
             border-bottom: 1px solid #dee2e6;
         }
 
         .category h2 {
             font-size: 20px;
             margin-bottom: 15px;
+            text-align: left;
+            color: #495057;
+        }
+
+        .category h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
             text-align: left;
             color: #495057;
         }
@@ -288,7 +304,7 @@
 
         .category li {
             margin-bottom: 0;
-            width: calc(12% - 10px);
+            width: 150px;
             /* Three items per row */
         }
 
@@ -342,19 +358,44 @@
             backdrop-filter: blur(20px);
             padding: 20px 10%;
             display: flex;
+            flex-direction: column;
+            /* 垂直排列 */
             justify-content: center;
             align-items: center;
             border-top: 1px solid #e8e8ea;
         }
 
-        .search-engine-select {
-            padding: 12px;
+        .search-engine-options-container {
+            display: flex;
             border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 4px 0 0 4px;
-            /* 微微圆弧 */
-            font-size: 14px;
+            border-radius: 25px;
+            overflow: hidden;
+            /* 确保内部元素不会超出容器 */
+            margin-bottom: 10px;
+        }
+
+        .search-engine-option {
+            padding: 3px 10px;
+            /* 缩小内边距 */
+            cursor: pointer;
             background-color: white;
+            transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+            /* 更流畅的过渡效果 */
+            text-align: center;
+            min-width: 60px;
+            /* 确保三个字的搜索引擎名字也能完整显示 */
+            white-space: nowrap;
+            /* 防止文本换行 */
+        }
+
+        .search-engine-option:hover {
+            background-color: #f0f0f0; /* 浅灰色背景 */
+        }
+
+        .search-engine-option.active {
+            background-color: #000;
+            color: white;
+            /* border-radius: 25px;  移除圆角 */
         }
 
         .search-input-wrapper {
@@ -366,11 +407,17 @@
         .search-input {
             padding: 12px;
             border: 1px solid #ccc;
-            border-left: none;
             font-size: 14px;
-            width: 450px;
+            width: 700px;
+            /* 加长搜索框 */
             outline: none;
-            border-radius: 0;
+            border-radius: 4px 0 0 4px;
+        }
+
+        @media (max-width: 768px) {
+            .search-input {
+                 width: 300px; /* 缩小后的宽度 */
+            }
         }
 
         .search-button {
@@ -383,7 +430,6 @@
             color: white;
             border: none;
             border-radius: 0 4px 4px 0;
-            /* 微微圆弧 */
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease;
@@ -395,36 +441,108 @@
         .search-button:hover {
             background-color: #333;
         }
-    </style>
+
+        /* 固定文本输入框样式 */
+        #fixedTextInput {
+            padding: 12px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            width: 700px;
+            /* 与搜索框宽度一致 */
+            outline: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            /* 与搜索框保持一定距离 */
+        }
+
+        /* 快速跳转链接样式 */
+        .quick-links {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 垂直居中 */
+            gap: 20px;
+            /* 调整链接之间的间距 */
+        }
+
+        .quick-links a {
+            color: #0070c9;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .quick-links a:hover {
+            color: #003f8e;
+        }
+
+        /* 热门推荐文本样式 */
+        .hot-recommend {
+            color: #000;
+            font-size: 14px;
+            margin-right: 10px;
+            /* 调整与链接之间的间距 */
+        }
+     </style>
+
     <script>
         // 搜索功能
+        let currentSearchEngine = 'https://www.baidu.com/s?wd='; // 默认搜索引擎
+        let searchEngines = {
+            'https://www.baidu.com/s?wd=': '百度',
+            'https://image.baidu.com/search/index?tn=baiduimage&word=': '图片',
+            'https://www.logosc.cn/so/s': '免商图片',
+            'https://fanyi.baidu.com/#/zh/en/': '翻译',
+            'https://hanyu.baidu.com/s?wd=': '换偏旁'
+        };
+
+        const fixedTextForBaidu = '换偏旁'; // 为百度设置的固定文本
+        const targetSearchEngine = 'https://hanyu.baidu.com/s?wd='; // 指定的搜索引擎
+
         function search() {
-            const searchEngine = document.getElementById('searchEngine').value;
             const searchInput = document.getElementById('searchInput').value;
-            if (searchInput) { // 确保搜索关键词不为空
-                window.open(searchEngine + encodeURIComponent(searchInput), '_blank');
-            }
-        }
+            let searchTerm = searchInput; // 默认搜索词
 
-        // 监听回车键
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') { // 回车键
-                event.preventDefault(); // 阻止默认行为
-                search(); // 调用搜索函数
+            // 仅当当前搜索引擎为目标搜索引擎时才添加固定文本
+            if (currentSearchEngine === targetSearchEngine) {
+                searchTerm += fixedTextForBaidu; // 将固定文本添加到搜索词后面
             }
-        }
 
-        // 页面加载完成后绑定事件
-        window.onload = function () {
-            const searchInput = document.getElementById('searchInput');
             if (searchInput) {
-                searchInput.addEventListener('keypress', handleKeyPress);
+                window.open(currentSearchEngine + encodeURIComponent(searchTerm), '_blank');
             }
+        }
 
-            // Add active class to sidebar links based on scroll position
-            const sidebarLinks = document.querySelectorAll('.sidebar a');
+        // 处理回车键事件
+        function handleKeyDown(event) {
+             if (event.key === 'Enter') {
+                 search();
+             }
+        }
+
+        // 切换搜索引擎
+        function selectSearchEngine(engine, element) {
+            currentSearchEngine = engine;
+            // 移除所有选项的 active 类
+            document.querySelectorAll('.search-engine-option').forEach(option => option.classList.remove('active'));
+            // 为当前选项添加 active 类
+            element.classList.add('active');
+            // 将焦点设置到搜索输入框
+            document.getElementById('searchInput').focus();
+        }
+        function goToWebsite(event, url) {
+            event.stopPropagation(); // 阻止事件冒泡
+            window.open(url, '_blank');
+        }
+
+        // 页面加载完成后执行
+        window.onload = function () {
+            // 获取所有 section 元素和 sidebar 链接
             const sections = document.querySelectorAll('.category');
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
 
+            // 设置初始激活链接
             function setActiveLink() {
                 let currentSection = null;
                 sections.forEach(section => {
@@ -442,26 +560,52 @@
                 });
             }
 
+            // 监听滚动事件
             window.addEventListener('scroll', setActiveLink);
-            setActiveLink(); // Set active link on page load
-        };
 
-        // 网站块点击跳转
-        function goToWebsite(event, url) {
-            event.stopPropagation(); // 阻止事件冒泡
-            window.open(url, '_blank');
-        }
+            // 初始调用 setActiveLink
+            setActiveLink();
 
-        // Toggle navigation menu (for mobile)
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleButton = document.querySelector('.toggle-button');
-            const navUl = document.querySelector('#nav-ul');
+            // 默认选中百度
+            document.querySelector('.search-engine-option[data-engine="https://www.baidu.com/s?wd="]').classList.add('active');
 
-            toggleButton.addEventListener('click', function () {
-                navUl.classList.toggle('show');
+            // Smooth scroll to center
+            document.querySelectorAll('.sidebar a').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault(); // 阻止默认的跳转行为
+
+                    const targetId = this.getAttribute('href').substring(1); // 获取目标元素的 ID
+                    const targetElement = document.getElementById(targetId); // 获取目标元素
+
+                    if (targetElement) {
+                        const targetOffsetTop = targetElement.offsetTop; // 目标元素距离文档顶部的距离
+                        const windowHeight = window.innerHeight; // 浏览器窗口高度
+                        const elementHeight = targetElement.offsetHeight; // 目标元素自身高度
+                        const scrollToPosition = targetOffsetTop - (windowHeight / 2) + (elementHeight / 2); // 计算滚动位置
+
+                        window.scrollTo({
+                            top: scrollToPosition,
+                            behavior: 'smooth' // 平滑滚动
+                        });
+
+                        // 手动调用 setActiveLink() 函数，更新高亮状态
+                        setActiveLink();
+                    }
+                });
             });
-        });
+
+            // 目录切换按钮点击事件
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+
+            sidebarToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('open');
+                // 手动调用 setActiveLink() 函数，更新高亮状态
+                setActiveLink();
+            });
+        }
     </script>
+
 </head>
 
 <body>
@@ -486,34 +630,52 @@
 
     <!-- 搜索框 -->
     <div class="search-container">
-        <select class="search-engine-select" id="searchEngine">
-            <option value="https://www.baidu.com/s?wd=">百度</option>
-            <option value="https://www.sogou.com/web?query=">搜狗</option>
-        </select>
+       <div class="search-engine-options-container">
+    <div class="search-engine-option active" data-engine="https://www.baidu.com/s?wd=" tabindex="1" onfocus="selectSearchEngine('https://www.baidu.com/s?wd=', this)" onblur="removeActiveClass(this)">百度</div>
+    <div class="search-engine-option" data-engine="https://image.baidu.com/search/index?tn=baiduimage&word=" tabindex="2" onfocus="selectSearchEngine('https://image.baidu.com/search/index?tn=baiduimage&word=', this)" onblur="removeActiveClass(this)">图片</div>
+    <div class="search-engine-option" data-engine="https://www.logosc.cn/so/s" tabindex="3" onfocus="selectSearchEngine('https://www.logosc.cn/so/s', this)" onblur="removeActiveClass(this)">免商图片</div>
+    <div class="search-engine-option" data-engine="https://fanyi.baidu.com/#/zh/en/" tabindex="4" onfocus="selectSearchEngine('https://fanyi.baidu.com/#/zh/en/', this)" onblur="removeActiveClass(this)">翻译</div>
+    <div class="search-engine-option" data-engine="https://hanyu.baidu.com/s?wd=" tabindex="5" onfocus="selectSearchEngine('https://hanyu.baidu.com/s?wd=', this)" onblur="removeActiveClass(this)">换偏旁</div>
+</div>
+
+
         <div class="search-input-wrapper">
-            <input type="text" class="search-input" id="searchInput" placeholder="输入关键词进行搜索">
+            <input type="text" id="searchInput" class="search-input" placeholder="按Ctrt/Cmd + D可以收藏本页哦~" onkeydown="handleKeyDown(event)">
             <button class="search-button" onclick="search()">搜索</button>
+        </div>
+
+        <!-- 快速跳转链接 -->
+        <div class="quick-links">
+            <span class="hot-recommend">常用推荐：</span>
+            <a href="https://www.dazi.co/" target="_blank">AskManyAI</a>
+            <a href="https://tetr.io" target="_blank">TETR.IO</a>
+            <a href="https://www.zhihu.com" target="_blank">知乎</a>
+            <a href="https://www.weibo.com" target="_blank">微博</a>
+            <a href="https://www.bilibili.com" target="_blank">B站</a>
+            <a href="https://www.taobao.com" target="_blank">淘宝</a>
         </div>
     </div>
 
     <!-- 左侧目录 -->
     <div class="sidebar">
         <ul>
-            <li><a href="#zizaohao1">精选推荐</a></li>
-            <li><a href="#zizaohao2">灵感创意</a></li>
-            <li><a href="#zizaohao3">字体工具</a></li>
-            <li><a href="#zizaohao4">AI图片</a></li>
-            <li><a href="#zizaohao5">AI聊天</a></li>
-            <li><a href="#zizaohao6">AI音视频</a></li>
-            <li><a href="#zizaohao7">在线神器</a></li>
-            <li><a href="#zizaohao8">免版权字体</a></li>
-            <li><a href="#zizaohao9">免版权图片</a></li>
-            <li><a href="#zizaohao10">免版权音视频</a></li>
-            <li><a href="#zizaohao11">配色方案</a></li>
-            <li><a href="#zizaohao12">效率神器</a></li>
-            <li><a href="#zizaohao13">摄影鉴赏</a></li>
-            <li><a href="#zizaohao14">知识社区</a></li>
-            <li><a href="#zizaohao15">软件资源</a></li>
+            <br><br>
+            <li><a href="#zizaohao1" class="hover-scale">精选推荐</a></li>
+            <li><a href="#zizaohao2" class="hover-scale">灵感创意</a></li>
+            <li><a href="#zizaohao3" class="hover-scale">字体设计</a></li>
+            <li><a href="#zizaohao4" class="hover-scale">AI文字</a></li>
+            <li><a href="#zizaohao5" class="hover-scale">AI绘图</a></li>
+            <li><a href="#zizaohao6" class="hover-scale">AI音视频</a></li>
+            <li><a href="#zizaohao7" class="hover-scale">设计神器</a></li>
+            <li><a href="#zizaohao8" class="hover-scale">设计素材</a></li>
+            <li><a href="#zizaohao9" class="hover-scale">免版权字体</a></li>
+            <li><a href="#zizaohao10" class="hover-scale">免版权图片</a></li>
+            <li><a href="#zizaohao11" class="hover-scale">免版权音视频</a></li>
+            <li><a href="#zizaohao12" class="hover-scale">摄影鉴赏</a></li>
+            <li><a href="#zizaohao13" class="hover-scale">配色方案</a></li>
+            <li><a href="#zizaohao14" class="hover-scale">效率神器</a></li>
+            <li><a href="#zizaohao15" class="hover-scale">知识社区</a></li>
+            <li><a href="#zizaohao16" class="hover-scale">软件资源</a></li>
         </ul>
     </div>
 
@@ -523,16 +685,88 @@
         <div class="category" id="zizaohao1">
             <h2>精选推荐</h2>
             <ul>
-                <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://searx.bndkt.io/')">
+                        <a href="https://searx.bndkt.io/" target="_blank" onclick="event.stopPropagation()">SearXNG</a>
+                        <p>Google的绝佳替代，最强大的元搜索引擎</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://huaban.com')">
+                        <a href="https://huaban.com" target="_blank" onclick="event.stopPropagation()">花瓣</a>
+                        <p>收集设计灵感，保存有用的素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.zcool.com.cn')">
+                        <a href="https://www.zcool.com.cn" target="_blank" onclick="event.stopPropagation()">站酷</a>
+                        <p>中国人气设计师互动平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pinterest.com')">
+                        <a href="https://www.pinterest.com" target="_blank" onclick="event.stopPropagation()">Pinterest</a>
+                        <p>全球最大的创意灵感图片采集站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://dribbble.com')">
+                        <a href="https://dribbble.com/" target="_blank" onclick="event.stopPropagation()">Dribbble</a>
+                        <p>面向设计师的社交网络平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://behance.net')">
+                        <a href="https://behance.net/" target="_blank" onclick="event.stopPropagation()">Behance</a>
+                        <p>Adobe旗下的设计师交流平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://behance.net')">
+                        <a href="https://www.youtube.com" target="_blank" onclick="event.stopPropagation()">YouTube</a>
+                        <p>全球最大的学习分享平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.uisdc.com')">
+                        <a href="https://www.uisdc.com" target="_blank" onclick="event.stopPropagation()">优设</a>
+                        <p>人气设计师交流学习平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://snapany.com/zh')">
+                        <a href="https://snapany.com/zh" target="_blank" onclick="event.stopPropagation()">万能视频下载</a>
+                        <p>复制链接，下载任何地方的视频</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://search.chongbuluo.com/')">
+                        <a href="https://search.chongbuluo.com/" target="_blank" onclick="event.stopPropagation()">网盘搜索</a>
+                        <p>支持常用4大网盘-聚合网盘搜索引擎</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wormhole.app/')">
+                        <a href="https://wormhole.app/" target="_blank" onclick="event.stopPropagation()">文件传输</a>
+                        <p>临时传送助手-端对端无需担心隐私泄露</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.airpano.com/')">
+                        <a href="https://www.airpano.com/" target="_blank" onclick="event.stopPropagation()">VR看世界</a>
+                        <p>坐在家里就能看到来自全世界的景色</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://free.com.tw/')">
+                        <a href="https://free.com.tw/" target="_blank" onclick="event.stopPropagation()">免费资源社区</a>
+                        <p>来自湾湾的免费资源分享网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://docsmall.com/')">
+                        <a href="https://docsmall.com/" target="_blank" onclick="event.stopPropagation()">图像处理工具集</a>
+                        <p>在线处理PDF-GIF-抠图-压缩等的图片工具</p>
                     </div>
                 </li>
             </ul>
@@ -541,34 +775,123 @@
         <!-- 灵感创意 -->
         <div class="category" id="zizaohao2">
             <h2>灵感创意</h2>
-            <h4>精选推荐</h4>
+            <h4>版式创意</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.typeroom.eu/')">
+                        <a href="https://www.typeroom.eu/" target="_blank" onclick="event.stopPropagation()">Typeroom</a>
+                        <p>字体排版设计前沿网站</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.typographicposters.com/archive')">
+                        <a href="https://www.typographicposters.com/archive" target="_blank" onclick="event.stopPropagation()">Typographicposters</a>
+                        <p>专注于文字排版和抽象图形类的海报设计网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://labor-atories.com/works/')">
+                        <a href="http://labor-atories.com/works/" target="_blank" onclick="event.stopPropagation()">Labor-atories</a>
+                        <p>日本书籍封面设计</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://thedieline.com/')">
+                        <a href="https://thedieline.com/" target="_blank" onclick="event.stopPropagation()">Dieline</a>
+                        <p>全球最受欢迎包装设计博客</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.marble-co.net/portfolio')">
+                        <a href="https://www.marble-co.net/portfolio" target="_blank" onclick="event.stopPropagation()">Marble.co</a>
+                        <p>可爱活泼风～平面设计案例</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.niklasalm.se')">
+                        <a href="https://www.niklasalm.se" target="_blank" onclick="event.stopPropagation()">Niklasalm</a>
+                        <p>最佳网站设计奖项和灵感</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.awwwards.com/')">
+                        <a href="https://www.awwwards.com/" target="_blank" onclick="event.stopPropagation()">Awwwards</a>
+                        <p>优秀的创意合成图片与视频社区</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.designspiration.com/')">
+                        <a href="https://www.designspiration.com/" target="_blank" onclick="event.stopPropagation()">Designspiration</a>
+                        <p>差不多算是美国版花瓣网</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://fontsinuse.com/')">
+                        <a href="https://fontsinuse.com/" target="_blank" onclick="event.stopPropagation()">Fonts in Use</a>
+                        <p>字体的美与价值～8000条商用实例</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.underconsideration.com/artofthemenu/')">
+                        <a href="https://www.underconsideration.com/artofthemenu/" target="_blank" onclick="event.stopPropagation()">Art of Menu</a>
+                        <p>来自各地看不完的优美菜单设计</p>
                     </div>
                 </li>
             </ul>
 
-            <h4>精选推荐</h4>
+            <br><h4>品牌VI</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://abduzeedo.com/')">
+                        <a href="https://abduzeedo.com/" target="_blank" onclick="event.stopPropagation()">Abdudo</a>
+                        <p>每日分享高品质设计创意灵感</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.trendlist.org/')">
+                        <a href="https://www.trendlist.org/" target="_blank" onclick="event.stopPropagation()">Trend List</a>
+                        <p>一位大牛眼中的平面设计之美</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.brandguidelines.net/')">
+                        <a href="https://www.brandguidelines.net/" target="_blank" onclick="event.stopPropagation()">BrandGuidelines</a>
+                        <p>分享来自全球各地的品牌VI案例</p>
+                    </div>
+                </li>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://theinspirationgrid.com/')">
+                        <a href="https://theinspirationgrid.com/" target="_blank" onclick="event.stopPropagation()">Inspiration Grid</a>
+                        <p>来自全球新奇的品牌创意案例</p>
+                    </div>
+                </li>
+            </ul>
+
+            
+            <br><h4>LOGO设计</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://logostock.jp')">
+                        <a href="http://logostock.jp" target="_blank" onclick="event.stopPropagation()">Logostock</a>
+                        <p>一个日本logo设计社区</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://worldvectorlogo.com')">
+                        <a href="https://worldvectorlogo.com" target="_blank" onclick="event.stopPropagation()">Worldvectorlogo</a>
+                        <p>免费下载各种品牌logo</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.logomoose.com')">
+                        <a href="https://www.logomoose.com" target="_blank" onclick="event.stopPropagation()">LogoMoose</a>
+                        <p>一个logo灵感和设计社区</p>
+                    </div>
+                </li>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://logopond.com')">
+                        <a href="https://logopond.com" target="_blank" onclick="event.stopPropagation()">Logopond</a>
+                        <p>国外优秀logo灵感社区</p>
                     </div>
                 </li>
             </ul>
@@ -576,56 +899,251 @@
 
         <!-- 字体工具 -->
         <div class="category" id="zizaohao3">
-            <h2>字体工具</h2>
+            <h2>字体设计</h2>
+            <h4>字体灵感</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.shufazidian.com/')">
+                        <a href="https://www.shufazidian.com/" target="_blank" onclick="event.stopPropagation()">书法字典</a>
+                        <p>搜汉字的各种书写风格</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.shufami.com/')">
+                        <a href="http://www.shufami.com/" target="_blank" onclick="event.stopPropagation()">书法迷</a>
+                        <p>中国书法字典网收集整理大师毛笔字</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fantiz5.com/zixing/')">
+                        <a href="https://www.fantiz5.com/zixing/" target="_blank" onclick="event.stopPropagation()">字形演变</a>
+                        <p>可以查看汉字的演变过程</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.ziticq.com/Works')">
+                        <a href="http://www.ziticq.com/Works" target="_blank" onclick="event.stopPropagation()">字体传奇网</a>
+                        <p>分类收录各风格字体作品和素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.zitisheji.com/#/index')">
+                        <a href="https://www.zitisheji.com/#/index" target="_blank" onclick="event.stopPropagation()">字体江湖</a>
+                        <p>「字体帮」字体设计师刘兵克建立</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.zcool.com.cn/discover?cate=8&subCate=14')">
+                        <a href="https://www.zcool.com.cn/discover?cate=8&subCate=14" target="_blank" onclick="event.stopPropagation()">站酷-字体</a>
+                        <p>许多设计师会在这里展示最新的设计作品</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://ziti.cndesign.com/inspiration.html')">
+                        <a href="http://ziti.cndesign.com/inspiration.html" target="_blank" onclick="event.stopPropagation()">CND设计网-字体灵感</a>
+                        <p>CND设计网下的字体灵感搜索</p>
+                    </div>
+                </li>
+            </ul>
+
+             <br><h4>字体工具</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.qiuziti.com/')">
+                        <a href="https://www.qiuziti.com/" target="_blank" onclick="event.stopPropagation()">求字体</a>
+                        <p>找字体神器 还提供字体下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://v.ziti163.com/Font#/')">
+                        <a href="https://v.ziti163.com/Font#/" target="_blank" onclick="event.stopPropagation()">字体大师</a>
+                        <p>在线写字，生成自己的字库字体</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://symbl.cc/cn/')">
+                        <a href="https://symbl.cc/cn/" target="_blank" onclick="event.stopPropagation()">SYMBL符号大全</a>
+                        <p>包含了几乎所有可复制使用的符号</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.ziticq.com/Works')">
+                        <a href="https://www.aies.cn/pinyin.htm" target="_blank" onclick="event.stopPropagation()">汉字转拼音</a>
+                        <p>在线汉字转换拼音-可以带声调</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.aies.cn/')">
+                        <a href="https://www.aies.cn/" target="_blank" onclick="event.stopPropagation()">繁体字转换</a>
+                        <p>简体繁体之间可以互相转换</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://kmcha.com/text-compare')">
+                        <a href="https://kmcha.com/text-compare" target="_blank" onclick="event.stopPropagation()">文本对比</a>
+                        <p>在线对比两个文本的字数</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fantiz5.com/xingjinzi/')">
+                        <a href="https://www.fantiz5.com/xingjinzi/" target="_blank" onclick="event.stopPropagation()">形近字查询</a>
+                        <p>可以一键搜索外形相近的汉字</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://paper.z2h.cn/')">
+                        <a href="https://paper.z2h.cn/" target="_blank" onclick="event.stopPropagation()">Z2H字帖</a>
+                        <p>自己定制一套适合自己的练字字帖</p>
+                    </div>
+                </li>
+                                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wangyasai.github.io/designtools.html')">
+                        <a href="https://wangyasai.github.io/designtools.html" target="_blank" onclick="event.stopPropagation()">字体动画</a>
+                        <p>支持上传图片生成动画</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>字体效果</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://boolpic.fun/animation')">
+                        <a href="https://boolpic.fun/animation" target="_blank" onclick="event.stopPropagation()">Photo Animation</a>
+                        <p>上传图片生成类似PPT转场动画</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://beta.endlesstools.io')">
+                        <a href="https://beta.endlesstools.io" target="_blank" onclick="event.stopPropagation()">Endless tools</a>
+                        <p>Web端字体视觉效果编辑工具</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wangyasai.github.io/designtools.html')">
+                        <a href="https://wangyasai.github.io/designtools.html" target="_blank" onclick="event.stopPropagation()">YASAI字体动画</a>
+                        <p>8个在线可编辑的文字效果工具</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://spacetypegenerator.com/')">
+                        <a href="https://spacetypegenerator.com/" target="_blank" onclick="event.stopPropagation()">SpaceTG英文动画</a>
+                        <p>可以自己编辑生成动画的文字，只支持英文</p>
                     </div>
                 </li>
             </ul>
         </div>
 
-        <!-- AI图片 -->
+        <!-- AI文字 -->
         <div class="category" id="zizaohao4">
-            <h2>AI图片</h2>
+            <h2>AI文字</h2>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://chat.deepseek.com/')">
+                        <a href="https://chat.deepseek.com/" target="_blank" onclick="event.stopPropagation()">Deekseek</a>
+                        <p>全球领先的国产推理性“AI助手”</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://chatgpt.com/')">
+                        <a href="https://chatgpt.com/" target="_blank" onclick="event.stopPropagation()">ChatGPT</a>
+                        <p>OpenAI的研发的知名AI聊天助手</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://deepmind.google/technologies/gemini/pro/')">
+                        <a href="https://deepmind.google/technologies/gemini/pro/" target="_blank" onclick="event.stopPropagation()">Gemini Pro</a>
+                        <p>谷歌研发的人工智能模型</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://kimi.moonshot.cn/')">
+                        <a href="https://kimi.moonshot.cn/" target="_blank" onclick="event.stopPropagation()">Kimi Chat</a>
+                        <p>智能聊天+超长文本处理</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://chatyy.nbmzdl.cn/?hometype=chat')">
+                        <a href="http://chatyy.nbmzdl.cn/?hometype=chat" target="_blank" onclick="event.stopPropagation()">NotionAI</a>
+                        <p>国内版ChatGPT智能聊天机器人</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.doubao.com')">
+                        <a href="https://www.doubao.com" target="_blank" onclick="event.stopPropagation()">豆包</a>
+                        <p>字节跳动旗下通用性AI大模型</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://xinghuo.xfyun.cn/desk')">
+                        <a href="https://xinghuo.xfyun.cn/desk" target="_blank" onclick="event.stopPropagation()">讯飞星火</a>
+                        <p>综合性AI 智能聊天+生图+PPT...</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://tongyi.aliyun.com/qianwen/')">
+                        <a href="https://tongyi.aliyun.com/qianwen/" target="_blank" onclick="event.stopPropagation()">通义千问</a>
+                        <p>阿里出品！AI聊天+智能生图+视频摘要</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://metaso.cn/?s=bdpc')">
+                        <a href="https://metaso.cn/?s=bdpc" target="_blank" onclick="event.stopPropagation()">秘塔AI</a>
+                        <p>AI智能分析文案生成</p>
                     </div>
                 </li>
             </ul>
         </div>
 
-        <!-- AI聊天 -->
+        <!-- AI绘图 -->
         <div class="category" id="zizaohao5">
-            <h2>AI聊天</h2>
+            <h2>AI绘图</h2>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://stability.ai/')">
+                        <a href="https://stability.ai/" target="_blank" onclick="event.stopPropagation()">Stable Diffusion</a>
+                        <p>开源AI图像生成工具</p>
+                    </div>
+                </li>
+               <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.dall-e.com/')">
+                        <a href="https://www.dall-e.com/" target="_blank" onclick="event.stopPropagation()">DALL-E</a>
+                        <p>OpenAI的AI图像生成工具</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://jimeng.jianying.com/')">
+                        <a href="https://jimeng.jianying.com/" target="_blank" onclick="event.stopPropagation()">即梦AI</a>
+                        <p>图片转视频的智能创作平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.liblib.art/')">
+                        <a href="https://www.liblib.art/" target="_blank" onclick="event.stopPropagation()">哩布哩布AI</a>
+                        <p>国产人气AI生图大模型社区</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://tongyi.aliyun.com/wanxiang/')">
+                        <a href="https://tongyi.aliyun.com/wanxiang/" target="_blank" onclick="event.stopPropagation()">通义万相</a>
+                        <p>阿里云旗下的智能生图平台</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://picwish.cn/create')">
+                        <a href="https://picwish.cn/create" target="_blank" onclick="event.stopPropagation()">佐糖AI</a>
+                        <p>图片修复+在线抠图+背景合成</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://gamma.app/')">
+                        <a href="https://gamma.app/" target="_blank" onclick="event.stopPropagation()">Gamma</a>
+                        <p>AI制作PPT 一秒生成</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://applet.rightbrainai.cn/')">
+                        <a href="https://applet.rightbrainai.cn/" target="_blank" onclick="event.stopPropagation()">Vega AI</a>
+                        <p>在线免费AI插画创作平台</p>
                     </div>
                 </li>
             </ul>
@@ -636,186 +1154,1483 @@
             <h2>AI音视频</h2>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://aigc.baidu.com/home')">
+                        <a href="https://aigc.baidu.com/home" target="_blank" onclick="event.stopPropagation()">度加</a>
+                        <p>AI生成视频文案和匹配视频</p>
                     </div>
                 </li>
-                <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://xinghuo.xfyun.cn/desk')">
+                        <a href="https://xinghuo.xfyun.cn/desk" target="_blank" onclick="event.stopPropagation()">天工AI</a>
+                        <p>AI智能音乐+AI智能生图</p>
                     </div>
                 </li>
             </ul>
         </div>
 
-        <!-- 在线神器 -->
+        <!-- 设计神器 -->
         <div class="category" id="zizaohao7">
-            <h2>在线神器</h2>
+            <h2>设计神器</h2>
+            <h4>在线设计</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://icons8.com/mega-creator/')">
+                        <a href="https://icons8.com/mega-creator/" target="_blank" onclick="event.stopPropagation()">Mega Creator</a>
+                        <p>Web端矢量插画设计工具</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.modyfi.com/')">
+                        <a href="https://www.modyfi.com/" target="_blank" onclick="event.stopPropagation()">Modyfi</a>
+                        <p>新一代Web端AI图像编辑工具</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>LOGO生成</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.logoaa.com')">
+                        <a href="https://www.logoaa.com" target="_blank" onclick="event.stopPropagation()">Logoaa</a>
+                        <p>基于事先设计LOGO基础上在线修改</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.designevo.com/cn/')">
+                        <a href="https://www.designevo.com/cn/" target="_blank" onclick="event.stopPropagation()">Designevo</a>
+                        <p>可以调整图标颜色和英文字体选择</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.freelogodesign.org')">
+                        <a href="https://www.freelogodesign.org/" target="_blank" onclick="event.stopPropagation()">Freelogo</a>
+                        <p>根据设计需求可以添加元素丰富设计</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.logogarden.com/')">
+                        <a href="https://www.logogarden.com/" target="_blank" onclick="event.stopPropagation()">Logogarden</a>
+                        <p>提供大量LOGO的矢量素材自由选择</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://logotypemaker.com/')">
+                        <a href="https://logotypemaker.com/" target="_blank" onclick="event.stopPropagation()">Logotype</a>
+                        <p>在线换颜色换字体加效果等生成标志</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://yeelogo.com')">
+                        <a href="http://yeelogo.com" target="_blank" onclick="event.stopPropagation()">Yeelogo</a>
+                        <p>拥有海量模版的免费在线LOGO制作</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>背景生成</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://getwaves.io/')">
+                        <a href="https://getwaves.io/" target="_blank" onclick="event.stopPropagation()">波浪图形</a>
+                        <p>可调节形态，支持SVG下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://demo.marpi.pl/resonate/')">
+                        <a href="https://demo.marpi.pl/resonate/" target="_blank" onclick="event.stopPropagation()">炫酷图形</a>
+                        <p>炫酷图形生成，可以改位置形态</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://glitchart.io/')">
+                        <a href="https://glitchart.io/" target="_blank" onclick="event.stopPropagation()">形状渐变背景</a>
+                        <p>可以调整角度颜色形状</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://paveldogreat.github.io/WebGL-Fluid-Simulation/')">
+                        <a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank" onclick="event.stopPropagation()">WebGL流体效果</a>
+                        <p>会动的渐变色，还可以自己调节</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://codepen.io/pissang/full/geajpX')">
+                        <a href="https://codepen.io/pissang/full/geajpX" target="_blank" onclick="event.stopPropagation()">剪纸风渐变</a>
+                        <p>右上角控制台可以修改参数</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://codepen.io/Yakudoo/full/rJjOJx/')">
+                        <a href="https://demo.marpi.pl/resonate/" target="_blank" onclick="event.stopPropagation()">流动型渐变</a>
+                        <p>可以更改色相等参数</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wangyasai.github.io/Perlin-Noise/')">
+                        <a href="https://wangyasai.github.io/Perlin-Noise/" target="_blank" onclick="event.stopPropagation()">流线型线条</a>
+                        <p>更改线条密度、颜色</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wangyasai.github.io/Play-a-ball/')">
+                        <a href="https://wangyasai.github.io/Play-a-ball/" target="_blank" onclick="event.stopPropagation()">欧普球生成器</a>
+                        <p>可以调节线条密度、角度</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://pissang.github.io/papercut-box-art/')">
+                        <a href="https://demo.marpi.pl/resonate/" target="_blank" onclick="event.stopPropagation()">渐变流线背景</a>
+                        <p>支持任意方式去修改效果</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wangyasai.github.io/PerlinNoisePainter/')">
+                        <a href="https://wangyasai.github.io/PerlinNoisePainter/" target="_blank" onclick="event.stopPropagation()">五角星元素</a>
+                        <p>任意效果展示一个会动的五角星</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://wangyasai.github.io/Awesome-Mosaic/')">
+                        <a href="https://wangyasai.github.io/Awesome-Mosaic/" target="_blank" onclick="event.stopPropagation()">马赛克背景</a>
+                        <p>可以调节的会动的马赛克背景</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://coolbackgrounds.io/')">
+                        <a href="https://coolbackgrounds.io/" target="_blank" onclick="event.stopPropagation()">波浪图形</a>
+                        <p>可调节形态，支持SVG下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://codepen.io/tsuhre/full/BYbjyg')">
+                        <a href="https://codepen.io/tsuhre/full/BYbjyg" target="_blank" onclick="event.stopPropagation()">炫光背景</a>
+                        <p>随意滑动即可生成，再次点击重置</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>去除背景</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fococlipping.com/')">
+                        <a href="https://www.fococlipping.com/" target="_blank" onclick="event.stopPropagation()">Foco Clipping</a>
+                        <p>一次最多支持30张图片</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://idify.netlify.app/')">
+                        <a href="https://idify.netlify.app/" target="_blank" onclick="event.stopPropagation()">Idify</a>
+                        <p>界面美观，只有一个上传图片按钮</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.unscreen.com/upload')">
+                        <a href="https://www.unscreen.com/upload" target="_blank" onclick="event.stopPropagation()">Unscreen</a>
+                        <p>不止免费，还有更为全面的PRO版本</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.experte.com/background-remover')">
+                        <a href="https://www.experte.com/background-remover" target="_blank" onclick="event.stopPropagation()">Experte</a>
+                        <p>无需注册，上传即抠</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://zh.bgsub.com/')">
+                        <a href="https://zh.bgsub.com/" target="_blank" onclick="event.stopPropagation()">Bgsub</a>
+                        <p>支持在线抠图并换上自己想要的背景</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://autoclipping.com/')">
+                        <a href="https://autoclipping.com/" target="_blank" onclick="event.stopPropagation()">Autoclipping</a>
+                        <p>只需上传图片即可手动完成抠图</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://online.photoscissors.com/')">
+                        <a href="https://online.photoscissors.com/" target="_blank" onclick="event.stopPropagation()">Photoscissors</a>
+                        <p>最大可支持5M的图片保留</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://zh.clippingmagic.com/')">
+                        <a href="https://zh.clippingmagic.com/" target="_blank" onclick="event.stopPropagation()">Clippingmagic</a>
+                        <p>在线抠除图像背景，支持中文</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.remove.bg/')">
+                        <a href="https://www.remove.bg/" target="_blank" onclick="event.stopPropagation()">Remove.bg</a>
+                        <p>仅需五秒钟就可以自动抠图</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>抹除物体</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.watermarkremover.io/zh')">
+                        <a href="https://www.watermarkremover.io/zh" target="_blank" onclick="event.stopPropagation()">Watermarkremover</a>
+                        <p>免费在线水印移除工具</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://magicstudio.com/zh/magiceraser/')">
+                        <a href="https://magicstudio.com/zh/magiceraser/" target="_blank" onclick="event.stopPropagation()">Magic Eraser</a>
+                        <p>不需要的人物文本涂抹就删掉</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.hama.app/zh')">
+                        <a href="https://www.hama.app/zh" target="_blank" onclick="event.stopPropagation()">Haha</a>
+                        <p>不想要图片内容涂抹删除</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>画质增强</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://imgupscaler.com/zh-tw')">
+                        <a href="https://imgupscaler.com/zh-tw" target="_blank" onclick="event.stopPropagation()">Img.upscaler</a>
+                        <p>免费最高支持至4000px*4000px</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://jpghd.com/')">
+                        <a href="https://www.modyfi.com/" target="_blank" onclick="event.stopPropagation()">老照片修复</a>
+                        <p>支持老照片修复、老照片上色和魔法动态照片</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://palette.fm/')">
+                        <a href="https://palette.fm/" target="_blank" onclick="event.stopPropagation()">Palette</a>
+                        <p>给黑白图片增添颜色，无需登录</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://bigjpg.com/')">
+                        <a href="https://bigjpg.com/" target="_blank" onclick="event.stopPropagation()">Bigjpg</a>
+                        <p>AI人工智能图片放大</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://qingtu.cn/')">
+                        <a href="https://qingtu.cn/" target="_blank" onclick="event.stopPropagation()">清图</a>
+                        <p>国内的AI项目，逻辑更舒适</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://upscayl.org/')">
+                        <a href="https://upscayl.org/" target="_blank" onclick="event.stopPropagation()">Upscayl</a>
+                        <p>得下载才能使用</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.upscale.media/zh')">
+                        <a href="https://www.upscale.media/zh" target="_blank" onclick="event.stopPropagation()">Upscale</a>
+                        <p>免费仅支持最高1500px*1500px</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://unlimited.waifu2x.net/')">
+                        <a href="https://unlimited.waifu2x.net/" target="_blank" onclick="event.stopPropagation()">Waifu2x</a>
+                        <p>可以自定义参数再增强画质</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>图像压缩</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://ezgif.com/video-to-gif')">
+                        <a href="https://ezgif.com/video-to-gif" target="_blank" onclick="event.stopPropagation()">Ezgif</a>
+                        <p>支持视频转GIF，编辑GIF</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://compresspng.com/')">
+                        <a href="https://compresspng.com/" target="_blank" onclick="event.stopPropagation()">Compress</a>
+                        <p>支持格式-PNG、JPG、PDF、GIF</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://imgtool.v1.mk/')">
+                        <a href="https://imgtool.v1.mk/" target="_blank" onclick="event.stopPropagation()">图片极致压缩</a>
+                        <p>只有一个功能-极致压缩</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://zh.recompressor.com/')">
+                        <a href="https://zh.recompressor.com/" target="_blank" onclick="event.stopPropagation()">Recompressor</a>
+                        <p>图像优化神器，网站还支持中文显示，无需翻译</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://squoosh.app/')">
+                        <a href="https://squoosh.app/" target="_blank" onclick="event.stopPropagation()">Squoosh</a>
+                        <p>界面干净清爽，效果也非常好</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://tinypng.com/')">
+                        <a href="https://tinypng.com/" target="_blank" onclick="event.stopPropagation()">Tinypng</a>
+                        <p>支持一次压缩20张5M以下的文件</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.yalijuda.com/')">
+                        <a href="https://www.yalijuda.com/" target="_blank" onclick="event.stopPropagation()">鸭力巨大</a>
+                        <p>一键压缩图片视频，释放存储空间</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.picdiet.com/zh-cn')">
+                        <a href="https://www.picdiet.com/zh-cn" target="_blank" onclick="event.stopPropagation()">Picdiet</a>
+                        <p>对压缩对象没有任何限制且完全免费</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.jpeg.io/')">
+                        <a href="https://www.jpeg.io/" target="_blank" onclick="event.stopPropagation()">Jpeg</a>
+                        <p>将其转换为高度优化的图片</p>
                     </div>
                 </li>
             </ul>
         </div>
+
+         <!-- 设计素材 -->
+        <div class="category" id="zizaohao8">
+            <h2>设计素材</h2>
+            <h4>VI样机</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mockups-design.com/')">
+                        <a href="https://mockups-design.com/" target="_blank" onclick="event.stopPropagation()">Mockups-design</a>
+                        <p>是一个可免费可商用的样机素材网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://unblast.com/')">
+                        <a href="https://unblast.com/" target="_blank" onclick="event.stopPropagation()">Unblast</a>
+                        <p>网站搜集了大量的免费样机</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.graphberry.com')">
+                        <a href="https://www.graphberry.com" target="_blank" onclick="event.stopPropagation()">Graphberry</a>
+                        <p>优质的 PSD样机模型素材站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.ls.graphics/free-mockups')">
+                        <a href="https://www.ls.graphics/free-mockups" target="_blank" onclick="event.stopPropagation()">Is.graphics</a>
+                        <p>是一家提供高质量样机模板的网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mockup.sitapix.com')">
+                        <a href="https://mockup.sitapix.com" target="_blank" onclick="event.stopPropagation()">西田样机</a>
+                        <p>提供免费高质量样机的中文网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.mockupworld.co')">
+                        <a href="https://www.mockupworld.co" target="_blank" onclick="event.stopPropagation()">Mockupworld</a>
+                        <p>是一个国外免费实体样机素材网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://themockup.club')">
+                        <a href="https://themockup.club" target="_blank" onclick="event.stopPropagation()">TheMockupClub</a>
+                        <p>是比较优质的免费的样机下载站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pixeden.com/')">
+                        <a href="https://www.pixeden.com/" target="_blank" onclick="event.stopPropagation()">Pixeden</a>
+                        <p>网站里面的Mockups分类非常全</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>免费PNG</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.pngall.com/')">
+                        <a href="http://www.pngall.com/" target="_blank" onclick="event.stopPropagation()">Pngall</a>
+                        <p>类型丰富的免费PNG下载站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://pngimg.com/')">
+                        <a href="http://pngimg.com/" target="_blank" onclick="event.stopPropagation()">Pngimg</a>
+                        <p>号称全世界最大的PNG透明背景图库</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.kisspng.com/')">
+                        <a href="https://www.kisspng.com/" target="_blank" onclick="event.stopPropagation()">Kisspng</a>
+                        <p>所有图像都无需登录免费无限制下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pixelsquid.com/')">
+                        <a href="https://www.pixelsquid.com/" target="_blank" onclick="event.stopPropagation()">Pixelsquid</a>
+                        <p>旋转3D素材获得完美的角度下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.pngpix.com/')">
+                        <a href="http://www.pngpix.com/" target="_blank" onclick="event.stopPropagation()">Pngpix</a>
+                        <p>种类多而且质量很高png矢量图片站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://pngimg.com/')">
+                        <a href="https://pngimg.com/" target="_blank" onclick="event.stopPropagation()">pngimg</a>
+                        <p>全球知名的PNG优质素材库</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.stickpng.com/')">
+                        <a href="http://www.stickpng.com/" target="_blank" onclick="event.stopPropagation()">Stickpng</a>
+                        <p>提供免扣PNG格式资源免费下载</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>矢量素材</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://undraw.co/')">
+                        <a href="https://undraw.co/" target="_blank" onclick="event.stopPropagation()">Undraw</a>
+                        <p>提供完全免费的 SVG/PNG 图片</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://dealjumbo.com/')">
+                        <a href="https://dealjumbo.com/" target="_blank" onclick="event.stopPropagation()">Dealjumbo</a>
+                        <p>网站整体质量较高 下载需要输入邮箱</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.iconninja.com')">
+                        <a href="http://www.iconninja.com" target="_blank" onclick="event.stopPropagation()">Iconninja</a>
+                        <p>所有的展示素材均提供详细的信</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.shareicon.net')">
+                        <a href="https://www.shareicon.net" target="_blank" onclick="event.stopPropagation()">Shareicon</a>
+                        <p>免费提供超过25万矢量图片素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://flat-icon-design.com/')">
+                        <a href="http://flat-icon-design.com/" target="_blank" onclick="event.stopPropagation()">Flat-icon</a>
+                        <p>日本的免费可商用扁平化矢量网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://bg-patterns.com/')">
+                        <a href="http://bg-patterns.com/" target="_blank" onclick="event.stopPropagation()">Bg-patterns</a>
+                        <p>矢量平铺背景纹理免费生成下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.freepik.com/')">
+                        <a href="https://www.freepik.com/" target="_blank" onclick="event.stopPropagation()">Freepik</a>
+                        <p>收集最多免费矢量图资源的网站之一</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.vectorportal.com/')">
+                        <a href="https://www.vectorportal.com/" target="_blank" onclick="event.stopPropagation()">Vectorportal</a>
+                        <p>超过3500万免费矢量素材下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.vecteezy.com')">
+                        <a href="https://www.vecteezy.com" target="_blank" onclick="event.stopPropagation()">Vecteezy</a>
+                        <p>一个免费矢量图的网站</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>插画素材</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.handz.design')">
+                        <a href="https://www.handz.design" target="_blank" onclick="event.stopPropagation()">Handz</a>
+                        <p>网站拥有各种手势人物造型下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://superscene.pro')">
+                        <a href="https://superscene.pro" target="_blank" onclick="event.stopPropagation()">Superscene</a>
+                        <p>高质量3D插画模型部分提供免费下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://iradesign.io/')">
+                        <a href="https://iradesign.io/" target="_blank" onclick="event.stopPropagation()">Iradesign</a>
+                        <p>免版权且提供5种渐变色自定义各部位</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://igoutu.cn/illustrations')">
+                        <a href="https://igoutu.cn/illustrations" target="_blank" onclick="event.stopPropagation()">Igoutu</a>
+                        <p>分类明细的插画，免费下载PNG格式</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mixkit.co/free-stock-art/')">
+                        <a href="https://mixkit.co/free-stock-art/" target="_blank" onclick="event.stopPropagation()">Mixkit</a>
+                        <p>免费高质量艺术类插画下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://vertex.im/')">
+                        <a href="https://vertex.im/" target="_blank" onclick="event.stopPropagation()">Vertex</a>
+                        <p>比较常见的3D图标，支持旋转角度下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://stubborn.fun/')">
+                        <a href="https://stubborn.fun/" target="_blank" onclick="event.stopPropagation()">Stubborn</a>
+                        <p>随意搭配身体部位和矢量人物插画</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://lukaszadam.com/illustrations')">
+                        <a href="https://lukaszadam.com/illustrations" target="_blank" onclick="event.stopPropagation()">lukaszadam</a>
+                        <p>各种免版权插画风格图标</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://stubborn.fun/')">
+                        <a href="https://stubborn.fun/" target="_blank" onclick="event.stopPropagation()">Stubborn</a>
+                        <p>可选择色彩，并且输入邮箱免费下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.humaaans.com/')">
+                        <a href="https://www.humaaans.com/" target="_blank" onclick="event.stopPropagation()">Humaaans</a>
+                        <p>网站所有内容免费商用但是需要梯子</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://cocomaterial.com/')">
+                        <a href="https://cocomaterial.com/" target="_blank" onclick="event.stopPropagation()">CoCo Material</a>
+                        <p>3000+简约插画免费下载</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>PSD素材</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://freebiesbug.com')">
+                        <a href="https://freebiesbug.com" target="_blank" onclick="event.stopPropagation()">Freebiesbug</a>
+                        <p>提供精心挑选的PSD资源</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.freepik.com')">
+                        <a href="https://www.freepik.com" target="_blank" onclick="event.stopPropagation()">Freepik</a>
+                        <p>收录了很多高质量PSD素材图片</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.1001freedownloads.com')">
+                        <a href="https://www.1001freedownloads.com" target="_blank" onclick="event.stopPropagation()">1001free</a>
+                        <p>设计师寻找的免费素材网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://freebiesjedi.com')">
+                        <a href="https://freebiesjedi.com" target="_blank" onclick="event.stopPropagation()">Freebiesjedi</a>
+                        <p>免费提供各类素材资源下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://fbrushes.com/')">
+                        <a href="https://fbrushes.com/" target="_blank" onclick="event.stopPropagation()">Fbrushes</a>
+                        <p>提供各类素材资源的站点 </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://psdboom.com/')">
+                        <a href="https://psdboom.com/" target="_blank" onclick="event.stopPropagation()">Psdboom</a>
+                        <p>提供免费PSD以及收录各式背景</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>背景纹理</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://patterninja.com/')">
+                        <a href="https://patterninja.com/" target="_blank" onclick="event.stopPropagation()">Patterninja</a>
+                        <p>纹理背景用来做PPT的背景图超赞</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://texturer.com/')">
+                        <a href="http://texturer.com/" target="_blank" onclick="event.stopPropagation()">Heropatterns</a>
+                        <p>数十类精品免费真实纹理背景素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">Texture</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>图标EMOJI</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>PPT模板</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>PS笔刷</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
 
         <!-- 免版权字体 -->
-        <div class="category" id="zizaohao8">
+        <div class="category" id="zizaohao9">
             <h2>免版权字体</h2>
+            <h4>中文字体</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mp.weixin.qq.com/s/wp6kS2YkzgUe9EDjoXSw2Q')">
+                        <a href="https://mp.weixin.qq.com/s/wp6kS2YkzgUe9EDjoXSw2Q" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
+                        <p>【推荐】12款可商用字体打包下载</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mp.weixin.qq.com/s/NrhWvuUgDgRK3ZIkaroAoQ')">
+                        <a href="https://mp.weixin.qq.com/s/NrhWvuUgDgRK3ZIkaroAoQ" target="_blank" onclick="event.stopPropagation()">阿里可商用字体</a>
+                        <p>【推荐】9款阿里字体打包下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fonts.net.cn/')">
+                        <a href="https://www.fonts.net.cn/" target="_blank" onclick="event.stopPropagation()">字体天下</a>
+                        <p>网站汇集超多字体，部分免商可下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://font.sucai999.com/')">
+                        <a href="https://font.sucai999.com/" target="_blank" onclick="event.stopPropagation()">字体搬运工</a>
+                        <p>整理收集来自全网的免商用字体</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.maoken.com/')">
+                        <a href="https://www.maoken.com/" target="_blank" onclick="event.stopPropagation()">猫啃网</a>
+                        <p>专注于免商用中文字体下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.100font.com/')">
+                        <a href="https://www.100font.com/" target="_blank" onclick="event.stopPropagation()">100Font</a>
+                        <p>专门整理收集免商用字体的网站</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>英文字体</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
+                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">Fontspace</a>
+                        <p>好看的英文字体这里都有</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.urbanfonts.com')">
+                        <a href="https://www.urbanfonts.com" target="_blank" onclick="event.stopPropagation()">Urban Fonts</a>
+                        <p>英文字体资源搜索与下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://zh.fonts2u.com/')">
+                        <a href="https://www.fonts.net.cn/" target="_blank" onclick="event.stopPropagation()">Fonts2u</a>
+                        <p>字体资源支持搜索与下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontyukle.net')">
+                        <a href="https://www.fontyukle.net" target="_blank" onclick="event.stopPropagation()">Fontyukle</a>
+                        <p>世界上最大的自由字体的网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.losttype.com/browse/')">
+                        <a href="http://www.losttype.com/browse/" target="_blank" onclick="event.stopPropagation()">Losttype</a>
+                        <p>字体非常漂亮展示方式特别</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.1001freefonts.com/')">
+                        <a href="https://www.1001freefonts.com/" target="_blank" onclick="event.stopPropagation()">1001freefonts</a>
+                        <p>超过20万个高质量字体下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.dafont.com/')">
+                        <a href="https://www.dafont.com/" target="_blank" onclick="event.stopPropagation()">Dafont</a>
+                        <p>数量巨多的免费英文字体下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.fontfabric.com/')">
+                        <a href="http://www.fontfabric.com/" target="_blank" onclick="event.stopPropagation()">Fontfabric</a>
+                        <p>提供优秀好用的英文字体下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.myfonts.com')">
+                        <a href="https://www.myfonts.com" target="_blank" onclick="event.stopPropagation()">Myfonts</a>
+                        <p>上传图片搜索英文字体功能强大</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontsquirrel.com/')">
+                        <a href="https://www.fontsquirrel.com/" target="_blank" onclick="event.stopPropagation()">Fontsquirrel</a>
+                        <p>超赞的精心挑选的免费字体下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://usemodify.com')">
+                        <a href="https://usemodify.com" target="_blank" onclick="event.stopPropagation()">Use & Modify</a>
+                        <p>奇怪而美丽的英文字体</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://vaufonts.com/')">
+                        <a href="https://vaufonts.com/" target="_blank" onclick="event.stopPropagation()">VAN fonts</a>
+                        <p>在线生成英文艺术字</p>
                     </div>
                 </li>
             </ul>
         </div>
 
         <!-- 免版权图片 -->
-        <div class="category" id="zizaohao9">
+        <div class="category" id="zizaohao10">
             <h2>免版权图片</h2>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.logosc.cn/so/')">
+                        <a href="https://www.logosc.cn/so/" target="_blank" onclick="event.stopPropagation()">搜图神器</a>
+                        <p>多站点免版权图片搜索一键搜索</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pexels.com/zh-cn/')">
+                        <a href="https://www.pexels.com/zh-cn/" target="_blank" onclick="event.stopPropagation()">Pexels</a>
+                        <p>全球知名图片视频网站 还支持中文</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://pixabay.com/')">
+                        <a href="https://pixabay.com/" target="_blank" onclick="event.stopPropagation()">Pixabay</a>
+                        <p>超过450张高质量免版权图库</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://en.freejpg.com.ar/')">
+                        <a href="https://en.freejpg.com.ar/" target="_blank" onclick="event.stopPropagation()">Reejpg</a>
+                        <p>共有11.5万张的免费图片库</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://kaboompics.com/')">
+                        <a href="https://kaboompics.com/" target="_blank" onclick="event.stopPropagation()">Kaboompics</a>
+                        <p>按具体的属性进行的分类</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, https://picjumbo.com/')">
+                        <a href="https://picjumbo.com/" target="_blank" onclick="event.stopPropagation()">Picjumbo</a>
+                        <p>图片质量很高的免费图库</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://fancycrave.com/stock-photos/free/')">
+                        <a href="https://fancycrave.com/stock-photos/free/" target="_blank" onclick="event.stopPropagation()">Fancycrave</a>
+                        <p>分类好的免费图片合集</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.freelyphotos.com/')">
+                        <a href="https://www.freelyphotos.com/" target="_blank" onclick="event.stopPropagation()">Freelyphotos</a>
+                        <p>一个业余爱好者运营的站点</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.stockvault.net/')">
+                        <a href="https://www.stockvault.net/" target="_blank" onclick="event.stopPropagation()">Stockvault</a>
+                        <p>每天都会添加新的照片、纹理和插图！</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.designerspics.com/')">
+                        <a href="http://www.designerspics.com/" target="_blank" onclick="event.stopPropagation()">Designerspics</a>
+                        <p>清晰的无版权图片，使用无需署名</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://photostockeditor.com/')">
+                        <a href="https://photostockeditor.com/" target="_blank" onclick="event.stopPropagation()">Photo stockedito</a>
+                        <p>35万的无版权图片储备提供使用</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://shotstash.com/')">
+                        <a href="https://shotstash.com/" target="_blank" onclick="event.stopPropagation()">Shot stash</a>
+                        <p>为专业人士提供有创意的免费高清图片素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pakutaso.com/')">
+                        <a href="https://www.pakutaso.com/" target="_blank" onclick="event.stopPropagation()">Pakutaso</a>
+                        <p>日本很知名的图片素材站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://visualhunt.com/')">
+                        <a href="https://visualhunt.com/" target="_blank" onclick="event.stopPropagation()">Visualhunt</a>
+                        <p>界面比较清爽的图片搜索站点</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.hippopx.com/')">
+                        <a href="https://www.hippopx.com/" target="_blank" onclick="event.stopPropagation()">Hippopx</a>
+                        <p>分类比较细致的免版权图库</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://unsplash.com/')">
+                        <a href="https://unsplash.com/" target="_blank" onclick="event.stopPropagation()">Unsplash</a>
+                        <p>分类比较详细，各种类型都有</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.everypixel.com')">
+                        <a href="https://www.everypixel.com" target="_blank" onclick="event.stopPropagation()">Everypixel</a>
+                        <p>能智能搜索各大图片网站的图片</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://barnimages.com')">
+                        <a href="https://barnimages.com" target="_blank" onclick="event.stopPropagation()">Barnimages</a>
+                        <p>提供免费高清晰度图片集合的站点</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://jeshoots.com/')">
+                        <a href="https://jeshoots.com/" target="_blank" onclick="event.stopPropagation()">Jeshoots</a>
+                        <p>图片质量还不错的无版权图片网站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://gratisography.com')">
+                        <a href="http://gratisography.com/" target="_blank" onclick="event.stopPropagation()">Gratisography</a>
+                        <p>精选时尚流行和富有设计感的图片</p>
                     </div>
                 </li>
             </ul>
         </div>
 
         <!-- 免版权音视频 -->
-        <div class="category" id="zizaohao10">
-            <h2>免版权音视频</h2>
-            <ul>
-                <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- 配色方案 -->
         <div class="category" id="zizaohao11">
-            <h2>配色方案</h2>
+            <h2>免版权音视频</h2>
+            <h4>视频素材</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://coverr.co/stock-video-footage')">
+                        <a href="https://coverr.co/stock-video-footage" target="_blank" onclick="event.stopPropagation()">Coverr</a>
+                        <p>使用免费的视频素材无需注明出处</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mazwai.com')">
+                        <a href="https://mazwai.com" target="_blank" onclick="event.stopPropagation()">Mazwai</a>
+                        <p>专为视频剪辑打造的免版权视频站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mixkit.co/')">
+                        <a href="https://mixkit.co/" target="_blank" onclick="event.stopPropagation()">Mixkit</a>
+                        <p>分类比较全，有视频、BGM、音效</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.marpi.studio/artwork')">
+                        <a href="https://www.marpi.studio/artwork" target="_blank" onclick="event.stopPropagation()">Marpi</a>
+                        <p>世界各地拍摄视频直接下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.videezy.com/')">
+                        <a href="https://www.videezy.com/" target="_blank" onclick="event.stopPropagation()">Videezy</a>
+                        <p>提供大量免费高画质HD、4K影片素材</p>
                     </div>
                 </li>
             </ul>
-        </div>
 
-        <!-- 效率神器 -->
-        <div class="category" id="zizaohao12">
-            <h2>效率神器</h2>
+            <br><h4>音乐音效</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://dova-s.jp/')">
+                        <a href="https://dova-s.jp/" target="_blank" onclick="event.stopPropagation()">Dova-s</a>
+                        <p>提供超过上万首免费音乐素材</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://amachamusic.chagasi.com/')">
+                        <a href="http://amachamusic.chagasi.com/" target="_blank" onclick="event.stopPropagation()">Chagasi</a>
+                        <p>原创的自由使用免版权音乐素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.tam-music.com/')">
+                        <a href="https://www.tam-music.com/" target="_blank" onclick="event.stopPropagation()">Tam-music</a>
+                        <p>免费提供分类详细的音乐音效素材</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://cchound.com/')">
+                        <a href="https://cchound.com/" target="_blank" onclick="event.stopPropagation()">Cchound</a>
+                        <p>拥有海量免版税的公共领域音乐资源</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://musopen.org/music/')">
+                        <a href="https://musopen.org/music/" target="_blank" onclick="event.stopPropagation()">Musopen</a>
+                        <p>提供古典各类乐器音乐资源</p>
+                    </div>
+                </li>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://musicmaker.site/')">
+                        <a href="https://musicmaker.site/" target="_blank" onclick="event.stopPropagation()">Musicmaker</a>
+                        <p>专为视频剪辑打造的免版权视频站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.looperman.com/loops')">
+                        <a href="https://www.looperman.com/loops" target="_blank" onclick="event.stopPropagation()">Looperman</a>
+                        <p>很实用的无限循环背景音乐</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.bensound.com/')">
+                        <a href="https://www.bensound.com/" target="_blank" onclick="event.stopPropagation()">Bensound</a>
+                        <p>收集了许多超有感觉的音乐</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://freemusicarchive.org/')">
+                        <a href="https://freemusicarchive.org/" target="_blank" onclick="event.stopPropagation()">Archive</a>
+                        <p>质量不错的免版权音乐收集站</p>
                     </div>
                 </li>
             </ul>
         </div>
 
         <!-- 摄影鉴赏 -->
-        <div class="category" id="zizaohao13">
+        <div class="category" id="zizaohao12">
             <h2>摄影鉴赏</h2>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.cnu.cc/')">
+                        <a href="http://www.cnu.cc/" target="_blank" onclick="event.stopPropagation()">CNU</a>
+                        <p>高质量摄影社区</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://vision.xitek.com/sight/')">
+                        <a href="https://vision.xitek.com/sight/" target="_blank" onclick="event.stopPropagation()">色影无忌</a>
+                        <p>中国影像生活门户</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.designspiration.com/')">
+                        <a href="https://www.designspiration.com/" target="_blank" onclick="event.stopPropagation()">Designspiration</a>
+                        <p>提供设计灵感、插画摄影、时尚艺术</p>
+                    </div>
+                </li>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://photock.jp')">
+                        <a href="https://photock.jp" target="_blank" onclick="event.stopPropagation()">Photock</a>
+                        <p>8000+免版权摄影图片</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.foodiesfeed.com/')">
+                        <a href="https://www.foodiesfeed.com/" target="_blank" onclick="event.stopPropagation()">Foodies Feed</a>
+                        <p>秀色可餐！免费高清食物照片</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 配色方案 -->
+        <div class="category" id="zizaohao13">
+            <h2>配色方案</h2>
+            <h4>纯色搭配</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://colorsafe.co/')">
+                        <a href="http://colorsafe.co/" target="_blank" onclick="event.stopPropagation()">Colorsafe</a>
+                        <p>选择一个颜色，会给出不一样的方案</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://colllor.com/')">
+                        <a href="http://colllor.com/" target="_blank" onclick="event.stopPropagation()">Colllor</a>
+                        <p>一个色系给出50种深浅的选择</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.materialpalette.com')">
+                        <a href="https://www.materialpalette.com" target="_blank" onclick="event.stopPropagation()">Materialpalette</a>
+                        <p>非常适合扁平化设计的工具</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.sessions.edu')">
+                        <a href="https://www.sessions.edu" target="_blank" onclick="event.stopPropagation()">Sessions</a>
+                        <p>对比颜色很方便，各种色彩搭配</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://Coolors.co')">
+                        <a href="http://Coolors.co" target="_blank" onclick="event.stopPropagation()">Coolors</a>
+                        <p>各种色块搭配多种配色模式</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://colorhunt.co/')">
+                        <a href="https://colorhunt.co/" target="_blank" onclick="event.stopPropagation()">Colorhunt</a>
+                        <p>不同色彩之间进行搭配</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://color.adobe.com/')">
+                        <a href="https://color.adobe.com/" target="_blank" onclick="event.stopPropagation()">Color.Adobe</a>
+                        <p>提供常用五种色彩模式选择</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.colorhunter.com')">
+                        <a href="http://www.colorhunter.com" target="_blank" onclick="event.stopPropagation()">Colorhunter</a>
+                        <p>操作方便，特别适合新手使用</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://color.hailpixel.com/')">
+                        <a href="https://color.hailpixel.com/" target="_blank" onclick="event.stopPropagation()">Color.hailpixel</a>
+                        <p>移动鼠标就能得到不一样的颜色</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://colrd.com/')">
+                        <a href="http://colrd.com/" target="_blank" onclick="event.stopPropagation()">Colrd</a>
+                        <p>推荐这个是把图片所有颜色拆成单个色</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>渐变配色</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://uigradients.com/#Passion')">
+                        <a href="https://uigradients.com/#Passion" target="_blank" onclick="event.stopPropagation()">Uigradients</a>
+                        <p>点击左上角显示全部，右上角旋转角度</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://gradient.shapefactory.co')">
+                        <a href="https://gradient.shapefactory.co" target="_blank" onclick="event.stopPropagation()">Gradient</a>
+                        <p>点击色块上的圆圈可以改变角度</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://webgradients.com')">
+                        <a href="https://webgradients.com" target="_blank" onclick="event.stopPropagation()">Webgradients</a>
+                        <p>点击即可大图预览和下载</p>
+                    </div>
+                </li>
+                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.grabient.com/')">
+                        <a href="https://www.grabient.com/" target="_blank" onclick="event.stopPropagation()">Grabient</a>
+                        <p>成千上万漂亮的渐变色站点</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://coliss.com/articles/web-services/online-cssgradientbutton.html')">
+                        <a href="https://coliss.com/articles/web-services/online-cssgradientbutton.html" target="_blank" onclick="event.stopPropagation()">Coliss</a>
+                        <p>可以把调好的渐变色生成CSS网页代码</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://webkul.github.io/coolhue/')">
+                        <a href="https://webkul.github.io/coolhue/" target="_blank" onclick="event.stopPropagation()">Webkul</a>
+                        <p>点击下载图片下方复制颜色代码</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 效率神器 -->
+        <div class="category" id="zizaohao14">
+            <h2>效率神器</h2>
+            <h4>格式转换</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.aconvert.com/cn/')">
+                        <a href="https://www.aconvert.com/cn/" target="_blank" onclick="event.stopPropagation()">AC文件转换</a>
+                        <p>【推荐】支持的类型全-使用方便</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://convertio.co/zh/video-converter/')">
+                        <a href="https://convertio.co/zh/video-converter/" target="_blank" onclick="event.stopPropagation()">Convertio</a>
+                        <p>在线转换任何格式的视频文件</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.ilovepdf.com/')">
+                        <a href="https://www.ilovepdf.com/" target="_blank" onclick="event.stopPropagation()">Ilovepdf</a>
+                        <p>支持多种格式之间进行互转</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.alltoall.net/')">
+                        <a href="http://www.alltoall.net/" target="_blank" onclick="event.stopPropagation()">Alltoall</a>
+                        <p>支持多达200多种格式在线转换</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pdfconvertonline.com/cn/')">
+                        <a href="https://www.pdfconvertonline.com/cn/" target="_blank" onclick="event.stopPropagation()">Pdfconvertonline</a>
+                        <p>网站支持各类文件之间进行互转</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>偏门利器</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://swiftqr.tanpok.com/')">
+                        <a href="https://swiftqr.tanpok.com/" target="_blank" onclick="event.stopPropagation()">文本生成二维码</a>
+                        <p>仅支持文本生成二维码</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://sms-activate.io/cn?%2Fcn=')">
+                        <a href="https://sms-activate.io/cn?%2Fcn=" target="_blank" onclick="event.stopPropagation()">SMS</a>
+                        <p>虚拟国外手机号码短信验证</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.qrcode-monkey.com/')">
+                        <a href="https://www.qrcode-monkey.com/" target="_blank" onclick="event.stopPropagation()">生成二维码</a>
+                        <p>任何内容都可以生成二维码</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.shorturl.at/')">
+                        <a href="https://www.shorturl.at/" target="_blank" onclick="event.stopPropagation()">网址变短</a>
+                        <p>可以让任何网址变短的神器</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://personas.draftbit.com/')">
+                        <a href="https://personas.draftbit.com/" target="_blank" onclick="event.stopPropagation()">卡通头像生成</a>
+                        <p>在线设计卡通头像并下载</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.12tool.com/')">
+                        <a href="http://www.12tool.com/" target="_blank" onclick="event.stopPropagation()">聊天截图生成</a>
+                        <p>线上生成微信支付宝截图</p>
                     </div>
                 </li>
             </ul>
         </div>
 
         <!-- 知识社区 -->
-        <div class="category" id="zizaohao14">
+        <div class="category" id="zizaohao15">
             <h2>知识社区</h2>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw')">
+                        <a href="https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw" target="_blank" onclick="event.stopPropagation()">千本设计书籍-设计师必备推荐</a>
+                        <p>搜集来自全球的知名设计书籍</p>
                     </div>
                 </li>
             </ul>
         </div>
 
         <!-- 软件资源 -->
-        <div class="category" id="zizaohao15">
+        <div class="category" id="zizaohao16">
             <h2>软件资源</h2>
+            <h4>软件下载</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.jb51.net/')">
+                        <a href="https://www.jb51.net/" target="_blank" onclick="event.stopPropagation()">脚本之家</a>
+                        <p>提供互联网全方位在线工具无套路分享</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.baidu.com')">
-                        <a href="https://www.baidu.com" target="_blank" onclick="event.stopPropagation()">百度</a>
-                        <p>全球最大中文搜索，提供多种服务</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fosshub.com/')">
+                        <a href="https://www.fosshub.com/" target="_blank" onclick="event.stopPropagation()">Fosshub</a>
+                        <p>来自全球免费好用的软件</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.lookae.com')">
+                        <a href="https://www.lookae.com" target="_blank" onclick="event.stopPropagation()">LookAE</a>
+                        <p>各类需要的设计资源，这里可能全都有</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://fonts.google.com/')">
+                        <a href="https://fonts.google.com/" target="_blank" onclick="event.stopPropagation()">亿破姐</a>
+                        <p>只分享想要的内容（什么都有）</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.weidown.com/')">
+                        <a href="https://www.weidown.com/" target="_blank" onclick="event.stopPropagation()">微当下载</a>
+                        <p>全能的各设备软件分享站</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.appinn.com/')">
+                        <a href="https://www.appinn.com/" target="_blank" onclick="event.stopPropagation()">小众软件</a>
+                        <p>分享有趣的绿色免费软件</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.runker.net')">
+                        <a href="https://www.runker.net" target="_blank" onclick="event.stopPropagation()">行客工作室</a>
+                        <p>各类电脑软件这里都有，下载方便</p>
+                    </div>
+                </li>
+            </ul>
+
+            <br><h4>资源搜索</h4>
+            <ul>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://searx.org/')">
+                        <a href="https://searx.org/" target="_blank" onclick="event.stopPropagation()">SearXNG</a>
+                        <p>全世界最强大的元搜索引擎</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://search.chongbuluo.com/')">
+                        <a href="https://search.chongbuluo.com/" target="_blank" onclick="event.stopPropagation()">虫部落 · 快搜</a>
+                        <p>聚合了全球所有的搜索工具</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.chaonengsou.com/')">
+                        <a href="https://www.chaonengsou.com/" target="_blank" onclick="event.stopPropagation()">网盘超能搜</a>
+                        <p>聚合多个网盘搜索，常用都可搜</p>
                     </div>
                 </li>
             </ul>
