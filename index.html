@@ -4,509 +4,917 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="index.ico" type="image/x-icon">
+
+    <!-- SEO 优化 -->
     <title>字造 - 始终如一的创造</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
+
+    <!-- 社交媒体优化 (Open Graph) -->
+    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+
+    <!-- 网站图标 -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- 结构化数据标记 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "作品标题",
+        "image": "URL_TO_YOUR_IMAGE",
+        "description": "作品的详细描述",
+        "author": {
+            "@type": "Person",
+            "name": "Zizao Thye"
+        }
+    }
+    </script>
+
     <style>
-        /* 全局样式 */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-        }
+    /* 全局样式 */
+    body {
+        margin: 0;
+        font-family: sans-serif;
+        /* 确保内容不贴边 */
+    }
 
-        /* 公共样式 */
-        .hover-scale {
-            transition: transform 0.3s ease;
-        }
+    /* 头部导航栏样式 */
+    header {
+        background-color: #f5f5f7;
+        backdrop-filter: blur(20px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 66px;
+        padding: 0 10%;
+        /* 关键：改为 fixed 定位 */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        /* 确保在最上层 */
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* 添加阴影 */
+    }
+    nav {
+    /* 关键：添加 margin-right 调整导航栏整体位置 */
+    margin-right: 20%; /* 调整数值以达到你想要的效果 */
+}
 
-        .hover-scale:hover {
-            transform: scale(1.1);
-        }
+    header:hover {
+        background-color: #e8e8ea;
+    }
 
-        .hover-color {
-            transition: color 0.3s ease;
-        }
+    .logo {
+        margin-right: 20px;
+    }
 
-        .hover-color:hover {
-            color: #000;
-        }
+    .logo a img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
 
-        /* 导航栏样式 */
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    nav>ul>li {
+        margin: 0 15px;
+        position: relative;
+    }
+
+    nav>ul>li>a {
+        color: #333;
+        text-decoration: none;
+        font-size: 15px;
+        padding: 10px 0;
+        display: block;
+        position: relative;
+        transition: color 0.3s ease;
+    }
+
+    nav>ul>li>a::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #000;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.3s ease;
+    }
+
+    nav>ul>li>a:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .toggle-button {
+        display: none;
+        background: none;
+        border: none;
+        color: #333;
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .toggle-button:hover {
+        color: #000;
+    }
+
+    nav ul li ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: -15px;
+        background-color: #fff;
+        min-width: 200px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 4;
+    }
+
+    nav ul li:hover ul {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    nav ul li ul li {
+        margin: 0;
+    }
+
+    nav ul li ul li a {
+        color: #333;
+        padding: 12px 20px;
+        display: block;
+        text-decoration: none;
+        font-size: 13px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav ul li ul li a:hover {
+        background-color: #f5f5f5;
+        color: #0070c9;
+    }
+
+    @media (max-width: 768px) {
         header {
-            background-color: #f5f5f7;
-            backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 66px;
-            position: relative;
-            z-index: 3;
-            transition: background-color 0.3s ease;
-            padding: 0 10%;
-        }
-
-        header:hover {
-            background-color: #e8e8ea;
-        }
-
-       .logo {
-            margin-right: 20px;
-        }
-
-       .logo a img {
-            display: block;
-            max-width: 100%;
-            height: auto;
+            padding: 0 20px;
         }
 
         nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
+            display: none;
+            position: absolute;
+            top: 66px;
+            left: 0;
+            width: 100%;
+            background-color: #f5f5f7;
+            flex-direction: column;
+        }
+
+        nav ul.show {
             display: flex;
         }
 
-        nav > ul > li {
-            margin: 0 15px;
-            position: relative;
+        nav>ul>li {
+            margin: 0;
         }
 
-        nav > ul > li > a {
-            color: #333;
-            text-decoration: none;
-            font-size: 15px;
-            position: relative;
-            display: block;
-            padding: 10px 0;
-            transition: color 0.3s ease;
+        nav>ul>li>a {
+            padding: 15px 20px;
         }
 
-        nav > ul > li > a::after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: #000;
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease;
-        }
-
-        nav > ul > li > a:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        /* 子菜单样式 */
         nav ul li ul {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: -15px;
-            background-color: #fff;
-            min-width: 200px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 4;
-        }
-
-        nav ul li:hover ul {
-            display: block;
+            position: static;
+            width: 100%;
+            box-shadow: none;
+            border-radius: 0;
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
-        }
-
-        nav ul li ul li {
-            margin: 0;
-        }
-
-        nav ul li ul li a {
-            color: #333;
-            padding: 12px 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 13px;
-            display: block;
-            text-decoration: none;
-        }
-
-        nav ul li ul li a:hover {
-            background-color: #f5f5f5;
-            color: #0070c9;
-        }
-
-        /* 折叠按钮样式 */
-       .toggle-button {
             display: none;
-            background: none;
-            border: none;
-            color: #333;
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease;
         }
 
-       .toggle-button:hover {
-            color: #000;
-        }
-
-        /* 大图容器样式 */
-       .image-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-       .big-image {
-            width: 100%;
-            height: auto;
+        nav ul li.active ul {
             display: block;
-            object-fit: cover;
         }
 
-        /* 文字容器样式 */
-       .text-container {
-            position: absolute;
-            bottom: 6%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            color: white;
-            text-align: left;
+        .toggle-button {
+            display: block;
+        }
+    }
+
+    /* 大图区域样式 */
+    .hero {
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        position: relative;
+        /* 关键：增加上边距，防止被导航栏覆盖 */
+        margin-top: 66px;
+        /* 导航栏的高度 */
+    }
+
+    .hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-content {
+        position: absolute;
+        bottom: 5%;
+        left: 10%;
+        color: white;
+        transform: scale(0.9);
+    }
+
+    .hero-title {
+        font-size: clamp(2vw, 3vw, 40px);
+        margin-bottom: 1%;
+        transition: font-size 0.3s ease;
+    }
+
+    .hero-description {
+        font-size: clamp(1vw, 1.5vw, 20px);
+        margin-bottom: 3%;
+        transition: font-size 0.3s ease;
+    }
+
+    .hero-buttons {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .hero-button {
+        padding: 0.7vw 1.4vw;
+        border: none;
+        border-radius: 5px;
+        font-size: clamp(0.8vw, 1.2vw, 16px);
+        cursor: pointer;
+        margin-right: 1vw;
+        margin-bottom: 1vw;
+        text-decoration: none;
+        color: black;
+        transition: background-color 0.3s ease, font-size 0.3s ease, padding 0.3s ease;
+        display: inline-block;
+    }
+
+    .hero-button-white {
+        background-color: white;
+    }
+
+    .hero-button-red {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .hero-button:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: black;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .hero-button-red:hover {
+        background-color: rgba(220, 53, 69, 0.8);
+        color: white;
+    }
+
+    /* 内容区域样式 */
+    .content {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 50px 0;
+    }
+
+    .image-container {
+        width: 90%;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin: 0 auto;
+    }
+
+    .image-wrapper {
+        width: calc(33.33% - 20px);
+        text-align: left;
+        overflow: hidden;
+        margin-bottom: 20px;
+        transition: width 0.3s ease;
+    }
+
+    .image-link {
+        display: block;
+        border-radius: 10px;
+        /* 添加圆角 */
+        overflow: hidden;
+        /* 确保圆角生效 */
+        transition: transform 0.3s ease;
+    }
+
+    .image-link img {
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 1.5 / 1;
+        /* 修改为 1:1.5 的横图 */
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .image-link:hover img {
+        transform: scale(1.1);
+        /* 悬浮时放大 */
+    }
+
+    .image-description {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 0.8em;
+    }
+
+    .image-title-link {
+        text-decoration: none;
+        color: inherit;
+        font-size: 1.2em;
+        font-weight: bold;
+        display: block;
+        transition: color 0.3s ease;
+    }
+
+    .image-title-link:hover {
+        color: #007bff;
+    }
+
+    /* 字体详情区域样式 */
+    .font-details {
+        width: 100%;
+        padding: 50px 0;
+    }
+
+    .font-details-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .font-details-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* 移除最后一个分割线 */
+    .font-details-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .font-details-section-left {
+        width: 55%;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .font-details-section-right {
+        width: 40%;
+        text-align: center;
+    }
+
+    .font-details h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #343a40;
+    }
+
+    .font-details h3 {
+        font-size: 1.5em;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        color: #343a40;
+    }
+
+    .font-details p {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        color: #495057;
+    }
+
+    .font-details ul {
+        list-style: disc;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    .font-details li {
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: #495057;
+    }
+
+    .font-details a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .font-details a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+
+    /* 字体示例图片样式 */
+    .font-details-section-right img,
+    .font-details-section-left img {
+        width: 100%;
+        max-width: 300px;
+        /* 限制图片最大宽度 */
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        object-fit: cover;
+        /* 保证图片不变形 */
+        aspect-ratio: 1.5 / 1;
+        /* 修改为 1:1.5 的横图 */
+        border-radius: 10px;
+        /* 添加圆角 */
+        transition: transform 0.3s ease;
+        /* 添加过渡效果 */
+    }
+
+    .font-details-section-right:hover img,
+    .font-details-section-left:hover img {
+        transform: scale(1.1);
+        /* 悬浮时放大 */
+    }
+
+    /* 修改技术特点和应用场景的布局 */
+    .font-details-section:nth-child(3),
+    .font-details-section:nth-child(5) {
+        flex-direction: row-reverse;
+        /* 图片在右边 */
+    }
+
+    .font-details-section:nth-child(3) .font-details-section-left,
+    .font-details-section:nth-child(5) .font-details-section-left {
+        align-items: flex-start;
+        /* 文字左对齐 */
+    }
+
+    .font-details-section:nth-child(3) .font-details-section-right,
+    .font-details-section:nth-child(5) .font-details-section-right {
+        width: 40%;
+        /* 确保图片容器宽度 */
+    }
+
+    /*  增加图片和文字的间距 */
+    .font-details-section-left h2,
+    .font-details-section-left h3 {
+        margin-top: 40px;
+        /* 增加标题上方的间距 */
+    }
+
+    .font-details-section-left p,
+    .font-details-section-left ul {
+        margin-top: 20px;
+        /* 增加段落和列表上方的间距 */
+    }
+
+    /* 媒体查询 - 小屏幕设备 (例如手机) */
+    @media (max-width: 768px) {
+        .image-wrapper {
+            width: 100%;
         }
 
-       .text-container .first-line {
-            font-size: clamp(36px, 6vw, 72px);
-            font-weight: bold;
-            margin-bottom: 10px;
+        .hero-title {
+            font-size: 7vw;
         }
 
-       .text-container .second-line {
-            font-size: clamp(18px, 2vw, 24px);
-            margin-bottom: 15px;
+        .hero-description {
+            font-size: 3vw;
         }
 
-        /* 按钮容器样式 */
-       .button-container {
-            display: flex;
-            gap: 20px;
+        .font-details-section {
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* 了解详情按钮样式 */
-       .btn-detail {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: white;
-            color: #333;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
+        .font-details-section-left {
+            width: 100%;
+            text-align: center;
+            align-items: center;
+            /* 居中对齐 */
         }
 
-       .btn-detail:hover {
-            background-color: #e6e6e6;
-        }
-
-        /* 下载按钮样式 */
-       .btn-download {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ff4444;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
-
-       .btn-download:hover {
-            background-color: #cc0000;
-        }
-
-        /* 精选推荐文字样式 */
-       .recommended-text {
-            font-size: 28px;
-            margin-left: 10%;
-            padding-top: 40px;
-        }
-
-        /* 图片容器样式 */
-       .image-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 50px;
-            padding: 0 10%;
-        }
-
-        /* 图片样式 */
-       .image-gallery img {
-            height: auto;
-            max-width: 100%;
-            transition: transform 0.3s ease;
-        }
-
-       .image-gallery img:hover {
-            transform: scale(1.1);
-        }
-
-       .image-gallery .image-item {
-            flex: 1 1 calc(33.333% - 50px);
-            min-width: 250px;
-        }
-
-        /* 图片下方文字样式 */
-       .image-caption {
-            text-align: left;
-        }
-
-       .image-caption .first-row {
-            font-size: 15px;
-            margin-top: 1em;
-        }
-
-       .image-caption .second-row a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-       .image-caption .second-row a:hover {
-            color: #0070c9;
-        }
-
-        /* 第二个精选推荐样式 */
-       .second-recommended-text {
-            font-size: 28px;
-            margin-left: 10%;
-            padding-top: 40px;
-            margin-top: 1em;
-        }
-
-        /* 四张图片容器样式 */
-       .four-images-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            gap: 25px;
-            margin-top: 30px;
-            padding: 0 10%;
-        }
-
-        /* 四张图片样式 */
-       .four-images-gallery img {
-            width: 300px;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-       .four-images-gallery img:hover {
-            transform: scale(1.1);
-        }
-
-        /* 底部导航栏样式 */
-        footer {
-            background-color: #f5f5f7;
-            padding: 20px 10%;
-            margin-top: 40px;
+        .font-details-section-right {
+            width: 100%;
             text-align: center;
         }
 
-       .footer-nav {
-            margin-bottom: 10px;
+        .font-details-section-right img,
+        .font-details-section-left img {
+            max-width: 300px;
         }
 
-       .footer-nav a {
-            color: #333;
-            text-decoration: none;
-            margin: 0 15px;
-            transition: color 0.3s ease;
+        /* 手机上恢复默认布局 */
+        .font-details-section:nth-child(3),
+        .font-details-section:nth-child(5) {
+            flex-direction: column;
         }
 
-       .footer-nav a:hover {
-            color: #000;
+        .font-details-section:nth-child(3) .font-details-section-left,
+        .font-details-section:nth-child(5) .font-details-section-left {
+            align-items: center;
+            text-align: center;
+        }
+    }
+
+    /* 媒体查询 - 中等屏幕设备 (例如平板电脑) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .hero-title {
+            font-size: 5vw;
         }
 
-       .copyright {
-            color: #666;
-            font-size: 14px;
+        .hero-description {
+            font-size: 2vw;
+        }
+    }
+
+    /* 媒体查询 - 大屏幕设备 (例如电脑) */
+    @media (min-width: 1025px) {
+        .hero-title {
+            font-size: 2.5vw;
         }
 
-        /* 响应式导航菜单 */
-        @media (max-width: 768px) {
-            header {
-                padding: 0 20px;
-            }
-
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 66px;
-                left: 0;
-                width: 100%;
-                background-color: #f5f5f7;
-                flex-direction: column;
-            }
-
-            nav ul.show {
-                display: flex;
-            }
-
-            nav > ul > li {
-                margin: 0;
-            }
-
-            nav > ul > li > a {
-                padding: 15px 20px;
-            }
-
-            nav ul li ul {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                border-radius: 0;
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-                display: none;
-            }
-
-            nav ul li:hover ul {
-                display: none;
-            }
-
-            nav ul li.active ul {
-                display: block;
-            }
-
-           .toggle-button {
-                display: block;
-            }
+        .hero-description {
+            font-size: 1.2vw;
         }
+
+        .hero-button {
+            padding: 0.3vw 0.6vw;
+            font-size: 1vw;
+        }
+
+        .hero-content {
+            left: 8%;
+        }
+    }
+
+    /*  新增样式  */
+    .font-details-section-about {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+        border-top: 1px solid #eee;
+        /* 添加顶部分割线 */
+        border-bottom: 1px solid #eee;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .font-details-section-about h2,
+    .font-details-section-about p {
+        text-align: center;
+    }
+
+    /* 增加间距 */
+    .font-details-section-about p {
+        margin-top: 30px;
+        /* 增加段落上方的间距 */
+    }
+
+    .font-details-section {
+        margin-top: 30px;
+        /* 减少每个 section 上方的间距 */
+    }
+
+    /* 对齐图片和标题 */
+    .font-details-section:nth-child(3) .font-details-section-right,
+    .font-details-section:nth-child(5) .font-details-section-right {
+        display: flex;
+        justify-content: flex-start;
+        /* 关键：左对齐 */
+    }
+
+    .font-details-section:nth-child(3) .font-details-section-right img,
+    .font-details-section:nth-child(5) .font-details-section-right img {
+        margin-left: 0;
+        /* 移除图片默认的居中 */
+    }
+
+    /* 底部导航栏样式 */
+    footer {
+        background-color: #f5f5f7;
+        padding: 20px 10%;
+        color: #333;
+        text-align: center;
+        border-top: 1px solid #e8e8ea;
+    }
+
+    .footer-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .footer-section {
+        width: 30%;
+        min-width: 200px;
+        margin-bottom: 20px;
+        text-align: left;
+        padding-left: 50px;
+        /* 添加左内边距 */
+    }
+
+    .footer-section h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .footer-section p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .footer-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .footer-section li {
+        margin-bottom: 5px;
+    }
+
+    .footer-section a {
+        color: #0070c9;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: #003f8e;
+    }
+
+    .footer-bottom {
+        padding-top: 10px;
+        border-top: 1px solid #e8e8ea;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
+        color: #666;
+    }
+
+    /* 响应式底部导航栏 */
+    @media (max-width: 768px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-section {
+            width: 80%;
+            text-align: center;
+        }
+    }
     </style>
+
 </head>
 
 <body>
-    <!-- 导航栏 -->
+
     <header>
         <div class="logo">
-            <!-- 将 logo 图片用 a 标签包裹，点击返回首页 -->
-            <a href="index.html">
-                <img src="logo.png" alt="网站 logo" class="hover-scale">
+            <a href="index.html" aria-label="回到首页">
+                <img src="logo.png" alt="网站 logo">
             </a>
         </div>
-        <button class="toggle-button" aria-label="切换导航菜单">☰</button>
+        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单" aria-expanded="false">☰</button>
         <nav>
             <ul id="nav-ul">
-                <li><a href="index.html" class="hover-color">首页</a></li>
-                <li><a href="fonts.html" class="hover-color">字库产品</a>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="fonts.html">字库产品</a></li>
+                <li><a href="bao.html">百宝库</a></li>
+                <li><a href="hao.html">字造导航</a></li>
+                <li><a href="more.html">更多</a>
                     <ul>
-                        <li><a href="">Z系列（基础字库）</a></li>
-                        <li><a href="">Δ系列（可变字体）</a></li>
-                        <li><a href="">Ω系列（典藏字体）</a></li>
+                        <li><a href="">近期发布</a></li>
+                        <li><a href="">表情包</a></li>
+                        <li><a href="">联系我们</a></li>
                     </ul>
                 </li>
-                <li><a href="bao.html" class="hover-color">百宝库</a></li>
-                <li><a href="hao.html" class="hover-color">字造导航</a></li>
-                <li><a href="more.html" class="hover-color">更多服务</a></li>
             </ul>
         </nav>
     </header>
-    <!-- 大图容器 -->
-    <div class="image-container">
-        <img class="big-image" src="index-image/your-image.jpg" alt="横向大图，展示网站相关内容">
-        <!-- 文字容器 -->
-        <div class="text-container">
-            <p class="first-line">字造起点黑</p>
-            <p class="second-line">即将上线</p>
-            <!-- 按钮容器 -->
-            <div class="button-container">
-                <a href="#" class="btn-detail">了解详情</a>
-                <a href="#" class="btn-download">下载</a>
+
+    <script>
+    function toggleNav() {
+        var navUl = document.getElementById("nav-ul");
+        var toggleButton = document.querySelector(".toggle-button");
+        var isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+
+        toggleButton.setAttribute("aria-expanded", !isExpanded);
+
+        navUl.classList.toggle("show");
+    }
+
+    // 子菜单展开/收起
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('nav > ul > li');
+
+        navItems.forEach(item => {
+            if (item.querySelector('ul')) {
+                item.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault(); // 阻止链接跳转
+                        item.classList.toggle('active'); // 切换 active 类
+                    }
+                });
+            }
+        });
+    });
+    </script>
+
+    <section class="hero">
+        <img src="image1.jpg" alt="首页大图">
+        <div class="hero-content">
+            <h1 class="hero-title">字造起点黑</h1>
+            <p class="hero-description">这里是字体的简短介绍，可以描述字体的特点和用途。</p>
+            <div class="hero-buttons">
+                <a href="detail.html" class="hero-button hero-button-white">了解详情</a>
+                <a href="download.html" class="hero-button hero-button-red">下载</a>
             </div>
         </div>
-    </div>
-    <!-- 精选推荐文字 -->
-    <div class="recommended-text">精选推荐</div>
-    <!-- 图片容器 -->
-    <div class="image-gallery">
-        <div class="image-item">
-            <a href="#" target="_blank">
-                <img src="index-image/image1.png" alt="图片1，展示字体设计相关内容" class="hover-scale">
-            </a>
-            <div class="image-caption">
-                <div class="first-row">字体设计</div>
-                <div class="second-row">
-                    <a href="#" target="_blank" class="hover-color">床前明月光疑是地上霜</a>
+    </section>
+
+    <section class="content">
+        <div class="image-container">
+            <div class="image-wrapper">
+                <a href="link1.html" class="image-link">
+                    <img src="image1.jpg" alt="图片1">
+                </a>
+                <p class="image-description">这里是图片1的描述文字。</p>
+                <a href="link1.html" class="image-title-link">图片1标题</a>
+            </div>
+
+            <div class="image-wrapper">
+                <a href="link2.html" class="image-link">
+                    <img src="image1.jpg" alt="图片2">
+                </a>
+                <p class="image-description">这里是图片2的描述文字。</p>
+                <a href="link2.html" class="image-title-link">图片2标题</a>
+            </div>
+
+            <div class="image-wrapper">
+                <a href="link3.html" class="image-link">
+                    <img src="image1.jpg" alt="图片3">
+                </a>
+                <p class="image-description">这里是图片3的描述文字。</p>
+                <a href="link3.html" class="image-title-link">图片3标题</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="font-details">
+        <div class="font-details-container">
+
+            <div class="font-details-section-about">
+                <h2>关于字造起点黑</h2>
+                <p>
+                    字造起点黑是一款现代、简洁的黑体字体，适用于各种场景，例如：品牌设计、广告宣传、UI 界面等。
+                    我们采用了最新的字体设计技术，力求在保证字形美观的同时，提高字体的可读性和易用性。
+                    在设计过程中，我们深入研究了黑体字体的历史和发展趋势，并结合现代设计理念，最终完成了这款字体。
+                </p>
+            </div>
+
+            <div class="font-details-section">
+                <div class="font-details-section-left">
+                    <h2>技术特点</h2>
+                    <p>
+                        采用了最新的 TrueType hinting 技术，保证在各种分辨率下都能清晰显示。
+                        支持 GB2312 字符集，包含 6763 个常用汉字。
+                        字形设计简洁大方，易于识别。
+                    </p>
+                </div>
+                <div class="font-details-section-right">
+                    <a href="#" class="image-link">
+                        <img src="image1.jpg" alt="技术特点">
+                    </a>
+                </div>
+            </div>
+
+            <div class="font-details-section">
+                <div class="font-details-section-left">
+                    <h2>设计思路</h2>
+                    <p>
+                        我们的设计思路是：以人为本，追求卓越。
+                        我们希望通过这款字体，为用户提供更好的视觉体验，帮助用户更好地表达自己的想法。
+                        在设计过程中，我们始终坚持精益求精的原则，力求做到每一个细节都完美无瑕。
+                    </p>
+                </div>
+                <div class="font-details-section-right">
+                    <a href="#" class="image-link">
+                        <img src="image1.jpg" alt="设计思路" style="margin-top: 0;">
+                    </a>
+                </div>
+            </div>
+
+            <div class="font-details-section">
+                <div class="font-details-section-left">
+                    <h2>应用场景</h2>
+                    <p>
+                        字造起点黑适用于各种场景，例如：
+                        品牌设计：可以用于设计 Logo、宣传册、海报等。
+                        广告宣传：可以用于设计广告语、标题、正文等。
+                        UI 界面：可以用于设计 App、网站、软件等。
+                    </p>
+                </div>
+                <div class="font-details-section-right">
+                    <a href="#" class="image-link">
+                        <img src="image1.jpg" alt="应用场景">
+                    </a>
+                </div>
+            </div>
+
+            <div class="font-details-section">
+                <div class="font-details-section-left">
+                    <h2>联系我们</h2>
+                    <p>
+                        如果您对我们的字体感兴趣，欢迎联系我们：
+                        <a href="mailto:your-email@example.com">your-email@example.com</a>
+                    </p>
+                </div>
+                <div class="font-details-section-right">
+                    <a href="#" class="image-link">
+                        <img src="image1.jpg" alt="联系我们">
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="image-item">
-            <a href="#" target="_blank">
-                <img src="index-image/image2.png" alt="图片2，展示字体设计相关内容" class="hover-scale">
-            </a>
-            <div class="image-caption">
-                <div class="first-row">字体设计</div>
-                <div class="second-row">
-                    <a href="#" target="_blank" class="hover-color">床前明月光疑是地上霜</a>
-                </div>
+    </section>
+
+    <!-- 底部导航栏 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>邮箱：example@email.com</p>
+                <p>电话：123-456-7890</p>
+            </div>
+            <div class="footer-section">
+                <h3>友情链接</h3>
+                <ul>
+                    <li><a href="#">链接1</a></li>
+                    <li><a href="#">链接2</a></li>
+                    <li><a href="#">链接3</a></li>
+                </ul>
             </div>
         </div>
-        <div class="image-item">
-            <a href="#" target="_blank">
-                <img src="index-image/image3.png" alt="图片3，展示字体设计相关内容" class="hover-scale">
-            </a>
-            <div class="image-caption">
-                <div class="first-row">字体设计</div>
-                <div class="second-row">
-                    <a href="#" target="_blank" class="hover-color">床前明月光疑是地上霜</a>
-                </div>
-            </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 字造导航. All rights reserved.</p>
         </div>
-    </div>
-    <!-- 复制的精选推荐文字 -->
-    <div class="second-recommended-text">精选推荐</div>
-    <!-- 四张图片容器 -->
-    <div class="four-images-gallery">
-        <a href="#" target="_blank">
-            <img src="index-image/image4.png" alt="图片4，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image5.png" alt="图片5，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image6.png" alt="图片6，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image7.png" alt="图片7，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image8.png" alt="图片8，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image4.png" alt="图片4，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image5.png" alt="图片5，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image6.png" alt="图片6，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image7.png" alt="图片7，展示相关内容" class="hover-scale">
-        </a>
-        <a href="#" target="_blank">
-            <img src="index-image/image8.png" alt="图片8，展示相关内容" class="hover-scale">
-        </a>
+    </footer>
+
+</body>
+
+</html>

@@ -1,50 +1,86 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="index.ico" type="image/x-icon">
-    <title>字体定制服务请联系</title>
+
+    <!-- SEO 优化 -->
+    <title>字造产品展示 - 你的关键词</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
+
+    <!-- 社交媒体优化 (Open Graph) -->
+    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+
+    <!-- 网站图标 -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- 结构化数据标记 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "作品标题",
+      "image": "URL_TO_YOUR_IMAGE",
+      "description": "作品的详细描述",
+      "author": {
+        "@type": "Person",
+        "name": "Zizao Thye"
+      }
+    }
+    </script>
+
     <style>
         /* 全局样式 */
         body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
         }
 
-        /* 导航栏样式 */
+        /* 容器样式 */
+        .container {
+            width: 80%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+            text-align: left;
+        }
+
+        /* 头部导航栏样式 */
         header {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: #f5f5f7;
             backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 44px;
+            height: 66px;
+            padding: 0 10%;
             position: relative;
             z-index: 3;
             transition: background-color 0.3s ease;
-            padding: 0 200px;
         }
 
         header:hover {
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: #e8e8ea;
         }
 
         .logo {
             margin-right: 20px;
-            transition: transform 0.3s ease;
         }
 
         .logo a img {
             display: block;
-        }
-
-        .logo:hover {
-            transform: scale(1.1);
+            max-width: 100%;
+            height: auto;
         }
 
         nav ul {
@@ -55,25 +91,20 @@
         }
 
         nav > ul > li {
-            margin: 0 20px;
+            margin: 0 15px;
             position: relative;
         }
 
         nav > ul > li > a {
-            color: #d6d6d6;
+            color: #333;
             text-decoration: none;
-            font-size: 12px;
-            position: relative;
-            display: block;
+            font-size: 15px;
             padding: 10px 0;
+            display: block;
+            position: relative;
             transition: color 0.3s ease;
         }
 
-        nav > ul > li > a:hover {
-            color: #fff;
-        }
-
-        /* 导航栏一级链接下划线动画 */
         nav > ul > li > a::after {
             content: "";
             position: absolute;
@@ -81,7 +112,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: #fff;
+            background-color: #000;
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.3s ease;
@@ -92,12 +123,25 @@
             transform-origin: bottom left;
         }
 
-        /* 子菜单样式 */
+        .toggle-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            color: #000;
+        }
+
         nav ul li ul {
             display: none;
             position: absolute;
             top: 100%;
-            left: -20px;
+            left: -15px;
             background-color: #fff;
             min-width: 200px;
             border-radius: 0 0 10px 10px;
@@ -123,10 +167,10 @@
         nav ul li ul li a {
             color: #333;
             padding: 12px 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 13px;
             display: block;
             text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         nav ul li ul li a:hover {
@@ -134,161 +178,272 @@
             color: #0070c9;
         }
 
-        /* 折叠按钮样式 */
-        .toggle-button {
-            display: none;
-            background: none;
-            border: none;
-            color: #d6d6d6;
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .toggle-button:hover {
-            color: #fff;
-        }
-
-        /* 嵌入网页容器样式 */
-        .iframe-container {
-            flex: 1;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .iframe-container iframe {
-            position: absolute;
-            top: -125px; /* 隐藏顶部 100px 的内容 */
-            bottom: -400px; /* 隐藏底部 100px 的内容 */
-            width: 100%;
-            height: calc(100% + 500px); /* 增加高度以补偿隐藏的部分 */
-            border: none;
-        }
-
-        /* 媒体查询，当屏幕宽度小于600px时 */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             header {
-                padding: 0 10px;
+                padding: 0 20px;
             }
 
             nav ul {
                 display: none;
-                flex-direction: column;
                 position: absolute;
-                top: 44px;
+                top: 66px;
                 left: 0;
-                background-color: rgba(0, 0, 0, 0.8);
                 width: 100%;
+                background-color: #f5f5f7;
+                flex-direction: column;
             }
 
             nav ul.show {
                 display: flex;
             }
 
-            nav ul li {
-                margin: 10px 20px;
+            nav > ul > li {
+                margin: 0;
+            }
+
+            nav > ul > li > a {
+                padding: 15px 20px;
+            }
+
+            nav ul li ul {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                display: none;
+            }
+
+            nav ul li.active ul {
+                display: block;
             }
 
             .toggle-button {
                 display: block;
             }
-
-            nav ul li ul {
-                position: static;
-                background-color: transparent;
-                box-shadow: none;
-                transform: none;
-                opacity: 1;
-                visibility: visible;
-                display: none;
-            }
-
-            nav ul li:hover ul {
-                display: block;
-            }
-
-            nav ul li ul li a {
-                color: #fff;
-            }
         }
 
-        /* 媒体查询，当屏幕宽度在601px - 768px之间时（平板） */
-        @media (min-width: 601px) and (max-width: 768px) {
-            header {
-                padding: 0 20px;
-            }
-
-            nav > ul > li {
-                margin: 0 10px;
-            }
-
-            nav > ul > li > a {
-                font-size: 10px;
-            }
+        /* 作品展示样式 */
+        .work-header {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
 
-        /* 媒体查询，当屏幕宽度在769px - 992px之间时（小桌面） */
-        @media (min-width: 769px) and (max-width: 992px) {
-            header {
-                padding: 0 50px;
-            }
-
-            nav > ul > li {
-                margin: 0 15px;
-            }
+        .work-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #222;
         }
 
-        /* 媒体查询，当屏幕宽度在993px - 1200px之间时（大桌面） */
-        @media (min-width: 993px) and (max-width: 1200px) {
-            header {
-                padding: 0 100px;
+        .work-info {
+            color: #888;
+            font-size: 1em;
+        }
+
+        .work-content {
+            margin-bottom: 50px; /* 增加底部外边距 */
+        }
+
+        .work-description {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .work-description p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .work-image {
+            /* display: flex;  移除 Flexbox 布局 */
+            /* flex-wrap: wrap;  移除 Flexbox 布局 */
+            /* justify-content: flex-start;  移除 Flexbox 布局 */
+        }
+
+        .work-image img {
+            width: 100%;
+            margin-bottom: 0;
+            border-radius: 0;
+            border: none;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        /* 底部导航栏样式 */
+        footer {
+            background-color: #f5f5f7;
+            color: #333;
+            text-align: center;
+            border-top: 1px solid #e8e8ea;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .footer-section {
+            width: 30%;
+            min-width: 200px;
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 50px;
+            box-sizing: border-box;
+        }
+
+        .footer-section h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 5px;
+        }
+
+        .footer-section a {
+            color: #0070c9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #003f8e;
+        }
+
+        .footer-bottom {
+            padding-top: 10px;
+            border-top: 1px solid #e8e8ea;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* 响应式底部导航栏 */
+        @media (max-width: 768px) {
+            .footer-container {
+                width: 90%;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-section {
+                width: 80%;
+                text-align: center;
+                padding-left: 0;
             }
         }
     </style>
+    <script>
+        function toggleNav() {
+            var navUl = document.getElementById("nav-ul");
+            navUl.classList.toggle("show");
+        }
+    </script>
 </head>
-
 <body>
-    <!-- 导航栏 -->
     <header>
         <div class="logo">
-            <!-- 将 logo 图片用 a 标签包裹，点击返回首页 -->
-            <a href="index.html">
+            <a href="index.html" aria-label="回到首页">
                 <img src="logo.png" alt="网站 logo">
             </a>
         </div>
-        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单">☰</button>
+        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单" aria-expanded="false">☰</button>
         <nav>
             <ul id="nav-ul">
                 <li><a href="index.html">首页</a></li>
-                <li><a href="fonts.html">字库产品</a>
+                <li><a href="fonts.html">字库产品</a></li>
+                <li><a href="bao.html">百宝库</a></li>
+                <li><a href="hao.html">字造导航</a></li>
+                <li><a href="more.html">更多</a>
                     <ul>
-                        <li><a href="">Z系列（基础字库）</a></li>
-                        <li><a href="">Δ系列（可变字体）</a></li>
-                        <li><a href="">Ω系列（典藏字体）</a></li>
+                        <li><a href="">近期发布</a></li>
+                        <li><a href="">表情包</a></li>
+                        <li><a href="">联系我们</a></li>
                     </ul>
-                </li>
-                <li><a href="bao.html">百宝库</a>
-                </li>
-                <li><a href="hao.html">字造导航</a>
-                </li>
-                <li><a href="more.html">更多服务</a>
                 </li>
             </ul>
         </nav>
     </header>
 
-    <!-- 嵌入网页容器 -->
-    <div class="iframe-container">
-        <iframe src="https://www.yuque.com/zizao/home/more"></iframe>
-    </div>
+    <main class="container">
+        <article class="work-header">
+            <h1 class="work-title">作品标题</h1>
+            <div class="work-info">
+                <span>BY：Zizao Thye</span>
+            </div>
+        </article>
 
-    <script>
-        function toggleNav() {
-            const navUl = document.getElementById('nav-ul');
-            navUl.classList.toggle('show');
-        }
-    </script>
+        <article class="work-content">
+            <div class="work-description">
+                <p>
+                    这里是作品的详细描述。你可以添加关于作品的创作过程、灵感来源、技术细节等信息。
+                    你可以使用多个段落来组织你的描述，使其更易于阅读。
+                    例如，你可以介绍作品的设计理念、使用的软件和工具、以及遇到的挑战和解决方案。
+                </p>
+                <p>
+                    这是作品描述的第二段。你可以继续添加更多内容，详细介绍你的作品。
+                </p>
+            </div>
+
+            <div class="work-image">
+                <img src="image1.jpg" alt="作品图片">
+                <img src="image1.jpg" alt="作品图片">
+                <img src="image1.jpg" alt="作品图片">
+                <img src="image1.jpg" alt="作品图片">
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>邮箱：example@email.com</p>
+                <p>电话：123-456-7890</p>
+            </div>
+            <div class="footer-section">
+                <h3>友情链接</h3>
+                <ul>
+                    <li><a href="#">链接1</a></li>
+                    <li><a href="#">链接2</a></li>
+                    <li><a href="#">链接3</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 字造. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
-
 </html>

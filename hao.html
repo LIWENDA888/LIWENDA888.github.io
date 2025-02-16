@@ -4,8 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="index.ico" type="image/x-icon">
-    <title>字造导航-设计师的灵感百宝库</title>
+
+    <!-- SEO 优化 -->
+    <title>字造导航 - 设计师的灵感百宝库</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
+
+    <!-- 社交媒体优化 (Open Graph) -->
+    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+
+    <!-- 网站图标 -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- 结构化数据标记 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "作品标题",
+      "image": "URL_TO_YOUR_IMAGE",
+      "description": "作品的详细描述",
+      "author": {
+        "@type": "Person",
+        "name": "Zizao Thye"
+      }
+    }
+    </script>
+
     <style>
         /* 全局样式 */
         body {
@@ -14,6 +44,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f8;
             color: #333;
+            
         }
 
         /* 公共样式 */
@@ -52,11 +83,11 @@
         }
 
         /* 导航栏 logo 样式 */
-        .logo {
+       .logo {
             margin-right: 20px;
         }
 
-        .logo a img {
+       .logo a img {
             display: block;
             max-width: 100%;
             height: auto;
@@ -70,12 +101,12 @@
             display: flex;
         }
 
-        nav>ul>li {
+        nav > ul > li {
             margin: 0 15px;
             position: relative;
         }
 
-        nav>ul>li>a {
+        nav > ul > li > a {
             color: #333;
             text-decoration: none;
             font-size: 15px;
@@ -85,7 +116,7 @@
             transition: color 0.3s ease;
         }
 
-        nav>ul>li>a::after {
+        nav > ul > li > a::after {
             content: "";
             position: absolute;
             width: 100%;
@@ -98,9 +129,24 @@
             transition: transform 0.3s ease;
         }
 
-        nav>ul>li>a:hover::after {
+        nav > ul > li > a:hover::after {
             transform: scaleX(1);
             transform-origin: bottom left;
+        }
+
+        /* 折叠按钮样式 */
+       .toggle-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+       .toggle-button:hover {
+            color: #000;
         }
 
         /* 子菜单样式 */
@@ -146,7 +192,7 @@
         }
 
         /* 折叠按钮样式 */
-        .toggle-button {
+       .toggle-button {
             display: none;
             background: none;
             border: none;
@@ -156,7 +202,7 @@
             transition: color 0.3s ease;
         }
 
-        .toggle-button:hover {
+       .toggle-button:hover {
             color: #000;
         }
 
@@ -180,11 +226,11 @@
                 display: flex;
             }
 
-            nav>ul>li {
+            nav > ul > li {
                 margin: 0;
             }
 
-            nav>ul>li>a {
+            nav > ul > li > a {
                 padding: 15px 20px;
             }
 
@@ -203,16 +249,114 @@
                 display: block;
             }
 
-            .toggle-button {
-                display: block; /* 确保按钮可见 */
-                background: none;
-                border: none;
-                color: #333;
-                font-size: 20px;
-                cursor: pointer;
-                transition: color 0.3s ease;
+           .toggle-button {
+                display: block;
             }
         }
+
+
+        /* 底部导航栏样式 */
+        footer {
+            background-color: #f5f5f7;
+            padding: 20px 10%;
+            color: #333;
+            text-align: center;
+            border-top: 1px solid #e8e8ea;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            width: 30%;
+            min-width: 200px;
+            margin-bottom: 20px;
+            text-align: left;
+            padding-left: 50px; /* 添加左内边距 */
+            }
+
+        .footer-section h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.6;
+            }
+
+        .footer-section ul {
+            list-style-type: none;
+            padding: 0;
+            }
+
+        .footer-section li {
+            margin-bottom: 5px;
+            }
+
+        .footer-section a {
+            color: #0070c9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            }
+
+        .footer-section a:hover {
+            color: #003f8e;
+            }
+
+        .footer-bottom {
+            padding-top: 10px;
+            border-top: 1px solid #e8e8ea;
+            }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: #666;
+            }
+
+         /* 响应式底部导航栏 */
+         @media (max-width: 768px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: center;
+                }
+
+         .footer-section {
+            width: 80%;
+            text-align: center;
+            }
+        }
+
+         /* 弹窗样式 */
+         
+         #popup {
+            display: none; /* 初始状态隐藏弹窗 */
+            position: fixed; /* 固定定位，不随页面滚动 */
+            bottom: 20px; /* 距离页面底部  */
+            right: 20px; /* 距离页面右侧  */
+            width: 200px; /* 弹窗宽度 */
+            background-color: #fff; /* 白色背景 */
+            border: 1px solid #ccc; /* 灰色边框，1px 粗细 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 阴影效果：水平偏移 0，垂直偏移 2px，模糊半径 5px，颜色为黑色，透明度 0.2 */
+            padding: 20px; /* 内边距，内容与边框的距离为 20px */
+            border-radius: 30px; /* 圆角，半径为 5px */
+            z-index: 1000; /* z-index 属性，确保弹窗在其他元素之上显示 */
+        }
+
+        #closePopup {
+         position: absolute;/* 绝对定位，相对于其包含块（#popup） */
+         top: 5px; /* 距离包含块顶部 5px */
+         right: 5px; /* 距离包含块右侧 5px */
+         background: none; /* 无背景色 */
+         border: none; /* 无边框 */
+         cursor: pointer; /* 鼠标悬停时显示为手型，表示可点击 */
+         font-size: 16px; /* 字体大小 16px */
+        }
+
 
         /* 左侧目录样式 */
         .sidebar {
@@ -220,13 +364,14 @@
             top: 66px;
             /* Adjusted to be below the header */
             left: 40px;
-            width: 150px;
-            height: calc(100vh - 66px);      
+            width: 120px;
+            height: calc(100vh - 66px);
             overflow-y: auto;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 120px; /* 向下偏移*/
         }
 
         .sidebar ul {
@@ -245,27 +390,19 @@
             color: #555;
             text-decoration: none;
             transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 14px;
+            font-size: 13px;
             padding: 8px;
             border-radius: 5px;
             display: block;
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            /* 添加阴影 */
+            background-color: #f8f9fa; /* 默认背景色 */
         }
-        /*
 
-        .sidebar a:hover,
-        .sidebar a.active {
-            color: #fff;
-            background-color: #000000;
+        .sidebar a:hover {
+            background-color: black; /* 鼠标悬停时的背景色 */
+            color: white; /* 鼠标悬停时的文字颜色 */
         }
-        */
-
-        .sidebar a:not(:hover):not(.active) {
-            background-color: #f8f9fa;
-            /* Even lighter gray */
-            color: #555;
-        }
-        
 
         /* 网址导航样式 */
         .nav-container {
@@ -356,7 +493,7 @@
         .search-container {
             background-color: #f5f5f7;
             backdrop-filter: blur(20px);
-            padding: 20px 10%;
+            padding: 50px 10% 20px 10%;
             display: flex;
             flex-direction: column;
             /* 垂直排列 */
@@ -415,8 +552,8 @@
         }
 
         @media (max-width: 768px) {
-            .search-input {
-                 width: 300px; /* 缩小后的宽度 */
+        .search-input {
+            width: 300px; /* 缩小后的宽度 */
             }
         }
 
@@ -487,6 +624,17 @@
      </style>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.querySelector('.toggle-button');
+            const navUl = document.getElementById('nav-ul');
+
+            if (toggleButton && navUl) {
+                toggleButton.addEventListener('click', function() {
+                    navUl.classList.toggle('show');
+                });
+            }
+        });
+
         // 搜索功能
         let currentSearchEngine = 'https://www.baidu.com/s?wd='; // 默认搜索引擎
         let searchEngines = {
@@ -608,25 +756,55 @@
 
 </head>
 
-<body>
-    <!-- 导航栏 -->
+
     <header>
         <div class="logo">
+            <!-- 将 logo 图片用 a 标签包裹，点击返回首页 -->
             <a href="index.html">
-                <img src="logo.png" alt="网站 logo" class="hover-scale">
+                <img src="logo.png" alt="网站 logo">
             </a>
         </div>
-        <button class="toggle-button" aria-label="切换导航菜单">☰</button>
+        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单">☰</button>
         <nav>
             <ul id="nav-ul">
-                <li><a href="index.html" class="hover-color">首页</a></li>
-                <li><a href="fonts.html" class="hover-color">字库产品</a></li>
-                <li><a href="bao.html" class="hover-color">百宝库</a></li>
-                <li><a href="hao.html" class="hover-color">字造导航</a></li>
-                <li><a href="more.html" class="hover-color">更多服务</a></li>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="fonts.html">字库产品</a></li>
+                <li><a href="bao.html">百宝库</a></li>
+                <li><a href="hao.html">字造导航</a></li>
+                <li><a href="more.html">更多</a>
+                    <ul>
+                        <li><a href="">近期发布</a></li>
+                        <li><a href="">表情包</a></li>
+                        <li><a href="">联系我们</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>
+
+        <!-- 弹窗 -->
+    <div id="popup" style="display: none; position: fixed; bottom: 20px; right: 20px; width: 300px; background-color: #fff; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 5px; z-index: 1000;">
+        <button id="closePopup" style="position: absolute; top: 5px; right: 5px; background: none; border: none; cursor: pointer; font-size: 16px;">×</button>
+        <h3>欢迎来到字造导航！</h3>
+        <p>这里有丰富的灵感和资源，祝您使用愉快！</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('popup');
+            const closeButton = document.getElementById('closePopup');
+
+            // 显示弹窗
+            setTimeout(function() {
+                popup.style.display = 'block';
+            }, 2000); // 2秒后显示
+
+            // 关闭弹窗
+            closeButton.addEventListener('click', function() {
+                popup.style.display = 'none';
+            });
+        });
+    </script>
 
     <!-- 搜索框 -->
     <div class="search-container">
@@ -659,7 +837,6 @@
     <!-- 左侧目录 -->
     <div class="sidebar">
         <ul>
-            <br><br>
             <li><a href="#zizaohao1" class="hover-scale">精选推荐</a></li>
             <li><a href="#zizaohao2" class="hover-scale">灵感创意</a></li>
             <li><a href="#zizaohao3" class="hover-scale">字体设计</a></li>
@@ -1778,45 +1955,45 @@
                     </div>
                 </li>
                 <li>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.heropatterns.com/')">
+                        <a href="http://www.heropatterns.com/" target="_blank" onclick="event.stopPropagation()">Heropatterns</a>
+                        <p>纹理颇有质感特别大气的材质贴图</p>
+                    </div>
+                </li>
+                <li>
                     <div class="website-block" onclick="goToWebsite(event, 'http://texturer.com/')">
-                        <a href="http://texturer.com/" target="_blank" onclick="event.stopPropagation()">Heropatterns</a>
+                        <a href="http://texturer.com/" target="_blank" onclick="event.stopPropagation()">Texture</a>
                         <p>数十类精品免费真实纹理背景素材</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">Texture</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.textureking.com/')">
+                        <a href="https://www.textureking.com/" target="_blank" onclick="event.stopPropagation()">Textureking</a>
+                        <p>多种精品酷炫效果自然纹理</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://patternico.com/')">
+                        <a href="http://patternico.com/" target="_blank" onclick="event.stopPropagation()">Patternico</a>
+                        <p>可以上传自己酷炫的作品，互动性较强</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://patternico.com/emoji/')">
+                        <a href="https://patternico.com/emoji/" target="_blank" onclick="event.stopPropagation()">Patternico</a>
+                        <p>自选图标以生成好看的背景图</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.toptal.com/designers/subtlepatterns/')">
+                        <a href="https://www.toptal.com/designers/subtlepatterns/" target="_blank" onclick="event.stopPropagation()">Toptal</a>
+                        <p>纹理背景简约，适合古风类型</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.transparenttextures.com/')">
+                        <a href="https://www.transparenttextures.com/" target="_blank" onclick="event.stopPropagation()">Transpare</a>
+                        <p>根据色彩选择精美纹理背景</p>
                     </div>
                 </li>
             </ul>
@@ -1824,51 +2001,51 @@
             <br><h4>图标EMOJI</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.iconfont.cn')">
+                        <a href="http://www.iconfont.cn" target="_blank" onclick="event.stopPropagation()">Iconfont</a>
+                        <p>由阿里巴巴打造的矢量图标交流平台</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.iconsdb.com/')">
+                        <a href="https://www.iconsdb.com/" target="_blank" onclick="event.stopPropagation()">Iconsdb</a>
+                        <p>目前拥有4000多个图标的免费图标库</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.iconfinder.com/')">
+                        <a href="https://www.iconfinder.com/" target="_blank" onclick="event.stopPropagation()">Iconfinder</a>
+                        <p>世界上前几大免费设计图标搜索引擎</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://yesicon.app/')">
+                        <a href="https://yesicon.app/" target="_blank" onclick="event.stopPropagation()">Yesicon</a>
+                        <p>免费的图标库，直接就能下载</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://iconmonstr.com/')">
+                        <a href="https://iconmonstr.com/" target="_blank" onclick="event.stopPropagation()">Iconmonstr</a>
+                        <p>提供大量黑白图标的素材站</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://pluspng.com/')">
+                        <a href="https://pluspng.com/" target="_blank" onclick="event.stopPropagation()">PLUSPNG</a>
+                        <p>专注于全球图标收集的网站提供下载</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.materialui.co/icons')">
+                        <a href="https://www.materialui.co/icons" target="_blank" onclick="event.stopPropagation()">Materialui</a>
+                        <p>搜索框快速搜索面性风格和线性风格</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.webalys.com/nova/')">
+                        <a href="https://www.webalys.com/nova/" target="_blank" onclick="event.stopPropagation()">Webalys</a>
+                        <p>数量十分齐全每个图标都可选择风格</p>
                     </div>
                 </li>
             </ul>
@@ -1876,57 +2053,57 @@
             <br><h4>PPT模板</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.pptstore.net/')">
+                        <a href="https://www.pptstore.net/" target="_blank" onclick="event.stopPropagation()">Pptstore</a>
+                        <p>国内高质量原创设计模板</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.1ppt.com/')">
+                        <a href="http://www.1ppt.com/" target="_blank" onclick="event.stopPropagation()">1ppt</a>
+                        <p>网站颜值不高，但是内容免费下载</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://slidemodel.com/')">
+                        <a href="https://slidemodel.com/" target="_blank" onclick="event.stopPropagation()">Slidemodel</a>
+                        <p>每周提供150个ppt模板免费下载</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://graphicriver.net/presentation-templates')">
+                        <a href="https://graphicriver.net/presentation-templates" target="_blank" onclick="event.stopPropagation()">Graphicriver</a>
+                        <p>全球最高设计水平的PPT模板站</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://slidehunter.com/')">
+                        <a href="https://slidehunter.com/" target="_blank" onclick="event.stopPropagation()">Slidehunter</a>
+                        <p>免费ppt模板网站，还提供3D类型的</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.presentationload.com/')">
+                        <a href="https://www.presentationload.com/" target="_blank" onclick="event.stopPropagation()">Presentationload</a>
+                        <p>欧洲的收费网站，简约之美+商务之美</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.presentationmagazine.com/')">
+                        <a href="https://www.presentationmagazine.com/" target="_blank" onclick="event.stopPropagation()">Magazine</a>
+                        <p>网站模板大部分的模板可以免费使用</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://justfreeslide.com/')">
+                        <a href="https://justfreeslide.com/" target="_blank" onclick="event.stopPropagation()">Justfreeslide</a>
+                        <p>免费资源需要分享获取下载链接</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.officeplus.cn/Template/Home.shtml')">
+                        <a href="http://www.officeplus.cn/Template/Home.shtml" target="_blank" onclick="event.stopPropagation()">Officeplus</a>
+                        <p>微软Office官方在线模板网站</p>
                     </div>
                 </li>
             </ul>
@@ -1934,51 +2111,51 @@
             <br><h4>PS笔刷</h4>
             <ul>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.brushlovers.com/tag/brush')">
+                        <a href="https://www.brushlovers.com/tag/brush" target="_blank" onclick="event.stopPropagation()">Brushlovers</a>
+                        <p>比较全面的PS资源网站集合</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://myphotoshopbrushes.com/')">
+                        <a href="https://myphotoshopbrushes.com/" target="_blank" onclick="event.stopPropagation()">Brushes</a>
+                        <p>简洁的搜索菜单方便进行过滤</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.brushking.eu/')">
+                        <a href="https://www.brushking.eu/" target="_blank" onclick="event.stopPropagation()">Brushking</a>
+                        <p>根据分类轻松找需要的笔刷</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://qbrushes.net/')">
+                        <a href="https://qbrushes.net/" target="_blank" onclick="event.stopPropagation()">Qbrushes</a>
+                        <p>提供分类查找到笔刷类型</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://www.brusheezy.com/brushes')">
+                        <a href="https://www.brusheezy.com/brushes" target="_blank" onclick="event.stopPropagation()">Brusheezy</a>
+                        <p>根据PS版本进行过滤分类笔刷</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://www.chezplumeau.com')">
+                        <a href="http://www.chezplumeau.com" target="_blank" onclick="event.stopPropagation()">Chezplumeau</a>
+                        <p>发现寻找具有特定主题的笔刷</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'http://wowbrushes.com/')">
+                        <a href="http://wowbrushes.com/" target="_blank" onclick="event.stopPropagation()">Wowbrushes</a>
+                        <p>网站提供各种高质量的笔刷笔触下载</p>
                     </div>
                 </li>
                 <li>
-                    <div class="website-block" onclick="goToWebsite(event, 'https://www.fontspace.com')">
-                        <a href="https://www.fontspace.com" target="_blank" onclick="event.stopPropagation()">多字重字体</a>
-                        <p>【推荐】12款可商用字体打包下载</p>
+                    <div class="website-block" onclick="goToWebsite(event, 'https://photoshoproadmap.com/')">
+                        <a href="https://photoshoproadmap.com/" target="_blank" onclick="event.stopPropagation()">Photoshoproadmap</a>
+                        <p>大量独特的优质Photoshop笔刷集合</p>
                     </div>
                 </li>
             </ul>
@@ -2637,6 +2814,35 @@
         </div>
 
     </div>
+
+        </div>
+
+    <!-- 底部导航栏 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>邮箱：example@email.com</p>
+                <p>电话：123-456-7890</p>
+            </div>
+            <div class="footer-section">
+                <h3>友情链接</h3>
+                <ul>
+                    <li><a href="#">链接1</a></li>
+                    <li><a href="#">链接2</a></li>
+                    <li><a href="#">链接3</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 字造导航. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 
 </html>
