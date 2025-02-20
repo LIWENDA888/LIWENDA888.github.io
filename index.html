@@ -4,917 +4,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO 优化 -->
-    <title>字造 - 始终如一的创造</title>
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
-    <meta name="author" content="字造">
-
-    <!-- 社交媒体优化 (Open Graph) -->
-    <meta property="og:title" content="字造产品展示 - 你的关键词">
-    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
-    <meta property="og:url" content="URL_TO_YOUR_PAGE">
-    <meta property="og:type" content="website">
-
-    <!-- 网站图标 -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <!-- 结构化数据标记 (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": "作品标题",
-        "image": "URL_TO_YOUR_IMAGE",
-        "description": "作品的详细描述",
-        "author": {
-            "@type": "Person",
-            "name": "Zizao Thye"
-        }
-    }
-    </script>
-
+    <title>ΖΔΩ Type | 赛博字体实验室</title>
     <style>
-    /* 全局样式 */
-    body {
-        margin: 0;
-        font-family: sans-serif;
-        /* 确保内容不贴边 */
-    }
-
-    /* 头部导航栏样式 */
-    header {
-        background-color: #f5f5f7;
-        backdrop-filter: blur(20px);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 66px;
-        padding: 0 10%;
-        /* 关键：改为 fixed 定位 */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 100;
-        /* 确保在最上层 */
-        transition: background-color 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        /* 添加阴影 */
-    }
-    nav {
-    /* 关键：添加 margin-right 调整导航栏整体位置 */
-    margin-right: 20%; /* 调整数值以达到你想要的效果 */
-}
-
-    header:hover {
-        background-color: #e8e8ea;
-    }
-
-    .logo {
-        margin-right: 20px;
-    }
-
-    .logo a img {
-        display: block;
-        max-width: 100%;
-        height: auto;
-    }
-
-    nav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-    }
-
-    nav>ul>li {
-        margin: 0 15px;
-        position: relative;
-    }
-
-    nav>ul>li>a {
-        color: #333;
-        text-decoration: none;
-        font-size: 15px;
-        padding: 10px 0;
-        display: block;
-        position: relative;
-        transition: color 0.3s ease;
-    }
-
-    nav>ul>li>a::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        bottom: 0;
-        left: 0;
-        background-color: #000;
-        transform: scaleX(0);
-        transform-origin: bottom right;
-        transition: transform 0.3s ease;
-    }
-
-    nav>ul>li>a:hover::after {
-        transform: scaleX(1);
-        transform-origin: bottom left;
-    }
-
-    .toggle-button {
-        display: none;
-        background: none;
-        border: none;
-        color: #333;
-        font-size: 20px;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
-
-    .toggle-button:hover {
-        color: #000;
-    }
-
-    nav ul li ul {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: -15px;
-        background-color: #fff;
-        min-width: 200px;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        z-index: 4;
-    }
-
-    nav ul li:hover ul {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    nav ul li ul li {
-        margin: 0;
-    }
-
-    nav ul li ul li a {
-        color: #333;
-        padding: 12px 20px;
-        display: block;
-        text-decoration: none;
-        font-size: 13px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    nav ul li ul li a:hover {
-        background-color: #f5f5f5;
-        color: #0070c9;
-    }
-
-    @media (max-width: 768px) {
-        header {
-            padding: 0 20px;
+        /* CSS Reset (Simplified) */
+        html {
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
-        nav ul {
-            display: none;
-            position: absolute;
-            top: 66px;
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ol,
+        ul {
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+        }
+
+        ol,
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Variables */
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --matrix-green: #0f0;
+            --dark-bg: #000;
+            --text-color: #fff;
+            --accent-color: var(--neon-blue);
+            --grid-spacing: 20px;
+        }
+
+        /* General Styles */
+        body {
+            background: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover,
+        a:focus {
+            color: var(--neon-pink);
+            outline: none;
+        }
+
+        /* Dynamic Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-            background-color: #f5f5f7;
-            flex-direction: column;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: var(--grid-spacing) var(--grid-spacing);
+            /* Use CSS variables for background size */
+            transition: background-image 0.5s ease;
+            pointer-events: none;
+            /* Prevent interaction */
         }
 
-        nav ul.show {
+        /* Neon Cursor Trail (Simplified with CSS) */
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            mix-blend-mode: screen;
+            pointer-events: none;
+            /* Prevent interaction */
+            animation: trail 0.3s linear forwards;
+            z-index: 9999;
+            /* Ensure it's on top */
+        }
+
+        @keyframes trail {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Main Content */
+        .hero {
+            height: 100vh;
             display: flex;
-        }
-
-        nav>ul>li {
-            margin: 0;
-        }
-
-        nav>ul>li>a {
-            padding: 15px 20px;
-        }
-
-        nav ul li ul {
-            position: static;
-            width: 100%;
-            box-shadow: none;
-            border-radius: 0;
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            display: none;
-        }
-
-        nav ul li.active ul {
-            display: block;
-        }
-
-        .toggle-button {
-            display: block;
-        }
-    }
-
-    /* 大图区域样式 */
-    .hero {
-        width: 100%;
-        height: 50vh;
-        overflow: hidden;
-        position: relative;
-        /* 关键：增加上边距，防止被导航栏覆盖 */
-        margin-top: 66px;
-        /* 导航栏的高度 */
-    }
-
-    .hero img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .hero-content {
-        position: absolute;
-        bottom: 5%;
-        left: 10%;
-        color: white;
-        transform: scale(0.9);
-    }
-
-    .hero-title {
-        font-size: clamp(2vw, 3vw, 40px);
-        margin-bottom: 1%;
-        transition: font-size 0.3s ease;
-    }
-
-    .hero-description {
-        font-size: clamp(1vw, 1.5vw, 20px);
-        margin-bottom: 3%;
-        transition: font-size 0.3s ease;
-    }
-
-    .hero-buttons {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .hero-button {
-        padding: 0.7vw 1.4vw;
-        border: none;
-        border-radius: 5px;
-        font-size: clamp(0.8vw, 1.2vw, 16px);
-        cursor: pointer;
-        margin-right: 1vw;
-        margin-bottom: 1vw;
-        text-decoration: none;
-        color: black;
-        transition: background-color 0.3s ease, font-size 0.3s ease, padding 0.3s ease;
-        display: inline-block;
-    }
-
-    .hero-button-white {
-        background-color: white;
-    }
-
-    .hero-button-red {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    .hero-button:hover {
-        background-color: rgba(255, 255, 255, 0.8);
-        color: black;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .hero-button-red:hover {
-        background-color: rgba(220, 53, 69, 0.8);
-        color: white;
-    }
-
-    /* 内容区域样式 */
-    .content {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 50px 0;
-    }
-
-    .image-container {
-        width: 90%;
-        max-width: 1200px;
-        display: flex;
-        justify-content: space-around;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        margin: 0 auto;
-    }
-
-    .image-wrapper {
-        width: calc(33.33% - 20px);
-        text-align: left;
-        overflow: hidden;
-        margin-bottom: 20px;
-        transition: width 0.3s ease;
-    }
-
-    .image-link {
-        display: block;
-        border-radius: 10px;
-        /* 添加圆角 */
-        overflow: hidden;
-        /* 确保圆角生效 */
-        transition: transform 0.3s ease;
-    }
-
-    .image-link img {
-        width: 100%;
-        height: auto;
-        display: block;
-        aspect-ratio: 1.5 / 1;
-        /* 修改为 1:1.5 的横图 */
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .image-link:hover img {
-        transform: scale(1.1);
-        /* 悬浮时放大 */
-    }
-
-    .image-description {
-        margin-top: 10px;
-        margin-bottom: 5px;
-        font-size: 0.8em;
-    }
-
-    .image-title-link {
-        text-decoration: none;
-        color: inherit;
-        font-size: 1.2em;
-        font-weight: bold;
-        display: block;
-        transition: color 0.3s ease;
-    }
-
-    .image-title-link:hover {
-        color: #007bff;
-    }
-
-    /* 字体详情区域样式 */
-    .font-details {
-        width: 100%;
-        padding: 50px 0;
-    }
-
-    .font-details-container {
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .font-details-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-        padding-bottom: 30px;
-        border-bottom: 1px solid #eee;
-    }
-
-    /* 移除最后一个分割线 */
-    .font-details-section:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-
-    .font-details-section-left {
-        width: 55%;
-        text-align: left;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .font-details-section-right {
-        width: 40%;
-        text-align: center;
-    }
-
-    .font-details h2 {
-        font-size: 2em;
-        margin-bottom: 20px;
-        color: #343a40;
-    }
-
-    .font-details h3 {
-        font-size: 1.5em;
-        margin-top: 30px;
-        margin-bottom: 10px;
-        color: #343a40;
-    }
-
-    .font-details p {
-        font-size: 1.1em;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        color: #495057;
-    }
-
-    .font-details ul {
-        list-style: disc;
-        margin-left: 20px;
-        margin-bottom: 20px;
-    }
-
-    .font-details li {
-        font-size: 1.1em;
-        line-height: 1.6;
-        color: #495057;
-    }
-
-    .font-details a {
-        color: #007bff;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .font-details a:hover {
-        text-decoration: underline;
-        color: #0056b3;
-    }
-
-    /* 字体示例图片样式 */
-    .font-details-section-right img,
-    .font-details-section-left img {
-        width: 100%;
-        max-width: 300px;
-        /* 限制图片最大宽度 */
-        height: auto;
-        display: block;
-        margin: 0 auto;
-        object-fit: cover;
-        /* 保证图片不变形 */
-        aspect-ratio: 1.5 / 1;
-        /* 修改为 1:1.5 的横图 */
-        border-radius: 10px;
-        /* 添加圆角 */
-        transition: transform 0.3s ease;
-        /* 添加过渡效果 */
-    }
-
-    .font-details-section-right:hover img,
-    .font-details-section-left:hover img {
-        transform: scale(1.1);
-        /* 悬浮时放大 */
-    }
-
-    /* 修改技术特点和应用场景的布局 */
-    .font-details-section:nth-child(3),
-    .font-details-section:nth-child(5) {
-        flex-direction: row-reverse;
-        /* 图片在右边 */
-    }
-
-    .font-details-section:nth-child(3) .font-details-section-left,
-    .font-details-section:nth-child(5) .font-details-section-left {
-        align-items: flex-start;
-        /* 文字左对齐 */
-    }
-
-    .font-details-section:nth-child(3) .font-details-section-right,
-    .font-details-section:nth-child(5) .font-details-section-right {
-        width: 40%;
-        /* 确保图片容器宽度 */
-    }
-
-    /*  增加图片和文字的间距 */
-    .font-details-section-left h2,
-    .font-details-section-left h3 {
-        margin-top: 40px;
-        /* 增加标题上方的间距 */
-    }
-
-    .font-details-section-left p,
-    .font-details-section-left ul {
-        margin-top: 20px;
-        /* 增加段落和列表上方的间距 */
-    }
-
-    /* 媒体查询 - 小屏幕设备 (例如手机) */
-    @media (max-width: 768px) {
-        .image-wrapper {
-            width: 100%;
-        }
-
-        .hero-title {
-            font-size: 7vw;
-        }
-
-        .hero-description {
-            font-size: 3vw;
-        }
-
-        .font-details-section {
-            flex-direction: column;
             align-items: center;
-        }
-
-        .font-details-section-left {
-            width: 100%;
+            padding: 0 5%;
+            perspective: 1000px;
+            justify-content: center;
+            /* Center content horizontally */
             text-align: center;
-            align-items: center;
-            /* 居中对齐 */
+            /* Center text within the hero */
         }
 
-        .font-details-section-right {
-            width: 100%;
-            text-align: center;
+        .hero h1 {
+            font-size: 4rem;
+            /* Adjusted for smaller screens */
+            line-height: 1.1;
+            position: relative;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-float 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.3);
+            transition: font-size 0.3s ease; /* 添加过渡效果 */
         }
 
-        .font-details-section-right img,
-        .font-details-section-left img {
-            max-width: 300px;
+        /* Font Cards */
+        .showcase {
+            padding: 3rem 5%;
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(3, minmax(280px, 1fr));
+            /* Adjusted minmax for better responsiveness */
+            justify-content: center;
+            /* Center the cards */
+            transition: grid-template-columns 0.3s ease; /* 添加过渡效果 */
         }
 
-        /* 手机上恢复默认布局 */
-        .font-details-section:nth-child(3),
-        .font-details-section:nth-child(5) {
-            flex-direction: column;
+        .font-card {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1.5rem;
+            border: 1px solid var(--neon-blue);
+            transform-style: preserve-3d;
+            transition: transform 0.5s, box-shadow 0.5s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .font-details-section:nth-child(3) .font-details-section-left,
-        .font-details-section:nth-child(5) .font-details-section-left {
-            align-items: center;
-            text-align: center;
-        }
-    }
-
-    /* 媒体查询 - 中等屏幕设备 (例如平板电脑) */
-    @media (min-width: 769px) and (max-width: 1024px) {
-        .hero-title {
-            font-size: 5vw;
+        .font-card:hover,
+        .font-card:focus {
+            transform: rotateX(10deg) rotateY(10deg) translateZ(20px);
+            box-shadow: 0 0 30px var(--neon-blue), 0 0 60px var(--neon-pink);
+            outline: none;
         }
 
-        .hero-description {
-            font-size: 2vw;
-        }
-    }
-
-    /* 媒体查询 - 大屏幕设备 (例如电脑) */
-    @media (min-width: 1025px) {
-        .hero-title {
-            font-size: 2.5vw;
-        }
-
-        .hero-description {
-            font-size: 1.2vw;
+        .font-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, var(--neon-blue), transparent 30%);
+            animation: rotate 4s linear infinite;
         }
 
-        .hero-button {
-            padding: 0.3vw 0.6vw;
-            font-size: 1vw;
+        .font-card h3 {
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .hero-content {
-            left: 8%;
-        }
-    }
-
-    /*  新增样式  */
-    .font-details-section-about {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 30px;
-        padding-bottom: 30px;
-        border-top: 1px solid #eee;
-        /* 添加顶部分割线 */
-        border-bottom: 1px solid #eee;
-        text-align: center;
-        flex-direction: column;
-    }
-
-    .font-details-section-about h2,
-    .font-details-section-about p {
-        text-align: center;
-    }
-
-    /* 增加间距 */
-    .font-details-section-about p {
-        margin-top: 30px;
-        /* 增加段落上方的间距 */
-    }
-
-    .font-details-section {
-        margin-top: 30px;
-        /* 减少每个 section 上方的间距 */
-    }
-
-    /* 对齐图片和标题 */
-    .font-details-section:nth-child(3) .font-details-section-right,
-    .font-details-section:nth-child(5) .font-details-section-right {
-        display: flex;
-        justify-content: flex-start;
-        /* 关键：左对齐 */
-    }
-
-    .font-details-section:nth-child(3) .font-details-section-right img,
-    .font-details-section:nth-child(5) .font-details-section-right img {
-        margin-left: 0;
-        /* 移除图片默认的居中 */
-    }
-
-    /* 底部导航栏样式 */
-    footer {
-        background-color: #f5f5f7;
-        padding: 20px 10%;
-        color: #333;
-        text-align: center;
-        border-top: 1px solid #e8e8ea;
-    }
-
-    .footer-container {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-    }
-
-    .footer-section {
-        width: 30%;
-        min-width: 200px;
-        margin-bottom: 20px;
-        text-align: left;
-        padding-left: 50px;
-        /* 添加左内边距 */
-    }
-
-    .footer-section h3 {
-        font-size: 16px;
-        margin-bottom: 10px;
-    }
-
-    .footer-section p {
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    .footer-section ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .footer-section li {
-        margin-bottom: 5px;
-    }
-
-    .footer-section a {
-        color: #0070c9;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .footer-section a:hover {
-        color: #003f8e;
-    }
-
-    .footer-bottom {
-        padding-top: 10px;
-        border-top: 1px solid #e8e8ea;
-    }
-
-    .footer-bottom p {
-        font-size: 12px;
-        color: #666;
-    }
-
-    /* 响应式底部导航栏 */
-    @media (max-width: 768px) {
-        .footer-container {
-            flex-direction: column;
-            align-items: center;
+        .font-card p {
+            color: var(--neon-pink);
+            font-size: 0.9rem;
         }
 
-        .footer-section {
-            width: 80%;
-            text-align: center;
+        .font-card .preview {
+            margin: 1rem 0;
         }
-    }
+
+        /* Animations */
+        @keyframes text-float {
+            0%,
+            100% {
+                transform: translateY(0) rotateX(0) rotateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            }
+        }
+
+        @keyframes scanline {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                color: var(--neon-blue);
+            }
+
+            50% {
+                transform: scale(1.2);
+                color: var(--neon-pink);
+            }
+
+            100% {
+                transform: scale(1);
+                color: var(--neon-blue);
+            }
+        }
+
+        @keyframes glitch {
+            0% {
+                clip: rect(44px, auto, 94px, auto);
+            }
+
+            5% {
+                clip: rect(1px, auto, 42px, auto);
+            }
+
+            10% {
+                clip: rect(41px, auto, 64px, auto);
+            }
+
+            15% {
+                clip: rect(41px, auto, 14px, auto);
+            }
+
+            20% {
+                clip: rect(100px, auto, 78px, auto);
+            }
+
+            25% {
+                clip: rect(48px, auto, 10px, auto);
+            }
+
+            30% {
+                clip: rect(38px, auto, 100px, auto);
+            }
+
+            35% {
+                clip: rect(89px, auto, 63px, auto);
+            }
+
+            40% {
+                clip: rect(29px, auto, 75px, auto);
+            }
+
+            45% {
+                clip: rect(63px, auto, 97px, auto);
+            }
+
+            50% {
+                clip: rect(25px, auto, 43px, auto);
+            }
+
+            55% {
+                clip: rect(75px, auto, 70px, auto);
+            }
+
+            60% {
+                clip: rect(35px, auto, 99px, auto);
+            }
+
+            65% {
+                clip: rect(9px, auto, 73px, auto);
+            }
+
+            70% {
+                clip: rect(71px, auto, 75px, auto);
+            }
+
+            75% {
+                clip: rect(33px, auto, 99px, auto);
+            }
+
+            80% {
+                clip: rect(69px, auto, 73px, auto);
+            }
+
+            85% {
+                clip: rect(18px, auto, 73px, auto);
+            }
+
+            90% {
+                clip: rect(10px, auto, 79px, auto);
+            }
+
+            95% {
+                clip: rect(19px, auto, 10px, auto);
+            }
+
+            100% {
+                clip: rect(39px, auto, 79px, auto);
+            }
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fade {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scale {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .showcase {
+                grid-template-columns: repeat(2, minmax(280px, 1fr));
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
     </style>
-
 </head>
 
 <body>
-
-    <header>
-        <div class="logo">
-            <a href="index.html" aria-label="回到首页">
-                <img src="logo.png" alt="网站 logo">
-            </a>
-        </div>
-        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单" aria-expanded="false">☰</button>
-        <nav>
-            <ul id="nav-ul">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="fonts.html">字库产品</a></li>
-                <li><a href="bao.html">百宝库</a></li>
-                <li><a href="hao.html">字造导航</a></li>
-                <li><a href="more.html">更多</a>
-                    <ul>
-                        <li><a href="">近期发布</a></li>
-                        <li><a href="">表情包</a></li>
-                        <li><a href="">联系我们</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <script>
-    function toggleNav() {
-        var navUl = document.getElementById("nav-ul");
-        var toggleButton = document.querySelector(".toggle-button");
-        var isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
-
-        toggleButton.setAttribute("aria-expanded", !isExpanded);
-
-        navUl.classList.toggle("show");
-    }
-
-    // 子菜单展开/收起
-    document.addEventListener('DOMContentLoaded', function() {
-        const navItems = document.querySelectorAll('nav > ul > li');
-
-        navItems.forEach(item => {
-            if (item.querySelector('ul')) {
-                item.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault(); // 阻止链接跳转
-                        item.classList.toggle('active'); // 切换 active 类
-                    }
-                });
-            }
-        });
-    });
-    </script>
+    <div class="grid-bg"></div>
 
     <section class="hero">
-        <img src="image1.jpg" alt="首页大图">
-        <div class="hero-content">
-            <h1 class="hero-title">字造起点黑</h1>
-            <p class="hero-description">这里是字体的简短介绍，可以描述字体的特点和用途。</p>
-            <div class="hero-buttons">
-                <a href="detail.html" class="hero-button hero-button-white">了解详情</a>
-                <a href="download.html" class="hero-button hero-button-red">下载</a>
-            </div>
+        <h1 data-text="Hello, Welcome to&#10;ΖΔΩ Type!">Hello, Welcome to<br />ΖΔΩ Type!</h1>
+    </section>
+
+    <section class="showcase">
+        <div class="font-card">
+            <h3 style="color: var(--neon-blue)">NEON PULSE</h3>
+            <p style="color: var(--neon-pink)">动态呼吸灯字体</p>
+            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: pulse 2s infinite">Aa</div>
+        </div>
+
+        <div class="font-card">
+            <h3 style="color: var(--neon-blue)">MATRIX CODE</h3>
+            <p style="color: var(--neon-pink)">数据流风格字体</p>
+            <div class="preview" style="font-family: 'Courier New'; font-size: 2em; color: var(--matrix-green)">
+                01010101</div>
+        </div>
+
+        <div class="font-card">
+            <h3 style="color: var(--neon-blue)">GLITCH TEXT</h3>
+            <p style="color: var(--neon-pink)">故障艺术字体</p>
+            <div class="preview"
+                style="font-size: 2.5em; margin: 2rem 0; animation: glitch 1s steps(2, end) infinite;">Aa</div>
+        </div>
+
+        <div class="font-card">
+            <h3 style="color: var(--neon-blue)">SLIDE IN</h3>
+            <p style="color: var(--neon-pink)">滑动进入字体</p>
+            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: slide 3s linear infinite alternate">
+                Aa</div>
+        </div>
+
+        <div class="font-card">
+            <h3 style="color: var(--neon-blue)">FADE IN</h3>
+            <p style="color: var(--neon-pink)">淡入字体</p>
+            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: fade 3s linear infinite alternate">
+                Aa</div>
+        </div>
+
+        <div class="font-card">
+            <h3 style="color: var(--neon-blue)">SCALE UP</h3>
+            <p style="color: var(--neon-pink)">放大字体</p>
+            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: scale 3s linear infinite alternate">
+                Aa</div>
         </div>
     </section>
 
-    <section class="content">
-        <div class="image-container">
-            <div class="image-wrapper">
-                <a href="link1.html" class="image-link">
-                    <img src="image1.jpg" alt="图片1">
-                </a>
-                <p class="image-description">这里是图片1的描述文字。</p>
-                <a href="link1.html" class="image-title-link">图片1标题</a>
-            </div>
+    <script>
+        // Cursor Trail Effect (Simplified)
+        document.addEventListener('mousemove', (e) => {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = e.clientX - 5 + 'px';
+            trail.style.top = e.clientY - 5 + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 300);
+        });
 
-            <div class="image-wrapper">
-                <a href="link2.html" class="image-link">
-                    <img src="image1.jpg" alt="图片2">
-                </a>
-                <p class="image-description">这里是图片2的描述文字。</p>
-                <a href="link2.html" class="image-title-link">图片2标题</a>
-            </div>
+        // 3D Parallax Effect
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero h1');
+            const x = (window.innerWidth / 2 - e.pageX) / 30;
+            const y = (window.innerHeight / 2 - e.pageY) / 30;
+            hero.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
 
-            <div class="image-wrapper">
-                <a href="link3.html" class="image-link">
-                    <img src="image1.jpg" alt="图片3">
-                </a>
-                <p class="image-description">这里是图片3的描述文字。</p>
-                <a href="link3.html" class="image-title-link">图片3标题</a>
-            </div>
-        </div>
-    </section>
+        // Dynamic Grid Animation
+        const grid = document.querySelector('.grid-bg');
+        let offset = 0;
 
-    <section class="font-details">
-        <div class="font-details-container">
-
-            <div class="font-details-section-about">
-                <h2>关于字造起点黑</h2>
-                <p>
-                    字造起点黑是一款现代、简洁的黑体字体，适用于各种场景，例如：品牌设计、广告宣传、UI 界面等。
-                    我们采用了最新的字体设计技术，力求在保证字形美观的同时，提高字体的可读性和易用性。
-                    在设计过程中，我们深入研究了黑体字体的历史和发展趋势，并结合现代设计理念，最终完成了这款字体。
-                </p>
-            </div>
-
-            <div class="font-details-section">
-                <div class="font-details-section-left">
-                    <h2>技术特点</h2>
-                    <p>
-                        采用了最新的 TrueType hinting 技术，保证在各种分辨率下都能清晰显示。
-                        支持 GB2312 字符集，包含 6763 个常用汉字。
-                        字形设计简洁大方，易于识别。
-                    </p>
-                </div>
-                <div class="font-details-section-right">
-                    <a href="#" class="image-link">
-                        <img src="image1.jpg" alt="技术特点">
-                    </a>
-                </div>
-            </div>
-
-            <div class="font-details-section">
-                <div class="font-details-section-left">
-                    <h2>设计思路</h2>
-                    <p>
-                        我们的设计思路是：以人为本，追求卓越。
-                        我们希望通过这款字体，为用户提供更好的视觉体验，帮助用户更好地表达自己的想法。
-                        在设计过程中，我们始终坚持精益求精的原则，力求做到每一个细节都完美无瑕。
-                    </p>
-                </div>
-                <div class="font-details-section-right">
-                    <a href="#" class="image-link">
-                        <img src="image1.jpg" alt="设计思路" style="margin-top: 0;">
-                    </a>
-                </div>
-            </div>
-
-            <div class="font-details-section">
-                <div class="font-details-section-left">
-                    <h2>应用场景</h2>
-                    <p>
-                        字造起点黑适用于各种场景，例如：
-                        品牌设计：可以用于设计 Logo、宣传册、海报等。
-                        广告宣传：可以用于设计广告语、标题、正文等。
-                        UI 界面：可以用于设计 App、网站、软件等。
-                    </p>
-                </div>
-                <div class="font-details-section-right">
-                    <a href="#" class="image-link">
-                        <img src="image1.jpg" alt="应用场景">
-                    </a>
-                </div>
-            </div>
-
-            <div class="font-details-section">
-                <div class="font-details-section-left">
-                    <h2>联系我们</h2>
-                    <p>
-                        如果您对我们的字体感兴趣，欢迎联系我们：
-                        <a href="mailto:your-email@example.com">your-email@example.com</a>
-                    </p>
-                </div>
-                <div class="font-details-section-right">
-                    <a href="#" class="image-link">
-                        <img src="image1.jpg" alt="联系我们">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 底部导航栏 -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>关于我们</h3>
-                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
-            </div>
-            <div class="footer-section">
-                <h3>联系方式</h3>
-                <p>邮箱：example@email.com</p>
-                <p>电话：123-456-7890</p>
-            </div>
-            <div class="footer-section">
-                <h3>友情链接</h3>
-                <ul>
-                    <li><a href="#">链接1</a></li>
-                    <li><a href="#">链接2</a></li>
-                    <li><a href="#">链接3</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 字造导航. All rights reserved.</p>
-        </div>
-    </footer>
-
+        function animateGrid() {
+            offset += 0.2;
+            grid.style.backgroundPosition = `${offset}px ${offset}px`;
+            requestAnimationFrame(animateGrid);
+        }
+        animateGrid();
+    </script>
 </body>
 
 </html>
