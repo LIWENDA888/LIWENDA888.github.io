@@ -1,15 +1,34 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ΖΔΩ Type | 赛博字体实验室</title>
+
+    <title>字造 - 始终如一的创造</title>
+    <!-- SEO 优化 -->
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
+    <!-- 社交媒体优化 (Open Graph) -->
+    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+    <!-- 网站图标 -->
+    <link rel="icon" href="index.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* CSS Reset (Simplified) */
         html {
             box-sizing: border-box;
             font-size: 16px;
+            scroll-behavior: smooth;
         }
 
         *,
@@ -58,7 +77,7 @@
         body {
             background: var(--dark-bg);
             color: var(--text-color);
-            font-family: 'Courier New', monospace;
+            font-family: 'Microsoft YaHei', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
         }
@@ -76,24 +95,31 @@
         }
 
         /* Dynamic Grid Background */
-        .grid-bg {
+      .grid-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: -1;
             background: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
             background-size: var(--grid-spacing) var(--grid-spacing);
-            /* Use CSS variables for background size */
-            transition: background-image 0.5s ease;
+            animation: gridAnimation 10s linear infinite;
             pointer-events: none;
-            /* Prevent interaction */
+        }
+
+        @keyframes gridAnimation {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
         }
 
         /* Neon Cursor Trail (Simplified with CSS) */
-        .cursor-trail {
+      .cursor-trail {
             position: fixed;
             width: 10px;
             height: 10px;
@@ -101,40 +127,24 @@
             border-radius: 50%;
             mix-blend-mode: screen;
             pointer-events: none;
-            /* Prevent interaction */
             animation: trail 0.3s linear forwards;
             z-index: 9999;
-            /* Ensure it's on top */
-        }
-
-        @keyframes trail {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
         }
 
         /* Main Content */
-        .hero {
+      .hero {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             padding: 0 5%;
             perspective: 1000px;
             justify-content: center;
-            /* Center content horizontally */
             text-align: center;
-            /* Center text within the hero */
         }
 
-        .hero h1 {
+      .hero h1 {
             font-size: 4rem;
-            /* Adjusted for smaller screens */
             line-height: 1.1;
             position: relative;
             background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
@@ -142,22 +152,22 @@
             -webkit-text-fill-color: transparent;
             animation: text-float 3s ease-in-out infinite;
             text-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.3);
-            transition: font-size 0.3s ease; /* 添加过渡效果 */
+            transition: font-size 0.3s ease;
+            margin-bottom: 0;
+            font-family: "Courier New", Courier, monospace;
         }
 
         /* Font Cards */
-        .showcase {
+      .showcase {
             padding: 3rem 5%;
             display: grid;
             gap: 2rem;
             grid-template-columns: repeat(3, minmax(280px, 1fr));
-            /* Adjusted minmax for better responsiveness */
             justify-content: center;
-            /* Center the cards */
-            transition: grid-template-columns 0.3s ease; /* 添加过渡效果 */
+            transition: grid-template-columns 0.3s ease;
         }
 
-        .font-card {
+      .font-card {
             background: rgba(0, 0, 0, 0.8);
             padding: 1.5rem;
             border: 1px solid var(--neon-blue);
@@ -167,14 +177,14 @@
             overflow: hidden;
         }
 
-        .font-card:hover,
-        .font-card:focus {
+      .font-card:hover,
+      .font-card:focus {
             transform: rotateX(10deg) rotateY(10deg) translateZ(20px);
             box-shadow: 0 0 30px var(--neon-blue), 0 0 60px var(--neon-pink);
             outline: none;
         }
 
-        .font-card::before {
+      .font-card::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -185,23 +195,24 @@
             animation: rotate 4s linear infinite;
         }
 
-        .font-card h3 {
+      .font-card h3 {
             color: var(--neon-blue);
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
 
-        .font-card p {
+      .font-card p {
             color: var(--neon-pink);
             font-size: 0.9rem;
         }
 
-        .font-card .preview {
+      .font-card.preview {
             margin: 1rem 0;
         }
 
         /* Animations */
         @keyframes text-float {
+
             0%,
             100% {
                 transform: translateY(0) rotateX(0) rotateY(0);
@@ -209,16 +220,6 @@
 
             50% {
                 transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-            }
-        }
-
-        @keyframes scanline {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
             }
         }
 
@@ -245,92 +246,6 @@
             }
         }
 
-        @keyframes glitch {
-            0% {
-                clip: rect(44px, auto, 94px, auto);
-            }
-
-            5% {
-                clip: rect(1px, auto, 42px, auto);
-            }
-
-            10% {
-                clip: rect(41px, auto, 64px, auto);
-            }
-
-            15% {
-                clip: rect(41px, auto, 14px, auto);
-            }
-
-            20% {
-                clip: rect(100px, auto, 78px, auto);
-            }
-
-            25% {
-                clip: rect(48px, auto, 10px, auto);
-            }
-
-            30% {
-                clip: rect(38px, auto, 100px, auto);
-            }
-
-            35% {
-                clip: rect(89px, auto, 63px, auto);
-            }
-
-            40% {
-                clip: rect(29px, auto, 75px, auto);
-            }
-
-            45% {
-                clip: rect(63px, auto, 97px, auto);
-            }
-
-            50% {
-                clip: rect(25px, auto, 43px, auto);
-            }
-
-            55% {
-                clip: rect(75px, auto, 70px, auto);
-            }
-
-            60% {
-                clip: rect(35px, auto, 99px, auto);
-            }
-
-            65% {
-                clip: rect(9px, auto, 73px, auto);
-            }
-
-            70% {
-                clip: rect(71px, auto, 75px, auto);
-            }
-
-            75% {
-                clip: rect(33px, auto, 99px, auto);
-            }
-
-            80% {
-                clip: rect(69px, auto, 73px, auto);
-            }
-
-            85% {
-                clip: rect(18px, auto, 73px, auto);
-            }
-
-            90% {
-                clip: rect(10px, auto, 79px, auto);
-            }
-
-            95% {
-                clip: rect(19px, auto, 10px, auto);
-            }
-
-            100% {
-                clip: rect(39px, auto, 79px, auto);
-            }
-        }
-
         @keyframes slide {
             0% {
                 transform: translateX(-100%);
@@ -338,16 +253,6 @@
 
             100% {
                 transform: translateX(100%);
-            }
-        }
-
-        @keyframes fade {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
             }
         }
 
@@ -363,29 +268,291 @@
 
         /* Media Queries */
         @media (max-width: 992px) {
-            .showcase {
+          .showcase {
                 grid-template-columns: repeat(2, minmax(280px, 1fr));
             }
 
-            .hero h1 {
+          .hero h1 {
                 font-size: 3rem;
             }
         }
 
         @media (max-width: 768px) {
-            .showcase {
+          .showcase {
                 grid-template-columns: 1fr;
             }
 
-            .hero h1 {
+          .hero h1 {
                 font-size: 2.5rem;
             }
         }
 
         @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2rem;
+          .hero h1 {
+                font-size: 2.0rem;
             }
+        }
+
+        /* 顶部导航栏样式 */
+        header {
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 66px;
+            padding: 0 10%;
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+            background: transparent!important;
+            z-index: 2;
+        }
+
+      .logo {
+            margin-right: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+      .logo a img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        nav {
+            position: relative;
+            z-index: 2;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav>ul>li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        nav>ul>li>a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 10px 0;
+            display: block;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav>ul>li>a::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #fff;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        nav>ul>li>a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+      .toggle-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+      .toggle-button:hover {
+            color: #000;
+        }
+
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -15px;
+            background-color: #fff;
+            min-width: 200px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 4;
+        }
+
+        nav ul li:hover ul {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav ul li ul li {
+            margin: 0;
+        }
+
+        nav ul li ul li a {
+            color: #333;
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav ul li ul li a:hover {
+            background-color: #f5f5f5;
+            color: #0070c9;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 0 20px;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 66px;
+                left: 0;
+                width: 100%;
+                background-color: #f5f5f7;
+                flex-direction: column;
+            }
+
+            nav ul.show {
+                display: flex!important;
+            }
+
+            nav>ul>li {
+                margin: 0;
+            }
+
+            nav>ul>li>a {
+                padding: 15px 20px;
+            }
+
+            nav ul li ul {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                display: none;
+            }
+
+            nav ul li.active ul {
+                display: block;
+            }
+
+          .toggle-button {
+                display: block;
+                position: absolute;
+                top: 50%;
+                right: 20px;
+                transform: translateY(-50%);
+            }
+        }
+
+        /* 底部导航栏样式 */
+        footer {
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+      .footer-container {
+            width: 70%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: 20px;
+        }
+
+      .footer-section {
+            width: 30%;
+            padding-left: 20px;
+            text-align: left;
+        }
+
+      .footer-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+      .footer-section p {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+      .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+      .footer-section ul li {
+            margin-bottom: 5px;
+        }
+
+      .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* 响应式底部导航栏 */
+        @media (max-width: 768px) {
+          .footer-container {
+                width: 90%;
+                flex-direction: column;
+                align-items: center;
+            }
+
+          .footer-section {
+                width: 80%;
+                text-align: center;
+                padding-left: 0;
+            }
+        }
+
+        /* Glowing Arrow Styles */
+      .glowing-arrow {
+            font-size: 3em;
+            color: #00f3ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px #00f3ff;
+        }
+
+      .glowing-arrow:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            transform: translateY(-5px);
         }
     </style>
 </head>
@@ -393,52 +560,97 @@
 <body>
     <div class="grid-bg"></div>
 
+    <header>
+        <div class="logo">
+            <a href="https://www.zizao.top/">
+                <img src="logo2.png" alt="字造导航">
+            </a>
+        </div>
+        <nav>
+            <ul id="nav-ul">
+                <li><a href="https://www.zizao.top/hao">首页</a></li>
+                <li><a href="https://www.zizao.top/fonts">字库产品</a></li>
+                <li><a href="https://www.zizao.top/bao">百宝库</a></li>
+                <li class="has-submenu">
+                    <a href="#">更多</a>
+                    <ul class="submenu">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">友情链接</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <button class="toggle-button">
+            ☰
+        </button>
+    </header>
+
     <section class="hero">
-        <h1 data-text="Hello, Welcome to&#10;ΖΔΩ Type!">Hello, Welcome to<br />ΖΔΩ Type!</h1>
-    </section>
-
-    <section class="showcase">
-        <div class="font-card">
-            <h3 style="color: var(--neon-blue)">NEON PULSE</h3>
-            <p style="color: var(--neon-pink)">动态呼吸灯字体</p>
-            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: pulse 2s infinite">Aa</div>
-        </div>
-
-        <div class="font-card">
-            <h3 style="color: var(--neon-blue)">MATRIX CODE</h3>
-            <p style="color: var(--neon-pink)">数据流风格字体</p>
-            <div class="preview" style="font-family: 'Courier New'; font-size: 2em; color: var(--matrix-green)">
-                01010101</div>
-        </div>
-
-        <div class="font-card">
-            <h3 style="color: var(--neon-blue)">GLITCH TEXT</h3>
-            <p style="color: var(--neon-pink)">故障艺术字体</p>
-            <div class="preview"
-                style="font-size: 2.5em; margin: 2rem 0; animation: glitch 1s steps(2, end) infinite;">Aa</div>
-        </div>
-
-        <div class="font-card">
-            <h3 style="color: var(--neon-blue)">SLIDE IN</h3>
-            <p style="color: var(--neon-pink)">滑动进入字体</p>
-            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: slide 3s linear infinite alternate">
-                Aa</div>
-        </div>
-
-        <div class="font-card">
-            <h3 style="color: var(--neon-blue)">FADE IN</h3>
-            <p style="color: var(--neon-pink)">淡入字体</p>
-            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: fade 3s linear infinite alternate">
-                Aa</div>
-        </div>
-
-        <div class="font-card">
-            <h3 style="color: var(--neon-blue)">SCALE UP</h3>
-            <p style="color: var(--neon-pink)">放大字体</p>
-            <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: scale 3s linear infinite alternate">
-                Aa</div>
+        <h1 data-text="Hello, Welcome to&#10;ΖΔΩ Type!">Hello, Welcome to<br />ΖΔΩ World!</h1>
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="#content-start">
+                <i class="fas fa-chevron-down glowing-arrow"></i>
+            </a>
         </div>
     </section>
+
+    <section class="showcase" style="font-family: sans-serif;">
+        <a href="https://www.zizao.top/hao" target="_blank" style="text-decoration: none; color: inherit;">
+            <div class="font-card">
+                <h3 style="color: var(--neon-blue)">字造导航</h3>
+                <p style="color: var(--neon-pink)">设计师的灵感百宝库</p>
+                <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: pulse 2s infinite">设计导航
+                </div>
+            </div>
+        </a>
+
+        <a href="https://www.zizao.top/fonts" target="_blank" style="text-decoration: none; color: inherit;">
+            <div class="font-card">
+                <h3 style="color: var(--neon-blue)">字库产品</h3>
+                <p style="color: var(--neon-pink)">免费商用字体-字造起点黑</p>
+                <div class="preview"
+                    style="font-size: 3em; margin: 2rem 0; animation: slide 3s linear infinite alternate">
+                    Fonts</div>
+            </div>
+        </a>
+
+        <a href="https://www.zizao.top/bao" target="_blank" style="text-decoration: none; color: inherit;">
+            <div class="font-card">
+                <h3 style="color: var(--neon-blue)">字造百宝库</h3>
+                <p style="color: var(--neon-pink)">即用即搜</p>
+                <div class="preview"
+                    style="font-size: 3em; margin: 2rem 0; animation: scale 3s linear infinite alternate">
+                    百宝库</div>
+            </div>
+        </a>
+    </section>
+
+    <div id="content-start" style="position: absolute; top: 100vh;"></div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>邮箱：example@email.com</p>
+                <p>电话：123-456-7890</p>
+            </div>
+            <div class="footer-section">
+                <h3>友情链接</h3>
+                <ul>
+                    <li><a href="#">链接1</a></li>
+                    <li><a href="#">链接2</a></li>
+                    <li><a href="#">链接3</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 字造. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         // Cursor Trail Effect (Simplified)
@@ -469,6 +681,45 @@
             requestAnimationFrame(animateGrid);
         }
         animateGrid();
+
+        // Mobile Menu Setup
+        function setupMobileMenu() {
+            const toggleButton = document.querySelector('.toggle-button');
+            const navUl = document.getElementById('nav-ul');
+
+            if (!toggleButton || !navUl) {
+                console.error('Toggle button or navUl not found');
+                return;
+            }
+
+            toggleButton.addEventListener('click', () => {
+                navUl.classList.toggle('show');
+            });
+
+            // Submenu Handling
+            const hasSubmenuItems = document.querySelectorAll('li.has-submenu > a');
+            hasSubmenuItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    const parentLi = item.parentNode;
+                    parentLi.classList.toggle('active');
+                    e.stopPropagation(); // Prevent event bubbling
+                });
+            });
+
+            // Close submenus on body click
+            document.body.addEventListener('click', () => {
+                const activeSubmenus = document.querySelectorAll('li.has-submenu.active');
+                activeSubmenus.forEach(submenu => {
+                    submenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMobileMenu(); // Call mobile menu function
+        });
     </script>
 </body>
 
