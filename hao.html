@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>字造导航 - 设计师的灵感百宝库</title>
-    <!-- SEO 优化 -->
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
-    <meta name="author" content="字造">
-    <!-- 社交媒体优化 (Open Graph) -->
-    <meta property="og:title" content="字造产品展示 - 你的关键词">
-    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
-    <meta property="og:url" content="URL_TO_YOUR_PAGE">
-    <meta property="og:type" content="website">
-    <!-- 网站图标 -->
     <link rel="icon" href="index.ico" type="image/x-icon">
     <style>
         /* 全局样式 */
         body {
-            font-family: "Microsoft Yahei", system-ui;
+            font-family: "Microsoft Yahei", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background: #f8f9fa;
             margin: 0;
             padding: 0;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden; /* 防止出现水平滚动条 */
         }
 
         /* 容器样式 */
@@ -37,7 +30,7 @@
         /* 头部导航栏样式 */
         header {
             background-color: #f5f5f7;
-            -webkit-backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-between;
@@ -151,7 +144,7 @@
         }
 
         nav ul li ul li a {
-            color: #333;
+            color: #000;
             padding: 12px 20px;
             display: block;
             text-decoration: none;
@@ -220,7 +213,7 @@
             --sidebar-width: 280px;
             --container-width: 98vw;
             --content-max-width: 2000px;
-            --nav-item-width: 200px; /* 设置每个内容块的固定宽度 */
+            --nav-item-width: 200px;
         }
 
         * {
@@ -238,7 +231,7 @@
             width: 100%;
             box-sizing: border-box;
             padding: 20px 0;
-            margin-top: 50px;
+            margin-top: 20px;
         }
 
         .footer-container {
@@ -322,11 +315,10 @@
             max-width: var(--content-max-width);
             margin: 0 auto;
             padding-top: 0;
-            align-items: flex-start; /* 顶部对齐 */
-            flex-wrap: wrap; /* 允许换行 */
+            flex-wrap: wrap;
         }
 
-        /* 修改左侧目录样式 */
+        /* 左侧目录样式 */
         #sidebar {
             width: var(--sidebar-width);
             flex-shrink: 0;
@@ -336,10 +328,10 @@
             box-shadow: 3px 0 15px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 96px;
-            height: auto; /* 自动高度 */
-            min-height: 300px; /* 最小高度 */
-            max-height: calc(100vh - 120px); /* 防止过高 */
-            overflow: auto; /* 自动显示滚动条 */
+            height: auto;
+            min-height: 300px;
+            max-height: calc(100vh - 120px);
+            overflow: auto;
             margin-bottom: 30px;
         }
 
@@ -359,7 +351,7 @@
             font-size: 1rem;
             background-color: #e9e9e9;
             text-align: center;
-            height: auto; /* 移除固定高度 */
+            height: 39px;
         }
 
         .nav-link:hover {
@@ -390,18 +382,18 @@
 
         .search-engine-buttons {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
         .engine-button {
-            padding: 10px 20px;
+            padding: 6px 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             background: #f0f0f0;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 0.95rem;
+            font-size: 0.75rem;
         }
 
         .engine-button.active {
@@ -420,8 +412,9 @@
 
         .search-input-group {
             display: flex;
-            gap: 20px;
+            gap: 10px;
             margin-bottom: 15px;
+            align-items: center;
         }
 
         .search-recommendations {
@@ -453,12 +446,31 @@
             border-radius: 10px;
             font-size: 1rem;
             min-width: 200px;
+            color: #333;
         }
 
         #searchBtn {
             background: var(--primary-color);
             color: white;
-            padding: 14px 35px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+            white-space: nowrap;
+            margin-left: -10px;
+        }
+
+        #searchBtn:hover {
+            background: #222;
+        }
+
+        /* 深色模式按钮样式 */
+        #darkModeToggle {
+            background: #333;
+            color: white;
+            padding: 14px 20px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -467,7 +479,7 @@
             white-space: nowrap;
         }
 
-        #searchBtn:hover {
+        #darkModeToggle:hover {
             background: #222;
         }
 
@@ -478,6 +490,7 @@
             border-radius: 18px;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
             margin-bottom: 35px;
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
 
         .category h2 {
@@ -486,9 +499,9 @@
             padding-bottom: 18px;
             border-bottom: 3px solid #e9e9e9;
             font-size: 1.6rem;
+            transition: color 0.3s, border-bottom-color 0.3s;
         }
 
-        /* Separator Title */
         .separator-title {
             color: #888;
             font-size: 1.2rem;
@@ -500,10 +513,10 @@
 
         .item-group {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--nav-item-width), 1fr)); /* 修改这里 */
+            grid-template-columns: repeat(auto-fill, minmax(var(--nav-item-width), 1fr));
             gap: 15px;
             row-gap: 30px;
-            justify-content: start; /* 添加这里 */
+            justify-content: start;
         }
 
         .nav-item {
@@ -517,12 +530,15 @@
             flex-direction: column;
             height: 120px;
             justify-content: space-between;
-            width: var(--nav-item-width); /* 确保每个 item 的宽度 */
+            width: var(--nav-item-width);
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
         }
 
         .nav-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            /* 增加过渡时间 */
         }
 
         .site-name {
@@ -574,15 +590,10 @@
             }
         }
 
+        /* 手机端样式 */
         @media (max-width: 992px) {
             #sidebar {
-                position: fixed;
-                left: -100%;
-                top: 0;
-                height: 100vh;
-                z-index: 1000;
-                transition: 0.3s;
-                width: 300px;
+                display: none;
             }
 
             .container {
@@ -593,21 +604,6 @@
             .main-wrapper {
                 width: 100%;
                 max-width: 100%;
-            }
-
-            .menu-toggle {
-                display: block !important;
-                position: fixed;
-                bottom: 20px;
-                left: 20px;
-                z-index: 1001;
-                background: var(--primary-color);
-                color: white;
-                border: none;
-                padding: 12px 18px;
-                border-radius: 10px;
-                cursor: pointer;
-                font-size: 1rem;
             }
 
             .search-area {
@@ -625,7 +621,7 @@
             }
 
             .item-group {
-                grid-template-columns: repeat(auto-fill, minmax(var(--nav-item-width), 1fr)); /* 修改这里 */
+                grid-template-columns: repeat(auto-fill, minmax(var(--nav-item-width), 1fr));
             }
 
             .category {
@@ -634,8 +630,110 @@
                 box-shadow: none;
             }
         }
+
+        /* 深色模式样式 */
+        body.dark-mode {
+            background: #121212;
+            color: #eee;
+        }
+
+        body.dark-mode .search-box {
+            background: #222;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .category {
+            background: #222;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .category h2 {
+            color: #eee;
+            border-bottom-color: #444;
+        }
+
+        body.dark-mode .nav-item {
+            background: #333;
+            color: #ddd;
+        }
+
+        body.dark-mode .nav-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode #keyword {
+            background: #333;
+            color: #ddd;
+            border-color: #444;
+        }
+
+        body.dark-mode .search-recommendations a {
+            background-color: #333;
+            color: #ddd;
+        }
+
+        body.dark-mode .search-recommendations a:hover {
+            background-color: #eee;
+            color: #121212;
+        }
+
+        body.dark-mode #sidebar {
+            background: #222;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .nav-link {
+            background-color: #444;
+            color: #ddd;
+        }
+
+        body.dark-mode .nav-link:hover {
+            background: #eee;
+            color: #121212;
+        }
+
+        body.dark-mode header {
+            background-color: rgba(34, 34, 34, 0.9);
+        }
+
+        body.dark-mode header:hover {
+            background-color: rgba(51, 51, 51, 0.9);
+        }
+
+        body.dark-mode footer {
+            background-color: #222;
+            color: #ddd;
+            border-top-color: #444;
+        }
+
+        body.dark-mode .footer-bottom {
+            border-top-color: #444;
+        }
+
+        body.dark-mode .footer-bottom p {
+            color: #aaa;
+        }
+
+        body.dark-mode .site-name {
+            color: #eee;
+            /* 深色模式下网站名称的颜色 */
+        }
+
+        body.dark-mode nav ul li a {
+            color: #ddd;
+            /* 深色模式下导航栏链接的颜色 */
+        }
+        body.dark-mode nav > ul > li > ul > li > a {
+    color: #000; /* 修改为黑色 */
+}
+
+        body.dark-mode nav ul li a:hover {
+            color: #fff;
+            /* 深色模式下鼠标悬停时导航栏链接的颜色 */
+        }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -652,9 +750,9 @@
                 <li><a href="hao.html">字造导航</a></li>
                 <li><a href="more.html">更多</a>
                     <ul>
-                        <li><a href="">近期发布</a></li>
-                        <li><a href="">表情包</a></li>
-                        <li><a href="">联系我们</a></li>
+                        <li><a href="#">近期发布</a></li>
+                        <li><a href="#">表情包</a></li>
+                        <li><a href="#">联系我们</a></li>
                     </ul>
                 </li>
             </ul>
@@ -662,34 +760,30 @@
         <button class="toggle-button" aria-label="切换导航菜单" aria-expanded="false">☰</button>
     </header>
 
-    <button class="menu-toggle" style="display: none;">☰ 菜单</button>
-
     <div class="container">
         <nav id="sidebar">
             <div class="nav-title">导航目录</div>
             <div id="navList"></div>
         </nav>
-
         <div class="main-wrapper">
             <div class="search-area">
                 <div class="search-container">
-                    <div class="search-engine-buttons">
-                        <button class="engine-button active" data-engine="https://www.baidu.com/s?wd="
-                            tabindex="1">百度一下</button>
-                        <button class="engine-button" data-engine="https://image.baidu.com/search/index?tn=baiduimage&word"
-                            tabindex="2">百度图片</button>
-                        <button class="engine-button" data-engine="https://www.logosc.cn/so/s"
-                            tabindex="3">免版权图片</button>
-                        <button class="engine-button" data-engine="https://fanyi.baidu.com/#/zh/en/"
-                            tabindex="4">百度翻译</button>
-                    </div>
                     <div class="search-box">
+                        <div class="search-engine-buttons">
+                            <button class="engine-button active" data-engine="https://www.baidu.com/s?wd=">百度一下</button>
+                            <button class="engine-button"
+                                data-engine="https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=">百度图片</button>
+                            <button class="engine-button" data-engine="https://www.logosc.cn/so/s">免版权图片</button>
+                            <button class="engine-button" data-engine="https://fanyi.baidu.com/#/zh/en/">百度翻译</button>
+                        </div>
                         <div class="search-input-group">
-                            <input type="text" id="keyword" placeholder="输入关键词搜索..." tabindex="4">
-                            <button id="searchBtn" tabindex="5">搜索</button>
+                            <input type="text" id="keyword" placeholder="输入关键词搜索...Ctrl/Cmd+D收藏本页面哦~">
+                            <button id="searchBtn">搜索</button>
+                            <button id="darkModeToggle">切换模式</button>
                         </div>
 
                         <div class="search-recommendations">
+                            <a href="https://hanyu.baidu.com/s?wd=%E7%BB%99%E6%8D%A2%E5%81%8F%E6%97%81" target="_blank" tabindex="6">换偏旁找字</a>
                             <a href="https://www.dazi.co/" target="_blank" tabindex="6">AskManyAI</a>
                             <a href="https://yuanbao.tencent.com/" target="_blank" tabindex="7">腾讯元宝</a>
                             <a href="https://doubao.com/" target="_blank" tabindex="8">豆包</a>
@@ -702,8 +796,8 @@
                 </div>
             </div>
 
-            <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-0">
+<main class="main-content">
+                <section class="category" data-category="精选推荐" id="category-0">
                     <h2>精选推荐</h2>
                     <div class="item-group">
                         <a href="https://searx.bndkt.io" class="nav-item" target="_blank">
@@ -767,7 +861,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-1">
+                <section class="category" data-category="灵感创意" id="category-1">
                     <h2>灵感创意</h2>
                     <p class="separator-title">版式设计</p>
                     <div class="item-group">
@@ -856,7 +950,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-2">
+                <section class="category" data-category="字体设计" id="category-2">
                     <h2>字体设计</h2>
                     <p class="separator-title">灵感</p>
                     <div class="item-group">
@@ -975,7 +1069,7 @@
             </main>
 
              <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-3">
+                <section class="category" data-category="AI文字" id="category-3">
                     <h2>AI文字</h2>
                     <div class="item-group">
                         <a href="https://chat.deepseek.com/" class="nav-item" target="_blank">
@@ -1035,7 +1129,7 @@
             </main>
 
                          <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-4">
+                <section class="category" data-category="AI绘图" id="category-4">
                     <h2>AI绘图</h2>
                     <div class="item-group">
                          <a href="https://stability.ai/" class="nav-item" target="_blank">
@@ -1089,7 +1183,7 @@
             </main>
 
                          <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-5">
+                <section class="category" data-category="AI音视频" id="category-5">
                     <h2>AI音视频</h2>
                     <div class="item-group">
                          <a href="https://aigc.baidu.com/home" class="nav-item" target="_blank">
@@ -1107,7 +1201,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-6">
+                <section class="category" data-category="设计神器" id="category-6">
                     <h2>设计神器</h2>
                     <p class="separator-title">在线设计</p>
                     <div class="item-group">
@@ -1426,7 +1520,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-7">
+                <section class="category" data-category="设计素材" id="category-7">
                     <h2>设计素材</h2>
                     <p class="separator-title">VI样机</p>
                     <div class="item-group">
@@ -1893,7 +1987,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-8">
+                <section class="category" data-category="免版权字体" id="category-8">
                     <h2>免版权字体</h2>
                     <p class="separator-title">中文字体</p>
                     <div class="item-group">
@@ -2010,7 +2104,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-9">
+                <section class="category" data-category="免版权图片" id="category-9">
                     <h2>免版权图片</h2>
                     <div class="item-group">
                         <a href="https://www.logosc.cn/so/" class="nav-item" target="_blank">
@@ -2136,7 +2230,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-10">
+                <section class="category" data-category="免版权音视频" id="category-10">
                     <h2>免版权音视频</h2>
                     <p class="separator-title">视频素材</p>
                     <div class="item-group">
@@ -2229,7 +2323,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-11">
+                <section class="category" data-category="摄影鉴赏" id="category-11">
                     <h2>摄影鉴赏</h2>
                     <div class="item-group">
                         <a href="http://www.cnu.cc/" class="nav-item" target="_blank">
@@ -2265,7 +2359,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-12">
+                <section class="category" data-category="配色方案" id="category-12">
                     <h2>配色方案</h2>
                     <p class="separator-title">纯色搭配</p>
                     <div class="item-group">
@@ -2370,7 +2464,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-13">
+                <section class="category" data-category="效率神器" id="category-13">
                     <h2>效率神器</h2>
                     <p class="separator-title">格式转换</p>
                     <div class="item-group">
@@ -2445,7 +2539,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-14">
+                <section class="category" data-category="知识社区" id="category-14">
                     <h2>知识社区</h2>
                     <div class="item-group">
                        <a href="https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw" class="nav-item" target="_blank">
@@ -2457,7 +2551,7 @@
             </main>
 
             <main class="main-content">
-                <section class="category" data-category="设计工具" id="category-15">
+                <section class="category" data-category="软件资源" id="category-15">
                     <h2>软件资源</h2>
                     <p class="separator-title">软件下载</p>
                     <div class="item-group">
@@ -2532,114 +2626,122 @@
         <div class="footer-container">
             <div class="footer-section">
                 <h3>关于我们</h3>
-                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
+                <p>这里是关于我们的一些信息。</p>
             </div>
             <div class="footer-section">
                 <h3>联系方式</h3>
-                <p>邮箱：example@email.com</p>
-                <p>电话：123-456-7890</p>
+                <p>Email: example@example.com</p>
             </div>
             <div class="footer-section">
                 <h3>友情链接</h3>
                 <ul>
                     <li><a href="#">链接1</a></li>
                     <li><a href="#">链接2</a></li>
-                    <li><a href="#">链接3</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 字造. All rights reserved.</p>
+            <p>&copy; 2024 字造导航. All rights reserved.</p>
         </div>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // 生成导航目录
-        function generateNavigation() {
-            const categoryHeadings = document.querySelectorAll('.category h2');
-            const navList = document.getElementById('navList');
+        $(document).ready(function () {
 
-            categoryHeadings.forEach((heading, index) => {
-                const navLink = document.createElement('a');
-                navLink.className = 'nav-link';
-                navLink.href = `#category-${index}`;
-                navLink.textContent = heading.textContent;
-                navLink.addEventListener('click', scrollToCategory);
-                navList.appendChild(navLink);
+            // 深色模式切换
+            $('#darkModeToggle').click(function () {
+                $('body').toggleClass('dark-mode');
             });
-        }
 
-        // 平滑滚动到分类
-        function scrollToCategory(event) {
-            event.preventDefault();
-            const targetId = this.getAttribute('href').substring(1); // Remove '#'
-            const targetElement = document.getElementById(targetId);
+                        // 搜索引擎切换
+            let currentEngineIndex = 0; // 初始选中的搜索引擎索引
+            const engineButtons = $('.engine-button'); // 获取所有搜索引擎按钮
 
-            if (targetElement) {
-                // 获取目标元素的 offsetTop
-                const elementPosition = targetElement.offsetTop;
+            // 初始化选中第一个搜索引擎
+            engineButtons.eq(currentEngineIndex).addClass('active');
 
-                // 从当前位置平滑滚动到目标位置
-                window.scrollTo({
-                    top: elementPosition - 96, // 减去 header 的高度
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        // 设置当前搜索引擎
-        let currentSearchEngine = 'https://www.baidu.com/s?wd=';
-
-        // 设置搜索引擎按钮
-        function setupSearchEngineButtons() {
-            const engineButtons = document.querySelectorAll('.engine-button');
-
-            engineButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    engineButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    currentSearchEngine = this.dataset.engine;
-                });
+            $('.engine-button').click(function () {
+                engineButtons.removeClass('active');
+                $(this).addClass('active');
+                currentEngineIndex = engineButtons.index(this); // 更新索引
             });
-        }
 
-        // 搜索功能
-        function setupSearch() {
-            const keywordInput = document.getElementById('keyword');
-            const searchButton = document.getElementById('searchBtn');
+            // Tab 键切换搜索引擎
+            $('#keyword').keydown(function (e) {
+                if (e.which == 9) { // 9 是 Tab 键的键码
+                    e.preventDefault(); // 阻止 Tab 键的默认行为 (例如，移动焦点)
 
-            searchButton.addEventListener('click', performSearch);
-            keywordInput.addEventListener('keypress', (event) => {
-                if (event.key === 'Enter') {
-                    performSearch();
+                    engineButtons.removeClass('active'); // 移除所有按钮的 active 类
+
+                    currentEngineIndex = (currentEngineIndex + 1) % engineButtons.length; // 循环切换索引
+                    engineButtons.eq(currentEngineIndex).addClass('active'); // 为当前索引的按钮添加 active 类
                 }
             });
 
+            // 搜索功能 (点击按钮)
+            $('#searchBtn').click(function () {
+                performSearch(); // 调用搜索函数
+            });
+
+            // 搜索功能 (按下回车键)
+            $('#keyword').keypress(function (e) {
+                if (e.which == 13) { // 13 是回车键的键码
+                    performSearch(); // 调用搜索函数
+                    return false;  // 阻止默认行为，防止表单提交
+                }
+            });
+
+            // 搜索函数 (提取公共逻辑)
             function performSearch() {
-                const keyword = keywordInput.value.trim();
-                if (keyword !== '') {
-                    window.open(currentSearchEngine + keyword, '_blank');
+                let keyword = $('#keyword').val();
+                let activeEngine = $('.engine-button.active').data('engine');
+                if (keyword && activeEngine) {
+                    window.open(activeEngine + keyword, '_blank');
+                } else {
+                    alert('请输入关键词并选择搜索引擎！');
                 }
             }
-        }
 
-        // 移动端菜单
-        function setupMobileMenu() {
-            const toggleButton = document.querySelector('.toggle-button');
-            const navUl = document.getElementById('nav-ul');
 
-            toggleButton.addEventListener('click', () => {
-                navUl.classList.toggle('show');
+            // 移动端菜单
+            $('.toggle-button').click(function () {
+                $('nav ul').toggleClass('show');
+                $(this).attr('aria-expanded', $('nav ul').hasClass('show'));
             });
-        }
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            generateNavigation();
-            setupSearchEngineButtons();
-            setupSearch();
-            setupMobileMenu();
+            // 阻止链接点击后页面跳转
+            $('a[href="#"]').click(function (e) {
+                e.preventDefault();
+            });
+
+            // 生成左侧目录栏
+            function generateNavList() {
+                let navList = $('#navList');
+                $('main.main-content > section[id]').each(function () {
+                    let sectionId = $(this).attr('id');
+                    let sectionTitle = $(this).data('category');
+                    let navLink = $('<a>', {
+                        href: '#' + sectionId,
+                        text: sectionTitle,
+                        class: 'nav-link'
+                    });
+                    navList.append(navLink);
+                });
+            }
+
+            generateNavList(); // 调用生成目录的函数
+
+            // 平滑滚动到指定位置
+            $('#navList').on('click', 'a', function (e) {
+                e.preventDefault();
+                let target = $(this).attr('href');
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 76 // 减去header的高度
+                }, 800); // 800ms的滚动动画
+            });
         });
     </script>
 </body>
+
 </html>
