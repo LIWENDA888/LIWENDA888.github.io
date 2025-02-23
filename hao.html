@@ -485,15 +485,11 @@
             background: #222;
         }
 
-        /* 媒体查询：手机端样式 */
+/* 媒体查询：手机端样式 */
 @media (max-width: 768px) {
     /* 深色模式按钮样式 (手机端覆盖样式) */
     #darkModeToggle {
-        width: calc(100% - 20px); /* 100% 减去左右两侧的 margin */
-        padding: 8px 12px; /* 减小 padding */
-        margin: 10px; /* 添加上下 margin，左右 margin 为 0 */
-        box-sizing: border-box; /* 确保 padding 和 border 不会增加按钮的总宽度 */
-        font-size: 0.9rem; /* 可选：减小字体大小 */
+        display: none; /*  关键：在手机端隐藏按钮 */
     }
 }
 
