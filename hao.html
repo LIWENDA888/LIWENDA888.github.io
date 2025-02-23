@@ -15,7 +15,8 @@
             padding: 0;
             color: #333;
             transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden; /* 防止出现水平滚动条 */
+            overflow-x: hidden;
+            /* 防止出现水平滚动条 */
         }
 
         /* 容器样式 */
@@ -477,7 +478,8 @@
             transition: 0.2s;
             font-size: 1rem;
             white-space: nowrap;
-            margin-left: 10px; /* 保持默认的 margin */
+            margin-left: 10px;
+            /* 保持默认的 margin */
             box-sizing: border-box;
         }
 
@@ -485,13 +487,15 @@
             background: #222;
         }
 
-/* 媒体查询：手机端样式 */
-@media (max-width: 768px) {
-    /* 深色模式按钮样式 (手机端覆盖样式) */
-    #darkModeToggle {
-        display: none; /*  关键：在手机端隐藏按钮 */
-    }
-}
+        /* 媒体查询：手机端样式 */
+        @media (max-width: 768px) {
+
+            /* 深色模式按钮样式 (手机端覆盖样式) */
+            #darkModeToggle {
+                display: none;
+                /*  关键：在手机端隐藏按钮 */
+            }
+        }
 
         /* 内容分类 */
         .category {
@@ -624,29 +628,43 @@
                 min-width: auto;
             }
         }
-            /*  关键修改：手机端每行显示两个 */
-    .item-group {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /*  每行至少150px，最多1fr */
-    }
 
-    .nav-item {
-        width: 100%; /* 确保nav-item占据可用宽度 */
-    }
-}
-
-        @media (max-width: 768px) {
-            :root {
-                --container-width: 100%;
-            }
-
+        /* 电脑端（大于 992px） */
+        @media (min-width: 993px) {
             .item-group {
-                grid-template-columns: repeat(auto-fill, minmax(var(--nav-item-width), 1fr));
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                /* 调整 minmax 值 */
+                gap: 15px;
+                row-gap: 30px;
+                justify-content: start;
+                /* 确保左对齐 */
             }
 
-            .category {
-                padding: 25px;
-                border-radius: 0;
-                box-shadow: none;
+            .nav-item {
+                width: 100%;
+                /* 确保 nav-item 占据可用宽度 */
+            }
+        }
+
+        /* 中等屏幕（769px - 992px） */
+        @media (min-width: 769px) and (max-width: 992px) {
+            .item-group {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                /* 调整 minmax 值 */
+            }
+        }
+
+        /* 手机端（小于 768px） */
+        @media (max-width: 768px) {
+            .item-group {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                /* 调整 minmax 值 */
+            }
+
+            .nav-item {
+                width: 100%;
+                /* 确保 nav-item 占据可用宽度 */
             }
         }
 
@@ -742,9 +760,11 @@
             color: #ddd;
             /* 深色模式下导航栏链接的颜色 */
         }
-        body.dark-mode nav > ul > li > ul > li > a {
-    color: #000; /* 修改为黑色 */
-}
+
+        body.dark-mode nav>ul>li>ul>li>a {
+            color: #000;
+            /* 修改为黑色 */
+        }
 
         body.dark-mode nav ul li a:hover {
             color: #fff;
@@ -802,7 +822,8 @@
                         </div>
 
                         <div class="search-recommendations">
-                            <a href="https://hanyu.baidu.com/s?wd=%E7%BB%99%E6%8D%A2%E5%81%8F%E6%97%81" target="_blank" tabindex="6">换偏旁找字</a>
+                            <a href="https://hanyu.baidu.com/s?wd=%E7%BB%99%E6%8D%A2%E5%81%8F%E6%97%81"
+                                target="_blank" tabindex="6">换偏旁找字</a>
                             <a href="https://www.dazi.co/" target="_blank" tabindex="6">AskManyAI</a>
                             <a href="https://yuanbao.tencent.com/" target="_blank" tabindex="7">腾讯元宝</a>
                             <a href="https://doubao.com/" target="_blank" tabindex="8">豆包</a>
@@ -815,7 +836,7 @@
                 </div>
             </div>
 
-<main class="main-content">
+            <main class="main-content">
                 <section class="category" data-category="精选推荐" id="category-0">
                     <h2>精选推荐</h2>
                     <div class="item-group">
@@ -879,6 +900,7 @@
                 </section>
             </main>
 
+            
             <main class="main-content">
                 <section class="category" data-category="灵感创意" id="category-1">
                     <h2>灵感创意</h2>
@@ -2637,6 +2659,7 @@
                     </div>
                 </section>
             </main>
+
 
         </div>
     </div>
