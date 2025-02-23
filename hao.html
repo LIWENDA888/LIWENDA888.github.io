@@ -770,6 +770,10 @@
             color: #fff;
             /* 深色模式下鼠标悬停时导航栏链接的颜色 */
         }
+
+        body.dark-mode .logo a img {
+            content: url('logo2.png'); /* 替换为深色模式下的 Logo 图片 */
+        }
     </style>
 </head>
 
@@ -778,7 +782,7 @@
     <header>
         <div class="logo">
             <a href="index.html" aria-label="回到首页">
-                <img src="logo.png" alt="网站 logo">
+                <img id="logoImage" src="logo.png" alt="网站 logo">
             </a>
         </div>
         <nav>
