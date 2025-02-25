@@ -4,29 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造 - 始终如一的创造</title>
+    
     <!-- SEO 优化 -->
+    <title>字造 - 始终如一的创造</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
     <meta name="author" content="字造">
+
     <!-- 社交媒体优化 (Open Graph) -->
     <meta property="og:title" content="字造产品展示 - 你的关键词">
     <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta property="og:image" content="URL_TO_YOUR_IMAGE">
     <meta property="og:url" content="URL_TO_YOUR_PAGE">
     <meta property="og:type" content="website">
+
     <!-- 网站图标 -->
-    <link rel="icon" href="index.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        /* CSS Reset (Simplified) */
+        /* 全局样式 */
         html {
             box-sizing: border-box;
-            font-size: 16px;
-            scroll-behavior: smooth;
         }
 
         *,
@@ -35,238 +36,17 @@
             box-sizing: inherit;
         }
 
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        ol,
-        ul {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-weight: normal;
-        }
-
-        ol,
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Variables */
-        :root {
-            --neon-blue: #00f3ff;
-            --neon-pink: #ff00ff;
-            --matrix-green: #0f0;
-            --dark-bg: #000;
-            --text-color: #fff;
-            --accent-color: var(--neon-blue);
-            --grid-spacing: 20px;
-        }
-
-        /* General Styles */
-        body {
-            background: var(--dark-bg);
-            color: var(--text-color);
-            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f9f9f9;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        a:hover,
-        a:focus {
-            color: var(--neon-pink);
-            outline: none;
-        }
-
-        /* Dynamic Grid Background */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: var(--grid-spacing) var(--grid-spacing);
-            animation: gridAnimation 10s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes gridAnimation {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 100px 100px;
-            }
-        }
-
-        /* Neon Cursor Trail (Simplified with CSS) */
-        .cursor-trail {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: var(--neon-blue);
-            border-radius: 50%;
-            mix-blend-mode: screen;
-            pointer-events: none;
-            animation: trail 0.3s linear forwards;
-            z-index: 9999;
-        }
-
-        /* Main Content */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 5%;
-            perspective: 1000px;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            line-height: 1.1;
-            position: relative;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: text-float 3s ease-in-out infinite;
-            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.3);
-            transition: font-size 0.3s ease;
-            margin-bottom: 0;
-            font-family: "Courier New", Courier, monospace;
-        }
-
-        /* Font Cards */
-        .showcase {
-            padding: 3rem 5%;
-            display: grid;
-            gap: 2rem;
-            grid-template-columns: repeat(3, minmax(280px, 1fr));
-            justify-content: center;
-            transition: grid-template-columns 0.3s ease;
-        }
-
-        .font-card {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 1.5rem;
-            border: 1px solid var(--neon-blue);
-            transform-style: preserve-3d;
-            transition: transform 0.5s, box-shadow 0.5s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .font-card:hover,
-        .font-card:focus {
-            transform: rotateX(10deg) rotateY(10deg) translateZ(20px);
-            box-shadow: 0 0 30px var(--neon-blue), 0 0 60px var(--neon-pink);
-            outline: none;
-        }
-
-        .font-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, var(--neon-blue), transparent 30%);
-            animation: rotate 4s linear infinite;
-        }
-
-        .font-card h3 {
-            color: var(--neon-blue);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .font-card p {
-            color: var(--neon-pink);
-            font-size: 0.9rem;
-        }
-
-        .font-card.preview {
-            margin: 1rem 0;
-        }
-
-        /* Animations */
-        @keyframes text-float {
-
-            0%,
-            100% {
-                transform: translateY(0) rotateX(0) rotateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-            }
-        }
-
-        @keyframes rotate {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                color: var(--neon-blue);
-            }
-
-            50% {
-                transform: scale(1.2);
-                color: var(--neon-pink);
-            }
-
-            100% {
-                transform: scale(1);
-                color: var(--neon-blue);
-            }
-        }
-
-        @keyframes slide {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        @keyframes scale {
-            0% {
-                transform: scale(0);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* 顶部导航栏样式 */
+        /* 头部导航栏样式 */
         header {
+            background-color: #f5f5f7;
             -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             display: flex;
@@ -279,26 +59,27 @@
             left: 0;
             width: 100%;
             box-sizing: border-box;
-            margin-bottom: 30px;
-            background: transparent !important;
-            z-index: 2;
+            margin-bottom: 0px;
+            z-index: 100;
+            transition: top 0.3s ease;
+        }
+
+        header.hidden {
+            top: -66px;
+        }
+
+        header:hover {
+            background-color: #e8e8ea;
         }
 
         .logo {
             margin-right: 20px;
-            position: relative;
-            z-index: 2;
         }
 
         .logo a img {
             display: block;
             max-width: 100%;
             height: auto;
-        }
-
-        nav {
-            position: relative;
-            z-index: 2;
         }
 
         nav ul {
@@ -314,7 +95,7 @@
         }
 
         nav>ul>li>a {
-            color: #fff;
+            color: #333;
             text-decoration: none;
             font-size: 15px;
             padding: 10px 0;
@@ -330,7 +111,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: #fff;
+            background-color: #000;
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.3s ease;
@@ -345,16 +126,14 @@
             display: none;
             background: none;
             border: none;
-            color: #fff;
+            color: #333;
             font-size: 20px;
             cursor: pointer;
             transition: color 0.3s ease;
-            position: relative;
-            z-index: 2;
         }
 
         .toggle-button:hover {
-            color: var(--neon-blue);
+            color: #000;
         }
 
         nav ul li ul {
@@ -385,7 +164,7 @@
         }
 
         nav ul li ul li a {
-            color: #333;
+            color: #000;
             padding: 12px 20px;
             display: block;
             text-decoration: none;
@@ -405,23 +184,16 @@
 
             nav ul {
                 display: none;
-                position: fixed;
+                position: absolute;
                 top: 66px;
                 left: 0;
                 width: 100%;
-                /* 使用半透明黑色背景 */
-                background-color: rgba(0, 0, 0, 0.9);
+                background-color: #f5f5f7;
                 flex-direction: column;
-                z-index: 1000;
-                height: calc(100vh - 66px);
-                overflow-y: auto;
-                padding: 0;
-                margin: 0;
-                box-sizing: border-box;
             }
 
             nav ul.show {
-                display: flex !important;
+                display: flex;
             }
 
             nav>ul>li {
@@ -430,11 +202,6 @@
 
             nav>ul>li>a {
                 padding: 15px 20px;
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-                color: var(--text-color); /* 确保文字颜色为白色 */
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 添加分隔线 */
             }
 
             nav ul li ul {
@@ -446,12 +213,6 @@
                 visibility: visible;
                 transform: translateY(0);
                 display: none;
-                background-color: rgba(0, 0, 0, 0.7); /* 子菜单背景半透明黑色 */
-            }
-
-            nav ul li ul li a {
-                color: var(--text-color); /* 子菜单文字颜色 */
-                padding-left: 30px; /* 增加缩进 */
             }
 
             nav ul li.active ul {
@@ -464,326 +225,790 @@
                 top: 50%;
                 right: 20px;
                 transform: translateY(-50%);
-                /* 确保按钮始终可见 */
-                z-index: 1001;
             }
         }
 
         /* 底部导航栏样式 */
         footer {
-            color: #fff;
+            background-color: #f5f5f7;
+            color: #333;
             text-align: center;
+            border-top: 1px solid #e8e8ea;
+            width: 100%;
+            box-sizing: border-box;
             padding: 20px 0;
-            margin-top: 50px;
-            position: relative;
-            z-index: 2;
+            margin-top: 0px;
         }
 
         .footer-container {
-            width: 70%;
+            width: 80%;
             margin: 0 auto;
             display: flex;
             justify-content: space-around;
-            padding-bottom: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
         .footer-section {
             width: 30%;
-            padding-left: 20px;
+            min-width: 200px;
+            margin-bottom: 20px;
             text-align: left;
+            padding-left: 50px;
+            box-sizing: border-box;
         }
 
         .footer-section h3 {
-            font-size: 1.2em;
+            font-size: 16px;
             margin-bottom: 10px;
         }
 
         .footer-section p {
-            font-size: 0.9em;
-            line-height: 1.4;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .footer-section ul {
-            list-style: none;
+            list-style-type: none;
             padding: 0;
         }
 
-        .footer-section ul li {
+        .footer-section li {
             margin-bottom: 5px;
         }
 
-        .footer-section ul li a {
-            color: #fff;
+        .footer-section a {
+            color: #0070c9;
             text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #003f8e;
+        }
+
+        .footer-bottom {
+            padding-top: 10px;
+            border-top: 1px solid #e8e8ea;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: #666;
         }
 
         /* 响应式底部导航栏 */
         @media (max-width: 768px) {
             .footer-container {
                 width: 90%;
-                flex-direction: column; /* 修改为垂直排列 */
+                flex-direction: column;
                 align-items: center;
             }
 
             .footer-section {
-                width: 100%; /* 占据整行 */
+                width: 80%;
                 text-align: center;
                 padding-left: 0;
-                margin-bottom: 20px; /* 增加段落之间的间距 */
             }
         }
 
-        /* Glowing Arrow Styles */
-        .glowing-arrow {
-            font-size: 3em;
-            color: #00f3ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px #00f3ff;
+        /* 头部样式 */
+        .header-section {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            padding: 150px 0;
+            /* 减少头部内边距，适应小屏幕 */
+            background-color: #111;
+            /* 深色背景 */
+            /* 星空背景 */
+            background-image:
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+                /* 更亮更大的星星 */
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 4px, transparent 4px),
+                /* 更亮更大的星星 */
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+                /* 更亮更大的星星 */
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 4px, transparent 4px);
+            /* 更亮更大的星星 */
+            background-size: 100px 100px,
+                200px 200px,
+                150px 150px,
+                250px 250px;
+            /* 更大的背景尺寸 */
+            animation: moveStars 10s linear infinite;
+            /* 缓慢动画 */
+            margin-top: 0px;
         }
 
-        .glowing-arrow:hover {
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.9) 0%,
+                    rgba(0, 0, 0, 0.6) 50%,
+                    rgba(0, 0, 0, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .header-section>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-section h1 {
+            font-size: 4em;
+            /* 减小标题字体大小 */
+            margin-bottom: 20px;
+            /* 减小标题下边距 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-section p {
+            font-size: 1.5em;
+            /* 减小段落字体大小 */
+            opacity: 0.9;
+        }
+
+        /* 星星移动动画 */
+        @keyframes moveStars {
+            from {
+                background-position: 0 0, 0 0, 0 0, 0 0;
+            }
+
+            to {
+                background-position: 1000px 1000px, 400px 400px, 300px 300px, 700px 700px;
+            }
+        }
+
+        /* 产品特性样式 */
+        .product-features {
+            padding: 80px 0;
+            /* 减少产品特性部分的内边距 */
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .product-features h2 {
+            font-size: 3em;
+            /* 减小产品特性标题字体大小 */
+            margin-bottom: 50px;
+            /* 减小产品特性标题下边距 */
+            color: #333;
+        }
+
+        .features-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            /* 减小特性之间的间距 */
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .feature {
+            /*width: calc(50% - 60px);  删除固定宽度 */
+            min-width: 300px;
+            /* 增加最小宽度 */
+            padding: 30px 20px;
+            /* 减小特性内部的内边距 */
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            position: relative;
+            flex-grow: 1;
+            /* 调整 flex-grow 值 */
+            flex-basis: 300px;
+            /* 设置 flex-basis，让元素有初始大小 */
+        }
+
+        .feature.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .feature:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-10px);
+            /* 减小悬停时的位移 */
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            /* 调整图标位置 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            /* 减小图标大小 */
+            height: 50px;
+            /* 减小图标大小 */
+            border-radius: 50%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5em;
+            /* 减小图标字体大小 */
+        }
+
+        .feature:nth-child(1)::before {
+            content: '⚙️';
+        }
+
+        .feature:nth-child(2)::before {
+            content: '☎';
+        }
+
+        .feature:nth-child(3)::before {
+            content: '✨';
+        }
+
+        .feature:nth-child(4)::before {
+            content: '🤖';
+        }
+
+        .feature h3 {
+            font-size: 1.8em;
+            /* 减小特性标题字体大小 */
+            margin-bottom: 15px;
+            /* 减小特性标题下边距 */
+            color: #333;
+            margin-top: 30px;
+            /* 调整特性标题上边距 */
+        }
+
+        .feature p {
+            font-size: 1.2em;
+            /* 减小特性段落字体大小 */
+            color: #666;
+            line-height: 1.8;
+            /* 减小特性段落行高 */
+        }
+
+        /* 产品优势样式 */
+        .product-advantages {
+            color: white;
+            padding: 80px 0;
+            /* 减少产品优势部分的内边距 */
+            text-align: center;
+        }
+
+        .product-advantages h2 {
+            font-size: 3em;
+            /* 减小产品优势标题字体大小 */
+            margin-bottom: 50px;
+            /* 减小产品优势标题下边距 */
+        }
+
+        .advantages-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            width: 90%;
+            margin: 0 auto;
+            gap: 30px;
+        }
+
+        .advantage {
+            min-width: 250px;
+            padding: 30px 20px;
+            border: 2px solid white;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            width: calc(33.33% - 20px);
+            box-sizing: border-box;
+            min-height: 220px;
+        }
+
+        .advantage.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .advantage:hover {
+            transform: scale(1.05);
+            /* 减小悬停时的缩放 */
+        }
+
+        .advantage:active {
+            animation: clickEffect 0.3s ease;
+        }
+
+        @keyframes clickEffect {
+            0% {
+                transform: scale(1.05);
+            }
+
+            50% {
+                transform: scale(0.95);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        .advantage h3 {
+            font-size: 1.8em;
+            /* 减小优势标题字体大小 */
+            margin-bottom: 15px;
+            /* 减小优势标题下边距 */
+        }
+
+        .advantage p {
+            font-size: 1.2em;
+            /* 减小优势段落字体大小 */
+            color: #666;
+        }
+
+        /* 行为召唤样式 */
+        .call-to-action {
+            padding: 60px 0;
+            /* 减少行为召唤部分的内边距 */
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            /* 减小行为召唤容器的内边距 */
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .call-to-action h2 {
+            font-size: 2.5em;
+            /* 减小行为召唤标题字体大小 */
+            margin-bottom: 20px;
+            /* 减小行为召唤标题下边距 */
+            color: #333;
+        }
+
+        .call-to-action p {
+            font-size: 1.2em;
+            /* 减小行为召唤段落字体大小 */
+            color: #111;
+            margin-bottom: 30px;
+            /* 减小行为召唤段落下边距 */
+        }
+
+        .call-to-action button {
+            padding: 15px 30px;
+            /* 减小按钮内边距 */
+            font-size: 1.4em;
+            /* 减小按钮字体大小 */
+            background-color: #111;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .call-to-action button:hover {
+            background-color: #111129;
+        }
+
+        .call-to-action button:active {
+            transform: scale(0.95);
+        }
+
+        /* 淡入动画 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .advantage {
+                /*width: calc(33.33% - 40px);  删除固定宽度 */
+            }
+        }
+
+        @media (max-width: 992px) {
+            .feature {
+                /*width: calc(50% - 60px); 删除固定宽度 */
+            }
+
+            .advantage {
+                /*width: calc(50% - 40px); 删除固定宽度 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 3em;
+            }
+
+            .header-section p {
+                font-size: 1.2em;
+            }
+
+            .product-features h2,
+            .product-advantages h2,
+            .call-to-action h2 {
+                font-size: 2.5em;
+            }
+
+            .feature h3,
+            .advantage h3 {
+                font-size: 1.6em;
+            }
+
+            .call-to-action button {
+                padding: 15px 30px;
+                font-size: 1.2em;
+            }
+
+            .feature,
+            .advantage {
+                width: 100%;
+                flex-grow: 1;
+                flex-basis: 100%;
+                /* 确保在小屏幕上占据整行 */
+            }
+        }
+
+        /* 移除 a 标签的默认样式 */
+        .feature-link,
+        .advantage-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            /* 使链接占据整个容器 */
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 确保链接覆盖整个容器 */
+        .feature,
+        .advantage {
+            position: relative;
+        }
+
+        .feature-link::before,
+        .advantage-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            /* 确保链接在内容上方 */
+        }
+
+        /* 浮动联系方式样式 */
+        .floating-contact {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fff;
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            /* 确保在其他内容之上 */
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .floating-contact:hover {
+            background-color: #f0f0f0;
             transform: translateY(-5px);
         }
 
-        /* Font Cards */
-        .showcase {
-            padding: 3rem 5%;
-            display: grid;
-            gap: 2rem;
-            grid-template-columns: repeat(3, minmax(280px, 1fr));
-            justify-content: center;
-            transition: grid-template-columns 0.3s ease;
+        .floating-contact a {
+            color: #0070c9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .font-card {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 1.5rem;
-            border: 1px solid var(--neon-blue);
-            transform-style: preserve-3d;
-            transition: transform 0.5s, box-shadow 0.5s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .font-card:hover,
-        .font-card:focus {
-            transform: rotateX(10deg) rotateY(10deg) translateZ(20px);
-            box-shadow: 0 0 30px var(--neon-blue), 0 0 60px var(--neon-pink);
-            outline: none;
-        }
-
-        .font-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, var(--neon-blue), transparent 30%);
-            animation: rotate 4s linear infinite;
-        }
-
-        .font-card h3 {
-            color: var(--neon-blue);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .font-card p {
-            color: var(--neon-pink);
-            font-size: 0.9rem;
-        }
-
-        .font-card.preview {
-            margin: 1rem 0;
+        .floating-contact i {
+            font-size: 1.5em;
         }
 
         /* 响应式调整 */
         @media (max-width: 768px) {
-            .showcase {
-                grid-template-columns: repeat(auto-fill, minmax(calc(50% - 10px), 1fr)); /* 修改为单列布局 */
+            .floating-contact {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 15px;
             }
 
-            .font-card {
-                width: auto; /* 移除宽度限制，让其自适应内容 */
+            .floating-contact a {
+                font-size: 0.9em;
+            }
+
+            .floating-contact i {
+                font-size: 1.2em;
             }
         }
     </style>
+
 </head>
 
 <body>
-    <div class="grid-bg"></div>
-
     <header>
         <div class="logo">
-            <a href="https://www.zizao.top/">
-                <img src="logo2.png" alt="字造导航">
+            <a href="index.html" aria-label="回到首页">
+                <img id="logoImage" src="logo.png" alt="网站 logo">
             </a>
         </div>
         <nav>
             <ul id="nav-ul">
-                <li><a href="https://www.zizao.top/hao">首页</a></li>
-                <li><a href="https://www.zizao.top/fonts">字库产品</a></li>
-                <li><a href="https://www.zizao.top/bao">百宝库</a></li>
-                <li class="has-submenu">
-                    <a href="#">更多</a>
-                    <ul class="submenu">
-                        <li><a href="#">关于我们</a></li>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="fonts.html">字库产品</a></li>
+                <li><a href="bao.html">百宝库</a></li>
+                <li><a href="hao.html">字造导航</a></li>
+                <li><a href="more.html">更多</a>
+                    <ul>
+                        <li><a href="#">近期发布</a></li>
+                        <li><a href="#">表情包</a></li>
                         <li><a href="#">联系我们</a></li>
-                        <li><a href="#">友情链接</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
-        <button class="toggle-button">
-            ☰
-        </button>
+        <button class="toggle-button" aria-label="切换导航菜单" aria-expanded="false">☰</button>
     </header>
 
-    <section class="hero">
-        <h1 data-text="Hello, Welcome to&#10;ΖΔΩ Type!">Hello, Welcome to<br />ΖΔΩ World!</h1>
-        <div style="text-align: center; margin-top: 50px;">
-            <a href="#content-start">
-                <i class="fas fa-chevron-down glowing-arrow"></i>
-            </a>
+    <!-- 头图 -->
+    <section class="header-section">
+        <h1>字造起点黑，即将上线</h1>
+        <p>免费商用双轴可变字体，敬请期待</p>
+    </section>
+
+    <!-- 四大核心产品 -->
+    <section class="product-features">
+        <h2>专注优化四大核心业务</h2>
+        <div class="features-container">
+            <div class="feature">
+                <a href="#" class="feature-link">
+                    <h3>字库产品</h3>
+                    <p>搭载顶级配置，拥有强大的处理能力，轻松应对各种复杂任务，让您的工作和娱乐高效无阻。</p>
+                </a>
+            </div>
+            <div class="feature">
+                <a href="#" class="feature-link">
+                    <h3>百宝库资源</h3>
+                    <p>选用高品质材料，经过严格的质量检测，确保产品经久耐用，为您提供长期稳定的使用体验。</p>
+                </a>
+            </div>
+            <div class="feature">
+                <a href="#" class="feature-link">
+                    <h3>字造超引</h3>
+                    <p>采用先进的安全技术，全方位保护您的数据和隐私，让您在使用过程中无需担忧信息泄露风险。</p>
+                </a>
+            </div>
+            <div class="feature">
+                <a href="#" class="feature-link">
+                    <h3>字库字体Pro</h3>
+                    <p>具备智能交互功能，操作简单易懂，让您轻松上手，享受便捷的科技生活。</p>
+                </a>
+            </div>
         </div>
     </section>
 
-    <section class="showcase" style="font-family: sans-serif;">
-        <a href="https://www.zizao.top/hao" target="_blank" style="text-decoration: none; color: inherit;">
-            <div class="font-card">
-                <h3 style="color: var(--neon-blue)">字造导航</h3>
-                <p style="color: var(--neon-pink)">设计师的灵感百宝库</p>
-                <div class="preview" style="font-size: 3em; margin: 2rem 0; animation: pulse 2s infinite">设计导航
-                </div>
+    <!-- 产品优势 -->
+    <section class="product-advantages header-section">
+        <!-- 应用 header-section 类 -->
+        <h2>工具箱-专注字体字库领域研发</h2>
+        <div class="advantages-container">
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>品质卓越</h3>
+                    <p>严格把控生产环节，选用优质材料，确保产品品质始终如一。</p>
+                </a>
             </div>
-        </a>
-
-        <a href="https://www.zizao.top/fonts" target="_blank" style="text-decoration: none; color: inherit;">
-            <div class="font-card">
-                <h3 style="color: var(--neon-blue)">字库产品</h3>
-                <p style="color: var(--neon-pink)">免费商用字体-字造起点黑</p>
-                <div class="preview"
-                    style="font-size: 3em; margin: 2rem 0; animation: slide 3s linear infinite alternate">
-                    Fonts</div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>技术领先</h3>
+                    <p>不断投入研发，采用前沿技术，保持产品在行业中的领先地位。</p>
+                </a>
             </div>
-        </a>
-
-        <a href="https://www.zizao.top/bao" target="_blank" style="text-decoration: none; color: inherit;">
-            <div class="font-card">
-                <h3 style="color: var(--neon-blue)">字造百宝库</h3>
-                <p style="color: var(--neon-pink)">即用即搜</p>
-                <div class="preview"
-                    style="font-size: 3em; margin: 2rem 0; animation: scale 3s linear infinite alternate">
-                    百宝库</div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>服务贴心</h3>
+                    <p>专业的客服团队随时待命，为您提供全方位、贴心的服务支持。</p>
+                </a>
             </div>
-        </a>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>价格合理</h3>
+                    <p>在保证高品质的前提下，制定合理的价格，让您物超所值。</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>创新设计</h3>
+                    <p>独特新颖的外观设计，融合时尚与实用元素，彰显个性魅力。</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>安全可靠</h3>
+                    <p>多重安全防护机制，保障您的使用安全，让您无后顾之忧。</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>易于升级</h3>
+                    <p>支持软件和硬件升级, 让您的产品始终保持最佳性能.</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>广泛适配</h3>
+                    <p>与多种设备和系统兼容, 方便您的日常使用和拓展.</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>环保节能</h3>
+                    <p>采用环保材料和节能技术, 降低能耗, 为环保贡献一份力量.</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>快速售后</h3>
+                    <p>高效的售后响应机制, 及时解决您遇到的问题, 节省您的时间.</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>数据保护</h3>
+                    <p>先进的数据加密技术, 全方位保护您的隐私和数据安全.</p>
+                </a>
+            </div>
+            <div class="advantage">
+                <a href="#" class="advantage-link">
+                    <h3>口碑良好</h3>
+                    <p>凭借出色的产品和服务, 赢得了广大用户的信赖和好评.</p>
+                </a>
+            </div>
+        </div>
     </section>
 
-    <div id="content-start" style="position: absolute; top: 100vh;"></div>
+    <!-- 行为召唤 -->
+    <section class="call-to-action">
+        <div class="cta-container">
+            <h2>即刻拥有</h2>
+            <p>别再犹豫, 立即选购我们的产品, 开启美好生活新篇章!</p>
+            <button>立即购买</button>
+        </div>
+    </section>
+
     <footer>
         <div class="footer-container">
             <div class="footer-section">
                 <h3>关于我们</h3>
-                <p>字造导航是一个为设计师提供灵感和资源的平台。</p>
+                <p>我们是一家致力于提供优质产品的公司。我们的使命是让您的生活更加美好。</p>
             </div>
             <div class="footer-section">
                 <h3>联系方式</h3>
-                <p>邮箱：example@email.com</p>
-                <p>电话：123-456-7890</p>
+                <ul>
+                    <li>邮箱：info@example.com</li>
+                    <li>电话：010-12345678</li>
+                    <li>地址：北京市海淀区</li>
+                </ul>
             </div>
             <div class="footer-section">
-                <h3>友情链接</h3>
+                <h3>快速链接</h3>
                 <ul>
-                    <li><a href="#">链接1</a></li>
-                    <li><a href="#">链接2</a></li>
-                    <li><a href="#">链接3</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">服务支持</a></li>
+                    <li><a href="#">最新动态</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 字造. All rights reserved.</p>
+            <p>&copy; 2024 某某公司. All rights reserved.</p>
         </div>
     </footer>
 
+    <div class="floating-contact">
+    <a href="https://zizao.top/hao" target="_blank" rel="noopener noreferrer" aria-label="最新上线产品">
+        <i class="fas fa-envelope"></i> 最新上线产品
+    </a>
+    </div>
+
+
     <script>
-       // Cursor Trail Effect (Simplified)
-document.addEventListener('mousemove', (e) => {
-    const trail = document.createElement('div');
-    trail.className = 'cursor-trail';
-    trail.style.left = e.clientX - 5 + 'px';
-    trail.style.top = e.clientY - 5 + 'px';
-    document.body.appendChild(trail);
-    setTimeout(() => trail.remove(), 300);
-});
+        let prevScrollPos = window.pageYOffset;
+        const header = document.querySelector("header");
 
-// 3D Parallax Effect
-document.addEventListener('mousemove', (e) => {
-    const hero = document.querySelector('.hero h1');
-    const x = (window.innerWidth / 2 - e.pageX) / 30;
-    const y = (window.innerHeight / 2 - e.pageY) / 30;
-    hero.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-});
+        function controlHeader() {
+            let currentScrollPos = window.pageYOffset;
+            if (prevScrollPos > currentScrollPos) {
+                header.classList.remove("hidden");
+            } else {
+                header.classList.add("hidden");
+            }
+            prevScrollPos = currentScrollPos;
+        }
 
-// Dynamic Grid Animation
-const grid = document.querySelector('.grid-bg');
-let offset = 0;
+        window.addEventListener("scroll", controlHeader);
 
-function animateGrid() {
-    offset += 0.2;
-    grid.style.backgroundPosition = `${offset}px ${offset}px`;
-    requestAnimationFrame(animateGrid);
-}
-animateGrid();
+        const toggleButton = document.querySelector('.toggle-button');
+        const navUl = document.querySelector('#nav-ul');
 
-// Mobile Menu Setup
-function setupMobileMenu() {
-    const toggleButton = document.querySelector('.toggle-button');
-    const navUl = document.getElementById('nav-ul');
-
-    if (!toggleButton || !navUl) {
-        console.error('Toggle button or navUl not found');
-        return;
-    }
-
-    toggleButton.addEventListener('click', () => {
-        console.log('Toggle button clicked!'); // 添加这行
-        navUl.classList.toggle('show');
-        console.log('Nav UL classList:', navUl.classList); // 添加这行
-        // 保持按钮焦点，防止消失
-        toggleButton.focus();
-    });
-}
-
-// Initialization
-document.addEventListener('DOMContentLoaded', () => {
-    setupMobileMenu(); // Call mobile menu function
-
-    // Submenu Handling
-    const hasSubmenuItems = document.querySelectorAll('li.has-submenu > a');
-    hasSubmenuItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default link behavior
-            const parentLi = item.parentNode;
-            parentLi.classList.toggle('active');
-            e.stopPropagation(); // Prevent event bubbling
+        toggleButton.addEventListener('click', () => {
+            navUl.classList.toggle('show');
+            toggleButton.setAttribute('aria-expanded', navUl.classList.contains('show'));
         });
-    });
 
-    // Close submenus on body click
-    document.body.addEventListener('click', () => {
-        const activeSubmenus = document.querySelectorAll('li.has-submenu.active');
-        activeSubmenus.forEach(submenu => {
-            submenu.classList.remove('active');
-        });
-    });
-});
+        function revealElements() {
+            const reveals = document.querySelectorAll('.feature, .advantage');
+            for (let i = 0; i < reveals.length; i++) {
+                let windowHeight = window.innerHeight;
+                let revealTop = reveals[i].getBoundingClientRect().top;
+                let revealPoint = 150;
 
+                if (revealTop < windowHeight - revealPoint) {
+                    reveals[i].classList.add('visible');
+                } else {
+                    reveals[i].classList.remove('visible');
+                }
+            }
+        }
+
+        // 初始时检查元素可见性
+        revealElements();
+
+        // 滚动时检查元素可见性
+        window.addEventListener('scroll', revealElements);
     </script>
-
 </body>
 
 </html>
