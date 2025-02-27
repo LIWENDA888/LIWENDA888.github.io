@@ -4,22 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO 优化 -->
     <title>字造 - 始终如一的创造</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
     <meta name="author" content="字造">
 
     <!-- 社交媒体优化 (Open Graph) -->
-    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:title" content="字造产品展示">
     <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta property="og:image" content="URL_TO_YOUR_IMAGE">
     <meta property="og:url" content="URL_TO_YOUR_PAGE">
     <meta property="og:type" content="website">
 
     <!-- 网站图标 -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="index-image/index.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -28,6 +28,7 @@
         /* 全局样式 */
         html {
             box-sizing: border-box;
+            height: 100%;
         }
 
         *,
@@ -42,6 +43,7 @@
             padding: 0;
             background-color: #f9f9f9;
             overflow-x: hidden;
+            height: 100%;
         }
 
         /* 头部导航栏样式 */
@@ -320,27 +322,13 @@
             color: white;
             text-align: center;
             padding: 150px 0;
-            /* 减少头部内边距，适应小屏幕 */
             background-color: #111;
-            /* 深色背景 */
-            /* 星空背景 */
-            background-image:
-                radial-gradient(circle, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
-                /* 更亮更大的星星 */
-                radial-gradient(circle, rgba(255, 255, 255, 0.2) 4px, transparent 4px),
-                /* 更亮更大的星星 */
-                radial-gradient(circle, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
-                /* 更亮更大的星星 */
-                radial-gradient(circle, rgba(255, 255, 255, 0.2) 4px, transparent 4px);
-            /* 更亮更大的星星 */
-            background-size: 100px 100px,
-                200px 200px,
-                150px 150px,
-                250px 250px;
-            /* 更大的背景尺寸 */
-            animation: moveStars 10s linear infinite;
-            /* 缓慢动画 */
             margin-top: 0px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .header-section::before {
@@ -350,11 +338,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom,
-                    rgba(0, 0, 0, 0.9) 0%,
-                    rgba(0, 0, 0, 0.6) 50%,
-                    rgba(0, 0, 0, 0.9) 100%);
+            background-color: #000;
+            opacity: 0.8;
             z-index: 1;
+        }
+
+        /* 深空背景 (Canvas) */
+        .header-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            /* 确保 Canvas 位于内容下方 */
+            overflow: hidden;
         }
 
         .header-section>* {
@@ -364,42 +362,65 @@
 
         .header-section h1 {
             font-size: 4em;
-            /* 减小标题字体大小 */
             margin-bottom: 20px;
-            /* 减小标题下边距 */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .header-section p {
             font-size: 1.5em;
-            /* 减小段落字体大小 */
             opacity: 0.9;
+            margin-bottom: 30px;
         }
 
-        /* 星星移动动画 */
-        @keyframes moveStars {
-            from {
-                background-position: 0 0, 0 0, 0 0, 0 0;
-            }
+        /* 按钮容器样式 */
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
 
-            to {
-                background-position: 1000px 1000px, 400px 400px, 300px 300px, 700px 700px;
-            }
+        /* 按钮样式 */
+        .header-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            display: inline-block;
+        }
+
+        .header-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-button:active {
+            transform: translateY(0) scale(0.95);
+            box-shadow: none;
+        }
+
+        .header-button.white {
+            background-color: white;
+        }
+
+        .header-button.red {
+            background-color: #dc3545;
+            color: white;
         }
 
         /* 产品特性样式 */
         .product-features {
             padding: 80px 0;
-            /* 减少产品特性部分的内边距 */
             text-align: center;
             background-color: #fff;
         }
 
         .product-features h2 {
             font-size: 3em;
-            /* 减小产品特性标题字体大小 */
             margin-bottom: 50px;
-            /* 减小产品特性标题下边距 */
             color: #333;
         }
 
@@ -408,17 +429,24 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 30px;
-            /* 减小特性之间的间距 */
             width: 90%;
             margin: 0 auto;
         }
 
+        /* 修改 features-container 样式 */
+        @media (min-width: 769px) {
+            .features-container {
+                display: flex;
+                justify-content: space-around; /* 均匀分布容器 */
+                flex-wrap: wrap;
+                width: 80%; /* 调整容器宽度 */
+                margin: 0 auto;
+            }
+        }
+
         .feature {
-            /*width: calc(50% - 60px);  删除固定宽度 */
             min-width: 300px;
-            /* 增加最小宽度 */
             padding: 30px 20px;
-            /* 减小特性内部的内边距 */
             background-color: #f5f5f5;
             border-radius: 20px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -427,9 +455,15 @@
             transform: scale(0.8);
             position: relative;
             flex-grow: 1;
-            /* 调整 flex-grow 值 */
             flex-basis: 300px;
-            /* 设置 flex-basis，让元素有初始大小 */
+        }
+
+        /* 修改 feature 样式 */
+        @media (min-width: 769px) {
+            .feature {
+                width: calc(50% - 30px); /* 每行显示 2 个，考虑间距 */
+                margin-bottom: 30px; /* 调整容器间距 */
+            }
         }
 
         .feature.visible {
@@ -440,20 +474,16 @@
         .feature:hover {
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
             transform: translateY(-10px);
-            /* 减小悬停时的位移 */
         }
 
         .feature::before {
             content: '';
             position: absolute;
             top: -20px;
-            /* 调整图标位置 */
             left: 50%;
             transform: translateX(-50%);
             width: 50px;
-            /* 减小图标大小 */
             height: 50px;
-            /* 减小图标大小 */
             border-radius: 50%;
             background-color: #333;
             display: flex;
@@ -461,7 +491,6 @@
             align-items: center;
             color: white;
             font-size: 1.5em;
-            /* 减小图标字体大小 */
         }
 
         .feature:nth-child(1)::before {
@@ -482,41 +511,52 @@
 
         .feature h3 {
             font-size: 1.8em;
-            /* 减小特性标题字体大小 */
             margin-bottom: 15px;
-            /* 减小特性标题下边距 */
             color: #333;
             margin-top: 30px;
-            /* 调整特性标题上边距 */
         }
 
         .feature p {
             font-size: 1.2em;
-            /* 减小特性段落字体大小 */
             color: #666;
             line-height: 1.8;
-            /* 减小特性段落行高 */
         }
 
         /* 产品优势样式 */
         .product-advantages {
+            position: relative;
             color: white;
             padding: 80px 0;
-            /* 减少产品优势部分的内边距 */
             text-align: center;
+            background-color: rgba(20, 20, 20, 1);
+            overflow: hidden;
+        }
+
+        /* 添加深空背景 */
+        .product-advantages::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('deep-space-texture.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: -1;
+            mix-blend-mode: overlay;
         }
 
         .product-advantages h2 {
             font-size: 3em;
-            /* 减小产品优势标题字体大小 */
             margin-bottom: 50px;
-            /* 减小产品优势标题下边距 */
         }
 
         .advantages-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: center;
             width: 90%;
             margin: 0 auto;
             gap: 30px;
@@ -533,6 +573,7 @@
             width: calc(33.33% - 20px);
             box-sizing: border-box;
             min-height: 220px;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .advantage.visible {
@@ -542,7 +583,6 @@
 
         .advantage:hover {
             transform: scale(1.05);
-            /* 减小悬停时的缩放 */
         }
 
         .advantage:active {
@@ -565,21 +605,17 @@
 
         .advantage h3 {
             font-size: 1.8em;
-            /* 减小优势标题字体大小 */
             margin-bottom: 15px;
-            /* 减小优势标题下边距 */
         }
 
         .advantage p {
             font-size: 1.2em;
-            /* 减小优势段落字体大小 */
-            color: #666;
+            color: #eee;
         }
 
         /* 行为召唤样式 */
         .call-to-action {
             padding: 60px 0;
-            /* 减少行为召唤部分的内边距 */
             text-align: center;
             background-color: #f0f0f0;
         }
@@ -588,75 +624,58 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 30px;
-            /* 减小行为召唤容器的内边距 */
             border-radius: 20px;
             background-color: rgba(255, 255, 255, 0.8);
         }
 
         .call-to-action h2 {
             font-size: 2.5em;
-            /* 减小行为召唤标题字体大小 */
             margin-bottom: 20px;
-            /* 减小行为召唤标题下边距 */
             color: #333;
         }
 
         .call-to-action p {
             font-size: 1.2em;
-            /* 减小行为召唤段落字体大小 */
             color: #111;
             margin-bottom: 30px;
-            /* 减小行为召唤段落下边距 */
         }
 
         .call-to-action button {
             padding: 15px 30px;
-            /* 减小按钮内边距 */
             font-size: 1.4em;
-            /* 减小按钮字体大小 */
             background-color: #111;
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .call-to-action button:hover {
-            background-color: #111129;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .call-to-action button:active {
-            transform: scale(0.95);
+            transform: translateY(0) scale(0.95);
+            box-shadow: none;
         }
 
-        /* 淡入动画 */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
 
         /* 响应式设计 */
         @media (max-width: 1200px) {
             .advantage {
-                /*width: calc(33.33% - 40px);  删除固定宽度 */
+                width: calc(33.33% - 40px);
             }
         }
 
         @media (max-width: 992px) {
             .feature {
-                /*width: calc(50% - 60px); 删除固定宽度 */
+                width: calc(50% - 60px);
             }
 
             .advantage {
-                /*width: calc(50% - 40px); 删除固定宽度 */
+                width: calc(50% - 40px);
             }
         }
 
@@ -690,7 +709,12 @@
                 width: 100%;
                 flex-grow: 1;
                 flex-basis: 100%;
-                /* 确保在小屏幕上占据整行 */
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
             }
         }
 
@@ -700,7 +724,6 @@
             text-decoration: none;
             color: inherit;
             display: block;
-            /* 使链接占据整个容器 */
             height: 100%;
             width: 100%;
         }
@@ -720,7 +743,6 @@
             bottom: 0;
             left: 0;
             z-index: 1;
-            /* 确保链接在内容上方 */
         }
 
         /* 浮动联系方式样式 */
@@ -734,7 +756,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
             z-index: 999;
-            /* 确保在其他内容之上 */
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -774,6 +795,11 @@
                 font-size: 1.2em;
             }
         }
+
+        /* Canvas 样式 */
+        canvas {
+            display: block;
+        }
     </style>
 
 </head>
@@ -781,23 +807,17 @@
 <body>
     <header>
         <div class="logo">
-            <a href="index.html" aria-label="回到首页">
-                <img id="logoImage" src="logo.png" alt="网站 logo">
+            <a href="https://zizao.top" aria-label="回到首页">
+                <img id="logoImage" src="index-image/logo.png" alt="网站 logo">
             </a>
         </div>
         <nav>
             <ul id="nav-ul">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="fonts.html">字库产品</a></li>
-                <li><a href="bao.html">百宝库</a></li>
-                <li><a href="hao.html">字造导航</a></li>
-                <li><a href="more.html">更多</a>
-                    <ul>
-                        <li><a href="#">近期发布</a></li>
-                        <li><a href="#">表情包</a></li>
-                        <li><a href="#">联系我们</a></li>
-                    </ul>
-                </li>
+                <li><a href="https://zizao.top">首页</a></li>
+                <li><a href="https://zizao.top/fonts">字库产品</a></li>
+                <li><a href="https://zizao.top/tool/bao">百宝库</a></li>
+                <li><a href="https://zizao.top/tool/hao">设计导航</a></li>
+                <li><a href="https://zizao.top/more">联系我们</a></li>
             </ul>
         </nav>
         <button class="toggle-button" aria-label="切换导航菜单" aria-expanded="false">☰</button>
@@ -805,8 +825,17 @@
 
     <!-- 头图 -->
     <section class="header-section">
+        <div class="header-background">
+            <canvas id="particleCanvas"></canvas>
+        </div>
         <h1>字造起点黑，即将上线</h1>
         <p>免费商用双轴可变字体，敬请期待</p>
+
+        <!-- 按钮容器 -->
+        <div class="header-buttons">
+            <a href="#" class="header-button white">在线体验</a>
+            <a href="#" class="header-button red">下载</a>
+        </div>
     </section>
 
     <!-- 四大核心产品 -->
@@ -841,8 +870,7 @@
     </section>
 
     <!-- 产品优势 -->
-    <section class="product-advantages header-section">
-        <!-- 应用 header-section 类 -->
+    <section class="product-advantages">
         <h2>工具箱-专注字体字库领域研发</h2>
         <div class="advantages-container">
             <div class="advantage">
@@ -858,10 +886,8 @@
                 </a>
             </div>
             <div class="advantage">
-                <a href="#" class="advantage-link">
-                    <h3>服务贴心</h3>
-                    <p>专业的客服团队随时待命，为您提供全方位、贴心的服务支持。</p>
-                </a>
+                <h3>服务贴心</h3>
+                <p>专业的客服团队随时待命，为您提供全方位、贴心的服务支持。</p>
             </div>
             <div class="advantage">
                 <a href="#" class="advantage-link">
@@ -953,18 +979,18 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 某某公司. All rights reserved.</p>
+            <p>&copy; 2025 字造. All rights reserved.</p>
         </div>
     </footer>
 
     <div class="floating-contact">
-    <a href="https://zizao.top/hao" target="_blank" rel="noopener noreferrer" aria-label="最新上线产品">
-        <i class="fas fa-envelope"></i> 最新上线产品
-    </a>
+        <a href="https://zizao.top/tool/hao" target="_blank" rel="noopener noreferrer" aria-label="最新上线产品">
+            <i class="fas fa-envelope"></i> 最新上线产品
+        </a>
     </div>
 
-
     <script>
+        // -------------------- 头部导航栏 --------------------
         let prevScrollPos = window.pageYOffset;
         const header = document.querySelector("header");
 
@@ -988,6 +1014,7 @@
             toggleButton.setAttribute('aria-expanded', navUl.classList.contains('show'));
         });
 
+        // -------------------- 页面元素显隐动画 --------------------
         function revealElements() {
             const reveals = document.querySelectorAll('.feature, .advantage');
             for (let i = 0; i < reveals.length; i++) {
@@ -1008,6 +1035,68 @@
 
         // 滚动时检查元素可见性
         window.addEventListener('scroll', revealElements);
+
+        // -------------------- Canvas 粒子动画 --------------------
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 画布初始化
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.querySelector('.header-section').offsetHeight; // 确保 Canvas 高度与 header-section 相同
+        }
+
+        // 监听窗口大小变化
+        window.addEventListener('resize', () => {
+            resize();
+            // 重新初始化粒子，避免粒子位置错乱
+            particles.forEach(p => {
+                p.x = Math.random() * canvas.width;
+                p.y = Math.random() * canvas.height;
+            });
+        });
+
+        // 立即执行一次 resize 初始化画布大小
+        resize();
+
+        // 粒子配置
+        const particles = Array(150).fill().map(() => ({
+            x: Math.random() * canvas.
+            width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 6 + 2,  // 尺寸范围1-5px
+            speed: Math.random() * 0.8 + 0.4,
+            angle: Math.random() * Math.PI * 2, // 随机角度
+            opacity: Math.random() * 0.6 + 0.4 // 随机透明度
+        }));
+
+        // 动画循环
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                // 粒子移动
+                p.x += Math.cos(p.angle) * p.speed;
+                p.y += Math.sin(p.angle) * p.speed;
+
+                // 粒子超出边界处理
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                // 绘制粒子
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`; // 白色粒子，带透明度
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // 启动动画
+        animate();
     </script>
 </body>
 

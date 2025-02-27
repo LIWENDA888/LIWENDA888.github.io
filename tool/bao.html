@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO 优化 -->
-    <title>联系我们 - 字造</title>
+    <title>字库产品 - 字造</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
     <meta name="author" content="字造">
@@ -30,15 +30,6 @@
             background-color: #f8f8f8;
             color: #333;
             line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        /* 容器样式 */
-        .container {
-            width: 80%;
-            max-width: 1400px;
-            margin: 0 auto;
-            text-align: left;
         }
 
         /* 头部导航栏样式 */
@@ -51,17 +42,22 @@
             align-items: center;
             height: 66px;
             padding: 0 10%;
-            position: sticky;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             box-sizing: border-box;
+            margin-bottom: 0px;
             z-index: 100;
-            transition: top 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         header.hidden {
             top: -66px;
+        }
+
+        header:hover {
+            background-color: #e8e8ea;
         }
 
         .logo {
@@ -128,6 +124,47 @@
             color: #000;
         }
 
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -15px;
+            background-color: #fff;
+            min-width: 200px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 4;
+        }
+
+        nav ul li:hover ul {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav ul li ul li {
+            margin: 0;
+        }
+
+        nav ul li ul li a {
+            color: #000;
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav ul li ul li a:hover {
+            background-color: #f5f5f5;
+            color: #0070c9;
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 0 20px;
@@ -155,6 +192,21 @@
                 padding: 15px 20px;
             }
 
+            nav ul li ul {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                display: none;
+            }
+
+            nav ul li.active ul {
+                display: block;
+            }
+
             .toggle-button {
                 display: block;
                 position: absolute;
@@ -164,39 +216,13 @@
             }
         }
 
-        /* 作品展示样式 */
-        .work-header {
-            padding: 40px 0;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .work-title {
-            font-size: 3em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #222;
-        }
-
-        .work-content {
-            padding: 40px 0;
-        }
-
-        .contact-info-container {
-            background-color: #fff;
-            padding: 30px;
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-        }
-
-        .contact-info-container h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            color: #222;
+        /* 嵌入页面样式 */
+        .embedded-page {
+            width: 100%;
+            height: calc(100vh - 66px - 84px); /* 减去导航栏和底部导航栏的高度 */
+            border: none;
+            display: block; /* 确保 iframe 是块级元素 */
+            margin-top: 66px; /* 留出导航栏的空间 */
         }
 
         /* 底部导航栏样式 */
@@ -284,10 +310,15 @@
         }
     </style>
     <script>
-        function toggleNav() {
-            var navUl = document.getElementById("nav-ul");
-            navUl.classList.toggle("show");
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.querySelector('.toggle-button');
+            const nav = document.querySelector('nav');
+
+            toggleButton.addEventListener('click', () => {
+                nav.querySelector('ul').classList.toggle('show');
+                toggleButton.setAttribute('aria-expanded', nav.querySelector('ul').classList.contains('show'));
+            });
+        });
     </script>
 </head>
 
@@ -298,9 +329,9 @@
                 <img src="index-image/logo.png" alt="网站 logo">
             </a>
         </div>
-        <button class="toggle-button" onclick="toggleNav()" aria-label="切换导航菜单" aria-expanded="false">☰</button>
-        <nav>
-            <ul id="nav-ul">
+        <button class="toggle-button" id="toggle-button" aria-label="切换导航菜单" aria-expanded="false">☰</button>
+        <nav id="nav">
+            <ul>
                 <li><a href="https://zizao.top">首页</a></li>
                 <li><a href="https://zizao.top/fonts">字库产品</a></li>
                 <li><a href="https://zizao.top/tool/bao">百宝库</a></li>
@@ -310,31 +341,8 @@
         </nav>
     </header>
 
-    <main class="container">
-        <article class="work-header">
-            <h1 class="work-title">联系我们</h1>
-        </article>
-
-        <article class="work-content">
-            <div class="contact-info-container">
-                <div class="contact-content" style="width: 80%; margin: 0 auto;">
-                    <h3>关于我们</h3>
-                    <p>字造导航是一个为设计师提供灵感和资源的平台。我们致力于收集和整理各类优质的字库产品和设计资源，为设计师们打造一个便捷、高效的设计工具集合地。无论是专业设计师还是设计爱好者，都能在我们的平台上找到所需的灵感和资源，提升自己的设计水平。</p>
-                    <h3>联系方式</h3>
-                    <p>如果您有任何问题、建议或者合作意向，欢迎通过以下方式联系我们：</p>
-                    <p>邮箱：example@email.com</p>
-                    <p>电话：123 - 456 - 7890</p>
-                    <h3>友情链接</h3>
-                    <p>我们与一些优秀的设计网站建立了友情链接，您可以通过以下链接访问他们的网站：</p>
-                    <ul>
-                        <li><a href="#">链接1</a></li>
-                        <li><a href="#">链接2</a></li>
-                        <li><a href="#">链接3</a></li>
-                    </ul>
-                </div>
-            </div>
-        </article>
-    </main>
+    <!-- 嵌入页面 -->
+    <iframe class="embedded-page" src="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c"></iframe>
 
     <footer>
         <div class="footer-container">
@@ -360,7 +368,6 @@
             <p>&copy; 2025 字造. All rights reserved.</p>
         </div>
     </footer>
-
 </body>
 
 </html>
