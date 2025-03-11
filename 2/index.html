@@ -1,0 +1,149 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字体设计师工作室</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #f3e7e9 0%, #e3eeff 100%);
+        }
+        .content {
+            padding: 20px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        section {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        i.fa-lightbulb, i.fa-certificate, i.fa-palette {
+            font-size: 48px;
+            color: #ff6f61;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        i.fa-lightbulb:hover, i.fa-certificate:hover, i.fa-palette:hover {
+            transform: scale(1.2);
+            color: #ff9b85;
+        }
+        a {
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        a:hover {
+            background: linear-gradient(90deg, #feb47b 0%, #ff7e5f 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- 引入顶部导航栏 -->
+    <div id="header"></div>
+    <script>
+        fetch('header.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load header.html');
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                document.getElementById('header').innerHTML = '<p>无法加载顶部导航栏</p>';
+            });
+    </script>
+
+    <!-- 主要内容 -->
+    <div class="content">
+        <h1 style="text-align: center; margin-bottom: 30px;">欢迎来到字体设计师工作室</h1>
+        <p style="text-align: center; font-size: 18px; color: #555;">我们专注于字体设计，提供高质量的字体解决方案，满足您的设计需求。</p>
+        <p style="text-align: center; font-size: 18px; color: #555;">探索我们的作品集，了解更多关于字体设计的精彩内容。</p>
+
+        <!-- 新增字体设计特点模块 -->
+        <section style="margin-top: 40px; padding: 30px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">我们的核心特点</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                <div style="text-align: center; width: 200px;">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3 style="margin-top: 10px;">创新性</h3>
+                    <p>我们不断探索新的设计理念，打造独特的字体风格。</p>
+                </div>
+                <div style="text-align: center; width: 200px;">
+                    <i class="fas fa-certificate"></i>
+                    <h3 style="margin-top: 10px;">专业性</h3>
+                    <p>拥有多年经验的专业团队，确保每款字体的高品质。</p>
+                </div>
+                <div style="text-align: center; width: 200px;">
+                    <i class="fas fa-palette"></i>
+                    <h3 style="margin-top: 10px;">多样性</h3>
+                    <p>涵盖多种字体风格，满足不同场景的设计需求。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 新增客户评价模块 -->
+        <section style="margin-top: 40px; padding: 30px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">客户评价</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 300px;">
+                    <p style="font-style: italic;">“他们的字体设计非常独特，完全超出了我的预期！”</p>
+                    <p style="font-weight: bold; margin-top: 10px;">—— 张先生，设计师</p>
+                </div>
+                <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 300px;">
+                    <p style="font-style: italic;">“专业团队提供的定制服务让我感到非常满意。”</p>
+                    <p style="font-weight: bold; margin-top: 10px;">—— 李女士，品牌经理</p>
+                </div>
+                <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 300px;">
+                    <p style="font-style: italic;">“字体种类丰富，适合各种设计场景。”</p>
+                    <p style="font-weight: bold; margin-top: 10px;">—— 王先生，广告策划</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 新增模块：关于我们 -->
+        <section style="margin-top: 40px; padding: 30px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">关于我们</h2>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                <p style="max-width: 600px; text-align: center; font-size: 18px; color: #555;">我们是一支充满激情的字体设计团队，致力于为客户提供创新、专业的字体解决方案。无论是品牌定制还是个人项目，我们都能为您量身打造最合适的字体。</p>
+                <a href="#">了解更多</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- 引入底部栏 -->
+    <div id="footer"></div>
+    <script>
+        fetch('footer.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load footer.html');
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading footer:', error);
+                document.getElementById('footer').innerHTML = '<p>无法加载底部栏</p>';
+            });
+    </script>
+</body>
