@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>字造导航 - 设计师的灵感百宝库</title>
+    <meta name="description" content="字造产品展示可以通过点击引擎按钮或在搜索框中按下 Tab 键来切换搜索引擎。  选择的搜索引擎会被高亮显示，并且在刷新页面后仍然会记住你的选择。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
+    <link rel="icon" href="index.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 通用样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f5f5f5;
+            color: #333;
+            padding: clamp(40px, 5%, 80px) 5% 4rem;
+            position: relative;
+        }
+
+        /* 深色模式下的样式 */
+        body.dark-mode {
+            background: #222;
+            color: #eee;
+        }
+
+        body.dark-mode .header,
+        body.dark-mode .nav-toggle,
+        body.dark-mode .nav-menu,
+        body.dark-mode .engine-btn,
+        body.dark-mode .search-box,
+        body.dark-mode .main-cat-item,
+        body.dark-mode .sub-category,
+        body.dark-mode .sub-cat-item,
+        body.dark-mode .tool-card,
+        body.dark-mode .footer {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .engine-btn.active,
+        body.dark-mode .sub-cat-item.active,
+        body.dark-mode .main-cat-item.active {
+            background: #555;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .tool-title {
+            color: #fff;
+        }
+
+        body.dark-mode .tool-desc {
+            color: #ccc;
+        }
+
+        body.dark-mode .footer {
+            border-top-color: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+
+        body.dark-mode .footer a {
+            color: #bbb;
+        }
+
+        /* 头部区域 */
+        .header {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 99;
+        }
+
+        .logo {
+            width: clamp(60px, 8vw, 90px);
+            height: auto;
+            transition: filter 0.3s;
+        }
+
+        .logo:hover {
+        }
+
+        body.dark-mode .header a img.logo {
+            content: url("logo2.svg");
+        }
+
+        body.dark-mode .logo:hover {
+        }
+
+        /* 导航菜单 */
+        .nav-toggle {
+            position: fixed;
+            top: 25px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            z-index: 101;
+            font-size: 18px;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 12px;
+            padding: 0.8rem;
+            width: 180px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 102;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #666;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: #7c8ff710;
+            color: #7c8ff7;
+        }
+
+        /* 深色模式切换按钮 */
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            color: #eee;
+        }
+
+        /* 调整深色模式按钮位置 */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu .dark-mode-toggle {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 搜索引擎栏 */
+        .engine-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .engine-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(124,143,247,0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #666;
+            backdrop-filter: blur(6px);
+        }
+
+        .engine-btn.active {
+            background: #222;
+            color: white;
+            box-shadow: 0 4px 16px rgba(124,143,247,0.2);
+        }
+
+        /* 搜索框 */
+        .search-wrapper {
+            max-width: 85%;
+            margin: 0 auto 2rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.6rem;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 40px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            font-size: 15px;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        body.dark-mode .search-box {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #eee;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #7c8ff7;
+            box-shadow: 0 8px 32px rgba(124,143,247,0.15);
+        }
+
+        /* 分类系统 */
+        .category-system {
+            margin-bottom: 2rem;
+        }
+
+        .main-category {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .main-cat-item {
+            padding: 0.7rem 1.4rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.7);
+            color: #666;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .main-cat-item.active {
+            background: #222;
+            color: white;
+            box-shadow: 0 4px 20px rgba(124,143,247,0.3);
+        }
+
+        .sub-category {
+            display: none;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            margin: 0.8rem auto 1.5rem;
+            max-width: 90%;
+            backdrop-filter: blur(6px);
+        }
+
+        .sub-category.active {
+            display: flex;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .sub-cat-item {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            font-size: 13px;
+            color: #666;
+            border: 1px solid rgba(124,143,247,0.15);
+            transition: all 0.2s;
+        }
+
+        .sub-cat-item.active {
+            background: #222;
+            color: white;
+            border-color: transparent;
+        }
+
+        /* 工具卡片 */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 0.8rem;
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid rgba(124,143,247,0.1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+        }
+
+        .tool-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .tool-title {
+            color: #333;
+            margin-bottom: 0.6rem;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        body.dark-mode .tool-title {
+            color: #fff;
+        }
+
+        .tool-desc {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .tool-desc {
+            color: #ccc;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 底部信息栏 */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid rgba(124, 143, 247, 0.1);
+        }
+
+        .footer a {
+            color: #7c8ff7;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 媒体查询，针对小屏幕设备 */
+        @media (max-width: 576px) {
+            body {
+                padding: 20px 3% 3rem;
+            }
+
+            .header {
+                left: 10px;
+                top: 10px;
+            }
+
+            .logo {
+                width: 50px;
+            }
+
+            .nav-toggle {
+                top: 15px;
+                right: 10px;
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+
+            .nav-menu {
+                top: 50px;
+                right: 10px;
+                width: 160px;
+                padding: 0.6rem;
+            }
+
+            .nav-item {
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+
+            .dark-mode-toggle {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+
+            .engine-bar {
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .engine-btn {
+                padding: 0.5rem 1rem;
+                font-size: 12px;
+            }
+
+            .search-wrapper {
+                max-width: 98%;
+            }
+
+            .search-box {
+                padding: 0.8rem 1.2rem;
+                font-size: 14px;
+            }
+
+            .main-category {
+                gap: 0.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .main-cat-item {
+                padding: 0.5rem 1rem;
+                font-size: 12px;
+            }
+
+            .sub-category {
+                gap: 0.4rem;
+                padding: 0.8rem;
+            }
+
+            .sub-cat-item {
+                padding: 0.4rem 0.8rem;
+                font-size: 11px;
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+                padding: 0.5rem;
+            }
+
+            .tool-card {
+                padding: 1rem;
+            }
+
+            .tool-icon {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 0.8rem;
+            }
+
+            .tool-title {
+                font-size: 15px;
+                margin-bottom: 0.5rem;
+            }
+
+            .tool-desc {
+                font-size: 12px;
+            }
+
+            .footer {
+                font-size: 11px;
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部LOGO -->
+    <div class="header">
+        <a href="https://zizao.top/">
+            <img src="logo.svg" class="logo" alt="Tool Galaxy">
+        </a>
+    </div>
+
+    <!-- 折叠导航 -->
+    <div class="nav-toggle" id="navToggle">☰</div>
+    <nav class="nav-menu" id="navMenu">
+        <!-- 深色模式切换按钮 -->
+        <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+        <a href="https://zizao.top/" class="nav-item">首页</a>
+        <a href="fonts" class="nav-item">字库产品</a>
+        <a href="bao" class="nav-item">百宝库</a>
+        <a href="hao" class="nav-item">设计导航</a>
+        <a href="article" class="nav-item">文章教程</a>
+        <a href="tool" class="nav-item">工具箱</a>
+        <a href="about" class="nav-item">更多</a>
+    </nav>
+
+    <!-- 搜索引擎栏 -->
+    <div class="engine-bar" id="engineBar">
+        <div class="engine-btn active" data-engine="google">Google</div>
+        <div class="engine-btn" data-engine="bing">Bing</div>
+        <div class="engine-btn" data-engine="baidu">百度</div>
+        <div class="engine-btn" data-engine="direct">直达模式</div>
+    </div>
+
+    <!-- 搜索框 -->
+    <div class="search-wrapper">
+        <input type="text" class="search-box" placeholder="输入工具名称或直达网址" id="searchInput">
+    </div>
+
+    <!-- 分类系统 -->
+    <div class="category-system">
+        <div class="main-category">
+            <div class="main-cat-item active" data-cat="all">全部工具</div>
+            <div class="main-cat-item" data-cat="design">设计创作</div>
+            <div class="main-cat-item" data-cat="dev">开发编程</div>
+            <div class="main-cat-item" data-cat="office">效率办公</div>
+        </div>
+
+        <!-- 二级分类 -->
+        <div class="sub-category active" data-for-cat="all">
+            <div class="sub-cat-item active" data-subcat="all">显示全部</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="design">
+            <div class="sub-cat-item active" data-subcat="all">全部设计</div>
+            <div class="sub-cat-item" data-subcat="ui">UI/UX设计</div>
+            <div class="sub-cat-item" data-subcat="3d">三维建模</div>
+            <div class="sub-cat-item" data-subcat="edit">图像处理</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="dev">
+            <div class="sub-cat-item active" data-subcat="all">全部开发</div>
+            <div class="sub-cat-item" data-subcat="frontend">前端开发</div>
+            <div class="sub-cat-item" data-subcat="backend">后端框架</div>
+            <div class="sub-cat-item" data-subcat="database">数据库</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="office">
+            <div class="sub-cat-item active" data-subcat="all">全部办公</div>
+            <div class="sub-cat-item" data-subcat="docs">文档协作</div>
+            <div class="sub-cat-item" data-subcat="meeting">视频会议</div>
+            <div class="sub-cat-item" data-subcat="manage">项目管理</div>
+        </div>
+    </div>
+
+    <!-- 工具卡片 -->
+    <div class="tool-grid" id="toolGrid">
+        <!-- 卡片将在这里动态生成 -->
+    </div>
+
+    <!-- 底部信息栏 -->
+    <footer class="footer">
+        &copy; 2025 字造 All rights reserved. | <a href="#">关于我们</a> | <a href="#">联系方式</a>
+    </footer>
+
+    <script>
+        // 深色模式切换
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const darkModeEnabled = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
+
+            darkModeToggle.textContent = darkModeEnabled ? '☀️' : '🌙';
+        });
+
+        darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+
+        // 导航菜单交互
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        });
+
+        // 搜索引擎切换
+        const engineButtons = document.querySelectorAll('.engine-btn');
+        let currentEngineIndex = 0;
+
+        function activateEngineButton(index) {
+            engineButtons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            localStorage.setItem('searchEngine', engineButtons[index].dataset.engine);
+        }
+
+        const savedEngine = localStorage.getItem('searchEngine');
+        if (savedEngine) {
+            engineButtons.forEach((btn, i) => {
+                if (btn.dataset.engine === savedEngine) {
+                    currentEngineIndex = i;
+                }
+            });
+        }
+        activateEngineButton(currentEngineIndex);
+
+        engineButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                currentEngineIndex = index;
+                activateEngineButton(currentEngineIndex);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement === document.getElementById('searchInput') && e.key === 'Tab') {
+                e.preventDefault();
+                currentEngineIndex = (currentEngineIndex + 1) % engineButtons.length;
+                activateEngineButton(currentEngineIndex);
+            }
+        });
+
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                const query = e.target.value.trim();
+                const engine = document.querySelector('.engine-btn.active').dataset.engine;
+
+                if(engine === 'direct') {
+                    window.location.href = /^(https?:\/\/)/i.test(query) ? query : `http://${query}`;
+                } else {
+                    const engines = {
+                        google: 'https://www.google.com/search?q=',
+                        bing: 'https://www.bing.com/search?q=',
+                        baidu: 'https://www.baidu.com/s?wd='
+                    };
+                    window.open(engines[engine] + encodeURIComponent(query), '_blank');
+                }
+            }
+        });
+
+        // 分类筛选系统
+        function filterTools(cat, subcat) {
+            document.querySelectorAll('.tool-card').forEach(card => {
+                const matchCat = cat === 'all' || card.dataset.cat === cat;
+                const matchSubcat = subcat === 'all' || card.dataset.subcat === subcat;
+                card.style.display = (matchCat && matchSubcat) ? 'block' : 'none';
+            });
+        }
+
+        document.querySelectorAll('.main-cat-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.main-cat-item.active').classList.remove('active');
+                this.classList.add('active');
+
+                const cat = this.dataset.cat;
+                document.querySelectorAll('.sub-category').forEach(sub => {
+                    sub.classList.toggle('active', sub.dataset.forCat === cat);
+                });
+
+                filterTools(cat, 'all');
+            });
+        });
+
+        document.querySelectorAll('.sub-cat-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const parent = this.closest('.sub-category');
+                parent.querySelector('.sub-cat-item.active').classList.remove('active');
+                this.classList.add('active');
+
+                const cat = parent.dataset.forCat;
+                const subcat = this.dataset.subcat;
+                filterTools(cat === 'all' ? 'all' : cat, subcat);
+            });
+        });
+
+        // 卡片数据
+        const toolData = [
+            {
+                cat: 'design',
+                subcat: 'ui',
+                url: 'https://www.figma.com',
+                icon: 'icons/figma.svg',
+                title: 'Figma',
+                desc: '基于浏览器的协作式UI设计工具，支持实时协作和设计系统管理'
+            },
+            {
+                cat: 'dev',
+                subcat: 'frontend',
+                url: 'https://code.visualstudio.com',
+                icon: 'icons/vscode.svg',
+                title: 'VS Code',
+                desc: '轻量级但功能强大的源代码编辑器，支持多种编程语言'
+            },
+            {
+                cat: 'dev',
+                subcat: 'frontend',
+                url: 'https://zizao.top',
+                icon: 'icons/zizao.svg',
+                title: '字造',
+                desc: '轻量级但功能强大的源代码编辑器，支持多种编程语言'
+            },
+            {
+                cat: 'office',
+                subcat: 'docs',
+                url: 'https://www.google.com/docs/about/',
+                icon: 'icons/google-docs.svg',
+                title: 'Google Docs',
+                desc: '在线文档编辑和协作工具'
+            },
+            {
+                cat: 'design',
+                subcat: 'edit',
+                url: 'https://www.adobe.com/products/photoshop.html',
+                icon: 'icons/photoshop.svg',
+                title: 'Adobe Photoshop',
+                desc: '专业的图像编辑软件'
+            },
+            {
+                cat: 'dev',
+                subcat: 'backend',
+                url: 'https://nodejs.org/en/',
+                icon: 'icons/nodejs.svg',
+                title: 'Node.js',
+                desc: '基于 Chrome V8 引擎的 JavaScript 运行时环境'
+            },
+            {
+                cat: 'office',
+                subcat: 'meeting',
+                url: 'https://zoom.us/',
+                icon: 'icons/zoom.svg',
+                title: 'Zoom',
+                desc: '流行的视频会议平台'
+            },
+            {
+                cat: 'design',
+                subcat: '3d',
+                url: 'https://www.blender.org/',
+                icon: 'icons/blender.svg',
+                title: 'Blender',
+                desc: '免费开源的 3D 创作软件'
+            },
+            {
+                cat: 'dev',
+                subcat: 'database',
+                url: 'https://www.mysql.com/',
+                icon: 'icons/mysql.svg',
+                title: 'MySQL',
+                desc: '流行的关系型数据库管理系统'
+            },
+            {
+                cat: 'office',
+                subcat: 'manage',
+                url: 'https://trello.com/',
+                icon: 'icons/trello.svg',
+                title: 'Trello',
+                desc: '基于看板的项目管理工具'
+            },
+            {
+                cat: 'design',
+                subcat: 'ui',
+                url: 'https://www.sketch.com/',
+                icon: 'icons/sketch.svg',
+                title: 'Sketch',
+                desc: '为 macOS 设计的矢量图形编辑器'
+            },
+            {
+                cat: 'dev',
+                subcat: 'frontend',
+                url: 'https://reactjs.org/',
+                icon: 'icons/react.svg',
+                title: 'React',
+                desc: '用于构建用户界面的 JavaScript 库'
+            },
+            {
+                cat: 'office',
+                subcat: 'docs',
+                url: 'https://www.microsoft.com/zh-cn/microsoft-365/word',
+                icon: 'icons/word.svg',
+                title: 'Microsoft Word',
+                desc: '强大的文档处理软件'
+            },
+            {
+                cat: 'design',
+                subcat: 'edit',
+                url: 'https://www.adobe.com/products/illustrator.html',
+                icon: 'icons/illustrator.svg',
+                title: 'Adobe Illustrator',
+                desc: '矢量图形编辑软件'
+            },
+            {
+                cat: 'dev',
+                subcat: 'backend',
+                url: 'https://www.djangoproject.com/',
+                icon: 'icons/django.svg',
+                title: 'Django',
+                desc: 'Python Web 框架'
+            },
+            {
+                cat: 'office',
+                subcat: 'meeting',
+                url: 'https://www.microsoft.com/zh-cn/microsoft-teams/group-chat-software',
+                icon: 'icons/teams.svg',
+                title: 'Microsoft Teams',
+                desc: '团队协作和视频会议平台'
+            },
+            {
+                cat: 'design',
+                subcat: '3d',
+                url: 'https://www.autodesk.com/products/autocad/overview',
+                icon: 'icons/autocad.svg',
+                title: 'AutoCAD',
+                desc: '专业的 2D 和 3D CAD 软件'
+            },
+            {
+                cat: 'dev',
+                subcat: 'database',
+                url: 'https://www.mongodb.com/',
+                icon: 'icons/mongodb.svg',
+                title: 'MongoDB',
+                desc: 'NoSQL 文档数据库'
+            },
+            {
+                cat: 'office',
+                subcat: 'manage',
+                url: 'https://asana.com/',
+                icon: 'icons/asana.svg',
+                title: 'Asana',
+                desc: '项目和任务管理工具'
+            }
+        ];
+
+        // 生成卡片
+        function generateToolCards(data) {
+            const toolGrid = document.getElementById('toolGrid');
+            toolGrid.innerHTML = ''; // 清空现有卡片
+
+            data.forEach(tool => {
+                const cardHTML = `
+                    <div class="tool-card" data-cat="${tool.cat}" data-subcat="${tool.subcat}">
+                        <a href="${tool.url}" target="_blank">
+                            <div class="tool-icon">
+                                <img src="${tool.icon}" alt="${tool.title}">
+                            </div>
+                            <h3 class="tool-title">${tool.title}</h3>
+                            <p class="tool-desc">${tool.desc}</p>
+                        </a>
+                    </div>
+                `;
+                toolGrid.innerHTML += cardHTML;
+            });
+        }
+
+        // 初始化卡片
+        generateToolCards(toolData);
+
+        // 初始筛选
+        filterTools('all', 'all');
+    </script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技公司品牌视觉系统 - 设计作品集</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --toc-width: 150px;
+            --content-padding: 1%;
+            --max-container-width: 1400px;
+            --primary: #007bff;
+            /* 主要链接颜色 */
+            --secondary: #0056b3;
+            /* 链接悬停颜色 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 深色模式变量 */
+        body.dark-mode {
+            --dark-bg: #121212;
+            /* 更深的背景色 */
+            --dark-text: #f0f0f0;
+            /* 更亮的文本颜色 */
+            --dark-secondary: #a0a0a0;
+            /* 辅助文本颜色 */
+            --dark-card-bg: #1e1e1e;
+            /* 深色卡片背景 */
+            --dark-border: rgba(255, 255, 255, 0.1);
+            /* 深色边框 */
+            --dark-shadow: rgba(0, 0, 0, 0.5);
+            /* 更强的阴影 */
+            --dark-ellipse-bg-color: rgba(42, 95, 151, 0.3);
+            /* 深色椭圆背景 */
+            --dark-dot-color: rgba(42, 95, 151, 0.5);
+            /* 深色点颜色 */
+        }
+
+        /* 通用样式 */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            color: var(--secondary);
+            line-height: 1.6;
+            /* 增加默认行高 */
+            background-color: #fff;
+            /* 默认白色背景 */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* 平滑过渡 */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+            /* 平滑过渡 */
+        }
+
+        /* 深色模式下的样式 */
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode a {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .header,
+        body.dark-mode .nav-toggle,
+        body.dark-mode .nav-menu,
+        body.dark-mode .engine-btn,
+        body.dark-mode .search-box,
+        body.dark-mode .main-cat-item,
+        body.dark-mode .sub-category,
+        body.dark-mode .sub-cat-item,
+        body.dark-mode .tool-card,
+        body.dark-mode .footer {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            box-shadow: 0 4px 16px var(--dark-shadow);
+        }
+
+        body.dark-mode .engine-btn.active,
+        body.dark-mode .sub-cat-item.active,
+        body.dark-mode .main-cat-item.active {
+            background: #555;
+            color: #fff;
+            box-shadow: 0 4px 20px var(--dark-shadow);
+        }
+
+        body.dark-mode .tool-title {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .tool-desc {
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .footer {
+            border-top-color: var(--dark-border);
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .footer a {
+            color: #bbb;
+        }
+
+        body.dark-mode .ellipse-container::before {
+            background: var(--dark-ellipse-bg-color);
+        }
+
+        body.dark-mode .dot {
+            background: var(--dark-dot-color);
+        }
+
+        body.dark-mode .portfolio-item {
+            box-shadow: 0 5px 15px var(--dark-shadow);
+        }
+
+        body.dark-mode .section-title {
+            border-bottom-color: var(--dark-border);
+        }
+
+        /* 头部区域 */
+        .header {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 99;
+            transition: opacity 0.3s ease; /* 添加过渡效果 */
+        }
+
+        .logo {
+            width: clamp(60px, 8vw, 90px);
+            height: auto;
+            transition: filter 0.3s;
+        }
+
+        body.dark-mode .header a img.logo {
+            content: url("logo2.svg");
+        }
+
+        /* 导航菜单 */
+        .nav-toggle {
+            position: fixed;
+            top: 25px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 101;
+            font-size: 18px;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            padding: 0.8rem;
+            width: 180px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            pointer-events: none;
+            z-index: 102;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #666;
+            transition: all 0.2s, color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: #7c8ff710;
+            color: #7c8ff7;
+        }
+
+        /* 深色模式切换按钮 */
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+            font-size: 18px;
+            color: #333;
+            border: none; /* 移除边框 */
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            color: #eee;
+        }
+
+        /* 调整深色模式按钮位置 */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu .dark-mode-toggle {
+            margin-bottom: 0.5rem;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: var(--max-container-width);
+            margin: 0 auto;
+            display: flex;
+            padding: 5vh var(--content-padding);
+        }
+
+
+        /* 底部信息栏 */
+        .footer {
+            position: relative;
+            /* 移除 absolute 定位 */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem;
+            /* 缩小内边距 */
+            text-align: center;
+            font-size: 11px;
+            /* 缩小字体 */
+            color: #888;
+            border-top: 1px solid rgba(124, 143, 247, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
+        }
+
+        .footer a {
+            color: #7c8ff7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Table of Contents Styles */
+        .toc {
+            width: var(--toc-width);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            margin-right: 20px;
+        }
+
+        .toc h3 {
+            font-size: 1rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin-bottom: 5px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--primary);
+            display: block;
+            padding: 3px 0;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .toc a:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+        }
+
+        .project-header {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .project-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            /* 添加了过渡效果 */
+            text-decoration: none;
+            /* 移除链接下划线 */
+            color: #333;
+            /* 设置默认文本颜色 */
+        }
+
+        .project-tag:hover {
+            transform: translateY(-2px);
+            /* 鼠标悬停时略微抬起 */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            /* 鼠标悬停时添加阴影 */
+        }
+
+        /* 深色模式下 project-tag 的颜色 */
+        body.dark-mode .project-tag {
+            color: var(--dark-text); /* 使用深色模式的文本颜色 */
+            background: #333; /* 深色背景，可选 */
+        }
+
+        .project-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-gallery img:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Back Link */
+        .back-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s ease;
+        }
+
+        .back-link i {
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+
+        /* Section Styling */
+        .article-section {
+            margin-bottom: 3rem;
+        }
+
+        .article-section h3 {
+            font-size: 1.6rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        /* 媒体查询：手机端 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 5vh 5%;
+            }
+
+            .toc {
+                display: none; /* 隐藏目录 */
+                width: 100%;
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            /* 手机端隐藏 Logo */
+            .header {
+                opacity: 1; /* 默认显示 */
+            }
+
+            .header.hidden {
+                opacity: 0; /* 滚动后隐藏 */
+                pointer-events: none; /* 禁用点击 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 头部LOGO -->
+    <header class="header">
+        <a href="https://zizao.top/">
+            <img src="logo.svg" class="logo" alt="Tool Galaxy">
+        </a>
+    </header>
+
+    <!-- 折叠导航 -->
+    <div class="nav-toggle" id="navToggle" aria-label="切换导航">☰</div>
+    <nav class="nav-menu" id="navMenu">
+        <!-- 深色模式切换按钮 -->
+        <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+        <a href="https://zizao.top/" class="nav-item">首页</a>
+        <a href="fonts" class="nav-item">字库产品</a>
+        <a href="bao" class="nav-item">百宝库</a>
+        <a href="hao" class="nav-item">设计导航</a>
+        <a href="article" class="nav-item">文章教程</a>
+        <a href="tool" class="nav-item">工具箱</a>
+        <a href="about" class="nav-item">更多</a>
+    </nav>
+    <div class="container">
+
+        <div class="toc">
+            <h3>目录</h3>
+            <ul>
+                <li><a href="#introduction">介绍</a></li>
+                <li><a href="#logo-design">Logo设计</a></li>
+                <li><a href="#color-palette">色彩系统</a></li>
+                <li><a href="#typography">字体规范</a></li>
+                <li><a href="#applications">应用展示</a></li>
+                <li><a href="#conclusion">总结</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                返回作品集
+            </a>
+            <header class="project-header">
+                <h2>
+                    科技公司品牌视觉系统
+                </h2>
+                <div class="project-meta">
+                    <a href="#" class="project-tag">
+                        <!-- 添加了 href="#" 用于演示 -->
+                        <i class="fas fa-tag"></i>
+                        VI设计
+                    </a>
+                    <a href="#" class="project-tag">
+                        <!-- 添加了 href="#" 用于演示 -->
+                        <i class="fas fa-calendar-alt"></i>
+                        2024
+                    </a>
+                </div>
+            </header>
+            <p class="project-description">为一家新兴科技公司打造的全新品牌形象，包含独特的logo设计、鲜明的色彩系统和全面的视觉规范，助力公司在市场中树立独特的品牌标识。</p>
+
+            <section id="introduction" class="article-section">
+                <h3>介绍</h3>
+                <p>This is the introduction section. Add your introductory content here. Explain the project's goals and objectives.</p>
+            </section>
+
+            <section id="logo-design" class="article-section">
+                <h3>Logo设计</h3>
+                <p>Details about the logo design process, rationale, and variations.</p>
+                <img src="https://via.placeholder.com/600x400" alt="Logo Design">
+            </section>
+
+            <section id="color-palette" class="article-section">
+                <h3>色彩系统</h3>
+                <p>Explanation of the color palette and its meaning.</p>
+                <div class="image-gallery">
+                    <img src="https://via.placeholder.com/300x200/2a5f97/ffffff" alt="Color 1">
+                    <img src="https://via.placeholder.com/300x200/6c757d/ffffff" alt="Color 2">
+                </div>
+            </section>
+
+            <section id="typography" class="article-section">
+                <h3>字体规范</h3>
+                <p>Details about the chosen fonts and their usage.</p>
+            </section>
+
+            <section id="applications" class="article-section">
+                <h3>应用展示</h3>
+                <p>Examples of the brand identity applied to various materials.</p>
+                <div class="image-gallery">
+                    <img src="https://via.placeholder.com/600x400" alt="Application 1">
+                    <img src="https://via.placeholder.com/600x400" alt="Application 2">
+                </div>
+            </section>
+
+            <section id="conclusion" class="article-section">
+                <h3>总结</h3>
+                <p>Concluding remarks about the project and its impact.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- 底部信息栏 -->
+    <footer class="footer">
+        &copy; 2025 字造 All rights reserved. | <a href="#">关于我们</a> | <a href="#">联系方式</a>
+    </footer>
+
+    <script>
+        // 深色模式切换功能
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // 检查 localStorage 中是否启用了深色模式
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+        }
+
+        // 设置切换按钮的初始状态
+        darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+
+        // 为切换按钮添加事件监听器
+        darkModeToggle.addEventListener('click', () => {
+            // 切换 body 上的 dark-mode 类
+            body.classList.toggle('dark-mode');
+
+            // 更新 localStorage
+            const darkModeEnabled = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
+
+            // 更新切换按钮的文本
+            darkModeToggle.textContent = darkModeEnabled ? '☀️' : '🌙';
+        });
+
+        // 导航菜单功能
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        // 为导航切换按钮添加事件监听器
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+        });
+
+        // 滚动时隐藏 Logo
+        let lastScrollTop = 0;
+        const header = document.querySelector('.header');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                // 向下滚动
+                header.classList.add('hidden');
+            } else {
+                // 向上滚动
+                header.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+
+</html>

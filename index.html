@@ -4,83 +4,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO 优化 -->
-    <title>字造 - 始终如一的创造</title>
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
-    <meta name="author" content="字造">
-
-    <!-- 社交媒体优化 (Open Graph) -->
-    <meta property="og:title" content="字造产品展示">
-    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
-    <meta property="og:url" content="URL_TO_YOUR_PAGE">
-    <meta property="og:type" content="website">
-
-    <!-- 网站图标 -->
-    <link rel="icon" href="index-image/index.ico" type="image/x-icon">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>作品集 | Your Name</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        /* CSS Reset and General Styles */
+        /* CSS 变量 */
         :root {
-            --primary: #667eea;
-            --secondary: #764ba2;
-            --text-color: #333;
-            --light-text-color: #666;
-            --background-color: #f5f5f7;
-            --hover-background-color: #e8e8ea;
-            --link-color: #0070c9;
-            --link-hover-color: #003f8e;
-            --border-color: #e8e8ea;
+            --primary: #2a5f97;
+            --secondary: #6c757d;
+            --ellipse-bg-color: rgba(42, 95, 151, 0.1);
+            --dot-color: rgba(42, 95, 151, 0.3);
+            --brand-design-color: #FF6B6B;
+            --web-design-color: #6BCB77;
+            --ui-design-color: #4D96FF;
+            --card-border-radius: 10px;
+            --card-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --hover-transform: translateY(-5px); /* 减少悬停位移 */
+            --hover-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 减少悬停阴影 */
+            --transition-duration: 0.2s; /* 缩短过渡时间 */
+            --section-padding: 3rem 5%; /* 统一 Section 内边距 */
+
+            /* 深色模式变量 */
+            --dark-bg: #121212; /* 更深的背景色 */
+            --dark-text: #f0f0f0; /* 更亮的文本颜色 */
+            --dark-secondary: #a0a0a0; /* 辅助文本颜色 */
+            --dark-card-bg: #1e1e1e; /* 深色卡片背景 */
+            --dark-border: rgba(255, 255, 255, 0.1); /* 深色边框 */
+            --dark-shadow: rgba(0, 0, 0, 0.5); /* 更强的阴影 */
+            --dark-ellipse-bg-color: rgba(42, 95, 151, 0.3); /* 深色椭圆背景 */
+            --dark-dot-color: rgba(42, 95, 151, 0.5); /* 深色点颜色 */
         }
 
-        *,
-        *::before,
-        *::after {
+        /* 通用样式 */
+        body {
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(45deg, #fafafa 0%, #f0f0f0 100%); 
-            min-height: 100vh;
             overflow-x: hidden;
-            color: var(--text-color);
+            color: var(--secondary);
+            line-height: 1.6; /* 增加默认行高 */
+            background-color: #fff; /* 默认白色背景 */
+            transition: background-color 0.3s ease, color 0.3s ease; /* 平滑过渡 */
         }
 
         a {
             text-decoration: none;
-            color: var(--link-color);
-            transition: color 0.3s ease;
+            color: inherit;
+            transition: color 0.3s ease; /* 平滑过渡 */
         }
 
-        a:hover {
-            color: var(--link-hover-color);
+        /* 深色模式下的样式 */
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
         }
 
-        ul {
-            list-style: none;
+        body.dark-mode a {
+            color: var(--dark-text);
         }
 
-        /* Utility Classes */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+        body.dark-mode .header,
+        body.dark-mode .nav-toggle,
+        body.dark-mode .nav-menu,
+        body.dark-mode .engine-btn,
+        body.dark-mode .search-box,
+        body.dark-mode .main-cat-item,
+        body.dark-mode .sub-category,
+        body.dark-mode .sub-cat-item,
+        body.dark-mode .tool-card,
+        body.dark-mode .footer {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            box-shadow: 0 4px 16px var(--dark-shadow);
+        }
+
+        body.dark-mode .engine-btn.active,
+        body.dark-mode .sub-cat-item.active,
+        body.dark-mode .main-cat-item.active {
+            background: #555;
+            color: #fff;
+            box-shadow: 0 4px 20px var(--dark-shadow);
+        }
+
+        body.dark-mode .tool-title {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .tool-desc {
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .footer {
+            border-top-color: var(--dark-border);
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .footer a {
+            color: #bbb;
+        }
+
+        body.dark-mode .ellipse-container::before {
+            background: var(--dark-ellipse-bg-color);
+        }
+
+        body.dark-mode .dot {
+            background: var(--dark-dot-color);
+        }
+
+        body.dark-mode .portfolio-item {
+            box-shadow: 0 5px 15px var(--dark-shadow);
+        }
+
+        body.dark-mode .section-title {
+            border-bottom-color: var(--dark-border);
+        }
+
+        /* 头部区域 */
+        .header {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 99;
+        }
+
+        .logo {
+            width: clamp(60px, 8vw, 90px);
+            height: auto;
+            transition: filter 0.3s;
+        }
+
+        .logo:hover {
+        }
+
+        body.dark-mode .header a img.logo {
+            content: url("logo2.svg");
+        }
+
+        body.dark-mode .logo:hover {
+        }
+
+        /* 导航菜单 */
+        .nav-toggle {
+            position: fixed;
+            top: 25px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 101;
+            font-size: 18px;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 12px;
+            padding: 0.8rem;
+            width: 180px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            pointer-events: none;
+            z-index: 102;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #666;
+            transition: all 0.2s, color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: #7c8ff710;
+            color: #7c8ff7;
+        }
+
+        /* 深色模式切换按钮 */
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            color: #eee;
+        }
+
+        /* 调整深色模式按钮位置 */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu .dark-mode-toggle {
+            margin-bottom: 0.5rem;
+        }
+
+
+        /* 椭圆容器 */
+        .ellipse-container {
+            position: relative;
+            height: 60vh; /* 调整高度 */
+            width: 100vw;
+            overflow: hidden;
+            display: flex; /* 使用 Flexbox */
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+        }
+
+        .ellipse-container::before {
+            content: "";
+            position: absolute;
+            top: -60%; /* 调整位置 */
+            left: -20%; /* 调整位置 */
+            width: 140%; /* 调整大小 */
+            height: 140%; /* 调整大小 */
+            background: var(--ellipse-bg-color);
+            border-radius: 50%;
+            transition: background-color 0.3s ease; /* 平滑过渡 */
+        }
+
+        /* 内容区域 */
+        .content {
+            text-align: center;
+            width: 80%;
+            z-index: 1;
+        }
+
+        .content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; /* 缩小标题 */
+            font-weight: 600;
+            margin-bottom: 0.8rem; /* 减少间距 */
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem; /* 减少间距 */
+            transition: color 0.3s ease; /* 平滑过渡 */
+        }
+
+        .content h1 i {
+            font-size: 0.9em; /* 缩小图标 */
+        }
+
+        .content p {
+            font-size: 1.1rem; /* 缩小段落 */
+            margin-bottom: 1.2rem; /* 减少间距 */
+            transition: color 0.3s ease; /* 平滑过渡 */
+        }
+
+        /* 按钮 */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem; /* 减少间距 */
         }
 
         .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem; /* 缩小按钮 */
+            border: none;
             border-radius: 5px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem; /* 缩小字体 */
+            font-weight: 500;
+            display: inline-block;
+            transition: background-color var(--transition-duration) ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary {
@@ -89,996 +321,471 @@
         }
 
         .btn-primary:hover {
-            background-color: var(--secondary);
-            color: white;
-            /* 探索作品按钮悬浮文字颜色改成白色 */
+            background-color: #204a75;
         }
 
         .btn-secondary {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
+            background-color: var(--secondary);
+            color: white;
         }
 
         .btn-secondary:hover {
-            background-color: var(--hover-background-color);
+            background-color: #545b62;
         }
 
-        /* Header Styles */
-        header {
-            background-color: var(--background-color);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 66px;
-            padding: 0 10%;
-            position: fixed;
-            /* Changed to fixed */
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 3;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            /* Added transform transition */
-            box-sizing: border-box;
-            margin-bottom: 30px;
+        body.dark-mode .btn-primary {
+            color: var(--dark-text);
         }
 
-        header:hover {
-            background-color: var(--hover-background-color);
+        body.dark-mode .btn-secondary {
+            color: var(--dark-text);
         }
 
-        .logo a img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-            animation: logoFloat 3s ease-in-out infinite;
+        /* 作品集区域 */
+        .portfolio-section {
+            padding: var(--section-padding);
         }
 
-        @keyframes logoFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        nav ul {
-            display: flex;
-        }
-
-        nav>ul>li {
-            margin: 0 15px;
-            position: relative;
-        }
-
-        nav>ul>li>a {
-            color: var(--text-color);
-            font-size: 15px;
-            padding: 10px 0;
-            display: block;
-            position: relative;
-        }
-
-        nav>ul>li>a::after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--text-color);
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease;
-        }
-
-        nav>ul>li>a:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        .toggle-button {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .toggle-button:hover {
-            color: #000;
-        }
-
-        nav ul li ul {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: -15px;
-            background-color: #fff;
-            min-width: 200px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 4;
-        }
-
-        nav ul li:hover ul {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        nav ul li ul li {
-            margin: 0;
-        }
-
-        nav ul li ul li a {
-            color: #000;
-            padding: 12px 20px;
-            display: block;
-            text-decoration: none;
-            font-size: 13px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        nav ul li ul li a:hover {
-            background-color: var(--hover-background-color);
-            color: var(--link-color);
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 0 20px;
-            }
-
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 66px;
-                left: 0;
-                width: 100%;
-                background-color: var(--background-color);
-                flex-direction: column;
-            }
-
-            nav ul.show {
-                display: flex;
-            }
-
-            nav>ul>li {
-                margin: 0;
-            }
-
-            nav>ul>li>a {
-                padding: 15px 20px;
-            }
-
-            nav ul li ul {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                border-radius: 0;
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-                display: none;
-            }
-
-            nav ul li.active ul {
-                display: block;
-            }
-
-            .toggle-button {
-                display: block;
-                position: absolute;
-                top: 50%;
-                right: 20px;
-                transform: translateY(-50%);
-            }
-        }
-
-        /* Hero Section Styles */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            padding: 6rem 0;
-            margin-top: 66px;
-            /* Added margin to account for fixed header */
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        h1 {
-            font-size: 3.8rem;
-            margin-bottom: 2rem;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
-            transform: translateX(-50px);
-            animation: titleSlide 1s forwards;
-        }
-
-        .hero-content p {
-            color: var(--light-text-color);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .hero-illustration {
-            position: relative;
-            height: 500px;
-            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation: blobAnim 20s infinite;
-            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes blobAnim {
-            0%,
-            100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-
-            50% {
-                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            }
-        }
-
-        @keyframes titleSlide {
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Feature Cards Styles */
-        .feature-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            opacity: 0;
-            transform: translateY(50px);
-            animation: cardEntry 0.8s forwards;
-        }
-
-        .card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .card:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: 0.4s;
-        }
-
-        .card h3 {
-            margin-bottom: 1rem;
-        }
-
-        .card p {
-            color: var(--light-text-color);
-            margin-top: 0;
-        }
-
-        .card:hover {
-            transform: translateY(-15px) rotate(3deg);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.2) rotate(360deg);
-        }
-
-        @keyframes cardEntry {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Portfolio Section Styles */
-        .portfolio {
-            margin: 8rem 0;
-        }
-
-        .portfolio h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            /* Added margin */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; /* 缩小标题 */
+            color: var(--primary);
+            margin-bottom: 1rem; /* 减少间距 */
+            padding-bottom: 0.4rem; /* 减少间距 */
+            border-bottom: 1px solid #eee;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease; /* 平滑过渡 */
         }
 
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Adjusted minmax */
-            gap: 2rem;
-            margin-top: 2rem;
-            /* Reduced margin */
-            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 调整最小宽度 */
+            gap: 1.5rem; /* 减少间距 */
         }
 
+        /* 作品项 */
         .portfolio-item {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem; /* Reduced padding */
-            border-radius: 15px; /* Adjusted border-radius */
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: cardEntry 0.8s forwards;
-            display: flex;
-            align-items: center; /* 垂直居中 */
+            padding: 1rem; /* 减少内边距 */
+            border: 2px solid;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--card-box-shadow);
             position: relative;
             overflow: hidden;
-            height: 150px; /* Adjusted height */
-            text-decoration: none; /* 移除链接下划线 */
-            color: inherit; /* 继承父元素颜色 */
+            transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease, border-color 0.3s ease;
         }
 
-        .portfolio-item:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .portfolio-item:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .portfolio-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .portfolio-item i {
-            font-size: 3.5rem; /* Adjusted icon size */
-            margin-left: 1.5rem; /* Added margin */
-            color: var(--primary);
-            /* Icon color */
-            flex-shrink: 0; /* 防止图标缩小 */
-            order: 2; /* 将图标放在右侧 */
-            transition: 0.4s;
-        }
-
-        .portfolio-item-content {
-            text-align: left;
-            flex-grow: 1; /* 占据剩余空间 */
-            padding-right: 10px; /* 调整文字与图标的距离 */
-            order: 1; /* 将文字放在左侧 */
-        }
-
-        .portfolio-item h3 {
-            font-size: 1.3rem;
-            /* Adjusted font size */
-            margin-bottom: 0.3rem;
-            /* Reduced margin */
-            display: inline-block;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: 0.4s;
-        }
-
-        .portfolio-item p {
-            color: var(--light-text-color);
-            margin-top: 0;
-            font-size: 0.9rem;
-            /* Adjusted font size */
-        }
-
-        /* Hover Effect - Scale Up */
         .portfolio-item:hover {
-            transform: translateY(-15px) rotate(3deg);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            z-index: 1;
+            transform: var(--hover-transform);
+            box-shadow: var(--hover-box-shadow);
         }
 
-        .portfolio-item:hover i {
-            transform: scale(1.2) rotate(360deg);
+        /* 品牌设计 */
+        .portfolio-item.brand-design {
+            border-color: var(--brand-design-color);
         }
 
-        /* Stats Section Styles */
-        .stats-section {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 4rem 0;
-            margin: 6rem 0;
-            backdrop-filter: blur(10px);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        /* Process Steps Styles */
-        .process-steps {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4rem;
-            margin: 6rem auto;
-            max-width: 800px;
-            text-align: center;
-        }
-
-        .process-steps h2 {
-            font-size: 2.5rem;
-            /* Same as .portfolio h2 */
-        }
-
-        .process-steps .focus-text-container {
-            /* Container for the text and line */
+        .portfolio-item.brand-design::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 600px;
-            /* Match max-width of process-step */
-            margin: 2rem auto 1rem auto;
-            /* Reduced bottom margin */
-            /* Center the container */
-            text-align: center;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.05), transparent); /* 降低透明度 */
+            z-index: -1;
         }
 
-        .process-steps .focus-text-line {
-            border-top: 1px solid var(--border-color);
-            margin-bottom: 1rem;
-            /* Space between line and text */
+        /* 网页设计 */
+        .portfolio-item.web-design {
+            border-color: var(--web-design-color);
         }
 
-        .process-steps .focus-text {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            /* Reduced margin */
-        }
-
-        .process-step {
-            display: flex;
-            gap: 4rem;
-            align-items: flex-start;
-            /* Align items to the top */
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            transform: translateX(0);
-            opacity: 0;
-            transition: 0.6s;
+        .portfolio-item.web-design::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 600px;
-            box-sizing: border-box;
-            margin-bottom: 3rem;
-            /* Increased margin-bottom for spacing */
-            text-align: left;
-            /* Align text to the left */
+            height: 100%;
+            background: linear-gradient(45deg, rgba(107, 203, 119, 0.05), transparent); /* 降低透明度 */
+            z-index: -1;
         }
 
-        .process-step.visible {
-            opacity: 1;
-            transform: translateX(0);
+        /* UI 设计 */
+        .portfolio-item.ui-design {
+            border-color: var(--ui-design-color);
         }
 
-        .step-number {
-            font-size: 2.5rem;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .process-step h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        .process-step p {
-            color: var(--light-text-color);
-        }
-
-        /* More Button Styles */
-        .more-button-container {
-            text-align: center;
-            margin-top: 2rem;
-            /* Increased margin-top */
-        }
-
-        .more-button {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .more-button:hover {
-            background-color: var(--secondary);
-            color: white;
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            text-align: center;
-            border-top: 1px solid var(--border-color);
+        .portfolio-item.ui-design::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            box-sizing: border-box;
-            padding: 20px 0;
-            margin-top: 10rem;
-            /* Increased margin-top */
+            height: 100%;
+            background: linear-gradient(45deg, rgba(77, 150, 255, 0.05), transparent); /* 降低透明度 */
+            z-index: -1;
         }
 
-        .footer-container {
-            width: 80%;
-            margin: 0 auto;
+        /* 项目元数据 */
+        .item-meta {
             display: flex;
-            justify-content: space-around;
+            gap: 6px; /* 减少间距 */
+            margin-bottom: 8px; /* 减少间距 */
             flex-wrap: wrap;
-            margin-bottom: 20px;
-            box-sizing: border-box;
         }
 
-        .footer-section {
-            width: 30%;
-            min-width: 200px;
-            margin-bottom: 20px;
-            text-align: left;
-            padding-left: 50px;
-            box-sizing: border-box;
+        /* 项目标签 */
+        .item-tag {
+            font-size: 0.7rem; /* 缩小字体 */
+            padding: 3px 8px; /* 缩小内边距 */
+            background: #f8f9fa;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px; /* 减少间距 */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease;
         }
 
-        .footer-section h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
+        body.dark-mode .item-tag {
+            background: #333;
+            color: var(--dark-text);
         }
 
-        .footer-section p {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--light-text-color);
+        .item-tag:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
 
-        .footer-section ul {
-            list-style-type: none;
-            padding: 0;
+        /* 项目标题 */
+        .item-title {
+            font-weight: 500;
+            font-size: 1.1rem; /* 缩小字体 */
+            margin-bottom: 0.6rem; /* 减少间距 */
+            color: var(--primary);
+            transition: color 0.3s ease; /* 平滑过渡 */
         }
 
-        .footer-section li {
-            margin-bottom: 5px;
+        /* 项目描述 */
+        .item-description {
+            font-size: 0.85rem; /* 缩小字体 */
+            line-height: 1.4; /* 减少行高 */
+            margin-bottom: 1rem; /* 减少间距 */
+            transition: color 0.3s ease; /* 平滑过渡 */
         }
 
-        .footer-bottom {
-            padding-top: 10px;
-            border-top: 1px solid var(--border-color);
+        /* 项目链接 */
+        .item-link {
+            font-weight: 500;
+            font-size: 0.8rem; /* 缩小字体 */
+            display: inline-flex;
+            align-items: center;
+            gap: 6px; /* 减少间距 */
+            transition: gap 0.2s ease, color 0.3s ease;
         }
 
-        .footer-bottom p {
-            font-size: 12px;
-            color: var(--light-text-color);
+        .item-link i {
+            transition: transform 0.2s ease;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .portfolio-item {
-                min-width: 300px; /* Ensure a minimum width */
-                width: calc(50% - 2rem);
-            }
+        .item-link:hover {
+            gap: 10px;
         }
 
+        .item-link:hover i {
+            transform: translateX(3px);
+        }
+
+        /* 底部信息栏 */
+        .footer {
+            position: relative; /* 移除 absolute 定位 */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem; /* 缩小内边距 */
+            text-align: center;
+            font-size: 11px; /* 缩小字体 */
+            color: #888;
+            border-top: 1px solid rgba(124, 143, 247, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
+        }
+
+        .footer a {
+            color: #7c8ff7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 媒体查询 */
         @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-                padding: 4rem 0;
+            .content h1 {
+                font-size: 2rem;
             }
 
-            h1 {
-                font-size: 2.8rem;
-            }
-
-            .hero-illustration {
-                height: 300px;
-                order: -1;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-
-            .process-step {
-                flex-direction: column;
-                text-align: center;
-                max-width: 100%;
-            }
-
-            .step-number {
-                margin-bottom: 1rem;
+            .content p {
+                font-size: 0.9rem;
             }
 
             .portfolio-grid {
-                grid-template-columns: 1fr; /* Stack items on smaller screens */
-            }
-
-            .portfolio-item {
-                width: 100%;
-                /* One item per row on small screens */
-            }
-
-            .footer-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .footer-section {
-                width: 80%;
-                text-align: center;
-                padding-left: 0;
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Hide Header */
-        .header-hidden {
-            transform: translateY(-100%);
+        /* 清除浮动 */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
-        /* Center Process Steps */
-        .process-steps .container {
-            max-width: 1200px;
-            /* Or whatever max width you want */
-            margin: 0 auto;
-            padding: 2rem;
-            box-sizing: border-box;
-        }
-
-        .process-steps .process-step {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Increase spacing between process steps and heading */
-        .process-steps h2 {
-            margin-bottom: 4rem;
-            /* Adjust as needed */
-        }
-
-        /* Extract RGB values from primary and secondary colors */
-        :root {
-            --primary-rgb: 102, 126, 234;
-            --secondary-rgb: 118, 75, 162;
-        }
-
-        /* Adjust spacing between portfolio and process sections */
-        .portfolio {
-            margin-bottom: 4rem;
-            /* Adjust as needed */
-        }
-
-        .process-steps {
-            margin-top: 4rem;
-            /* Adjust as needed */
-        }
-
-        /* 调整 "专注字体领域" 和 "联系我们" 按钮的位置 */
-        .process-steps .focus-text-container {
-            margin-top: -2rem;
-            /* 向上移动文字和按钮 */
-            margin-bottom: 0.5rem;
-            /* 减少底部空白 */
-        }
-
-        /* 新增样式：文字靠右 */
-        .portfolio-item-content {
-            padding-right: 10px; /* 调整文字与图标的距离 */
-        }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <a href="https://zizao.top" aria-label="回到首页">
-                <img id="logoImage" src="index-image/logo.png" alt="网站 logo">
-            </a>
-        </div>
-        <nav>
-            <ul id="nav-ul">
-                <li><a href="https://zizao.top">首页</a></li>
-                <li><a href="https://zizao.top/fonts">字库产品</a></li>
-                <li><a href="https://zizao.top/tool/bao">百宝库</a></li>
-                <li><a href="https://zizao.top/tool/hao">设计导航</a></li>
-                <li><a href="https://zizao.top/more">联系我们</a></li>
-            </ul>
-        </nav>
-        <button class="toggle-button" aria-label="切换导航菜单" aria-expanded="false">☰</button>
-    </header>
-
-    <div class="container">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>字造起点黑<br>免费商用双轴可变</h1>
-                <p>
-                    我们专注于将商业策略转化为震撼视觉，通过品牌设计、数字体验和动态叙事打造市场领先的视觉体系
-                </p>
-                <div class="cta-buttons">
-                    <a href="https://zizao.top/tool/Variablefont" class="btn btn-primary" target="_blank">在线体验</a>
-                    <a href="https://zizao.top/tool/Variablefont" class="btn btn-secondary" target="_blank">下载</a>
-                </div>
-            </div>
-
-            <div class="hero-illustration"></div>
-        </section>
-
-        <div class="feature-cards">
-            <a href="https://zizao.top/fonts" class="card" target="_blank">
-                <i class="fas fa-palette card-icon"></i>
-                <h3>字库产品</h3>
-                <p>字造Type · 精致为核，实用为本</p>
-            </a>
-            <a href="https://zizao.top/tool/bao" class="card" target="_blank">
-                <i class="fas fa-magic card-icon"></i>
-                <h3>百宝库</h3>
-                <p>免费服务，即用即搜</p>
-            </a>
-            <a href="https://zizao.top/tool/hao" class="card" target="_blank">
-                <i class="fas fa-rocket card-icon"></i>
-                <h3>设计导航</h3>
-                <p>300+精选好站，设计师的灵感百宝库</p>
-            </a>
-        </div>
+    <!-- 头部LOGO -->
+    <div class="header">
+        <a href="https://zizao.top/">
+            <img src="logo.svg" class="logo" alt="Tool Galaxy">
+        </a>
     </div>
 
-    <!-- 工具箱 -->
-    <section class="portfolio">
-        <div class="container">
-            <h2>字体工具箱</h2>
-            <div class="portfolio-grid">
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-brush"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-store"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-video"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-palette"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-mobile-alt"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-chart-line"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-bullhorn"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-code"></i>
-                </a>
-                <a href="#" class="portfolio-item" target="_blank">
-                    <div class="portfolio-item-content">
-                        <h3>虚位以待</h3>
-                        <p>暂未添加，敬请期待</p>
-                    </div>
-                    <i class="fas fa-camera"></i>
-                </a>
-            </div>
-            <div class="more-button-container">
-                <a href="" class="more-button" target="_blank">查看更多</a>
+    <!-- 折叠导航 -->
+    <div class="nav-toggle" id="navToggle">☰</div>
+    <nav class="nav-menu" id="navMenu">
+        <!-- 深色模式切换按钮 -->
+        <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
+        <a href="https://zizao.top/" class="nav-item">首页</a>
+        <a href="fonts" class="nav-item">字库产品</a>
+        <a href="fonts" class="nav-item">百宝库</a>
+        <a href="fonts" class="nav-item">设计导航</a>
+        <a href="fonts" class="nav-item">文章教程</a>
+        <a href="fonts" class="nav-item">工具箱</a>
+        <a href="fonts" class="nav-item">更多</a>
+    </nav>
+
+    <div class="ellipse-container">
+
+        <div class="content">
+            <h1>
+                <img src="design-icon.svg" alt="设计图标" style="width: 1em; height: 1em; margin-right: 0.5em;">
+            </h1>
+            <p>在这里，创意如灵动的音符，功能似坚实的琴弦，我们精心弹奏出一曲曲独特而精彩的设计乐章。每一个作品都是对创新与实用的深度探索，力求为您带来无与伦比的视觉体验和超凡的使用感受。让我们一同开启这场设计的奇妙之旅！</p>
+            <div class="button-container">
+                <a href="#" class="btn btn-primary">查看更多</a>
+                <a href="#" class="btn btn-secondary">联系我们</a>
             </div>
         </div>
-    </section>
-
-    <!-- 数据统计区 -->
-    <section class="stats-section">
-        <div class="container stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">99+</div>
-                <p>已上线字体</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">99+</div>
-                <p>开发中字体</p>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">99+</div>
-                <p>字体家族</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 服务流程 -->
-    <section class="process-steps">
-        <div class="container">
-            <h2>我们的流程</h2>
-            <div class="process-step">
-                <div class="step-number">1</div>
-                <div>
-                    <h3>需求分析</h3>
-                    <p>深入沟通理解商业目标与用户需求</p>
+    </div>
+    <div class="portfolio-section">
+        <h2 class="section-title">
+            <i class="fas fa-brush"></i>
+            品牌设计
+        </h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item brand-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        VI设计
+                    </a>
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-calendar-alt"></i>
+                        2024
+                    </a>
                 </div>
+                <h3 class="item-title">
+                    科技公司品牌视觉系统
+                </h3>
+                <p class="item-description">为一家新兴科技公司打造的全新品牌形象，包含独特的logo设计、鲜明的色彩系统和全面的视觉规范，助力公司在市场中树立独特的品牌标识。</p>
+                <a href="#" class="item-link">
+                    查看项目
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-            <div class="process-step">
-                <div class="step-number">2</div>
-                <div>
-                    <h3>策略制定</h3>
-                    <p>基于分析结果制定品牌或产品策略</p>
+            <div class="portfolio-item brand-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        品牌重塑
+                    </a>
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-calendar-alt"></i>
+                        2023
+                    </a>
                 </div>
+                <h3 class="item-title">
+                    传统企业品牌升级
+                </h3>
+                <p class="item-description">针对传统企业进行品牌重塑，通过现代设计理念和创新元素，更新品牌标志、包装和宣传物料，提升品牌的市场竞争力和年轻化形象。</p>
+                <a href="#" class="item-link">
+                    查看项目
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-            <div class="process-step">
-                <div class="step-number">3</div>
-                <div>
-                    <h3>视觉设计</h3>
-                    <p>创意视觉概念与设计执行</p>
+            <div class="portfolio-item brand-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        品牌命名
+                    </a>
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-calendar-alt"></i>
+                        2022
+                    </a>
                 </div>
+                <h3 class="item-title">
+                    初创品牌命名与设计
+                </h3>
+                <p class="item-description">为初创品牌进行命名，并设计与之匹配的品牌视觉体系，从品牌名称的创意构思到logo、宣传海报等设计，打造具有吸引力和辨识度的品牌形象。</p>
+                <a href="#" class="item-link">
+                    查看项目
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-            <div class="process-step">
-                <div class="step-number">4</div>
-                <div>
-                    <h3>最终敲定</h3>
-                    <p>排查各种可能出现的异常，完成交付</p>
+        </div>
+        <h2 class="section-title">
+            <i class="fas fa-laptop-code"></i>
+            网页设计
+        </h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item web-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        电商平台
+                    </a>
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-mobile-alt"></i>
+                        响应式
+                    </a>
                 </div>
+                <h3 class="item-title">
+                    大型电商平台设计
+                </h3>
+                <p class="item-description">设计响应式电商平台网页，注重用户体验和转化率优化，通过合理的布局、清晰的导航和丰富的交互设计，提升用户购物的便捷性和满意度。</p>
+                <a href="#" class="item-link">
+                    查看案例
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="portfolio-item web-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        企业官网
+                    </a>
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-mobile-alt"></i>
+                        响应式
+                    </a>
+                </div>
+                <h3 class="item-title">
+                    企业官网全新改版
+                </h3>
+                <p class="item-description">对企业官网进行全面改版，采用现代设计风格和先进的前端技术，打造具有视觉冲击力和信息传达力的企业形象展示平台。</p>
+                <a href="#" class="item-link">
+                    查看案例
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="portfolio-item web-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        资讯网站
+                    </a>
+                    <a href="#" class="item-tag">
+      <i class="fas fa-mobile-alt"></i>
+                        响应式
+                    </a>
+                </div>
+                <h3 class="item-title">
+                    资讯类网站设计
+                </h3>
+                <p class="item-description">设计响应式资讯网站，优化内容展示和阅读体验，通过合理的分类和排版，使用户能够快速获取所需信息。</p>
+                <a href="#" class="item-link">
+                    查看案例
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
-        <div class="focus-text-container">
-            <div class="focus-text-line"></div>
-            <p class="focus-text">字造专注三大核心内容</p>
-            <h2>字库产品 - 造字神器 - 可变字体</h2>
-
-            <div class="more-button-container">
-                <a href="https://zizao.top/more" class="more-button">联系我们</a>
-            </div>
-
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>关于我们</h3>
-                <p>我们是一家专注于品牌设计、数字体验和动态叙事的创意机构。我们致力于帮助客户在数字时代创造品牌奇迹。</p>
-            </div>
-            <div class="footer-section">
-                <h3>联系方式</h3>
-                <ul>
-                    <li>邮箱：info@example.com</li>
-                    <li>电话：400-123-4567</li>
-                    <li>地址：上海市
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>友情链接</h3>
-                <ul>
-                    <li><a href="#">合作伙伴A</a></li>
-                    <li><a href="#">合作伙伴B</a></li>
-                    <li><a href="#">合作伙伴C</a></li>
-                </ul>
+        <h2 class="section-title">
+            <i class="fas fa-tablet-alt"></i>
+            界面设计
+        </h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item ui-design">
+                <div class="item-meta">
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-tag"></i>
+                        移动应用
+                    </a>
+                    <a href="#" class="item-tag">
+                        <i class="fas fa-calendar-alt"></i>
+                        2024
+                    </a>
+                </div>
+                <h3 class="item-title">
+                    社交应用界面设计
+                </h3>
+                <p class="item-description">为社交应用设计简洁、易用的界面，注重用户交互和情感体验，通过色彩搭配和图标设计，营造出活跃、友好的社交氛围。</p>
+                <a href="#" class="item-link">
+                    查看项目
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Design Studio. All rights reserved.</p>
-        </div>
+    </div>
+    <!-- 底部信息栏 -->
+    <footer class="footer">
+        &copy; 2025 字造 All rights reserved. | <a href="#">关于我们</a> | <a href="#">联系方式</a>
     </footer>
-
-    <!-- 新增脚本实现滚动动画 -->
     <script>
-        const toggleButton = document.querySelector('.toggle-button');
-        const navUl = document.getElementById('nav-ul');
 
-        toggleButton.addEventListener('click', () => {
-            navUl.classList.toggle('show');
-            toggleButton.setAttribute('aria-expanded', navUl.classList.contains('show'));
+        // 深色模式切换
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const darkModeEnabled = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
+
+            darkModeToggle.textContent = darkModeEnabled ? '☀️' : '🌙';
         });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+        darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+
+        // 导航菜单交互
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        });
+        const ellipseContainer = document.querySelector('.ellipse-container'); // 获取椭圆容器元素
+        const dots = document.querySelectorAll('.dot'); // 获取所有点元素
+
+        ellipseContainer.addEventListener('mousemove', (e) => { // 监听椭圆容器的鼠标移动事件
+            dots.forEach((dot) => { // 遍历所有点元素
+                const offsetX = (Math.random() - 0.5) * 30; // 计算 X 轴偏移量
+                const offsetY = (Math.random() - 0.5) * 30; // 计算 Y 轴偏移量
+                dot.style.left = e.offsetX + offsetX + 'px'; // 设置点元素的 X 轴位置
+                dot.style.top = e.offsetY + offsetY + 'px'; // 设置点元素的 Y 轴位置
             });
-        }, {
-            threshold: 0.1
-        });
-
-        document.querySelectorAll('.portfolio-item, .process-step').forEach((el) => {
-            observer.observe(el);
-        });
-
-        // Header Hide on Scroll
-        let lastScrollTop = 0;
-        const header = document.querySelector('header');
-
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop) {
-                // Scrolling Down
-                header.classList.add('header-hidden');
-            } else {
-                // Scrolling Up
-                header.classList.remove('header-hidden');
-            }
-            lastScrollTop = scrollTop;
         });
     </script>
 </body>

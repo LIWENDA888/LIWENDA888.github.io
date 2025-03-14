@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集 | Your Name</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS 变量 */
+        :root {
+            --primary: #2a5f97;
+            --secondary: #6c757d;
+            --max-container-width: 1200px;
+            --content-padding: 5%;
+            --toc-width: 250px;
+
+            /* 浅色模式颜色 */
+            --light-bg: #fff;
+            --light-text: #333;
+            --light-secondary: #666;
+            --light-card-bg: #fff;
+            --light-border: #f8f9fa;
+            --light-shadow: rgba(0, 0, 0, 0.06);
+
+            /* 深色模式颜色 */
+            --dark-bg: #1a1a1a; /* 更柔和的深灰色背景 */
+            --dark-text: #eee; /* 更明亮的文本颜色 */
+            --dark-secondary: #bbb;
+            --dark-card-bg: #252525; /* 稍浅的深灰色卡片背景 */
+            --dark-border: #333;
+            --dark-shadow: rgba(0, 0, 0, 0.5);
+            --dark-ellipse-bg-color: rgba(51, 51, 51, 0.7);
+            --dark-dot-color: #555;
+        }
+
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            padding: 5vh 10%;
+            transition: background-color 0.3s ease, color 0.3s ease; /* 添加过渡效果 */
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary);
+        }
+
+        .container {
+            max-width: var(--max-container-width);
+            margin: 0 auto;
+            padding: 5vh var(--content-padding);
+        }
+
+        /* 页面头部 */
+        .page-header {
+            text-align: left;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-header h1::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #eee;
+            margin-left: 1rem;
+        }
+
+        /* 头部区域 */
+        .header {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 99;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo {
+            width: clamp(60px, 8vw, 90px);
+            height: auto;
+            transition: filter 0.3s;
+        }
+
+        /* 导航菜单 */
+        .nav-toggle {
+            position: fixed;
+            top: 25px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 101;
+            font-size: 18px;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            padding: 0.8rem;
+            width: 180px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            pointer-events: none;
+            z-index: 102;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #666;
+            transition: all 0.2s, color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background: #7c8ff710;
+            color: #7c8ff7;
+        }
+
+        /* 深色模式切换按钮 */
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+            font-size: 18px;
+            color: #333;
+            border: none;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* 调整深色模式按钮位置 */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu .dark-mode-toggle {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 底部信息栏 */
+        .footer {
+            position: relative;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem;
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            border-top: 1px solid rgba(124, 143, 247, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
+        }
+
+        .footer a {
+            color: #7c8ff7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Table of Contents Styles */
+        .toc {
+            width: var(--toc-width);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            margin-right: 20px;
+        }
+
+        .toc h3 {
+            font-size: 1rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin-bottom: 5px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--primary);
+            display: block;
+            padding: 3px 0;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .toc a:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+        }
+
+        .project-header {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .project-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .project-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-gallery img:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Back Link */
+        .back-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s ease;
+        }
+
+        .back-link i {
+            transition: transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+
+        /* Section Styling */
+        .article-section {
+            margin-bottom: 3rem;
+        }
+
+        .article-section h3 {
+            font-size: 1.6rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        /* 媒体查询：手机端 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 5vh 5%;
+            }
+
+            .toc {
+                display: none;
+                width: 100%;
+                position: static;
+                margin-bottom: 20px;
+            }
+
+            .header {
+                opacity: 1;
+            }
+
+            .header.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            body {
+                padding: 5vh 2%;
+            }
+        }
+
+        /* 作品集部分 */
+        .portfolio-section {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #eee; /* 添加浅色边框 */
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .portfolio-grid {
+                gap: 2rem;
+            }
+        }
+
+        .portfolio-item {
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-border); /* 使用 CSS 变量 */
+            border-radius: 6px;
+            position: relative;
+            background: var(--light-card-bg); /* 使用 CSS 变量 */
+            box-shadow: 0 5px 15px var(--light-shadow); /* 使用 CSS 变量 */
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+            border-color: #e9ecef;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .item-tag {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-title {
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-title i {
+            color: var(--primary);
+            font-size: 1.1em;
+        }
+
+        .item-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .item-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s ease;
+        }
+
+        .item-link i {
+            transition: transform 0.2s ease;
+        }
+
+        .item-link:hover {
+            gap: 12px;
+        }
+
+        .item-link:hover i {
+            transform: translateX(3px);
+        }
+
+        .category-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+
+        /* 深色模式样式 */
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode a {
+            color: #bbb; /* 深色模式下的链接颜色 */
+        }
+
+        body.dark-mode .page-header h1::after {
+            background: #333; /* 深色模式下页面标题后的横线颜色 */
+        }
+
+        body.dark-mode .header,
+        body.dark-mode .nav-toggle,
+        body.dark-mode .nav-menu,
+        body.dark-mode .engine-btn,
+        body.dark-mode .search-box,
+        body.dark-mode .main-cat-item,
+        body.dark-mode .sub-category,
+        body.dark-mode .sub-cat-item,
+        body.dark-mode .tool-card,
+        body.dark-mode .footer {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            box-shadow: 0 4px 16px var(--dark-shadow);
+        }
+
+        body.dark-mode .engine-btn.active,
+        body.dark-mode .sub-cat-item.active,
+        body.dark-mode .main-cat-item.active {
+            background: #555;
+            color: #fff;
+            box-shadow: 0 4px 20px var(--dark-shadow);
+        }
+
+        body.dark-mode .tool-title {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .tool-desc {
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .footer {
+            border-top-color: var(--dark-border);
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .footer a {
+            color: #bbb;
+        }
+
+        body.dark-mode .ellipse-container::before {
+            background: var(--dark-ellipse-bg-color);
+        }
+
+        body.dark-mode .dot {
+            background: var(--dark-dot-color);
+        }
+
+        body.dark-mode .portfolio-item {
+            background: var(--dark-card-bg); /* 深色模式下的卡片背景 */
+            border-color: var(--dark-border); /* 深色模式下的边框颜色 */
+            box-shadow: 0 5px 15px var(--dark-shadow); /* 深色模式下的阴影 */
+        }
+
+        body.dark-mode .section-title {
+            border-bottom-color: var(--dark-border); /* 深色模式下的分割线颜色 */
+            color: var(--dark-secondary); /* 深色模式下的标题颜色 */
+        }
+
+        body.dark-mode .project-tag,
+        body.dark-mode .item-tag {
+            color: var(--dark-text);
+            background: #333;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            color: #eee;
+        }
+
+        body.dark-mode .nav-toggle {
+            background: rgba(51, 51, 51, 0.95);
+            box-shadow: 0 6px 20px var(--dark-shadow);
+            color: #eee; /* 深色模式下导航切换按钮的文字颜色 */
+        }
+
+        body.dark-mode .nav-menu {
+            background: rgba(51, 51, 51, 0.98);
+            box-shadow: 0 12px 36px var(--dark-shadow);
+        }
+
+        body.dark-mode .nav-item {
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .item-description,
+        body.dark-mode .project-description {
+            color: var(--dark-secondary); /* 深色模式下项目描述的颜色 */
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- 头部LOGO -->
+    <header class="header">
+        <a href="https://zizao.top/">
+            <img src="logo.svg" class="logo" alt="Tool Galaxy">
+        </a>
+    </header>
+
+    <!-- 折叠导航 -->
+    <div class="nav-toggle" id="navToggle" aria-label="切换导航">☰</div>
+    <nav class="nav-menu" id="navMenu">
+        <!-- 深色模式切换按钮 -->
+        <button class="dark-mode-toggle" id="darkModeToggle" aria-label="切换深色模式">🌙</button>
+            <a href="https://zizao.top/" class="nav-item">首页</a>
+            <a href="fonts" class="nav-item">字库产品</a>
+            <a href="bao" class="nav-item">百宝库</a>
+            <a href="hao" class="nav-item">设计导航</a>
+            <a href="article" class="nav-item">文章教程</a>
+            <a href="tool" class="nav-item">工具箱</a>
+            <a href="about" class="nav-item">更多</a>
+        </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>设计作品集</h1>
+            <p>探索创意与功能的完美结合</p>
+        </header>
+
+        <section class="portfolio-section">
+            <h2 class="section-title">
+                <i class="fas fa-brush"></i>
+                品牌设计
+            </h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="item-meta">
+                        <span class="item-tag">
+                            <i class="fas fa-tag"></i>
+                            VI设计
+                        </span>
+                        <span class="item-tag">
+                            <i class="fas fa-calendar-alt"></i>
+                            2024
+                        </span>
+                    </div>
+                    <h3 class="item-title">
+                        <i class="fas fa-pencil-alt"></i>
+                        科技公司品牌视觉系统
+                    </h3>
+                    <p class="item-description">为一家新兴科技公司打造的全新品牌形象，包含独特的logo设计、鲜明的色彩系统和全面的视觉规范，助力公司在市场中树立独特的品牌标识。</p>
+                    <a href="#" class="item-link">
+                        查看项目
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="portfolio-item">
+                    <div class="item-meta">
+                        <span class="item-tag">
+                            <i class="fas fa-tag"></i>
+                            品牌重塑
+                        </span>
+                        <span class="item-tag">
+                            <i class="fas fa-calendar-alt"></i>
+                            2023
+                        </span>
+                    </div>
+                    <h3 class="item-title">
+                        <i class="fas fa-pencil-alt"></i>
+                        传统企业品牌升级
+                    </h3>
+                    <p class="item-description">针对传统企业进行品牌重塑，通过现代设计理念和创新元素，更新品牌标志、包装和宣传物料，提升品牌的市场竞争力和年轻化形象。</p>
+                    <a href="#" class="item-link">
+                        查看项目
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="portfolio-item">
+                    <div class="item-meta">
+                        <span class="item-tag">
+                            <i class="fas fa-tag"></i>
+                            品牌命名
+                        </span>
+                        <span class="item-tag">
+                            <i class="fas fa-calendar-alt"></i>
+                            2022
+                        </span>
+                    </div>
+                    <h3 class="item-title">
+                        <i class="fas fa-pencil-alt"></i>
+                        初创品牌命名与设计
+                    </h3>
+                    <p class="item-description">为初创品牌进行命名，并设计与之匹配的品牌视觉体系，从品牌名称的创意构思到logo、宣传海报等设计，打造具有吸引力和辨识度的品牌形象。</p>
+                    <a href="#" class="item-link">
+                        查看项目
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <h2 class="section-title">
+                <i class="fas fa-laptop-code"></i>
+                网页设计
+            </h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="item-meta">
+                        <span class="item-tag">
+                            <i class="fas fa-tag"></i>
+                            电商平台
+                        </span>
+                        <span class="item-tag">
+                            <i class="fas fa-mobile-alt"></i>
+                            响应式
+                        </span>
+                    </div>
+                    <h3 class="item-title">
+                        <i class="fas fa-shopping-cart"></i>
+                        大型电商平台设计
+                    </h3>
+                    <p class="item-description">设计响应式电商平台网页，注重用户体验和转化率优化，通过合理的布局、清晰的导航和丰富的交互设计，提升用户购物的便捷性和满意度。</p>
+                    <a href="#" class="item-link">
+                        查看案例
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="portfolio-item">
+                    <div class="item-meta">
+                        <span class="item-tag">
+                            <i class="fas fa-tag"></i>
+                            企业官网
+                        </span>
+                        <span class="item-tag">
+                            <i class="fas fa-mobile-alt"></i>
+                            响应式
+                        </span>
+                    </div>
+                    <h3 class="item-title">
+                        <i class="fas fa-building"></i>
+                        企业官网全新改版
+                    </h3>
+                    <p class="item-description">对企业官网进行全面改版，采用现代设计风格和先进的前端技术，打造具有视觉冲击力和信息传达力的企业形象展示平台。</p>
+                    <a href="#" class="item-link">
+                        查看案例
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="portfolio-item">
+                    <div class="item-meta">
+                        <span class="item-tag">
+                            <i class="fas fa-tag"></i>
+                            资讯网站
+                        </span>
+                        <span class="item-tag">
+                            <i class="fas fa-mobile-alt"></i>
+                            响应式
+                        </span>
+                    </div>
+                    <h3 class="item-title">
+                        <i class="fas fa-newspaper"></i>
+                        资讯类网站设计
+                    </h3>
+                    <p class="item-description">设计响应式资讯网站，优化内容展示和阅读体验，通过合理的分类和排版，使用户能够快速获取所需信息。</p>
+                    <a href="#" class="item-link">
+                        查看案例
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 底部信息栏 -->
+    <footer class="footer">
+        &copy; 2025 字造 All rights reserved. | <a href="#">关于我们</a> | <a href="#">联系方式</a>
+    </footer>
+
+    <script>
+        // 深色模式切换功能
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // 检查 localStorage 中是否启用了深色模式
+        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+        }
+
+        // 设置切换按钮的初始状态
+        darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+
+        // 为切换按钮添加事件监听器
+        darkModeToggle.addEventListener('click', () => {
+            // 切换 body 上的 dark-mode 类
+            body.classList.toggle('dark-mode');
+
+            // 更新 localStorage
+            const darkModeEnabled = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
+
+            // 更新切换按钮的文本
+            darkModeToggle.textContent = darkModeEnabled ? '☀️' : '🌙';
+        });
+
+        // 导航菜单功能
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        // 为导航切换按钮添加事件监听器
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+        });
+
+        // 滚动时隐藏 Logo
+        let lastScrollTop = 0;
+        const header = document.querySelector('.header');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                // 向下滚动
+                header.classList.add('hidden');
+            } else {
+                // 向上滚动
+                header.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+
+</html>
