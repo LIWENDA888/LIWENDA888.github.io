@@ -7,93 +7,373 @@
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
     <meta name="author" content="字造">
     <link rel="icon" href="index.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         /* 通用样式 */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            box-sizing: border-box; /* 盒子模型：包含padding和border */
+            font-family: 'Segoe UI', system-ui, sans-serif; /* 字体 */
+            transition: background-color 0.3s, color 0.3s; /* 背景颜色和文字颜色过渡效果 */
         }
 
         body {
-            min-height: 100vh;
-            background: #f5f5f5;
-            color: #333;
-            padding: clamp(40px, 5%, 80px) 5% 4rem;
+            min-height: 100vh; /* 最小高度：视口高度 */
+            background: #f5f5f5; /* 背景颜色 */
+            color: #333; /* 文字颜色 */
+            padding: clamp(40px, 5%, 80px) 5% 4rem; /* 上下内边距，左右内边距，底部内边距 */
+            position: relative; /* 相对定位 */
+        }
+
+        /* 搜索引擎栏 */
+        .engine-bar {
+            display: flex; /* 弹性布局 */
+            justify-content: center; /* 水平居中 */
+            gap: 0.8rem; /* 元素之间的间距 */
+            margin-bottom: 1.5rem; /* 底部外边距 */
+            flex-wrap: wrap; /* 允许换行 */
+        }
+
+        .engine-btn {
+            padding: 0.6rem 1.2rem; /* 内边距 */
+            border-radius: 24px; /* 圆角 */
+            background: rgba(255,255,255,0.85); /* 背景颜色，带有透明度 */
+            border: 1px solid rgba(124,143,247,0.2); /* 边框 */
+            cursor: pointer; /* 鼠标悬停时显示指针 */
+            transition: all 0.2s; /* 所有属性过渡效果 */
+            font-size: 14px; /* 字体大小 */
+            color: #666; /* 文字颜色 */
+            backdrop-filter: blur(6px); /* 背景模糊效果 */
+        }
+
+        .engine-btn.active {
+            background: #FF8C19; /* 激活状态下的背景颜色 */
+            color: white; /* 激活状态下的文字颜色 */
+            box-shadow: 0 4px 16px rgba(124,143,247,0.2); /* 激活状态下的阴影 */
+        }
+
+        /* 搜索框 */
+        .search-wrapper {
+            max-width: 85%; /* 最大宽度 */
+            margin: 0 auto 2rem; /* 上下外边距，左右自动居中，底部外边距 */
+        }
+
+        .search-box-container {
+            display: flex; /* 弹性布局 */
+            align-items: center; /* 垂直居中 */
+            width: 100%; /* 宽度：100% */
+        }
+
+        .search-icon {
+            width: 240px; /* 调整后的尺寸：原始尺寸的5倍 (24px * 5 = 120px) */
+            height: 120px; /* 调整后的尺寸：原始尺寸的5倍 (24px * 5 = 120px) */
+            margin-right: 40px; /* 调整后的间距 */
+            margin-left: 50px; /* 调整后的间距 */
+            flex-shrink: 0; /* 防止图标缩小 */
+        }
+
+        .search-box {
+            width: 100%; /* 宽度：100% */
+            padding: 1.2rem 1.6rem; /* 内边距 */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* 边框 */
+            border-radius: 40px; /* 圆角 */
+            background: rgba(255,255,255,0.15); /* 背景颜色，带有透明度 */
+            backdrop-filter: blur(12px); /* 背景模糊效果 */
+            font-size: 16px; /* 字体大小 */
+            transition: all 0.3s; /* 所有属性过渡效果 */
+            color: #333; /* 文字颜色 */
+            flex-grow: 1; /* 允许输入框占据剩余空间 */
+        }
+
+        .search-box:focus {
+            outline: none; /* 移除焦点时的轮廓线 */
+            border-color: #7c8ff7; /* 焦点时的边框颜色 */
+            box-shadow: 0 8px 32px rgba(124,143,247,0.15); /* 焦点时的阴影 */
+        }
+
+        /* 分类系统 */
+        .category-system {
+            margin-bottom: 2rem; /* 底部外边距 */
+        }
+
+        .main-category {
+            display: flex; /* 弹性布局 */
+            justify-content: center; /* 水平居中 */
+            gap: 1.2rem; /* 元素之间的间距 */
+            margin-bottom: 1rem; /* 底部外边距 */
+            flex-wrap: wrap; /* 允许换行 */
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .main-cat-item {
+            padding: 0.7rem 1.4rem; /* 内边距 */
+            cursor: pointer; /* 鼠标悬停时显示指针 */
+            transition: all 0.3s; /* 所有属性过渡效果 */
+            color: #000; /* 文字颜色 */
+            font-weight: 500; /* 字体粗细 */
+            font-size: 18px; /* 字体大小 */
             position: relative;
+            text-decoration: none;
         }
 
-        /* 深色模式下的样式 */
-        body.dark-mode {
-            background: #222;
-            color: #eee;
+        .main-cat-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #000;
+            transition: width 0.3s ease;
         }
 
-        body.dark-mode .header,
-        body.dark-mode .nav-toggle,
-        body.dark-mode .nav-menu,
-        body.dark-mode .engine-btn,
-        body.dark-mode .search-box,
-        body.dark-mode .main-cat-item,
-        body.dark-mode .sub-category,
-        body.dark-mode .sub-cat-item,
-        body.dark-mode .tool-card,
-        body.dark-mode .footer {
-            background: rgba(0, 0, 0, 0.7);
-            border-color: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        .main-cat-item:hover::after {
+            width: 100%;
         }
 
-        body.dark-mode .engine-btn.active,
-        body.dark-mode .sub-cat-item.active,
-        body.dark-mode .main-cat-item.active {
-            background: #555;
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        .main-cat-item.active {
+            color: #000; /* 激活状态下的文字颜色 */
         }
 
-        body.dark-mode .tool-title {
-            color: #fff;
+        .main-cat-item.active::after {
+            width: 100%;
         }
 
-        body.dark-mode .tool-desc {
-            color: #ccc;
+        .sub-category {
+            display: none; /* 默认隐藏 */
+            justify-content: center; /* 水平居中 */
+            gap: 0.6rem; /* 元素之间的间距 */
+            flex-wrap: wrap; /* 允许换行 */
+            padding: 1rem; /* 内边距 */
+            background: rgba(255,255,255,0.2); /* 背景颜色，带有透明度 */
+            border-radius: 12px; /* 圆角 */
+            margin: 0.8rem auto 1.5rem; /* 上下外边距，左右自动居中，底部外边距 */
+            max-width: 90%; /* 最大宽度 */
+            backdrop-filter: blur(6px); /* 背景模糊效果 */
         }
 
-        body.dark-mode .footer {
-            border-top-color: rgba(255, 255, 255, 0.1);
-            color: #aaa;
+        .sub-category.active {
+            display: flex; /* 激活状态下显示 */
+            animation: fadeSlide 0.4s ease; /* 淡入动画 */
         }
 
-        body.dark-mode .footer a {
-            color: #bbb;
+        .sub-cat-item {
+            padding: 0.5rem 1rem; /* 内边距 */
+            border-radius: 6px; /* 圆角 */
+            background: rgba(255,255,255,0.5); /* 背景颜色，带有透明度 */
+            cursor: pointer; /* 鼠标悬停时显示指针 */
+            font-size: 15px; /* 字体大小 */
+            color: #666; /* 文字颜色 */
+            border: 1px solid rgba(124,143,247,0.15); /* 边框 */
+            transition: all 0.2s; /* 所有属性过渡效果 */
         }
 
-        /* 头部区域 */
-        .header {
-            position: fixed;
-            top: 15px;
-            left: 20px;
-            z-index: 99;
+        .sub-cat-item.active {
+            background: #FF8C19; /* 激活状态下的背景颜色 */
+            color: rgb(255, 255, 255); /* 激活状态下的文字颜色 */
+            border-color: transparent; /* 激活状态下的边框颜色 */
         }
 
-        .logo {
-            width: clamp(60px, 8vw, 90px);
-            height: auto;
-            transition: filter 0.3s;
+        /* 工具卡片 */
+        .tool-grid {
+            display: grid; /* 网格布局 */
+            grid-template-columns: repeat(var(--card-count), 1fr);
+            gap: 1.5rem; /* 元素之间的间距 */
+            padding: 0.8rem; /* 内边距 */
+            --card-count: 6; /* 默认每行 6 个卡片 */
         }
 
-        .logo:hover {
+        @media (max-width: 1800px) {
+            .tool-grid {
+            --card-count: 5; 
+        }
         }
 
-        body.dark-mode .header a img.logo {
-            content: url("logo2.svg");
+        @media (max-width: 1500px) {
+            .tool-grid {
+            --card-count: 4; 
+        }
         }
 
-        body.dark-mode .logo:hover {
+        @media (max-width: 1200px) {
+            .tool-grid {
+            --card-count: 3; 
+        }
+        }
+
+        @media (max-width: 800px) {
+            .tool-grid {
+            --card-count: 2; 
+        }
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.9); /* 背景颜色，带有透明度 */
+            border-radius: 16px; /* 圆角 */
+            padding: 1.5rem; /* 内边距 */
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05); /* 阴影 */
+            transition: all 0.3s; /* 所有属性过渡效果 */
+            border: 1px solid rgba(124,143,247,0.1); /* 边框 */
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px); /* 鼠标悬停时向上移动 */
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1); /* 鼠标悬停时阴影 */
+        }
+
+        .tool-card a {
+            text-decoration: none; /* 移除下划线 */
+            color: inherit; /* 继承父元素的颜色 */
+            display: block; /* 块级元素 */
+            height: 100%; /* 高度：100% */
+        }
+
+        .tool-icon {
+            width: 48px; /* 工具图标宽度 */
+            height: 48px; /* 工具图标高度 */
+            margin-bottom: 1rem; /* 底部外边距 */
+            display: flex; /* 弹性布局 */
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+        }
+
+        .tool-icon img {
+            width: 100%; /* 宽度：100% */
+            height: 100%; /* 高度：100% */
+            object-fit: contain; /* 保持图片比例 */
+        }
+
+        .tool-title {
+            color: #333; /* 文字颜色 */
+            margin-bottom: 0.6rem; /* 底部外边距 */
+            font-size: 16px; /* 字体大小 */
+            font-weight: 600; /* 字体粗细 */
+        }
+
+        .tool-desc {
+            color: #666; /* 文字颜色 */
+            font-size: 13px; /* 字体大小 */
+            line-height: 1.5; /* 行高 */
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); } /* 初始状态：透明度0，向下移动10px */
+            to { opacity: 1; transform: translateY(0); } /* 结束状态：透明度1，不移动 */
+        }
+
+        /* 底部信息栏 */
+        .footer {
+            position: relative; /* 改为 relative */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid rgba(124, 143, 247, 0.1);
+}
+
+
+        .footer a {
+            color: #7c8ff7; /* 链接颜色 */
+            text-decoration: none; /* 移除下划线 */
+        }
+
+        .footer a:hover {
+            text-decoration: underline; /* 鼠标悬停时显示下划线 */
+        }
+
+        /* 媒体查询，针对小屏幕设备 */
+        @media (max-width: 576px) {
+            body {
+                padding: 20px 3% 3rem; /* 内边距 */
+            }
+
+            .engine-bar {
+                gap: 0.5rem; /* 元素之间的间距 */
+                margin-bottom: 1rem; /* 底部外边距 */
+            }
+
+            .engine-btn {
+                padding: 0.5rem 1rem; /* 内边距 */
+                font-size: 12px; /* 字体大小 */
+            }
+
+            .search-wrapper {
+                max-width: 98%; /* 最大宽度 */
+            }
+
+            .search-box {
+                padding: 0.8rem 1.2rem; /* 内边距 */
+                font-size: 14px; /* 字体大小 */
+            }
+
+            .main-category {
+                gap: 0.5rem; /* 元素之间的间距 */
+                margin-bottom: 0.8rem; /* 底部外边距 */
+            }
+
+            .main-cat-item {
+                padding: 0.5rem 1rem; /* 内边距 */
+                font-size: 12px; /* 字体大小 */
+            }
+
+            .sub-category {
+                gap: 0.4rem; /* 元素之间的间距 */
+                padding: 0.8rem; /* 内边距 */
+            }
+
+            .sub-cat-item {
+                padding: 0.4rem 0.8rem; /* 内边距 */
+                font-size: 11px; /* 字体大小 */
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 自动填充列，最小宽度250px，最大宽度1fr */
+                gap: 1rem; /* 元素之间的间距 */
+                padding: 0.5rem; /* 内边距 */
+            }
+
+            .tool-card {
+                padding: 1rem; /* 内边距 */
+            }
+
+            .tool-icon {
+                width: 40px; /* 工具图标宽度 */
+                height: 40px; /* 工具图标高度 */
+                margin-bottom: 0.8rem; /* 底部外边距 */
+            }
+
+            .tool-title {
+                font-size: 15px; /* 字体大小 */
+                margin-bottom: 0.5rem; /* 底部外边距 */
+            }
+
+            .tool-desc {
+                font-size: 12px; /* 字体大小 */
+            }
+
+            .footer {
+                font-size: 11px; /* 字体大小 */
+                padding: 0.6rem; /* 内边距 */
+            }
+
+            .search-icon {
+                width: 150px; /* 调整后的尺寸：原始尺寸的5倍 (28px * 5 = 140px) */
+                height: 50px; /* 调整后的尺寸：原始尺寸的5倍 (28px * 5 = 140px) */
+                margin-right: 20px; /* 调整后的间距 */
+                margin-left: 10px; /* 调整后的间距 */
+            }
+
+            .search-box {
+                padding: 1rem 1.2rem; /* 内边距 */
+                font-size: 15px; /* 字体大小 */
+            }
         }
 
         /* 导航菜单 */
@@ -101,39 +381,51 @@
             position: fixed;
             top: 25px;
             right: 20px;
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 10px;
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            justify-content: space-around;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease;
             z-index: 101;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .nav-toggle:hover {
             transform: scale(1.05);
         }
 
+        .nav-toggle .logo {
+            width: 50px;
+            height: auto;
+            transition: filter 0.3s, transform 0.3s ease;
+        }
+
+        .nav-toggle .logo:hover {
+            transform: scale(1.1);
+        }
+
         .nav-menu {
             position: fixed;
-            top: 60px;
+            top: 65px;
             right: 20px;
-            background: rgba(255,255,255,0.98);
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 12px;
             padding: 0.8rem;
             width: 180px;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(10px);
             opacity: 0;
             transform: translateY(-10px);
             transition: all 0.3s ease;
             pointer-events: none;
             z-index: 102;
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-menu.active {
@@ -146,445 +438,222 @@
             padding: 8px 12px;
             border-radius: 6px;
             color: #666;
-            transition: all 0.2s;
+            transition: all 0.2s, color 0.3s ease;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .nav-item:hover {
             background: #7c8ff710;
             color: #7c8ff7;
-        }
-
-        /* 深色模式切换按钮 */
-        .dark-mode-toggle {
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .dark-mode-toggle:hover {
             transform: scale(1.05);
         }
 
-        body.dark-mode .dark-mode-toggle {
-            color: #eee;
+        .nav-item:hover::before {
+            opacity: 1;
         }
 
-        /* 调整深色模式按钮位置 */
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .nav-menu .dark-mode-toggle {
-            margin-bottom: 0.5rem;
-        }
-
-        /* 搜索引擎栏 */
-        .engine-bar {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .engine-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 24px;
-            background: rgba(255,255,255,0.85);
-            border: 1px solid rgba(124,143,247,0.2);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-            color: #666;
-            backdrop-filter: blur(6px);
-        }
-
-        .engine-btn.active {
-            background: #222;
-            color: white;
-            box-shadow: 0 4px 16px rgba(124,143,247,0.2);
-        }
-
-        /* 搜索框 */
-        .search-wrapper {
-            max-width: 85%;
-            margin: 0 auto 2rem;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 1rem 1.6rem;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 40px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(12px);
-            font-size: 15px;
-            transition: all 0.3s;
-            color: #333;
-        }
-
-        body.dark-mode .search-box {
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #eee;
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: #7c8ff7;
-            box-shadow: 0 8px 32px rgba(124,143,247,0.15);
-        }
-
-        /* 分类系统 */
-        .category-system {
-            margin-bottom: 2rem;
-        }
-
-        .main-category {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .main-cat-item {
-            padding: 0.7rem 1.4rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.7);
-            color: #666;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .main-cat-item.active {
-            background: #222;
-            color: white;
-            box-shadow: 0 4px 20px rgba(124,143,247,0.3);
-        }
-
-        .sub-category {
-            display: none;
-            justify-content: center;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            padding: 1rem;
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
-            margin: 0.8rem auto 1.5rem;
-            max-width: 90%;
-            backdrop-filter: blur(6px);
-        }
-
-        .sub-category.active {
-            display: flex;
-            animation: fadeSlide 0.4s ease;
-        }
-
-        .sub-cat-item {
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            font-size: 13px;
-            color: #666;
-            border: 1px solid rgba(124,143,247,0.15);
-            transition: all 0.2s;
-        }
-
-        .sub-cat-item.active {
-            background: #222;
-            color: white;
-            border-color: transparent;
-        }
-
-        /* 工具卡片 */
-        .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 0.8rem;
-        }
-
-        .tool-card {
-            background: rgba(255,255,255,0.9);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            border: 1px solid rgba(124,143,247,0.1);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-        }
-
-        .tool-card a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            height: 100%;
-        }
-
-        .tool-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .tool-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .tool-title {
-            color: #333;
-            margin-bottom: 0.6rem;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        body.dark-mode .tool-title {
-            color: #fff;
-        }
-
-        .tool-desc {
-            color: #666;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        body.dark-mode .tool-desc {
-            color: #ccc;
-        }
-
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 底部信息栏 */
         .footer {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            padding: 0.8rem;
+            padding: 0.6rem;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             color: #888;
             border-top: 1px solid rgba(124, 143, 247, 0.1);
+            z-index: 100;
         }
 
         .footer a {
             color: #7c8ff7;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .footer a:hover {
             text-decoration: underline;
         }
 
-        /* 媒体查询，针对小屏幕设备 */
-        @media (max-width: 576px) {
-            body {
-                padding: 20px 3% 3rem;
-            }
-
-            .header {
-                left: 10px;
-                top: 10px;
-            }
-
-            .logo {
-                width: 50px;
-            }
-
-            .nav-toggle {
-                top: 15px;
-                right: 10px;
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-            }
-
-            .nav-menu {
-                top: 50px;
-                right: 10px;
-                width: 160px;
-                padding: 0.6rem;
-            }
-
-            .nav-item {
-                font-size: 12px;
-                padding: 5px 8px;
-            }
-
-            .dark-mode-toggle {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
-            }
-
-            .engine-bar {
-                gap: 0.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .engine-btn {
-                padding: 0.5rem 1rem;
-                font-size: 12px;
-            }
-
-            .search-wrapper {
-                max-width: 98%;
-            }
-
-            .search-box {
-                padding: 0.8rem 1.2rem;
-                font-size: 14px;
-            }
-
-            .main-category {
-                gap: 0.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .main-cat-item {
-                padding: 0.5rem 1rem;
-                font-size: 12px;
-            }
-
-            .sub-category {
-                gap: 0.4rem;
-                padding: 0.8rem;
-            }
-
-            .sub-cat-item {
-                padding: 0.4rem 0.8rem;
-                font-size: 11px;
-            }
-
-            .tool-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1rem;
-                padding: 0.5rem;
-            }
-
-            .tool-card {
-                padding: 1rem;
-            }
-
-            .tool-icon {
-                width: 40px;
-                height: 40px;
-                margin-bottom: 0.8rem;
-            }
-
-            .tool-title {
-                font-size: 15px;
-                margin-bottom: 0.5rem;
-            }
-
-            .tool-desc {
-                font-size: 12px;
-            }
-
-            .footer {
-                font-size: 11px;
-                padding: 0.6rem;
-            }
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        /* 最新消息按钮 */
+        .news-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #F8C91C;
+            color: rgb(0, 0, 0);
+            padding: 0.8rem 1.2rem;
+            border-radius: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(124, 143, 247, 0.3);
+            transition: all 0.3s ease;
+            z-index: 103;
+            font-size: 14px;
+            border: none;
+            outline: none;
+        }
+
+        .news-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(124, 143, 247, 0.4);
+        }
+
     </style>
 </head>
 <body>
-    <!-- 头部LOGO -->
-    <div class="header">
-        <a href="https://zizao.top/">
-            <img src="logo.svg" class="logo" alt="Tool Galaxy">
-        </a>
-    </div>
-
     <!-- 折叠导航 -->
-    <div class="nav-toggle" id="navToggle">☰</div>
+    <div class="nav-toggle" id="navToggle" aria-label="切换导航">
+        <a href="https://zizao.top/">
+            <img src="logo.svg" class="logo" alt="ZAO Tool">
+        </a>
+        ☰
+    </div>
     <nav class="nav-menu" id="navMenu">
-        <!-- 深色模式切换按钮 -->
-        <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
-        <a href="https://zizao.top/" class="nav-item">首页</a>
-        <a href="fonts" class="nav-item">字库产品</a>
-        <a href="bao" class="nav-item">百宝库</a>
-        <a href="hao" class="nav-item">设计导航</a>
-        <a href="article" class="nav-item">文章教程</a>
-        <a href="tool" class="nav-item">工具箱</a>
-        <a href="about" class="nav-item">更多</a>
+        <a href="#" class="nav-item">首页</a>
+        <a href="https://zizao.top/hao" class="nav-item">设计导航</a>
+        <a href="https://zizao.top/bao" class="nav-item">百宝库</a>
+        <a href="#" class="nav-item">字库产品</a>
+        <a href="#" class="nav-item">设计教程</a>
+        <a href="#" class="nav-item">工具箱</a>
+        <a href="#" class="nav-item">更多</a>
     </nav>
 
     <!-- 搜索引擎栏 -->
     <div class="engine-bar" id="engineBar">
-        <div class="engine-btn active" data-engine="google">Google</div>
-        <div class="engine-btn" data-engine="bing">Bing</div>
         <div class="engine-btn" data-engine="baidu">百度</div>
-        <div class="engine-btn" data-engine="direct">直达模式</div>
+        <div class="engine-btn" data-engine="baiduimage">百度图片</div>
+        <div class="engine-btn" data-engine="so">免版权图片</div>
+        <div class="engine-btn" data-engine="fanyi">百度翻译</div>
+        <div class="engine-btn" data-engine="bing">Bing</div>
+        <div class="engine-btn active" data-engine="google">Google</div>
     </div>
 
     <!-- 搜索框 -->
     <div class="search-wrapper">
-        <input type="text" class="search-box" placeholder="输入工具名称或直达网址" id="searchInput">
+        <div class="search-box-container">
+            <img src="search-icon.svg" alt="Search Icon" class="search-icon">
+            <input type="text" class="search-box" placeholder="输入关键词搜索，按Tab键快速切换搜索引擎...Ctrl/Cmd+D收藏本页面哦~" id="searchInput">
+        </div>
     </div>
 
     <!-- 分类系统 -->
     <div class="category-system">
         <div class="main-category">
-            <div class="main-cat-item active" data-cat="all">全部工具</div>
-            <div class="main-cat-item" data-cat="design">设计创作</div>
-            <div class="main-cat-item" data-cat="dev">开发编程</div>
-            <div class="main-cat-item" data-cat="office">效率办公</div>
+            <div class="main-cat-item active" data-cat="A">灵感创意</div>
+            <div class="main-cat-item" data-cat="B">字体工具</div>
+            <div class="main-cat-item" data-cat="C">AI工具</div>
+            <div class="main-cat-item" data-cat="D">免版权资源</div>
+            <div class="main-cat-item" data-cat="E">设计神器</div>
+            <div class="main-cat-item" data-cat="F">设计素材</div>
+            <div class="main-cat-item" data-cat="G">配色方案</div>
+            <div class="main-cat-item" data-cat="H">知识社区</div>
+            <div class="main-cat-item" data-cat="I">软件工具</div>
         </div>
 
         <!-- 二级分类 -->
-        <div class="sub-category active" data-for-cat="all">
-            <div class="sub-cat-item active" data-subcat="all">显示全部</div>
+        <div class="sub-category active" data-for-cat="A">
+            <div class="sub-cat-item active" data-subcat="A1">#精选推荐</div>
+            <div class="sub-cat-item" data-subcat="A2">#字体灵感</div>
+            <div class="sub-cat-item" data-subcat="A3">#版式设计</div>
+            <div class="sub-cat-item" data-subcat="A4">#品牌VI</div>
+            <div class="sub-cat-item" data-subcat="A5">#LOGO设计</div>
+            <div class="sub-cat-item" data-subcat="A6">#摄影鉴赏</div>
         </div>
 
-        <div class="sub-category" data-for-cat="design">
-            <div class="sub-cat-item active" data-subcat="all">全部设计</div>
-            <div class="sub-cat-item" data-subcat="ui">UI/UX设计</div>
-            <div class="sub-cat-item" data-subcat="3d">三维建模</div>
-            <div class="sub-cat-item" data-subcat="edit">图像处理</div>
+        <div class="sub-category" data-for-cat="B">
+            <div class="sub-cat-item active" data-subcat="B1">#字体下载</div>
+            <div class="sub-cat-item" data-subcat="B2">#文字工具</div>
+            <div class="sub-cat-item" data-subcat="B3">#字体效果</div>
         </div>
 
-        <div class="sub-category" data-for-cat="dev">
-            <div class="sub-cat-item active" data-subcat="all">全部开发</div>
-            <div class="sub-cat-item" data-subcat="frontend">前端开发</div>
-            <div class="sub-cat-item" data-subcat="backend">后端框架</div>
-            <div class="sub-cat-item" data-subcat="database">数据库</div>
+        <div class="sub-category" data-for-cat="C">
+            <div class="sub-cat-item active" data-subcat="C1">#AI聊天</div>
+            <div class="sub-cat-item" data-subcat="C2">#AI绘图</div>
+            <div class="sub-cat-item" data-subcat="C3">#AI视频</div>
+            <div class="sub-cat-item" data-subcat="C4">#AI音频</div>
         </div>
 
-        <div class="sub-category" data-for-cat="office">
-            <div class="sub-cat-item active" data-subcat="all">全部办公</div>
-            <div class="sub-cat-item" data-subcat="docs">文档协作</div>
-            <div class="sub-cat-item" data-subcat="meeting">视频会议</div>
-            <div class="sub-cat-item" data-subcat="manage">项目管理</div>
+        <div class="sub-category" data-for-cat="D">
+            <div class="sub-cat-item active" data-subcat="D1">#免版权中文字体</div>
+            <div class="sub-cat-item" data-subcat="D2">#免版权英文字体</div>
+            <div class="sub-cat-item" data-subcat="D3">#免版权图片</div>
+            <div class="sub-cat-item" data-subcat="D4">#免版权视频</div>
+            <div class="sub-cat-item" data-subcat="D5">#免版权音频</div>
+            <div class="sub-cat-item" data-subcat="D6">#免版权音效</div>
         </div>
+
+        <div class="sub-category" data-for-cat="E">
+            <div class="sub-cat-item active" data-subcat="E1">#在线设计平台</div>
+            <div class="sub-cat-item" data-subcat="E2">#LOGO生成</div>
+            <div class="sub-cat-item" data-subcat="E3">#背景生成</div>
+            <div class="sub-cat-item" data-subcat="E4">#去除背景</div>
+            <div class="sub-cat-item" data-subcat="E5">#抹除物体</div>
+            <div class="sub-cat-item" data-subcat="E6">#画质增强</div>
+            <div class="sub-cat-item" data-subcat="E7">#图像压缩</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="F">
+            <div class="sub-cat-item active" data-subcat="F1">#VI样机</div>
+            <div class="sub-cat-item" data-subcat="F2">#PNG素材</div>
+            <div class="sub-cat-item" data-subcat="F3">#矢量素材</div>
+            <div class="sub-cat-item" data-subcat="F4">#插画素材</div>
+            <div class="sub-cat-item" data-subcat="F5">#PSD素材</div>
+            <div class="sub-cat-item" data-subcat="F6">#背景纹理</div>
+            <div class="sub-cat-item" data-subcat="F7">#图标Emoji</div>
+            <div class="sub-cat-item" data-subcat="F8">#PPT模板</div>
+            <div class="sub-cat-item" data-subcat="F9">#PS笔刷</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="G">
+            <div class="sub-cat-item active" data-subcat="G1">#纯色搭配</div>
+            <div class="sub-cat-item" data-subcat="G2">#渐变配色</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="H">
+            <div class="sub-cat-item active" data-subcat="G1">#设计书籍</div>
+        </div>
+
+        <div class="sub-category" data-for-cat="I">
+            <div class="sub-cat-item active" data-subcat="I1">#软件下载</div>
+            <div class="sub-cat-item" data-subcat="I2">#资源搜索</div>
+            <div class="sub-cat-item" data-subcat="I3">#格式转换</div>
+            <div class="sub-cat-item" data-subcat="I4">#偏门利器</div>
+        </div>
+
     </div>
 
     <!-- 工具卡片 -->
@@ -592,43 +661,15 @@
         <!-- 卡片将在这里动态生成 -->
     </div>
 
+    <!-- 最新消息按钮 -->
+    <a href="https://zizao.top/bao" target="_blank" class="news-button" id="newsButton">🔥百宝库上线啦！</a>
+
     <!-- 底部信息栏 -->
     <footer class="footer">
         &copy; 2025 字造 All rights reserved. | <a href="#">关于我们</a> | <a href="#">联系方式</a>
     </footer>
 
     <script>
-        // 深色模式切换
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
-
-        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-        if (isDarkMode) {
-            body.classList.add('dark-mode');
-        }
-
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const darkModeEnabled = body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
-
-            darkModeToggle.textContent = darkModeEnabled ? '☀️' : '🌙';
-        });
-
-        darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
-
-        // 导航菜单交互
-        const navToggle = document.getElementById('navToggle');
-        const navMenu = document.getElementById('navMenu');
-
-        navToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            navMenu.classList.toggle('active');
-        });
-
-        document.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        });
 
         // 搜索引擎切换
         const engineButtons = document.querySelectorAll('.engine-btn');
@@ -676,9 +717,12 @@
                     window.location.href = /^(https?:\/\/)/i.test(query) ? query : `http://${query}`;
                 } else {
                     const engines = {
-                        google: 'https://www.google.com/search?q=',
+                        baidu: 'https://www.baidu.com/s?wd=',
+                        baiduimage: 'https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=',
+                        so: 'https://www.logosc.cn/so/s',
+                        fanyi: 'https://fanyi.baidu.com/#/zh/en',
                         bing: 'https://www.bing.com/search?q=',
-                        baidu: 'https://www.baidu.com/s?wd='
+                        google: 'https://www.google.com/search?q='
                     };
                     window.open(engines[engine] + encodeURIComponent(query), '_blank');
                 }
@@ -686,194 +730,194 @@
         });
 
         // 分类筛选系统
-        function filterTools(cat, subcat) {
-            document.querySelectorAll('.tool-card').forEach(card => {
-                const matchCat = cat === 'all' || card.dataset.cat === cat;
-                const matchSubcat = subcat === 'all' || card.dataset.subcat === subcat;
-                card.style.display = (matchCat && matchSubcat) ? 'block' : 'none';
-            });
+function filterTools(cat, subcat) {
+    document.querySelectorAll('.tool-card').forEach(card => {
+        const matchCat = card.dataset.cat === cat;
+        const matchSubcat = card.dataset.subcat === subcat;
+        card.style.display = (matchCat && matchSubcat) ? 'block' : 'none';
+    });
+}
+
+document.querySelectorAll('.main-cat-item').forEach(item => {
+    item.addEventListener('click', function() {
+        // Remove active class from all main category items
+        document.querySelectorAll('.main-cat-item.active').forEach(activeItem => {
+            activeItem.classList.remove('active');
+        });
+
+        // Add active class to the clicked item
+        this.classList.add('active');
+
+        const cat = this.dataset.cat;
+
+        // Show/hide sub-categories based on the selected main category
+        document.querySelectorAll('.sub-category').forEach(sub => {
+            sub.classList.toggle('active', sub.dataset.forCat === cat);
+        });
+
+        // 自动选择第一个二级分类并触发过滤
+        const activeSubCategory = document.querySelector(`.sub-category[data-for-cat="${cat}"]`);
+        if (activeSubCategory) {
+            const firstSubCatItem = activeSubCategory.querySelector('.sub-cat-item');
+            if (firstSubCatItem) {
+                // 移除之前激活的二级分类的 active 类
+                activeSubCategory.querySelector('.sub-cat-item.active')?.classList.remove('active');
+
+                // 激活新的二级分类
+                firstSubCatItem.classList.add('active');
+
+                // 触发工具过滤
+                const subcat = firstSubCatItem.dataset.subcat;
+                filterTools(cat, subcat);
+            }
         }
+    });
+});
 
-        document.querySelectorAll('.main-cat-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelector('.main-cat-item.active').classList.remove('active');
-                this.classList.add('active');
+document.querySelectorAll('.sub-cat-item').forEach(item => {
+    item.addEventListener('click', function() {
+        const parent = this.closest('.sub-category');
+        parent.querySelector('.sub-cat-item.active').classList.remove('active');
+        this.classList.add('active');
 
-                const cat = this.dataset.cat;
-                document.querySelectorAll('.sub-category').forEach(sub => {
-                    sub.classList.toggle('active', sub.dataset.forCat === cat);
-                });
+        const cat = parent.dataset.forCat;
+        const subcat = this.dataset.subcat;
+        filterTools(cat, subcat);
+    });
+});
 
-                filterTools(cat, 'all');
+
+        // 导航栏交互
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.remove('active');
             });
         });
 
-        document.querySelectorAll('.sub-cat-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const parent = this.closest('.sub-category');
-                parent.querySelector('.sub-cat-item.active').classList.remove('active');
-                this.classList.add('active');
-
-                const cat = parent.dataset.forCat;
-                const subcat = this.dataset.subcat;
-                filterTools(cat === 'all' ? 'all' : cat, subcat);
-            });
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
         });
 
         // 卡片数据
         const toolData = [
-            {
-                cat: 'design',
-                subcat: 'ui',
-                url: 'https://www.figma.com',
-                icon: 'icons/figma.svg',
-                title: 'Figma',
-                desc: '基于浏览器的协作式UI设计工具，支持实时协作和设计系统管理'
-            },
-            {
-                cat: 'dev',
-                subcat: 'frontend',
-                url: 'https://code.visualstudio.com',
-                icon: 'icons/vscode.svg',
-                title: 'VS Code',
-                desc: '轻量级但功能强大的源代码编辑器，支持多种编程语言'
-            },
-            {
-                cat: 'dev',
-                subcat: 'frontend',
-                url: 'https://zizao.top',
-                icon: 'icons/zizao.svg',
-                title: '字造',
-                desc: '轻量级但功能强大的源代码编辑器，支持多种编程语言'
-            },
-            {
-                cat: 'office',
-                subcat: 'docs',
-                url: 'https://www.google.com/docs/about/',
-                icon: 'icons/google-docs.svg',
-                title: 'Google Docs',
-                desc: '在线文档编辑和协作工具'
-            },
-            {
-                cat: 'design',
-                subcat: 'edit',
-                url: 'https://www.adobe.com/products/photoshop.html',
-                icon: 'icons/photoshop.svg',
-                title: 'Adobe Photoshop',
-                desc: '专业的图像编辑软件'
-            },
-            {
-                cat: 'dev',
-                subcat: 'backend',
-                url: 'https://nodejs.org/en/',
-                icon: 'icons/nodejs.svg',
-                title: 'Node.js',
-                desc: '基于 Chrome V8 引擎的 JavaScript 运行时环境'
-            },
-            {
-                cat: 'office',
-                subcat: 'meeting',
-                url: 'https://zoom.us/',
-                icon: 'icons/zoom.svg',
-                title: 'Zoom',
-                desc: '流行的视频会议平台'
-            },
-            {
-                cat: 'design',
-                subcat: '3d',
-                url: 'https://www.blender.org/',
-                icon: 'icons/blender.svg',
-                title: 'Blender',
-                desc: '免费开源的 3D 创作软件'
-            },
-            {
-                cat: 'dev',
-                subcat: 'database',
-                url: 'https://www.mysql.com/',
-                icon: 'icons/mysql.svg',
-                title: 'MySQL',
-                desc: '流行的关系型数据库管理系统'
-            },
-            {
-                cat: 'office',
-                subcat: 'manage',
-                url: 'https://trello.com/',
-                icon: 'icons/trello.svg',
-                title: 'Trello',
-                desc: '基于看板的项目管理工具'
-            },
-            {
-                cat: 'design',
-                subcat: 'ui',
-                url: 'https://www.sketch.com/',
-                icon: 'icons/sketch.svg',
-                title: 'Sketch',
-                desc: '为 macOS 设计的矢量图形编辑器'
-            },
-            {
-                cat: 'dev',
-                subcat: 'frontend',
-                url: 'https://reactjs.org/',
-                icon: 'icons/react.svg',
-                title: 'React',
-                desc: '用于构建用户界面的 JavaScript 库'
-            },
-            {
-                cat: 'office',
-                subcat: 'docs',
-                url: 'https://www.microsoft.com/zh-cn/microsoft-365/word',
-                icon: 'icons/word.svg',
-                title: 'Microsoft Word',
-                desc: '强大的文档处理软件'
-            },
-            {
-                cat: 'design',
-                subcat: 'edit',
-                url: 'https://www.adobe.com/products/illustrator.html',
-                icon: 'icons/illustrator.svg',
-                title: 'Adobe Illustrator',
-                desc: '矢量图形编辑软件'
-            },
-            {
-                cat: 'dev',
-                subcat: 'backend',
-                url: 'https://www.djangoproject.com/',
-                icon: 'icons/django.svg',
-                title: 'Django',
-                desc: 'Python Web 框架'
-            },
-            {
-                cat: 'office',
-                subcat: 'meeting',
-                url: 'https://www.microsoft.com/zh-cn/microsoft-teams/group-chat-software',
-                icon: 'icons/teams.svg',
-                title: 'Microsoft Teams',
-                desc: '团队协作和视频会议平台'
-            },
-            {
-                cat: 'design',
-                subcat: '3d',
-                url: 'https://www.autodesk.com/products/autocad/overview',
-                icon: 'icons/autocad.svg',
-                title: 'AutoCAD',
-                desc: '专业的 2D 和 3D CAD 软件'
-            },
-            {
-                cat: 'dev',
-                subcat: 'database',
-                url: 'https://www.mongodb.com/',
-                icon: 'icons/mongodb.svg',
-                title: 'MongoDB',
-                desc: 'NoSQL 文档数据库'
-            },
-            {
-                cat: 'office',
-                subcat: 'manage',
-                url: 'https://asana.com/',
-                icon: 'icons/asana.svg',
-                title: 'Asana',
-                desc: '项目和任务管理工具'
-            }
+            
+        // 灵感创意
+            // 精选推荐
+            {cat: 'A',subcat: 'A1',url: 'https://www.dazi.co/',icon: 'icon/1.svg',title: 'AskManyAI',desc: '来自全球的超多AI工具集合站，体验甚至超过原平台'},
+            {cat: 'A',subcat: 'A1',url: 'https://github.com',icon: 'icon/1.svg',title: 'Github',desc: '全世界最大的开源社区，在这里可以找到几乎所有的开源项目'},
+            {cat: 'A',subcat: 'A1',url: 'https://www.axis-praxis.org/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '最具人气的在线可变字体站，在这里可以体验到智能字体的魅力'},
+            {cat: 'A',subcat: 'A1',url: 'https://searx.bndkt.io',icon: 'icon/1.svg',title: 'SearXNG',desc: 'Google的绝佳替代，最强大的元搜索引擎'},
+            {cat: 'A',subcat: 'A1',url: 'https://huaban.com',icon: 'icon/1.svg',title: '花瓣',desc: '收集设计灵感，保存有用的素材'},
+            {cat: 'A',subcat: 'A1',url: 'https://www.zcool.com.cn',icon: 'icon/1.svg',title: '站酷',desc: '中国人气设计师互动平台'},
+            {cat: 'A',subcat: 'A1',url: 'https://www.pinterest.com',icon: 'icon/1.svg',title: 'Pinterest',desc: '全球最大的创意灵感图片采集站'},
+            {cat: 'A',subcat: 'A1',url: 'https://dribbble.com/',icon: 'icon/1.svg',title: 'Dribbble',desc: '面向设计师的社交网络平台'},
+            {cat: 'A',subcat: 'A1',url: 'https://behance.net/',icon: 'icon/1.svg',title: 'Behance',desc: 'Adobe旗下的设计师交流平台'},
+            {cat: 'A',subcat: 'A1',url: 'https://www.youtube.com',icon: 'icon/1.svg',title: 'YouTube',desc: '全球最大的学习分享平台'},
+            {cat: 'A',subcat: 'A1',url: 'https://www.uisdc.com',icon: 'icon/1.svg',title: '优设',desc: '人气设计师交流学习平台'},
+            {cat: 'A',subcat: 'A1',url: 'https://snapany.com/zh',icon: 'icon/1.svg',title: '万能视频下载',desc: '复制链接，下载任何地方的视频'},
+            {cat: 'A',subcat: 'A1',url: 'https://search.chongbuluo.com/',icon: 'icon/1.svg',title: '网盘搜索',desc: '支持常用4大网盘-聚合网盘搜索引擎'},
+            {cat: 'A',subcat: 'A1',url: 'https://wormhole.app/',icon: 'icon/1.svg',title: '文件传输',desc: '临时传送助手-端对端无需担心隐私泄露'},
+            {cat: 'A',subcat: 'A1',url: 'https://www.airpano.com/',icon: 'icon/1.svg',title: 'VR看世界',desc: '坐在家里就能看到来自全世界的景色'},
+            {cat: 'A',subcat: 'A1',url: 'https://free.com.tw/',icon: 'icon/1.svg',title: '免费资源社区',desc: '来自湾湾的免费资源分享网站'},
+            {cat: 'A',subcat: 'A1',url: 'https://docsmall.com',icon: 'icon/1.svg',title: '图像处理工具集',desc: '在线处理PDF-GIF-抠图-压缩等的图片工具'},
+            // 字体灵感
+            {cat: 'A',subcat: 'A2',url: 'https://www.zcool.com.cn/discover?cate=8&subCate=14',icon: 'icon/1.svg',title: '站酷-字体',desc: '站酷站内的字体设计师会在这里展示最新的设计作品'},
+            {cat: 'A',subcat: 'A2',url: 'https://www.shufazidian.com/',icon: 'icon/1.svg',title: '图像处理工具集',desc: '书法字典 搜汉字的各种书写风格'},
+            {cat: 'A',subcat: 'A2',url: 'http://www.shufami.com/',icon: 'icon/1.svg',title: '书法迷',desc: '中国书法字典网收集整理大师毛笔字'},
+            {cat: 'A',subcat: 'A2',url: 'https://www.fantiz5.com/zixing/',icon: 'icon/1.svg',title: '字形演变',desc: '可以查看汉字的演变过程'},
+            {cat: 'A',subcat: 'A2',url: 'http://www.ziticq.com/Works',icon: 'icon/1.svg',title: '字体传奇网',desc: '分类收录各风格字体作品和素材'},
+            {cat: 'A',subcat: 'A2',url: 'https://www.zitisheji.com',icon: 'icon/1.svg',title: '字体江湖',desc: '「字体帮」字体设计师刘兵克建立，会有很多字体设计师在此打卡练习'},
+            {cat: 'A',subcat: 'A2',url: 'http://ziti.cndesign.com/inspiration.html',icon: 'icon/1.svg',title: 'CND设计网-字体灵感',desc: 'CND设计网下的字体灵感搜索'},
+            // 版式设计
+            {cat: 'A',subcat: 'A3',url: 'https://www.typeroom.eu/',icon: 'icon/1.svg',title: 'Typeroom',desc: '字体排版设计前沿网站'},
+            {cat: 'A',subcat: 'A3',url: 'https://www.typographicposters.com/archive',icon: 'icon/1.svg',title: 'Typographicposters',desc: '专注于文字排版和抽象图形类的海报设计网站'},
+            {cat: 'A',subcat: 'A3',url: 'http://labor-atories.com/works/',icon: 'icon/1.svg',title: 'Labor-atories',desc: '日本书籍封面设计'},
+            {cat: 'A',subcat: 'A3',url: 'https://thedieline.com/',icon: 'icon/1.svg',title: 'Dieline',desc: '全球最受欢迎包装设计博客'},
+            {cat: 'A',subcat: 'A3',url: 'https://www.marble-co.net/portfolio',icon: 'icon/1.svg',title: 'Marble.co',desc: '可爱活泼风～平面设计案例'},
+            {cat: 'A',subcat: 'A3',url: 'https://www.niklasalm.se',icon: 'icon/1.svg',title: 'Niklasalm',desc: '最佳网站设计奖项和灵感'},
+            {cat: 'A',subcat: 'A3',url: 'https://www.awwwards.com/',icon: 'icon/1.svg',title: 'Awwwards',desc: '优秀的创意合成图片与视频社区'},
+            {cat: 'A',subcat: 'A3',url: 'https://www.designspiration.com/',icon: 'icon/1.svg',title: 'Designspiration',desc: '差不多算是美国版花瓣网'},
+            {cat: 'A',subcat: 'A3',url: 'https://fontsinuse.com/',icon: 'icon/1.svg',title: 'Fonts in Use',desc: '字体的美与价值～8000条商用实例'},
+            {cat: 'A',subcat: 'A3',url: 'https://www.underconsideration.com/artofthemenu/',icon: 'icon/1.svg',title: 'Art of Menu',desc: '来自各地看不完的优美菜单设计'},
+            // 品牌VI
+            {cat: 'A',subcat: 'A4',url: 'https://abduzeedo.com/',icon: 'icon/1.svg',title: 'Abdudo',desc: '每日分享高品质设计创意灵感'},
+            {cat: 'A',subcat: 'A4',url: 'https://www.trendlist.org/',icon: 'icon/1.svg',title: 'Trend List',desc: '一位大牛眼中的平面设计之美'},
+            {cat: 'A',subcat: 'A4',url: 'https://www.brandguidelines.net/',icon: 'icon/1.svg',title: 'BrandGuidelines',desc: '分享来自全球各地的品牌VI案例'},
+            {cat: 'A',subcat: 'A4',url: 'https://theinspirationgrid.com/',icon: 'icon/1.svg',title: 'Inspiration Grid',desc: '来自全球新奇的品牌创意案例'},
+            // LOGO设计
+            {cat: 'A',subcat: 'A5',url: 'http://logostock.jp',icon: 'icon/1.svg',title: 'Logostock',desc: '一个日本logo设计社区'},
+            {cat: 'A',subcat: 'A5',url: 'https://worldvectorlogo.com',icon: 'icon/1.svg',title: 'Worldvectorlogo',desc: '免费下载各种品牌logo'},
+            {cat: 'A',subcat: 'A5',url: 'https://www.logomoose.com',icon: 'icon/1.svg',title: 'LogoMoose',desc: '一个logo灵感和设计社区'},
+            {cat: 'A',subcat: 'A5',url: 'https://logopond.com',icon: 'icon/1.svg',title: 'Logopond',desc: '国外优秀logo灵感社区'},
+            // 摄影鉴赏
+            {cat: 'A',subcat: 'A6',url: 'http://www.cnu.cc/',icon: 'icon/1.svg',title: 'CNU',desc: '高质量摄影社区'},
+            {cat: 'A',subcat: 'A6',url: 'https://vision.xitek.com/sight/',icon: 'icon/1.svg',title: '色影无忌',desc: '中国影像生活门户'},
+            {cat: 'A',subcat: 'A6',url: 'https://www.designspiration.com/',icon: 'icon/1.svg',title: 'Designspiration',desc: '提供设计灵感、插画摄影、时尚艺术'},
+            {cat: 'A',subcat: 'A6',url: 'https://photock.jp',icon: 'icon/1.svg',title: 'Photock',desc: '8000+免版权摄影图片'},
+            {cat: 'A',subcat: 'A6',url: 'https://www.foodiesfeed.com/',icon: 'icon/1.svg',title: 'Foodies Feed',desc: '秀色可餐！免费高清食物照片'},
+
+        // 字体工具
+            // 字体下载
+            {cat: 'B',subcat: 'B1',url: 'https://www.fonts.net.cn/',icon: 'icon/1.svg',title: '字体天下',desc: '国内人气字体平台，提供免费字体下载和付费字体授权'},
+            // 文字工具
+            {cat: 'B',subcat: 'B2',url: 'https://www.qiuziti.com/',icon: 'icon/1.svg',title: '求字体',desc: '找字体神器 还提供字体下载'},
+            {cat: 'B',subcat: 'B2',url: 'https://v.ziti163.com/Font#/',icon: 'icon/1.svg',title: '字体大师',desc: '在线写字，生成自己的字库字体'},
+            {cat: 'B',subcat: 'B2',url: 'https://symbl.cc/cn/',icon: 'icon/1.svg',title: 'SYMBL符号大全',desc: '包含了几乎所有可复制使用的符号'},
+            {cat: 'B',subcat: 'B2',url: 'https://www.aies.cn/pinyin.html',icon: 'icon/1.svg',title: '汉字转拼音',desc: '在线汉字转换拼音-可以带声调'},
+            {cat: 'B',subcat: 'B2',url: 'https://www.aies.cn/',icon: 'icon/1.svg',title: '繁体字转换',desc: '简体繁体之间可以互相转换'},
+            {cat: 'B',subcat: 'B2',url: 'https://kmcha.com/text-compare',icon: 'icon/1.svg',title: '文本对比',desc: '在线对比两个文本的字数'},
+            {cat: 'B',subcat: 'B2',url: 'https://www.fantiz5.com/xingjinzi/',icon: 'icon/1.svg',title: '形近字查询',desc: '可以一键搜索外形相近的汉字'},
+            {cat: 'B',subcat: 'B2',url: 'https://paper.z2h.cn/',icon: 'icon/1.svg',title: 'Z2H字帖',desc: '自己定制一套适合自己的练字字帖'},
+            {cat: 'B',subcat: 'B2',url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: '字体动画',desc: '支持上传图片生成动画'},
+            // 字体效果
+            {cat: 'B',subcat: 'B3',url: 'https://boolpic.fun/animation',icon: 'icon/1.svg',title: 'Photo Animation',desc: '上传图片生成类似PPT转场动画'},
+            {cat: 'B',subcat: 'B3',url: 'https://beta.endlesstools.io',icon: 'icon/1.svg',title: 'Endless tools',desc: 'Web端字体视觉效果编辑工具'},
+            {cat: 'B',subcat: 'B3',url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: 'YASAI字体动画',desc: '8个在线可编辑的文字效果工具'},
+            {cat: 'B',subcat: 'B3',url: 'https://spacetypegenerator.com/',icon: 'icon/1.svg',title: 'SpaceTG英文动画',desc: '可以自己编辑生成动画的文字，只支持英文'},
+
+        // AI工具
+            // AI聊天
+            {cat: 'C',subcat: 'C1',url: 'https://chat.deepseek.com/',icon: 'icon/1.svg',title: 'Deekseek',desc: '全球领先的国产推理性“AI助手”'},
+            {cat: 'C',subcat: 'C1',url: 'https://yuanbao.tencent.com/chat/naQivTmsDa',icon: 'icon/1.svg',title: '腾讯元宝',desc: '腾讯混元大模型，并有Deekseek R1加持，对微信超强兼容功能强大'},
+            {cat: 'C',subcat: 'C1',url: 'https://chatgpt.com/',icon: 'icon/1.svg',title: 'ChatGPT',desc: 'OpenAI的研发的知名AI聊天助手'},
+            {cat: 'C',subcat: 'C1',url: 'https://gemini.google.com/app',icon: 'icon/1.svg',title: 'Gemini Flash',desc: '谷歌研发的人工智能对话模型'},
+            {cat: 'C',subcat: 'C1',url: 'https://kimi.moonshot.cn/',icon: 'icon/1.svg',title: 'Kimi Chat',desc: '智能聊天+超长文本处理'},
+            {cat: 'C',subcat: 'C1',url: 'http://chatyy.nbmzdl.cn/?hometype=chat',icon: 'icon/1.svg',title: 'NotionAI',desc: '国内版ChatGPT智能聊天机器人'},
+            {cat: 'C',subcat: 'C1',url: 'https://www.doubao.com',icon: 'icon/1.svg',title: '豆包',desc: '字节跳动旗下通用性AI大模型'},
+            {cat: 'C',subcat: 'C1',url: 'https://xinghuo.xfyun.cn/desk',icon: 'icon/1.svg',title: '讯飞星火',desc: '综合性AI 智能聊天+生图+PPT...'},
+            {cat: 'C',subcat: 'C1',url: 'https://tongyi.aliyun.com/qianwen/',icon: 'icon/1.svg',title: '通义千问',desc: '阿里出品！AI聊天+智能生图+视频摘要'},
+            {cat: 'C',subcat: 'C1',url: 'https://metaso.cn/?s=bdpc',icon: 'icon/1.svg',title: '秘塔AI',desc: 'AI智能分析文案生成'},
+            // AI绘图
+            {cat: 'C',subcat: 'C2',url: 'https://stability.ai/',icon: 'icon/1.svg',title: 'Stable Diffusion',desc: '开源AI图像生成工具”'},
+            {cat: 'C',subcat: 'C2',url: 'https://www.dall-e.com/',icon: 'icon/1.svg',title: 'DALL-E',desc: 'OpenAI的AI图像生成工具'},
+            {cat: 'C',subcat: 'C2',url: 'https://jimeng.jianying.com/',icon: 'icon/1.svg',title: '即梦AI',desc: '图片转视频的智能创作平台'},
+            {cat: 'C',subcat: 'C2',url: 'https://www.liblib.art/',icon: 'icon/1.svg',title: '哩布哩布AI',desc: '国产人气AI生图大模型社区'},
+            {cat: 'C',subcat: 'C2',url: 'https://tongyi.aliyun.com/wanxiang/',icon: 'icon/1.svg',title: '通义万相',desc: '阿里云旗下的智能生图平台'},
+            {cat: 'C',subcat: 'C2',url: 'https://picwish.cn/create',icon: 'icon/1.svg',title: '佐糖AI',desc: '图片修复+在线抠图+背景合成'},
+            {cat: 'C',subcat: 'C2',url: 'https://gamma.app/',icon: 'icon/1.svg',title: 'Gamma',desc: 'AI制作PPT 一秒生成'},
+            {cat: 'C',subcat: 'C2',url: 'https://applet.rightbrainai.cn/',icon: 'icon/1.svg',title: 'Vega AI',desc: '在线免费AI插画创作平台'},
+            {cat: 'C',subcat: 'C2',url: 'https://www.ishencai.com/',icon: 'icon/1.svg',title: '神采AI',desc: 'AIGC艺术生成平台，可以从草图、照片或文本中生成图像、视频和动画等形式'},
+            // AI视频
+            {cat: 'C',subcat: 'C3',url: 'https://aigc.baidu.com/home',icon: 'icon/1.svg',title: '度加',desc: 'AI生成视频文案和匹配视频'},
+            // AI音频
+            {cat: 'C',subcat: 'C4',url: 'https://xinghuo.xfyun.cn/desk',icon: 'icon/1.svg',title: '天工AI',desc: 'AI智能音乐+AI智能生图'},
+              
+            
+              
+  
+
+            {cat: 'E',subcat: 'E1',url: 'https://www.figma.com',icon: 'icon/1.svg',title: 'Figma',desc: '在线协作UI设计工具'},
         ];
 
         // 生成卡片
@@ -901,7 +945,12 @@
         generateToolCards(toolData);
 
         // 初始筛选
-        filterTools('all', 'all');
+        const initialCat = 'A';
+        const initialSubcat = 'A1';
+
+        document.querySelector(`.main-cat-item[data-cat="${initialCat}"]`).classList.add('active');
+        document.querySelector(`.sub-cat-item[data-subcat="${initialSubcat}"]`).classList.add('active');
+        filterTools(initialCat, initialSubcat);
     </script>
 </body>
 </html>
