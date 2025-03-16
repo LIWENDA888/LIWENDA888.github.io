@@ -4,145 +4,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作品集 | Your Name</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* CSS 变量 */
-        :root {
-            --primary: #2a5f97;
-            --secondary: #6c757d;
-            --ellipse-bg-color: rgba(42, 95, 151, 0.1);
-            --dot-color: rgba(42, 95, 151, 0.3);
-            --brand-design-color: #FF6B6B;
-            --web-design-color: #6BCB77;
-            --ui-design-color: #4D96FF;
-            --card-border-radius: 10px;
-            --card-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            --hover-transform: translateY(-5px); /* 减少悬停位移 */
-            --hover-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 减少悬停阴影 */
-            --transition-duration: 0.2s; /* 缩短过渡时间 */
-            --section-padding: 3rem 5%; /* 统一 Section 内边距 */
+    <!-- SEO 优化 -->
+    <title>字造 - 一起共赴十年之约</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
 
-            /* 深色模式变量 */
-            --dark-bg: #121212; /* 更深的背景色 */
-            --dark-text: #f0f0f0; /* 更亮的文本颜色 */
-            --dark-secondary: #a0a0a0; /* 辅助文本颜色 */
-            --dark-card-bg: #1e1e1e; /* 深色卡片背景 */
-            --dark-border: rgba(255, 255, 255, 0.1); /* 深色边框 */
-            --dark-shadow: rgba(0, 0, 0, 0.5); /* 更强的阴影 */
-            --dark-ellipse-bg-color: rgba(42, 95, 151, 0.3); /* 深色椭圆背景 */
-            --dark-dot-color: rgba(42, 95, 151, 0.5); /* 深色点颜色 */
+    <!-- 社交媒体优化 (Open Graph) -->
+    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="index.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --color-start: #0011ff;
+            --color-end: #000066;
+            --color-accent: #00ffff;
+            --color-dark: #000033;
         }
 
-        /* 通用样式 */
         body {
-            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            color: var(--secondary);
-            line-height: 1.6; /* 增加默认行高 */
-            background-color: #fff; /* 默认白色背景 */
-            transition: background-color 0.3s ease, color 0.3s ease; /* 平滑过渡 */
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+        }
+
+        .bot-container {
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .core {
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            position: relative;
+            background: radial-gradient(circle at 30% 30%, 
+                var(--color-start), 
+                var(--color-end) 70%);
+            box-shadow: 0 0 80px var(--color-accent),
+                       inset 0 0 50px rgba(255,255,255,0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .gear {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--color-accent);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+            filter: drop-shadow(0 0 10px var(--color-accent));
+        }
+        .gear::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid;
+            border-color: var(--color-accent) transparent;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .face {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            left: 15%;
+            top: 15%;
+            perspective: 800px;
+        }
+
+        .eyes {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15%;
+            transform-style: preserve-3d;
+        }
+
+        .eye {
+            width: 70px;
+            height: 100px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 35px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--color-accent);
+            box-shadow: 0 0 30px var(--color-accent),
+                       inset 0 -10px 20px rgba(0,0,0,0.2);
+        }
+
+        .pupil {
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 12px var(--color-accent));
+        }
+
+        .mouth {
+            width: 50%;
+            height: 30px;
+            margin: 30px auto 0;
+            border-radius: 0 0 50px 50px;
+            border-bottom: 4px solid var(--color-accent);
+            transition: all 0.3s;
+            background: linear-gradient(to right,
+                transparent 20%,
+                var(--color-accent) 50%,
+                transparent 80%);
+            opacity: 0.8;
+        }
+
+        .arm {
+            position: absolute;
+            width: 28px;
+            height: 140px;
+            background: linear-gradient(to bottom, 
+                var(--color-dark) 20%, 
+                var(--color-accent) 80%);
+            border-radius: 14px;
+            transform-origin: top center;
+            transition: transform 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .arm::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            width: 45px;
+            height: 45px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(3px);
+        }
+
+        .message {
+            position: absolute;
+            width: 100%;
+            bottom: -80px;
+            color: var(--color-accent);
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 30px;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 0 0 25px var(--color-accent);
+            letter-spacing: 2px;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, 
+                rgba(255,255,255,0.3) 10%,
+                rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: ripple 0.8s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.6; }
+            100% { transform: scale(3); opacity: 0; }
         }
 
         a {
             text-decoration: none;
             color: inherit;
-            transition: color 0.3s ease; /* 平滑过渡 */
-        }
-
-        /* 深色模式下的样式 */
-        body.dark-mode {
-            background-color: var(--dark-bg);
-            color: var(--dark-text);
-        }
-
-        body.dark-mode a {
-            color: var(--dark-text);
-        }
-
-        body.dark-mode .header,
-        body.dark-mode .nav-toggle,
-        body.dark-mode .nav-menu,
-        body.dark-mode .engine-btn,
-        body.dark-mode .search-box,
-        body.dark-mode .main-cat-item,
-        body.dark-mode .sub-category,
-        body.dark-mode .sub-cat-item,
-        body.dark-mode .tool-card,
-        body.dark-mode .footer {
-            background: var(--dark-card-bg);
-            border-color: var(--dark-border);
-            box-shadow: 0 4px 16px var(--dark-shadow);
-        }
-
-        body.dark-mode .engine-btn.active,
-        body.dark-mode .sub-cat-item.active,
-        body.dark-mode .main-cat-item.active {
-            background: #555;
-            color: #fff;
-            box-shadow: 0 4px 20px var(--dark-shadow);
-        }
-
-        body.dark-mode .tool-title {
-            color: var(--dark-text);
-        }
-
-        body.dark-mode .tool-desc {
-            color: var(--dark-secondary);
-        }
-
-        body.dark-mode .footer {
-            border-top-color: var(--dark-border);
-            color: var(--dark-secondary);
-        }
-
-        body.dark-mode .footer a {
-            color: #bbb;
-        }
-
-        body.dark-mode .ellipse-container::before {
-            background: var(--dark-ellipse-bg-color);
-        }
-
-        body.dark-mode .dot {
-            background: var(--dark-dot-color);
-        }
-
-        body.dark-mode .portfolio-item {
-            box-shadow: 0 5px 15px var(--dark-shadow);
-        }
-
-        body.dark-mode .section-title {
-            border-bottom-color: var(--dark-border);
-        }
-
-        /* 头部区域 */
-        .header {
-            position: fixed;
-            top: 15px;
-            left: 20px;
-            z-index: 99;
-        }
-
-        .logo {
-            width: clamp(60px, 8vw, 90px);
-            height: auto;
-            transition: filter 0.3s;
-        }
-
-        .logo:hover {
-        }
-
-        body.dark-mode .header a img.logo {
-            content: url("logo2.svg");
-        }
-
-        body.dark-mode .logo:hover {
+            transition: color 0.3s ease;
         }
 
         /* 导航菜单 */
@@ -150,39 +221,51 @@
             position: fixed;
             top: 25px;
             right: 20px;
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 10px;
+            width: 120px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            justify-content: space-around;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease;
             z-index: 101;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .nav-toggle:hover {
             transform: scale(1.05);
         }
 
+        .nav-toggle .logo {
+            width: 50px;
+            height: auto;
+            transition: filter 0.3s, transform 0.3s ease;
+        }
+
+        .nav-toggle .logo:hover {
+            transform: scale(1.1);
+        }
+
         .nav-menu {
             position: fixed;
-            top: 60px;
+            top: 65px;
             right: 20px;
-            background: rgba(255,255,255,0.98);
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 12px;
             padding: 0.8rem;
             width: 180px;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(10px);
             opacity: 0;
             transform: translateY(-10px);
-            transition: all 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             pointer-events: none;
             z-index: 102;
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-menu.active {
@@ -197,316 +280,42 @@
             color: #666;
             transition: all 0.2s, color 0.3s ease;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .nav-item:hover {
             background: #7c8ff710;
             color: #7c8ff7;
-        }
-
-        /* 深色模式切换按钮 */
-        .dark-mode-toggle {
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s, background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .dark-mode-toggle:hover {
             transform: scale(1.05);
         }
 
-        body.dark-mode .dark-mode-toggle {
-            color: #eee;
+        .nav-item:hover::before {
+            opacity: 1;
         }
 
-        /* 调整深色模式按钮位置 */
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .nav-menu .dark-mode-toggle {
-            margin-bottom: 0.5rem;
-        }
-
-
-        /* 椭圆容器 */
-        .ellipse-container {
-            position: relative;
-            height: 60vh; /* 调整高度 */
-            width: 100vw;
-            overflow: hidden;
-            display: flex; /* 使用 Flexbox */
-            align-items: center; /* 垂直居中 */
-            justify-content: center; /* 水平居中 */
-        }
-
-        .ellipse-container::before {
-            content: "";
-            position: absolute;
-            top: -60%; /* 调整位置 */
-            left: -20%; /* 调整位置 */
-            width: 140%; /* 调整大小 */
-            height: 140%; /* 调整大小 */
-            background: var(--ellipse-bg-color);
-            border-radius: 50%;
-            transition: background-color 0.3s ease; /* 平滑过渡 */
-        }
-
-        /* 内容区域 */
-        .content {
-            text-align: center;
-            width: 80%;
-            z-index: 1;
-        }
-
-        .content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem; /* 缩小标题 */
-            font-weight: 600;
-            margin-bottom: 0.8rem; /* 减少间距 */
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem; /* 减少间距 */
-            transition: color 0.3s ease; /* 平滑过渡 */
-        }
-
-        .content h1 i {
-            font-size: 0.9em; /* 缩小图标 */
-        }
-
-        .content p {
-            font-size: 1.1rem; /* 缩小段落 */
-            margin-bottom: 1.2rem; /* 减少间距 */
-            transition: color 0.3s ease; /* 平滑过渡 */
-        }
-
-        /* 按钮 */
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem; /* 减少间距 */
-        }
-
-        .btn {
-            padding: 0.6rem 1.2rem; /* 缩小按钮 */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem; /* 缩小字体 */
-            font-weight: 500;
-            display: inline-block;
-            transition: background-color var(--transition-duration) ease, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #204a75;
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-
-        body.dark-mode .btn-primary {
-            color: var(--dark-text);
-        }
-
-        body.dark-mode .btn-secondary {
-            color: var(--dark-text);
-        }
-
-        /* 作品集区域 */
-        .portfolio-section {
-            padding: var(--section-padding);
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem; /* 缩小标题 */
-            color: var(--primary);
-            margin-bottom: 1rem; /* 减少间距 */
-            padding-bottom: 0.4rem; /* 减少间距 */
-            border-bottom: 1px solid #eee;
-            transition: color 0.3s ease, border-bottom-color 0.3s ease; /* 平滑过渡 */
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 调整最小宽度 */
-            gap: 1.5rem; /* 减少间距 */
-        }
-
-        /* 作品项 */
-        .portfolio-item {
-            padding: 1rem; /* 减少内边距 */
-            border: 2px solid;
-            border-radius: var(--card-border-radius);
-            box-shadow: var(--card-box-shadow);
-            position: relative;
-            overflow: hidden;
-            transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease, border-color 0.3s ease;
-        }
-
-        .portfolio-item:hover {
-            transform: var(--hover-transform);
-            box-shadow: var(--hover-box-shadow);
-        }
-
-        /* 品牌设计 */
-        .portfolio-item.brand-design {
-            border-color: var(--brand-design-color);
-        }
-
-        .portfolio-item.brand-design::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255, 107, 107, 0.05), transparent); /* 降低透明度 */
-            z-index: -1;
-        }
-
-        /* 网页设计 */
-        .portfolio-item.web-design {
-            border-color: var(--web-design-color);
-        }
-
-        .portfolio-item.web-design::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(107, 203, 119, 0.05), transparent); /* 降低透明度 */
-            z-index: -1;
-        }
-
-        /* UI 设计 */
-        .portfolio-item.ui-design {
-            border-color: var(--ui-design-color);
-        }
-
-        .portfolio-item.ui-design::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(77, 150, 255, 0.05), transparent); /* 降低透明度 */
-            z-index: -1;
-        }
-
-        /* 项目元数据 */
-        .item-meta {
-            display: flex;
-            gap: 6px; /* 减少间距 */
-            margin-bottom: 8px; /* 减少间距 */
-            flex-wrap: wrap;
-        }
-
-        /* 项目标签 */
-        .item-tag {
-            font-size: 0.7rem; /* 缩小字体 */
-            padding: 3px 8px; /* 缩小内边距 */
-            background: #f8f9fa;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 4px; /* 减少间距 */
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease;
-        }
-
-        body.dark-mode .item-tag {
-            background: #333;
-            color: var(--dark-text);
-        }
-
-        .item-tag:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 项目标题 */
-        .item-title {
-            font-weight: 500;
-            font-size: 1.1rem; /* 缩小字体 */
-            margin-bottom: 0.6rem; /* 减少间距 */
-            color: var(--primary);
-            transition: color 0.3s ease; /* 平滑过渡 */
-        }
-
-        /* 项目描述 */
-        .item-description {
-            font-size: 0.85rem; /* 缩小字体 */
-            line-height: 1.4; /* 减少行高 */
-            margin-bottom: 1rem; /* 减少间距 */
-            transition: color 0.3s ease; /* 平滑过渡 */
-        }
-
-        /* 项目链接 */
-        .item-link {
-            font-weight: 500;
-            font-size: 0.8rem; /* 缩小字体 */
-            display: inline-flex;
-            align-items: center;
-            gap: 6px; /* 减少间距 */
-            transition: gap 0.2s ease, color 0.3s ease;
-        }
-
-        .item-link i {
-            transition: transform 0.2s ease;
-        }
-
-        .item-link:hover {
-            gap: 10px;
-        }
-
-        .item-link:hover i {
-            transform: translateX(3px);
-        }
-
-        /* 底部信息栏 */
         .footer {
-            position: relative; /* 移除 absolute 定位 */
+            position: fixed;
+            bottom: 0;
+            left: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            padding: 0.6rem; /* 缩小内边距 */
+            padding: 0.6rem;
             text-align: center;
-            font-size: 11px; /* 缩小字体 */
+            font-size: 11px;
             color: #888;
             border-top: 1px solid rgba(124, 143, 247, 0.1);
-            transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
+            z-index: 100;
         }
 
         .footer a {
@@ -519,275 +328,180 @@
             text-decoration: underline;
         }
 
-        /* 媒体查询 */
-        @media (max-width: 768px) {
-            .content h1 {
-                font-size: 2rem;
-            }
-
-            .content p {
-                font-size: 0.9rem;
-            }
-
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        /* 清除浮动 */
-        .clearfix::after {
-            content: "";
-            display: table;
-            clear: both;
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
-
     </style>
 </head>
-
 <body>
-    <!-- 头部LOGO -->
-    <div class="header">
-        <a href="https://zizao.top/">
-            <img src="logo.svg" class="logo" alt="Tool Galaxy">
-        </a>
-    </div>
-
     <!-- 折叠导航 -->
-    <div class="nav-toggle" id="navToggle">☰</div>
+    <div class="nav-toggle" id="navToggle" aria-label="切换导航">
+        <a href="https://zizao.top/">
+            <img src="logo.svg" class="logo" alt="ZAO Tool">
+        </a>
+        ☰
+    </div>
     <nav class="nav-menu" id="navMenu">
-        <!-- 深色模式切换按钮 -->
-        <div class="dark-mode-toggle" id="darkModeToggle">🌙</div>
-        <a href="https://zizao.top/" class="nav-item">首页</a>
-        <a href="fonts" class="nav-item">字库产品</a>
-        <a href="fonts" class="nav-item">百宝库</a>
-        <a href="fonts" class="nav-item">设计导航</a>
-        <a href="fonts" class="nav-item">文章教程</a>
-        <a href="fonts" class="nav-item">工具箱</a>
-        <a href="fonts" class="nav-item">更多</a>
+        <a href="https://zizao.top" class="nav-item">首页</a>
+        <a href="https://zizao.top/hao" class="nav-item">设计导航</a>
+        <a href="https://zizao.top/bao" class="nav-item">百宝库</a>
     </nav>
-
-    <div class="ellipse-container">
-
-        <div class="content">
-            <h1>
-                <img src="design-icon.svg" alt="设计图标" style="width: 1em; height: 1em; margin-right: 0.5em;">
-            </h1>
-            <p>在这里，创意如灵动的音符，功能似坚实的琴弦，我们精心弹奏出一曲曲独特而精彩的设计乐章。每一个作品都是对创新与实用的深度探索，力求为您带来无与伦比的视觉体验和超凡的使用感受。让我们一同开启这场设计的奇妙之旅！</p>
-            <div class="button-container">
-                <a href="#" class="btn btn-primary">查看更多</a>
-                <a href="#" class="btn btn-secondary">联系我们</a>
+    <div class="stars"></div>
+    
+    <div class="bot-container">
+        <div class="core">
+            <div class="gear" style="top: -40px; left: -40px;"></div>
+            <div class="gear" style="bottom: -40px; right: -40px;"></div>
+            
+            <div class="face">
+                <div class="eyes">
+                    <div class="eye"><div class="pupil"></div></div>
+                    <div class="eye"><div class="pupil"></div></div>
+                </div>
+                <div class="mouth"></div>
             </div>
+            
+            <div class="arm left" style="left: -50px;"></div>
+            <div class="arm right" style="right: -50px;"></div>
         </div>
+        <div class="message">(◕‿◕) 点击开启冒险！</div>
     </div>
-    <div class="portfolio-section">
-        <h2 class="section-title">
-            <i class="fas fa-brush"></i>
-            品牌设计
-        </h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-item brand-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        VI设计
-                    </a>
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-calendar-alt"></i>
-                        2024
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    科技公司品牌视觉系统
-                </h3>
-                <p class="item-description">为一家新兴科技公司打造的全新品牌形象，包含独特的logo设计、鲜明的色彩系统和全面的视觉规范，助力公司在市场中树立独特的品牌标识。</p>
-                <a href="#" class="item-link">
-                    查看项目
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <div class="portfolio-item brand-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        品牌重塑
-                    </a>
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-calendar-alt"></i>
-                        2023
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    传统企业品牌升级
-                </h3>
-                <p class="item-description">针对传统企业进行品牌重塑，通过现代设计理念和创新元素，更新品牌标志、包装和宣传物料，提升品牌的市场竞争力和年轻化形象。</p>
-                <a href="#" class="item-link">
-                    查看项目
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <div class="portfolio-item brand-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        品牌命名
-                    </a>
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-calendar-alt"></i>
-                        2022
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    初创品牌命名与设计
-                </h3>
-                <p class="item-description">为初创品牌进行命名，并设计与之匹配的品牌视觉体系，从品牌名称的创意构思到logo、宣传海报等设计，打造具有吸引力和辨识度的品牌形象。</p>
-                <a href="#" class="item-link">
-                    查看项目
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-        <h2 class="section-title">
-            <i class="fas fa-laptop-code"></i>
-            网页设计
-        </h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-item web-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        电商平台
-                    </a>
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-mobile-alt"></i>
-                        响应式
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    大型电商平台设计
-                </h3>
-                <p class="item-description">设计响应式电商平台网页，注重用户体验和转化率优化，通过合理的布局、清晰的导航和丰富的交互设计，提升用户购物的便捷性和满意度。</p>
-                <a href="#" class="item-link">
-                    查看案例
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <div class="portfolio-item web-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        企业官网
-                    </a>
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-mobile-alt"></i>
-                        响应式
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    企业官网全新改版
-                </h3>
-                <p class="item-description">对企业官网进行全面改版，采用现代设计风格和先进的前端技术，打造具有视觉冲击力和信息传达力的企业形象展示平台。</p>
-                <a href="#" class="item-link">
-                    查看案例
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <div class="portfolio-item web-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        资讯网站
-                    </a>
-                    <a href="#" class="item-tag">
-      <i class="fas fa-mobile-alt"></i>
-                        响应式
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    资讯类网站设计
-                </h3>
-                <p class="item-description">设计响应式资讯网站，优化内容展示和阅读体验，通过合理的分类和排版，使用户能够快速获取所需信息。</p>
-                <a href="#" class="item-link">
-                    查看案例
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-        <h2 class="section-title">
-            <i class="fas fa-tablet-alt"></i>
-            界面设计
-        </h2>
-        <div class="portfolio-grid">
-            <div class="portfolio-item ui-design">
-                <div class="item-meta">
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-tag"></i>
-                        移动应用
-                    </a>
-                    <a href="#" class="item-tag">
-                        <i class="fas fa-calendar-alt"></i>
-                        2024
-                    </a>
-                </div>
-                <h3 class="item-title">
-                    社交应用界面设计
-                </h3>
-                <p class="item-description">为社交应用设计简洁、易用的界面，注重用户交互和情感体验，通过色彩搭配和图标设计，营造出活跃、友好的社交氛围。</p>
-                <a href="#" class="item-link">
-                    查看项目
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!-- 底部信息栏 -->
-    <footer class="footer">
-        &copy; 2025 字造 All rights reserved. | <a href="#">关于我们</a> | <a href="#">联系方式</a>
-    </footer>
+
     <script>
-
-        // 深色模式切换
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
-
-        const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-        if (isDarkMode) {
-            body.classList.add('dark-mode');
+        // 星空初始化
+        function createStars() {
+            const stars = document.querySelector('.stars');
+            for(let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', Math.random() * 3 + 1 + 's');
+                stars.appendChild(star);
+            }
         }
 
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const darkModeEnabled = body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', darkModeEnabled ? 'enabled' : 'disabled');
+        // 颜色管理系统
+        let hue = 200;
+        function updateColors() {
+            hue = (hue + 0.3) % 360;
+            const startColor = `hsl(${hue}, 90%, 50%)`;
+            const endColor = `hsl(${hue + 180}, 90%, 20%)`;
+            const accentColor = `hsl(${hue}, 100%, 70%)`;
+            const darkColor = `hsl(${hue + 180}, 100%, 10%)`;
+            
+            document.documentElement.style.setProperty('--color-start', startColor);
+            document.documentElement.style.setProperty('--color-end', endColor);
+            document.documentElement.style.setProperty('--color-accent', accentColor);
+            document.documentElement.style.setProperty('--color-dark', darkColor);
+            
+            requestAnimationFrame(updateColors);
+        }
 
-            darkModeToggle.textContent = darkModeEnabled ? '☀️' : '🌙';
+        // 眼睛跟踪系统
+        document.addEventListener('mousemove', (e) => {
+            const pupils = document.querySelectorAll('.pupil');
+            const coreRect = document.querySelector('.core').getBoundingClientRect();
+            const centerX = coreRect.left + coreRect.width/2;
+            const centerY = coreRect.top + coreRect.height/2;
+            
+            pupils.forEach(pupil => {
+                const eye = pupil.parentElement;
+                const eyeRect = eye.getBoundingClientRect();
+                const targetX = e.clientX - eyeRect.left - eyeRect.width/2;
+                const targetY = e.clientY - eyeRect.top - eyeRect.height/2;
+                const distance = Math.min(25, Math.hypot(targetX, targetY)/4);
+                const angle = Math.atan2(targetY, targetX);
+                
+                pupil.style.transform = `translate(
+                    ${Math.cos(angle) * distance}px,
+                    ${Math.sin(angle) * distance}px
+                )`;
+            });
+
+            // 手臂动态
+            const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+            const leftArmRot = Math.min(45, Math.max(-45, angle * 57.3 - 110));
+            const rightArmRot = Math.min(45, Math.max(-45, angle * 57.3 + 110));
+            
+            document.querySelector('.arm.left').style.transform = 
+                `rotate(${leftArmRot}deg)`;
+            document.querySelector('.arm.right').style.transform = 
+                `rotate(${-rightArmRot}deg)`;
         });
 
-        darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+        // 点击交互系统
+        let clickCount = 0;
+        document.querySelector('.core').addEventListener('click', function(e) {
+            // 涟漪效果
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.offsetX - 50 + 'px';
+            ripple.style.top = e.offsetY - 50 + 'px';
+            this.appendChild(ripple);
+            
+            // 核心动画
+            this.style.transform = `scale(0.92) rotate(${clickCount % 2 ? 4 : -4}deg)`;
+            this.querySelector('.mouth').style.transform = 'scaleY(1.4)';
+            
+            // 齿轮加速
+            document.querySelectorAll('.gear').forEach(gear => {
+                gear.style.animation = 'rotate 1.8s linear infinite';
+            });
+            
+            // 状态重置
+            setTimeout(() => {
+                this.style.transform = '';
+                this.querySelector('.mouth').style.transform = '';
+                gear.style.animation = 'rotate 20s linear infinite';
+                ripple.remove();
+            }, 300);
 
-        // 导航菜单交互
+            // 消息更新
+            const messages = [
+                "(◕‿◕) 发现新维度！",
+                "(✧ω✧) 能量激增！",
+                "(❁´◡`❁) 准备跃迁！",
+                "(≧∇≦)ﾉ 超空间启动！"
+            ];
+            document.querySelector('.message').textContent = messages[clickCount++ % messages.length];
+        });
+
         const navToggle = document.getElementById('navToggle');
         const navMenu = document.getElementById('navMenu');
+        const navItems = document.querySelectorAll('.nav-item');
 
         navToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             navMenu.classList.toggle('active');
         });
 
-        document.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        });
-        const ellipseContainer = document.querySelector('.ellipse-container'); // 获取椭圆容器元素
-        const dots = document.querySelectorAll('.dot'); // 获取所有点元素
-
-        ellipseContainer.addEventListener('mousemove', (e) => { // 监听椭圆容器的鼠标移动事件
-            dots.forEach((dot) => { // 遍历所有点元素
-                const offsetX = (Math.random() - 0.5) * 30; // 计算 X 轴偏移量
-                const offsetY = (Math.random() - 0.5) * 30; // 计算 Y 轴偏移量
-                dot.style.left = e.offsetX + offsetX + 'px'; // 设置点元素的 X 轴位置
-                dot.style.top = e.offsetY + offsetY + 'px'; // 设置点元素的 Y 轴位置
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.remove('active');
             });
         });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // 初始化
+        createStars();
+        updateColors();
     </script>
 </body>
-
 </html>
