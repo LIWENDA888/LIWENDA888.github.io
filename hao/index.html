@@ -580,7 +580,7 @@
     <div class="category-system">
         <div class="main-category">
             <div class="main-cat-item active" data-cat="A">灵感创意</div>
-            <div class="main-cat-item" data-cat="B">字体工具</div>
+            <div class="main-cat-item" data-cat="B">字库字体</div>
             <div class="main-cat-item" data-cat="C">AI工具</div>
             <div class="main-cat-item" data-cat="D">免版权资源</div>
             <div class="main-cat-item" data-cat="E">设计神器</div>
@@ -601,9 +601,10 @@
         </div>
 
         <div class="sub-category" data-for-cat="B">
-            <div class="sub-cat-item active" data-subcat="B1">#字体下载</div>
-            <div class="sub-cat-item" data-subcat="B2">#文字工具</div>
-            <div class="sub-cat-item" data-subcat="B3">#字体效果</div>
+            <div class="sub-cat-item active" data-subcat="B1">#字体品牌</div>
+            <div class="sub-cat-item" data-subcat="B3">#可变字体</div>
+            <div class="sub-cat-item" data-subcat="B2">#字形字符</div>
+            <div class="sub-cat-item" data-subcat="B4">#动画效果</div>
         </div>
 
         <div class="sub-category" data-for-cat="C">
@@ -822,7 +823,6 @@ document.querySelectorAll('.sub-cat-item').forEach(item => {
             // 精选推荐
             {cat: 'A',subcat: 'A1',url: 'https://www.dazi.co/',icon: 'icon/1.svg',title: 'AskManyAI',desc: '来自全球的超多AI工具集合站，体验甚至超过原平台'},
             {cat: 'A',subcat: 'A1',url: 'https://github.com',icon: 'icon/1.svg',title: 'Github',desc: '全世界最大的开源社区，在这里可以找到几乎所有的开源项目'},
-            {cat: 'A',subcat: 'A1',url: 'https://www.axis-praxis.org/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '最具人气的在线可变字体站，在这里可以体验到智能字体的魅力'},
             {cat: 'A',subcat: 'A1',url: 'https://searx.bndkt.io',icon: 'icon/1.svg',title: 'SearXNG',desc: 'Google的绝佳替代，最强大的元搜索引擎'},
             {cat: 'A',subcat: 'A1',url: 'https://huaban.com',icon: 'icon/1.svg',title: '花瓣',desc: '收集设计灵感，保存有用的素材'},
             {cat: 'A',subcat: 'A1',url: 'https://www.zcool.com.cn',icon: 'icon/1.svg',title: '站酷',desc: '中国人气设计师互动平台'},
@@ -873,10 +873,35 @@ document.querySelectorAll('.sub-cat-item').forEach(item => {
             {cat: 'A',subcat: 'A6',url: 'https://photock.jp',icon: 'icon/1.svg',title: 'Photock',desc: '8000+免版权摄影图片'},
             {cat: 'A',subcat: 'A6',url: 'https://www.foodiesfeed.com/',icon: 'icon/1.svg',title: 'Foodies Feed',desc: '秀色可餐！免费高清食物照片'},
 
-        // 字体工具
-            // 字体下载
-            {cat: 'B',subcat: 'B1',url: 'https://www.fonts.net.cn/',icon: 'icon/1.svg',title: '字体天下',desc: '国内人气字体平台，提供免费字体下载和付费字体授权'},
-            // 文字工具
+        // 字库字体
+            // 字体品牌
+            {cat: 'B',subcat: 'B1',url: 'https://www.foundertype.com/',icon: 'icon/1.svg',title: '方正字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.hanyi.com.cn/',icon: 'icon/1.svg',title: '汉仪字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.makefont.com/',icon: 'icon/1.svg',title: '造字工房',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'http://www.reeji.com/',icon: 'icon/1.svg',title: '锐字潮牌字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://izihun.com/',icon: 'icon/1.svg',title: '字魂',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'http://www.zitiguanjia.com/',icon: 'icon/1.svg',title: 'Aa字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.alibabafonts.com/',icon: 'icon/1.svg',title: '阿里巴巴字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://ziku.zitisheji.com/',icon: 'icon/1.svg',title: '刘兵克字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'http://hxbzt.com/',icon: 'icon/1.svg',title: '胡晓波字体',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.sjtype.com/',icon: 'icon/1.svg',title: '三极字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://xiquezaozi.taobao.com/',icon: 'icon/1.svg',title: '喜鹊造字',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.ssfonts.com/',icon: 'icon/1.svg',title: '上首造字',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.gongfanzk.cn/',icon: 'icon/1.svg',title: '龚凡字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://tsanger.cn/',icon: 'icon/1.svg',title: '仓耳屏显字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.arphic.com.cn/',icon: 'icon/1.svg',title: '文鼎字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'http://www.z01.cn/',icon: 'icon/1.svg',title: '逐浪字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.yegenyou.com/',icon: 'icon/1.svg',title: '叶根友字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://sinotype.vcg.com/',icon: 'icon/1.svg',title: '华文字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.dynacw.com.cn/',icon: 'icon/1.svg',title: '华康字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.tensentype.com/',icon: 'icon/1.svg',title: '腾祥字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'http://www.thinkfont.com/',icon: 'icon/1.svg',title: '字语字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://sentyfont.com/',icon: 'icon/1.svg',title: '新蒂字体',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'http://www.zxfont.com/',icon: 'icon/1.svg',title: '字心坊',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://www.yefont.com/',icon: 'icon/1.svg',title: '也字工厂',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://shanhaiziku.com/',icon: 'icon/1.svg',title: '山海字库',desc: '暂无介绍'},
+            {cat: 'B',subcat: 'B1',url: 'https://hstype.com/',icon: 'icon/1.svg',title: '火山字型',desc: '暂无介绍'},
+            // 字型字符
             {cat: 'B',subcat: 'B2',url: 'https://www.qiuziti.com/',icon: 'icon/1.svg',title: '求字体',desc: '找字体神器 还提供字体下载'},
             {cat: 'B',subcat: 'B2',url: 'https://v.ziti163.com/Font#/',icon: 'icon/1.svg',title: '字体大师',desc: '在线写字，生成自己的字库字体'},
             {cat: 'B',subcat: 'B2',url: 'https://symbl.cc/cn/',icon: 'icon/1.svg',title: 'SYMBL符号大全',desc: '包含了几乎所有可复制使用的符号'},
@@ -886,11 +911,15 @@ document.querySelectorAll('.sub-cat-item').forEach(item => {
             {cat: 'B',subcat: 'B2',url: 'https://www.fantiz5.com/xingjinzi/',icon: 'icon/1.svg',title: '形近字查询',desc: '可以一键搜索外形相近的汉字'},
             {cat: 'B',subcat: 'B2',url: 'https://paper.z2h.cn/',icon: 'icon/1.svg',title: 'Z2H字帖',desc: '自己定制一套适合自己的练字字帖'},
             {cat: 'B',subcat: 'B2',url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: '字体动画',desc: '支持上传图片生成动画'},
-            // 字体效果
-            {cat: 'B',subcat: 'B3',url: 'https://boolpic.fun/animation',icon: 'icon/1.svg',title: 'Photo Animation',desc: '上传图片生成类似PPT转场动画'},
-            {cat: 'B',subcat: 'B3',url: 'https://beta.endlesstools.io',icon: 'icon/1.svg',title: 'Endless tools',desc: 'Web端字体视觉效果编辑工具'},
-            {cat: 'B',subcat: 'B3',url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: 'YASAI字体动画',desc: '8个在线可编辑的文字效果工具'},
-            {cat: 'B',subcat: 'B3',url: 'https://spacetypegenerator.com/',icon: 'icon/1.svg',title: 'SpaceTG英文动画',desc: '可以自己编辑生成动画的文字，只支持英文'},
+            // 可变字体
+            {cat: 'B',subcat: 'B3',url: 'https://www.axis-praxis.org/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '最具人气的在线可变字体站，在这里可以体验到智能字体的魅力'},
+            {cat: 'B',subcat: 'B3',url: 'https://dinamodarkroom.com/',icon: 'icon/1.svg',title: 'Dinamo ',desc: 'Dinamo可变字体工作室的网站，提供了各类可变字体浏览'},
+
+            // 动画效果
+            {cat: 'B',subcat: 'B4',url: 'https://boolpic.fun/animation',icon: 'icon/1.svg',title: 'Photo Animation',desc: '上传图片生成类似PPT转场动画'},
+            {cat: 'B',subcat: 'B4',url: 'https://beta.endlesstools.io',icon: 'icon/1.svg',title: 'Endless tools',desc: 'Web端字体视觉效果编辑工具'},
+            {cat: 'B',subcat: 'B4',url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: 'YASAI字体动画',desc: '8个在线可编辑的文字效果工具'},
+            {cat: 'B',subcat: 'B4',url: 'https://spacetypegenerator.com/',icon: 'icon/1.svg',title: 'SpaceTG英文动画',desc: '可以自己编辑生成动画的文字，只支持英文'},
 
         // AI工具
             // AI聊天
