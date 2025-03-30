@@ -107,6 +107,7 @@
             transform: translateX(-50%);
             display: flex;
             gap: 30px; /* 增加间距 */
+            white-space: nowrap; /* 阻止文字换行 */
         }
 
         .indicator-item {
@@ -121,8 +122,6 @@
 
         .indicator-item.active {
             color: white;
-            /* transform: scale(1.1);  移除 scale 动效 */
-            /* text-shadow: 0 0 5px rgba(255,255,255,0.3); 减弱阴影 */
         }
 
         .indicator-item.active::after {
@@ -293,10 +292,11 @@
         .qr-code-box {
             position: relative;
             background: white;
-            padding: 25px;
             border-radius: 15px;
             transform-origin: bottom center;
-            width: auto; /* Important: Let the content determine the width */
+            width: 200px; /* 调整宽度 */
+            padding: 10px; /* 调整内边距 */
+            text-align: center; /* 确保内容居中 */
         }
 
         .qr-code-box::after {
@@ -311,13 +311,14 @@
         }
 
         .qr-code-img {
-            width: 200px; /* Explicitly set the width */
-            height: 200px; /* Explicitly set the height */
+            width: 170px; /* 调整宽度 */
+            height: 170px; /* 调整高度 */
             display: block;
             image-rendering: optimizeQuality;
             image-rendering: -webkit-optimize-contrast;
-            max-width: none; /* Important: Remove any max-width restrictions */
-            max-height: none; /* Important: Remove any max-height restrictions */
+            max-width: 100%; /* 确保图片不会超出容器 */
+            max-height: 100%; /* 确保图片不会超出容器 */
+            margin: 0 auto; /* 水平居中图片 */
         }
 
         @media (max-width: 768px) {
@@ -335,16 +336,22 @@
 
             .text-indicator {
                 bottom: 30px;
-                gap: 15px;
+                gap: 10px; /* 缩小间距 */
             }
 
-            .qr-code-img {
-                width: 150px; /* Explicitly set the width */
-                height: 150px; /* Explicitly set the height */
+            .indicator-item {
+                font-size: 16px; /* 缩小字体 */
+                padding: 3px 6px; /* 缩小内边距 */
             }
 
             .qr-code-box {
-                padding: 20px;
+                width: 160px; /* 调整宽度 */
+                padding: 8px; /* 调整内边距 */
+            }
+
+            .qr-code-img {
+                width: 130px; /* 调整宽度 */
+                height: 130px; /* 调整高度 */
             }
         }
     </style>
@@ -389,7 +396,7 @@
                     <a href="link3-1.html" class="nav-button qr-trigger">微信公众号</a>
                     <div class="qr-code-container">
                         <div class="qr-code-box">
-                            <img src="qrcode.png" alt="扫码获取优惠" class="qr-code-img">
+                            <img src="qrcode.svg" alt="扫码关注微信公众号" class="qr-code-img">
                         </div>
                     </div>
                 </div>
@@ -425,9 +432,9 @@
                     if (i === 0) {
                         indicator.textContent = "字造起点黑";
                     } else if (i === 1) {
-                        indicator.textContent = "敬请期待";
+                        indicator.textContent = "工具箱";
                     } else if (i === 2) {
-                        indicator.textContent = "更多";
+                        indicator.textContent = "了解更多";
                     } else {
                         indicator.textContent = `Slide ${i + 1}`; // 默认情况，如果轮播图数量超过自定义文字的数量
                     }
