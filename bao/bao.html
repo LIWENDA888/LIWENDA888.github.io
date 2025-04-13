@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源知识库 | 智能搜索</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF8C19;
+            --primary-dark: #e67e17;
+            --dark: #2c3e50;
+            --light: #ffffff;
+            --gray: #f5f5f5;
+            --border-radius: 8px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            min-height: 100vh;
+            background: url('1.webp') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 5rem auto 0;
+            position: relative;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--dark);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        #searchInput:focus {
+            outline: none;
+            box-shadow: 0 5px 15px rgba(255, 140, 25, 0.3);
+        }
+
+        #searchInput::placeholder {
+            color: #999;
+        }
+
+        .search-btn {
+            padding: 0 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(255, 140, 25, 0.3);
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 搜索结果区域 */
+        .results-container {
+            width: 100%;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .resource-count {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* 资源卡片样式 */
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 140, 25, 0.3);
+        }
+
+        .file-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-type {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .file-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .file-size, .file-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .result-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+
+        .result-card p {
+            color: #555;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 无结果提示 */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+        }
+
+        .no-results i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* 热门推荐区域 */
+        .featured-section {
+            margin-top: auto;
+            padding-top: 3rem;
+            width: 100%;
+        }
+
+        .featured-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .featured-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 状态消息 */
+        .status-message {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+        }
+
+        /* 返回顶部按钮 */
+        #scrollToTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            z-index: 99;
+        }
+
+        #scrollToTopBtn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            animation: fadeIn 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        .result-card:nth-child(1) { animation-delay: 0.1s; }
+        .result-card:nth-child(2) { animation-delay: 0.2s; }
+        .result-card:nth-child(3) { animation-delay: 0.3s; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .search-container {
+                margin: 2rem auto 0;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-btn {
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .results-grid, .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-section {
+                padding-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" 
+                           id="searchInput" 
+                           placeholder="搜索技术文档、视频教程、示例代码..."
+                           aria-label="资源搜索框">
+                    <button class="search-btn" onclick="searchResources()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="results-container">
+                <div id="statusMessageContainer"></div>
+                <div id="resultsGrid" class="results-grid"></div>
+                <div class="resource-count" id="resourceCount"></div>
+            </div>
+
+            <div class="featured-section">
+                <div class="featured-header">热门推荐</div>
+                <div class="featured-grid" id="featuredGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <button id="scrollToTopBtn" title="返回顶部"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        // 资源数据
+        const resources = [
+            {
+                name: "产品技术白皮书",
+                description: "2024最新版产品技术规格与实现方案，包含架构图和API说明",
+                link: "#",
+                type: "pdf",
+                size: "2.4MB",
+                date: "2024-03-15",
+                featured: true
+            },
+            {
+                name: "用户指南视频教程",
+                description: "高清操作演示视频，包含安装配置和使用场景示例",
+                link: "#",
+                type: "video",
+                size: "158MB",
+                date: "2024-02-28",
+                featured: true
+            },
+            {
+                name: "开发接口文档",
+                description: "REST API完整参考文档，包含请求示例和状态码说明",
+                link: "#",
+                type: "zip",
+                size: "860KB",
+                date: "2024-04-01",
+                featured: true
+            },
+            {
+                name: "安全漏洞分析报告",
+                description: "详细的安全漏洞分析报告，包含漏洞描述、影响和修复建议",
+                link: "#",
+                type: "pdf",
+                size: "1.8MB",
+                date: "2024-04-10"
+            },
+            {
+                name: "快速入门指南",
+                description: "帮助新手快速上手的指南，包含基本概念和操作步骤",
+                link: "#",
+                type: "pdf",
+                size: "1.2MB",
+                date: "2024-04-15"
+            },
+            {
+                name: "高级功能演示",
+                description: "演示产品高级功能的视频教程，包含实际应用场景",
+                link: "#",
+                type: "video",
+                size: "210MB",
+                date: "2024-04-20"
+            },
+            {
+                name: "示例代码库",
+                description: "包含各种编程语言的示例代码，方便开发者参考",
+                link: "#",
+                type: "zip",
+                size: "5.2MB",
+                date: "2024-04-25"
+            },
+            {
+                name: "Python机器学习示例",
+                description: "使用Python实现的机器学习算法示例代码",
+                link: "#",
+                type: "zip",
+                size: "3.5MB",
+                date: "2024-05-01"
+            }
+        ];
+
+        // 初始化显示资源
+        function displayResources(resourcesToShow) {
+            const resultsGrid = document.getElementById('resultsGrid');
+            resultsGrid.innerHTML = '';
+
+            if (resourcesToShow.length === 0) {
+                resultsGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search-minus"></i>
+                        <p>没有找到相关资源</p>
+                        <p>请尝试其他关键词</p>
+                    </div>
+                `;
+                return;
+            }
+
+            resourcesToShow.forEach((resource, index) => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <div class="file-meta">
+                        <div class="file-type">
+                            ${getFileTypeIcon(resource.type)}
+                        </div>
+                        <div class="file-info">
+                            <div class="file-size">${resource.size}</div>
+                            <div class="file-date">${resource.date}</div>
+                        </div>
+                    </div>
+                    <h3>${resource.name}</h3>
+                    <p>${resource.description}</p>
+                    <a href="${resource.link}" class="download-btn" download>
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                `;
+                resultsGrid.appendChild(card);
+            });
+
+            updateResourceCount(resourcesToShow.length);
+        }
+
+        // 显示热门推荐
+        function displayFeaturedResources() {
+            const featuredGrid = document.getElementById('featuredGrid');
+            featuredGrid.innerHTML = '';
+            
+            const featuredResources = resources.filter(resource => resource.featured);
+            
+            featuredResources.forEach(resource => {
+                const card = document.createElement('div');
+                card.className = 'featured-card';
+                card.innerHTML = `
+                    <div class="file-meta">
+                        <div class="file-type">
+                            ${getFileTypeIcon(resource.type)}
+                        </div>
+                        <div class="file-info">
+                            <div class="file-size">${resource.size}</div>
+                            <div class="file-date">${resource.date}</div>
+                        </div>
+                    </div>
+                    <h3>${resource.name}</h3>
+                    <p>${resource.description}</p>
+                    <a href="${resource.link}" class="download-btn" download>
+                        <i class="fas fa-download"></i> 下载
+                    </a>
+                `;
+                featuredGrid.appendChild(card);
+            });
+        }
+
+        // 获取文件类型图标
+        function getFileTypeIcon(type) {
+            const icons = {
+                pdf: 'file-pdf',
+                video: 'file-video',
+                zip: 'file-archive',
+                code: 'code'
+            };
+            return `<i class="fas fa-${icons[type] || 'file'}"></i>`;
+        }
+
+        // 更新资源计数
+        function updateResourceCount(count) {
+            document.getElementById('resourceCount').textContent = `找到 ${count} 个资源`;
+        }
+
+        // 搜索资源 - 仅搜索标题
+        function searchResources() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            // 如果搜索词为空，不显示任何结果
+            if (searchTerm === '') {
+                document.getElementById('resultsGrid').innerHTML = '';
+                document.getElementById('resourceCount').textContent = '';
+                clearStatusMessage();
+                return;
+            }
+            
+            // 搜索所有资源(包括非热门推荐)
+            const filtered = resources.filter(resource => 
+                resource.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (filtered.length === 0) {
+                showStatusMessage('没有找到匹配的资源，请尝试其他关键词');
+            } else {
+                clearStatusMessage();
+            }
+
+            displayResources(filtered);
+        }
+
+        // 显示状态消息
+        function showStatusMessage(message) {
+            const container = document.getElementById('statusMessageContainer');
+            container.innerHTML = `
+                <div class="status-message">
+                    ${message}
+                </div>
+            `;
+        }
+
+        // 清除状态消息
+        function clearStatusMessage() {
+            document.getElementById('statusMessageContainer').innerHTML = '';
+        }
+
+        // 返回顶部按钮功能
+        window.onscroll = function() {
+            const btn = document.getElementById('scrollToTopBtn');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = 'flex';
+            } else {
+                btn.style.display = 'none';
+            }
+        };
+
+        document.getElementById('scrollToTopBtn').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 实时搜索功能
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(searchResources, 300);
+        });
+
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            displayFeaturedResources();
+            // 初始时不显示任何搜索结果
+            document.getElementById('resultsGrid').innerHTML = '';
+            document.getElementById('resourceCount').textContent = '';
+        });
+    </script>
+</body>
+</html>

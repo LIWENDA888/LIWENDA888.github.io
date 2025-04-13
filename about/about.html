@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF8C19;
+            --primary-hover: #FF6B00;
+            --nav-width: 220px;
+            --light-bg: #ffffff;
+            --text-dark: #333333;
+            --text-secondary: #666666;
+            --border-color: #eaeaea;
+            --content-max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Barlow', 'PingFang SC', sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* 整体布局容器 */
+        .main-container {
+            display: flex;
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 左侧导航 - 与内容对齐 */
+        .side-nav {
+            width: var(--nav-width);
+            padding: 2rem 1rem 2rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 0.6rem 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,140,25,0.1);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: rgba(255,140,25,0.1);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .nav-icon {
+            width: 24px;
+            margin-right: 0.8rem;
+            font-size: 1rem;
+        }
+
+        /* 右侧内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 2rem 0;
+            border-left: 1px solid var(--border-color);
+            padding-left: 2rem;
+        }
+
+        .page-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page-container.active {
+            display: block;
+        }
+
+        .page-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .page-content {
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .page-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .content-img {
+            max-width: 100%;
+            height: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .content-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .content-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .side-nav {
+                width: 100%;
+                height: auto;
+                padding: 1rem;
+                position: static;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 0.5rem;
+            }
+
+            .nav-item {
+                margin: 0 0.5rem;
+            }
+
+            .content-area {
+                border-left: none;
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+        }
+
+                /* CSS样式将放在这里 */
+                :root {
+            --primary-color: #0066ff;
+            --secondary-color: #ff3366;
+            --dark-color: #2c2c2c;
+            --light-color: #f5f5f5;
+            --text-color: #333;
+            --gray-color: #757575;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 页脚 */
+        .main-footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            font-size: 14px;
+            color: #aaa;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            text-align: center;
+            line-height: 0; /* Remove line-height to properly center the image */
+            overflow: hidden; /* Clip the image to the circle */
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .social-links a img {
+            width: 100%; /* Make the image fill the container */
+            height: 100%; /* Make the image fill the container */
+            object-fit: cover; /* Maintain aspect ratio and cover the area */
+            display: block; /* Remove any extra space below the image */
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 576px) {
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 整体布局容器 -->
+    <div class="main-container">
+        <!-- 左侧导航 -->
+        <nav class="side-nav">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#blurb" class="nav-link active">
+                        <i class="nav-icon fas fa-users"></i>
+                        <span>关于我们</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#work" class="nav-link">
+                        <i class="nav-icon fas fa-palette"></i>
+                        <span>设计服务</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#copyright" class="nav-link">
+                        <i class="nav-icon fas fa-envelope"></i>
+                        <span>版权声明</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 右侧内容区域 -->
+        <div class="content-area">
+            <div id="blurb" class="page-container active">
+                <h1 class="page-title">关于我们</h1>
+                
+                <div class="page-content">
+                    <p>数字未来实验室成立于2015年，总部位于北京，在上海和深圳设有分支机构。我们是一支由设计师、开发者和策略专家组成的多元化团队。</p>
+                    
+                    <img src="images/team.jpg" alt="我们的团队" class="content-img">
+                    
+                    <p>我们的使命是通过设计和技术创新帮助企业在数字时代取得成功。我们专注于用户体验设计、品牌设计和数字产品开发。</p>
+                    
+                    <p>查看我们的<a href="https://example.com/team" class="content-link" target="_blank">团队成员介绍</a>和<a href="https://example.com/history" class="content-link" target="_blank">发展历程</a>。</p>
+                    
+                    <p>我们与各行各业的客户合作，从初创公司到世界500强企业。无论项目大小，我们都以同样的专业态度和热情对待。</p>
+                    
+                    <img src="images/awards.jpg" alt="获奖证书" class="content-img">
+                    
+                    <p>多年来，我们的工作获得了业界的广泛认可，包括多项国际设计大奖。但我们最大的成就是客户的满意和长期合作。</p>
+                </div>
+            </div>
+
+            <div id="work" class="page-container">
+                <h1 class="page-title">设计服务</h1>
+                
+                <div class="page-content">
+                    <p>我们提供全方位的数字设计服务，帮助您的企业在竞争激烈的市场中脱颖而出。</p>
+                    
+                    <img src="images/web-design.jpg" alt="网页设计" class="content-img">
+                    
+                    <p><strong>网页设计</strong> - 我们创建响应式、用户友好的网站，既美观又实用。了解更多关于我们的<a href="https://example.com/web-design" class="content-link" target="_blank">网页设计服务</a>。</p>
+                    
+                    <img src="images/app-design.jpg" alt="应用设计" class="content-img">
+                    
+                    <p><strong>移动应用设计</strong> - 我们设计直观、高效的移动应用界面，提升用户体验和参与度。</p>
+                    
+                    <p><strong>品牌设计</strong> - 从标志设计到完整的视觉识别系统，我们帮助您建立强大的品牌形象。查看我们的<a href="https://example.com/branding" class="content-link" target="_blank">品牌设计案例</a>。</p>
+                    
+                    <img src="images/ux-design.jpg" alt="用户体验设计" class="content-img">
+                    
+                    <p>每个项目都从深入的研究和分析开始，确保我们的设计解决方案是基于数据和用户需求的。我们与客户紧密合作，确保最终成果符合甚至超出预期。</p>
+                </div>
+            </div>
+
+            <div id="copyright" class="page-container">
+                <h1 class="page-title">版权声明</h1>
+                
+                <div class="page-content">
+                    <p>本网站所有内容，包括但不限于文字、图片、图形、标志、商标等，均受版权法保护。</p>
+                    
+                    <img src="images/copyright.jpg" alt="版权说明" class="content-img">
+                    
+                    <p>未经数字未来实验室书面许可，任何单位和个人不得以任何方式复制、转载、修改、传播本网站的任何内容。</p>
+                    
+                    <p>如需使用本网站内容，请通过<a href="mailto:contact@futurelab.com" class="content-link">contact@futurelab.com</a>与我们联系。</p>
+                    
+                    <p>本网站可能包含指向第三方网站的链接，这些链接仅为方便访问者而提供。数字未来实验室不对这些第三方网站的内容负责。</p>
+                    
+                    <img src="images/legal.jpg" alt="法律声明" class="content-img">
+                    
+                    <p>本声明的解释权及本网站相关事宜的最终解释权归数字未来实验室所有。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>推荐使用</h3>
+                    <ul>
+                        <li><a href="https://zizao.top/font">字造字库</a></li>
+                        <li><a href="https://zizao.top/hao">字造设计导航</a></li>
+                        <li><a href="https://zizao.top/bao">字造百宝库</a></li>
+                        <li><a href="https://zizao.top/god">神器网站推荐</a></li>
+                        <li><a href="https://zizao.top/write">搜书法风格</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>推荐阅读</h3>
+                    <ul>
+                        <li><a href="https://mp.weixin.qq.com/s/P5wFBSdqAXHz9qJpqKI8Iw">千本设计书籍</a></li>
+                        <li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU0ODA1NzY4Nw==&action=getalbum&album_id=3555406726617694209&subscene=126&scenenote=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU0ODA1NzY4Nw%3D%3D%26mid%3D2247485968%26idx%3D2%26sn%3D07a38a84199c4c21a1483dafd313b47b%26chksm%3Dfa779828d3c08b200a95830abd412ddd9c3e174d55a07ed2e6fa082b377c7b8c977f63df7866%26sessionid%3D1744521909%26scene%3D126%26subscene%3D0%26clicktime%3D1744522107%26enterid%3D1744522107%26ascene%3D3%26fasttmpl_type%3D0%26fasttmpl_fullversion%3D7684523-zh_CN-zip%26fasttmpl_flag%3D0%26realreporttime%3D1744522107992%26devicetype%3Dandroid-35%26version%3D2800393d%26nettype%3DWIFI%26abtest_cookie%3DAAACAA%253D%253D%26lang%3Dzh_CN%26session_us%3Dgh_7c1fc9a67531%26countrycode%3DCN%26exportkey%3Dn_ChQIAhIQ0n0cDlS17Mu%252BrMoJc%252Bod1BLxAQIE97dBBAEAAAAAAGSnMo5a1sQAAAAOpnltbLcz9gKNyK89dVj0xE%252FEikWYy2kQiUDrYhghmTUuJ0lEvujV6QBkBqbXt7H0cYgdUN%252FQDpkMuEVZ43oY2l7UQPBvs%252FPDcVMln4rJRj27s4xCsRB5QI9957czN2oETAzsQENJ%252Bapya6shS2FtSUd1HYf6cm0U31iJczM%252BbiHLE4gGp2ps7RdBllX0ehvso3cTfslblNMeIqJ5wDKq1PkBYroTijhyBbCIMuvyaOXlyjKme%252FHIidtLCQXGK8IhCjcYlVNAY9bRL0KBtpXCs%252FD%252FM7G2PdjORmw%253D%26pass_ticket%3DiCBI82%252B%252BRMVSgxYuzsu18rHPHDcxHGL9zBcAuH7s0mWavcGEcIA%252FLCZ7dBG68qy%252F%26wx_header%3D3&nolastread=1#wechat_redirect
+                            ">免费字体合集</a></li>
+                        <li><a href="https://mp.weixin.qq.com/s/pA9SHGZ5grlFa8z8s2GywQ">版权注册平台</a></li>
+                        <li><a href="https://mp.weixin.qq.com/s/P5wFBSdqAXHz9qJpqKI8Iw">多字重字体</a></li>
+                        <li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU0ODA1NzY4Nw==&action=getalbum&album_id=3626015964870836226&subscene=126&scenenote=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU0ODA1NzY4Nw%3D%3D%26mid%3D2247485794%26idx%3D2%26sn%3D0d35c94657fe212c3f7cb2a9ca0c6664%26chksm%3Dfac1870b5c76ccbd27e0bbfc5dc9e50a29c8dbda5244c5b2bda90e05b03f8222a18187f89af9%26sessionid%3D1744521909%26scene%3D126%26subscene%3D0%26clicktime%3D1744522177%26enterid%3D1744522177%26ascene%3D3%26fasttmpl_type%3D0%26fasttmpl_fullversion%3D7684523-zh_CN-zip%26fasttmpl_flag%3D0%26realreporttime%3D1744522177921%26devicetype%3Dandroid-35%26version%3D2800393d%26nettype%3DWIFI%26abtest_cookie%3DAAACAA%253D%253D%26lang%3Dzh_CN%26session_us%3Dgh_7c1fc9a67531%26countrycode%3DCN%26exportkey%3Dn_ChQIAhIQ27WR5vtlBeB7rh7D0lbecBLxAQIE97dBBAEAAAAAADKMNCedJNIAAAAOpnltbLcz9gKNyK89dVj0rUGS3C9bI9%252BGiwxhhNmne6ViH6dAa88zi2jneZmEY%252FeZbPaAGaDujRHsB0S4MNYQiGYp7Nvd%252BhJhKQ%252Bps2yRVXd3wWrQhGGm%252B559UbkGQ2Zlo79ppPgucG16lXtVEaaJStXf8gDYVylvhZJmWMFYFWGqhab2k9oGwVv%252BoojFiw1dvyZ%252FPw4k7iMwoMGs8mFm6vf5LLflXMTy7q7uUu2Y5D9%252BnJ2AdqLFHzDgKDh3N97w%252FQr9AmSabe4X0nea%252BnzGO8DEYbxwpzFlnRY%253D%26pass_ticket%3DKPTai50o7vHwzGjAj6esvwrv%252BktwduyS9QkFTDM9H7jTNJqUG%252BjBB0FqjSkJ68%252Fu%26wx_header%3D3&nolastread=1#wechat_redirect
+                            ">Windows技巧</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>免费字体</h3>
+                    <ul>
+                        <li><a href="https://www.maoken.com/">猫啃网</a></li>
+                        <li><a href="https://font.sucai999.com/">字体搬运工</a></li>
+                        <li><a href="https://www.fonts.net.cn/commercial-free/fonts-zh-1.html">字体天下</a></li>
+                        <li><a href="https://www.100font.com/">100Font</a></li>
+                        <li><a href="https://www.alibabafonts.com/">阿里巴巴字库</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>可变字体</h3>
+                    <ul>
+                        <li><a href="https://www.axis-praxis.org/">Axis-praxis</a></li>
+                        <li><a href="https://fontgauntlet.com/">Fontgauntlet</a></li>
+                        <li><a href="https://play.typedetail.com/">Font Playground</a></li>
+                        <li><a href="https://v-fonts.com/">Vfont</a></li>
+                        <li><a href="https://wakamaifondue.com/">Wakamai Fondue</a></li>
+                    </ul>
+                </div>
+                            
+                
+                
+                <div class="footer-column">
+                    <h3>网页开发</h3>
+                    <ul>
+                        <li><a href="https://github.com/">Github</a></li>
+                        <li><a href="https://gitee.com/">Gitee</a></li>
+                        <li><a href="https://fontawesome.com.cn/v5">Font Awesome v5</a></li>
+                        <li><a href="https://origin.fontawesome.com/icons">Font Awesome 6.7.0</a></li>
+                        <li><a href="https://symbl.cc/cn/">Symbl</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 字造Zizao. All rights reserved.</p>
+                </div>
+                
+                <div class="social-links">
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" aria-label="抖音"><img src="Button/dy.webp" alt="抖音"></a>
+                    <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa?xsec_token=ABaqtmkT0lw0VyG8UiVO9Bc8BQmkF8zQ1S3FXVw-iEiN0%3D&xsec_source=pc_search" aria-label="小红书"><img src="Button/xhs.webp" alt="小红书"></a>
+                    <a href="https://www.zcool.com.cn/u/15462186" aria-label="站酷"><img src="Button/zk.webp" alt="站酷"></a>
+                    <a href="https://www.youtube.com/@zizaotop" aria-label="YouTube"><img src="Button/yb.webp" alt="YouTube"></a>
+                </div>
+                
+                <div class="footer-nav">
+                    <ul>
+                        <li><a href="https://zizao.top/about/blurb">关于</a></li>
+                        <li><a href="https://zizao.top/about/copyright">版权声明</a></li>
+                        <li><a href="https://zizao.top/about/word">设计合作</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 路由控制系统
+        function handleRouting() {
+            const pages = document.querySelectorAll('.page-container');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentHash = window.location.hash || '#blurb'; // 默认显示关于我们页面
+
+            // 更新页面显示
+            pages.forEach(page => {
+                page.classList.toggle('active', `#${page.id}` === currentHash);
+            });
+
+            // 更新导航状态
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === currentHash);
+            });
+
+            // 滚动到顶部
+            if (window.innerWidth > 1024) {
+                document.querySelector('.content-area').scrollTop = 0;
+            } else {
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // 事件监听
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('load', handleRouting);
+    </script>
+</body>
+</html>
