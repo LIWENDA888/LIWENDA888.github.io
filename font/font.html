@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品</title>
+    <style>
+        :root {
+            --primary: #FF8C19;
+            --primary-hover: #FF6B00;
+            --accent: #4A90E2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', 'PingFang SC', system-ui;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* 新版卡片布局 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 5rem 0 2rem; /* Added padding-top here */
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,140,25,0.1) 0%, rgba(255,255,255,0) 60%);
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 24px 48px -12px rgba(0,0,0,0.2);
+        }
+
+        .card-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            z-index: 2;
+        }
+
+        .card-content {
+            padding: 1.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card h3 {
+            color: #2d3436;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .card p {
+            color: #636e72;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-source {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .card-date {
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+
+        /* 增强版弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            height: 85vh;
+            margin: 5vh auto;
+            background: white;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.3s ease-out;
+        }
+
+        .modal-active .modal-content {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .modal-sidebar {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--primary-hover);
+            transform: rotate(90deg);
+        }
+
+        .modal-main {
+            padding: 2rem;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 弹窗侧边栏内容 */
+        .modal-title {
+            font-size: 2rem;
+            color: #2d3436;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-description {
+            color: #636e72;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .modal-meta {
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .meta-label {
+            width: 80px;
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+
+        .meta-content {
+            color: #2d3436;
+            font-weight: 500;
+        }
+
+        /* 新增版本日志区域 */
+        .version-log {
+            flex-grow: 1;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+        }
+
+        .version-log h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #2d3436;
+        }
+
+        .version-item {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .version-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 24px;
+            bottom: -20px;
+            width: 2px;
+            background: #eee;
+        }
+
+        .version-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .version-date {
+            font-size: 0.9rem;
+            color: #636e72;
+            margin-bottom: 0.5rem;
+        }
+
+        .version-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3436;
+        }
+
+        .version-desc {
+            font-size: 0.9rem;
+            color: #636e72;
+            line-height: 1.6;
+        }
+
+        /* 下载按钮区域 */
+        .download-area {
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .download-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .download-btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .modal-content {
+                grid-template-columns: 1fr;
+                height: 95vh;
+                margin: 2.5vh auto;
+            }
+
+            .modal-sidebar {
+                display: none;
+            }
+
+            .card {
+                min-height: 360px;
+            }
+        }
+
+                /* CSS样式将放在这里 */
+                :root {
+            --primary-color: #0066ff;
+            --secondary-color: #ff3366;
+            --dark-color: #2c2c2c;
+            --light-color: #f5f5f5;
+            --text-color: #333;
+            --gray-color: #757575;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 页脚 */
+        .main-footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 10rem; /* Increased margin-top to create more space */
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            font-size: 14px;
+            color: #aaa;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            text-align: center;
+            line-height: 0; /* Remove line-height to properly center the image */
+            overflow: hidden; /* Clip the image to the circle */
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .social-links a img {
+            width: 100%; /* Make the image fill the container */
+            height: 100%; /* Make the image fill the container */
+            object-fit: cover; /* Maintain aspect ratio and cover the area */
+            display: block; /* Remove any extra space below the image */
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 576px) {
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="2.webp">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="card-grid">
+            <!-- 示例卡片 -->
+            <div class="card" 
+                 data-url="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa"
+                 data-title="字造起点黑"
+                 data-description="结合中国古代隶书的线条美和骨感美，融合现代屏显黑体再加上更具视觉张力的字形结构，打造的独属字造的免费商用"黑体""
+                 data-source="免费商用"
+                 data-date="暂未上线"
+                 data-image="2.webp"
+                 data-download="https://example.com/download/1"
+                 data-versions='[
+                     {"date": "2023-11-15", "version": "1.2.0", "title": "优化字形结构", "desc": "调整了部分字形的结构比例，使整体更加协调统一"},
+                     {"date": "2023-09-01", "version": "1.1.0", "title": "新增字符集", "desc": "增加了500个常用汉字和标点符号"},
+                     {"date": "2023-06-20", "version": "1.0.0", "title": "初始版本发布", "desc": "首个正式版本发布，包含3500个常用汉字"}
+                 ]'>
+                <div class="card-image" style="background-image: url(2.webp)"></div>
+                <div class="card-badge">🫡 字造首款字体</div>
+                <div class="card-content">
+                    <h3>字造起点黑</h3>
+                    <p>结合中国古代隶书的线条美和骨感美，融合现代屏显黑体再加上更具视觉张力的字形结构，打造的独属字造的免费商用"黑体"</p>
+                    <div class="card-meta">
+                        <span class="card-source">免费商用</span>
+                        <span class="card-date">暂未上线</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 更多卡片... -->
+        </div>
+    </div>
+
+    <!-- 增强版弹窗 -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-sidebar">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-description" id="modalDesc"></p>
+                <div class="modal-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">授权方式</span>
+                        <span class="meta-content" id="modalSource"></span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">发布日期</span>
+                        <span class="modal-date" id="modalDate"></span>
+                    </div>
+                </div>
+                
+                <!-- 新增版本日志区域 -->
+                <div class="version-log" id="versionLog">
+                    <h3>版本迭代</h3>
+                    <!-- 版本日志将通过JavaScript动态生成 -->
+                </div>
+                
+                <!-- 新增下载按钮区域 -->
+                <div class="download-area">
+                    <button class="download-btn" id="downloadBtn">
+                        <i class="fas fa-download"></i> 立即下载
+                    </button>
+                </div>
+            </div>
+            <div class="modal-main">
+                <iframe id="contentFrame"></iframe>
+            </div>
+        </div>
+    </div>
+
+        <!-- 页脚 -->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>推荐使用</h3>
+                        <ul>
+                            <li><a href="https://zizao.top/font">字造字库</a></li>
+                            <li><a href="https://zizao.top/hao">字造设计导航</a></li>
+                            <li><a href="https://zizao.top/bao">字造百宝库</a></li>
+                            <li><a href="https://zizao.top/god">神器网站推荐</a></li>
+                            <li><a href="https://zizao.top/write">搜书法风格</a></li>
+                        </ul>
+                    </div>
+    
+                    <div class="footer-column">
+                        <h3>推荐阅读</h3>
+                        <ul>
+                            <li><a href="https://mp.weixin.qq.com/s/P5wFBSdqAXHz9qJpqKI8Iw">千本设计书籍</a></li>
+                            <li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU0ODA1NzY4Nw==&action=getalbum&album_id=3555406726617694209&subscene=126&scenenote=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU0ODA1NzY4Nw%3D%3D%26mid%3D2247485968%26idx%3D2%26sn%3D07a38a84199c4c21a1483dafd313b47b%26chksm%3Dfa779828d3c08b200a95830abd412ddd9c3e174d55a07ed2e6fa082b377c7b8c977f63df7866%26sessionid%3D1744521909%26scene%3D126%26subscene%3D0%26clicktime%3D1744522107%26enterid%3D1744522107%26ascene%3D3%26fasttmpl_type%3D0%26fasttmpl_fullversion%3D7684523-zh_CN-zip%26fasttmpl_flag%3D0%26realreporttime%3D1744522107992%26devicetype%3Dandroid-35%26version%3D2800393d%26nettype%3DWIFI%26abtest_cookie%3DAAACAA%253D%253D%26lang%3Dzh_CN%26session_us%3Dgh_7c1fc9a67531%26countrycode%3DCN%26exportkey%3Dn_ChQIAhIQ0n0cDlS17Mu%252BrMoJc%252Bod1BLxAQIE97dBBAEAAAAAAGSnMo5a1sQAAAAOpnltbLcz9gKNyK89dVj0xE%252FEikWYy2kQiUDrYhghmTUuJ0lEvujV6QBkBqbXt7H0cYgdUN%252FQDpkMuEVZ43oY2l7UQPBvs%252FPDcVMln4rJRj27s4xCsRB5QI9957czN2oETAzsQENJ%252Bapya6shS2FtSUd1HYf6cm0U31iJczM%252BbiHLE4gGp2ps7RdBllX0ehvso3cTfslblNMeIqJ5wDKq1PkBYroTijhyBbCIMuvyaOXlyjKme%252FHIidtLCQXGK8IhCjcYlVNAY9bRL0KBtpXCs%252FD%252FM7G2PdjORmw%253D%26pass_ticket%3DiCBI82%252B%252BRMVSgxYuzsu18rHPHDcxHGL9zBcAuH7s0mWavcGEcIA%252FLCZ7dBG68qy%252F%26wx_header%3D3&nolastread=1#wechat_redirect
+                                ">免费字体合集</a></li>
+                            <li><a href="https://mp.weixin.qq.com/s/pA9SHGZ5grlFa8z8s2GywQ">版权注册平台</a></li>
+                            <li><a href="https://mp.weixin.qq.com/s/P5wFBSdqAXHz9qJpqKI8Iw">多字重字体</a></li>
+                            <li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU0ODA1NzY4Nw==&action=getalbum&album_id=3626015964870836226&subscene=126&scenenote=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU0ODA1NzY4Nw%3D%3D%26mid%3D2247485794%26idx%3D2%26sn%3D0d35c94657fe212c3f7cb2a9ca0c6664%26chksm%3Dfac1870b5c76ccbd27e0bbfc5dc9e50a29c8dbda5244c5b2bda90e05b03f8222a18187f89af9%26sessionid%3D1744521909%26scene%3D126%26subscene%3D0%26clicktime%3D1744522177%26enterid%3D1744522177%26ascene%3D3%26fasttmpl_type%3D0%26fasttmpl_fullversion%3D7684523-zh_CN-zip%26fasttmpl_flag%3D0%26realreporttime%3D1744522177921%26devicetype%3Dandroid-35%26version%3D2800393d%26nettype%3DWIFI%26abtest_cookie%3DAAACAA%253D%253D%26lang%3Dzh_CN%26session_us%3Dgh_7c1fc9a67531%26countrycode%3DCN%26exportkey%3Dn_ChQIAhIQ27WR5vtlBeB7rh7D0lbecBLxAQIE97dBBAEAAAAAADKMNCedJNIAAAAOpnltbLcz9gKNyK89dVj0rUGS3C9bI9%252BGiwxhhNmne6ViH6dAa88zi2jneZmEY%252FeZbPaAGaDujRHsB0S4MNYQiGYp7Nvd%252BhJhKQ%252Bps2yRVXd3wWrQhGGm%252B559UbkGQ2Zlo79ppPgucG16lXtVEaaJStXf8gDYVylvhZJmWMFYFWGqhab2k9oGwVv252BoojFiw1dvyZ%252FPw4k7iMwoMGs8mFm6vf5LLflXMTy7q7uUu2Y5D9%252BnJ2AdqLFHzDgKDh3N97w%252FQr9AmSabe4X0nea%252BnzGO8DEYbxwpzFlnRY%253D%26pass_ticket%3DKPTai50o7vHwzGjAj6esvwrv%252BktwduyS9QkFTDM9H7jTNJqUG%252BjBB0FqjSkJ68%252Fu%26wx_header%3D3&nolastread=1#wechat_redirect
+                                ">Windows技巧</a></li>
+                        </ul>
+                    </div>
+    
+                    <div class="footer-column">
+                        <h3>免费字体</h3>
+                        <ul>
+                            <li><a href="https://www.maoken.com/">猫啃网</a></li>
+                            <li><a href="https://font.sucai999.com/">字体搬运工</a></li>
+                            <li><a href="https://www.fonts.net.cn/commercial-free/fonts-zh-1.html">字体天下</a></li>
+                            <li><a href="https://www.100font.com/">100Font</a></li>
+                            <li><a href="https://www.alibabafonts.com/">阿里巴巴字库</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>可变字体</h3>
+                        <ul>
+                            <li><a href="https://www.axis-praxis.org/">Axis-praxis</a></li>
+                            <li><a href="https://fontgauntlet.com/">Fontgauntlet</a></li>
+                            <li><a href="https://play.typedetail.com/">Font Playground</a></li>
+                            <li><a href="https://v-fonts.com/">Vfont</a></li>
+                            <li><a href="https://wakamaifondue.com/">Wakamai Fondue</a></li>
+                        </ul>
+                    </div>
+                                
+                    
+                    
+                    <div class="footer-column">
+                        <h3>网页开发</h3>
+                        <ul>
+                            <li><a href="https://github.com/">Github</a></li>
+                            <li><a href="https://gitee.com/">Gitee</a></li>
+                            <li><a href="https://fontawesome.com.cn/v5">Font Awesome v5</a></li>
+                            <li><a href="https://origin.fontawesome.com/icons">Font Awesome 6.7.0</a></li>
+                            <li><a href="https://symbl.cc/cn/">Symbl</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        <p>© 字造Zizao. All rights reserved.</p>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" aria-label="抖音"><img src="Button/dy.webp" alt="抖音"></a>
+                        <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa?xsec_token=ABaqtmkT0lw0VyG8UiVO9Bc8BQmkF8zQ1S3FXVw-iEiN0%3D&xsec_source=pc_search" aria-label="小红书"><img src="Button/xhs.webp" alt="小红书"></a>
+                        <a href="https://www.zcool.com.cn/u/15462186" aria-label="站酷"><img src="Button/zk.webp" alt="站酷"></a>
+                        <a href="https://www.youtube.com/@zizaotop" aria-label="YouTube"><img src="Button/yb.webp" alt="YouTube"></a>
+                    </div>
+                    
+                    <div class="footer-nav">
+                        <ul>
+                            <li><a href="https://zizao.top/about/blurb">关于</a></li>
+                            <li><a href="https://zizao.top/about/copyright">版权声明</a></li>
+                            <li><a href="https://zizao.top/about/word">设计合作</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <script>
+        // 增强版弹窗控制
+        function openModal(card) {
+            const modal = document.getElementById('modal');
+            modal.classList.add('modal-active');
+            modal.style.display = 'block';
+            
+            // 填充侧边栏信息
+            document.getElementById('modalTitle').textContent = card.dataset.title;
+            document.getElementById('modalDesc').textContent = card.dataset.description;
+            document.getElementById('modalSource').textContent = card.dataset.source;
+            document.getElementById('modalDate').textContent = card.dataset.date;
+            
+            // 设置下载按钮链接
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.onclick = function() {
+                window.open(card.dataset.download, '_blank');
+            };
+            
+            // 生成版本日志
+            const versionLog = document.getElementById('versionLog');
+            versionLog.innerHTML = '<h3>版本迭代</h3>'; // 清空并保留标题
+            
+            try {
+                const versions = JSON.parse(card.dataset.versions);
+                versions.forEach(version => {
+                    const versionItem = document.createElement('div');
+                    versionItem.className = 'version-item';
+                    versionItem.innerHTML = `
+                        <div class="version-dot"></div>
+                        <div class="version-date">${version.date} · v${version.version}</div>
+                        <div class="version-title">${version.title}</div>
+                        <div class="version-desc">${version.desc}</div>
+                    `;
+                    versionLog.appendChild(versionItem);
+                });
+            } catch (e) {
+                versionLog.innerHTML += '<p>暂无版本更新记录</p>';
+            }
+            
+            document.getElementById('contentFrame').src = card.dataset.url;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('modal-active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('contentFrame').src = '';
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        // 卡片点击事件
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                openModal(card);
+            });
+        });
+
+        // 点击外部关闭
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
