@@ -401,12 +401,16 @@
             
             .side-nav {
                 top: 60px;
-                height: calc(100vh - 60px);
+                height: 100%;
+                min-height: -webkit-fill-available;
                 width: 280px;
                 transform: translateX(-100%);
                 transition: transform var(--transition-time) var(--easing);
                 box-shadow: none;
                 z-index: 999;
+                overflow-y: auto;
+                position: fixed;
+                padding-bottom: 60px; /* 为底部按钮留出空间 */
             }
             
             .side-nav.expanded {
@@ -418,9 +422,11 @@
                 top: 60px;
                 left: 0;
                 width: 100%;
-                height: calc(100vh - 60px);
+                height: calc(100% - 60px);
+                min-height: -webkit-fill-available;
                 transform: translateX(0);
                 transition: transform var(--transition-time) var(--easing);
+                position: fixed;
             }
             
             .side-nav.expanded ~ .main-frame {
@@ -432,61 +438,12 @@
                 visibility: visible;
             }
             
-            /* 手机端调整按钮样式 */
-            .toggle-btn {
-                justify-content: flex-start;
-                padding: 0 24px;
-            }
-            
-            .toggle-btn i {
-                margin-right: 16px;
-            }
-            
-            .toggle-btn span {
-                display: inline;
-                font-size: 14px;
-            }
-            
-            /* 手机端导航项样式调整 */
-            .nav-item {
-                flex-direction: row;
-                justify-content: flex-start;
-                padding: 0 24px;
-                min-height: 60px;
-            }
-            
-            .nav-item i {
-                margin-bottom: 0;
-                margin-right: 16px;
-                font-size: 20px;
-                width: auto;
-            }
-            
-            .nav-item span {
-                font-size: 14px;
-                text-align: left;
-                padding: 0;
-            }
-            
-            /* 手机端新标签页按钮样式调整 */
-            .newtab-btn {
-                flex-direction: row;
-                justify-content: flex-start;
-                padding: 0 24px;
-                min-height: 60px;
-            }
-            
-            .newtab-btn i {
-                margin-bottom: 0;
-                margin-right: 16px;
-                font-size: 20px;
-                width: auto;
-            }
-            
-            .newtab-btn span {
-                font-size: 14px;
-                text-align: left;
-                padding: 0;
+            /* 调整底部按钮位置 */
+            .toggle-btn, .newtab-btn {
+                position: sticky;
+                bottom: 0;
+                background: var(--bg-color);
+                z-index: 2;
             }
             
             /* 隐藏电脑端的Logo */
@@ -614,12 +571,31 @@
                     
                     // 防止滚动穿透
                     document.body.style.overflow = isExpanded ? 'hidden' : '';
+                    
+                    // 调整高度以适应不同设备
+                    adjustMobileHeight();
                 } else {
                     // 电脑端使用width动画
                     sideNav.classList.toggle('expanded', isExpanded);
                 }
             }
             
+            // 调整手机端高度
+            function adjustMobileHeight() {
+                const windowHeight = window.innerHeight;
+                const headerHeight = 60;
+                const navHeight = windowHeight - headerHeight;
+                
+                sideNav.style.height = `${navHeight}px`;
+                mainFrame.style.height = `${navHeight}px`;
+            }
+            
+            // 初始化高度
+            if (isMobile) {
+                adjustMobileHeight();
+                window.addEventListener('resize', adjustMobileHeight);
+            }
+
             // 事件监听
             toggleBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -746,9 +722,12 @@
                     // 切换到手机模式时自动收起菜单
                     if (isMobile) {
                         isExpanded = false;
+                        adjustMobileHeight();
+                        window.addEventListener('resize', adjustMobileHeight);
                     } else {
                         // 切换到电脑模式时恢复之前的状态
                         isExpanded = localStorage.getItem('navExpanded') !== 'false';
+                        window.removeEventListener('resize', adjustMobileHeight);
                     }
                     updateNavState();
                 }
