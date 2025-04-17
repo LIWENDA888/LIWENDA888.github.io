@@ -36,6 +36,58 @@
             touch-action: manipulation;
         }
 
+        /* 手机端顶部栏 */
+        .mobile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--bg-color);
+            display: none;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 997;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-time) var(--easing);
+        }
+        
+        .mobile-header.expanded {
+            transform: translateX(280px);
+        }
+        
+        .mobile-logo {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+        
+        .mobile-logo i {
+            font-size: 22px;
+            margin-right: 8px;
+        }
+        
+        .mobile-toggle-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .mobile-toggle-btn i {
+            font-size: 20px;
+        }
+
         /* 遮罩层 - 仅手机端 */
         .overlay {
             position: fixed;
@@ -341,41 +393,15 @@
             transition: transform 0.1s ease;
         }
 
-        /* 手机端展开菜单按钮 */
-        .mobile-toggle-btn {
-            position: fixed;
-            left: 10px;
-            top: 10px;
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 997;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition-time) var(--easing);
-            cursor: pointer;
-            border: none;
-            outline: none;
-        }
-
-        .mobile-toggle-btn i {
-            font-size: 20px;
-        }
-
-        .mobile-toggle-btn.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
         /* 响应式调整 - 手机端样式 */
         @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+            }
+            
             .side-nav {
+                top: 60px;
+                height: calc(100vh - 60px);
                 width: 280px;
                 transform: translateX(-100%);
                 transition: transform var(--transition-time) var(--easing);
@@ -389,8 +415,10 @@
             }
             
             .main-frame {
+                top: 60px;
                 left: 0;
                 width: 100%;
+                height: calc(100vh - 60px);
                 transform: translateX(0);
                 transition: transform var(--transition-time) var(--easing);
             }
@@ -461,14 +489,9 @@
                 padding: 0;
             }
             
-            /* 手机端Logo样式调整 */
+            /* 隐藏电脑端的Logo */
             .nav-logo {
-                justify-content: flex-start;
-                font-size: 20px;
-            }
-            
-            .nav-logo i {
-                margin-right: 12px;
+                display: none;
             }
         }
 
@@ -487,10 +510,16 @@
     <!-- 遮罩层 - 仅手机端使用 -->
     <div class="overlay" id="overlay"></div>
     
-    <!-- 手机端展开菜单按钮 -->
-    <button class="mobile-toggle-btn" id="mobileToggleBtn">
-        <i class="fas fa-bars"></i>
-    </button>
+    <!-- 手机端顶部栏（包含Logo和菜单按钮） -->
+    <div class="mobile-header" id="mobileHeader">
+        <button class="mobile-toggle-btn" id="mobileToggleBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="mobile-logo">
+            <i class="fas fa-compass"></i>
+            <span>极速导航</span>
+        </div>
+    </div>
     
     <nav class="side-nav">
         <div class="nav-logo">
@@ -554,6 +583,7 @@
             const sideNav = document.querySelector('.side-nav');
             const mainFrame = document.querySelector('.main-frame');
             const navItems = document.querySelectorAll('.nav-item');
+            const mobileHeader = document.getElementById('mobileHeader');
             
             // 检测设备类型
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -577,7 +607,7 @@
                     // 手机端使用transform动画
                     sideNav.classList.toggle('expanded', isExpanded);
                     overlay.classList.toggle('active', isExpanded);
-                    mobileToggleBtn.classList.toggle('visible', !isExpanded);
+                    mobileHeader.classList.toggle('expanded', isExpanded);
                     
                     // 更新按钮文字
                     toggleBtn.querySelector('span').textContent = isExpanded ? '收起菜单' : '展开菜单';
@@ -587,7 +617,6 @@
                 } else {
                     // 电脑端使用width动画
                     sideNav.classList.toggle('expanded', isExpanded);
-                    mobileToggleBtn.classList.remove('visible');
                 }
             }
             
