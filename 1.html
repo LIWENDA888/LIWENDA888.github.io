@@ -49,11 +49,6 @@
             padding: 0 15px;
             z-index: 997;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform var(--transition-time) var(--easing);
-        }
-        
-        .mobile-header.expanded {
-            transform: translateX(280px);
         }
         
         .mobile-logo {
@@ -107,7 +102,7 @@
             visibility: visible;
         }
 
-        /* 侧边导航容器 - 电脑端默认样式 */
+        /* 侧边导航容器 */
         .side-nav {
             position: fixed;
             left: 0;
@@ -268,51 +263,6 @@
             font-size: 24px;
         }
 
-        /* 折叠/展开按钮 */
-        .toggle-btn {
-            width: 100%;
-            padding: 16px 0;
-            background: var(--bg-color);
-            border: none;
-            border-top: 1px solid var(--border-color);
-            color: var(--primary-color);
-            font-size: 16px;
-            cursor: button;
-            transition: all var(--transition-time) var(--easing);
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            outline: none;
-            min-height: 60px;
-        }
-
-        .toggle-btn:hover {
-            background: rgba(255, 140, 25, 0.05);
-        }
-
-        .toggle-btn i {
-            font-size: 20px;
-            transition: transform var(--transition-time) var(--easing);
-            will-change: transform;
-            transform: rotate(0deg);
-        }
-
-        .side-nav.expanded .toggle-btn i {
-            transform: rotate(180deg);
-        }
-
-        .toggle-btn span {
-            display: none;
-        }
-
-        .side-nav.expanded .toggle-btn span {
-            display: inline;
-            font-size: 14px;
-            margin-left: 8px;
-        }
-
         /* 新标签页按钮 */
         .newtab-btn {
             width: 100%;
@@ -388,7 +338,7 @@
         }
 
         /* 点击效果优化 */
-        .nav-item:active, .newtab-btn:active, .toggle-btn:active {
+        .nav-item:active, .newtab-btn:active {
             transform: scale(0.98);
             transition: transform 0.1s ease;
         }
@@ -400,17 +350,15 @@
             }
             
             .side-nav {
-                top: 60px;
-                height: 100%;
-                min-height: -webkit-fill-available;
+                top: 0;
+                left: 0;
+                height: 100vh;
                 width: 280px;
                 transform: translateX(-100%);
                 transition: transform var(--transition-time) var(--easing);
                 box-shadow: none;
                 z-index: 999;
                 overflow-y: auto;
-                position: fixed;
-                padding-bottom: 60px; /* 为底部按钮留出空间 */
             }
             
             .side-nav.expanded {
@@ -419,14 +367,12 @@
             }
             
             .main-frame {
-                top: 60px;
+                top: 0;
                 left: 0;
                 width: 100%;
-                height: calc(100% - 60px);
-                min-height: -webkit-fill-available;
+                height: 100vh;
                 transform: translateX(0);
                 transition: transform var(--transition-time) var(--easing);
-                position: fixed;
             }
             
             .side-nav.expanded ~ .main-frame {
@@ -438,17 +384,51 @@
                 visibility: visible;
             }
             
-            /* 调整底部按钮位置 */
-            .toggle-btn, .newtab-btn {
-                position: sticky;
-                bottom: 0;
-                background: var(--bg-color);
-                z-index: 2;
+            /* 隐藏电脑端Logo和折叠按钮 */
+            .nav-logo, .toggle-btn {
+                display: none;
             }
             
-            /* 隐藏电脑端的Logo */
-            .nav-logo {
-                display: none;
+            /* 手机端导航项样式调整 */
+            .nav-item {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 0 24px;
+                min-height: 60px;
+            }
+            
+            .nav-item i {
+                margin-bottom: 0;
+                margin-right: 16px;
+                font-size: 20px;
+                width: auto;
+            }
+            
+            .nav-item span {
+                font-size: 14px;
+                text-align: left;
+                padding: 0;
+            }
+            
+            /* 手机端新标签页按钮样式调整 */
+            .newtab-btn {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 0 24px;
+                min-height: 60px;
+            }
+            
+            .newtab-btn i {
+                margin-bottom: 0;
+                margin-right: 16px;
+                font-size: 20px;
+                width: auto;
+            }
+            
+            .newtab-btn span {
+                font-size: 14px;
+                text-align: left;
+                padding: 0;
             }
         }
 
@@ -519,11 +499,6 @@
             <span>新标签页打开</span>
         </button>
         
-        <button class="toggle-btn" id="toggleBtn">
-            <i class="fas fa-chevron-left"></i>
-            <span>收起菜单</span>
-        </button>
-        
         <div class="nav-footer">
             <p>© 2025 字造</p>
         </div>
@@ -533,7 +508,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('toggleBtn');
             const mobileToggleBtn = document.getElementById('mobileToggleBtn');
             const newtabBtn = document.getElementById('newtabBtn');
             const overlay = document.getElementById('overlay');
@@ -546,17 +520,8 @@
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
             // 初始化状态
-            let isExpanded = isMobile ? false : (localStorage.getItem('navExpanded') !== 'false');
+            let isExpanded = false;
             updateNavState();
-            
-            // 切换导航栏
-            function toggleNav() {
-                isExpanded = !isExpanded;
-                if (!isMobile) {
-                    localStorage.setItem('navExpanded', isExpanded);
-                }
-                updateNavState();
-            }
             
             // 更新导航状态
             function updateNavState() {
@@ -564,54 +529,23 @@
                     // 手机端使用transform动画
                     sideNav.classList.toggle('expanded', isExpanded);
                     overlay.classList.toggle('active', isExpanded);
-                    mobileHeader.classList.toggle('expanded', isExpanded);
-                    
-                    // 更新按钮文字
-                    toggleBtn.querySelector('span').textContent = isExpanded ? '收起菜单' : '展开菜单';
                     
                     // 防止滚动穿透
                     document.body.style.overflow = isExpanded ? 'hidden' : '';
-                    
-                    // 调整高度以适应不同设备
-                    adjustMobileHeight();
-                } else {
-                    // 电脑端使用width动画
-                    sideNav.classList.toggle('expanded', isExpanded);
                 }
             }
             
-            // 调整手机端高度
-            function adjustMobileHeight() {
-                const windowHeight = window.innerHeight;
-                const headerHeight = 60;
-                const navHeight = windowHeight - headerHeight;
-                
-                sideNav.style.height = `${navHeight}px`;
-                mainFrame.style.height = `${navHeight}px`;
-            }
-            
-            // 初始化高度
-            if (isMobile) {
-                adjustMobileHeight();
-                window.addEventListener('resize', adjustMobileHeight);
-            }
-
-            // 事件监听
-            toggleBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleNav();
-            });
-
             // 手机端展开按钮点击
             mobileToggleBtn.addEventListener('click', function() {
-                isExpanded = true;
+                isExpanded = !isExpanded;
                 updateNavState();
             });
 
             // 点击遮罩层收起菜单（仅手机端）
             overlay.addEventListener('click', function() {
                 if (isMobile && isExpanded) {
-                    toggleNav();
+                    isExpanded = false;
+                    updateNavState();
                 }
             });
 
@@ -639,7 +573,8 @@
                 
                 // 如果是移动设备，点击后自动收起菜单
                 if (isMobile) {
-                    toggleNav();
+                    isExpanded = false;
+                    updateNavState();
                 }
             });
 
@@ -701,7 +636,8 @@
             // 键盘导航支持
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && isExpanded) {
-                    toggleNav();
+                    isExpanded = false;
+                    updateNavState();
                 }
             });
             
@@ -722,12 +658,6 @@
                     // 切换到手机模式时自动收起菜单
                     if (isMobile) {
                         isExpanded = false;
-                        adjustMobileHeight();
-                        window.addEventListener('resize', adjustMobileHeight);
-                    } else {
-                        // 切换到电脑模式时恢复之前的状态
-                        isExpanded = localStorage.getItem('navExpanded') !== 'false';
-                        window.removeEventListener('resize', adjustMobileHeight);
                     }
                     updateNavState();
                 }
