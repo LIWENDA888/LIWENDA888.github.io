@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>极速导航系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="高效便捷的极速导航系统">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    <style>
+        :root {
+            --nav-collapsed: 80px;
+            --nav-expanded: 220px;
+            --primary-color: #FF8C19;
+            --bg-color: #ffffff;
+            --border-color: #f0f0f0;
+            --text-color: #555555;
+            --text-light: #888888;
+            --transition-time: 0.35s;
+            --easing: cubic-bezier(0.25, 0.8, 0.25, 1);
+            --overlay-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #f8f8f8;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* 遮罩层 - 仅手机端 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-color);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-time) var(--easing), visibility var(--transition-time) var(--easing);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 侧边导航容器 - 电脑端默认样式 */
+        .side-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--nav-collapsed);
+            z-index: 999;
+            background: var(--bg-color);
+            box-shadow: 1px 0 15px rgba(0, 0, 0, 0.05);
+            transition: width var(--transition-time) var(--easing);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            overflow: hidden;
+            contain: strict;
+        }
+
+        .side-nav.expanded {
+            width: var(--nav-expanded);
+        }
+
+        /* 导航按钮样式 */
+        .nav-item {
+            width: 100%;
+            min-height: 72px;
+            margin: 0;
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: 
+                background var(--transition-time) ease,
+                color var(--transition-time) ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+            text-decoration: none;
+            position: relative;
+            outline: none;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+            background: rgba(255, 140, 25, 0.05);
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 6px;
+            transition: all var(--transition-time) var(--easing);
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 1;
+            text-align: center;
+            line-height: 1.4;
+            transition: 
+                transform var(--transition-time) var(--easing),
+                opacity var(--transition-time) ease;
+            transform: translateY(0);
+            width: 100%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        /* 展开状态下的布局 */
+        .side-nav.expanded .nav-item {
+            flex-direction: row;
+            justify-content: flex-start;
+            padding: 0 24px;
+            min-height: 60px;
+        }
+
+        .side-nav.expanded .nav-item i {
+            margin-bottom: 0;
+            margin-right: 16px;
+            font-size: 20px;
+            width: auto;
+        }
+
+        .side-nav.expanded .nav-item span {
+            font-size: 14px;
+            text-align: left;
+            padding: 0;
+        }
+
+        /* 激活状态指示 */
+        .nav-item.active {
+            color: var(--primary-color);
+            background: rgba(255, 140, 25, 0.08);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--primary-color);
+        }
+
+        /* 内容区域 */
+        .main-frame {
+            position: fixed;
+            top: 0;
+            left: var(--nav-collapsed);
+            width: calc(100% - var(--nav-collapsed));
+            height: 100%;
+            border: none;
+            z-index: 1;
+            background: var(--bg-color);
+            transition: 
+                left var(--transition-time) var(--easing),
+                width var(--transition-time) var(--easing),
+                transform var(--transition-time) var(--easing);
+        }
+
+        .side-nav.expanded ~ .main-frame {
+            left: var(--nav-expanded);
+            width: calc(100% - var(--nav-expanded));
+        }
+
+        /* Logo样式 */
+        .nav-logo {
+            height: 84px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 0;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+            transition: all var(--transition-time) var(--easing);
+            padding: 0 24px;
+        }
+
+        .side-nav.expanded .nav-logo {
+            font-size: 20px;
+            justify-content: flex-start;
+        }
+
+        .nav-logo i {
+            font-size: 26px;
+            color: var(--primary-color);
+            transition: all var(--transition-time) var(--easing);
+        }
+
+        .side-nav.expanded .nav-logo i {
+            margin-right: 12px;
+            font-size: 24px;
+        }
+
+        /* 折叠/展开按钮 */
+        .toggle-btn {
+            width: 100%;
+            padding: 16px 0;
+            background: var(--bg-color);
+            border: none;
+            border-top: 1px solid var(--border-color);
+            color: var(--primary-color);
+            font-size: 16px;
+            cursor: button;
+            transition: all var(--transition-time) var(--easing);
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            outline: none;
+            min-height: 60px;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 140, 25, 0.05);
+        }
+
+        .toggle-btn i {
+            font-size: 20px;
+            transition: transform var(--transition-time) var(--easing);
+            will-change: transform;
+            transform: rotate(0deg);
+        }
+
+        .side-nav.expanded .toggle-btn i {
+            transform: rotate(180deg);
+        }
+
+        .toggle-btn span {
+            display: none;
+        }
+
+        .side-nav.expanded .toggle-btn span {
+            display: inline;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        /* 新标签页按钮 */
+        .newtab-btn {
+            width: 100%;
+            min-height: 72px;
+            margin: 0;
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: 
+                background var(--transition-time) ease,
+                color var(--transition-time) ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+            position: relative;
+            outline: none;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .newtab-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255, 140, 25, 0.05);
+        }
+
+        .newtab-btn i {
+            font-size: 22px;
+            margin-bottom: 6px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .newtab-btn span {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+            width: 100%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        .side-nav.expanded .newtab-btn {
+            flex-direction: row;
+            justify-content: flex-start;
+            padding: 0 24px;
+            min-height: 60px;
+        }
+
+        .side-nav.expanded .newtab-btn i {
+            margin-bottom: 0;
+            margin-right: 16px;
+            font-size: 20px;
+            width: auto;
+        }
+
+        .side-nav.expanded .newtab-btn span {
+            font-size: 14px;
+            text-align: left;
+            padding: 0;
+        }
+
+        /* 底部版权信息 */
+        .nav-footer {
+            color: var(--text-light);
+            font-size: 11px;
+            text-align: center;
+            padding: 12px 0;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* 点击效果优化 */
+        .nav-item:active, .newtab-btn:active, .toggle-btn:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* 手机端展开菜单按钮 */
+        .mobile-toggle-btn {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 997;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-time) var(--easing);
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .mobile-toggle-btn i {
+            font-size: 20px;
+        }
+
+        .mobile-toggle-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 响应式调整 - 手机端样式 */
+        @media (max-width: 768px) {
+            .side-nav {
+                width: 280px;
+                transform: translateX(-100%);
+                transition: transform var(--transition-time) var(--easing);
+                box-shadow: none;
+                z-index: 999;
+            }
+            
+            .side-nav.expanded {
+                transform: translateX(0);
+                box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .main-frame {
+                left: 0;
+                width: 100%;
+                transform: translateX(0);
+                transition: transform var(--transition-time) var(--easing);
+            }
+            
+            .side-nav.expanded ~ .main-frame {
+                transform: translateX(280px);
+            }
+            
+            .overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            /* 手机端调整按钮样式 */
+            .toggle-btn {
+                justify-content: flex-start;
+                padding: 0 24px;
+            }
+            
+            .toggle-btn i {
+                margin-right: 16px;
+            }
+            
+            .toggle-btn span {
+                display: inline;
+                font-size: 14px;
+            }
+            
+            /* 手机端导航项样式调整 */
+            .nav-item {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 0 24px;
+                min-height: 60px;
+            }
+            
+            .nav-item i {
+                margin-bottom: 0;
+                margin-right: 16px;
+                font-size: 20px;
+                width: auto;
+            }
+            
+            .nav-item span {
+                font-size: 14px;
+                text-align: left;
+                padding: 0;
+            }
+            
+            /* 手机端新标签页按钮样式调整 */
+            .newtab-btn {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 0 24px;
+                min-height: 60px;
+            }
+            
+            .newtab-btn i {
+                margin-bottom: 0;
+                margin-right: 16px;
+                font-size: 20px;
+                width: auto;
+            }
+            
+            .newtab-btn span {
+                font-size: 14px;
+                text-align: left;
+                padding: 0;
+            }
+            
+            /* 手机端Logo样式调整 */
+            .nav-logo {
+                justify-content: flex-start;
+                font-size: 20px;
+            }
+            
+            .nav-logo i {
+                margin-right: 12px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .nav-item, .newtab-btn {
+                min-height: 64px;
+            }
+            .side-nav.expanded .nav-item, 
+            .side-nav.expanded .newtab-btn {
+                min-height: 56px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 遮罩层 - 仅手机端使用 -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- 手机端展开菜单按钮 -->
+    <button class="mobile-toggle-btn" id="mobileToggleBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <nav class="side-nav">
+        <div class="nav-logo">
+            <i class="fas fa-compass"></i>
+            <span>极速导航</span>
+        </div>
+        
+        <a href="https://www.baidu.com" class="nav-item active" target="mainFrame">
+            <i class="fas fa-search"></i>
+            <span>百度搜索</span>
+        </a>
+        
+        <a href="https://www.zhihu.com" class="nav-item" target="mainFrame">
+            <i class="fas fa-question-circle"></i>
+            <span>知乎问答</span>
+        </a>
+        
+        <a href="https://gitee.com" class="nav-item" target="mainFrame">
+            <i class="fas fa-code-branch"></i>
+            <span>代码托管</span>
+        </a>
+        
+        <a href="https://www.runoob.com" class="nav-item" target="mainFrame">
+            <i class="fas fa-book"></i>
+            <span>编程教程</span>
+        </a>
+        
+        <a href="https://leetcode.cn" class="nav-item" target="mainFrame">
+            <i class="fas fa-laptop-code"></i>
+            <span>算法练习</span>
+        </a>
+        
+        <a href="https://www.bilibili.com" class="nav-item" target="mainFrame">
+            <i class="fas fa-video"></i>
+            <span>视频学习</span>
+        </a>
+        
+        <button class="newtab-btn" id="newtabBtn">
+            <i class="fas fa-external-link-alt"></i>
+            <span>新标签页打开</span>
+        </button>
+        
+        <button class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+            <span>收起菜单</span>
+        </button>
+        
+        <div class="nav-footer">
+            <p>© 2025 字造</p>
+        </div>
+    </nav>
+
+    <iframe name="mainFrame" class="main-frame" src="https://www.baidu.com" title="主内容区域" loading="eager"></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('toggleBtn');
+            const mobileToggleBtn = document.getElementById('mobileToggleBtn');
+            const newtabBtn = document.getElementById('newtabBtn');
+            const overlay = document.getElementById('overlay');
+            const sideNav = document.querySelector('.side-nav');
+            const mainFrame = document.querySelector('.main-frame');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // 检测设备类型
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            
+            // 初始化状态
+            let isExpanded = isMobile ? false : (localStorage.getItem('navExpanded') !== 'false');
+            updateNavState();
+            
+            // 切换导航栏
+            function toggleNav() {
+                isExpanded = !isExpanded;
+                if (!isMobile) {
+                    localStorage.setItem('navExpanded', isExpanded);
+                }
+                updateNavState();
+            }
+            
+            // 更新导航状态
+            function updateNavState() {
+                if (isMobile) {
+                    // 手机端使用transform动画
+                    sideNav.classList.toggle('expanded', isExpanded);
+                    overlay.classList.toggle('active', isExpanded);
+                    mobileToggleBtn.classList.toggle('visible', !isExpanded);
+                    
+                    // 更新按钮文字
+                    toggleBtn.querySelector('span').textContent = isExpanded ? '收起菜单' : '展开菜单';
+                    
+                    // 防止滚动穿透
+                    document.body.style.overflow = isExpanded ? 'hidden' : '';
+                } else {
+                    // 电脑端使用width动画
+                    sideNav.classList.toggle('expanded', isExpanded);
+                    mobileToggleBtn.classList.remove('visible');
+                }
+            }
+            
+            // 事件监听
+            toggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleNav();
+            });
+
+            // 手机端展开按钮点击
+            mobileToggleBtn.addEventListener('click', function() {
+                isExpanded = true;
+                updateNavState();
+            });
+
+            // 点击遮罩层收起菜单（仅手机端）
+            overlay.addEventListener('click', function() {
+                if (isMobile && isExpanded) {
+                    toggleNav();
+                }
+            });
+
+            // 新标签页打开当前页面
+            newtabBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const activeItem = document.querySelector('.nav-item.active');
+                if (activeItem) {
+                    window.open(activeItem.href, '_blank');
+                }
+            });
+
+            // 使用事件委托处理导航项点击
+            sideNav.addEventListener('click', function(e) {
+                const navItem = e.target.closest('.nav-item');
+                if (!navItem) return;
+                
+                if (navItem.classList.contains('active')) return;
+                
+                navItems.forEach(i => {
+                    i.classList.remove('active');
+                });
+                
+                navItem.classList.add('active');
+                
+                // 如果是移动设备，点击后自动收起菜单
+                if (isMobile) {
+                    toggleNav();
+                }
+            });
+
+            // 手机端滑动操作支持
+            if (isMobile) {
+                let touchStartX = 0;
+                let touchStartTime = 0;
+                let isDragging = false;
+                
+                mainFrame.addEventListener('touchstart', function(e) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartTime = Date.now();
+                    isDragging = false;
+                }, {passive: true});
+                
+                mainFrame.addEventListener('touchmove', function(e) {
+                    const touchX = e.touches[0].clientX;
+                    const diffX = touchX - touchStartX;
+                    
+                    // 从左侧边缘滑动时允许滑动菜单
+                    if (!isExpanded && touchStartX < 20 && diffX > 0) {
+                        e.preventDefault();
+                        isDragging = true;
+                        const translateX = Math.min(diffX, 280) - 280;
+                        sideNav.style.transform = `translateX(${translateX}px)`;
+                        mainFrame.style.transform = `translateX(${Math.max(0, translateX + 280)}px)`;
+                        overlay.style.opacity = `${Math.min(1, (diffX / 280) * 0.4)}`;
+                    }
+                }, {passive: false});
+                
+                mainFrame.addEventListener('touchend', function(e) {
+                    if (!isDragging) return;
+                    
+                    const touchX = e.changedTouches[0].clientX;
+                    const diffX = touchX - touchStartX;
+                    const diffTime = Date.now() - touchStartTime;
+                    
+                    // 滑动超过阈值或快速滑动时切换菜单状态
+                    if (diffX > 50 || (diffX > 10 && diffTime < 200)) {
+                        if (!isExpanded) {
+                            isExpanded = true;
+                            updateNavState();
+                        }
+                    } else if (diffX < -50 || (diffX < -10 && diffTime < 200)) {
+                        if (isExpanded) {
+                            isExpanded = false;
+                            updateNavState();
+                        }
+                    }
+                    
+                    // 重置样式
+                    sideNav.style.transform = '';
+                    mainFrame.style.transform = '';
+                    overlay.style.opacity = '';
+                    isDragging = false;
+                }, {passive: true});
+            }
+
+            // 键盘导航支持
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isExpanded) {
+                    toggleNav();
+                }
+            });
+            
+            // 防止滚动穿透（仅手机端）
+            if (isMobile) {
+                sideNav.addEventListener('touchmove', function(e) {
+                    if (isExpanded) {
+                        e.preventDefault();
+                    }
+                }, {passive: false});
+            }
+            
+            // 窗口大小变化时重新检测设备类型
+            window.addEventListener('resize', function() {
+                const nowMobile = window.matchMedia('(max-width: 768px)').matches;
+                if (isMobile !== nowMobile) {
+                    isMobile = nowMobile;
+                    // 切换到手机模式时自动收起菜单
+                    if (isMobile) {
+                        isExpanded = false;
+                    } else {
+                        // 切换到电脑模式时恢复之前的状态
+                        isExpanded = localStorage.getItem('navExpanded') !== 'false';
+                    }
+                    updateNavState();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
