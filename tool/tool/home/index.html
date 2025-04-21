@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>字造导航 - 设计师的灵感百宝库</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 通用样式 */
+        :root {
+            --primary-color: #FF8C19;
+            --text-color: #333;
+            --secondary-text-color: #666;
+            --background-color: #f5f5f5;
+            --light-background: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(124, 143, 247, 0.2);
+            --shadow-color: rgba(124, 143, 247, 0.2);
+            --link-color: #7c8ff7;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Reset and General Styles */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            background: var(--background-color);
+            color: var(--text-color);
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        /* 搜索区域 */
+        .search-area {
+            position: relative;
+            margin-bottom: 2rem;
+            border-radius: 0;
+            overflow: hidden;
+            margin-top: 0;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center; /* Vertically center the content */
+            justify-content: center;
+            background: linear-gradient(135deg, #FF8C19 0%, #7c8ff7 100%);
+        }
+
+        .search-area-content {
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* 搜索引擎栏 */
+        .engine-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: -1px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .engine-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px 12px 0 0;
+            background: var(--light-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            backdrop-filter: blur(6px);
+            transition: all 0.2s;
+        }
+
+        .engine-btn.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+
+        /* 搜索框 */
+        .search-wrapper {
+            max-width: 100%;
+            margin: 0 auto 2rem;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .search-box-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1.2rem 1.6rem;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            font-size: 1em;
+            color: var(--text-color);
+            flex-grow: 1;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--link-color);
+            box-shadow: 0 8px 32px rgba(124, 143, 247, 0.15);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.75rem;
+            border-radius: 50%;
+            background-color: transparent;
+            color: var(--secondary-text-color);
+            font-size: 1.2em;
+            border: none;
+            backdrop-filter: blur(6px);
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .search-button:hover {
+            color: var(--primary-color);
+        }
+
+        /* 热门链接 */
+        .hot-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hot-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: var(--secondary-text-color);
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(6px);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .hot-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* 选项卡片 */
+        .option-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 20px auto 3rem; /* Adjusted margin-top to move cards down */
+            position: relative;
+            z-index: 2;
+        }
+
+        .option-card {
+            background: var(--light-background);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border: 1px solid var(--border-color);
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), #FF6B6B);
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .card-content {
+            color: var(--secondary-text-color);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .card-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .card-link {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            background-color: rgba(255, 140, 25, 0.1);
+            color: var(--primary-color);
+            transition: all 0.3s;
+        }
+
+        .card-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* 媒体查询 - 优化后的响应式布局 */
+        /* 手机 (小于 576px) - 1列 */
+        @media (max-width: 575px) {
+            .search-area {
+                height: 220px; /* Adjusted for smaller screens */
+            }
+            .engine-bar, .hot-links {
+                display: none;
+            }
+            .option-cards {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+                margin-top: 10px; /* Adjusted for smaller screens */
+            }
+        }
+
+        /* 平板 (576px-992px) - 2列 */
+        @media (min-width: 576px) and (max-width: 991px) {
+            .option-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 暗色模式 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #f0f0f0;
+                --secondary-text-color: #b0b0b0;
+                --background-color: #121212;
+                --light-background: rgba(30, 30, 30, 0.95);
+                --border-color: rgba(124, 143, 247, 0.1);
+                --shadow-color: rgba(0, 0, 0, 0.3);
+            }
+            
+            .search-area {
+                background: linear-gradient(135deg, #d8770d 0%, #5e6dc7 100%);
+            }
+            
+            .search-box {
+                background: rgba(30, 30, 30, 0.9);
+                color: var(--text-color);
+            }
+            
+            .hot-link, .engine-btn {
+                background-color: rgba(30, 30, 30, 0.7);
+            }
+            
+            .option-card {
+                background: rgba(30, 30, 30, 0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 搜索区域 -->
+    <div class="search-area">
+        <div class="search-area-content">
+            <!-- 搜索引擎栏 -->
+            <div class="engine-bar" id="engineBar">
+                <div class="engine-btn" data-engine="baidu">百度</div>
+                <div class="engine-btn" data-engine="baiduimage">百度图片</div>
+                <div class="engine-btn" data-engine="so">免版权图片</div>
+                <div class="engine-btn" data-engine="fanyi">百度翻译</div>
+                <div class="engine-btn" data-engine="bing">Bing</div>
+                <div class="engine-btn active" data-engine="google">Google</div>
+            </div>
+
+            <!-- 搜索框 -->
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <div class="search-box-container">
+                        <input type="text" class="search-box" placeholder="输入关键词搜索，按Tab键快速切换搜索引擎...Ctrl/Cmd+D收藏本页面哦~" id="searchInput">
+                        <button class="search-button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="hot-links">
+                        <a href="https://www.dazi.co/index" class="hot-link" target="_blank">AskManyAI</a>
+                        <a href="https://www.pinterest.com/" class="hot-link" target="_blank">Pinterest</a>
+                        <a href="https://chat.deepseek.com/" class="hot-link" target="_blank">Deepseek</a>
+                        <a href="https://yuanbao.tencent.com/" class="hot-link" target="_blank">腾讯元宝</a>
+                        <a href="https://www.wenxiaobai.com" class="hot-link" target="_blank">问小白AI</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 选项卡片 -->
+    <div class="option-cards">
+        <div class="option-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="card-title">设计资源</div>
+            </div>
+            <div class="card-content">
+                精选设计师必备资源，包括配色工具、字体库、图标集和设计素材。
+            </div>
+            <div class="card-links">
+                <a href="https://www.logosc.cn/so/" class="card-link" target="_blank">免版权图片</a>
+                <a href="https://www.iconfont.cn/" class="card-link" target="_blank">阿里巴巴图标库</a>
+                <a href="https://www.uisdc.com/" class="card-link" target="_blank">优设网</a>
+            </div>
+        </div>
+        
+        <div class="option-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="card-title">开发工具</div>
+            </div>
+            <div class="card-content">
+                前端开发者的利器，包含代码编辑器、API文档、框架资源和调试工具。
+            </div>
+            <div class="card-links">
+                <a href="https://codepen.io/" class="card-link" target="_blank">CodePen</a>
+                <a href="https://developer.mozilla.org/" class="card-link" target="_blank">MDN文档</a>
+                <a href="https://github.com/" class="card-link" target="_blank">GitHub</a>
+            </div>
+        </div>
+        
+        <div class="option-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="card-title">AI工具</div>
+            </div>
+            <div class="card-content">
+                最新AI工具集合，包括文本生成、图像创作、代码辅助和智能对话。
+            </div>
+            <div class="card-links">
+                <a href="https://chat.deepseek.com/" class="card-link" target="_blank">DeepSeek</a>
+                <a href="https://www.wenxiaobai.com/" class="card-link" target="_blank">问小白AI</a>
+                <a href="https://www.midjourney.com/" class="card-link" target="_blank">Midjourney</a>
+            </div>
+        </div>
+        
+        <div class="option-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="card-title">学习资源</div>
+            </div>
+            <div class="card-content">
+                高质量学习平台，涵盖设计教程、编程课程、产品管理和职场技能。
+            </div>
+            <div class="card-links">
+                <a href="https://www.bilibili.com/" class="card-link" target="_blank">哔哩哔哩</a>
+                <a href="https://www.udemy.com/" class="card-link" target="_blank">Udemy</a>
+                <a href="https://www.yuque.com/" class="card-link" target="_blank">语雀</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM 元素
+        const engineButtons = document.querySelectorAll('.engine-btn');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        // 激活搜索引擎按钮
+        function activateEngineButton(index) {
+            engineButtons.forEach((btn, i) => btn.classList.toggle('active', i === index));
+            localStorage.setItem('searchEngine', engineButtons[index].dataset.engine);
+        }
+
+        // 执行搜索
+        function performSearch(query, engine) {
+            const engines = {
+                baidu: 'https://www.baidu.com/s?wd=',
+                baiduimage: 'https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=',
+                so: 'https://www.logosc.cn/so/s',
+                fanyi: 'https://fanyi.baidu.com/#/zh/en/',
+                bing: 'https://www.bing.com/search?q=',
+                google: 'https://www.google.com/search?q='
+            };
+            const searchUrl = engines[engine] ? engines[engine] + encodeURIComponent(query) : null;
+
+            if (searchUrl) {
+                window.open(searchUrl, '_blank');
+            } else if (engine === 'direct') {
+                window.location.href = /^(https?:\/\/)/i.test(query) ? query : `http://${query}`;
+            }
+        }
+
+        // 事件监听器
+        engineButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                activateEngineButton(index);
+            });
+        });
+
+        searchInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                const query = e.target.value.trim();
+                const engine = document.querySelector('.engine-btn.active').dataset.engine;
+                performSearch(query, engine);
+            }
+        });
+
+        searchButton.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            const engine = document.querySelector('.engine-btn.active').dataset.engine;
+            performSearch(query, engine);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement === searchInput && e.key === 'Tab') {
+                e.preventDefault();
+                const currentEngineIndex = Array.from(engineButtons).findIndex(btn => btn.classList.contains('active'));
+                const newIndex = (currentEngineIndex + 1) % engineButtons.length;
+                activateEngineButton(newIndex);
+            }
+            
+            // 添加快捷键 Ctrl+D 收藏页面
+            if (e.key === 'd' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                try {
+                    window.external.AddFavorite(location.href, document.title);
+                } catch (e) {
+                    try {
+                        window.sidebar.addPanel(document.title, location.href, "");
+                    } catch (e) {
+                        alert("请使用 Ctrl+D 手动添加收藏");
+                    }
+                }
+            }
+        });
+
+        // 初始化
+        const savedEngine = localStorage.getItem('searchEngine');
+        const initialEngineIndex = savedEngine ? Array.from(engineButtons).findIndex(btn => btn.dataset.engine === savedEngine) : 5; // Default to Google
+        activateEngineButton(initialEngineIndex);
+        
+        // 聚焦搜索框
+        searchInput.focus();
+    </script>
+</body>
+</html>
