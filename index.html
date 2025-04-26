@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造 - 字体领域优质内容分享</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源, 你的关键词">
+    <meta name="author" content="字造">
+
+    <meta property="og:title" content="字造产品展示 - 你的关键词">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="index/index.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF8C19;
+            --primary-light: rgba(255, 140, 25, 0.1);
+            --secondary-color: #FF5E5B;
+            --accent-color: #00D1B2;
+            --text-color: #2D2D2D;
+            --text-light: #5A5A5A;
+            --bg-color: #FFFFFF;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --social-bg: rgba(0, 0, 0, 0.03);
+            --footer-color: rgba(0, 0, 0, 0.5);
+            --particle-color: rgba(255, 140, 25, 0.15);
+            --mode-toggle-bg: #F5F5F5;
+        }
+
+        .dark-mode {
+            --primary-light: rgba(255, 140, 25, 0.2);
+            --text-color: #F0F0F0;
+            --text-light: #B0B0B0;
+            --bg-color: #121212;
+            --card-bg: rgba(30, 30, 30, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --social-bg: rgba(255, 255, 255, 0.05);
+            --footer-color: rgba(255, 255, 255, 0.5);
+            --particle-color: rgba(255, 140, 25, 0.1);
+            --mode-toggle-bg: #2D2D2D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.3s ease;
+            background-image:
+                radial-gradient(circle at 10% 20%, var(--primary-light) 0%, transparent 20%),
+                radial-gradient(circle at 90% 30%, rgba(0, 209, 178, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(255, 94, 91, 0.1) 0%, transparent 30%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .logo img {
+            margin-right: 0.8rem;
+            width: 120px;
+            height: auto;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .mode-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--mode-toggle-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .mode-toggle:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 3px 12px var(--shadow-color);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 5rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -1px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-weight: 400;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            will-change: transform;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            margin-bottom: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .card-btn, .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
+            letter-spacing: 0.5px;
+            font-size: 1rem;
+        }
+
+        .card-btn::after, .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .card-btn:hover::after, .btn:hover::after {
+            opacity: 1;
+        }
+
+        .card-btn i, .btn i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card-btn:hover i, .btn:hover i {
+            transform: translateX(3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            color: white;
+            border-color: transparent;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .qrcode {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .qrcode img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--footer-color);
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--social-bg);
+            color: var(--text-color);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+            background: var(--primary-light);
+        }
+
+        .social-link img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+        height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--particle-color);
+            border-radius:50%;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--primary-light);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loader-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-actions {
+                gap: 0.8rem;
+            }
+
+            .card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .mode-toggle {
+                width: 38px;
+                height: 38px;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .qrcode {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">加载中...</div>
+    </div>
+
+    <div class="modal" id="wechatModal1">
+        <div class="modal-content">
+            <h3 class="modal-title">关注字造微信公众号</h3>
+            <div class="qrcode">
+                <img src="index/iwg.webp" alt="微信公众号二维码">
+            </div>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">打开微信-扫描二维码关注</p>
+            <button class="modal-close" id="closeModal1">关闭</button>
+ </div>
+    </div>
+
+    <div class="modal" id="wechatModal2">
+        <div class="modal-content">
+            <h3 class="modal-title">添加微信好友</h3>
+            <div class="qrcode">
+                <img src="index/iwx.webp" alt="微信公众号二维码">
+            </div>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">打开微信-扫描二维码</p>
+            <button class="modal-close" id="closeModal2">关闭</button>
+        </div>
+    </div>
+
+
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="index/logo.svg" alt="logo">
+            </div>
+            <div class="header-actions">
+                <button class="mode-toggle" id="modeToggle" aria-label="切换夜间模式">🌙</button>
+                <a href="#contact" class="btn btn-outline">
+                    
+                    设计合作
+                    <i class="fa-solid fa-comment"></i>
+                </a>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1>Hello，欢迎来到字造</h1>
+            <p>在这里发现内容，包括设计工具、字体字库等以及更多。</p>
+            <a href="https://www.zizao.top/tools" class="btn" target="_blank">
+                开始探索
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </section>
+
+        <section class="grid" id="grid">
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/tools.webp" alt="设计工具百宝库" width="40" height="40">
+                </div>
+                <h3>设计工具百宝库</h3>
+                <p>“灵感永不枯竭！设计师的工具宝藏库，一键激活你的想象力。</p>
+                <a href="https://www.zizao.top/tools" target="_blank" class="card-btn">
+                    点击使用
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/fonts.webp" alt="字造起点黑" width="40" height="40">
+                </div>
+                <h3>字造起点黑</h3>
+                <p>融合古隶书微特征和现代黑体的美感，打造的字造首款免费商用字体。</p>
+                <a href="https://www.zizao.top/fonts/ZzQidianSans" target="_blank" class="card-btn">
+                    点击预览
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/xhs.webp" alt="小红书主页" width="40" height="40">
+                </div>
+                <h3>小红书主页</h3>
+                <p>设计师私藏的设计资源库、稀缺素材和最新设计软件全都有。</p>
+                <a href="https://zizao.top/tool/#bao" target="_blank" class="card-btn">
+                    浏览主页
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/wx.webp" alt="微信公众号" width="40" height="40">
+                </div>
+                <h3>微信公众号</h3>
+                <p>关注我的公众号获取深度文章、独家内容和最新动态。定期推送高质量原创内容。</p>
+                <button class="card-btn" id="showWechatModal1">
+                    扫码关注
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/wx.webp" alt="微信好友" width="40" height="40">
+                </div>
+                <h3>微信二维码</h3>
+                <p>关注我的公众号获取深度文章、独家内容和最新动态。定期推送高质量原创内容。</p>
+                <button class="card-btn" id="showWechatModal2">
+                    扫码加好友
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/dy.webp" alt="抖音" width="40" height="40">
+                </div>
+                <h3>抖音</h3>
+                <p>浏览我的生活分享、好物推荐和实用攻略。发现更多精彩内容。</p>
+                <a href="https://www.xiaohongshu.com/user/profile/yourid" target="_blank" class="card-btn">
+                    浏览主页
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </section>
+
+        <footer id="contact">
+            <div class="social-links">
+                <a href="#" class="social-link" id="footerWechat">
+                    <img src="index/m/wx.webp" alt="微信公众号" width="24" height="24">
+                </a>
+                <a href="https://www.douyin.com/user/self?from_tab_name=main&showTab=like" target="_blank" class="social-link">
+                    <img src="index/m/dy.webp" alt="抖音主页" width="24" height="24">
+                </a>
+                <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="social-link">
+                    <img src="index/m/xhs.webp" alt="小红书主页" width="24" height="24">
+                </a>
+                <a href="https://www.zcool.com.cn/u/15462186" target="_blank" class="social-link">
+                    <img src="index/m/zk.webp" alt="站酷主页" width="24" height="24">
+                </a>
+                <a href="https://weibo.com/u/7931697572" target="_blank" class="social-link">
+                    <img src="index/m/wb.webp" alt="微博主页" width="24" height="24">
+                </a>
+                <a href="https://space.bilibili.com/339715446" target="_blank" class="social-link">
+                    <img src="index/m/b.webp" alt="bilibili主页" width="24" height="24">
+                </a>
+                <a href="https://www.youtube.com/@zizaotop" target="_blank" class="social-link">
+                    <img src="index/m/you.webp" alt="YouTube主页" width="24" height="24">
+                </a>
+                <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" class="social-link">
+                    <img src="index/m/z.webp" alt="知乎主页" width="24" height="24">
+                </a>
+            </div>
+            <p>© <span id="currentYear"></span> 字造ZIZAO.TOP</p>
+            <p>通过以上平台与我联系，获取最新内容更新</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前年份
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // 初始化夜间模式
+            initDarkMode();
+
+            // 初始化粒子效果
+            initParticles();
+
+            // 微信公众号弹窗控制
+            const wechatModal1 = document.getElementById('wechatModal1');
+            const showWechatModal1 = document.getElementById('showWechatModal1');
+            const closeModal1 = document.getElementById('closeModal1');
+
+            const wechatModal2 = document.getElementById('wechatModal2');
+            const showWechatModal2 = document.getElementById('showWechatModal2');
+            const closeModal2 = document.getElementById('closeModal2');
+
+            const footerWechat = document.getElementById('footerWechat');
+
+            showWechatModal1.addEventListener('click', () => {
+                wechatModal1.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+
+            showWechatModal2.addEventListener('click', () => {
+                wechatModal2.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+
+            footerWechat.addEventListener('click', (e) => {
+                e.preventDefault();
+                wechatModal1.classList.add('show'); // Default to showing modal 1
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeModal1.addEventListener('click', () => {
+                wechatModal1.classList.remove('show');
+                document.body.style.overflow = '';
+            });
+
+            closeModal2.addEventListener('click', () => {
+                wechatModal2.classList.remove('show');
+                document.body.style.overflow = '';
+            });
+
+            wechatModal1.addEventListener('click', (e) => {
+                if (e.target === wechatModal1) {
+                    wechatModal1.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            wechatModal2.addEventListener('click', (e) => {
+                if (e.target === wechatModal2) {
+                    wechatModal2.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // 模拟加载完成
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        function initDarkMode() {
+            const modeToggle = document.getElementById('modeToggle');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const darkMode = localStorage.getItem('darkMode');
+
+            if (darkMode === 'enabled' || (!darkMode && prefersDark)) {
+                document.body.classList.add('dark-mode');
+                modeToggle.textContent = '☀️';
+                modeToggle.setAttribute('aria-label', '切换日间模式');
+            } else {
+                modeToggle.setAttribute('aria-label', '切换夜间模式');
+            }
+
+            modeToggle.addEventListener('click', function() {
+                const isDark = document.body.classList.toggle('dark-mode');
+                modeToggle.textContent = isDark ? '☀️' : '🌙';
+                modeToggle.setAttribute('aria-label', isDark ? '切换日间模式' : '切换夜间模式');
+                localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+                updateParticlesColor();
+            });
+        }
+
+        function initParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = Math.min(Math.floor(window.innerWidth / 30), 30);
+
+            // 清除现有粒子
+            particlesContainer.innerHTML = '';
+
+            // 创建粒子
+            for (let i = 0; i < particleCount; i++) {
+                createParticle(particlesContainer);
+            }
+        }
+
+        function createParticle(container) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 4 + 2;
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+
+            particle.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${posX}%;
+                top: ${posY}%;
+                opacity: ${Math.random() * 0.5 + 0.1};
+                animation: float ${Math.random() * 20 + 10}s ease-in-out ${Math.random() * 10}s infinite;
+            `;
+
+            container.appendChild(particle);
+        }
+
+        function updateParticlesColor() {
+            const particles = document.querySelectorAll('.particle');
+            const isDark = document.body.classList.contains('dark-mode');
+            const color = isDark ? 'rgba(255, 140, 25, 0.1)' : 'rgba(255, 140, 25, 0.15)';
+
+            particles.forEach(particle => {
+                particle.style.background = color;
+            });
+        }
+
+        // 窗口大小改变时重新初始化粒子
+        window.addEventListener('resize', () => {
+            initParticles();
+        });
+    </script>
+</body>
+</html>

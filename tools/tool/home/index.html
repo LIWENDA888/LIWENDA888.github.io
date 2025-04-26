@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造工具箱 - 您的全能助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: #0f0f1a;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #ff7b00, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 123, 0, 0.3);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #ff7b00, #ffaa00);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 123, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 123, 0, 0.6);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover::after {
+            left: 100%;
+        }
+        
+        /* 增强的背景动画 */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 123, 0, 0.05);
+            box-shadow: 0 0 50px rgba(255, 123, 0, 0.2);
+            animation: float 15s infinite linear;
+        }
+        
+        .circle:nth-child(1) {
+            width: 800px;
+            height: 800px;
+            top: -400px;
+            left: -400px;
+            animation-delay: 0s;
+        }
+        
+        .circle:nth-child(2) {
+            width: 600px;
+            height: 600px;
+            bottom: -300px;
+            right: -300px;
+            animation-delay: 3s;
+            animation-duration: 20s;
+        }
+        
+        .circle:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 30%;
+            animation-delay: 6s;
+            animation-duration: 25s;
+        }
+        
+        .circle:nth-child(4) {
+            width: 500px;
+            height: 500px;
+            bottom: 20%;
+            right: 20%;
+            animation-delay: 9s;
+            animation-duration: 18s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(50px, 50px) rotate(180deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+        
+        /* 粒子效果增强版 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particle-float linear infinite;
+            filter: blur(1px);
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: pulse 2s infinite alternate;
+            filter: drop-shadow(0 0 15px rgba(255, 123, 0, 0.7));
+        }
+        
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+        
+        /* 添加一些光效 */
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at center, rgba(255, 123, 0, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="logo" style="background-image: url('logo.svg')"></div>
+        <h1>字造工具百宝库</h1>
+        <p>一站式解决日常所需 | 酷站 · 工具 · 资源</p>
+        <a href="https://zizao.top/tool/#hao" class="btn">开始使用</a>
+    </div>
+
+    <script>
+        // 增强版粒子效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const particles = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机大小
+                const size = Math.random() * 8 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // 随机动画
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // 随机透明度
+                particle.style.opacity = Math.random() * 0.6 + 0.2;
+                
+                // 随机颜色 - 橙色调
+                const hue = Math.random() * 20 + 20; // 20-40 hue range (orange)
+                particle.style.background = `hsla(${hue}, 100%, 70%, ${Math.random() * 0.5 + 0.3})`;
+                
+                particles.appendChild(particle);
+            }
+            
+            // 添加鼠标移动光效
+            document.body.addEventListener('mousemove', function(e) {
+                const glow = document.querySelector('.glow');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                glow.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(255, 123, 0, 0.2) 0%, transparent 70%)`;
+            });
+        });
+    </script>
+</body>
+</html>
