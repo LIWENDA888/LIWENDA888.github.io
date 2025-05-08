@@ -356,11 +356,11 @@
             <div class="nav-right">
                 <nav class="navbar-menu">
                     <ul class="nav-links">
-                        <li><a href="#" data-iframe="https://zizao.top/fonts/home" class="active"><i class="fas fa-home"></i> <span class="menu-text">首页</span></a></li>
+                        <li><a href="#" data-iframe="https://zizao.top/fonts/home" class="home-link"><i class="fas fa-home"></i> <span class="menu-text">首页</span></a></li>
                         <li class="dropdown">
                             <a href="#"><i class="fa-solid fa-grip"></i> <span class="menu-text">产品</span></a>
                             <div class="dropdown-content">
-                                <a href="#" data-iframe="https://zizao.top/fonts/product/ZzQidianSans">字造起点黑</a>
+                                <a href="#" data-iframe="https://zizao.top/fonts/product/ZzQidianSans" data-hash="ZzQidianSans">字造起点黑</a>
                             </div>
                         </li>
                         <li class="dropdown">
@@ -388,7 +388,7 @@
     </header>
 
     <div class="content-container">
-        <iframe id="main-iframe" src="https://zizao.top/hao" allowfullscreen></iframe>
+        <iframe id="main-iframe" src="https://zizao.top/fonts/home" allowfullscreen></iframe>
     </div>
 
     <script>
@@ -400,16 +400,14 @@
             const mainIframe = document.getElementById('main-iframe');
             const allNavLinks = document.querySelectorAll('.nav-links a[data-iframe]');
             const logo = document.getElementById('logo');
+            const homeLink = document.querySelector('.home-link');
 
             // Logo点击跳转首页
             logo.addEventListener('click', function() {
-                const homeLink = document.querySelector('.nav-links li:first-child a');
-                if (homeLink) {
-                    homeLink.click();
-                }
+                homeLink.click();
             });
 
-            function switchIframe(url, clickedLink) {
+            function switchIframe(url, clickedLink, hash = null) {
                 // 淡出动画
                 mainIframe.style.opacity = '0';
                 mainIframe.style.transition = 'opacity 0.2s ease';
@@ -435,8 +433,12 @@
                     parentLink.classList.add('active');
                 }
 
-                // Restore the original title
-                document.title = originalTitle;
+                // 更新浏览器历史记录
+                if (hash) {
+                    history.pushState({iframeUrl: url, hash: hash}, '', `#${hash}`);
+                } else {
+                    history.pushState({iframeUrl: url}, '', window.location.pathname + window.location.search); // Remove hash
+                }
             }
 
             // 处理导航链接点击
@@ -447,10 +449,8 @@
                 if (link && link.hasAttribute('data-iframe') && !link.hasAttribute('target')) {
                     e.preventDefault();
                     const iframeUrl = link.getAttribute('data-iframe');
-                    switchIframe(iframeUrl, link);
-
-                    // 更新浏览器历史记录
-                    history.pushState({iframeUrl}, '', `#${iframeUrl}`);
+                    const hash = link.getAttribute('data-hash') || null;
+                    switchIframe(iframeUrl, link, hash);
 
                     // 在移动设备上点击后关闭菜单
                     if (window.innerWidth <= 768) {
@@ -463,21 +463,46 @@
             });
 
             // 处理页面加载时的hash
-            if (window.location.hash) {
-                const iframeUrl = window.location.hash.substring(1);
-                const link = document.querySelector(`a[data-iframe="${iframeUrl}"]`);
-                if (link) {
-                    switchIframe(iframeUrl, link);
+            function handleInitialHash() {
+                if (window.location.hash) {
+                    const hash = window.location.hash.substring(1);
+                    const link = document.querySelector(`a[data-hash="${hash}"]`);
+                    if (link) {
+                        const iframeUrl = link.getAttribute('data-iframe');
+                        switchIframe(iframeUrl, link, hash);
+                    } else {
+                        // If hash doesn't match any data-hash, load the default home page
+                        const homeUrl = homeLink.getAttribute('data-iframe');
+                        switchIframe(homeUrl, homeLink);
+                        homeLink.classList.add('active');
+                    }
+                } else {
+                    // If no hash, load the default home page
+                    const homeUrl = homeLink.getAttribute('data-iframe');
+                    switchIframe(homeUrl, homeLink);
+                    homeLink.classList.add('active');
                 }
             }
+
+            handleInitialHash();
 
             // 处理浏览器前进/后退
             window.addEventListener('popstate', function(e) {
                 if (e.state && e.state.iframeUrl) {
                     const link = document.querySelector(`a[data-iframe="${e.state.iframeUrl}"]`);
                     if (link) {
-                        switchIframe(e.state.iframeUrl, link);
+                        switchIframe(e.state.iframeUrl, link, e.state.hash || null);
+                    } else {
+                        // If iframeUrl doesn't match any link, load the default home page
+                        const homeUrl = homeLink.getAttribute('data-iframe');
+                        switchIframe(homeUrl, homeLink);
+                        homeLink.classList.add('active');
                     }
+                } else {
+                    // If no state, load the default home page
+                    const homeUrl = homeLink.getAttribute('data-iframe');
+                    switchIframe(homeUrl, homeLink);
+                    homeLink.classList.add('active');
                 }
             });
 
