@@ -64,7 +64,7 @@
             overflow-x: hidden;
             line-height: 1.6;
             transition: background-color 0.5s ease, color 0.3s ease;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 20%, var(--primary-light) 0%, transparent 20%),
                 radial-gradient(circle at 90% 30%, rgba(0, 209, 178, 0.1) 0%, transparent 25%),
                 radial-gradient(circle at 50% 80%, rgba(255, 94, 91, 0.1) 0%, transparent 30%);
@@ -185,7 +185,7 @@
 
         .card-icon {
             margin-bottom: 1.8rem;
-            transition: transform 0.3s ease;
+            transition: background 0.3s ease;
             width: 60px;
             height: 60px;
             display: flex;
@@ -202,7 +202,6 @@
         }
 
         .card:hover .card-icon {
-            transform: scale(1.1) rotate(5deg);
             background: linear-gradient(45deg, var(--primary-light), rgba(0, 209, 178, 0.1));
         }
 
@@ -536,12 +535,12 @@
                 width: 180px;
                 height: 180px;
             }
-            
+
             .card-icon {
                 width: 50px;
                 height: 50px;
             }
-            
+
             .card-icon img {
                 width: 40px;
                 height: 40px;
@@ -586,7 +585,7 @@
             </div>
             <div class="header-actions">
                 <button class="mode-toggle" id="modeToggle" aria-label="切换夜间模式">🌙</button>
-                <a href="#contact" class="btn btn-outline">
+                <a href="https://www.zizao.top" class="btn btn-outline">
                     设计合作
                     <i class="fa-solid fa-comment"></i>
                 </a>
@@ -605,12 +604,36 @@
         <section class="grid" id="grid">
             <div class="card">
                 <div class="card-icon">
-                    <img src="index/tools.webp" alt="设计工具百宝库">
+                    <img src="index/tools.webp" alt="字造设计导航">
                 </div>
-                <h3>设计工具百宝库</h3>
-                <p>“灵感永不枯竭！设计师的工具宝藏库，一键激活你的想象力。</p>
-                <a href="https://www.zizao.top/tools" target="_blank" class="card-btn">
+                <h3>字造设计导航</h3>
+                <p>“灵感永不枯竭！设计师的灵感宝藏库，一键激活你的想象力。</p>
+                <a href="https://www.zizao.top/tools/#hao" target="_blank" class="card-btn">
                     点击使用
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/tools.webp" alt="字造资源宝库">
+                </div>
+                <h3>字造资源宝库</h3>
+                <p>关注我的公众号获取深度文章、独家内容和最新动态。定期推送高质量原创内容。</p>
+                <a href="https://www.zizao.top/tools/#bao" target="_blank" class="card-btn">
+                    点击使用
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <img src="index/fonts.webp" alt="字造字库">
+                </div>
+                <h3>字造字库</h3>
+                <p>敬请期待</p>
+                <a href="https://www.douyin.com/user/self?from_tab_name=main&showTab=like" target="_blank" class="card-btn">
+                    点击跳转
                     <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -621,7 +644,7 @@
                 </div>
                 <h3>字造起点黑</h3>
                 <p>融合古隶书微特征和现代黑体的美感，打造的字造首款免费商用字体。</p>
-                <a href="https://www.zizao.top/fonts/ZzQidianSans" target="_blank" class="card-btn">
+                <a href="https://www.zizao.top/fonts/#ZzQidianSans" target="_blank" class="card-btn">
                     点击预览
                     <i class="fas fa-arrow-right"></i>
                 </a>
@@ -641,18 +664,6 @@
 
             <div class="card">
                 <div class="card-icon">
-                    <img src="index/wx.webp" alt="微信公众号">
-                </div>
-                <h3>微信公众号</h3>
-                <p>关注我的公众号获取深度文章、独家内容和最新动态。定期推送高质量原创内容。</p>
-                <button class="card-btn" id="showWechatModal1">
-                    扫码关注
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">
                     <img src="index/wx.webp" alt="微信好友">
                 </div>
                 <h3>微信二维码</h3>
@@ -662,18 +673,6 @@
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
-
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/dy.webp" alt="抖音">
-                </div>
-                <h3>抖音</h3>
-                <p>浏览我的生活分享、好物推荐和实用攻略。发现更多精彩内容。</p>
-                <a href="https://www.douyin.com/user/self?from_tab_name=main&showTab=like" target="_blank" class="card-btn">
-                    浏览主页
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
         </section>
 
         <footer id="contact">
@@ -681,7 +680,7 @@
                 <a href="#" class="social-link" id="footerWechat">
                     <img src="index/m/wx.webp" alt="微信公众号" width="24" height="24">
                 </a>
-                <a href="https://www.douyin.com/user/self?from_tab_name=main&showTab=like" target="_blank" class="social-link">
+                <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" class="social-link">
                     <img src="index/m/dy.webp" alt="抖音主页" width="24" height="24">
                 </a>
                 <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="social-link">
@@ -717,13 +716,13 @@
             const modeToggle = document.getElementById('modeToggle');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const darkMode = localStorage.getItem('darkMode');
-            
+
             if (darkMode === 'enabled' || (!darkMode && prefersDark)) {
                 document.body.classList.add('dark-mode');
                 modeToggle.textContent = '☀️';
                 modeToggle.setAttribute('aria-label', '切换日间模式');
             }
-            
+
             modeToggle.addEventListener('click', function() {
                 const isDark = document.body.classList.toggle('dark-mode');
                 modeToggle.textContent = isDark ? '☀️' : '🌙';
@@ -734,29 +733,28 @@
 
             // 模态框控制
             const modalControls = [
-                { show: 'showWechatModal1', close: 'closeModal1', modal: 'wechatModal1' },
+                { show: 'footerWechat', close: 'closeModal1', modal: 'wechatModal1' },
                 { show: 'showWechatModal2', close: 'closeModal2', modal: 'wechatModal2' }
             ];
-            
+
             modalControls.forEach(control => {
                 const showBtn = document.getElementById(control.show);
                 const closeBtn = document.getElementById(control.close);
                 const modal = document.getElementById(control.modal);
-                
-                showBtn.addEventListener('click', () => toggleModal(modal, true));
-                closeBtn.addEventListener('click', () => toggleModal(modal, false));
-                modal.addEventListener('click', (e) => e.target === modal && toggleModal(modal, false));
-            });
-            
-            // 页脚微信按钮
-            document.getElementById('footerWechat').addEventListener('click', (e) => {
-                e.preventDefault();
-                toggleModal(document.getElementById('wechatModal1'), true);
+
+                if(showBtn && closeBtn && modal){ // 确保元素存在
+                    showBtn.addEventListener('click', (e) => {
+                        e.preventDefault(); // 阻止链接跳转
+                        toggleModal(modal, true);
+                    });
+                    closeBtn.addEventListener('click', () => toggleModal(modal, false));
+                    modal.addEventListener('click', (e) => e.target === modal && toggleModal(modal, false));
+                }
             });
 
             // 粒子效果
             initParticles();
-            
+
             // 模拟加载完成
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
@@ -773,17 +771,17 @@
             function initParticles() {
                 const particlesContainer = document.getElementById('particles');
                 const particleCount = Math.min(Math.floor(window.innerWidth / 30), 30);
-                
+
                 particlesContainer.innerHTML = '';
-                
+
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
-                    
+
                     const size = Math.random() * 4 + 2;
                     const posX = Math.random() * 100;
                     const posY = Math.random() * 100;
-                    
+
                     particle.style.cssText = `
                         width: ${size}px;
                         height: ${size}px;
@@ -793,11 +791,11 @@
                         animation: float ${Math.random() * 20 + 10}s ease-in-out ${Math.random() * 10}s infinite;
                         background: var(--particle-color);
                     `;
-                    
+
                     particlesContainer.appendChild(particle);
                 }
             }
-            
+
             function updateParticlesColor() {
                 const particles = document.querySelectorAll('.particle');
                 const color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
