@@ -7,13 +7,11 @@
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
     <meta name="author" content="字造">
-
     <meta property="og:title" content="字造产品展示">
     <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta property="og:image" content="URL_TO_YOUR_IMAGE">
     <meta property="og:url" content="URL_TO_YOUR_PAGE">
     <meta property="og:type" content="website">
-
     <link rel="icon" href="index/index.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
@@ -34,20 +32,6 @@
             --mode-toggle-bg: #F5F5F5;
         }
 
-        .dark-mode {
-            --primary-light: rgba(255, 140, 25, 0.2);
-            --text-color: #F0F0F0;
-            --text-light: #B0B0B0;
-            --bg-color: #121212;
-            --card-bg: rgba(30, 30, 30, 0.8);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --shadow-color: rgba(0, 0, 0, 0.2);
-            --social-bg: rgba(255, 255, 255, 0.05);
-            --footer-color: rgba(255, 255, 255, 0.5);
-            --particle-color: rgba(255, 140, 25, 0.1);
-            --mode-toggle-bg: #2D2D2D;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -64,10 +48,6 @@
             overflow-x: hidden;
             line-height: 1.6;
             transition: background-color 0.5s ease, color 0.3s ease;
-            background-image:
-                radial-gradient(circle at 10% 20%, var(--primary-light) 0%, transparent 20%),
-                radial-gradient(circle at 90% 30%, rgba(0, 209, 178, 0.1) 0%, transparent 25%),
-                radial-gradient(circle at 50% 80%, rgba(255, 94, 91, 0.1) 0%, transparent 30%);
         }
 
         .container {
@@ -96,8 +76,8 @@
 
         .logo img {
             margin-right: 0.8rem;
-            width: 120px;
-            height: auto;
+            width: auto;
+            height: 42px; /* Adjusted height to match button height */
         }
 
         .header-actions {
@@ -125,6 +105,53 @@
         .mode-toggle:hover {
             transform: rotate(15deg) scale(1.1);
             box-shadow: 0 3px 12px var(--shadow-color);
+        }
+
+        .design-collab-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+        }
+
+        .design-collab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .design-collab-btn:hover::before {
+            opacity: 1;
+        }
+
+        .design-collab-btn i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .design-collab-btn:hover i {
+            transform: translateX(3px);
         }
 
         .hero {
@@ -156,36 +183,30 @@
             font-weight: 400;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        .features {
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
             margin-bottom: 4rem;
         }
 
-        .card {
+        .feature-section {
             background: var(--card-bg);
             border-radius: 16px;
-            padding: 2.5rem 2rem;
+            padding: 2.5rem;
             backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            animation: fadeInUp 0.6s ease;
             box-shadow: 0 8px 24px var(--shadow-color);
-            will-change: transform;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .card-icon {
-            margin-bottom: 1.8rem;
-            transition: background 0.3s ease;
+        .feature-icon {
             width: 60px;
             height: 60px;
             display: flex;
@@ -193,33 +214,94 @@
             justify-content: center;
             background: var(--primary-light);
             border-radius: 12px;
+            margin-right: 1.5rem;
+            transition: all 0.3s ease;
         }
 
-        .card-icon img {
-            width: 48px;
-            height: 48px;
+        .feature-icon img {
+            width: 40px;
+            height: 40px;
             object-fit: contain;
         }
 
-        .card:hover .card-icon {
-            background: linear-gradient(45deg, var(--primary-light), rgba(0, 209, 178, 0.1));
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
-            color: var(--text-color);
+        .feature-title {
+            font-size: 1.8rem;
             font-weight: 700;
-        }
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+}
 
-        .card p {
+        .feature-description {
             color: var(--text-light);
-            margin-bottom: 2rem;
-            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
             line-height: 1.7;
         }
 
-        .card-btn, .btn {
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-item:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .feature-item-title {
+            font-size: 1.4rem; /* Increased font size */
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-item-title i {
+            margin-right: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        .feature-item-desc {
+            color: var(--text-light);
+            font-size: 0.9rem; /* Reduced font size */
+            line-height: 1.6;
+        }
+
+        .feature-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-link i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .feature-link:hover i {
+            transform: translateX(3px);
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -240,7 +322,7 @@
             font-size: 1rem;
         }
 
-        .card-btn::after, .btn::after {
+        .btn::after {
             content: '';
             position: absolute;
             top: 0;
@@ -253,16 +335,16 @@
             z-index: -1;
         }
 
-        .card-btn:hover::after, .btn:hover::after {
+        .btn:hover::after {
             opacity: 1;
         }
 
-        .card-btn i, .btn i {
+        .btn i {
             margin-left: 0.5rem;
             transition: transform 0.3s ease;
         }
 
-        .card-btn:hover i, .btn:hover i {
+        .btn:hover i {
             transform: translateX(3px);
         }
 
@@ -278,78 +360,93 @@
             border-color: transparent;
         }
 
-        .modal {
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(255, 140, 25, 0.3);
+        }
+
+        .popup-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background-color: var(--card-bg);
             border-radius: 16px;
             padding: 2rem;
             width: 90%;
-            max-width: 400px;
+            max-width: 300px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border: 1px solid var(--border-color);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .modal.show .modal-content {
-            transform: translateY(0);
+        .popup-modal.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
+        .popup-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
         }
 
-        .qrcode {
+        .popup-qrcode {
             width: 200px;
             height: 200px;
             margin: 0 auto 1.5rem;
             background-color: white;
             padding: 10px;
             border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
         }
 
-        .qrcode img {
+        .popup-qrcode img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .modal-close {
+        .popup-modal-text {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .popup-modal-close {
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.5rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 140, 25, 0.2);
+            font-size: 0.95rem;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
         }
 
-        .modal-close:hover {
+        .popup-modal-close:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
         }
 
         footer {
@@ -365,7 +462,7 @@
             display: flex;
             justify-content: center;
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem; /* Reduced margin */
         }
 
         .social-link {
@@ -411,45 +508,6 @@
             will-change: transform;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
-        .card:nth-child(5) { animation-delay: 0.5s; }
-        .card:nth-child(6) { animation-delay: 0.6s; }
-
         .loader {
             position: fixed;
             top: 0;
@@ -481,6 +539,32 @@
             margin-top: 1rem;
         }
 
+        /* Added container for the button */
+        .footer-button-container {
+            margin-bottom: 1.5rem; /* Added margin */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -489,27 +573,39 @@
             .hero h1 {
                 font-size: 3rem;
             }
+            .feature-section {
+                padding: 2rem;
+            }
+            .feature-title {
+                font-size: 1.6rem;
+            }
         }
 
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
             }
-
             .hero p {
                 font-size: 1.1rem;
             }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
             .header-actions {
                 gap: 0.8rem;
             }
-
-            .card {
-                padding: 2rem 1.5rem;
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                margin-right: 1rem;
+            }
+            .feature-icon img {
+                width: 32px;
+                height: 32px;
+            }
+            .feature-title {
+                font-size: 1.4rem;
+            }
+            .design-collab-btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
             }
         }
 
@@ -517,33 +613,38 @@
             .hero h1 {
                 font-size: 2.2rem;
             }
-
             .logo {
                 font-size: 1.5rem;
             }
-
             .mode-toggle {
                 width: 38px;
                 height: 38px;
             }
-
-            .modal-content {
+            .popup-modal {
                 padding: 1.5rem;
+                max-width: 280px;
             }
-
-            .qrcode {
+            .popup-qrcode {
                 width: 180px;
                 height: 180px;
             }
-
-            .card-icon {
-                width: 50px;
-                height: 50px;
+            .feature-section {
+                padding: 1.5rem;
             }
-
-            .card-icon img {
-                width: 40px;
-                height: 40px;
+            .feature-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .feature-icon {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .design-collab-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -554,26 +655,20 @@
         <div class="loader-text">加载中...</div>
     </div>
 
-    <div class="modal" id="wechatModal1">
-        <div class="modal-content">
-            <h3 class="modal-title">关注字造微信公众号</h3>
-            <div class="qrcode">
-                <img src="index/iwg.webp" alt="微信公众号二维码">
-            </div>
-            <p style="color: var(--text-light); margin-bottom: 1.5rem;">打开微信-扫描二维码关注</p>
-            <button class="modal-close" id="closeModal1">关闭</button>
+    <div class="popup-modal" id="wechatModal1">
+        <div class="popup-qrcode">
+            <img src="index/iwg.webp" alt="微信公众号二维码">
         </div>
+        <p class="popup-modal-text">微信扫码关注公众号</p>
+        <button class="popup-modal-close" id="closeModal1">关闭</button>
     </div>
 
-    <div class="modal" id="wechatModal2">
-        <div class="modal-content">
-            <h3 class="modal-title">添加微信好友</h3>
-            <div class="qrcode">
-                <img src="index/iwx.webp" alt="微信公众号二维码">
-            </div>
-            <p style="color: var(--text-light); margin-bottom: 1.5rem;">打开微信-扫描二维码</p>
-            <button class="modal-close" id="closeModal2">关闭</button>
+    <div class="popup-modal" id="wechatModal2">
+        <div class="popup-qrcode">
+            <img src="index/iwx.webp" alt="微信二维码">
         </div>
+        <p class="popup-modal-text">微信扫码添加好友</p>
+        <button class="popup-modal-close" id="closeModal2">关闭</button>
     </div>
 
     <div class="particles" id="particles"></div>
@@ -584,8 +679,7 @@
                 <img src="index/logo.svg" alt="logo">
             </div>
             <div class="header-actions">
-                <button class="mode-toggle" id="modeToggle" aria-label="切换夜间模式">🌙</button>
-                <a href="https://www.zizao.top" class="btn btn-outline">
+                <a href="https://www.zizao.top" class="design-collab-btn">
                     设计合作
                     <i class="fa-solid fa-comment"></i>
                 </a>
@@ -601,77 +695,53 @@
             </a>
         </section>
 
-        <section class="grid" id="grid">
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/tools.webp" alt="字造设计导航">
+        <section class="features">
+            <div class="feature-section">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <img src="index/tools.webp" alt="设计工具库">
+                    </div>
+                    <div>
+                        <h2 class="feature-title">设计工具库</h2>
+                        <p class="feature-description">日常必备工具资源，设计师的灵感百宝库</p>
+                    </div>
                 </div>
-                <h3>字造设计导航</h3>
-                <p>“灵感永不枯竭！设计师的灵感宝藏库，一键激活你的想象力。</p>
-                <a href="https://www.zizao.top/tools/#hao" target="_blank" class="card-btn">
-                    点击使用
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+
+                <div class="feature-grid">
+                    <div class="feature-item" data-href="https://www.zizao.top/tools/#hao">
+                        <h3 class="feature-item-title"><i class="fas fa-compass"></i>设计导航</h3>
+                        <p class="feature-item-desc">灵感永不枯竭！设计师的灵感宝藏库，一键激活你的想象力。</p>
+                    </div>
+
+                    <div class="feature-item" data-href="https://www.zizao.top/tools/#bao">
+                        <h3 class="feature-item-title"><i class="fas fa-book"></i>资源百宝库</h3>
+                        <p class="feature-item-desc">设计师私藏的设计资源库、稀缺素材和最新设计软件全都有。</p>
+                    </div>
+
+                    <div class="feature-item" data-href="https://www.zizao.top/tools/#write">
+                        <h3 class="feature-item-title"><i class="fa-solid fa-signature"></i>搜书法风格</h3>
+                        <p class="feature-item-desc">中国古代书法风格大全，即搜即用设计师必备</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/tools.webp" alt="字造资源宝库">
+            <div class="feature-section">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <img src="index/fonts.webp" alt="字造字库">
+                    </div>
+                    <div>
+                        <h2 class="feature-title">字造字库</h2>
+                        <p class="feature-description">以字体探索美学新感知</p>
+                    </div>
                 </div>
-                <h3>字造资源宝库</h3>
-                <p>关注我的公众号获取深度文章、独家内容和最新动态。定期推送高质量原创内容。</p>
-                <a href="https://www.zizao.top/tools/#bao" target="_blank" class="card-btn">
-                    点击使用
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
 
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/fonts.webp" alt="字造字库">
+                <div class="feature-grid">
+                    <div class="feature-item" data-href="#">
+                        <h3 class="feature-item-title"><i class="fa-solid fa-thumbs-up"></i>即将上线-免费商用双轴可变字体-字造起点黑</h3>
+                        <p class="feature-item-desc">结合中国古代隶书的线条美和骨感美，融合现代屏显黑体再加上更具视觉张力的字形结构，打造的独属字造的免费商用“黑体”</p>
+                    </div>
                 </div>
-                <h3>字造字库</h3>
-                <p>敬请期待-敬请期待-敬请期待-敬请期待-敬请期待</p>
-                <a href="https://www.zizao.top/fonts" target="_blank" class="card-btn">
-                    点击跳转
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/fonts.webp" alt="字造起点黑">
-                </div>
-                <h3>字造起点黑</h3>
-                <p>融合古隶书微特征和现代黑体的美感，打造的字造首款免费商用字体。</p>
-                <a href="https://www.zizao.top/fonts/#ZzQidianSans" target="_blank" class="card-btn">
-                    点击预览
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/xhs.webp" alt="小红书主页">
-                </div>
-                <h3>小红书主页</h3>
-                <p>设计师私藏的设计资源库、稀缺素材和最新设计软件全都有。</p>
-                <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="card-btn">
-                    浏览主页
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">
-                    <img src="index/wx.webp" alt="微信好友">
-                </div>
-                <h3>微信二维码</h3>
-                <p>关注我的公众号获取深度文章、独家内容和最新动态。定期推送高质量原创内容。</p>
-                <button class="card-btn" id="showWechatModal2">
-                    扫码加好友
-                    <i class="fas fa-arrow-right"></i>
-                </button>
             </div>
         </section>
 
@@ -699,39 +769,30 @@
                     <img src="index/m/you.webp" alt="YouTube主页" width="24" height="24">
                 </a>
                 <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" class="social-link">
-                    <img src="index/m/z.webp" alt="知乎主页" width="24" height="24">
+                    <img src="index/m/z.webp" alt="知乎主页" width="24, height=24">
                 </a>
             </div>
+            <div class="footer-button-container">
+                <button class="btn btn-small" id="showWechatModal2">添加微信好友</button>
+            </div>
             <p>© <span id="currentYear"></span> 字造ZIZAO.TOP</p>
-            <p>通过以上平台与我联系，获取最新内容更新</p>
+            <p>通过以上方式了解我们，获取最新内容更新</p>
+
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 设置当前年份
             document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // 初始化夜间模式
-            const modeToggle = document.getElementById('modeToggle');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const darkMode = localStorage.getItem('darkMode');
-
-            if (darkMode === 'enabled' || (!darkMode && prefersDark)) {
-                document.body.classList.add('dark-mode');
-                modeToggle.textContent = '☀️';
-                modeToggle.setAttribute('aria-label', '切换日间模式');
-            }
-
-            modeToggle.addEventListener('click', function() {
-                const isDark = document.body.classList.toggle('dark-mode');
-                modeToggle.textContent = isDark ? '☀️' : '🌙';
-                modeToggle.setAttribute('aria-label', isDark ? '切换日间模式' : '切换夜间模式');
-                localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-                updateParticlesColor();
+            const featureItems = document.querySelectorAll('.feature-item');
+            featureItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const href = item.dataset.href;
+                    if (href) window.open(href, '_blank');
+                });
             });
 
-            // 模态框控制
             const modalControls = [
                 { show: 'footerWechat', close: 'closeModal1', modal: 'wechatModal1' },
                 { show: 'showWechatModal2', close: 'closeModal2', modal: 'wechatModal2' }
@@ -742,20 +803,26 @@
                 const closeBtn = document.getElementById(control.close);
                 const modal = document.getElementById(control.modal);
 
-                if(showBtn && closeBtn && modal){ // 确保元素存在
+                if(showBtn && closeBtn && modal){
                     showBtn.addEventListener('click', (e) => {
-                        e.preventDefault(); // 阻止链接跳转
+                        e.preventDefault();
                         toggleModal(modal, true);
                     });
                     closeBtn.addEventListener('click', () => toggleModal(modal, false));
-                    modal.addEventListener('click', (e) => e.target === modal && toggleModal(modal, false));
                 }
             });
 
-            // 粒子效果
+            // Close modal when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.popup-modal') && !e.target.closest('#footerWechat') && !e.target.closest('#showWechatModal2')) {
+                    document.querySelectorAll('.popup-modal').forEach(modal => {
+                        toggleModal(modal, false);
+                    });
+                }
+            });
+
             initParticles();
 
-            // 模拟加载完成
             setTimeout(() => {
                 document.getElementById('loader').style.opacity = '0';
                 setTimeout(() => {
@@ -764,14 +831,22 @@
             }, 800);
 
             function toggleModal(modal, show) {
-                modal.classList.toggle('show', show);
-                document.body.style.overflow = show ? 'hidden' : '';
+                if (show) {
+                    modal.style.display = 'block';
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 10);
+                } else {
+                    modal.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
             }
 
             function initParticles() {
                 const particlesContainer = document.getElementById('particles');
                 const particleCount = Math.min(Math.floor(window.innerWidth / 30), 30);
-
                 particlesContainer.innerHTML = '';
 
                 for (let i = 0; i < particleCount; i++) {
@@ -795,15 +870,8 @@
                     particlesContainer.appendChild(particle);
                 }
             }
-
-            function updateParticlesColor() {
-                const particles = document.querySelectorAll('.particle');
-                const color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
-                particles.forEach(p => p.style.background = color);
-            }
         });
 
-        // 优化resize事件处理
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
