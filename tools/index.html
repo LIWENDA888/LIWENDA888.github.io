@@ -340,7 +340,7 @@
 
         <div class="sidebar-main">
             <ul class="sidebar-menu">
-                <li class="menu-item" data-tool="home" data-title="字造主页">
+                <li class="menu-item" data-tool="home" data-title="字造主页" data-url="https://www.zizao.top">
                     <i class="fas fa-home"></i>
                     <span>字造主页</span>
                 </li>
@@ -400,16 +400,12 @@
     <!-- 主内容区 -->
     <div class="main-content">
 
-        <div class="tool-container" id="home">
-            <iframe src="tool/home" title="字造主页"></iframe>
-        </div>
-
         <div class="tool-container active" id="hao">
             <iframe src="tool/hao" title="设计导航"></iframe>
         </div>
 
         <div class="tool-container" id="bao">
-            <iframe src="tool/bao" title="代码编辑器"></iframe>
+            <iframe src="tool/bao" title="资源宝库"></iframe>
         </div>
 
         <div class="tool-container" id="god">
@@ -573,10 +569,11 @@
                 item.addEventListener('click', function(e) {
                     const toolId = this.getAttribute('data-tool');
                     const toolTitle = this.getAttribute('data-title');
+                    const toolUrl = this.getAttribute('data-url');
 
                     if (toolId === 'home') {
                         // 打开新标签页
-                        window.open('tool/home', '_blank');
+                        window.open(toolUrl, '_blank');
                         e.preventDefault(); // 阻止默认行为，防止在当前页面切换
                     } else {
                         switchTool(toolId, toolTitle);
