@@ -32,13 +32,13 @@
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --border-radius: 6px;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             display: flex;
@@ -47,7 +47,7 @@
             background-color: #f8f9fa;
             color: #333;
         }
-        
+
         /* 专业深灰色侧边栏 */
         .sidebar {
             width: var(--sidebar-width);
@@ -62,11 +62,11 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .sidebar.collapsed {
             width: var(--sidebar-collapsed-width);
         }
-        
+
         .sidebar.collapsed .sidebar-header h2,
         .sidebar.collapsed .menu-item span,
         .sidebar.collapsed .menu-item-badge,
@@ -74,14 +74,14 @@
         .sidebar.collapsed .collapse-btn span {
             display: none;
         }
-        
+
         .sidebar-header {
             padding: 18px 20px;
             display: flex;
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .sidebar-header h2 {
             font-size: 1.3rem;
             font-weight: 600;
@@ -89,19 +89,19 @@
             white-space: nowrap;
             transition: opacity 0.2s;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             overflow: hidden;
         }
-        
+
         .logo-img {
             width: 32px;
             height: 32px;
             object-fit: contain;
         }
-        
+
         /* 主菜单区域 */
         .sidebar-main {
             flex: 1;
@@ -110,21 +110,21 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .sidebar-menu {
             list-style: none;
             flex: 1;
         }
-        
+
         .sidebar-menu::-webkit-scrollbar {
             width: 6px;
         }
-        
+
         .sidebar-menu::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
         }
-        
+
         .menu-item {
             padding: 12px 20px;
             margin: 4px 12px;
@@ -136,25 +136,25 @@
             white-space: nowrap;
             position: relative;
         }
-        
+
         .sidebar.collapsed .menu-item {
             justify-content: center;
             padding: 15px 0;
         }
-        
+
         .menu-item:hover {
             background: var(--hover-color);
         }
-        
+
         .menu-item.active {
             background: var(--active-color);
             color: white;
         }
-        
+
         .menu-item.active i {
             color: var(--primary-color);
         }
-        
+
         .menu-item i {
             font-size: 1.1rem;
             margin-right: 15px;
@@ -163,16 +163,16 @@
             color: var(--text-muted);
             transition: var(--transition);
         }
-        
+
         .sidebar.collapsed .menu-item i {
             margin-right: 0;
         }
-        
+
         .menu-item span {
             transition: var(--transition);
             font-size: 0.95rem;
         }
-        
+
         .menu-item-badge {
             margin-left: auto;
             background: var(--primary-color);
@@ -182,14 +182,14 @@
             border-radius: 8px;
             line-height: 1.2;
         }
-        
+
         /* 折叠按钮 */
         .collapse-btn-container {
             padding: 15px 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .collapse-btn {
             background: none;
             border: none;
@@ -203,32 +203,32 @@
             align-items: center;
             width: 100%;
         }
-        
+
         .collapse-btn:hover {
             background: var(--hover-color);
             color: var(--text-color);
         }
-        
+
         .collapse-btn i {
             margin-right: 12px;
             transition: var(--transition);
         }
-        
+
         .sidebar.collapsed .collapse-btn {
             justify-content: center;
             padding: 10px 0;
         }
-        
+
         .sidebar.collapsed .collapse-btn i {
             margin-right: 0;
             transform: rotate(180deg);
         }
-        
+
         /* 底部菜单 */
         .sidebar-footer {
             padding: 10px 0;
         }
-        
+
         .footer-item {
             padding: 12px 20px;
             margin: 4px 12px;
@@ -240,28 +240,28 @@
             white-space: nowrap;
             color: var(--text-muted);
         }
-        
+
         .sidebar.collapsed .footer-item {
             justify-content: center;
             padding: 15px 0;
         }
-        
+
         .footer-item:hover {
             background: var(--hover-color);
             color: var(--text-color);
         }
-        
+
         .footer-item i {
             font-size: 1rem;
             margin-right: 15px;
             width: 24px;
             text-align: center;
         }
-        
+
         .sidebar.collapsed .footer-item i {
             margin-right: 0;
         }
-        
+
         /* 主内容区 */
         .main-content {
             flex: 1;
@@ -270,32 +270,32 @@
             position: relative;
             transition: var(--transition);
         }
-        
+
         .tool-container {
             width: 100%;
             height: 100%;
             display: none;
             background: white;
         }
-        
+
         .tool-container.active {
             display: block;
             animation: fadeIn 0.4s ease-out;
         }
-        
+
         iframe {
             width: 100%;
             height: 100%;
             border: none;
             background: white;
         }
-        
+
         /* 动画效果 */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         /* 响应式设计 */
         @media (max-width: 992px) {
             .sidebar {
@@ -303,12 +303,12 @@
                 left: 0;
                 box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
             }
-            
+
             .sidebar.collapsed {
                 transform: translateX(-100%);
                 box-shadow: none;
             }
-            
+
             .mobile-toggle-btn {
                 display: flex;
                 position: fixed;
@@ -337,14 +337,14 @@
                 <h2>字造工具箱</h2>
             </div>
         </div>
-        
+
         <div class="sidebar-main">
             <ul class="sidebar-menu">
-                <li class="menu-item active" data-tool="home" data-title="字造主页">
+                <li class="menu-item" data-tool="home" data-title="字造主页">
                     <i class="fas fa-home"></i>
                     <span>字造主页</span>
                 </li>
-                <li class="menu-item" data-tool="hao" data-title="设计导航">
+                <li class="menu-item active" data-tool="hao" data-title="设计导航">
                     <i class="fas fa-compass"></i>
                     <span>设计导航</span>
                     <span class="menu-item-badge">推荐</span>
@@ -370,7 +370,7 @@
                     <span>形近字查询</span>
                 </li>
             </ul>
-            
+
             <!-- 折叠按钮 -->
             <div class="collapse-btn-container">
                 <button class="collapse-btn" id="toggleSidebar">
@@ -379,7 +379,7 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- 底部菜单 -->
         <div class="sidebar-footer">
             <div class="footer-item" data-tool="tool9" data-title="关于我们">
@@ -396,30 +396,30 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 主内容区 -->
     <div class="main-content">
 
-        <div class="tool-container active" id="home">
+        <div class="tool-container" id="home">
             <iframe src="tool/home" title="字造主页"></iframe>
         </div>
-        
-        <div class="tool-container" id="hao">
+
+        <div class="tool-container active" id="hao">
             <iframe src="tool/hao" title="设计导航"></iframe>
         </div>
-        
+
         <div class="tool-container" id="bao">
             <iframe src="tool/bao" title="代码编辑器"></iframe>
         </div>
-        
+
         <div class="tool-container" id="god">
             <iframe src="tool/god" title="神器推荐"></iframe>
         </div>
-        
+
         <div class="tool-container" id="write">
             <iframe src="tool/write" title="搜书法风格"></iframe>
         </div>
-        
+
         <div class="tool-container" id="freefonts">
             <iframe src="tool/freefonts" title="免费字体合集"></iframe>
         </div>
@@ -427,25 +427,25 @@
         <div class="tool-container" id="like">
             <iframe src="tool/like" title="形近字查询"></iframe>
         </div>
-        
+
 
         <div class="tool-container" id="tool9">
             <iframe src="https://about.google/" title="关于我们"></iframe>
         </div>
-        
+
         <div class="tool-container" id="tool10">
             <iframe src="https://support.google.com/" title="联系我们"></iframe>
         </div>
-        
+
         <div class="tool-container" id="tool11">
             <iframe src="https://support.microsoft.com/" title="帮助中心"></iframe>
         </div>
     </div>
-    
+
     <button class="mobile-toggle-btn" id="mobileSidebarToggle" style="display: none;">
         <i class="fas fa-bars"></i>
     </button>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const menuItems = document.querySelectorAll('.menu-item, .footer-item');
@@ -453,12 +453,12 @@
             const mobileToggleBtn = document.getElementById('mobileSidebarToggle');
             const sidebar = document.querySelector('.sidebar');
             const mainContent = document.querySelector('.main-content');
-            
+
             // 当前活动工具
-            let activeTool = 'home';
+            let activeTool = 'hao'; // 默认显示设计导航
             let isMobile = window.innerWidth <= 992;
             let autoCollapseEnabled = true; // 控制是否自动折叠
-            
+
             // 更新浏览器地址栏
             function updateBrowserURL(toolId, toolTitle) {
                 const state = { tool: toolId, title: toolTitle };
@@ -466,43 +466,43 @@
                 history.pushState(state, toolTitle, url);
                 document.title = `${toolTitle} - 字造工具箱`;
             }
-            
+
             // 切换工具
             function switchTool(toolId, toolTitle) {
                 // 如果点击的是当前活动工具，则不执行任何操作
                 if (toolId === activeTool) return;
-                
+
                 // 移除所有active类
                 document.querySelectorAll('.menu-item, .footer-item').forEach(i => i.classList.remove('active'));
                 document.querySelectorAll('.tool-container').forEach(tool => {
                     tool.classList.remove('active');
                 });
-                
+
                 // 为当前项添加active类
                 const menuItem = document.querySelector(`[data-tool="${toolId}"]`);
                 if (menuItem) menuItem.classList.add('active');
-                
+
                 // 显示对应的工具
                 const toolContainer = document.getElementById(toolId);
                 if (toolContainer) {
                     toolContainer.classList.add('active');
                     activeTool = toolId;
-                    
+
                     // 更新浏览器地址栏
                     updateBrowserURL(toolId, toolTitle);
-                    
+
                     // 如果不是移动设备且自动折叠启用，切换工具后自动折叠侧边栏
                     if (!isMobile && autoCollapseEnabled && !sidebar.classList.contains('collapsed')) {
                         toggleSidebar();
                     }
-                    
+
                     // 如果是移动设备且侧边栏展开，切换工具后自动折叠侧边栏
                     if (isMobile && !sidebar.classList.contains('collapsed')) {
                         toggleSidebar();
                     }
                 }
             }
-            
+
             // 根据URL哈希值初始化工具
             function initToolFromURL() {
                 const hash = window.location.hash.substring(1); // 去掉#号
@@ -515,19 +515,14 @@
                         return;
                     }
                 }
-                // 默认显示第一个工具
-                const defaultTool = document.querySelector('.menu-item');
-                if (defaultTool) {
-                    const toolId = defaultTool.getAttribute('data-tool');
-                    const toolTitle = defaultTool.getAttribute('data-title');
-                    switchTool(toolId, toolTitle);
-                }
+                // 默认显示设计导航
+                switchTool('hao', '设计导航');
             }
-            
+
             // 切换侧边栏展开/折叠
             function toggleSidebar() {
                 sidebar.classList.toggle('collapsed');
-                
+
                 // 如果是移动设备且侧边栏展开，显示遮罩层
                 if (isMobile) {
                     if (!sidebar.classList.contains('collapsed')) {
@@ -537,11 +532,11 @@
                     }
                 }
             }
-            
+
             // 创建遮罩层（仅移动设备）
             function createOverlay() {
                 if (document.getElementById('sidebar-overlay')) return;
-                
+
                 const overlay = document.createElement('div');
                 overlay.id = 'sidebar-overlay';
                 overlay.style.position = 'fixed';
@@ -555,13 +550,13 @@
                 overlay.addEventListener('click', function() {
                     toggleSidebar();
                 });
-                
+
                 document.body.appendChild(overlay);
                 setTimeout(() => {
                     overlay.style.opacity = '1';
                 }, 10);
             }
-            
+
             // 移除遮罩层
             function removeOverlay() {
                 const overlay = document.getElementById('sidebar-overlay');
@@ -572,16 +567,23 @@
                     }, 300);
                 }
             }
-            
+
             // 初始化事件监听
             menuItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function(e) {
                     const toolId = this.getAttribute('data-tool');
                     const toolTitle = this.getAttribute('data-title');
-                    switchTool(toolId, toolTitle);
+
+                    if (toolId === 'home') {
+                        // 打开新标签页
+                        window.open('tool/home', '_blank');
+                        e.preventDefault(); // 阻止默认行为，防止在当前页面切换
+                    } else {
+                        switchTool(toolId, toolTitle);
+                    }
                 });
             });
-            
+
             toggleBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 toggleSidebar();
@@ -591,11 +593,11 @@
                     autoCollapseEnabled = true;
                 }, 1000);
             });
-            
+
             mobileToggleBtn.addEventListener('click', function() {
                 toggleSidebar();
             });
-            
+
             // 处理浏览器前进/后退
             window.addEventListener('popstate', function(event) {
                 if (event.state && event.state.tool) {
@@ -609,7 +611,7 @@
                     initToolFromURL();
                 }
             });
-            
+
             // 响应式处理
             function handleResponsive() {
                 isMobile = window.innerWidth <= 992;
@@ -622,20 +624,20 @@
                     removeOverlay();
                 }
             }
-            
+
             window.addEventListener('resize', handleResponsive);
             handleResponsive(); // 初始调用
-            
+
             // 监听iframe加载状态
             document.querySelectorAll('iframe').forEach(iframe => {
                 iframe.addEventListener('load', function() {
                     this.style.opacity = 1;
                 });
-                
+
                 iframe.style.opacity = 0;
                 iframe.style.transition = 'opacity 0.3s ease';
             });
-            
+
             // 初始化工具
             initToolFromURL();
         });
