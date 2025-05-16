@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+    <title>字造字库 - 用字体探索美学新感知</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
+    <meta name="author" content="字造">
+
+    <meta property="og:title" content="字造产品展示">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="index/index.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      overflow-x: hidden;
+    }
+
+    .nav-header {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      width: 140px;
+      height: 40px;
+      border-radius: 25px;
+      background: #e67e22;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .nav-btn:hover {
+      background: #d35400;
+      transform: scale(1.03);
+    }
+
+    .nav-btn i.fa {
+      font-size: 16px;
+    }
+
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 90;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 420px;
+      height: 100vh;
+      transform: translateX(100%);
+      background: #fff;
+      z-index: 95;
+      transition: transform 0.5s ease;
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-panel.active {
+      transform: translateX(0);
+    }
+
+    .panel-header {
+      position: relative;
+      padding: 20px 15px;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 18px;
+      right: 15px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: #2c3e50;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      color: #e67e22;
+      transform: rotate(90deg);
+    }
+
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .nav-card {
+      background: #f1f1f1;
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      border-left: 4px solid transparent;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-card:hover {
+      background: #ecf0f1;
+      border-left-color: #e67e22;
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-card.active {
+      background: #ecf0f1; /* 选中时的背景色 */
+      border-left-color: #e67e22; /* 选中时的左边框颜色 */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-card h3 {
+      color: #2c3e50;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .nav-card p {
+      color: #666;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      background: #fae5d3;
+      color: #2c3e50;
+      font-size: 0.75rem;
+      border-radius: 15px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .tag:hover {
+      background: #f5b754;
+      color: #fff;
+    }
+
+    .embed-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      background: white;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- 右上角按钮 -->
+  <div class="nav-header">
+    <button class="nav-btn" id="navBtn">
+      <i class="fas fa-grip"></i>
+      更多字体
+    </button>
+  </div>
+
+  <!-- 背景幕布 -->
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- 右侧导航面板 -->
+  <div class="nav-panel" id="navPanel">
+    <div class="panel-header">
+      <div class="panel-title">字造字库</div>
+      <button class="close-btn" id="closeBtn">×</button>
+    </div>
+
+    <div class="card-list" id="cardList">
+      <div class="nav-card" data-hash="ZzQidiansans" data-url="ziku/1/index.html" data-title="字造起点黑">
+        <h3>字造起点黑</h3>
+        <p>现代简约的黑体字体家族，专为数字屏幕设计，极简风格。</p>
+        <div class="tags">
+          <span class="tag">免费商用</span>
+          <span class="tag">字重可变</span>
+          <span class="tag">宽度可变</span>
+        </div>
+      </div>
+
+      <div class="nav-card" data-hash="preview" data-url="ziku/0/index.html" data-title="用户管理系统">
+        <h3>新字预告</h3>
+        <p>更多新字体产品，敬请期待</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 全屏嵌入容器 -->
+  <iframe class="embed-container" id="embedContainer" frameborder="0"></iframe>
+
+  <script>
+    const navBtn = document.getElementById('navBtn');
+    const navPanel = document.getElementById('navPanel');
+    const backdrop = document.getElementById('backdrop');
+    const closeBtn = document.getElementById('closeBtn');
+    const embedContainer = document.getElementById('embedContainer');
+    const cardList = document.getElementById('cardList'); // 获取卡片列表容器
+
+    // 哈希映射表（开发者可自定义）
+    const hashMap = {
+      'ZzQidiansans': { url: 'ziku/1/index.html', title: '字造起点黑' },
+      'preview': { url: 'ziku/0/index.html', title: '新字预告' },
+    };
+
+    // 按钮点击事件
+    navBtn.addEventListener('click', () => {
+      navBtn.style.display = 'none';
+      navPanel.classList.add('active');
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    });
+
+    // 关闭按钮点击事件
+    closeBtn.addEventListener('click', closeAll);
+
+    // 点击幕布关闭
+    backdrop.addEventListener('click', closeAll);
+
+    // 卡片点击事件
+    document.querySelectorAll('.nav-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const hash = card.getAttribute('data-hash');
+        if (hash && hashMap[hash]) {
+          window.location.hash = hash;
+          loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
+          setActiveCard(card); // 设置当前点击的卡片高亮
+          closeAll();
+        }
+      });
+    });
+
+    // 加载嵌入页面
+    function loadEmbeddedPage(url, title) {
+      embedContainer.src = url;
+      document.title = `${title} - 字造字库`;
+    }
+
+    // 页面加载时根据哈希加载内容
+    window.addEventListener('load', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && hashMap[hash]) {
+        loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
+        document.title = `${hashMap[hash].title} - 字造字库`;
+        // 页面加载时，找到对应的卡片并高亮
+        const card = document.querySelector(`.nav-card[data-hash="${hash}"]`);
+        if (card) {
+          setActiveCard(card);
+        }
+      }
+    });
+
+    // 监听哈希变化
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && hashMap[hash]) {
+        loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
+        document.title = `${hashMap[hash].title} - 字造字库`;
+        // 哈希变化时，找到对应的卡片并高亮
+        const card = document.querySelector(`.nav-card[data-hash="${hash}"]`);
+        if (card) {
+          setActiveCard(card);
+        }
+      } else {
+        embedContainer.src = '';
+        document.title = '字造字库';
+        clearActiveCard(); // 清除高亮
+      }
+    });
+
+    // 关闭所有函数
+    function closeAll() {
+      navBtn.style.display = 'flex';
+      navPanel.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ESC键关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape" && navPanel.classList.contains('active')) {
+        closeAll();
+      }
+    });
+
+    // 设置当前激活的卡片
+    function setActiveCard(card) {
+      clearActiveCard(); // 清除之前激活的卡片
+      card.classList.add('active');
+    }
+
+    // 清除所有激活的卡片
+    function clearActiveCard() {
+      document.querySelectorAll('.nav-card').forEach(card => {
+        card.classList.remove('active');
+      });
+    }
+  </script>
+</body>
+</html>
