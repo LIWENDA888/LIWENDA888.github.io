@@ -64,6 +64,27 @@
       font-size: 16px;
     }
 
+    .home-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      color: #2c3e50;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      font-size: 1.2rem;
+    }
+
+    .home-btn:hover {
+      background: #f0f0f0;
+      transform: scale(1.03);
+    }
+
     .backdrop {
       position: fixed;
       top: 0;
@@ -210,7 +231,10 @@
 </head>
 <body>
   <!-- 右上角按钮 -->
-  <div class="nav-header">
+  <div class="nav-header" id="navHeader">
+    <a href="https://zizao.top" target="_blank" class="home-btn" id="homeBtn">
+      <i class="fas fa-home"></i>
+    </a>
     <button class="nav-btn" id="navBtn">
       <i class="fas fa-grip-horizontal"></i>
       更多字体
@@ -256,6 +280,8 @@
       const closeBtn = document.getElementById('closeBtn');
       const embedContainer = document.getElementById('embedContainer');
       const cards = document.querySelectorAll('.nav-card');
+      const navHeader = document.getElementById('navHeader');
+      const homeBtn = document.getElementById('homeBtn');
 
       // 哈希映射表
       const hashMap = {
@@ -283,6 +309,7 @@
       // 按钮点击事件
       navBtn.addEventListener('click', function() {
         navBtn.style.display = 'none';
+        homeBtn.style.display = 'none'; // Hide the home button
         navPanel.classList.add('active');
         backdrop.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -330,6 +357,7 @@
       // 关闭所有函数
       function closeAll() {
         navBtn.style.display = 'flex';
+        homeBtn.style.display = 'flex'; // Show the home button
         navPanel.classList.remove('active');
         backdrop.classList.remove('active');
         document.body.style.overflow = '';
