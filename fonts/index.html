@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-    <title>字造字库 - 用字体探索美学新感知</title>
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
-    <meta name="author" content="字造">
-
-    <meta property="og:title" content="字造产品展示">
-    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
-    <meta property="og:url" content="URL_TO_YOUR_PAGE">
-    <meta property="og:type" content="website">
-
-    <link rel="icon" href="index/index.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>字造字库 - 以字体探索美学新感知</title>
+  <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+  <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
+  <meta name="author" content="字造">
+  <meta property="og:title" content="字造产品展示">
+  <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+  <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+  <meta property="og:url" content="URL_TO_YOUR_PAGE">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="index/index.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -63,7 +60,7 @@
       transform: scale(1.03);
     }
 
-    .nav-btn i.fa {
+    .nav-btn .fa {
       font-size: 16px;
     }
 
@@ -159,9 +156,9 @@
     }
 
     .nav-card.active {
-      background: #ecf0f1; /* 选中时的背景色 */
-      border-left-color: #e67e22; /* 选中时的左边框颜色 */
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: #fff; /* 更明显的选中背景色 */
+      border-left-color: #e67e22;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 更明显的阴影 */
     }
 
     .nav-card h3 {
@@ -215,7 +212,7 @@
   <!-- 右上角按钮 -->
   <div class="nav-header">
     <button class="nav-btn" id="navBtn">
-      <i class="fas fa-grip"></i>
+      <i class="fas fa-grip-horizontal"></i>
       更多字体
     </button>
   </div>
@@ -245,7 +242,6 @@
         <h3>新字预告</h3>
         <p>更多新字体产品，敬请期待</p>
       </div>
-
     </div>
   </div>
 
@@ -253,112 +249,115 @@
   <iframe class="embed-container" id="embedContainer" frameborder="0"></iframe>
 
   <script>
-    const navBtn = document.getElementById('navBtn');
-    const navPanel = document.getElementById('navPanel');
-    const backdrop = document.getElementById('backdrop');
-    const closeBtn = document.getElementById('closeBtn');
-    const embedContainer = document.getElementById('embedContainer');
-    const cardList = document.getElementById('cardList'); // 获取卡片列表容器
+    document.addEventListener('DOMContentLoaded', function() {
+      const navBtn = document.getElementById('navBtn');
+      const navPanel = document.getElementById('navPanel');
+      const backdrop = document.getElementById('backdrop');
+      const closeBtn = document.getElementById('closeBtn');
+      const embedContainer = document.getElementById('embedContainer');
+      const cards = document.querySelectorAll('.nav-card');
 
-    // 哈希映射表（开发者可自定义）
-    const hashMap = {
-      'ZzQidiansans': { url: 'ziku/1/index.html', title: '字造起点黑' },
-      'preview': { url: 'ziku/0/index.html', title: '新字预告' },
-    };
+      // 哈希映射表
+      const hashMap = {
+        'ZzQidiansans': { url: 'ziku/1/index.html', title: '字造起点黑' },
+        'preview': { url: 'ziku/0/index.html', title: '新字预告' },
+      };
 
-    // 按钮点击事件
-    navBtn.addEventListener('click', () => {
-      navBtn.style.display = 'none';
-      navPanel.classList.add('active');
-      backdrop.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      closeBtn.focus();
-    });
+      // 默认打开的哈希值
+      const defaultHash = 'ZzQidiansans';
 
-    // 关闭按钮点击事件
-    closeBtn.addEventListener('click', closeAll);
+      // 初始化页面状态
+      function initPage() {
+        let hash = window.location.hash.replace('#', '');
+        if (!hash || !hashMap[hash]) {
+          hash = defaultHash; // 设置默认哈希值
+          window.location.hash = hash; // 更新 URL
+        }
 
-    // 点击幕布关闭
-    backdrop.addEventListener('click', closeAll);
-
-    // 卡片点击事件
-    document.querySelectorAll('.nav-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const hash = card.getAttribute('data-hash');
-        if (hash && hashMap[hash]) {
-          window.location.hash = hash;
+        if (hashMap[hash]) {
           loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
-          setActiveCard(card); // 设置当前点击的卡片高亮
+          setActiveCard(document.querySelector(`.nav-card[data-hash="${hash}"]`));
+        }
+      }
+
+      // 按钮点击事件
+      navBtn.addEventListener('click', function() {
+        navBtn.style.display = 'none';
+        navPanel.classList.add('active');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      });
+
+      // 关闭按钮点击事件
+      closeBtn.addEventListener('click', closeAll);
+
+      // 点击幕布关闭
+      backdrop.addEventListener('click', closeAll);
+
+      // 卡片点击事件
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          const hash = card.getAttribute('data-hash');
+          if (hash && hashMap[hash]) {
+            window.location.hash = hash;
+            loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
+            setActiveCard(card);
+            closeAll();
+          }
+        });
+      });
+
+      // 加载嵌入页面
+      function loadEmbeddedPage(url, title) {
+        embedContainer.src = url;
+        document.title = `${title} - 字造字库`;
+      }
+
+      // 监听哈希变化
+      window.addEventListener('hashchange', function() {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && hashMap[hash]) {
+          loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
+          setActiveCard(document.querySelector(`.nav-card[data-hash="${hash}"]`));
+        } else {
+          embedContainer.src = '';
+          document.title = '字造字库';
+          clearActiveCard();
+        }
+      });
+
+      // 关闭所有函数
+      function closeAll() {
+        navBtn.style.display = 'flex';
+        navPanel.classList.remove('active');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      // ESC键关闭
+      document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape" && navPanel.classList.contains('active')) {
           closeAll();
         }
       });
-    });
 
-    // 加载嵌入页面
-    function loadEmbeddedPage(url, title) {
-      embedContainer.src = url;
-      document.title = `${title} - 字造字库`;
-    }
-
-    // 页面加载时根据哈希加载内容
-    window.addEventListener('load', () => {
-      const hash = window.location.hash.replace('#', '');
-      if (hash && hashMap[hash]) {
-        loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
-        document.title = `${hashMap[hash].title} - 字造字库`;
-        // 页面加载时，找到对应的卡片并高亮
-        const card = document.querySelector(`.nav-card[data-hash="${hash}"]`);
-        if (card) {
-          setActiveCard(card);
-        }
+      // 设置当前激活的卡片
+      function setActiveCard(card) {
+        clearActiveCard();
+        if (card) card.classList.add('active');
       }
-    });
 
-    // 监听哈希变化
-    window.addEventListener('hashchange', () => {
-      const hash = window.location.hash.replace('#', '');
-      if (hash && hashMap[hash]) {
-        loadEmbeddedPage(hashMap[hash].url, hashMap[hash].title);
-        document.title = `${hashMap[hash].title} - 字造字库`;
-        // 哈希变化时，找到对应的卡片并高亮
-        const card = document.querySelector(`.nav-card[data-hash="${hash}"]`);
-        if (card) {
-          setActiveCard(card);
-        }
-      } else {
-        embedContainer.src = '';
-        document.title = '字造字库';
-        clearActiveCard(); // 清除高亮
+      // 清除所有激活的卡片
+      function clearActiveCard() {
+        cards.forEach(card => {
+          card.classList.remove('active');
+        });
       }
+
+      // 初始化页面
+      initPage();
     });
-
-    // 关闭所有函数
-    function closeAll() {
-      navBtn.style.display = 'flex';
-      navPanel.classList.remove('active');
-      backdrop.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    // ESC键关闭
-    document.addEventListener('keydown', (e) => {
-      if (e.key === "Escape" && navPanel.classList.contains('active')) {
-        closeAll();
-      }
-    });
-
-    // 设置当前激活的卡片
-    function setActiveCard(card) {
-      clearActiveCard(); // 清除之前激活的卡片
-      card.classList.add('active');
-    }
-
-    // 清除所有激活的卡片
-    function clearActiveCard() {
-      document.querySelectorAll('.nav-card').forEach(card => {
-        card.classList.remove('active');
-      });
-    }
   </script>
 </body>
 </html>
