@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多功能文本转换工具</title>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@latest/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/zh-convert@1.0.3/dist/zh-convert.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #FF7D00;
+            --primary-light: #FFE8D1;
+            --text-color: #333;
+            --light-bg: #F9F9F9;
+            --white: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .converter-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .converter-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .input-box, .output-box {
+            flex: 1;
+        }
+        
+        .box-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .output-text {
+            background-color: #f8f8f8;
+        }
+        
+        .options {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .option-group label {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+        
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: var(--white);
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #E67100;
+        }
+        
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--text-color);
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f5f5f5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .converter-wrapper {
+                flex-direction: column;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>多功能文本转换工具</h1>
+            <p class="subtitle">支持汉字拼音互转、简繁转换和Unicode编码转换</p>
+        </header>
+        
+        <div class="converter-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="pinyin-converter">汉字拼音互转</div>
+                <div class="tab" data-tab="st-converter">简繁转换</div>
+                <div class="tab" data-tab="unicode-converter">Unicode转换</div>
+            </div>
+            
+            <!-- 汉字拼音互转 -->
+            <div id="pinyin-converter" class="tab-content active">
+                <div class="converter-wrapper">
+                    <div class="input-box">
+                        <div class="box-title">输入汉字</div>
+                        <textarea id="hanzi-input" placeholder="请输入要转换为拼音的汉字..."></textarea>
+                    </div>
+                    <div class="output-box">
+                        <div class="box-title">拼音结果</div>
+                        <textarea id="pinyin-output" class="output-text" placeholder="拼音结果将显示在这里..." readonly></textarea>
+                    </div>
+                </div>
+                
+                <div class="options">
+                    <div class="option-group">
+                        <label for="pinyin-tone">拼音格式:</label>
+                        <select id="pinyin-tone">
+                            <option value="symbol">带音调 (nǐ hǎo)</option>
+                            <option value="none">无音调 (ni hao)</option>
+                            <option value="num">数字标调 (ni3 hao3)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-primary" id="convert-to-pinyin">转换为拼音</button>
+                    <button class="btn-secondary" id="clear-pinyin">清空</button>
+                </div>
+            </div>
+            
+            <!-- 简繁转换 -->
+            <div id="st-converter" class="tab-content">
+                <div class="converter-wrapper">
+                    <div class="input-box">
+                        <div class="box-title">简体中文</div>
+                        <textarea id="simplified-input" placeholder="请输入简体中文..."></textarea>
+                    </div>
+                    <div class="output-box">
+                        <div class="box-title">繁体中文</div>
+                        <textarea id="traditional-output" class="output-text" placeholder="繁体结果将显示在这里..." readonly></textarea>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-primary" id="convert-to-traditional">转换为繁体</button>
+                    <button class="btn-secondary" id="clear-st">清空</button>
+                </div>
+            </div>
+            
+            <!-- Unicode转换 -->
+            <div id="unicode-converter" class="tab-content">
+                <div class="converter-wrapper">
+                    <div class="input-box">
+                        <div class="box-title">原始文本</div>
+                        <textarea id="text-input" placeholder="请输入要转换为Unicode的文本..."></textarea>
+                    </div>
+                    <div class="output-box">
+                        <div class="box-title">Unicode编码</div>
+                        <textarea id="unicode-output" class="output-text" placeholder="Unicode编码将显示在这里..." readonly></textarea>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn-primary" id="convert-to-unicode">转换为Unicode</button>
+                    <button class="btn-secondary" id="clear-unicode">清空</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 多功能文本转换工具 | 使用 pinyin-pro 和 zh-convert 库</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 切换标签页
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // 汉字转拼音功能
+        document.getElementById('convert-to-pinyin').addEventListener('click', () => {
+            const hanzi = document.getElementById('hanzi-input').value.trim();
+            if (!hanzi) {
+                alert('请输入要转换的汉字');
+                return;
+            }
+            
+            const toneType = document.getElementById('pinyin-tone').value;
+            
+            try {
+                let pinyin = pinyinPro.pinyin(hanzi, { 
+                    toneType: toneType,
+                    type: 'string'
+                });
+                
+                document.getElementById('pinyin-output').value = pinyin;
+            } catch (error) {
+                alert('转换出错: ' + error.message);
+                console.error(error);
+            }
+        });
+        
+        // 简繁转换功能
+        document.getElementById('convert-to-traditional').addEventListener('click', () => {
+            const simplified = document.getElementById('simplified-input').value.trim();
+            if (!simplified) {
+                alert('请输入要转换的简体中文');
+                return;
+            }
+            
+            try {
+                // 修复简繁转换问题
+                const convert = window.zhConvert || window.ZhConvert;
+                const traditional = convert.simplifiedToTraditional(simplified);
+                document.getElementById('traditional-output').value = traditional;
+            } catch (error) {
+                alert('转换出错: ' + error.message);
+                console.error(error);
+            }
+        });
+        
+        // Unicode转换功能
+        document.getElementById('convert-to-unicode').addEventListener('click', () => {
+            const text = document.getElementById('text-input').value.trim();
+            if (!text) {
+                alert('请输入要转换的文本');
+                return;
+            }
+            
+            try {
+                const unicode = text.split('').map(char => 
+                    '\\u' + char.charCodeAt(0).toString(16).padStart(4, '0')
+                ).join('');
+                
+                document.getElementById('unicode-output').value = unicode;
+            } catch (error) {
+                alert('转换出错: ' + error.message);
+                console.error(error);
+            }
+        });
+        
+        // 清空功能
+        document.getElementById('clear-pinyin').addEventListener('click', () => {
+            document.getElementById('hanzi-input').value = '';
+            document.getElementById('pinyin-output').value = '';
+        });
+        
+        document.getElementById('clear-st').addEventListener('click', () => {
+            document.getElementById('simplified-input').value = '';
+            document.getElementById('traditional-output').value = '';
+        });
+        
+        document.getElementById('clear-unicode').addEventListener('click', () => {
+            document.getElementById('text-input').value = '';
+            document.getElementById('unicode-output').value = '';
+        });
+    </script>
+</body>
+</html>
