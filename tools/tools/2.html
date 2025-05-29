@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本字符差异对比工具</title>
+    <style>
+        :root {
+            --primary-color: #FF7F00; /* 橙色 */
+            --secondary-color: #E66F00; /* 较深的橙色 */
+            --accent-color: #FFA500; /* 亮橙色，用于焦点边框 */
+            --light-color: #FFFFFF; /* 白色 */
+            --dark-color: #333333; /* 深灰色文本，确保在白色背景上可读 */
+            --success-color: #4CAF50; /* 绿色，用于复制成功 */
+            --danger-color: #F44336; /* 红色，用于被移除字符/差异字符1 */
+            --info-color: #17A2B8; /* 信息蓝色，用于差异字符2 */
+            --clear-color: #6C757D; /* 灰色，用于清空按钮 */
+            --clear-hover-color: #5A6268; /* 较深的灰色 */
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #F8F8F8; /* 浅灰色背景，与白色内容区形成对比 */
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        
+        .text-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .text-box label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px; /* 这个由 .label-group 的 margin-bottom 统一控制 */
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .text-box .label-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            height: 30px; /* 保持与之前去重工具的对齐一致 */
+        }
+        
+        .text-box label svg {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            color: var(--primary-color); /* SVG图标颜色 */
+        }
+        
+        .text-counter {
+            text-align: right;
+            font-size: 14px;
+            color: var(--dark-color);
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 16px;
+            border: 2px solid #E0E0E0; /* 浅灰色边框 */
+            border-radius: var(--border-radius);
+            resize: none;
+            font-size: 15px;
+            line-height: 1.6;
+            transition: var(--transition);
+            background-color: var(--light-color); /* 白色背景 */
+            color: var(--dark-color); /* 深灰色文本 */
+            box-sizing: border-box; /* 确保内边距和边框包含在宽度内 */
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); /* 焦点阴影为橙色 */
+        }
+        
+        #text1 {
+            border-color: var(--primary-color); /* 文本1边框色为橙色 */
+        }
+        
+        #text2 {
+            border-color: #B0B0B0; /* 文本2边框色为浅灰色 */
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 16px;
+        }
+        
+        button {
+            padding: 12px 28px;
+            background-color: var(--primary-color); /* 按钮背景色为橙色 */
+            color: var(--light-color); /* 按钮文本为白色 */
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color); /* 按钮悬停背景色为较深的橙色 */
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+
+        .clear-btn {
+            background-color: var(--clear-color); /* 灰色 */
+            padding: 6px 12px; /* 较小的内边距 */
+            font-size: 14px; /* 较小的字体 */
+            border-radius: 5px; /* 较小的圆角 */
+            height: fit-content; /* 适应内容高度 */
+            box-shadow: none; /* 移除阴影 */
+            margin-left: auto; /* 推到右侧 */
+            white-space: nowrap; /* 防止按钮文字换行 */
+        }
+
+        .clear-btn:hover {
+            background-color: var(--clear-hover-color);
+            transform: none; /* 移除上移效果 */
+            box-shadow: none;
+        }
+
+        .clear-btn:active {
+            transform: none;
+        }
+
+        .clear-btn svg {
+            color: var(--light-color);
+        }
+        
+        .result-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--light-color); /* 白色背景 */
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px; /* 底部间距 */
+        }
+        
+        .result-section h3 {
+            margin-top: 0;
+            color: var(--dark-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px; /* 标题与内容间距 */
+        }
+        
+        .result-section h3 svg {
+            color: var(--primary-color); /* 结果标题图标颜色为橙色 */
+        }
+
+        /* 针对差异结果部分的标题图标颜色 */
+        #diff1-section h3 svg {
+            color: var(--danger-color); /* 红色图标 */
+        }
+        #diff2-section h3 svg {
+            color: var(--info-color); /* 蓝色图标 */
+        }
+
+        .chars-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px; /* 列表上间距 */
+        }
+        
+        .char-item {
+            padding: 6px 12px;
+            background-color: #FFF3E0; /* 浅橙色背景 */
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--primary-color); /* 差异字符文本颜色 */
+            border: 1px solid #FFCC80; /* 浅橙色边框 */
+        }
+
+        .char-item.diff1 {
+            background-color: #FFEBEE; /* 浅红背景 */
+            color: var(--danger-color); /* 红色文本 */
+            border-color: #FFCDD2; /* 浅红边框 */
+        }
+
+        .char-item.diff2 {
+            background-color: #E0F2F7; /* 浅蓝背景 */
+            color: var(--info-color); /* 蓝色文本 */
+            border-color: #B2EBF2; /* 浅蓝边框 */
+        }
+        
+        .char-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--dark-color); /* 保持深灰色，确保可读性 */
+            padding-bottom: 10px; /* 信息与列表的间距 */
+            border-bottom: 1px solid #eee; /* 分隔线 */
+            margin-bottom: 10px;
+        }
+
+        #no-diff-message {
+            text-align: center;
+            font-size: 16px;
+            padding: 20px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .text-box .label-group {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                gap: 10px;
+                height: auto;
+            }
+            .clear-btn {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 文本字符差异对比工具</h1>
+    
+    <div class="container">
+        <div class="text-box">
+            <div class="label-group">
+                <label for="text1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    文本1
+                </label>
+                <button id="clear-text1-btn" class="clear-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    清空
+                </button>
+            </div>
+            <textarea id="text1" placeholder="请输入第一个文本..."></textarea>
+            <div class="text-counter">字符数量: <span id="count1">0</span></div>
+        </div>
+        
+        <div class="text-box">
+            <div class="label-group">
+                <label for="text2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    文本2
+                </label>
+                <button id="clear-text2-btn" class="clear-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    清空
+                </button>
+            </div>
+            <textarea id="text2" placeholder="请输入第二个文本..."></textarea>
+            <div class="text-counter">字符数量: <span id="count2">0</span></div>
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button id="compare-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+            </svg>
+            对比差异
+        </button>
+    </div>
+    
+    <!-- 文本1有但文本2没有的字符 -->
+    <div id="diff1-section" class="result-section" style="display: none;">
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            文本1有但文本2没有的字符
+        </h3>
+        <div class="char-info" id="char-info-diff1"></div>
+        <div class="chars-list" id="chars-list-diff1"></div>
+    </div>
+
+    <!-- 文本2有但文本1没有的字符 -->
+    <div id="diff2-section" class="result-section" style="display: none;">
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            文本2有但文本1没有的字符
+        </h3>
+        <div class="char-info" id="char-info-diff2"></div>
+        <div class="chars-list" id="chars-list-diff2"></div>
+    </div>
+
+    <!-- 相同字符消息 -->
+    <div id="no-diff-section" class="result-section" style="display: none;">
+        <p id="no-diff-message">🎉 两个文本的字符完全相同，没有差异字符。</p>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const text1 = document.getElementById('text1');
+            const text2 = document.getElementById('text2');
+            const compareBtn = document.getElementById('compare-btn');
+            const clearText1Btn = document.getElementById('clear-text1-btn');
+            const clearText2Btn = document.getElementById('clear-text2-btn');
+            const count1El = document.getElementById('count1');
+            const count2El = document.getElementById('count2');
+            
+            const diff1Section = document.getElementById('diff1-section');
+            const charInfoDiff1 = document.getElementById('char-info-diff1');
+            const charsListDiff1 = document.getElementById('chars-list-diff1');
+
+            const diff2Section = document.getElementById('diff2-section');
+            const charInfoDiff2 = document.getElementById('char-info-diff2');
+            const charsListDiff2 = document.getElementById('chars-list-diff2');
+
+            const noDiffSection = document.getElementById('no-diff-section');
+            
+            // 计算非空白字符数量
+            function countNonWhitespace(text) {
+                return text.replace(/\s/g, '').length;
+            }
+            
+            // 更新字符计数
+            function updateCounts() {
+                count1El.textContent = countNonWhitespace(text1.value);
+                count2El.textContent = countNonWhitespace(text2.value);
+            }
+            
+            // 输入框内容变化时更新计数
+            text1.addEventListener('input', updateCounts);
+            text2.addEventListener('input', updateCounts);
+
+            // 清空按钮事件
+            clearText1Btn.addEventListener('click', function() {
+                text1.value = '';
+                updateCounts();
+                hideAllResults(); // 清空后隐藏结果
+            });
+
+            clearText2Btn.addEventListener('click', function() {
+                text2.value = '';
+                updateCounts();
+                hideAllResults(); // 清空后隐藏结果
+            });
+
+            // 隐藏所有结果区
+            function hideAllResults() {
+                diff1Section.style.display = 'none';
+                diff2Section.style.display = 'none';
+                noDiffSection.style.display = 'none';
+            }
+            
+            // 找出 textA 有但 textB 没有的字符
+            function findUniqueChars(textA, textB) {
+                const charsA = new Set();
+                const charsB = new Set();
+                const uniqueChars = new Set();
+                
+                // 收集 textA 中的所有非空白字符
+                for (const char of textA) {
+                    if (!/\s/.test(char)) {
+                        charsA.add(char);
+                    }
+                }
+                
+                // 收集 textB 中的所有非空白字符
+                for (const char of textB) {
+                    if (!/\s/.test(char)) {
+                        charsB.add(char);
+                    }
+                }
+                
+                // 找出 textA 有但 textB 没有的字符
+                for (const char of charsA) {
+                    if (!charsB.has(char)) {
+                        uniqueChars.add(char);
+                    }
+                }
+                
+                return Array.from(uniqueChars).sort();
+            }
+
+            // 渲染字符列表
+            function renderCharList(targetElement, chars, className) {
+                targetElement.innerHTML = '';
+                if (chars.length === 0) {
+                    targetElement.style.display = 'none'; // 如果没有字符，隐藏列表
+                    return;
+                }
+                targetElement.style.display = 'flex'; // 有字符则显示列表
+                chars.forEach(char => {
+                    const charItem = document.createElement('div');
+                    charItem.className = `char-item ${className}`;
+                    // 处理特殊字符的显示
+                    if (char === ' ') {
+                        charItem.textContent = '[空格]';
+                    } else if (char === '\n') {
+                        charItem.textContent = '[换行]';
+                    } else if (char === '\t') {
+                        charItem.textContent = '[制表符]';
+                    } else {
+                        charItem.textContent = char;
+                    }
+                    targetElement.appendChild(charItem);
+                });
+            }
+            
+            // 对比按钮点击事件
+            compareBtn.addEventListener('click', function() {
+                const txt1 = text1.value;
+                const txt2 = text2.value;
+                
+                hideAllResults(); // 每次对比前隐藏所有结果
+                
+                if (txt1.trim() === '' || txt2.trim() === '') {
+                    alert('请先输入两个文本再进行对比！');
+                    return;
+                }
+                
+                const uniqueChars1to2 = findUniqueChars(txt1, txt2); // 文本1有但文本2没有
+                const uniqueChars2to1 = findUniqueChars(txt2, txt1); // 文本2有但文本1没有
+
+                let hasDifferences = false;
+
+                // 处理文本1有但文本2没有的字符
+                if (uniqueChars1to2.length > 0) {
+                    diff1Section.style.display = 'block';
+                    charInfoDiff1.textContent = `共找到 ${uniqueChars1to2.length} 个字符：`;
+                    renderCharList(charsListDiff1, uniqueChars1to2, 'diff1');
+                    hasDifferences = true;
+                } else {
+                    diff1Section.style.display = 'block'; // 即使没有差异，也显示部分，提示没有差异
+                    charInfoDiff1.textContent = '文本1中的所有字符在文本2中都存在。';
+                    charsListDiff1.innerHTML = ''; // 清空列表
+                    charsListDiff1.style.display = 'none';
+                }
+
+                // 处理文本2有但文本1没有的字符
+                if (uniqueChars2to1.length > 0) {
+                    diff2Section.style.display = 'block';
+                    charInfoDiff2.textContent = `共找到 ${uniqueChars2to1.length} 个字符：`;
+                    renderCharList(charsListDiff2, uniqueChars2to1, 'diff2');
+                    hasDifferences = true;
+                } else {
+                    diff2Section.style.display = 'block'; // 即使没有差异，也显示部分，提示没有差异
+                    charInfoDiff2.textContent = '文本2中的所有字符在文本1中都存在。';
+                    charsListDiff2.innerHTML = ''; // 清空列表
+                    charsListDiff2.style.display = 'none';
+                }
+
+                // 如果完全没有差异
+                if (!hasDifferences) {
+                    hideAllResults(); // 隐藏上面两个差异区
+                    noDiffSection.style.display = 'block'; // 显示“完全相同”消息
+                }
+            });
+            
+            // 初始化计数
+            updateCounts();
+        });
+    </script>
+</body>
+</html>

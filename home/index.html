@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造 - 字体领域优质内容分享</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
+    <meta name="author" content="字造">
+    <meta property="og:title" content="字造产品展示">
+    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
+    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="index/index.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF8C19;
+            --primary-light: rgba(255, 140, 25, 0.05);
+            --secondary-color: #FF5E5B;
+            --text-color: #2D2D2D;
+            --text-light: #5A5A5A;
+            --bg-color: #FFFFFF;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --social-bg: rgba(0, 0, 0, 0.03);
+            --footer-color: rgba(0, 0, 0, 0.5);
+            --particle-color: rgba(255, 140, 25, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 50% 50%, var(--primary-light) 0%, transparent 70%);
+            background-size: 100% 100%;
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .design-collab-btn {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+        }
+
+        .design-collab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .design-collab-btn:hover::before {
+            opacity: 1;
+        }
+
+        .design-collab-btn i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .design-collab-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        .hero {
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+            min-height: calc(100vh - (2rem * 2) - var(--footer-height) - 70px);
+        }
+
+        body {
+            --footer-height: 150px;
+            padding-top: 55px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                --footer-height: 130px;
+                padding-top: 50px;
+            }
+            .hero {
+                min-height: calc(100vh - (2rem * 2) - var(--footer-height) - 60px);
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                --footer-height: 110px;
+                padding-top: 45px;
+            }
+            .design-collab-btn {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+            .hero {
+                min-height: calc(100vh - (2rem * 2) - var(--footer-height) - 50px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -1px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-weight: 400;
+        }
+
+        /* 按钮容器样式 */
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap; /* 允许按钮在空间不足时换行 */
+            justify-content: center;
+            gap: 1.5rem; /* 按钮之间的间距 */
+            margin-top: 1rem; /* 与上方段落的间距 */
+            max-width: 900px; /* 限制按钮容器的最大宽度 */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
+            letter-spacing: 0.5px;
+            font-size: 1rem;
+            flex-shrink: 0; /* 防止按钮在 flex 容器中被压缩 */
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        .btn i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: translateX(3px);
+        }
+
+        .btn-small {
+            padding: 0.6rem 1.2rem; /* 减小内边距 */
+            font-size: 0.85rem; /* 减小字体大小 */
+            box-shadow: 0 2px 6px rgba(255, 140, 25, 0.3);
+        }
+
+        .popup-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .popup-modal.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup-qrcode {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .popup-qrcode img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .popup-modal-text {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .popup-modal-close {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 140, 25, 0.2);
+            font-size: 0.95rem;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .popup-modal-close:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--footer-color);
+            font-size: 0.95rem;
+            background: transparent;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        body {
+            padding-bottom: var(--footer-height);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--social-bg);
+            color: var(--text-color);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+            background: var(--primary-light);
+        }
+
+        .social-link img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--particle-color);
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--primary-light);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loader-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .footer-button-container {
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .design-collab-btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                top: 1.2rem;
+                right: 1.2rem;
+            }
+            footer {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+            .social-links {
+                gap: 0.8rem;
+                margin-bottom: 1rem;
+                max-width: 100%;
+            }
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+            .social-link img {
+                width: 22px;
+                height: 22px;
+            }
+            /* 按钮容器在小屏幕上调整间距 */
+            .hero-buttons {
+                gap: 1rem; /* 减小按钮间距 */
+                padding: 0 1rem; /* 增加左右内边距防止贴边 */
+            }
+            .btn {
+                padding: 0.8rem 1.5rem; /* 略微减小按钮内边距 */
+                font-size: 0.95rem; /* 略微减小字体 */
+            }
+            .btn-small {
+                padding: 0.5rem 1rem; /* 进一步减小内边距 */
+                font-size: 0.8rem; /* 进一步减小字体 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .popup-modal {
+                padding: 1.5rem;
+                max-width: 280px;
+            }
+            .popup-qrcode {
+                width: 180px;
+                height: 180px;
+            }
+            .design-collab-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+                top: 1rem;
+                right: 1rem;
+            }
+            .social-links {
+                gap: 0.6rem;
+            }
+            .social-link {
+                width: 38px;
+                height: 38px;
+            }
+            .social-link img {
+                width: 20px;
+                height: 20px;
+            }
+            /* 小屏幕上按钮更小 */
+            .hero-buttons {
+                gap: 0.8rem;
+            }
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            .btn-small {
+                padding: 0.4rem 0.8rem; /* 进一步减小内边距 */
+                font-size: 0.75rem; /* 进一步减小字体 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">加载中...</div>
+    </div>
+
+    <div class="popup-modal" id="wechatModal1">
+        <div class="popup-qrcode">
+            <img src="index/iwg.webp" alt="微信公众号二维码">
+        </div>
+        <p class="popup-modal-text">微信扫码关注公众号</p>
+        <button class="popup-modal-close" id="closeModal1">关闭</button>
+    </div>
+
+    <div class="popup-modal" id="wechatModal2">
+        <div class="popup-qrcode">
+            <img src="index/iwx.webp" alt="微信二维码">
+        </div>
+        <p class="popup-modal-text">微信扫码添加好友</p>
+        <button class="popup-modal-close" id="closeModal2">关闭</button>
+    </div>
+
+    <div class="particles" id="particles"></div>
+
+    <a href="https://www.zizao.top" class="design-collab-btn" target="_blank" rel="noopener noreferrer">
+        设计合作
+        <i class="fa-solid fa-right-to-bracket"></i>
+    </a>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Hello，欢迎来到字造</h1>
+            <p>在这里发现内容，包括设计工具、字体字库等以及更多。</p>
+
+            <!-- 新增的按钮容器 -->
+            <div class="hero-buttons">
+                <!-- 添加 btn-small 类使按钮更小 -->
+                <a href="https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw" class="btn btn-small" target="_blank">
+                    千本设计书籍
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="https://www.doubao.com/chat/" class="btn" target="_blank">
+                    豆包
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="https://chat.deepseek.com/" class="btn" target="_blank">
+                    Deepseek
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+    </div> 
+
+    <footer id="contact">
+        <div class="social-links">
+            <a href="#" class="social-link" id="footerWechat">
+                <img src="index/m/wx.webp" alt="微信公众号" width="24" height="24">
+            </a>
+            <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" class="social-link">
+                <img src="index/m/dy.webp" alt="抖音主页" width="24" height="24">
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="social-link">
+                <img src="index/m/xhs.webp" alt="小红书主页" width="24" height="24">
+            </a>
+            <a href="https://www.zcool.com.cn/u/15462186" target="_blank" class="social-link">
+                <img src="index/m/zk.webp" alt="站酷主页" width="24" height="24">
+            </a>
+            <a href="https://weibo.com/u/7931697572" target="_blank" class="social-link">
+                <img src="index/m/wb.webp" alt="微博主页" width="24" height="24">
+            </a>
+            <a href="https://space.bilibili.com/339715446" target="_blank" class="social-link">
+                <img src="index/m/b.webp" alt="bilibili主页" width="24" height="24">
+            </a>
+            <a href="https://www.youtube.com/@zizaotop" target="_blank" class="social-link">
+                <img src="index/m/you.webp" alt="YouTube主页" width="24" height="24">
+            </a>
+            <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" class="social-link">
+                <img src="index/m/z.webp" alt="知乎主页" width="24" height="24">
+            </a>
+        </div>
+        <div class="footer-button-container">
+            <button class="btn btn-small" id="showWechatModal2">添加微信好友<i class="fa-solid fa-comment"></i></button>
+        </div>
+        <p>© <span id="currentYear"></span> 字造ZIZAO.TOP</p>
+        <p>推荐通过以上方式了解我们，且可获取最新内容更新</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            const modalControls = [
+                { show: 'footerWechat', close: 'closeModal1', modal: 'wechatModal1' },
+                { show: 'showWechatModal2', close: 'closeModal2', modal: 'wechatModal2' }
+            ];
+
+            modalControls.forEach(control => {
+                const showBtn = document.getElementById(control.show);
+                const closeBtn = document.getElementById(control.close);
+                const modal = document.getElementById(control.modal);
+
+                if(showBtn && closeBtn && modal){
+                    showBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        toggleModal(modal, true);
+                    });
+                    closeBtn.addEventListener('click', () => toggleModal(modal, false));
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.popup-modal') &&
+                    !e.target.closest('#footerWechat') &&
+                    !e.target.closest('#showWechatModal2') &&
+                    !e.target.closest('.design-collab-btn')
+                ) {
+                    document.querySelectorAll('.popup-modal').forEach(modal => {
+                        toggleModal(modal, false);
+                    });
+                }
+            });
+
+            initParticles();
+
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+
+            function toggleModal(modal, show) {
+                if (show) {
+                    modal.style.display = 'block';
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 10);
+                } else {
+                    modal.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
+            }
+
+            function initParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = Math.min(Math.floor(window.innerWidth / 30), 30);
+                particlesContainer.innerHTML = '';
+
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+
+                    const size = Math.random() * 4 + 2;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+
+                    particle.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${posX}%;
+                        top: ${posY}%;
+                        opacity: ${Math.random() * 0.5 + 0.1};
+                        animation: float ${Math.random() * 20 + 10}s ease-in-out ${Math.random() * 10}s infinite;
+                        background: var(--particle-color);
+                    `;
+
+                    particlesContainer.appendChild(particle);
+                }
+            }
+        });
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const particlesContainer = document.getElementById('particles');
+                if (particlesContainer) {
+                    particlesContainer.innerHTML = '';
+                    document.dispatchEvent(new Event('DOMContentLoaded'));
+                }
+            }, 200);
+        });
+    </script>
+</body>
+</html>

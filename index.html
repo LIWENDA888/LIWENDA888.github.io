@@ -3,536 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造 - 字体领域优质内容分享</title>
+    <title>字造工具箱-设计师的灵感百宝库</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
     <meta name="author" content="字造">
-    <meta property="og:title" content="字造产品展示">
-    <meta property="og:description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="URL_TO_YOUR_IMAGE">
-    <meta property="og:url" content="URL_TO_YOUR_PAGE">
+    <meta property="og:title" content="字造工具箱 - 设计师的灵感百宝库">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="https://www.zizao.top/logo.png">
+    <meta property="og:url" content="https://www.zizao.top">
     <meta property="og:type" content="website">
-    <link rel="icon" href="index/index.ico" type="image/x-icon">
+    <link rel="icon" href="index.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
+        /* CSS 变量定义 */
         :root {
+            --sidebar-bg: #2d353c;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 70px;
             --primary-color: #FF8C19;
-            --primary-light: rgba(255, 140, 25, 0.05); /* 调整为更浅的透明度 */
-            --secondary-color: #FF5E5B;
-            --accent-color: #00D1B2;
-            --text-color: #2D2D2D;
-            --text-light: #5A5A5A;
-            --bg-color: #FFFFFF;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --border-color: rgba(0, 0, 0, 0.08);
-            --shadow-color: rgba(0, 0, 0, 0.05);
-            --social-bg: rgba(0, 0, 0, 0.03);
-            --footer-color: rgba(0, 0, 0, 0.5);
-            --particle-color: rgba(255, 140, 25, 0.15);
-            --mode-toggle-bg: #F5F5F5;
+            --hover-color: rgba(255, 255, 255, 0.08);
+            --active-color: rgba(255, 140, 25, 0.2);
+            --text-color: #e1e5eb;
+            --text-muted: #9ba4b0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 6px;
         }
 
+        /* 全局样式重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            background-color: var(--bg-color);
-            /* 新增的柔和背景纹理 */
-            background-image: 
-                radial-gradient(circle at 50% 50%, var(--primary-light) 0%, transparent 70%);
-            background-size: 100% 100%;
-            color: var(--text-color);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-            transition: background-color 0.5s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4rem;
-            animation: fadeInDown 0.8s ease;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            letter-spacing: -0.5px;
-        }
-
-        .logo img {
-            margin-right: 0.8rem;
-            width: auto;
-            height: 42px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .mode-toggle {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--mode-toggle-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 8px var(--shadow-color);
-        }
-
-        .mode-toggle:hover {
-            transform: rotate(15deg) scale(1.1);
-            box-shadow: 0 3px 12px var(--shadow-color);
-        }
-
-        .design-collab-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem 1.5rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            border: none;
-            cursor: pointer;
-            position: relative;
+            height: 100vh;
             overflow: hidden;
-            z-index: 1;
-            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
-            letter-spacing: 0.5px;
-            font-size: 0.95rem;
+            background-color: #f8f9fa;
+            color: #333;
         }
 
-        .design-collab-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-
-        .design-collab-btn:hover::before {
-            opacity: 1;
-        }
-
-        .design-collab-btn i {
-            margin-left: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .design-collab-btn:hover i {
-            transform: translateX(3px);
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 5rem;
-            animation: fadeIn 1s ease;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-            font-weight: 800;
-            letter-spacing: -1px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            font-weight: 400;
-        }
-
-        .features {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .feature-section {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 2.5rem;
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 8px 24px var(--shadow-color);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .feature-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--primary-light);
-            border-radius: 12px;
-            margin-right: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-icon img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-
-        .feature-title {
-            font-size: 1.8rem;
-            font-weight: 700;
+        /* 侧边栏样式 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
             color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-description {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-item {
-            padding: 1.5rem;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .feature-item:hover {
-            background: var(--primary-light);
-            transform: translateY(-3px);
-        }
-
-        .feature-item-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-        }
-
-        .feature-item-title i {
-            margin-right: 0.8rem;
-            color: var(--primary-color);
-        }
-
-        .feature-item-desc {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .feature-link {
-            display: inline-flex;
-            align-items: center;
-            color: var(--primary-color);
-            font-weight: 600;
-            text-decoration: none;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-link i {
-            margin-left: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-link:hover {
-            color: var(--secondary-color);
-        }
-
-        .feature-link:hover i {
-            transform: translateX(3px);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.9rem 2rem;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            border: none;
-            cursor: pointer;
-            position: relative;
+            height: 100vh;
             overflow: hidden;
-            z-index: 1;
-            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
-            letter-spacing: 0.5px;
-            font-size: 1rem;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::after {
-            opacity: 1;
-        }
-
-        .btn i {
-            margin-left: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .btn:hover i {
-            transform: translateX(3px);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            box-shadow: none;
-        }
-
-        .btn-outline:hover {
-            color: white;
-            border-color: transparent;
-        }
-
-        .btn-small {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            box-shadow: 0 2px 6px rgba(255, 140, 25, 0.3);
-        }
-
-        .popup-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #FFFFFF;
-            border-radius: 16px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 300px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border: 1px solid var(--border-color);
+            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: var(--shadow);
+            position: relative;
             z-index: 100;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0; /* 防止侧边栏被压缩 */
         }
 
-        .popup-modal.show {
-            display: block;
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
         }
 
-        .popup-qrcode {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 1.5rem;
-            background-color: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
+        .sidebar.collapsed .menu-item span,
+        .sidebar.collapsed .menu-item-badge,
+        .sidebar.collapsed .footer-item span,
+        .sidebar.collapsed .collapse-btn span {
+            display: none; /* 折叠时隐藏文字 */
         }
 
-        .popup-qrcode img {
-            width: 100%;
-            height: 100%;
+        /* 侧边栏头部 */
+        .sidebar-header {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: center; /* Logo居中 */
+        }
+
+        .logo-img {
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
 
-        .popup-modal-text {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .popup-modal-close {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(255, 140, 25, 0.2);
-            font-size: 0.95rem;
-            width: 100%;
-            max-width: 200px;
-            margin: 0 auto;
-        }
-
-        .popup-modal-close:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 5rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--footer-color);
-            font-size: 0.95rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .social-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--social-bg);
-            color: var(--text-color);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-link:hover {
-            transform: scale(1.1);
-            background: var(--primary-light);
-        }
-
-        .social-link img {
-            width: 24px;
-            height: 24px;
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background: var(--particle-color);
-            border-radius: 50%;
-            pointer-events: none;
-            will-change: transform;
-        }
-
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-color);
+        /* 主菜单区域 */
+        .sidebar-main {
+            flex: 1; /* 占据剩余空间 */
+            overflow-y: auto; /* 菜单内容过多时滚动 */
+            padding: 10px 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            flex: 1; /* 占据剩余空间 */
+        }
+
+        /* 滚动条样式 */
+        .sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
             align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            white-space: nowrap; /* 防止文字换行 */
+            position: relative;
         }
 
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--primary-light);
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
+        .sidebar.collapsed .menu-item {
+            justify-content: center; /* 折叠时图标居中 */
+            padding: 15px 0;
         }
 
-        .loader-text {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-top: 1rem;
+        .menu-item:hover {
+            background: var(--hover-color);
         }
 
-        .footer-button-container {
-            margin-bottom: 1.5rem;
+        .menu-item.active {
+            background: var(--active-color);
+            color: white; /* 选中项文字颜色 */
+        }
+
+        .menu-item.active i {
+            color: var(--primary-color); /* 选中项图标颜色 */
+        }
+
+        .menu-item i {
+            font-size: 1.1rem;
+            margin-right: 15px;
+            width: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .menu-item i {
+            margin-right: 0; /* 折叠时图标无外边距 */
+        }
+
+        .menu-item span {
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .menu-item-badge {
+            margin-left: auto; /* 推到右侧 */
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.6rem;
+            padding: 1px 5px;
+            border-radius: 8px;
+            line-height: 1.2;
+        }
+
+        /* 折叠按钮 */
+        .collapse-btn-container {
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collapse-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .collapse-btn:hover {
+            background: var(--hover-color);
+            color: var(--text-color);
+        }
+
+        .collapse-btn i {
+            margin-right: 12px;
+            transition: var(--transition);
+        }
+
+        .sidebar.collapsed .collapse-btn {
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .sidebar.collapsed .collapse-btn i {
+            margin-right: 0;
+            transform: rotate(180deg); /* 折叠时箭头旋转 */
+        }
+
+        /* 底部菜单 */
+        .sidebar-footer {
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* 底部菜单顶部边框 */
+        }
+
+        .footer-item {
+            padding: 12px 20px;
+            margin: 4px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            color: var(--text-muted);
+        }
+
+        .sidebar.collapsed .footer-item {
+            justify-content: center;
+            padding: 15px 0;
+        }
+
+        .footer-item:hover {
+            background: var(--hover-color);
+            color: var(--text-color);
+        }
+
+        .footer-item i {
+            font-size: 1rem;
+            margin-right: 15px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar.collapsed .footer-item i {
+            margin-right: 0;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            flex: 1; /* 占据剩余所有空间 */
+            height: 100vh;
+            overflow: hidden;
+            transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .tool-container {
+            width: 100%;
+            height: 100%;
+            display: none; /* 默认隐藏 */
+            background: white;
+        }
+
+        .tool-container.active {
+            display: block; /* 激活时显示 */
+            animation: fadeIn 0.4s ease-out; /* 淡入动画 */
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
         }
 
         @keyframes fadeIn {
@@ -540,337 +281,350 @@
             to { opacity: 1; }
         }
 
-        @keyframes fadeInDown {
-            from {
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed; /* 移动端固定定位 */
+                left: 0;
+                top: 0;
+                transform: translateX(-100%); /* 默认隐藏在左侧 */
+            }
+
+            .sidebar:not(.collapsed) {
+                transform: translateX(0); /* 展开时显示 */
+            }
+
+            .main-content {
+                margin-left: 0 !important; /* 移动端无左侧边距 */
+            }
+
+            .mobile-toggle-btn {
+                display: flex; /* 移动端显示 */
+                position: fixed;
+                left: 10px;
+                top: 10px;
+                z-index: 90;
+                background: var(--sidebar-bg);
+                color: white;
+                border: none;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                transition: opacity 0.3s ease;
+            }
+
+            /* 侧边栏展开时隐藏移动端切换按钮 */
+            .sidebar:not(.collapsed) ~ .mobile-toggle-btn {
                 opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+                pointer-events: none;
             }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+        /* 遮罩层样式 */
+        #sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none; /* 默认不响应事件 */
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 1024px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
-            .feature-section {
-                padding: 2rem;
-            }
-            .feature-title {
-                font-size: 1.6rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .hero p {
-                font-size: 1.1rem;
-            }
-            .header-actions {
-                gap: 0.8rem;
-            }
-            .feature-icon {
-                width: 50px;
-                height: 50px;
-                margin-right: 1rem;
-            }
-            .feature-icon img {
-                width: 32px;
-                height: 32px;
-            }
-            .feature-title {
-                font-size: 1.4rem;
-            }
-            .design-collab-btn {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .logo {
-                font-size: 1.5rem;
-            }
-            .mode-toggle {
-                width: 38px;
-                height: 38px;
-            }
-            .popup-modal {
-                padding: 1.5rem;
-                max-width: 280px;
-            }
-            .popup-qrcode {
-                width: 180px;
-                height: 180px;
-            }
-            .feature-section {
-                padding: 1.5rem;
-            }
-            .feature-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .feature-icon {
-                margin-bottom: 1rem;
-                margin-right: 0;
-            }
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-            .design-collab-btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.85rem;
-            }
+        #sidebar-overlay.show {
+            opacity: 1;
+            pointer-events: auto; /* 显示时响应事件 */
         }
     </style>
 </head>
 <body>
-    <div class="loader" id="loader">
-        <div class="loader-spinner"></div>
-        <div class="loader-text">加载中...</div>
-    </div>
-
-    <div class="popup-modal" id="wechatModal1">
-        <div class="popup-qrcode">
-            <img src="index/iwg.webp" alt="微信公众号二维码">
-        </div>
-        <p class="popup-modal-text">微信扫码关注公众号</p>
-        <button class="popup-modal-close" id="closeModal1">关闭</button>
-    </div>
-
-    <div class="popup-modal" id="wechatModal2">
-        <div class="popup-qrcode">
-            <img src="index/iwx.webp" alt="微信二维码">
-        </div>
-        <p class="popup-modal-text">微信扫码添加好友</p>
-        <button class="popup-modal-close" id="closeModal2">关闭</button>
-    </div>
-
-    <div class="particles" id="particles"></div>
-
-    <div class="container">
-        <header>
+    <!-- 侧边栏 -->
+    <div class="sidebar collapsed">
+        <div class="sidebar-header">
             <div class="logo">
-                <img src="index/logo.svg" alt="logo">
+                <img src="logo.svg" alt="字造 Logo" class="logo-img">
             </div>
-            <div class="header-actions">
-                <a href="https://www.zizao.top" class="design-collab-btn" target="_blank" rel="noopener noreferrer">
-                    设计合作
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                </a>
+        </div>
+
+        <div class="sidebar-main">
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-tool="home" data-title="字造专注分享字体领域优质内容" data-url="home/index.html">
+                    <i class="fas fa-home"></i>
+                    <span>字造主页</span>
+                </li>
+                <li class="menu-item" data-tool="hao" data-title="字造导航-设计师的私藏灵感库" data-url="hao/index.html">
+                    <i class="fas fa-compass"></i>
+                    <span>设计导航</span>
+                    <span class="menu-item-badge">推荐</span>
+                </li>
+                <li class="menu-item" data-tool="bao" data-title="设计百宝库" data-url="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span>设计百宝库</span>
+                </li>
+                <li class="menu-item" data-tool="tools" data-title="字造工具箱" data-url="tools/index.html">
+                    <i class="fa-solid fa-toolbox"></i>
+                    <span>字造工具箱</span>
+                </li>
+                <li class="menu-item" data-tool="good" data-title="神器推荐" data-url="good/index.html">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <span>神器推荐</span>
+                </li>
+                <li class="menu-item" data-tool="freefonts" data-title="免费商用字体" data-url="freefonts/index.html">
+                    <i class="fa-solid fa-font-awesome"></i>
+                    <span>免费商用字体</span>
+                </li>
+            </ul>
+
+            <!-- 折叠按钮 -->
+            <div class="collapse-btn-container">
+                <button class="collapse-btn" id="toggleSidebar">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>折叠菜单</span>
+                </button>
             </div>
-        </header>
+        </div>
 
-        <section class="hero">
-            <h1>Hello，欢迎来到字造</h1>
-            <p>在这里发现内容，包括设计工具、字体字库等以及更多。</p>
-            <a href="https://www.zizao.top/tools" class="btn" target="_blank">
-                开始探索
-                <i class="fas fa-arrow-right"></i>
-            </a>
-        </section>
-
-        <section class="features">
-            <div class="feature-section">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <img src="index/tools.webp" alt="设计工具库">
-                    </div>
-                    <div>
-                        <h2 class="feature-title">设计工具库</h2>
-                        <p class="feature-description">日常必备工具资源，设计师的灵感百宝库</p>
-                    </div>
-                </div>
-
-                <div class="feature-grid">
-                    <div class="feature-item" data-href="https://www.zizao.top/tools/#hao">
-                        <h3 class="feature-item-title"><i class="fas fa-compass"></i>设计导航</h3>
-                        <p class="feature-item-desc">灵感永不枯竭！设计师的灵感宝藏库，一键激活你的想象力。</p>
-                    </div>
-
-                    <div class="feature-item" data-href="https://www.zizao.top/tools/#bao">
-                        <h3 class="feature-item-title"><i class="fas fa-book"></i>资源百宝库</h3>
-                        <p class="feature-item-desc">设计师私藏的设计资源库、稀缺素材和最新设计软件全都有。</p>
-                    </div>
-
-                    <div class="feature-item" data-href="https://www.zizao.top/tools/#write">
-                        <h3 class="feature-item-title"><i class="fa-solid fa-signature"></i>搜书法风格</h3>
-                        <p class="feature-item-desc">中国古代书法风格大全，即搜即用设计师必备</p>
-                    </div>
-                </div>
+        <!-- 底部菜单 -->
+        <div class="sidebar-footer">
+            <div class="footer-item" data-tool="about" data-title="关于我们" data-url="https://www.zizao.top/about.html">
+                <i class="fas fa-info-circle"></i>
+                <span>关于我们</span>
             </div>
-
-            <div class="feature-section">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <img src="index/fonts.webp" alt="字造字库">
-                    </div>
-                    <div>
-                        <h2 class="feature-title">字造字库</h2>
-                        <p class="feature-description">以字体探索美学新感知</p>
-                    </div>
-                </div>
-
-                <div class="feature-grid">
-                    <div class="feature-item" data-href="https://www.zizao.top/fonts/#ZzQidiansans">
-                        <h3 class="feature-item-title"><i class="fa-solid fa-fire"></i>即将上线-免费商用双轴可变字体-字造起点黑</h3>
-                        <p class="feature-item-desc">结合中国古代隶书的线条美和骨感美，融合现代屏显黑体再加上更具视觉张力的字形结构，打造的独属字造的免费商用"黑体"</p>
-                    </div>
-                </div>
+            <div class="footer-item" data-tool="coop" data-title="设计合作" data-url="https://www.zizao.top/contact.html">
+                <i class="fas fa-envelope"></i>
+                <span>设计合作</span>
             </div>
-        </section>
-
-        <footer id="contact">
-            <div class="social-links">
-                <a href="#" class="social-link" id="footerWechat">
-                    <img src="index/m/wx.webp" alt="微信公众号" width="24" height="24">
-                </a>
-                <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" class="social-link">
-                    <img src="index/m/dy.webp" alt="抖音主页" width="24" height="24">
-                </a>
-                <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="social-link">
-                    <img src="index/m/xhs.webp" alt="小红书主页" width="24" height="24">
-                </a>
-                <a href="https://www.zcool.com.cn/u/15462186" target="_blank" class="social-link">
-                    <img src="index/m/zk.webp" alt="站酷主页" width="24" height="24">
-                </a>
-                <a href="https://weibo.com/u/7931697572" target="_blank" class="social-link">
-                    <img src="index/m/wb.webp" alt="微博主页" width="24" height="24">
-                </a>
-                <a href="https://space.bilibili.com/339715446" target="_blank" class="social-link">
-                    <img src="index/m/b.webp" alt="bilibili主页" width="24" height="24">
-                </a>
-                <a href="https://www.youtube.com/@zizaotop" target="_blank" class="social-link">
-                    <img src="index/m/you.webp" alt="YouTube主页" width="24" height="24">
-                </a>
-                <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" class="social-link">
-                    <img src="index/m/z.webp" alt="知乎主页" width="24" height="24">
-                </a>
+            <div class="footer-item" data-tool="help" data-title="帮助中心" data-url="https://www.zizao.top/help.html">
+                <i class="fas fa-question-circle"></i>
+                <span>帮助中心</span>
             </div>
-            <div class="footer-button-container">
-                <button class="btn btn-small" id="showWechatModal2">添加微信好友<i class="fa-solid fa-comment"></i></button>
-            </div>
-            <p>© <span id="currentYear"></span> 字造ZIZAO.TOP</p>
-            <p>推荐通过以上方式了解我们，且可获取最新内容更新</p>
-        </footer>
+        </div>
     </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 所有工具的 iframe 容器 -->
+        <div class="tool-container active" id="home">
+            <iframe src="home/index.html" title="字造专注分享字体领域优质内容"></iframe>
+        </div>
+        <div class="tool-container" id="hao">
+            <iframe src="hao/index.html" title="字造导航-设计师的私藏灵感库"></iframe>
+        </div>
+        <div class="tool-container" id="bao">
+            <iframe src="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c" title="设计百宝库"></iframe>
+        </div>
+        <div class="tool-container" id="tools">
+            <iframe src="tools/index.html" title="字造工具箱"></iframe>
+        </div>
+        <div class="tool-container" id="good">
+            <iframe src="good/index.html" title="神器推荐"></iframe>
+        </div>
+        <div class="tool-container" id="freefonts">
+            <iframe src="freefonts/index.html" title="免费商用字体"></iframe>
+        </div>
+
+        <div class="tool-container" id="about">
+            <iframe src="https://www.zizao.top/about.html" title="关于我们"></iframe>
+        </div>
+        <div class="tool-container" id="coop">
+            <iframe src="https://www.zizao.top/contact.html" title="设计合作"></iframe>
+        </div>
+        <div class="tool-container" id="help">
+            <iframe src="https://www.zizao.top/help.html" title="帮助中心"></iframe>
+        </div>
+    </div>
+
+    <!-- 移动端侧边栏切换按钮 -->
+    <button class="mobile-toggle-btn" id="mobileSidebarToggle" style="display: none;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- 移动端侧边栏遮罩层 -->
+    <div id="sidebar-overlay"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            const menuItems = document.querySelectorAll('.menu-item, .footer-item');
+            const toggleBtn = document.getElementById('toggleSidebar');
+            const mobileToggleBtn = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            let activeTool = 'home'; // 默认激活 'home' 工具
+            let isMobile = window.innerWidth <= 992; // 判断是否是移动端
 
-            const featureItems = document.querySelectorAll('.feature-item');
-            featureItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const href = item.dataset.href;
-                    if (href) window.open(href, '_blank');
+            // 更新浏览器URL和页面标题
+            function updateBrowserURL(toolId, toolTitle) {
+                const state = { tool: toolId, title: toolTitle };
+                const url = `#${toolId}`;
+                history.pushState(state, toolTitle, url);
+                document.title = `${toolTitle} - 字造ZIZAO`;
+            }
+
+            // 切换工具函数
+            function switchTool(toolId, toolTitle, toolUrl) {
+                // 如果是当前已激活的工具，且处于移动端未折叠状态，则折叠侧边栏
+                if (toolId === activeTool && isMobile && !sidebar.classList.contains('collapsed')) {
+                    toggleSidebar();
+                    return;
+                }
+
+                // 移除所有菜单项和工具容器的激活状态
+                document.querySelectorAll('.menu-item, .footer-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.tool-container').forEach(tool => tool.classList.remove('active'));
+
+                // 激活当前点击的菜单项
+                const menuItem = document.querySelector(`[data-tool="${toolId}"]`);
+                if (menuItem) menuItem.classList.add('active');
+
+                // 激活对应的工具容器
+                const toolContainer = document.getElementById(toolId);
+                if (toolContainer) {
+                    toolContainer.classList.add('active');
+                    activeTool = toolId; // 更新当前激活的工具ID
+
+                    const iframe = toolContainer.querySelector('iframe');
+                    // 如果iframe的src与目标url不同，或者src为空，则更新iframe的src并显示加载动画
+                    if (iframe && (iframe.src !== toolUrl || iframe.src === '')) {
+                        iframe.style.opacity = 0; // 隐藏iframe，等待加载完成
+                        iframe.src = toolUrl;
+                    }
+
+                    updateBrowserURL(toolId, toolTitle); // 更新URL和标题
+
+                    // 如果是移动端且侧边栏未折叠，则折叠侧边栏
+                    if (isMobile && !sidebar.classList.contains('collapsed')) {
+                        toggleSidebar();
+                    }
+                }
+            }
+
+            // 从URL hash初始化工具
+            function initToolFromURL() {
+                const hash = window.location.hash.substring(1);
+                // 优先从 hash 中获取工具ID
+                if (hash) {
+                    const menuItem = document.querySelector(`[data-tool="${hash}"]`);
+                    if (menuItem) {
+                        const toolId = menuItem.getAttribute('data-tool');
+                        const toolTitle = menuItem.getAttribute('data-title');
+                        const toolUrl = menuItem.getAttribute('data-url');
+                        switchTool(toolId, toolTitle, toolUrl);
+                        return;
+                    }
+                }
+                // 如果hash不存在或无效，默认打开 'home' 页面
+                const defaultMenuItem = document.querySelector('[data-tool="home"]');
+                if (defaultMenuItem) {
+                    const toolId = defaultMenuItem.getAttribute('data-tool');
+                    const toolTitle = defaultMenuItem.getAttribute('data-title');
+                    const toolUrl = defaultMenuItem.getAttribute('data-url');
+                    switchTool(toolId, toolTitle, toolUrl);
+                }
+            }
+
+            // 侧边栏折叠/展开函数
+            function toggleSidebar() {
+                const wasCollapsed = sidebar.classList.contains('collapsed');
+                sidebar.classList.toggle('collapsed');
+                
+                if (isMobile) {
+                    if (!wasCollapsed) { // 如果侧边栏从展开变为折叠
+                        sidebarOverlay.classList.remove('show'); // 隐藏遮罩层
+                        mobileToggleBtn.style.opacity = '1';
+                        mobileToggleBtn.style.pointerEvents = 'auto'; // 允许点击移动端切换按钮
+                    } else { // 如果侧边栏从折叠变为展开
+                        sidebarOverlay.classList.add('show'); // 显示遮罩层
+                        mobileToggleBtn.style.opacity = '0';
+                        mobileToggleBtn.style.pointerEvents = 'none'; // 禁用移动端切换按钮
+                    }
+                }
+            }
+
+            // 给所有菜单项添加点击事件
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const toolId = this.getAttribute('data-tool');
+                    const toolTitle = this.getAttribute('data-title');
+                    const toolUrl = this.getAttribute('data-url');
+                    switchTool(toolId, toolTitle, toolUrl);
                 });
             });
 
-            const modalControls = [
-                { show: 'footerWechat', close: 'closeModal1', modal: 'wechatModal1' },
-                { show: 'showWechatModal2', close: 'closeModal2', modal: 'wechatModal2' }
-            ];
+            // 折叠按钮点击事件
+            toggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // 阻止事件冒泡
+                toggleSidebar();
+            });
 
-            modalControls.forEach(control => {
-                const showBtn = document.getElementById(control.show);
-                const closeBtn = document.getElementById(control.close);
-                const modal = document.getElementById(control.modal);
+            // 移动端侧边栏切换按钮点击事件
+            mobileToggleBtn.addEventListener('click', function() {
+                toggleSidebar();
+            });
 
-                if(showBtn && closeBtn && modal){
-                    showBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        toggleModal(modal, true);
-                    });
-                    closeBtn.addEventListener('click', () => toggleModal(modal, false));
+            // 遮罩层点击事件（仅在移动端有效，用于关闭侧边栏）
+            sidebarOverlay.addEventListener('click', function() {
+                if (isMobile && !sidebar.classList.contains('collapsed')) {
+                    toggleSidebar();
                 }
             });
 
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.popup-modal') && !e.target.closest('#footerWechat') && !e.target.closest('#showWechatModal2')) {
-                    document.querySelectorAll('.popup-modal').forEach(modal => {
-                        toggleModal(modal, false);
-                    });
-                }
-            });
-
-            initParticles();
-
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                }, 500);
-            }, 800);
-
-            function toggleModal(modal, show) {
-                if (show) {
-                    modal.style.display = 'block';
-                    setTimeout(() => {
-                        modal.classList.add('show');
-                    }, 10);
+            // 监听浏览器历史记录变化（前进/后退按钮）
+            window.addEventListener('popstate', function(event) {
+                if (event.state && event.state.tool) {
+                    const menuItem = document.querySelector(`[data-tool="${event.state.tool}"]`);
+                    if (menuItem) {
+                        const toolId = menuItem.getAttribute('data-tool');
+                        const toolTitle = menuItem.getAttribute('data-title');
+                        const toolUrl = menuItem.getAttribute('data-url');
+                        switchTool(toolId, toolTitle, toolUrl);
+                    }
                 } else {
-                    modal.classList.remove('show');
-                    setTimeout(() => {
-                        modal.style.display = 'none';
-                    }, 300);
+                    // 如果历史状态为空，重新根据URL初始化
+                    initToolFromURL();
+                }
+            });
+
+            // 处理响应式布局
+            function handleResponsive() {
+                const newIsMobile = window.innerWidth <= 992;
+                if (newIsMobile !== isMobile) { // 只有在移动端状态改变时才执行
+                    isMobile = newIsMobile;
+                    if (isMobile) {
+                        mobileToggleBtn.style.display = 'flex'; // 移动端显示切换按钮
+                        sidebar.classList.add('collapsed'); // 移动端默认折叠
+                        mobileToggleBtn.style.opacity = '1';
+                        mobileToggleBtn.style.pointerEvents = 'auto';
+                        sidebarOverlay.classList.remove('show'); // 确保遮罩层关闭
+                    } else {
+                        mobileToggleBtn.style.display = 'none'; // 非移动端隐藏切换按钮
+                        sidebar.classList.remove('collapsed'); // 非移动端默认展开
+                        sidebarOverlay.classList.remove('show'); // 确保遮罩层关闭
+                    }
                 }
             }
 
-            function initParticles() {
-                const particlesContainer = document.getElementById('particles');
-                const particleCount = Math.min(Math.floor(window.innerWidth / 30), 30);
-                particlesContainer.innerHTML = '';
+            // 监听窗口大小变化
+            window.addEventListener('resize', handleResponsive);
+            // 页面加载时执行一次，设置初始状态
+            handleResponsive();
 
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
+            // iframe加载完成时显示
+            document.querySelectorAll('iframe').forEach(iframe => {
+                iframe.addEventListener('load', function() {
+                    this.style.opacity = 1;
+                });
+                iframe.style.opacity = 0; // 初始隐藏
+                iframe.style.transition = 'opacity 0.3s ease'; // 添加过渡效果
+            });
 
-                    const size = Math.random() * 4 + 2;
-                    const posX = Math.random() * 100;
-                    const posY = Math.random() * 100;
-
-                    particle.style.cssText = `
-                        width: ${size}px;
-                        height: ${size}px;
-                        left: ${posX}%;
-                        top: ${posY}%;
-                        opacity: ${Math.random() * 0.5 + 0.1};
-                        animation: float ${Math.random() * 20 + 10}s ease-in-out ${Math.random() * 10}s infinite;
-                        background: var(--particle-color);
-                    `;
-
-                    particlesContainer.appendChild(particle);
-                }
-            }
-        });
-
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                const particlesContainer = document.getElementById('particles');
-                if (particlesContainer) {
-                    particlesContainer.innerHTML = '';
-                    document.dispatchEvent(new Event('DOMContentLoaded'));
-                }
-            }, 200);
+            // 页面加载时根据URL或默认值初始化工具
+            initToolFromURL();
         });
     </script>
 </body>
