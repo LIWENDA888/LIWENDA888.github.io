@@ -3,474 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网页小工具集合</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>字造导航 - 设计师的灵感百宝库</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
-        /* CSS 变量定义 */
         :root {
-            --primary-color: #ff7b25;
-            --secondary-color: #e56a1a;
-            --accent-color: #ff9a56;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --gray-color: #6c757d;
-            --border-radius: 10px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --transition: all 0.2s ease;
+            --primary-color: #FF8C19;
+            --primary-light: rgba(255, 140, 25, 0.1);
+            --text-color: #2d3748;
+            --text-light: #718096;
+            --bg-color: #f8f9fa;
+            --card-bg: #f1f3f5;
+            --border-color: #e2e8f0;
+            --border-radius: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        /* 全局重置 */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--light-color);
-            color: var(--dark-color);
-            line-height: 1.5;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.5rem; /* 这个padding会控制搜索框与左右边缘的距离 */
-        }
-        
-        /* 搜索框样式 */
-        .search-container {
-            margin-bottom: 2rem;
-            position: sticky; /* 使得搜索框在滚动时固定 */
-            top: 0; /* 固定在顶部 */
-            z-index: 999; /* 确保在其他内容之上 */
-            background-color: var(--light-color); /* 背景色，防止内容透过 */
-            padding: 1.5rem 0; /* 增加上下间距 */
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* 底部细线 */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03); /* 轻微阴影 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        .search-box {
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow-x: hidden; /* 防止全屏iframe导致横向滚动条 */
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            transition: margin-left 0.3s ease; /* 动画过渡 */
+        }
+
+        /* 左侧导航 - 一级分类区域 */
+        .primary-nav {
+            width: 280px;
+            padding: 30px 20px;
+            background-color: var(--bg-color);
+            border-right: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0; /* 防止被挤压 */
+            transition: width 0.3s ease, transform 0.3s ease; /* 动画过渡 */
+        }
+
+        .nav-header {
             display: flex;
             align-items: center;
-            width: 100%;
-            max-width: 700px; /* 重新设定最大宽度 */
-            margin-left: 0;    /* 确保左对齐 */
-            margin-right: auto; /* 自动右侧外边距，将元素推到左边 */
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            justify-content: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            min-width: 160px;
+            height: 80px;
         }
 
-        .search-box input {
-            flex-grow: 1;
-            border: none;
-            padding: 1rem 1.25rem;
-            font-size: 1rem;
-            outline: none;
-            color: var(--dark-color);
-            background-color: transparent; /* 背景透明 */
+        .logo {
+            max-width: 180px;
+            max-height: 60px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
         }
 
-        .search-box input::placeholder {
-            color: var(--gray-color);
-        }
-
-        .search-box .search-icon {
-            padding: 0 1.25rem;
-            color: var(--gray-color);
-            font-size: 1.1rem;
-        }
-
-        /* 分类和工具卡片样式 */
-        .category {
-            margin-bottom: 2.5rem;
-        }
-        
-        .category-header {
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-            /* 添加顶部间距 */
-            margin-top: 2rem; /* 增加顶部间距，您可以根据需要调整这个值 */
-        }
-
-        /* 调整第一个分类的顶部间距，避免与页面顶部太远 */
-        .category:first-of-type .category-header {
-            margin-top: 0; /* 第一个分类的顶部间距保持默认或较小 */
-        }
-        
-        .category-title {
-            font-size: 1.5rem;
-            font-weight: normal; /* 不加粗 */
-            color: var(--dark-color);
-        }
-        
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.25rem;
-        }
-        
-        .tool-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 1.25rem;
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            position: relative;
-            overflow: hidden;
-            height: 160px; /* 固定高度 */
+        .primary-categories {
             display: flex;
             flex-direction: column;
-            /* 默认显示 */
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 0.3s ease, transform 0.3s ease, display 0s 0.3s; /* display 延迟0.3s隐藏 */
+            gap: 8px;
         }
 
-        /* 隐藏的卡片样式 */
-        .tool-card.hidden {
-            opacity: 0;
-            transform: scale(0.95);
-            height: 0; /* 高度设为0以移除空间 */
-            padding: 0; /* 移除内边距 */
-            margin: 0; /* 移除外边距 */
-            transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
-            overflow: hidden; /* 隐藏溢出内容 */
-            pointer-events: none; /* 禁用点击事件 */
-            display: none; /* 最终隐藏，确保不占用布局空间 */
+        .primary-category {
+            padding: 14px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-color);
+            border: none;
+            background: none;
+            text-align: left;
+            display: flex;
+            align-items: center;
         }
 
-        /* 搜索结果为空时的隐藏 */
-        .category-header.hidden {
+        .primary-category:hover {
+            background-color: var(--primary-light);
+        }
+
+        .primary-category.active {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .primary-category i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 20px;
+            color: var(--primary-color);
+        }
+
+        /* 右侧内容区 */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease; /* 动画过渡 */
+        }
+
+        /* 搜索区域 */
+        .search-section {
+            padding: 30px 40px 30px 60px; /* 修改左侧内边距为60px，与卡片区域对齐 */
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            transition: padding 0.3s ease; /* 动画过渡 */
+        }
+
+        .search-area {
+            width: 100%; /* 确保它填充父容器 */
+            position: relative;
+        }
+
+        .search-container {
+            width: 100%;
+            position: relative;
+        }
+
+        .search-input-container {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .search-input-container:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 140, 25, 0.2);
+        }
+
+        .search-input {
+            flex: 1; /* 确保输入框占据所有可用空间 */
+            padding: 14px 20px;
+            border: none;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        /* 移除了搜索建议和快速链接的样式 */
+        .search-suggestions, .quick-links {
             display: none;
         }
-        
-        .tool-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+        /* 卡片区域 */
+        .cards-section {
+            flex: 1;
+            padding: 30px 60px; /* 保持左右内边距一致 */
+            background-color: var(--bg-color);
+            display: block; /* 默认显示 */
         }
-        
-        .tool-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.8rem;
-            color: var(--primary-color);
+
+        /* 针对一级分类的容器 */
+        .category-group {
+            margin-bottom: 50px;
         }
-        
-        .tool-card h3 {
-            font-size: 1.3rem;
+
+        /* 分类标题 */
+        .category-header {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .category-title {
+            font-size: 24px;
             font-weight: 600;
-            margin-bottom: 0.4rem;
-            color: var(--dark-color);
-            line-height: 1.3;
+            margin-bottom: 4px;
         }
-        
-        .tool-card p {
-            color: var(--gray-color);
-            font-size: 0.85rem;
-            line-height: 1.3;
-            margin-bottom: 0.5rem;
+
+        .category-desc {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        /* 网址卡片容器 */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            transition: var(--transition);
+            display: flex;
+            text-decoration: none; /* 保持链接样式，但不再是真正的 href */
+            color: inherit;
+            min-height: 120px;
+            border: 1px solid var(--border-color);
+            align-items: center;
+            cursor: pointer; /* 明确卡片是可点击的 */
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border: 1px solid transparent;
+        }
+
+        .card.hidden {
+            display: none;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.4;
             display: -webkit-box;
-            -webkit-line-clamp: 2; /* 限制为两行 */
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            flex-grow: 1; /* 让段落填充可用空间 */
         }
-        
-        .tool-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 0.2rem 0.5rem;
-            background-color: rgba(255, 123, 37, 0.1);
-            color: var(--primary-color);
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        
-        /* 全屏模式样式及动画 */
-        .fullscreen-container {
+
+        /* --- 嵌入页面样式 --- */
+        .embedded-page-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: white;
-            z-index: 1000;
-            display: none; /* 初始隐藏 */
-            opacity: 0; /* 初始透明 */
-            transform: translateX(100%); /* 初始位置在右侧，用于滑入动画 */
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out; /* 打开时的过渡效果 */
+            z-index: 9999;
+            flex-direction: column; /* 保持flex-direction */
+            background-color: #ffffff;
+
+            /* 动画初始状态 */
+            transform: translateX(100%); /* 藏在右侧屏幕外 */
+            opacity: 0; /* 完全透明 */
+            pointer-events: none; /* 阻止鼠标事件 */
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out; /* 过渡动画 */
         }
 
-        .fullscreen-container.show {
-            display: block; /* 显示容器以触发动画 */
-            opacity: 1; /* 淡入 */
-            transform: translateX(0); /* 滑入到正常位置 */
+        /* 动画显示状态 */
+        .embedded-page-container.show {
+            transform: translateX(0); /* 移动到屏幕内 */
+            opacity: 1; /* 完全不透明 */
+            pointer-events: auto; /* 允许鼠标事件 */
         }
 
-        /* 关闭时的动画 */
-        .fullscreen-container.hiding {
-            opacity: 0; /* 淡出 */
-            transform: translateX(100%); /* 完全向右移出 */
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* 关闭时的过渡效果 */
-        }
-        
-        .fullscreen-content {
+        .embedded-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
-        
-        .back-button {
-            position: fixed;
+
+        .embedded-page-header {
+            position: absolute;
             top: 20px;
             right: 20px;
-            padding: 0.6rem 1rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            z-index: 1001;
-            font-weight: 500;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
+            z-index: 10000;
             display: flex;
             align-items: center;
         }
-        
+
+        .back-button {
+            background-color: rgba(255, 140, 25, 0.9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
         .back-button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-1px);
+            background-color: var(--primary-color);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
-        
-        .back-button i {
-            margin-right: 0.4rem;
-            font-size: 0.8rem;
+
+
+        /* 全屏模式下的样式控制 */
+        body.embedded-active .app-container {
+            max-width: none;
+            border-left: none;
+            border-right: none;
+            margin: 0;
         }
-        
+
+        body.embedded-active .primary-nav,
+        body.embedded-active .search-section,
+        body.embedded-active .cards-section {
+            display: none; /* 隐藏左侧导航、搜索和卡片区 */
+        }
+
+        /* 移动端折叠菜单 */
+        .mobile-menu-toggle {
+            display: none;
+            padding: 14px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-color);
+            border: none;
+            background: none;
+            text-align: left;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .mobile-menu-toggle i {
+            transition: var(--transition);
+        }
+
+        .mobile-menu-toggle.active i {
+            transform: rotate(180deg);
+        }
+
         /* 响应式设计 */
-        @media (max-width: 1200px) {
-            .tools-grid {
-                grid-template-columns: repeat(3, 1fr);
+        @media (max-width: 1024px) {
+            .app-container {
+                flex-direction: column;
+                border-left: none;
+                border-right: none;
+            }
+
+            .primary-nav {
+                position: static;
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                overflow-y: visible;
+            }
+
+            .search-section {
+                padding: 20px; /* 在小屏幕上恢复通用内边距 */
+            }
+
+            .cards-section {
+                padding: 20px;
+            }
+
+            .embedded-page-header {
+                top: 15px; /* 在小屏幕上稍微调整位置 */
+                right: 15px;
+            }
+            .back-button {
+                padding: 8px 12px; /* 适当减小内边距 */
+                font-size: 14px; /* 适当减小字体 */
+            }
+
+            /* 移动端全屏模式下的调整 */
+            body.embedded-active .primary-nav {
+                display: none; /* 隐藏导航 */
+            }
+            body.embedded-active .app-container {
+                /* 确保在移动端也是全屏 */
+                width: 100%;
+                height: 100%;
+                margin: 0;
             }
         }
-        
+
         @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .primary-categories {
+                display: none;
+                flex-direction: column;
             }
-            
-            .container {
-                padding: 1.25rem;
+
+            .primary-categories.active {
+                display: flex;
             }
-            
-            .tool-card {
-                height: 150px; /* 小屏幕上略微减小卡片高度 */
-                padding: 1rem;
+
+            .mobile-menu-toggle {
+                display: flex;
             }
-            
-            /* 搜索框在小屏幕上宽度自动适应，但保持左对齐 */
-            .search-box {
-                max-width: 100%; /* 在小屏幕上让搜索框宽度自动适应 */
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .tools-grid {
+
+            .cards-container {
                 grid-template-columns: 1fr;
             }
-            
-            .tool-card {
-                height: auto; /* 最小屏幕上允许卡片高度自适应 */
-                min-height: 140px; /* 但保留最小高度 */
+
+            /* 加长搜索框 */
+            .search-input {
+                padding: 14px 30px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 主页面 -->
-    <div id="main-page">
-        <div class="container">
-            <!-- 搜索框 -->
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-input" placeholder="搜索工具，例如：文本去重、图片压缩...">
-                </div>
-            </div>
+<div class="app-container">
+    <!-- 左侧一级分类区域 -->
+    <div class="primary-nav">
+        <div class="nav-header">
+            <img src="logo.svg" alt="Logo" class="logo">
+        </div>
 
-            <!-- 文本字符 -->
-            <div class="category">
-                <div class="category-header">
-                    <h2 class="category-title">文本字符</h2>
-                </div>
-                
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-id="quchong" data-url="tools/1.html">
-                        <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
-                        <h3>文本字符去重</h3>
-                        <p>移除文本中的重复字符或行。</p>
-                    </div>
-                    
-                    <div class="tool-card" data-tool-id="duibi" data-url="tools/2.html">
-                        <div class="tool-icon"><i class="fas fa-exchange-alt"></i></div>
-                        <h3>文本字符对比</h3>
-                        <p>对比两段文本的差异。</p>
-                    </div>
-                    
-                    <div class="tool-card" data-tool-id="pinyin" data-url="tools/3.html">
-                        <div class="tool-icon"><i class="fas fa-language"></i></div>
-                        <h3>汉字拼音互转</h3>
-                        <p>汉字与拼音之间的转换。</p>
-                    </div>
+        <!-- 移动端折叠菜单按钮 -->
+        <button class="mobile-menu-toggle">
+            <span>切换分类</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
 
-                    <div class="tool-card" data-tool-id="pinyin" data-url="tools/4.html">
-                        <div class="tool-icon"><i class="fa-solid fa-text-width"></i></div>
-                        <h3>形近字查询定位</h3>
-                        <p>外形相似的中文字符检索工具</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 字体风格 -->
-            <div class="category">
-                <div class="category-header">
-                    <h2 class="category-title">字体风格</h2>
-                </div>
-                
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-id="image-compressor" data-url="tools/write/index.html">
-                        <div class="tool-icon"><i class="fa-solid fa-signature"></i></div>
-                        <h3>搜书法风格</h3>
-                        <p>中国古代书法风格大全，即搜即用设计师必备</p>
-                        <span class="tool-badge">推荐</span>
-                    </div>
-                </div>
-            </div>
-            
+        <div class="primary-categories">
+            <!-- 默认激活第一个分类 -->
+            <button class="primary-category active" data-category="A">
+                <i class="fa-solid fa-text-width"></i>
+                <span>文本字符</span>
+            </button>
+            <button class="primary-category" data-category="B">
+                <i class="fa-solid fa-signature"></i>
+                <span>字体书法</span>
+            </button>
         </div>
     </div>
-    
-    <!-- 全屏容器 -->
-    <div id="fullscreen-container" class="fullscreen-container">
-        <iframe id="fullscreen-content" class="fullscreen-content" frameborder="0"></iframe>
-        <button id="back-button" class="back-button">
-            <i class="fas fa-arrow-left"></i> 返回主页
-        </button>
+
+    <!-- 右侧内容区 -->
+    <div class="content-area">
+        <!-- 搜索区域 -->
+        <div class="search-section">
+            <div class="search-area">
+                <div class="search-container">
+                    <div class="search-input-container">
+                        <input type="text" class="search-input" placeholder="输入关键词搜索卡片...">
+                        <!-- 搜索按钮已移除 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡片区域 - 每个一级分类对应一个 .category-group (默认显示) -->
+        <div class="cards-section" id="cards-view">
+            <!-- 精选推荐 A -->
+            <div class="category-group" data-category-group="A" id="category-A">
+                <div class="category-header">
+                    <h2 class="category-title">文本字符</h2>
+                    <p class="category-desc">适合特殊用途下的文本字符类工具</p>
+                </div>
+                <div class="cards-container" data-category-cards="A"></div>
+            </div>
+
+            <!-- 灵感创意 B -->
+            <div class="category-group" data-category-group="B" id="category-B">
+                <div class="category-header">
+                    <h2 class="category-title">字体书法</h2>
+                    <p class="category-desc">日常设计寻找适合的书法字形</p>
+                </div>
+                <div class="cards-container" data-category-cards="B"></div>
+            </div>
+        </div>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM 元素缓存
-            const elements = {
-                toolCards: document.querySelectorAll('.tool-card'),
-                fullscreenContainer: document.getElementById('fullscreen-container'),
-                fullscreenContent: document.getElementById('fullscreen-content'),
-                backButton: document.getElementById('back-button'),
-                mainPage: document.getElementById('main-page'),
-                searchInput: document.getElementById('search-input'),
-                categories: document.querySelectorAll('.category')
-            };
-            
-            // 工具卡片点击处理
-            function handleToolCardClick() {
-                const toolUrl = this.getAttribute('data-url');
-                
-                // 设置 iframe 源并立即隐藏主页面
-                elements.fullscreenContent.src = toolUrl;
-                elements.mainPage.style.display = 'none';
 
-                // 如果存在 hiding 类则移除，然后添加 show 类以触发打开动画
-                elements.fullscreenContainer.classList.remove('hiding');
-                elements.fullscreenContainer.style.display = 'block'; // 确保容器显示，以便动画能被触发
-                // 强制浏览器重排，以确保 display 属性的变化在添加 class 之前被渲染，从而触发动画
-                void elements.fullscreenContainer.offsetWidth; 
-                elements.fullscreenContainer.classList.add('show');
-            }
-            
-            // 返回按钮点击处理
-            function handleBackButtonClick() {
-                // 添加 hiding 类以触发关闭动画
-                elements.fullscreenContainer.classList.add('hiding');
-                
-                // 监听过渡动画结束事件，动画结束后才隐藏容器
-                elements.fullscreenContainer.addEventListener('transitionend', function handler() {
-                    elements.fullscreenContainer.style.display = 'none';
-                    elements.fullscreenContent.src = ''; // 清空 iframe src，防止后台加载
-                    elements.fullscreenContainer.classList.remove('show', 'hiding'); // 清理动画类
-                    elements.mainPage.style.display = 'block';
-                    elements.fullscreenContainer.removeEventListener('transitionend', handler); // 移除监听器
-                    
-                    // 返回主页时，清空搜索框并显示所有卡片和分类标题
-                    elements.searchInput.value = '';
-                    filterTools(''); // 调用 filterTools 恢复所有卡片显示
-                });
-            }
-            
-            // 搜索功能实现
-            function filterTools(searchTerm) {
-                const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+    <!-- 嵌入页面区域 (默认隐藏) -->
+    <div class="embedded-page-container" id="embedded-view">
+        <div class="embedded-page-header">
+            <button class="back-button" id="back-to-cards">
+                <i class="fas fa-arrow-left"></i>
+                <span>返回</span>
+            </button>
+        </div>
+        <iframe class="embedded-iframe" id="embedded-iframe" src="" frameborder="0"></iframe>
+    </div>
+</div>
 
-                elements.categories.forEach(category => {
-                    let hasVisibleCards = false;
-                    const categoryHeader = category.querySelector('.category-header');
-                    const toolCardsInThisCategory = category.querySelectorAll('.tool-card');
+<script>
+    // 卡片数据 (现在直接以一级分类作为键)
+    const cardData = {
+        'A': [
+            {url: 'tools/1.html', icon: 'icon/1.svg', title: '文本字符去重', desc: '移除文本中的重复字符或行'},
+            {url: 'tools/2.html', icon: 'icon/1.svg', title: '文本字符对比', desc: '对比两段文本的差异'},
+            {url: 'tools/3.html', icon: 'icon/1.svg', title: '汉字拼音互转', desc: '汉字与拼音之间的转换'},
+            {url: 'tools/4.html', icon: 'icon/1.svg', title: '形近字查询定位', desc: '外形相似的中文字符检索工具'},
+        ],
+        'B': [
+            {url: 'tools/write/index.html', icon: 'icon/1.svg', title: '搜书法风格', desc: '中国古代书法风格大全，即搜即用设计师必备'},
+           
+        ],
+    };
 
-                    toolCardsInThisCategory.forEach(card => {
-                        const title = card.querySelector('h3').textContent.toLowerCase();
-                        const description = card.querySelector('p').textContent.toLowerCase();
+    // 获取DOM元素
+    const body = document.body; // 获取body元素
+    const searchInput = document.querySelector('.search-input');
+    const primaryCategories = document.querySelectorAll('.primary-category');
+    const cardsSection = document.getElementById('cards-view');
+    const embeddedPageContainer = document.getElementById('embedded-view');
+    const embeddedIframe = document.getElementById('embedded-iframe');
+    const backButton = document.getElementById('back-to-cards');
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const primaryCategoriesContainer = document.querySelector('.primary-categories');
 
-                        if (title.includes(lowerCaseSearchTerm) || description.includes(lowerCaseSearchTerm)) {
-                            card.classList.remove('hidden');
-                            hasVisibleCards = true;
-                        } else {
-                            card.classList.add('hidden');
-                        }
-                    });
+    // 搜索功能
+    function initSearch() {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            const allCards = document.querySelectorAll('.card');
 
-                    // 根据分类内是否有可见卡片来显示或隐藏分类标题
-                    if (hasVisibleCards || lowerCaseSearchTerm === '') { // 如果有可见卡片，或者搜索词为空（显示所有）
-                        categoryHeader.classList.remove('hidden');
-                    } else {
-                        categoryHeader.classList.add('hidden');
-                    }
-                });
-            }
-            
-            // 设置事件监听器
-            function setupEventListeners() {
-                // 工具卡片点击事件
-                elements.toolCards.forEach(card => {
-                    card.addEventListener('click', handleToolCardClick);
-                });
-                
-                // 返回按钮点击事件
-                elements.backButton.addEventListener('click', handleBackButtonClick);
-                
-                // 搜索框输入事件
-                elements.searchInput.addEventListener('input', (event) => {
-                    filterTools(event.target.value);
-                });
-            }
-            
-            // 页面初始化
-            function init() {
-                setupEventListeners(); // 设置所有事件监听器
-            }
-            
-            init(); // 执行初始化
+            allCards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+
+                if (title.includes(query) || desc.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
         });
-    </script>
+    }
+
+    // 填充卡片内容并绑定点击事件
+    function populateCards() {
+        Object.keys(cardData).forEach(categoryCode => {
+            const container = document.querySelector(`.cards-container[data-category-cards="${categoryCode}"]`);
+            if (container) {
+                container.innerHTML = cardData[categoryCode].map(card => `
+                    <a href="#" class="card" data-url="${card.url}">
+                        <div class="card-header">
+                            <img src="${card.icon}" class="card-icon" loading="lazy" alt="${card.title}">
+                            <div>
+                                <div class="card-title">${card.title}</div>
+                                <div class="card-desc">${card.desc}</div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            }
+        });
+
+        // 为所有卡片添加点击事件监听器
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function(event) {
+                event.preventDefault();
+                const url = this.dataset.url;
+
+                if (url) {
+                    body.classList.add('embedded-active'); // 添加类，触发全屏样式
+                    embeddedPageContainer.classList.add('show'); // 添加show类，触发动画
+                    embeddedIframe.src = url; // 加载内容到 iframe
+
+                    // 禁用搜索框
+                    searchInput.disabled = true;
+                    searchInput.value = ''; // 清空搜索内容
+                    document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden')); // 显示所有卡片，以便返回后是干净的视图
+                }
+            });
+        });
+    }
+
+    // 返回按钮点击事件
+    function setupBackButton() {
+        backButton.addEventListener('click', function() {
+            body.classList.remove('embedded-active'); // 移除类，恢复布局
+            embeddedPageContainer.classList.remove('show'); // 移除show类，触发动画
+
+            // 为了在动画结束后清空iframe内容，可以监听transitionend事件，或者简单地延迟清空
+            setTimeout(() => {
+                embeddedIframe.src = ''; // 清空 iframe 的 src，防止下次加载残留
+            }, 500); // 延迟时间与CSS过渡时间一致
+
+            // 重新启用搜索框
+            searchInput.disabled = false;
+            // 恢复左侧导航的默认激活状态 (可选，根据你的需求决定是否需要重置到某个特定分类)
+            primaryCategories.forEach(i => i.classList.remove('active'));
+            const firstCategoryBtn = document.querySelector('.primary-category[data-category="A"]');
+            if (firstCategoryBtn) {
+                firstCategoryBtn.classList.add('active');
+            }
+            // 滚动到顶部（可选）
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // 初始化导航和卡片显示
+    function initNavigation() {
+        // 移动端菜单切换
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                primaryCategoriesContainer.classList.toggle('active');
+            });
+        }
+
+        // 主分类点击事件 (带平滑滚动)
+        primaryCategories.forEach(item => {
+            item.addEventListener('click', function() {
+                // 如果当前在嵌入页面，则先返回到卡片视图
+                if (body.classList.contains('embedded-active')) { // 使用body class判断
+                    backButton.click(); // 触发返回按钮的点击事件
+                    // 可以设置一个 setTimeout 来等待返回动画，但这里为了简洁直接滚动
+                    setTimeout(() => { // 稍作延迟，确保DOM状态更新
+                         const category = this.dataset.category;
+                         const targetGroup = document.getElementById(`category-${category}`);
+                         if (targetGroup) {
+                             const searchSectionHeight = document.querySelector('.search-section').offsetHeight;
+                             const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchSectionHeight - 20;
+                             window.scrollTo({
+                                 top: targetPosition,
+                                 behavior: 'smooth'
+                             });
+                         }
+                    }, 50); // 50ms 应该足够
+                }
+
+                const category = this.dataset.category;
+
+                // 切换active状态
+                primaryCategories.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+
+                // 隐藏移动端菜单 (如果需要的话)
+                if (window.innerWidth <= 768) {
+                    primaryCategoriesContainer.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                }
+
+                // 平滑滚动到对应的分类组 (仅当非嵌入页面时才需要滚动到卡片区)
+                if (!body.classList.contains('embedded-active')) {
+                    const targetGroup = document.getElementById(`category-${category}`);
+                    if (targetGroup) {
+                        const searchSectionHeight = document.querySelector('.search-section').offsetHeight;
+                        const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchSectionHeight - 20;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+
+                // 每次切换主分类时，清空搜索框并显示所有卡片
+                searchInput.value = '';
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('hidden');
+                });
+            });
+        });
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        populateCards(); // 填充卡片内容
+        initSearch(); // 初始化搜索
+        setupBackButton(); // 设置返回按钮
+        initNavigation(); // 初始化导航
+
+        // 首次加载时，默认激活第一个分类的按钮
+        const firstCategoryBtn = document.querySelector('.primary-category[data-category="A"]');
+        if (firstCategoryBtn) {
+            firstCategoryBtn.classList.add('active');
+        }
+    });
+</script>
 </body>
 </html>
