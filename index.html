@@ -3,572 +3,860 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造工具箱-设计师的灵感百宝库</title>
+    <title>字造 - 专注分享字体领域优质内容</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
     <meta name="author" content="字造">
-    <meta property="og:title" content="字造工具箱 - 设计师的灵感百宝库">
+    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
     <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta property="og:image" content="https://www.zizao.top/logo.png">
     <meta property="og:url" content="https://www.zizao.top">
     <meta property="og:type" content="website">
-    <link rel="icon" href="index.ico" type="image/x-icon">
+    <link rel="icon" href="home/index.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
         :root {
-            --sidebar-bg: #2d353c;
-            --sidebar-width: 280px;
-            --sidebar-collapsed-width: 70px;
-            --primary-color: #FF8C19;
-            --hover-color: rgba(255, 255, 255, 0.08);
-            --active-color: rgba(255, 140, 25, 0.2);
-            --text-color: #e1e5eb;
-            --text-muted: #9ba4b0;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --border-radius: 6px;
+            --primary-color: #ff6a00;
+            --hover-bg: rgba(255, 106, 0, 0.1);
+            --text-color: #555;
+            --transition-time: 0.25s;
+            --page-transition-time: 0.4s;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --submenu-bg: #f8f9fa;
+            --mobile-menu-bg: rgba(255, 255, 255, 0.98);
+            --mobile-menu-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, Oxygen-Sans,
+                         Ubuntu, Cantarell, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            display: flex;
-            height: 100vh;
+            background-color: #f7f9fc;
+            padding-top: 65px;
             overflow: hidden;
-            background-color: #f8f9fa;
-            color: #333;
         }
 
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            color: var(--text-color);
-            height: 100vh;
-            overflow: hidden;
-            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: var(--shadow);
-            position: relative;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-
-        .sidebar.collapsed {
-            width: var(--sidebar-collapsed-width);
-        }
-
-        .sidebar.collapsed .menu-item span,
-        .sidebar.collapsed .menu-item-badge,
-        .sidebar.collapsed .footer-item span,
-        .sidebar.collapsed .collapse-btn span {
-            display: none;
-        }
-
-        .sidebar-header {
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            justify-content: center;
-        }
-
-        .logo-img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-        }
-
-        .sidebar-main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            flex: 1;
-        }
-
-        .sidebar-menu::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar-menu::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-        }
-
-        .menu-item {
-            padding: 12px 20px;
-            margin: 4px 12px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-            position: relative;
-        }
-
-        .sidebar.collapsed .menu-item {
-            justify-content: center;
-            padding: 15px 0;
-        }
-
-        .menu-item:hover {
-            background: var(--hover-color);
-        }
-
-        .menu-item.active {
-            background: var(--active-color);
-            color: white;
-        }
-
-        .menu-item.active i {
-            color: var(--primary-color);
-        }
-
-        .menu-item i {
-            font-size: 1.1rem;
-            margin-right: 15px;
-            width: 24px;
-            text-align: center;
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-
-        .sidebar.collapsed .menu-item i {
-            margin-right: 0;
-        }
-
-        .menu-item span {
-            transition: var(--transition);
-            font-size: 0.95rem;
-        }
-
-        .menu-item-badge {
-            margin-left: auto;
-            background: var(--primary-color);
-            color: white;
-            font-size: 0.6rem;
-            padding: 1px 5px;
-            border-radius: 8px;
-            line-height: 1.2;
-        }
-
-        .collapse-btn-container {
-            padding: 15px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .collapse-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 8px 12px;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .collapse-btn:hover {
-            background: var(--hover-color);
-            color: var(--text-color);
-        }
-
-        .collapse-btn i {
-            margin-right: 12px;
-            transition: var(--transition);
-        }
-
-        .sidebar.collapsed .collapse-btn {
-            justify-content: center;
-            padding: 10px 0;
-        }
-
-        .sidebar.collapsed .collapse-btn i {
-            margin-right: 0;
-            transform: rotate(180deg);
-        }
-
-        .sidebar-footer {
-            padding: 10px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-item {
-            padding: 12px 20px;
-            margin: 4px 12px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-            color: var(--text-muted);
-        }
-
-        .sidebar.collapsed .footer-item {
-            justify-content: center;
-            padding: 15px 0;
-        }
-
-        .footer-item:hover {
-            background: var(--hover-color);
-            color: var(--text-color);
-        }
-
-        .footer-item i {
-            font-size: 1rem;
-            margin-right: 15px;
-            width: 24px;
-            text-align: center;
-        }
-
-        .sidebar.collapsed .footer-item i {
-            margin-right: 0;
-        }
-
-        .main-content {
-            flex: 1;
-            height: 100vh;
-            overflow: hidden;
-            transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .tool-container {
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: white;
-        }
-
-        .tool-container.active {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                transform: translateX(-100%);
-            }
-
-            .sidebar:not(.collapsed) {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0 !important;
-            }
-
-            .mobile-toggle-btn {
-                display: flex;
-                position: fixed;
-                left: 10px;
-                top: 10px;
-                z-index: 90;
-                background: var(--sidebar-bg);
-                color: white;
-                border: none;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-                transition: opacity 0.3s ease;
-            }
-
-            .sidebar:not(.collapsed) ~ .mobile-toggle-btn {
-                opacity: 0;
-                pointer-events: none;
-            }
-        }
-
-        #sidebar-overlay {
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 99;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+            height: 65px;
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
         }
 
-        #sidebar-overlay.show {
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity var(--transition-time) ease;
+        }
+
+        .logo-svg {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+
+        .logo-link:hover {
+            opacity: 0.9;
+        }
+
+        .logo-link:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 20px;
+            color: var(--text-color);
+            cursor: pointer;
+            margin-left: auto;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all var(--transition-time) ease;
+            background: none;
+            border: none;
+        }
+
+        .hamburger:hover, .hamburger:focus {
+            background-color: var(--hover-bg);
+            color: var(--primary-color);
+            outline: none;
+        }
+
+        /* 桌面端导航样式 */
+        .nav-links {
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+            margin-left: 15px;
+            gap: 4px;
+            list-style: none;
+        }
+
+        .nav-item {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            height: 38px;
+            padding: 0 16px;
+            transition: all var(--transition-time) ease;
+            border-radius: 6px;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-item[data-type] {
+            padding: 0 16px;
+        }
+
+        .nav-item > a {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+            color: inherit;
+            margin: 0 -16px;
+            padding: 0 16px;
+        }
+
+        .nav-item.has-submenu {
+            padding-right: 12px;
+        }
+        .nav-item.has-submenu .submenu-icon {
+            margin-left: 8px;
+            margin-right: -4px;
+        }
+        .nav-item.has-submenu > span {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 18px;
+            background-color: var(--border-color);
+        }
+
+        .nav-item:hover, .nav-item:focus-within {
+            color: var(--primary-color);
+            background-color: rgba(255, 106, 0, 0.05);
+            outline: none;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            background-color: var(--hover-bg);
+        }
+
+        .nav-item.active > a {
+            color: inherit;
+        }
+
+        /* 二级菜单样式 */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .submenu-icon {
+            margin-left: 6px;
+            font-size: 13px;
+            transition: transform var(--transition-time) ease;
+        }
+
+        .nav-item.has-submenu:hover .submenu-icon {
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-time) cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            list-style: none;
+        }
+
+        .nav-item.has-submenu:hover .submenu,
+        .nav-item.has-submenu:focus-within .submenu {
             opacity: 1;
-            pointer-events: auto;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .submenu > li {
+            padding: 0;
+        }
+
+        .submenu-item {
+            padding: 10px 20px 10px 24px;
+            font-size: 15px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: block;
+            text-decoration: none;
+            text-align: left;
+        }
+
+        .submenu > li:hover,
+        .submenu > li:focus-within {
+            background-color: var(--hover-bg);
+        }
+
+        .submenu > li:hover .submenu-item,
+        .submenu > li:focus-within .submenu-item {
+            color: var(--primary-color);
+        }
+
+        .submenu > li.active {
+            background-color: var(--hover-bg);
+        }
+
+        .submenu > li.active .submenu-item {
+            color: var(--primary-color);
+        }
+
+        .content-frame-container {
+            position: fixed;
+            top: 65px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 65px);
+            background-color: #f7f9fc;
+            z-index: 99;
+            overflow: hidden;
+        }
+
+        .content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #fff;
+            opacity: 1;
+            transition: opacity var(--page-transition-time) ease-in-out;
+        }
+
+        .content-frame.loading {
+            opacity: 0;
+        }
+
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%;
+            display: none;
+            z-index: 100;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 106, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        [tabindex]:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* 移动端全屏菜单样式 */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 65px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 65px);
+                background-color: var(--mobile-menu-bg);
+                padding: 20px 0;
+                flex-direction: column;
+                list-style: none;
+                overflow-y: auto;
+                z-index: 999;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-out;
+                box-shadow: var(--mobile-menu-shadow);
+            }
+
+            .nav-links.show {
+                transform: translateX(0);
+            }
+
+            .nav-item {
+                padding: 16px 25px;
+                font-size: 16px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                border-radius: 0;
+                height: auto;
+                justify-content: space-between;
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .nav-item::after {
+                display: none;
+            }
+
+            .nav-item.has-submenu .submenu-icon {
+                margin-left: 10px;
+                color: rgba(0, 0, 0, 0.4);
+            }
+
+            .nav-item.has-submenu.active .submenu-icon {
+                transform: rotate(180deg);
+                color: var(--primary-color);
+            }
+
+            .submenu {
+                position: static;
+                width: 100%;
+                background-color: var(--submenu-bg);
+                border: none;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                padding: 0;
+                margin: 0;
+                display: none;
+                transition: none;
+            }
+
+            .submenu.show {
+                display: block;
+            }
+
+            .submenu-item {
+                padding: 14px 25px 14px 40px;
+                font-size: 15px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            }
+
+            .submenu > li:last-child .submenu-item {
+                border-bottom: none;
+            }
+
+            .nav-item:hover, 
+            .nav-item:focus-within,
+            .nav-item.active {
+                background-color: var(--hover-bg);
+                color: var(--primary-color);
+            }
+
+            .nav-item.active {
+                font-weight: 600;
+            }
+
+            .submenu > li.active {
+                background-color: rgba(255, 106, 0, 0.08);
+            }
+
+            .submenu > li.active .submenu-item {
+                color: var(--primary-color);
+                font-weight: 500;
+            }
+
+            .nav-item.active > a {
+                color: inherit;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 15px;
+                height: 60px;
+            }
+
+            .logo-svg {
+                height: 30px;
+            }
+
+            .hamburger {
+                font-size: 20px;
+                padding: 8px;
+            }
+
+            .nav-links {
+                top: 60px;
+                height: calc(100vh - 60px);
+            }
+
+            .content-frame-container {
+                top: 60px;
+                height: calc(100vh - 60px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                height: 55px;
+            }
+
+            .logo-svg {
+                height: 28px;
+            }
+
+            .hamburger {
+                font-size: 18px;
+                padding: 6px;
+            }
+
+            .nav-links {
+                top: 55px;
+                height: calc(100vh - 55px);
+            }
+
+            .content-frame-container {
+                top: 55px;
+                height: calc(100vh - 55px);
+            }
+
+            .nav-item {
+                font-size: 15px;
+                padding: 14px 20px;
+            }
+
+            .submenu-item {
+                font-size: 14px;
+                padding: 12px 20px 12px 32px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar collapsed">
-        <div class="sidebar-header">
-            <div class="logo">
-                <img src="logo.svg" alt="字造 Logo" class="logo-img">
-            </div>
+    <nav class="navbar" aria-label="主导航">
+        <div class="navbar-brand">
+            <a href="#home" class="logo-link" aria-label="返回首页">
+                <img src="home/logo.svg" alt="字造logo" class="logo-svg" width="120" height="32">
+            </a>
         </div>
 
-        <div class="sidebar-main">
-            <ul class="sidebar-menu">
-                <li class="menu-item active" data-tool="home" data-title="字造专注分享字体领域优质内容" data-url="home/index.html">
-                    <i class="fas fa-home"></i>
-                    <span>字造主页</span>
-                </li>
-                <li class="menu-item" data-tool="hao" data-title="字造导航-设计师的私藏灵感库" data-url="hao/index.html">
-                    <i class="fas fa-compass"></i>
-                    <span>设计导航</span>
-                    <span class="menu-item-badge">推荐</span>
-                </li>
-                <li class="menu-item" data-tool="bao" data-title="设计百宝库" data-url="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c">
-                    <i class="fa-solid fa-credit-card"></i>
-                    <span>设计百宝库</span>
-                </li>
-                <li class="menu-item" data-tool="tools" data-title="字造工具箱" data-url="tools/index.html">
-                    <i class="fa-solid fa-toolbox"></i>
-                    <span>字造工具箱</span>
-                </li>
-            </ul>
+        <ul class="nav-links" id="mainNavLinks" role="menu">
+            <li class="nav-item active" role="menuitem" tabindex="0" data-section="home" data-type="iframe">首页</li>
+            <li class="nav-item" role="menuitem" tabindex="0" data-section="hao" data-type="iframe">设计导航</li>
+            <li class="nav-item" role="menuitem" tabindex="0" data-section="bao" data-type="iframe">设计百宝库</li>
 
-            <div class="collapse-btn-container">
-                <button class="collapse-btn" id="toggleSidebar">
-                    <i class="fas fa-chevron-left"></i>
-                    <span>折叠菜单</span>
-                </button>
-            </div>
-        </div>
+            <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="toolbox">
+                <span>工具箱</span>
+                <i class="fas fa-chevron-down submenu-icon"></i>
+                <ul class="submenu">
+                    <li role="menuitem" tabindex="0" data-section="quzhong" data-type="iframe"><a class="submenu-item" href="#">字符去重</a></li>
+                    <li role="menuitem" tabindex="0" data-section="duibi" data-type="iframe"><a class="submenu-item" href="#">文本对比</a></li>
+                    <li role="menuitem" tabindex="0" data-section="pinyin" data-type="iframe"><a class="submenu-item" href="#">汉字拼音转换</a></li>
+                    <li role="menuitem" tabindex="0" data-section="xingjinzi" data-type="iframe"><a class="submenu-item" href="#">形近字查询</a></li>
+                    <li role="menuitem" tabindex="0" data-section="shufafengge" data-type="iframe"><a class="submenu-item" href="#">书法风格</a></li>
+                </ul>
+            </li>
 
-        <div class="sidebar-footer">
-            <div class="footer-item" data-tool="about" data-title="关于我们" data-url="https://www.zizao.top/about.html">
-                <i class="fas fa-info-circle"></i>
-                <span>关于我们</span>
-            </div>
-            <div class="footer-item" data-tool="coop" data-title="设计合作" data-url="https://www.zizao.top/contact.html">
-                <i class="fas fa-envelope"></i>
-                <span>设计合作</span>
-            </div>
-            <div class="footer-item" data-tool="help" data-title="帮助中心" data-url="https://www.zizao.top/help.html">
-                <i class="fas fa-question-circle"></i>
-                <span>帮助中心</span>
-            </div>
+            <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="tools">
+                <span>友链推荐</span>
+                <i class="fas fa-chevron-down submenu-icon"></i>
+                <ul class="submenu">
+                    <li role="menuitem" tabindex="0" data-section="fzy" data-type="newtab"><a class="submenu-item" href="https://www.foundertype.com/" target="_blank" rel="noopener noreferrer">方正字库⤴</a></li>
+                    <li role="menuitem" tabindex="0" data-section="hyz" data-type="newtab"><a class="submenu-item" href="https://www.hanyi.com.cn/" target="_blank" rel="noopener noreferrer">汉仪字库⤴</a></li>
+                    <li role="menuitem" tabindex="0" data-section="ztx" data-type="newtab"><a class="submenu-item" href="https://www.fonts.net.cn/" target="_blank" rel="noopener noreferrer">字体天下⤴</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item" role="menuitem" tabindex="0" data-section="icon" data-type="newtab">
+                <a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer">阿里巴巴图标库⤴</a>
+            </li>
+        </ul>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="导航菜单" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="content-frame-container">
+        <div class="loader" id="loader">
+            <div class="loader-spinner"></div>
         </div>
+        <iframe id="mainContentFrame" class="content-frame" title="页面内容" src="home/index.html"></iframe>
     </div>
-
-    <div class="main-content">
-        <div class="tool-container active" id="home">
-            <iframe src="home/index.html" title="字造专注分享字体领域优质内容"></iframe>
-        </div>
-        <div class="tool-container" id="hao">
-            <iframe src="hao/index.html" title="字造导航-设计师的私藏灵感库"></iframe>
-        </div>
-        <div class="tool-container" id="bao">
-            <iframe src="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c" title="设计百宝库"></iframe>
-        </div>
-        <div class="tool-container" id="tools">
-            <iframe src="tools/index.html" title="字造工具箱"></iframe>
-        </div>
-
-        <div class="tool-container" id="about">
-            <iframe src="https://www.zizao.top/about.html" title="关于我们"></iframe>
-        </div>
-        <div class="tool-container" id="coop">
-            <iframe src="https://www.zizao.top/contact.html" title="设计合作"></iframe>
-        </div>
-        <div class="tool-container" id="help">
-            <iframe src="https://www.zizao.top/help.html" title="帮助中心"></iframe>
-        </div>
-    </div>
-
-    <button class="mobile-toggle-btn" id="mobileSidebarToggle" style="display: none;">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div id="sidebar-overlay"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const menuItems = document.querySelectorAll('.menu-item, .footer-item');
-            const toggleBtn = document.getElementById('toggleSidebar');
-            const mobileToggleBtn = document.getElementById('mobileSidebarToggle');
-            const sidebar = document.querySelector('.sidebar');
-            const sidebarOverlay = document.getElementById('sidebar-overlay');
-            let activeTool = 'home';
-            let isMobile = window.innerWidth <= 992;
+            const mainNavLinks = document.getElementById('mainNavLinks');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const logoLink = document.querySelector('.logo-link');
+            const mainContentFrame = document.getElementById('mainContentFrame');
+            const loader = document.getElementById('loader');
 
-            function updateBrowserURL(toolId, toolTitle) {
-                const state = { tool: toolId, title: toolTitle };
-                const url = `#${toolId}`;
-                history.pushState(state, toolTitle, url);
-                document.title = `${toolTitle} - 字造ZIZAO`;
+            let currentSection = 'home';
+            let isAnimating = false;
+            let isMobileMenuOpen = false;
+
+            const sectionFileMap = {
+                'home': 'home/index.html',
+                'hao': 'hao/index.html',
+                'bao': 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c',
+                'quzhong': 'toolbox/1.html',
+                'duibi': 'toolbox/2.html',
+                'pinyin': 'toolbox/3.html',
+                'xingjinzi': 'toolbox/4.html',
+                'shufafengge': 'toolbox/write/index.html',
+            };
+
+            const sectionTitles = {
+                'home': '字造 - 专注分享字体领域优质内容',
+                'hao': '字造导航 - 设计师的私藏灵感库',
+                'bao': '字造百宝库 - 设计师的资源百宝库',
+                'toolbox': '工具箱 - 字造ZIZAO',
+                'quzhong': '文本字符去重工具 - 字造ZIZAO',
+                'duibi': '文字字符对比工具 - 字造ZIZAO',
+                'pinyin': '汉字拼音转换工具 - 字造ZIZAO',
+                'xingjinzi': '形近字查询工具 - 字造ZIZAO',
+                'shufafengge': '书法风格查询工具 - 字造ZIZAO',
+                'tools': '友链推荐 - 字造ZIZAO',
+                'fzy': '方正字库 - 字造ZIZAO',
+                'hyz': '汉仪字库 - 字造ZIZAO',
+                'ztx': '字体天下 - 字造ZIZAO',
+                'icon': '阿里巴巴图标库 - 字造ZIZAO'
+            };
+
+            function getIframeFilePath(sectionId) {
+                return sectionFileMap[sectionId] || null;
             }
 
-            function switchTool(toolId, toolTitle, toolUrl) {
-                if (toolId === activeTool && isMobile && !sidebar.classList.contains('collapsed')) {
-                    toggleSidebar();
+            function initPage() {
+                const hash = window.location.hash.replace('#', '');
+                const initialSectionId = hash || 'home';
+
+                const initialElement = document.querySelector(`[data-section="${initialSectionId}"]`);
+
+                if (initialElement) {
+                    currentSection = initialSectionId;
+                    if (initialElement.dataset.type === 'iframe') {
+                        loadSection(initialSectionId, false);
+                    } else {
+                        window.history.replaceState({ section: initialSectionId }, '', `#${initialSectionId}`);
+                        resetActiveStates(initialSectionId);
+                        updatePageTitle(initialSectionId);
+                    }
+                } else {
+                    window.history.replaceState({ section: 'home' }, '', '#home');
+                    loadSection('home', false);
+                }
+            }
+
+            function handleHashChange() {
+                const newSection = window.location.hash.replace('#', '');
+                if (newSection && newSection !== currentSection) {
+                    const targetElement = document.querySelector(`[data-section="${newSection}"]`);
+                    if (targetElement) {
+                        if (targetElement.dataset.type === 'iframe') {
+                            loadSection(newSection, false);
+                        } else {
+                            currentSection = newSection;
+                            resetActiveStates(newSection);
+                            updatePageTitle(newSection);
+                        }
+                    } else {
+                        loadSection('home');
+                    }
+                }
+            }
+
+            function loadSection(sectionId, updateHistory = true) {
+                const targetFilePath = getIframeFilePath(sectionId);
+
+                if (!targetFilePath || isAnimating) {
+                    if (currentSection !== sectionId) {
+                        currentSection = sectionId;
+                        resetActiveStates(sectionId);
+                        updatePageTitle(sectionId);
+                        if (updateHistory) {
+                            window.history.pushState({ section: sectionId }, '', `#${sectionId}`);
+                        }
+                    }
                     return;
                 }
 
-                document.querySelectorAll('.menu-item, .footer-item').forEach(i => i.classList.remove('active'));
-                document.querySelectorAll('.tool-container').forEach(tool => tool.classList.remove('active'));
+                const currentIframeSrc = new URL(mainContentFrame.src).pathname.split('/').pop().split('?')[0];
+                const targetIframeSrc = new URL(targetFilePath, window.location.href).pathname.split('/').pop().split('?')[0];
 
-                const menuItem = document.querySelector(`[data-tool="${toolId}"]`);
-                if (menuItem) menuItem.classList.add('active');
-
-                const toolContainer = document.getElementById(toolId);
-                if (toolContainer) {
-                    toolContainer.classList.add('active');
-                    activeTool = toolId;
-
-                    const iframe = toolContainer.querySelector('iframe');
-                    if (iframe && (iframe.src !== toolUrl || iframe.src === '')) {
-                        iframe.style.opacity = 0;
-                        iframe.src = toolUrl;
-                    }
-
-                    updateBrowserURL(toolId, toolTitle);
-
-                    if (isMobile && !sidebar.classList.contains('collapsed')) {
-                        toggleSidebar();
-                    }
+                if (currentIframeSrc === targetIframeSrc && currentSection === sectionId) {
+                    resetActiveStates(sectionId);
+                    updatePageTitle(sectionId);
+                    return;
                 }
+
+                isAnimating = true;
+                mainContentFrame.classList.add('loading');
+                loader.classList.add('active');
+
+                if (updateHistory) {
+                    window.history.pushState({ section: sectionId }, '', `#${sectionId}`);
+                }
+
+                updatePageTitle(sectionId);
+                mainContentFrame.src = targetFilePath;
+
+                mainContentFrame.onload = function() {
+                    setTimeout(() => {
+                        mainContentFrame.classList.remove('loading');
+                        loader.classList.remove('active');
+                        isAnimating = false;
+                        currentSection = sectionId;
+                        resetActiveStates(sectionId);
+                    }, 100);
+                };
+
+                mainContentFrame.onerror = function() {
+                    mainContentFrame.classList.remove('loading');
+                    loader.classList.remove('active');
+                    isAnimating = false;
+                    if (sectionId !== 'home') {
+                        loadSection('home');
+                    }
+                };
             }
 
-            function initToolFromURL() {
-                const hash = window.location.hash.substring(1);
-                if (hash) {
-                    const menuItem = document.querySelector(`[data-tool="${hash}"]`);
-                    if (menuItem) {
-                        const toolId = menuItem.getAttribute('data-tool');
-                        const toolTitle = menuItem.getAttribute('data-title');
-                        const toolUrl = menuItem.getAttribute('data-url');
-                        switchTool(toolId, toolTitle, toolUrl);
-                        return;
-                    }
-                }
-                const defaultMenuItem = document.querySelector('[data-tool="home"]');
-                if (defaultMenuItem) {
-                    const toolId = defaultMenuItem.getAttribute('data-tool');
-                    const toolTitle = defaultMenuItem.getAttribute('data-title');
-                    const toolUrl = defaultMenuItem.getAttribute('data-url');
-                    switchTool(toolId, toolTitle, toolUrl);
-                }
-            }
+            function updatePageTitle(sectionId) {
+                const title = sectionTitles[sectionId] || '字造 - 专注分享字体领域优质内容';
+                document.title = title;
 
-            function toggleSidebar() {
-                const wasCollapsed = sidebar.classList.contains('collapsed');
-                sidebar.classList.toggle('collapsed');
-                
-                if (isMobile) {
-                    if (!wasCollapsed) {
-                        sidebarOverlay.classList.remove('show');
-                        mobileToggleBtn.style.opacity = '1';
-                        mobileToggleBtn.style.pointerEvents = 'auto';
-                    } else {
-                        sidebarOverlay.classList.add('show');
-                        mobileToggleBtn.style.opacity = '0';
-                        mobileToggleBtn.style.pointerEvents = 'none';
-                    }
-                }
-            }
-
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const toolId = this.getAttribute('data-tool');
-                    const toolTitle = this.getAttribute('data-title');
-                    const toolUrl = this.getAttribute('data-url');
-                    switchTool(toolId, toolTitle, toolUrl);
-                });
-            });
-
-            toggleBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleSidebar();
-            });
-
-            mobileToggleBtn.addEventListener('click', function() {
-                toggleSidebar();
-            });
-
-            sidebarOverlay.addEventListener('click', function() {
-                if (isMobile && !sidebar.classList.contains('collapsed')) {
-                    toggleSidebar();
-                }
-            });
-
-            window.addEventListener('popstate', function(event) {
-                if (event.state && event.state.tool) {
-                    const menuItem = document.querySelector(`[data-tool="${event.state.tool}"]`);
-                    if (menuItem) {
-                        const toolId = menuItem.getAttribute('data-tool');
-                        const toolTitle = menuItem.getAttribute('data-title');
-                        const toolUrl = menuItem.getAttribute('data-url');
-                        switchTool(toolId, toolTitle, toolUrl);
-                    }
+                const targetElement = document.querySelector(`[data-section="${sectionId}"]`);
+                if (targetElement && targetElement.dataset.type === 'iframe') {
+                   mainContentFrame.setAttribute('title', title);
                 } else {
-                    initToolFromURL();
+                    mainContentFrame.setAttribute('title', '字造内容区域');
                 }
-            });
+            }
 
-            function handleResponsive() {
-                const newIsMobile = window.innerWidth <= 992;
-                if (newIsMobile !== isMobile) {
-                    isMobile = newIsMobile;
-                    if (isMobile) {
-                        mobileToggleBtn.style.display = 'flex';
-                        sidebar.classList.add('collapsed');
-                        mobileToggleBtn.style.opacity = '1';
-                        mobileToggleBtn.style.pointerEvents = 'auto';
-                        sidebarOverlay.classList.remove('show');
+            function resetActiveStates(sectionId) {
+                document.querySelectorAll('.nav-item.active, .submenu > li.active').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                const activeItem = document.querySelector(`[data-section="${sectionId}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active');
+                }
+
+                let currentEl = activeItem;
+                while (currentEl) {
+                    const parentUl = currentEl.closest('.submenu');
+                    if (parentUl) {
+                        const parentNavItem = parentUl.closest('.nav-item.has-submenu');
+                        if (parentNavItem) {
+                            parentNavItem.classList.add('active');
+                            if (window.innerWidth <= 992 && isMobileMenuOpen) {
+                                parentUl.classList.add('show');
+                                const icon = parentNavItem.querySelector('.submenu-icon');
+                                if (icon) {
+                                    icon.style.transform = 'rotate(180deg)';
+                                }
+                            }
+                            currentEl = parentNavItem;
+                        } else {
+                            break;
+                        }
                     } else {
-                        mobileToggleBtn.style.display = 'none';
-                        sidebar.classList.remove('collapsed');
-                        sidebarOverlay.classList.remove('show');
+                        break;
+                    }
+                }
+
+                if (window.innerWidth > 992) {
+                    document.querySelectorAll('.submenu.show').forEach(submenu => {
+                        submenu.classList.remove('show');
+                    });
+                    document.querySelectorAll('.nav-item.has-submenu .submenu-icon').forEach(icon => {
+                        icon.style.transform = '';
+                    });
+                }
+            }
+
+            function handleLinkClick(targetElement, e) {
+                const sectionId = targetElement.dataset.section;
+                const linkType = targetElement.dataset.type;
+                const isSubmenuParent = targetElement.classList.contains('has-submenu');
+
+                if (isSubmenuParent) {
+                    e.preventDefault();
+                    if (window.innerWidth <= 992) {
+                        const submenu = targetElement.querySelector('.submenu');
+                        const icon = targetElement.querySelector('.submenu-icon');
+                        const isActive = targetElement.classList.contains('active');
+
+                        if (isActive && submenu.classList.contains('show')) {
+                            targetElement.classList.remove('active');
+                            submenu.classList.remove('show');
+                            icon.style.transform = '';
+                        } else {
+                            targetElement.closest('.nav-links').querySelectorAll('.nav-item.has-submenu').forEach(item => {
+                                if (item !== targetElement) {
+                                    item.classList.remove('active');
+                                    item.querySelector('.submenu').classList.remove('show');
+                                    item.querySelector('.submenu-icon').style.transform = '';
+                                }
+                            });
+                            targetElement.classList.add('active');
+                            submenu.classList.add('show');
+                            icon.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                } else if (sectionId) {
+                    e.preventDefault();
+
+                    if (linkType === 'newtab') {
+                        const actualLink = targetElement.querySelector('a');
+                        if (actualLink && actualLink.href) {
+                            window.open(actualLink.href, '_blank', 'noopener noreferrer');
+                        }
+                        if (window.innerWidth <= 992) {
+                            closeMobileMenu();
+                        }
+                    } else if (linkType === 'iframe') {
+                        loadSection(sectionId);
+                        if (window.innerWidth <= 992) {
+                            closeMobileMenu();
+                        }
                     }
                 }
             }
 
-            window.addEventListener('resize', handleResponsive);
-            handleResponsive();
-
-            document.querySelectorAll('iframe').forEach(iframe => {
-                iframe.addEventListener('load', function() {
-                    this.style.opacity = 1;
-                });
-                iframe.style.opacity = 0;
-                iframe.style.transition = 'opacity 0.3s ease';
+            mainNavLinks.addEventListener('click', function(e) {
+                const clickedItem = e.target.closest('.nav-item, .submenu > li');
+                if (clickedItem && clickedItem.dataset.section) {
+                    handleLinkClick(clickedItem, e);
+                }
             });
 
-            initToolFromURL();
+            logoLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                loadSection('home');
+            });
+
+            function toggleMobileMenu() {
+                isMobileMenuOpen = !isMobileMenuOpen;
+                mainNavLinks.classList.toggle('show', isMobileMenuOpen);
+                hamburgerBtn.setAttribute('aria-expanded', isMobileMenuOpen.toString());
+
+                if (!isMobileMenuOpen) {
+                    document.querySelectorAll('.submenu.show').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                    document.querySelectorAll('.nav-item.has-submenu.active').forEach(toggle => {
+                        toggle.classList.remove('active');
+                        const icon = toggle.querySelector('.submenu-icon');
+                        if (icon) {
+                            icon.style.transform = '';
+                        }
+                    });
+                } else {
+                    resetActiveStates(currentSection);
+                }
+            }
+
+            function closeMobileMenu() {
+                isMobileMenuOpen = false;
+                mainNavLinks.classList.remove('show');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+
+                document.querySelectorAll('.submenu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+                document.querySelectorAll('.nav-item.has-submenu.active').forEach(toggle => {
+                    toggle.classList.remove('active');
+                    const icon = toggle.querySelector('.submenu-icon');
+                    if (icon) {
+                        icon.style.transform = '';
+                    }
+                });
+            }
+
+            hamburgerBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+
+            hamburgerBtn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleMobileMenu();
+                }
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!hamburgerBtn.contains(event.target) && !mainNavLinks.contains(event.target)) {
+                    closeMobileMenu();
+                }
+            });
+
+            mainNavLinks.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            function handleResize() {
+                if (window.innerWidth > 992) {
+                    closeMobileMenu();
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+
+            initPage();
+            window.addEventListener('hashchange', handleHashChange);
         });
     </script>
 </body>
