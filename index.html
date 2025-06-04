@@ -31,6 +31,7 @@
             --navbar-height-sm: 55px;
         }
 
+        /* 重置和通用样式 */
         * {
             margin: 0;
             padding: 0;
@@ -43,8 +44,10 @@
         body {
             background-color: #f7f9fc;
             padding-top: var(--navbar-height-lg); /* 默认桌面端导航高度 */
+            overflow-x: hidden; /* 防止水平滚动条 */
         }
 
+        /* 导航栏样式 */
         .navbar {
             position: fixed;
             top: 0;
@@ -81,14 +84,14 @@
             opacity: 0.9;
         }
 
-        .logo-link:focus {
+        .logo-link:focus-visible {
             outline: 2px solid var(--primary-color);
             outline-offset: 2px;
             border-radius: 4px;
         }
 
         .hamburger {
-            display: none;
+            display: none; /* 默认隐藏，移动端显示 */
             font-size: 20px;
             color: var(--text-color);
             cursor: pointer;
@@ -100,7 +103,7 @@
             border: none;
         }
 
-        .hamburger:hover, .hamburger:focus {
+        .hamburger:hover, .hamburger:focus-visible {
             background-color: var(--hover-bg);
             color: var(--primary-color);
             outline: none;
@@ -132,7 +135,7 @@
         }
 
         .nav-item[data-type] {
-            padding: 0 16px;
+            padding: 0 16px; /* 确保叶子节点也有内边距 */
         }
 
         .nav-item > a {
@@ -142,16 +145,13 @@
             width: 100%;
             text-decoration: none;
             color: inherit;
-            margin: 0 -16px;
+            margin: 0 -16px; /* 补偿 padding，使点击区域覆盖整个 nav-item */
             padding: 0 16px;
         }
 
+        /* 桌面端父级菜单项样式 */
         .nav-item.has-submenu {
-            padding-right: 12px;
-        }
-        .nav-item.has-submenu .submenu-icon {
-            margin-left: 8px;
-            margin-right: -4px;
+            padding-right: 12px; /* 给箭头留出空间 */
         }
         .nav-item.has-submenu > span {
             display: flex;
@@ -159,7 +159,12 @@
             height: 100%;
             width: 100%;
         }
+        .nav-item.has-submenu .submenu-icon {
+            margin-left: 8px;
+            margin-right: -4px; /* 让箭头更靠近右侧 */
+        }
 
+        /* 分隔符 */
         .nav-item:not(:last-child)::after {
             content: '';
             position: absolute;
@@ -171,6 +176,7 @@
             background-color: var(--border-color);
         }
 
+        /* 悬停和激活状态 */
         .nav-item:hover, .nav-item:focus-within {
             color: var(--primary-color);
             background-color: rgba(255, 106, 0, 0.05);
@@ -183,7 +189,7 @@
         }
 
         .nav-item.active > a {
-            color: inherit;
+            color: inherit; /* 确保激活状态下链接颜色也正确 */
         }
 
         /* 桌面端二级菜单样式 */
@@ -205,7 +211,7 @@
             position: absolute;
             top: 100%;
             left: 0;
-            width: 200px;
+            min-width: 180px; /* 调整宽度以适应内容 */
             background-color: white;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -227,7 +233,7 @@
         }
 
         .submenu > li {
-            padding: 0;
+            padding: 0; /* 移除默认内边距 */
         }
 
         .submenu-item {
@@ -259,6 +265,7 @@
             color: var(--primary-color);
         }
 
+        /* 内容框架容器和加载器 */
         .content-frame-container {
             position: fixed;
             top: var(--navbar-height-lg); /* 默认桌面端导航高度 */
@@ -309,6 +316,7 @@
             to { transform: rotate(360deg); }
         }
 
+        /* 焦点可见性 */
         [tabindex]:focus-visible,
         a:focus-visible {
             outline: 2px solid var(--primary-color);
@@ -325,7 +333,7 @@
                 height: var(--navbar-height-md);
             }
             .hamburger {
-                display: block;
+                display: block; /* 移动端显示汉堡菜单 */
             }
 
             .nav-links {
@@ -333,20 +341,20 @@
                 top: var(--navbar-height-md); /* 从导航栏底部开始 */
                 right: 0;
                 width: 75%;
-                /* 更改为 max-height */
-                max-height: calc(100vh - var(--navbar-height-md) - 40px); /* 40px为底部预留空间，可调整 */
+                max-height: calc(100vh - var(--navbar-height-md) - 40px); /* 底部预留空间 */
                 background-color: var(--mobile-menu-bg);
                 flex-direction: column;
                 list-style: none;
                 overflow-y: auto; /* 确保内容溢出时可滚动 */
                 z-index: 1002;
-                transform: translateX(100%);
+                transform: translateX(100%); /* 默认隐藏在右侧 */
                 transition: transform 0.3s ease-out;
                 box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+                border-left: 1px solid var(--border-color); /* 增加左边框 */
             }
 
             .nav-links.show {
-                transform: translateX(0);
+                transform: translateX(0); /* 显示菜单 */
             }
 
             .nav-item {
@@ -357,9 +365,8 @@
                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                 border-radius: 0;
                 height: auto;
-                /* 确保这里没有 justify-content: space-between; */
-                display: flex; /* 保持 flex */
-                align-items: center; /* 保持垂直居中 */
+                display: flex;
+                align-items: center;
                 transition: background-color 0.2s ease;
             }
 
@@ -368,7 +375,7 @@
             }
 
             .nav-item::after {
-                display: none;
+                display: none; /* 移动端移除分隔符 */
             }
 
             /* 移动端：让 span 包含文本和图标，并让它扩展 */
@@ -381,10 +388,10 @@
                 width: 100%;
             }
 
-            /* 移动端：调整箭头的间距 */
+            /* 移动端：调整箭头的间距和颜色 */
             .nav-item.has-submenu .submenu-icon {
-                margin-left: 10px; /* 箭头和文本的间距 */
-                margin-right: 0; /* 确保不被推到最右侧 */
+                margin-left: 10px;
+                margin-right: 0;
                 color: rgba(0, 0, 0, 0.4);
                 transition: transform 0.3s ease, color 0.2s ease;
             }
@@ -396,28 +403,28 @@
 
             /* 移动端二级菜单折叠样式 */
             .submenu {
-                position: static;
+                position: static; /* 变为文档流中的一部分 */
                 width: 100%;
                 background-color: var(--submenu-bg);
                 border: none;
                 box-shadow: none;
-                opacity: 1;
+                opacity: 1; /* 始终可见，通过 max-height 控制 */
                 visibility: visible;
                 transform: none;
                 padding: 0;
                 margin: 0;
                 display: block;
-                max-height: 0;
+                max-height: 0; /* 默认折叠 */
                 overflow: hidden;
                 transition: max-height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             }
 
             .submenu.show {
-                max-height: 500px; /* 足够大的值来展开内容 */
+                max-height: 500px; /* 展开内容，需要足够大的值 */
             }
 
             .submenu-item {
-                padding: 0 20px 0 36px;
+                padding: 0 20px 0 36px; /* 增加左侧缩进 */
                 font-size: 15px;
                 line-height: 44px;
                 min-height: 44px;
@@ -458,6 +465,8 @@
             .nav-item.active > a {
                 color: inherit;
             }
+
+            /* 内容框架容器在移动端的调整 */
             .content-frame-container {
                 top: var(--navbar-height-md);
                 height: calc(100vh - var(--navbar-height-md));
@@ -485,7 +494,7 @@
 
             .nav-links {
                 top: var(--navbar-height-md);
-                max-height: calc(100vh - var(--navbar-height-md) - 40px); /* 同步调整 */
+                max-height: calc(100vh - var(--navbar-height-md) - 40px);
             }
 
             .content-frame-container {
@@ -524,7 +533,7 @@
                 width: 85%;
                 top: var(--navbar-height-sm);
                 right: 0;
-                max-height: calc(100vh - var(--navbar-height-sm) - 40px); /* 同步调整 */
+                max-height: calc(100vh - var(--navbar-height-sm) - 40px);
             }
 
             .content-frame-container {
@@ -557,33 +566,33 @@
         </div>
 
         <ul class="nav-links" id="mainNavLinks" role="menu">
-            <li class="nav-item active" role="menuitem" tabindex="0" data-section="home" data-type="iframe">首页</li>
-            <li class="nav-item" role="menuitem" tabindex="0" data-section="hao" data-type="iframe">设计导航</li>
-            <li class="nav-item" role="menuitem" tabindex="0" data-section="bao" data-type="iframe">设计百宝库</li>
+            <li class="nav-item active" role="menuitem" tabindex="0" data-section="home" data-type="iframe" aria-label="首页">首页</li>
+            <li class="nav-item" role="menuitem" tabindex="0" data-section="hao" data-type="iframe" aria-label="设计导航">设计导航</li>
+            <li class="nav-item" role="menuitem" tabindex="0" data-section="bao" data-type="iframe" aria-label="设计百宝库">设计百宝库</li>
 
-            <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="toolbox">
+            <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="toolbox" aria-expanded="false" aria-haspopup="true" aria-label="工具箱">
                 <span>工具箱</span>
                 <i class="fas fa-chevron-down submenu-icon"></i>
-                <ul class="submenu">
-                    <li role="menuitem" tabindex="0" data-section="quzhong" data-type="iframe"><a class="submenu-item" href="#">🟆 字符去重</a></li>
-                    <li role="menuitem" tabindex="0" data-section="duibi" data-type="iframe"><a class="submenu-item" href="#">🟆 文本对比</a></li>
-                    <li role="menuitem" tabindex="0" data-section="pinyin" data-type="iframe"><a class="submenu-item" href="#">🟆 汉字拼音转换</a></li>
-                    <li role="menuitem" tabindex="0" data-section="xingjinzi" data-type="iframe"><a class="submenu-item" href="#">🟆 形近字查询</a></li>
-                    <li role="menuitem" tabindex="0" data-section="shufafengge" data-type="iframe"><a class="submenu-item" href="#">🟆 书法风格</a></li>
+                <ul class="submenu" role="menu">
+                    <li role="none"><a class="submenu-item" href="#quzhong" data-section="quzhong" data-type="iframe" role="menuitem" tabindex="-1" aria-label="字符去重工具">🟆 字符去重</a></li>
+                    <li role="none"><a class="submenu-item" href="#duibi" data-section="duibi" data-type="iframe" role="menuitem" tabindex="-1" aria-label="文本对比工具">🟆 文本对比</a></li>
+                    <li role="none"><a class="submenu-item" href="#pinyin" data-section="pinyin" data-type="iframe" role="menuitem" tabindex="-1" aria-label="汉字拼音转换工具">🟆 汉字拼音转换</a></li>
+                    <li role="none"><a class="submenu-item" href="#xingjinzi" data-section="xingjinzi" data-type="iframe" role="menuitem" tabindex="-1" aria-label="形近字查询工具">🟆 形近字查询</a></li>
+                    <li role="none"><a class="submenu-item" href="#shufafengge" data-section="shufafengge" data-type="iframe" role="menuitem" tabindex="-1" aria-label="书法风格工具">🟆 书法风格</a></li>
                 </ul>
             </li>
 
-            <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="tools">
+            <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="tools" aria-expanded="false" aria-haspopup="true" aria-label="友链推荐">
                 <span>友链推荐</span>
                 <i class="fas fa-chevron-down submenu-icon"></i>
-                <ul class="submenu">
-                    <li role="menuitem" tabindex="0" data-section="fzy" data-type="newtab"><a class="submenu-item" href="https://www.foundertype.com/" target="_blank" rel="noopener noreferrer">方正字库⤴</a></li>
-                    <li role="menuitem" tabindex="0" data-section="hyz" data-type="newtab"><a class="submenu-item" href="https://www.hanyi.com.cn/" target="_blank" rel="noopener noreferrer">汉仪字库⤴</a></li>
-                    <li role="menuitem" tabindex="0" data-section="ztx" data-type="newtab"><a class="submenu-item" href="https://www.fonts.net.cn/" target="_blank" rel="noopener noreferrer">字体天下⤴</a></li>
+                <ul class="submenu" role="menu">
+                    <li role="none"><a class="submenu-item" href="https://www.foundertype.com/" target="_blank" rel="noopener noreferrer" data-section="fzy" data-type="newtab" role="menuitem" tabindex="-1" aria-label="方正字库官网">方正字库⤴</a></li>
+                    <li role="none"><a class="submenu-item" href="https://www.hanyi.com.cn/" target="_blank" rel="noopener noreferrer" data-section="hyz" data-type="newtab" role="menuitem" tabindex="-1" aria-label="汉仪字库官网">汉仪字库⤴</a></li>
+                    <li role="none"><a class="submenu-item" href="https://www.fonts.net.cn/" target="_blank" rel="noopener noreferrer" data-section="ztx" data-type="newtab" role="menuitem" tabindex="-1" aria-label="字体天下官网">字体天下⤴</a></li>
                 </ul>
             </li>
 
-            <li class="nav-item" role="menuitem" tabindex="0" data-section="icon" data-type="newtab">
+            <li class="nav-item" role="menuitem" tabindex="0" data-section="icon" data-type="newtab" aria-label="阿里巴巴图标库">
                 <a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer">阿里巴巴图标库⤴</a>
             </li>
         </ul>
@@ -594,7 +603,7 @@
     </nav>
 
     <div class="content-frame-container">
-        <div class="loader" id="loader">
+        <div class="loader" id="loader" aria-label="加载中">
             <div class="loader-spinner"></div>
         </div>
         <iframe id="mainContentFrame" class="content-frame" title="字造内容区域" src="home/index.html"></iframe>
@@ -612,6 +621,7 @@
             let isAnimating = false;
             let isMobileMenuOpen = false;
 
+            // 定义每个section对应的文件路径（iframe加载）或外部链接
             const sectionFileMap = {
                 'home': 'home/index.html',
                 'hao': 'hao/index.html',
@@ -623,6 +633,7 @@
                 'shufafengge': 'toolbox/write/index.html',
             };
 
+            // 定义每个section对应的页面标题
             const sectionTitles = {
                 'home': '字造 - 专注分享字体领域优质内容',
                 'hao': '字造导航 - 设计师的私藏灵感库',
@@ -640,35 +651,40 @@
                 'icon': '阿里巴巴图标库 - 字造ZIZAO'
             };
 
-            // 获取 iframe 部分的文件路径
+            /**
+             * 获取 iframe 部分的文件路径。
+             * @param {string} sectionId - 部分的ID。
+             * @returns {string|null} 文件路径或null。
+             */
             function getIframeFilePath(sectionId) {
                 return sectionFileMap[sectionId] || null;
             }
 
-            // 根据 URL 哈希值初始化页面
-            function initPage() {
+            /**
+             * 根据 URL 哈希值初始化页面状态。
+             * @param {boolean} initialLoad - 是否为页面首次加载。
+             */
+            function initPage(initialLoad = true) {
                 const hash = window.location.hash.replace('#', '');
-                const initialSectionId = hash || 'home';
+                let initialSectionId = hash || 'home';
 
                 const initialElement = document.querySelector(`[data-section="${initialSectionId}"]`);
 
                 if (initialElement) {
                     currentSection = initialSectionId;
-                    // 如果是 iframe 类型，则加载内容
                     if (initialElement.dataset.type === 'iframe') {
-                        loadSection(initialSectionId, false); // 不更新历史记录，因为是初始化
+                        loadSection(initialSectionId, false); // 初始化时不更新历史记录
                     } else {
-                        // 如果是新标签页链接或父级菜单，只更新 UI 状态和标题
+                        // 对于非 iframe 类型，如新标签页链接或父级菜单，只更新 UI 状态和标题
                         resetActiveStates(initialSectionId);
                         updatePageTitle(initialSectionId);
-                        // 对于父菜单项，如果其子项在活动状态，需要展开父菜单
-                        if (initialElement.classList.contains('has-submenu')) {
+                        // 如果是父菜单项，且其某个子项是当前活跃的，应保持展开
+                        if (initialElement.classList.contains('has-submenu') && window.innerWidth <= 992) {
                             const submenu = initialElement.querySelector('.submenu');
                             const icon = initialElement.querySelector('.submenu-icon');
-                            if (submenu && icon) {
-                                submenu.classList.add('show');
-                                icon.style.transform = 'rotate(180deg)';
-                            }
+                            if (submenu) submenu.classList.add('show');
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                            initialElement.setAttribute('aria-expanded', 'true');
                         }
                     }
                 } else {
@@ -678,28 +694,20 @@
                 }
             }
 
-            // 处理 URL 哈希值变化
+            /**
+             * 处理 URL 哈希值变化事件。
+             */
             function handleHashChange() {
                 const newSection = window.location.hash.replace('#', '');
                 if (newSection && newSection !== currentSection) {
                     const targetElement = document.querySelector(`[data-section="${newSection}"]`);
                     if (targetElement) {
                         if (targetElement.dataset.type === 'iframe') {
-                            loadSection(newSection, false); // 不更新历史记录，因为是哈希变化
+                            loadSection(newSection, false); // 不更新历史记录，因为是哈希变化触发
                         } else {
-                            // 对于非 iframe 类型，只需更新激活状态
                             currentSection = newSection;
                             resetActiveStates(newSection);
                             updatePageTitle(newSection);
-                            // 如果是父菜单项，需要展开子菜单
-                            if (targetElement.classList.contains('has-submenu')) {
-                                const submenu = targetElement.querySelector('.submenu');
-                                const icon = targetElement.querySelector('.submenu-icon');
-                                if (submenu && icon) {
-                                    submenu.classList.add('show');
-                                    icon.style.transform = 'rotate(180deg)';
-                                }
-                            }
                         }
                     } else {
                         // 如果哈希指向未知部分，回退到 home
@@ -707,17 +715,21 @@
                     }
                 }
                 // 确保在哈希变化时，如果菜单打开，子菜单的展开状态正确
-                if (window.innerWidth <= 992 && isMobileMenuOpen) { // 仅在移动端且菜单打开时重新应用
-                    resetActiveStates(currentSection); // 重新应用激活状态，包括子菜单展开
+                if (window.innerWidth <= 992 && isMobileMenuOpen) {
+                    resetActiveStates(currentSection);
                 }
             }
 
-            // 加载 iframe 中的部分内容或更新非 iframe 部分的 UI
+            /**
+             * 加载 iframe 中的内容或更新非 iframe 部分的 UI。
+             * @param {string} sectionId - 要加载的section ID。
+             * @param {boolean} [updateHistory=true] - 是否更新浏览器历史记录。
+             */
             function loadSection(sectionId, updateHistory = true) {
                 const targetFilePath = getIframeFilePath(sectionId);
                 const targetElement = document.querySelector(`[data-section="${sectionId}"]`);
 
-                // 如果没有对应的 iframe 路径或不是 iframe 类型，则只更新 UI 状态
+                // 处理非 iframe 类型或无对应 iframe 路径的链接
                 if (!targetFilePath || (targetElement && targetElement.dataset.type !== 'iframe')) {
                     currentSection = sectionId;
                     resetActiveStates(sectionId);
@@ -730,7 +742,9 @@
 
                 // 获取当前 iframe 和目标 iframe 的"干净"路径，用于比较
                 const currentIframeSrc = mainContentFrame.src ? new URL(mainContentFrame.src).pathname.split('/').pop().split('?')[0] : '';
-                const targetIframeSrc = new URL(targetFilePath, window.location.href).pathname.split('/').pop().split('?')[0];
+                // 确保 targetFilePath 是一个完整的 URL，即使它是相对路径
+                const targetIframeUrl = new URL(targetFilePath, window.location.href);
+                const targetIframeSrc = targetIframeUrl.pathname.split('/').pop().split('?')[0];
 
                 // 如果目标页面已加载且处于激活状态，则不重新加载
                 if (currentIframeSrc === targetIframeSrc && currentSection === sectionId && !isAnimating) {
@@ -739,7 +753,7 @@
                     return;
                 }
 
-                if (isAnimating) return;
+                if (isAnimating) return; // 防止重复点击
 
                 isAnimating = true;
                 mainContentFrame.classList.add('loading');
@@ -759,7 +773,7 @@
                         isAnimating = false;
                         currentSection = sectionId; // 成功加载后更新当前部分
                         resetActiveStates(sectionId);
-                    }, 100);
+                    }, 100); // 短暂延迟，确保动画效果
                 };
 
                 mainContentFrame.onerror = function() {
@@ -774,7 +788,10 @@
                 };
             }
 
-            // 更新页面标题和 iframe 的 title 属性
+            /**
+             * 更新页面标题和 iframe 的 title 属性。
+             * @param {string} sectionId - 当前部分的ID。
+             */
             function updatePageTitle(sectionId) {
                 const title = sectionTitles[sectionId] || '字造 - 专注分享字体领域优质内容';
                 document.title = title;
@@ -788,26 +805,44 @@
                 }
             }
 
-            // 重置并设置导航项的激活状态
+            /**
+             * 重置并设置导航项的激活状态。
+             * @param {string} sectionId - 要激活的section ID。
+             */
             function resetActiveStates(sectionId) {
                 // 移除所有导航项和子菜单项的 active 类
-                document.querySelectorAll('.nav-item.active, .submenu > li.active').forEach(el => {
-                    // 移除当前导航项的 active 类，但在移动端不折叠子菜单，因为可能是在点击父菜单进行切换
+                document.querySelectorAll('.nav-item, .submenu > li').forEach(el => {
                     el.classList.remove('active');
-                    // 如果是在桌面端，或者不是需要展开/折叠的父级菜单，则折叠子菜单和还原图标
-                    if (window.innerWidth > 992 || !el.classList.contains('has-submenu')) {
-                         const submenu = el.querySelector('.submenu');
-                         const icon = el.querySelector('.submenu-icon');
-                         if (submenu) submenu.classList.remove('show');
-                         if (icon) icon.style.transform = '';
+                    // 移除 aria-expanded 属性
+                    if (el.hasAttribute('aria-expanded')) {
+                        el.setAttribute('aria-expanded', 'false');
                     }
                 });
+
+                // 桌面端：折叠所有子菜单和还原图标
+                if (window.innerWidth > 992) {
+                    document.querySelectorAll('.submenu.show').forEach(submenu => submenu.classList.remove('show'));
+                    document.querySelectorAll('.nav-item.has-submenu .submenu-icon').forEach(icon => icon.style.transform = '');
+                }
 
 
                 // 找到并设置点击/加载的特定项为 active
                 const activeItem = document.querySelector(`[data-section="${sectionId}"]`);
                 if (activeItem) {
                     activeItem.classList.add('active');
+                    // 对于子菜单项，确保其 tabIndex 为 0，而其他兄弟项为 -1
+                    if (activeItem.closest('.submenu')) {
+                        activeItem.setAttribute('tabindex', '0');
+                        Array.from(activeItem.parentNode.children).forEach(sibling => {
+                            if (sibling !== activeItem) {
+                                const submenuLink = sibling.querySelector('.submenu-item');
+                                if (submenuLink) submenuLink.setAttribute('tabindex', '-1');
+                            }
+                        });
+                    } else {
+                        // 对于顶级菜单项，确保 tabIndex 为 0
+                        activeItem.setAttribute('tabindex', '0');
+                    }
                 }
 
                 // 向上遍历以激活父级子菜单项（如果适用）
@@ -818,6 +853,7 @@
                         const parentNavItem = parentUl.closest('.nav-item.has-submenu');
                         if (parentNavItem) {
                             parentNavItem.classList.add('active');
+                            parentNavItem.setAttribute('aria-expanded', 'true'); // 展开父菜单
                             // 确保在移动菜单打开时，父级子菜单也"显示"
                             if (window.innerWidth <= 992 && isMobileMenuOpen) {
                                 parentUl.classList.add('show');
@@ -828,32 +864,27 @@
                             }
                             currentEl = parentNavItem; // 继续向上遍历
                         } else {
-                            break; // 已经到达主菜单层级
+                            break;
                         }
                     } else {
-                        break; // 没有父级子菜单
+                        break;
                     }
-                }
-
-                // 对于桌面端，确保所有子菜单隐藏 (除非悬停)
-                if (window.innerWidth > 992) {
-                    document.querySelectorAll('.submenu.show').forEach(submenu => {
-                        submenu.classList.remove('show');
-                    });
-                    document.querySelectorAll('.nav-item.has-submenu .submenu-icon').forEach(icon => {
-                        icon.style.transform = '';
-                    });
                 }
             }
 
-            // 处理导航链接的点击事件
+
+            /**
+             * 处理导航链接的点击事件。
+             * @param {HTMLElement} targetElement - 被点击的导航项元素。
+             * @param {Event} e - 事件对象。
+             */
             function handleLinkClick(targetElement, e) {
                 const sectionId = targetElement.dataset.section;
                 const linkType = targetElement.dataset.type;
                 const isSubmenuParent = targetElement.classList.contains('has-submenu');
 
                 if (isSubmenuParent) {
-                    e.preventDefault(); // 阻止默认的链接跳转行为
+                    e.preventDefault(); // 阻止默认行为
                     if (window.innerWidth <= 992) {
                         // 移动端子菜单切换逻辑
                         const submenu = targetElement.querySelector('.submenu');
@@ -863,50 +894,47 @@
                         // 1. 关闭所有其他已打开的子菜单（除了当前点击的）
                         targetElement.closest('.nav-links').querySelectorAll('.nav-item.has-submenu').forEach(item => {
                             if (item !== targetElement) { // 确保不是当前点击的父项
-                                item.classList.remove('active'); // 移除父项的激活状态
+                                item.classList.remove('active');
+                                item.setAttribute('aria-expanded', 'false');
                                 const otherSubmenu = item.querySelector('.submenu');
                                 const otherIcon = item.querySelector('.submenu-icon');
-                                if (otherSubmenu) otherSubmenu.classList.remove('show'); // 折叠其他子菜单
-                                if (otherIcon) otherIcon.style.transform = ''; // 还原其他图标
+                                if (otherSubmenu) otherSubmenu.classList.remove('show');
+                                if (otherIcon) otherIcon.style.transform = '';
                             }
                         });
 
                         // 2. 切换当前点击的子菜单的显示/隐藏状态
                         if (currentlyActive) {
-                            // 如果当前点击的父项已激活（已展开），则折叠它
                             targetElement.classList.remove('active');
+                            targetElement.setAttribute('aria-expanded', 'false');
                             if (submenu) submenu.classList.remove('show');
                             if (icon) icon.style.transform = '';
                         } else {
-                            // 否则，展开当前子菜单并激活父项
                             targetElement.classList.add('active');
+                            targetElement.setAttribute('aria-expanded', 'true');
                             if (submenu) submenu.classList.add('show');
                             if (icon) icon.style.transform = 'rotate(180deg)';
                         }
-                        // 在移动端点击父菜单后，不需要关闭整个主菜单，只需切换子菜单
-                        // 不调用 closeMobileMenu()
                     }
-                    // 桌面端子菜单由CSS :hover和:focus-within处理，JS不需要干预
                 } else if (sectionId) {
                     // 这是叶子导航项（实际链接）
-                    e.preventDefault(); // 阻止默认的链接跳转行为
+                    e.preventDefault();
 
                     if (linkType === 'newtab') {
-                        const actualLink = targetElement.querySelector('a');
+                        const actualLink = targetElement.querySelector('a') || targetElement; // 如果是 <a> 标签本身带有 data-section
                         if (actualLink && actualLink.href) {
                             window.open(actualLink.href, '_blank', 'noopener noreferrer');
                         }
-                        // 对于新标签页链接，只需更新激活状态并关闭移动菜单
-                        currentSection = sectionId; // 更新当前部分
-                        resetActiveStates(sectionId); // 重新设置激活状态
+                        currentSection = sectionId;
+                        resetActiveStates(sectionId);
                         updatePageTitle(sectionId);
                         if (window.innerWidth <= 992) {
-                            closeMobileMenu(); // 手机端点击后关闭菜单
+                            closeMobileMenu();
                         }
                     } else if (linkType === 'iframe') {
-                        loadSection(sectionId); // 加载 iframe 内容
+                        loadSection(sectionId);
                         if (window.innerWidth <= 992) {
-                            closeMobileMenu(); // 手机端点击后关闭菜单
+                            closeMobileMenu();
                         }
                     }
                 }
@@ -925,11 +953,13 @@
                 e.preventDefault();
                 loadSection('home');
                 if (window.innerWidth <= 992) {
-                    closeMobileMenu(); // 手机端点击后关闭菜单
+                    closeMobileMenu();
                 }
             });
 
-            // 切换移动导航菜单的显示/隐藏
+            /**
+             * 切换移动导航菜单的显示/隐藏状态。
+             */
             function toggleMobileMenu() {
                 isMobileMenuOpen = !isMobileMenuOpen;
                 mainNavLinks.classList.toggle('show', isMobileMenuOpen);
@@ -939,9 +969,10 @@
                 if (isMobileMenuOpen) {
                     resetActiveStates(currentSection); // 打开时设置正确的激活状态，包括子菜单的展开
                 } else {
-                    // 关闭主移动菜单时，折叠所有子菜单和移除active类
+                    // 关闭主移动菜单时，折叠所有子菜单和移除 active 类
                     document.querySelectorAll('.nav-item.has-submenu').forEach(toggle => {
                         toggle.classList.remove('active'); // 移除父菜单的激活状态
+                        toggle.setAttribute('aria-expanded', 'false');
                         const submenu = toggle.querySelector('.submenu');
                         const icon = toggle.querySelector('.submenu-icon');
                         if (submenu) submenu.classList.remove('show'); // 折叠子菜单
@@ -950,7 +981,9 @@
                 }
             }
 
-            // 关闭移动导航菜单
+            /**
+             * 关闭移动导航菜单。
+             */
             function closeMobileMenu() {
                 if (!isMobileMenuOpen) return;
                 isMobileMenuOpen = false;
@@ -961,6 +994,7 @@
                 // 关闭移动菜单时，折叠所有子菜单和移除active类
                 document.querySelectorAll('.nav-item.has-submenu').forEach(toggle => {
                     toggle.classList.remove('active'); // 移除父菜单的激活状态
+                    toggle.setAttribute('aria-expanded', 'false');
                     const submenu = toggle.querySelector('.submenu');
                     const icon = toggle.querySelector('.submenu-icon');
                     if (submenu) submenu.classList.remove('show'); // 折叠子菜单
@@ -969,7 +1003,7 @@
             }
 
             hamburgerBtn.addEventListener('click', function(e) {
-                e.stopPropagation(); // 阻止事件冒泡，避免触发document上的click事件
+                e.stopPropagation(); // 阻止事件冒泡
                 toggleMobileMenu();
             });
 
@@ -982,7 +1016,6 @@
 
             // 点击菜单外部关闭移动菜单
             document.addEventListener('click', function(event) {
-                // 仅当移动菜单打开，且点击目标不在汉堡按钮或导航菜单内部时关闭
                 if (isMobileMenuOpen && !hamburgerBtn.contains(event.target) && !mainNavLinks.contains(event.target)) {
                     closeMobileMenu();
                 }
@@ -990,13 +1023,11 @@
 
             // 处理窗口大小调整事件
             function handleResize() {
-                // 如果窗口调整到桌面大小，关闭移动菜单
                 if (window.innerWidth > 992) {
-                    closeMobileMenu();
+                    closeMobileMenu(); // 窗口变大时自动关闭移动菜单
                     document.body.style.overflow = ''; // 桌面模式下始终恢复滚动
                 } else {
-                    // 如果窗口调整到移动大小，确保菜单打开时主体滚动被阻止
-                    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+                    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''; // 移动模式下根据菜单状态管理滚动
                 }
             }
 
