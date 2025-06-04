@@ -12,11 +12,9 @@
     <meta property="og:image" content="https://www.zizao.top/logo.png">
     <meta property="og:url" content="https://www.zizao.top">
     <meta property="og:type" content="website">
-    <!-- 将 favicon 路径修改为根目录下的 index.ico (如果您的favicon在根目录) -->
     <link rel="icon" href="index.ico" type="image/x-icon"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
-        /* 样式代码保持不变 */
         /* 全局重置与基础样式 */
         * {
             margin: 0;
@@ -120,6 +118,7 @@
         
         .nav-links > li > a.active {
             color: #ff7e5f;
+            background: rgba(255, 126, 95, 0.1);
         }
         
         .nav-links > li > a.active .dot {
@@ -187,6 +186,17 @@
         .dropdown li a:hover .dot {
             background: #ff7e5f;
             border-color: #ff7e5f;
+        }
+
+        /* 二级菜单活跃状态样式 */
+        .dropdown li a.active-sub {
+            color: #ff7e5f; 
+            font-weight: 600; /* 略微加粗文字 */
+        }
+        .dropdown li a.active-sub .dot {
+            background: #ff7e5f;
+            border-color: #ff7e5f;
+            box-shadow: 0 0 10px rgba(255, 126, 95, 0.5); /* 二级菜单的活跃圆点阴影 */
         }
         
         /* 汉堡菜单按钮 */
@@ -266,6 +276,7 @@
 
             .nav-links > li > a.active {
                 color: #ff7e5f;
+                background: rgba(255, 126, 95, 0.1);
             }
             .nav-links > li > a.active .dot {
                 background: #ff7e5f;
@@ -331,6 +342,17 @@
             .dropdown li a:hover .dot {
                 background: #ff7e5f;
                 border-color: #ff7e5f;
+            }
+
+            /* 移动端二级菜单活跃状态样式 */
+            .dropdown li a.active-sub {
+                color: #ff7e5f;
+                font-weight: 600;
+            }
+            .dropdown li a.active-sub .dot {
+                background: #ff7e5f;
+                border-color: #ff7e5f;
+                box-shadow: 0 0 10px rgba(255, 126, 95, 0.5);
             }
             
             .dropdown li {
@@ -411,7 +433,6 @@
     <nav class="navbar">
         <div class="navbar-inner">
             <a href="#home" class="logo">
-                <!-- 将 logo 路径修改为根目录下的 logo.svg (如果您的logo在根目录) -->
                 <img src="logo.svg" alt="zizaotop Logo" class="logo-img"> 
             </a>
             
@@ -454,7 +475,6 @@
             <div class="spinner"></div>
             <p>内容加载中...</p>
         </div>
-        <!-- Iframe 初始 src 设置为默认加载的页面 -->
         <iframe id="main-iframe" src="pages/home/index.html"></iframe> 
     </div>
     
@@ -464,12 +484,12 @@
         const mainIframe = document.getElementById('main-iframe');
         const loadingIndicator = document.getElementById('loading-indicator');
 
-        // **核心
+        // 页面路径映射表
         const pageMap = {
             'home': 'pages/home/index.html',
             'hao': 'pages/hao/index.html', 
             'bao': 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c',
-            'tools': 'pages/toolbox/1.html',
+            'tools': 'pages/toolbox/1.html', // 工具箱默认页面
             'quzhong': 'pages/toolbox/1.html',
             'duibi': 'pages/toolbox/2.html',
             'pinyin': 'pages/toolbox/3.html', 
@@ -477,7 +497,7 @@
             'shufafengge': 'pages/toolbox/write/index.html',
         };
 
-        // 新增的页面标题映射
+        // 页面标题映射表
         const pageTitles = {
             'home': '字造 - 专注分享字体领域优质内容',
             'hao': '字造导航 - 设计师的私藏灵感库',
@@ -490,7 +510,7 @@
             'shufafengge': '书法风格查询工具 - 字造ZIZAO',
         };
 
-        // 关闭移动端菜单和所有下拉菜单的通用函数
+        // 关闭移动端菜单和所有下拉菜单
         function closeMobileMenu() {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
@@ -499,7 +519,6 @@
             });
         }
         
-        // 汉堡菜单点击事件：切换主菜单的显示/隐藏
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
@@ -508,7 +527,7 @@
             });
         });
         
-        // 移动端下拉菜单切换逻辑（点击父级链接）
+        // 移动端下拉菜单切换逻辑
         document.querySelectorAll('.nav-links > li').forEach(parentLi => {
             const parentLink = parentLi.querySelector('a');
             const dropdown = parentLi.querySelector('.dropdown');
@@ -516,9 +535,9 @@
             if (dropdown) { 
                 parentLink.addEventListener('click', (e) => {
                     if (window.innerWidth <= 992) {
-                        // 检查点击事件是否确实发生在父链接或其内部的元素上
+                        // 阻止父链接的默认哈希跳转行为
                         if (e.target === parentLink || e.target.closest('.nav-links > li > a') === parentLink) {
-                            e.preventDefault(); // 阻止父链接的默认哈希跳转行为
+                            e.preventDefault(); 
                             
                             // 关闭所有其他打开的下拉菜单
                             document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
@@ -533,16 +552,15 @@
             }
         });
         
-        // 点击导航链接后关闭移动菜单 (如果是最终链接)
+        // 点击导航链接后关闭移动菜单（非外部链接且非仅展开下拉菜单的父链接）
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth > 992) {
                     return; 
                 }
 
-                // 对于外部链接 (target="_blank") 不会触发 iframe 加载和菜单关闭
                 if (this.target === '_blank') {
-                    closeMobileMenu(); // 外部链接点击后也可以关闭菜单
+                    closeMobileMenu(); // 外部链接点击后也关闭菜单
                     return;
                 }
 
@@ -550,7 +568,7 @@
                 const hasDropdown = parentLi && parentLi.querySelector('.dropdown');
                 const isSubLink = this.closest('.dropdown');
 
-                // 如果是子链接，或者父链接没有下拉菜单（如“首页”、“关于我们”）
+                // 如果是子链接，或者父链接没有下拉菜单
                 if (isSubLink || (parentLi && !hasDropdown)) {
                     closeMobileMenu();
                 }
@@ -586,19 +604,23 @@
             loadingIndicator.classList.remove('hidden'); 
             
             const hash = window.location.hash.substring(1);
-            const pageKey = hash || 'home'; // 如果没有哈希值，默认使用 'home' 作为 key
+            const pageKey = hash || 'home'; 
             
-            // **核心修改：从 pageMap 获取文件路径**
-            const iframeSrc = pageMap[pageKey] || 'pages/404.html'; // 如果pageKey不存在，则加载一个404页面 (您需要创建这个文件)
+            // 确定当前页面对应的顶级菜单项的 data-page 值，用于高亮显示
+            let activeTopLevelPageKey = pageKey;
+            const toolsSubPages = ['quzhong', 'duibi', 'pinyin', 'xingjinzi', 'shufafengge'];
+            if (toolsSubPages.includes(pageKey)) {
+                activeTopLevelPageKey = 'tools'; 
+            }
+
+            const iframeSrc = pageMap[pageKey] || 'pages/404.html'; 
             mainIframe.src = iframeSrc;
-            
-            const topLevelHash = pageKey.split('/')[0];
             
             // 更新主导航项的 active 状态
             document.querySelectorAll('.nav-links > li > a').forEach(link => {
                 if (link.hasAttribute('data-page')) { 
                     const linkPage = link.getAttribute('data-page'); 
-                    if (linkPage === topLevelHash) {
+                    if (linkPage === activeTopLevelPageKey) {
                         link.classList.add('active');
                     } else {
                         link.classList.remove('active');
@@ -606,9 +628,17 @@
                 }
             });
 
+            // 更新二级菜单项的 active 状态
+            document.querySelectorAll('.dropdown li a').forEach(subLink => {
+                if (subLink.getAttribute('data-page') === pageKey) {
+                    subLink.classList.add('active-sub'); 
+                } else {
+                    subLink.classList.remove('active-sub');
+                }
+            });
+
             // 更新页面标题
-            // 使用新的 pageTitles 映射来设置标题
-            document.title = pageTitles[pageKey] || '字造 - 专注分享字体领域优质内容'; // 如果 pageKey 不在映射中，则使用默认标题
+            document.title = pageTitles[pageKey] || '字造 - 专注分享字体领域优质内容';
         }
         
         // 页面加载和哈希变化时调用更新函数
