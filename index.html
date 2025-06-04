@@ -38,13 +38,32 @@
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont,
                          "Segoe UI", Roboto, Oxygen-Sans,
-                         Ubuntu, Cantarell, sans-serif;
+                         Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: #f7f9fc;
-            padding-top: var(--navbar-height-lg); /* 默认桌面端导航高度 */
-            overflow-x: hidden; /* 防止水平滚动条 */
+            padding-top: var(--navbar-height-lg);
+            overflow-x: hidden;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 辅助类 */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
         /* 导航栏样式 */
@@ -53,7 +72,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: var(--navbar-height-lg); /* 默认桌面端导航高度 */
+            height: var(--navbar-height-lg);
             background-color: #fff;
             border-bottom: 1px solid var(--border-color);
             display: flex;
@@ -91,7 +110,7 @@
         }
 
         .hamburger {
-            display: none; /* 默认隐藏，移动端显示 */
+            display: none;
             font-size: 20px;
             color: var(--text-color);
             cursor: pointer;
@@ -135,7 +154,7 @@
         }
 
         .nav-item[data-type] {
-            padding: 0 16px; /* 确保叶子节点也有内边距 */
+            padding: 0 16px;
         }
 
         .nav-item > a {
@@ -145,13 +164,13 @@
             width: 100%;
             text-decoration: none;
             color: inherit;
-            margin: 0 -16px; /* 补偿 padding，使点击区域覆盖整个 nav-item */
+            margin: 0 -16px;
             padding: 0 16px;
         }
 
         /* 桌面端父级菜单项样式 */
         .nav-item.has-submenu {
-            padding-right: 12px; /* 给箭头留出空间 */
+            padding-right: 12px;
         }
         .nav-item.has-submenu > span {
             display: flex;
@@ -161,7 +180,7 @@
         }
         .nav-item.has-submenu .submenu-icon {
             margin-left: 8px;
-            margin-right: -4px; /* 让箭头更靠近右侧 */
+            margin-right: -4px;
         }
 
         /* 分隔符 */
@@ -179,7 +198,7 @@
         /* 悬停和激活状态 */
         .nav-item:hover, .nav-item:focus-within {
             color: var(--primary-color);
-            background-color: rgba(255, 106, 0, 0.05);
+            background-color: var(--hover-bg);
             outline: none;
         }
 
@@ -189,7 +208,7 @@
         }
 
         .nav-item.active > a {
-            color: inherit; /* 确保激活状态下链接颜色也正确 */
+            color: inherit;
         }
 
         /* 桌面端二级菜单样式 */
@@ -211,7 +230,7 @@
             position: absolute;
             top: 100%;
             left: 0;
-            min-width: 180px; /* 调整宽度以适应内容 */
+            min-width: 180px;
             background-color: white;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -233,7 +252,7 @@
         }
 
         .submenu > li {
-            padding: 0; /* 移除默认内边距 */
+            padding: 0;
         }
 
         .submenu-item {
@@ -268,7 +287,7 @@
         /* 内容框架容器和加载器 */
         .content-frame-container {
             position: fixed;
-            top: var(--navbar-height-lg); /* 默认桌面端导航高度 */
+            top: var(--navbar-height-lg);
             left: 0;
             width: 100%;
             height: calc(100vh - var(--navbar-height-lg));
@@ -333,28 +352,28 @@
                 height: var(--navbar-height-md);
             }
             .hamburger {
-                display: block; /* 移动端显示汉堡菜单 */
+                display: block;
             }
 
             .nav-links {
                 position: fixed;
-                top: var(--navbar-height-md); /* 从导航栏底部开始 */
+                top: var(--navbar-height-md);
                 right: 0;
                 width: 75%;
-                max-height: calc(100vh - var(--navbar-height-md) - 40px); /* 底部预留空间 */
+                max-height: calc(100vh - var(--navbar-height-md) - 40px);
                 background-color: var(--mobile-menu-bg);
                 flex-direction: column;
                 list-style: none;
-                overflow-y: auto; /* 确保内容溢出时可滚动 */
+                overflow-y: auto;
                 z-index: 1002;
-                transform: translateX(100%); /* 默认隐藏在右侧 */
+                transform: translateX(100%);
                 transition: transform 0.3s ease-out;
-                box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
-                border-left: 1px solid var(--border-color); /* 增加左边框 */
+                box-shadow: var(--mobile-menu-shadow);
+                border-left: 1px solid var(--border-color);
             }
 
             .nav-links.show {
-                transform: translateX(0); /* 显示菜单 */
+                transform: translateX(0);
             }
 
             .nav-item {
@@ -375,20 +394,18 @@
             }
 
             .nav-item::after {
-                display: none; /* 移动端移除分隔符 */
+                display: none;
             }
 
-            /* 移动端：让 span 包含文本和图标，并让它扩展 */
             .nav-item.has-submenu > span {
                 flex-grow: 1;
                 display: flex;
                 align-items: center;
-                justify-content: space-between; /* 文本和图标之间留出空间 */
+                justify-content: space-between;
                 height: 100%;
                 width: 100%;
             }
 
-            /* 移动端：调整箭头的间距和颜色 */
             .nav-item.has-submenu .submenu-icon {
                 margin-left: 10px;
                 margin-right: 0;
@@ -403,28 +420,28 @@
 
             /* 移动端二级菜单折叠样式 */
             .submenu {
-                position: static; /* 变为文档流中的一部分 */
+                position: static;
                 width: 100%;
                 background-color: var(--submenu-bg);
                 border: none;
                 box-shadow: none;
-                opacity: 1; /* 始终可见，通过 max-height 控制 */
+                opacity: 1;
                 visibility: visible;
                 transform: none;
                 padding: 0;
                 margin: 0;
                 display: block;
-                max-height: 0; /* 默认折叠 */
+                max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             }
 
             .submenu.show {
-                max-height: 500px; /* 展开内容，需要足够大的值 */
+                max-height: 500px;
             }
 
             .submenu-item {
-                padding: 0 20px 0 36px; /* 增加左侧缩进 */
+                padding: 0 20px 0 36px;
                 font-size: 15px;
                 line-height: 44px;
                 min-height: 44px;
@@ -572,7 +589,7 @@
 
             <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="toolbox" aria-expanded="false" aria-haspopup="true" aria-label="工具箱">
                 <span>工具箱</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
+                <i class="fas fa-chevron-down submenu-icon" aria-hidden="true"></i>
                 <ul class="submenu" role="menu">
                     <li role="none"><a class="submenu-item" href="#quzhong" data-section="quzhong" data-type="iframe" role="menuitem" tabindex="-1" aria-label="字符去重工具">• 字符去重</a></li>
                     <li role="none"><a class="submenu-item" href="#duibi" data-section="duibi" data-type="iframe" role="menuitem" tabindex="-1" aria-label="文本对比工具">• 文本对比</a></li>
@@ -584,7 +601,7 @@
 
             <li class="nav-item has-submenu" role="menuitem" tabindex="0" data-section="tools" aria-expanded="false" aria-haspopup="true" aria-label="友链推荐">
                 <span>友链推荐</span>
-                <i class="fas fa-chevron-down submenu-icon"></i>
+                <i class="fas fa-chevron-down submenu-icon" aria-hidden="true"></i>
                 <ul class="submenu" role="menu">
                     <li role="none"><a class="submenu-item" href="https://www.foundertype.com/" target="_blank" rel="noopener noreferrer" data-section="fzy" data-type="newtab" role="menuitem" tabindex="-1" aria-label="方正字库官网">方正字库⤴</a></li>
                     <li role="none"><a class="submenu-item" href="https://www.hanyi.com.cn/" target="_blank" rel="noopener noreferrer" data-section="hyz" data-type="newtab" role="menuitem" tabindex="-1" aria-label="汉仪字库官网">汉仪字库⤴</a></li>
@@ -598,7 +615,7 @@
         </ul>
 
         <button class="hamburger" id="hamburgerBtn" aria-label="导航菜单" aria-expanded="false">
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
     </nav>
 
@@ -606,7 +623,7 @@
         <div class="loader" id="loader" aria-label="加载中">
             <div class="loader-spinner"></div>
         </div>
-        <iframe id="mainContentFrame" class="content-frame" title="字造内容区域" src="home/index.html"></iframe>
+        <iframe id="mainContentFrame" class="content-frame" title="字造内容区域" src="home/index.html" allowfullscreen></iframe>
     </div>
 
     <script>
@@ -638,13 +655,13 @@
                 'home': '字造 - 专注分享字体领域优质内容',
                 'hao': '字造导航 - 设计师的私藏灵感库',
                 'bao': '字造百宝库 - 设计师的资源百宝库',
-                'toolbox': '工具箱 - 字造ZIZAO', // 父菜单项的标题
+                'toolbox': '工具箱 - 字造ZIZAO',
                 'quzhong': '文本字符去重工具 - 字造ZIZAO',
                 'duibi': '文字字符对比工具 - 字造ZIZAO',
                 'pinyin': '汉字拼音转换工具 - 字造ZIZAO',
                 'xingjinzi': '形近字查询工具 - 字造ZIZAO',
                 'shufafengge': '书法风格查询工具 - 字造ZIZAO',
-                'tools': '友链推荐 - 字造ZIZAO', // 父菜单项的标题
+                'tools': '友链推荐 - 字造ZIZAO',
                 'fzy': '方正字库 - 字造ZIZAO',
                 'hyz': '汉仪字库 - 字造ZIZAO',
                 'ztx': '字体天下 - 字造ZIZAO',
@@ -673,12 +690,10 @@
                 if (initialElement) {
                     currentSection = initialSectionId;
                     if (initialElement.dataset.type === 'iframe') {
-                        loadSection(initialSectionId, false); // 初始化时不更新历史记录
+                        loadSection(initialSectionId, false);
                     } else {
-                        // 对于非 iframe 类型，如新标签页链接或父级菜单，只更新 UI 状态和标题
                         resetActiveStates(initialSectionId);
                         updatePageTitle(initialSectionId);
-                        // 如果是父菜单项，且其某个子项是当前活跃的，应保持展开
                         if (initialElement.classList.contains('has-submenu') && window.innerWidth <= 992) {
                             const submenu = initialElement.querySelector('.submenu');
                             const icon = initialElement.querySelector('.submenu-icon');
@@ -688,7 +703,6 @@
                         }
                     }
                 } else {
-                    // 如果哈希无效或元素未找到，默认到 home
                     window.history.replaceState({ section: 'home' }, '', '#home');
                     loadSection('home', false);
                 }
@@ -703,18 +717,16 @@
                     const targetElement = document.querySelector(`[data-section="${newSection}"]`);
                     if (targetElement) {
                         if (targetElement.dataset.type === 'iframe') {
-                            loadSection(newSection, false); // 不更新历史记录，因为是哈希变化触发
+                            loadSection(newSection, false);
                         } else {
                             currentSection = newSection;
                             resetActiveStates(newSection);
                             updatePageTitle(newSection);
                         }
                     } else {
-                        // 如果哈希指向未知部分，回退到 home
                         loadSection('home');
                     }
                 }
-                // 确保在哈希变化时，如果菜单打开，子菜单的展开状态正确
                 if (window.innerWidth <= 992 && isMobileMenuOpen) {
                     resetActiveStates(currentSection);
                 }
@@ -729,7 +741,6 @@
                 const targetFilePath = getIframeFilePath(sectionId);
                 const targetElement = document.querySelector(`[data-section="${sectionId}"]`);
 
-                // 处理非 iframe 类型或无对应 iframe 路径的链接
                 if (!targetFilePath || (targetElement && targetElement.dataset.type !== 'iframe')) {
                     currentSection = sectionId;
                     resetActiveStates(sectionId);
@@ -740,20 +751,17 @@
                     return;
                 }
 
-                // 获取当前 iframe 和目标 iframe 的"干净"路径，用于比较
                 const currentIframeSrc = mainContentFrame.src ? new URL(mainContentFrame.src).pathname.split('/').pop().split('?')[0] : '';
-                // 确保 targetFilePath 是一个完整的 URL，即使它是相对路径
                 const targetIframeUrl = new URL(targetFilePath, window.location.href);
                 const targetIframeSrc = targetIframeUrl.pathname.split('/').pop().split('?')[0];
 
-                // 如果目标页面已加载且处于激活状态，则不重新加载
                 if (currentIframeSrc === targetIframeSrc && currentSection === sectionId && !isAnimating) {
-                    resetActiveStates(sectionId); // 确保激活状态正确
+                    resetActiveStates(sectionId);
                     updatePageTitle(sectionId);
                     return;
                 }
 
-                if (isAnimating) return; // 防止重复点击
+                if (isAnimating) return;
 
                 isAnimating = true;
                 mainContentFrame.classList.add('loading');
@@ -771,9 +779,9 @@
                         mainContentFrame.classList.remove('loading');
                         loader.classList.remove('active');
                         isAnimating = false;
-                        currentSection = sectionId; // 成功加载后更新当前部分
+                        currentSection = sectionId;
                         resetActiveStates(sectionId);
-                    }, 100); // 短暂延迟，确保动画效果
+                    }, 100);
                 };
 
                 mainContentFrame.onerror = function() {
@@ -781,7 +789,6 @@
                     mainContentFrame.classList.remove('loading');
                     loader.classList.remove('active');
                     isAnimating = false;
-                    // 如果特定部分加载失败，回退到 home
                     if (sectionId !== 'home') {
                         loadSection('home');
                     }
@@ -797,11 +804,10 @@
                 document.title = title;
 
                 const targetElement = document.querySelector(`[data-section="${sectionId}"]`);
-                // 只有当目标是 iframe 类型时，才更新 iframe 的 title
                 if (targetElement && targetElement.dataset.type === 'iframe') {
                    mainContentFrame.setAttribute('title', title);
                 } else {
-                    mainContentFrame.setAttribute('title', '字造内容区域'); // 非 iframe 链接或父菜单保持默认标题
+                    mainContentFrame.setAttribute('title', '字造内容区域');
                 }
             }
 
@@ -810,27 +816,21 @@
              * @param {string} sectionId - 要激活的section ID。
              */
             function resetActiveStates(sectionId) {
-                // 移除所有导航项和子菜单项的 active 类
                 document.querySelectorAll('.nav-item, .submenu > li').forEach(el => {
                     el.classList.remove('active');
-                    // 移除 aria-expanded 属性
                     if (el.hasAttribute('aria-expanded')) {
                         el.setAttribute('aria-expanded', 'false');
                     }
                 });
 
-                // 桌面端：折叠所有子菜单和还原图标
                 if (window.innerWidth > 992) {
                     document.querySelectorAll('.submenu.show').forEach(submenu => submenu.classList.remove('show'));
                     document.querySelectorAll('.nav-item.has-submenu .submenu-icon').forEach(icon => icon.style.transform = '');
                 }
 
-
-                // 找到并设置点击/加载的特定项为 active
                 const activeItem = document.querySelector(`[data-section="${sectionId}"]`);
                 if (activeItem) {
                     activeItem.classList.add('active');
-                    // 对于子菜单项，确保其 tabIndex 为 0，而其他兄弟项为 -1
                     if (activeItem.closest('.submenu')) {
                         activeItem.setAttribute('tabindex', '0');
                         Array.from(activeItem.parentNode.children).forEach(sibling => {
@@ -840,12 +840,10 @@
                             }
                         });
                     } else {
-                        // 对于顶级菜单项，确保 tabIndex 为 0
                         activeItem.setAttribute('tabindex', '0');
                     }
                 }
 
-                // 向上遍历以激活父级子菜单项（如果适用）
                 let currentEl = activeItem;
                 while (currentEl) {
                     const parentUl = currentEl.closest('.submenu');
@@ -853,190 +851,160 @@
                         const parentNavItem = parentUl.closest('.nav-item.has-submenu');
                         if (parentNavItem) {
                             parentNavItem.classList.add('active');
-                            parentNavItem.setAttribute('aria-expanded', 'true'); // 展开父菜单
-                            // 确保在移动菜单打开时，父级子菜单也"显示"
-                            if (window.innerWidth <= 992 && isMobileMenuOpen) {
-                                parentUl.classList.add('show');
-                                const icon = parentNavItem.querySelector('.submenu-icon');
-                                if (icon) {
-                                    icon.style.transform = 'rotate(180deg)';
-                                }
+                            parentNavItem.setAttribute('aria-expanded', 'true');
+                            if (window.innerWidth <= 992) {
+                                parentNavItem.querySelector('.submenu').classList.add('show');
+                                parentNavItem.querySelector('.submenu-icon').style.transform = 'rotate(180deg)';
                             }
-                            currentEl = parentNavItem; // 继续向上遍历
-                        } else {
-                            break;
                         }
-                    } else {
-                        break;
                     }
+                    currentEl = parentUl ? parentUl.closest('.nav-item.has-submenu') : null;
                 }
             }
 
-
             /**
-             * 处理导航链接的点击事件。
-             * @param {HTMLElement} targetElement - 被点击的导航项元素。
-             * @param {Event} e - 事件对象。
+             * 处理导航项的点击事件。
+             * @param {Event} event - 点击事件对象。
              */
-            function handleLinkClick(targetElement, e) {
-                const sectionId = targetElement.dataset.section;
-                const linkType = targetElement.dataset.type;
-                const isSubmenuParent = targetElement.classList.contains('has-submenu');
+            function handleNavItemClick(event) {
+                const target = event.target.closest('.nav-item') || event.target.closest('.submenu-item');
+                if (!target) return;
 
-                if (isSubmenuParent) {
-                    e.preventDefault(); // 阻止默认行为
-                    if (window.innerWidth <= 992) {
-                        // 移动端子菜单切换逻辑
-                        const submenu = targetElement.querySelector('.submenu');
-                        const icon = targetElement.querySelector('.submenu-icon');
-                        const currentlyActive = targetElement.classList.contains('active'); // 检查当前点击的父项是否已激活（已展开）
+                event.preventDefault();
+                
+                const sectionId = target.dataset.section;
+                const type = target.dataset.type;
 
-                        // 1. 关闭所有其他已打开的子菜单（除了当前点击的）
-                        targetElement.closest('.nav-links').querySelectorAll('.nav-item.has-submenu').forEach(item => {
-                            if (item !== targetElement) { // 确保不是当前点击的父项
-                                item.classList.remove('active');
-                                item.setAttribute('aria-expanded', 'false');
-                                const otherSubmenu = item.querySelector('.submenu');
-                                const otherIcon = item.querySelector('.submenu-icon');
-                                if (otherSubmenu) otherSubmenu.classList.remove('show');
-                                if (otherIcon) otherIcon.style.transform = '';
-                            }
-                        });
+                if (type === 'newtab') {
+                    // 新标签页打开的链接，只更新UI状态
+                    currentSection = sectionId;
+                    resetActiveStates(sectionId);
+                    updatePageTitle(sectionId);
+                    window.history.pushState({ section: sectionId }, '', `#${sectionId}`);
+                    closeMobileMenu();
+                    return;
+                }
 
-                        // 2. 切换当前点击的子菜单的显示/隐藏状态
-                        if (currentlyActive) {
-                            targetElement.classList.remove('active');
-                            targetElement.setAttribute('aria-expanded', 'false');
-                            if (submenu) submenu.classList.remove('show');
-                            if (icon) icon.style.transform = '';
+                if (type === 'iframe') {
+                    loadSection(sectionId);
+                    closeMobileMenu();
+                    return;
+                }
+
+                // 处理父级菜单项的点击（仅移动端）
+                if (window.innerWidth <= 992 && target.classList.contains('has-submenu')) {
+                    const submenu = target.querySelector('.submenu');
+                    const icon = target.querySelector('.submenu-icon');
+                    const isExpanded = target.getAttribute('aria-expanded') === 'true';
+
+                    if (submenu) {
+                        if (isExpanded) {
+                            submenu.classList.remove('show');
+                            icon.style.transform = '';
+                            target.setAttribute('aria-expanded', 'false');
                         } else {
-                            targetElement.classList.add('active');
-                            targetElement.setAttribute('aria-expanded', 'true');
-                            if (submenu) submenu.classList.add('show');
-                            if (icon) icon.style.transform = 'rotate(180deg)';
-                        }
-                    }
-                } else if (sectionId) {
-                    // 这是叶子导航项（实际链接）
-                    e.preventDefault();
-
-                    if (linkType === 'newtab') {
-                        const actualLink = targetElement.querySelector('a') || targetElement; // 如果是 <a> 标签本身带有 data-section
-                        if (actualLink && actualLink.href) {
-                            window.open(actualLink.href, '_blank', 'noopener noreferrer');
-                        }
-                        currentSection = sectionId;
-                        resetActiveStates(sectionId);
-                        updatePageTitle(sectionId);
-                        if (window.innerWidth <= 992) {
-                            closeMobileMenu();
-                        }
-                    } else if (linkType === 'iframe') {
-                        loadSection(sectionId);
-                        if (window.innerWidth <= 992) {
-                            closeMobileMenu();
+                            submenu.classList.add('show');
+                            icon.style.transform = 'rotate(180deg)';
+                            target.setAttribute('aria-expanded', 'true');
                         }
                     }
                 }
             }
 
-            // 所有导航链接的事件监听器
-            mainNavLinks.addEventListener('click', function(e) {
-                const clickedItem = e.target.closest('.nav-item, .submenu > li');
-                if (clickedItem && clickedItem.dataset.section) {
-                    handleLinkClick(clickedItem, e);
-                }
-            });
-
-            // Logo 点击返回首页
-            logoLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                loadSection('home');
-                if (window.innerWidth <= 992) {
-                    closeMobileMenu();
-                }
-            });
-
             /**
-             * 切换移动导航菜单的显示/隐藏状态。
+             * 切换移动端菜单的显示/隐藏状态。
              */
             function toggleMobileMenu() {
                 isMobileMenuOpen = !isMobileMenuOpen;
                 mainNavLinks.classList.toggle('show', isMobileMenuOpen);
                 hamburgerBtn.setAttribute('aria-expanded', isMobileMenuOpen.toString());
-                document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''; // 阻止主体滚动
-
-                if (isMobileMenuOpen) {
-                    resetActiveStates(currentSection); // 打开时设置正确的激活状态，包括子菜单的展开
-                } else {
-                    // 关闭主移动菜单时，折叠所有子菜单和移除 active 类
-                    document.querySelectorAll('.nav-item.has-submenu').forEach(toggle => {
-                        toggle.classList.remove('active'); // 移除父菜单的激活状态
-                        toggle.setAttribute('aria-expanded', 'false');
-                        const submenu = toggle.querySelector('.submenu');
-                        const icon = toggle.querySelector('.submenu-icon');
-                        if (submenu) submenu.classList.remove('show'); // 折叠子菜单
-                        if (icon) icon.style.transform = ''; // 还原图标方向
+                
+                // 为body添加/移除no-scroll类以防止滚动
+                document.body.classList.toggle('no-scroll', isMobileMenuOpen);
+                
+                // 如果菜单关闭，折叠所有子菜单
+                if (!isMobileMenuOpen && window.innerWidth <= 992) {
+                    document.querySelectorAll('.submenu.show').forEach(submenu => {
+                        submenu.classList.remove('show');
+                    });
+                    document.querySelectorAll('.nav-item.has-submenu .submenu-icon').forEach(icon => {
+                        icon.style.transform = '';
+                    });
+                    document.querySelectorAll('.nav-item.has-submenu').forEach(item => {
+                        item.setAttribute('aria-expanded', 'false');
                     });
                 }
             }
 
             /**
-             * 关闭移动导航菜单。
+             * 关闭移动端菜单。
              */
             function closeMobileMenu() {
-                if (!isMobileMenuOpen) return;
-                isMobileMenuOpen = false;
-                mainNavLinks.classList.remove('show');
-                hamburgerBtn.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = ''; // 恢复主体滚动
-
-                // 关闭移动菜单时，折叠所有子菜单和移除active类
-                document.querySelectorAll('.nav-item.has-submenu').forEach(toggle => {
-                    toggle.classList.remove('active'); // 移除父菜单的激活状态
-                    toggle.setAttribute('aria-expanded', 'false');
-                    const submenu = toggle.querySelector('.submenu');
-                    const icon = toggle.querySelector('.submenu-icon');
-                    if (submenu) submenu.classList.remove('show'); // 折叠子菜单
-                    if (icon) icon.style.transform = ''; // 还原图标方向
-                });
-            }
-
-            hamburgerBtn.addEventListener('click', function(e) {
-                e.stopPropagation(); // 阻止事件冒泡
-                toggleMobileMenu();
-            });
-
-            hamburgerBtn.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
+                if (window.innerWidth <= 992 && isMobileMenuOpen) {
                     toggleMobileMenu();
                 }
-            });
+            }
 
-            // 点击菜单外部关闭移动菜单
-            document.addEventListener('click', function(event) {
-                if (isMobileMenuOpen && !hamburgerBtn.contains(event.target) && !mainNavLinks.contains(event.target)) {
-                    closeMobileMenu();
+            /**
+             * 处理键盘导航。
+             * @param {Event} event - 键盘事件对象。
+             */
+            function handleKeyboardNavigation(event) {
+                const { key } = event;
+                const activeElement = document.activeElement;
+                
+                if (!activeElement.closest('.nav-links')) return;
+
+                // 处理回车和空格键
+                if (key === 'Enter' || key === ' ') {
+                    event.preventDefault();
+                    activeElement.click();
+                    return;
                 }
-            });
 
-            // 处理窗口大小调整事件
-            function handleResize() {
-                if (window.innerWidth > 992) {
-                    closeMobileMenu(); // 窗口变大时自动关闭移动菜单
-                    document.body.style.overflow = ''; // 桌面模式下始终恢复滚动
-                } else {
-                    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''; // 移动模式下根据菜单状态管理滚动
+                // 处理方向键导航
+                if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(key)) {
+                    event.preventDefault();
+                    
+                    const navItems = Array.from(document.querySelectorAll('.nav-item[tabindex="0"], .submenu-item[tabindex="0"]'));
+                    const currentIndex = navItems.indexOf(activeElement);
+                    
+                    if (currentIndex === -1) return;
+
+                    let nextIndex;
+                    if (key === 'ArrowDown') {
+                        nextIndex = (currentIndex + 1) % navItems.length;
+                    } else if (key === 'ArrowUp') {
+                        nextIndex = (currentIndex - 1 + navItems.length) % navItems.length;
+                    } else if (key === 'ArrowRight') {
+                        if (activeElement.classList.contains('has-submenu') && activeElement.getAttribute('aria-expanded') === 'false') {
+                            activeElement.click();
+                            return;
+                        }
+                        nextIndex = currentIndex;
+                    } else if (key === 'ArrowLeft') {
+                        if (activeElement.classList.contains('has-submenu') && activeElement.getAttribute('aria-expanded') === 'true') {
+                            activeElement.click();
+                            return;
+                        }
+                        nextIndex = currentIndex;
+                    }
+
+                    navItems[nextIndex].focus();
                 }
             }
 
-            window.addEventListener('resize', handleResize);
-
-            // 页面加载和哈希变化时初始化
+            // 初始化页面
             initPage();
+
+            // 事件监听器
             window.addEventListener('hashchange', handleHashChange);
-        });
-    </script>
-</body>
-</html>
+            window.addEventListener('popstate', handleHashChange);
+            mainNavLinks.addEventListener('click', handleNavItemClick);
+            hamburgerBtn.addEventListener('click', toggleMobileMenu);
+            logoLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                loadSection('home');
+                closeMobileMenu();
+            });
+           
