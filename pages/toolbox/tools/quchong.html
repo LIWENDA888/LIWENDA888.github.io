@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本字符去重工具</title>
+    <style>
+        :root {
+            --primary-color: #FF7F00;
+            --secondary-color: #E66F00;
+            --accent-color: #FFA500;
+            --light-color: #FFFFFF;
+            --dark-color: #333333;
+            --success-color: #4CAF50;
+            --danger-color: #F44336;
+            --clear-color: #6C757D;
+            --clear-hover-color: #5A6268;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #F8F8F8;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .text-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .text-box label {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .text-box .label-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            height: 30px;
+        }
+
+        .text-box label svg {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            color: var(--primary-color);
+        }
+
+        .text-counter {
+            text-align: right;
+            font-size: 14px;
+            color: var(--dark-color);
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: var(--border-radius);
+            resize: none;
+            font-size: 15px;
+            line-height: 1.6;
+            transition: var(--transition);
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2);
+        }
+
+        #input-text {
+            border-color: var(--primary-color);
+        }
+
+        #output-text {
+            border-color: #B0B0B0;
+            background-color: #FDFDFD;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 16px;
+        }
+
+        button {
+            padding: 12px 28px;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #C0C0C0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .copy-btn {
+            background-color: var(--success-color);
+        }
+
+        .copy-btn:hover {
+            background-color: #43A047;
+        }
+
+        .copy-btn svg {
+            color: var(--light-color);
+        }
+
+        .clear-btn {
+            background-color: var(--clear-color);
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            height: fit-content;
+            box-shadow: none;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .clear-btn:hover {
+            background-color: var(--clear-hover-color);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .clear-btn:active {
+            transform: none;
+        }
+
+        .clear-btn svg {
+            color: var(--light-color);
+        }
+
+        .removed-chars {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .removed-chars h3 {
+            margin-top: 0;
+            color: var(--dark-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .removed-chars h3 svg {
+            color: var(--danger-color);
+        }
+
+        .chars-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .char-item {
+            padding: 6px 12px;
+            background-color: #FFF3E0;
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--primary-color);
+            border: 1px solid #FFCC80;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .text-box .label-group {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                gap: 10px;
+                height: auto;
+            }
+            .clear-btn {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>📝 文本字符去重工具</h1>
+
+    <div class="container">
+        <div class="text-box">
+            <div class="label-group">
+                <label for="input-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0H9m-3 0V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    输入文本
+                </label>
+                <button id="clear-input-btn" class="clear-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    清空
+                </button>
+            </div>
+            <textarea id="input-text" placeholder="请在此处粘贴您的文本..."></textarea>
+            <div class="text-counter">字符数量: <span id="input-count">0</span></div>
+        </div>
+
+        <div class="text-box">
+            <div class="label-group">
+                <label for="output-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0H9m-3 0V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    去重结果
+                </label>
+            </div>
+            <textarea id="output-text" readonly placeholder="去重后的文本将显示在这里..."></textarea>
+            <div class="text-counter">字符数量: <span id="output-count">0</span></div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="process-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            去重字符
+        </button>
+        <button id="copy-btn" class="copy-btn" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            </svg>
+            复制结果
+        </button>
+    </div>
+
+    <div id="removed-section" style="display: none;">
+        <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            被移除的重复字符
+        </h3>
+        <div class="removed-chars">
+            <div class="chars-list" id="chars-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // 定义全局变量来存储按钮的原始状态和计时器ID
+        let originalCopyBtnHTML;
+        const defaultCopyBtnBgColorVar = 'var(--success-color)'; // 复制按钮的默认背景颜色变量
+        let copyTimeoutId; // 用于存储 setTimeout 的 ID，以便可以清除它
+        let isCopying = false; // 标志位，防止复制动画重复触发
+
+        // 成功复制后的对勾图标HTML
+        const SUCCESS_ICON_HTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+        `;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputText = document.getElementById('input-text');
+            const outputText = document.getElementById('output-text');
+            const processBtn = document.getElementById('process-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearInputBtn = document.getElementById('clear-input-btn');
+            const inputCountEl = document.getElementById('input-count');
+            const outputCountEl = document.getElementById('output-count');
+            const removedSection = document.getElementById('removed-section');
+            const charsList = document.getElementById('chars-list');
+
+            // 页面加载时，保存复制按钮的原始HTML内容
+            originalCopyBtnHTML = copyBtn.innerHTML;
+
+            // 计算非空白字符数量
+            function countNonWhitespace(text) {
+                return text.replace(/\s/g, '').length;
+            }
+
+            // 更新输入框字符计数
+            function updateInputCount() {
+                const text = inputText.value;
+                inputCountEl.textContent = countNonWhitespace(text);
+                if (text.trim() === '') {
+                    outputText.value = '';
+                    outputCountEl.textContent = '0';
+                    copyBtn.disabled = true; // 输入框为空时禁用复制按钮
+                    removedSection.style.display = 'none'; // 隐藏被移除字符区
+                }
+            }
+
+            // 输入框内容变化时更新计数
+            inputText.addEventListener('input', updateInputCount);
+
+            // 清空输入文本按钮点击事件
+            clearInputBtn.addEventListener('click', function() {
+                inputText.value = '';
+                updateInputCount(); // 清空后立即更新计数和按钮状态
+            });
+
+            // 去重字符函数
+            function removeDuplicateChars(text) {
+                const seenChars = new Set();
+                const removedChars = new Set();
+                let result = '';
+
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+
+                    // 如果是空白字符（空格、换行、制表符等），直接保留
+                    if (/\s/.test(char)) {
+                        result += char;
+                    }
+                    // 如果是普通字符且第一次出现，保留
+                    else if (!seenChars.has(char)) {
+                        seenChars.add(char);
+                        result += char;
+                    }
+                    // 否则（普通字符且已出现过），记录被移除的字符
+                    else {
+                        removedChars.add(char);
+                    }
+                }
+
+                // 更新输出框字符计数
+                outputCountEl.textContent = countNonWhitespace(result);
+
+                return {
+                    text: result,
+                    removedChars: Array.from(removedChars)
+                };
+            }
+
+            // 处理按钮点击事件
+            processBtn.addEventListener('click', function() {
+                const text = inputText.value;
+                if (text.trim() === '') {
+                    alert('请输入文本后再执行去重操作！');
+                    outputText.value = '';
+                    outputCountEl.textContent = '0';
+                    removedSection.style.display = 'none';
+                    copyBtn.disabled = true;
+                    return;
+                }
+
+                const processedData = removeDuplicateChars(text);
+                outputText.value = processedData.text;
+
+                // 显示被移除的字符
+                charsList.innerHTML = ''; // 清空之前的列表
+                if (processedData.removedChars.length > 0) {
+                    // 排序被移除的字符，特殊字符优先显示
+                    processedData.removedChars.sort((a, b) => {
+                        const getOrder = (c) => {
+                            if (c === '\n') return 1; // 换行符最优先
+                            if (c === '\t') return 2; // 制表符次之
+                            if (c === ' ') return 3;  // 空格再次之
+                            return 4; // 其他字符
+                        };
+                        const orderA = getOrder(a);
+                        const orderB = getOrder(b);
+                        if (orderA !== orderB) {
+                            return orderA - orderB;
+                        }
+                        return a.localeCompare(b); // 相同类型的字符按字母顺序
+                    }).forEach(char => {
+                        const charItem = document.createElement('div');
+                        charItem.className = 'char-item';
+                        // 处理特殊字符的显示
+                        if (char === ' ') {
+                            charItem.textContent = '[空格]';
+                        } else if (char === '\n') {
+                            charItem.textContent = '[换行符]';
+                        } else if (char === '\t') {
+                            charItem.textContent = '[制表符]';
+                        } else {
+                            charItem.textContent = char;
+                        }
+                        charsList.appendChild(charItem);
+                    });
+
+                    removedSection.style.display = 'block'; // 显示被移除字符区域
+                } else {
+                    removedSection.style.display = 'none'; // 没有被移除的字符则隐藏区域
+                }
+
+                copyBtn.disabled = false; // 处理完成后启用复制按钮
+            });
+
+            // 复制按钮点击事件
+            copyBtn.addEventListener('click', async function() {
+                if (outputText.value.trim() === '') {
+                    alert('没有可复制的内容！');
+                    return;
+                }
+
+                // 如果正在执行复制动画，则直接返回，防止重复点击
+                if (isCopying) {
+                    return;
+                }
+
+                isCopying = true; // 设置标志位为 true
+                clearTimeout(copyTimeoutId); // 清除任何之前设置的计时器
+
+                try {
+                    await navigator.clipboard.writeText(outputText.value);
+
+                    // 显示复制成功动画
+                    copyBtn.innerHTML = SUCCESS_ICON_HTML + ' 已复制！';
+                    copyBtn.style.backgroundColor = '#28A745'; // 成功的绿色
+
+                    // 2秒后恢复按钮原始状态
+                    copyTimeoutId = setTimeout(() => {
+                        copyBtn.innerHTML = originalCopyBtnHTML; // 恢复原始HTML
+                        copyBtn.style.backgroundColor = defaultCopyBtnBgColorVar; // 恢复原始背景色
+                        isCopying = false; // 重置标志位
+                    }, 2000);
+
+                } catch (err) {
+                    console.error('复制失败: ', err);
+                    // 备用方案：如果Clipboard API失败
+                    outputText.select(); // 选中输出文本
+                    try {
+                        document.execCommand('copy'); // 尝试执行复制命令
+                        alert('内容已复制 (通过备用方式)。');
+                    } catch (execErr) {
+                        console.error('execCommand 复制失败: ', execErr);
+                        alert('复制失败，请手动复制或尝试更新浏览器。');
+                    }
+                    // 无论成功与否，都要重置按钮状态
+                    clearTimeout(copyTimeoutId); // 确保清除计时器
+                    copyBtn.innerHTML = originalCopyBtnHTML;
+                    copyBtn.style.backgroundColor = defaultCopyBtnBgColorVar;
+                    isCopying = false; // 重置标志位
+                }
+            });
+
+            // 初始化输入框计数和按钮状态
+            updateInputCount();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造 - 字体领域优质内容分享</title>
+    <meta property="og:type" content="website">
+    <link rel="icon" href="index/index.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <style>
+        /* --- CSS 变量 --- */
+        :root {
+            --primary-color: #FF8C19;
+            --secondary-color: #FF5E5B;
+            --text-color: #2D2D2D;
+            --text-light: #5A5A5A;
+            --bg-color: #FFFFFF;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --footer-color: rgba(0, 0, 0, 0.5);
+
+            /* 简化背景元素颜色，使用主色系透明度 */
+            --bg-element-light: rgba(255, 140, 25, 0.1);
+            --bg-element-dark: rgba(255, 140, 25, 0.2);
+
+            --transition-speed: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+            /* 调整 footer 的高度，使其更小 */
+            --footer-h-d: 90px; /* Desktop footer height */
+            --footer-h-t: 80px; /* Tablet footer height */
+            --footer-h-m: 70px; /* Mobile footer height */
+        }
+
+        /* --- Global & Base Styles --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden;
+            line-height: 1.6; display: flex; flex-direction: column; position: relative;
+            min-height: 100vh; /* 移除了 padding-top: 55px; 因为顶部按钮已移除 */
+            padding-bottom: var(--footer-h-d);
+        }
+
+        /* --- Parallax Background --- */
+        .parallax-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: -2;
+        }
+
+        .parallax-element {
+            position: absolute; border-radius: 50%; filter: blur(50px);
+            mix-blend-mode: overlay;
+        }
+        .element-1 { width: 400px; height: 400px; top: 15%; left: 10%; background: var(--bg-element-light); }
+        .element-2 { width: 300px; height: 300px; bottom: 20%; right: 15%; background: var(--bg-element-dark); }
+        .element-3 { width: 250px; height: 250px; top: 40%; right: 5%; background: var(--bg-element-light); }
+
+        /* --- Floating Elements --- */
+        .floating-element {
+            position: absolute; border-radius: 50%; animation: float 15s infinite ease-in-out;
+            mix-blend-mode: screen; opacity: 0.5; box-shadow: 0 0 15px var(--bg-element-dark);
+        }
+        .floating-1 { width: 100px; height: 100px; top: 25%; left: 15%; background: var(--bg-element-dark); animation-delay: 0s; }
+        .floating-2 { width: 80px; height: 80px; bottom: 25%; right: 20%; background: var(--bg-element-light); animation-delay: 5s; }
+        .floating-3 { width: 60px; height: 60px; top: 10%; right: 10%; background: var(--bg-element-dark); animation-delay: 10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 30px); }
+        }
+
+        /* --- Particles --- */
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden;
+        }
+        .particle {
+            position: absolute; background: var(--bg-element-light); border-radius: 50%; pointer-events: none; opacity: 0.2;
+            animation: particle-float 10s linear infinite;
+        }
+        @keyframes particle-float {
+            0% { transform: translateY(0) scale(1); opacity: 0.2; }
+            50% { transform: translateY(-50px) scale(1.1); opacity: 0.3; }
+            100% { transform: translateY(0) scale(1); opacity: 0.2; }
+        }
+
+        /* --- Main Content & Layout --- */
+        .container {
+            max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;
+            position: relative; z-index: 1; flex-grow: 1;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            text-align: center; flex-grow: 1; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 2rem 0;
+            min-height: calc(100vh - var(--footer-h-d) - 4rem); /* 调整 min-height: 减去顶部按钮预留高度 */
+        }
+        .hero h1 {
+            font-size: 3.5rem; margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            line-height: 1.2; font-weight: 800; letter-spacing: -1px; max-width: 800px;
+        }
+        .hero p { font-size: 1.2rem; color: var(--text-light); max-width: 600px; margin: 0 auto 2.5rem; }
+
+        /* --- Hero Buttons --- */
+        .hero-buttons {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; max-width: 900px;
+        }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.9rem 2rem; background: var(--primary-color); color: white;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            transition: all var(--transition-speed); border: none; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3); font-size: 1rem;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn i { margin-left: 0.5rem; transition: transform var(--transition-speed); }
+        .btn:hover i { transform: translateX(3px); }
+        .btn-small { padding: 0.6rem 1.2rem; font-size: 0.85rem; box-shadow: 0 2px 6px rgba(255, 140, 25, 0.3); }
+
+        /* --- Popup Modals --- */
+        .popup-modal {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            background-color: #FFFFFF; border-radius: 16px; padding: 2rem;
+            width: 90%; max-width: 300px; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color); z-index: 100; opacity: 0;
+            transition: opacity var(--transition-speed), transform var(--transition-speed);
+        }
+        .popup-modal.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .popup-qrcode {
+            width: 200px; height: 200px; margin: 0 auto 1.5rem; background-color: white;
+            padding: 10px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); border: 1px solid var(--border-color);
+        }
+        .popup-qrcode img { width: 100%; height: 100%; object-fit: contain; }
+        .popup-modal-text { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
+        .popup-modal-close {
+            background: var(--primary-color); color: white; border: none; padding: 0.7rem 1.5rem;
+            border-radius: 50px; cursor: pointer; font-weight: 600; transition: all var(--transition-speed);
+            box-shadow: 0 2px 8px rgba(255, 140, 25, 0.2); font-size: 0.95rem; width: 100%; max-width: 200px; margin: 0 auto;
+        }
+        .popup-modal-close:hover { transform: translateY(-2px); }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center; padding: 1.5rem 0 1rem 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--footer-color); font-size: 0.95rem;
+            background: transparent;
+            position: relative; z-index: 1; flex-shrink: 0;
+        }
+        .footer-button-container { margin-bottom: 1rem; }
+        .social-links {
+            display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 0.8rem; flex-wrap: wrap; max-width: 90%; margin-left: auto; margin-right: auto;
+        }
+        .social-link {
+            width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; background: rgba(0, 0, 0, 0.03); color: var(--text-color);
+            transition: all var(--transition-speed);
+        }
+        .social-link:hover { transform: scale(1.1); background: var(--bg-element-light); }
+        .social-link img { width: 24px; height: 24px; }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 3rem; }
+            body { padding-bottom: var(--footer-h-t); }
+            .hero { min-height: calc(100vh - var(--footer-h-t) - 4rem); } /* 调整 min-height */
+        }
+        @media (max-width: 768px) {
+            body { padding-bottom: var(--footer-h-t); }
+            .hero { min-height: calc(100vh - var(--footer-h-t) - 4rem); } /* 调整 min-height */
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            footer { padding: 1rem 0 0.8rem 0; }
+            .social-links { gap: 0.8rem; margin-bottom: 0.6rem; }
+            .social-link { width: 40px; height: 40px; }
+            .social-link img { width: 22px; height: 22px; }
+            .hero-buttons { gap: 1rem; padding: 0 1rem; }
+            .btn { padding: 0.8rem 1.5rem; font-size: 0.95rem; }
+            .btn-small { padding: 0.5rem 1rem; font-size: 0.8rem; }
+        }
+        @media (max-width: 480px) {
+            body { padding-bottom: var(--footer-h-m); }
+            .hero { min-height: calc(100vh - var(--footer-h-m) - 4rem); } /* 调整 min-height */
+            .hero h1 { font-size: 2.2rem; }
+            .popup-modal { padding: 1.5rem; max-width: 280px; }
+            .popup-qrcode { width: 180px; height: 180px; }
+            .social-links { gap: 0.6rem; margin-bottom: 0.5rem; }
+            .social-link { width: 38px; height: 38px; }
+            .social-link img { width: 20px; height: 20px; }
+            .hero-buttons { gap: 0.8rem; }
+            .btn { padding: 0.7rem 1.2rem; font-size: 0.9rem; }
+            .btn-small { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 模态框组 -->
+    <div class="popup-modal" id="wechatModal1">
+        <div class="popup-qrcode">
+            <img src="index/iwg.webp" alt="微信公众号二维码">
+        </div>
+        <p class="popup-modal-text">微信扫码关注公众号</p>
+        <button class="popup-modal-close" data-modal-id="wechatModal1">关闭</button>
+    </div>
+    <div class="popup-modal" id="wechatModal2">
+        <div class="popup-qrcode">
+            <img src="index/iwx.webp" alt="微信二维码">
+        </div>
+        <p class="popup-modal-text">微信扫码添加好友</p>
+        <button class="popup-modal-close" data-modal-id="wechatModal2">关闭</button>
+    </div>
+
+    <!-- Parallax 背景容器 -->
+    <div class="parallax-container">
+        <div class="particles" id="particles"></div>
+        <div class="parallax-element element-1"></div>
+        <div class="parallax-element element-2"></div>
+        <div class="parallax-element element-3"></div>
+        <div class="floating-element floating-1"></div>
+        <div class="floating-element floating-2"></div>
+        <div class="floating-element floating-3"></div>
+    </div>
+
+    <!-- 顶部设计合作按钮已移除 -->
+
+    <!-- 主内容容器 -->
+    <div class="container">
+        <section class="hero">
+            <h1>Hello，欢迎来到字造</h1>
+            <p>在这里发现内容，包括设计工具、字体字库等以及更多。</p>
+            <div class="hero-buttons">
+                <a href="https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw" class="btn btn-small" target="_blank">
+                    千本设计书籍
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="https://www.doubao.com/chat/" class="btn" target="_blank">
+                    豆包
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="https://chat.deepseek.com/" class="btn" target="_blank">
+                    Deepseek
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer id="contact">
+        <div class="social-links">
+            <a href="#" class="social-link" id="footerWechatTrigger">
+                <img src="index/m/wx.webp" alt="微信公众号" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" class="social-link">
+                <img src="index/m/dy.webp" alt="抖音主页" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="social-link">
+                <img src="index/m/xhs.webp" alt="小红书主页" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://www.zcool.com.cn/u/15462186" target="_blank" class="social-link">
+                <img src="index/m/zk.webp" alt="站酷主页" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://weibo.com/u/7931697572" target="_blank" class="social-link">
+                <img src="index/m/wb.webp" alt="微博主页" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://space.bilibili.com/339715446" target="_blank" class="social-link">
+                <img src="index/m/b.webp" alt="bilibili主页" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://www.youtube.com/@zizaotop" target="_blank" class="social-link">
+                <img src="index/m/you.webp" alt="YouTube主页" width="24" height="24" loading="lazy">
+            </a>
+            <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" class="social-link">
+                <img src="index/m/z.webp" alt="知乎主页" width="24" height="24" loading="lazy">
+            </a>
+        </div>
+        <div class="footer-button-container">
+            <button class="btn btn-small" id="addWechatFriendTrigger">添加微信好友<i class="fa-solid fa-comment"></i></button>
+        </div>
+        <p>© <span id="currentYear"></span> 字造ZIZAO.TOP</p>
+        <p>推荐通过以上方式了解我们，且可获取最新内容更新</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYearSpan = document.getElementById('currentYear');
+            const particlesContainer = document.getElementById('particles');
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            const footerWechatTrigger = document.getElementById('footerWechatTrigger');
+            const addWechatFriendTrigger = document.getElementById('addWechatFriendTrigger');
+            const wechatModal1 = document.getElementById('wechatModal1');
+            const wechatModal2 = document.getElementById('wechatModal2');
+            const modalCloseButtons = document.querySelectorAll('.popup-modal-close');
+            const allModals = document.querySelectorAll('.popup-modal');
+
+            currentYearSpan.textContent = new Date().getFullYear();
+
+            function toggleModal(modal, show) {
+                if (show) {
+                    allModals.forEach(m => { if (m.id !== modal.id) { m.style.display = 'none'; m.classList.remove('show'); } });
+                    modal.style.display = 'block';
+                    requestAnimationFrame(() => modal.classList.add('show'));
+                } else {
+                    modal.classList.remove('show');
+                    modal.addEventListener('transitionend', function handler() {
+                        modal.style.display = 'none';
+                        modal.removeEventListener('transitionend', handler);
+                    }, { once: true });
+                }
+            }
+
+            footerWechatTrigger.addEventListener('click', (e) => { e.preventDefault(); toggleModal(wechatModal1, true); });
+            addWechatFriendTrigger.addEventListener('click', () => { toggleModal(wechatModal2, true); });
+
+            modalCloseButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    toggleModal(document.getElementById(e.target.dataset.modalId), false);
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                const isModalContent = e.target.closest('.popup-modal');
+                // 移除了 .design-collab-btn 的判断，因为它已被删除
+                const isTriggerButton = e.target.closest('#footerWechatTrigger') || e.target.closest('#addWechatFriendTrigger');
+                if (!isModalContent && !isTriggerButton) {
+                    allModals.forEach(modal => toggleModal(modal, false));
+                }
+            });
+
+            function initParticles() {
+                const particleCount = Math.min(Math.floor(window.innerWidth / 40), 20);
+                particlesContainer.innerHTML = '';
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    const size = Math.random() * 2 + 1;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    particle.style.cssText = `
+                        width: ${size}px; height: ${size}px;
+                        left: ${posX}%; top: ${posY}%;
+                        animation-delay: ${Math.random() * 5}s;
+                    `;
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            initParticles();
+
+            let tickingParallax = false;
+            let lastScrollY = 0;
+
+            function updateParallax() {
+                const scrollTop = window.scrollY;
+                if (scrollTop === lastScrollY) { tickingParallax = false; return; }
+                lastScrollY = scrollTop;
+
+                parallaxElements.forEach((element, index) => {
+                    const speed = 0.04 + (index * 0.01);
+                    element.style.transform = `translateY(${-(scrollTop * speed)}px)`;
+                });
+                tickingParallax = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!tickingParallax) {
+                    requestAnimationFrame(updateParallax);
+                    tickingParallax = true;
+                }
+            }, { passive: true });
+        });
+    </script>
+</body>
+</html>
