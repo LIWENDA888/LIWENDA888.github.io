@@ -485,6 +485,7 @@
                 </li>
 
                 <li>
+                    <!-- 这个链接依然建议保持 target="_blank" 因为 iconfont 也可能禁止嵌入 -->
                     <a href="https://www.iconfont.cn" target="_blank" rel="noopener noreferrer"><span class="dot"></span><span>iconfont图标库⤴</span></a>
                 </li>
             </ul>
@@ -513,34 +514,24 @@
         const loadingIndicator = document.getElementById('loading-indicator');
 
         // 页面映射表
+        // 注意：将 'bao' 的 type 改回 'internal'，意味着它会尝试在 iframe 中加载。
+        // 但飞书链接很可能阻止 iframe 嵌入，导致显示空白或错误。
         const pageMap = {
-            'home': 'pages/home/index.html',
-            'hao': 'pages/hao/index.html', 
-            'bao': 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c',
-            'quzhong': 'pages/toolbox/1.html',
-            'duibi': 'pages/toolbox/2.html',
-            'pinyin': 'pages/toolbox/3.html', 
-            'xingjinzi': 'pages/toolbox/4.html',
-            'shufafengge': 'pages/toolbox/write/index.html',
-        };
-
-        // 页面标题
-        const pageTitles = {
-            'home': '字造 - 专注分享字体领域优质内容',
-            'hao': '字造导航 - 设计师的私藏灵感库',
-            'bao': '字造百宝库 - 设计师的资源百宝库',
-            'quzhong': '文本字符去重工具 - 字造ZIZAO',
-            'duibi': '文字字符对比工具 - 字造ZIZAO',
-            'pinyin': '汉字拼音转换工具 - 字造ZIZAO',
-            'xingjinzi': '形近字查询工具 - 字造ZIZAO',
-            'shufafengge': '书法风格查询工具 - 字造ZIZAO',
+            'home': { url: 'pages/home/index.html', title: '字造 - 专注分享字体领域优质内容'},
+            'hao': { url: 'pages/hao/index.html', title: '字造导航 - 设计师的私藏灵感库'},
+            'bao': { url: 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c', title: '字造百宝库 - 设计师的资源百宝库'}, // 移除 type 属性，或设为 internal
+            'quzhong': { url: 'pages/toolbox/1.html', title: '文本字符去重工具 - 字造ZIZAO'},
+            'duibi': { url: 'pages/toolbox/2.html', title: '文字字符对比工具 - 字造ZIZAO'},
+            'pinyin': { url: 'pages/toolbox/3.html', title: '汉字拼音转换工具 - 字造ZIZAO'}, 
+            'xingjinzi': { url: 'pages/toolbox/4.html', title: '形近字查询工具 - 字造ZIZAO'},
+            'shufafengge': { url: 'pages/toolbox/write/index.html', title: '书法风格查询工具 - 字造ZIZAO'},
         };
 
         // 关闭移动端菜单和所有下拉菜单
         function closeMobileMenu() {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // 恢复滚动
             
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
@@ -555,7 +546,8 @@
         hamburger.addEventListener('click', () => {
             const isActive = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            document.body.style.overflow = isActive ? 'hidden' : '';
+            // 当汉堡菜单打开时，禁用body滚动，避免背景滚动
+            document.body.style.overflow = isActive ? 'hidden' : ''; 
             
             // 关闭所有下拉菜单
             document.querySelectorAll('.dropdown').forEach(dropdown => {
@@ -574,15 +566,16 @@
 
             if (dropdown) {
                 parentLink.addEventListener('click', (e) => {
-                    // 桌面端阻止父链接默认行为
+                    // 桌面端阻止父链接默认行为（如果它有下拉菜单），只展开/收起下拉菜单
                     if (window.innerWidth > 992 && parentLink.classList.contains('dropdown-parent-link')) {
                         e.preventDefault(); 
                     }
                     
                     // 移动端下拉菜单切换
                     if (window.innerWidth <= 992) {
-                        e.preventDefault();
+                        e.preventDefault(); // 阻止默认的链接跳转行为
                         
+                        // 关闭其他已打开的下拉菜单
                         document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
                             if (openDropdown !== dropdown) {
                                 openDropdown.classList.remove('active');
@@ -600,20 +593,25 @@
             }
         });
         
-        // 导航链接点击后关闭移动菜单
+        // 导航链接点击后关闭移动菜单 (并处理外部链接)
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth > 992) return; 
+            link.addEventListener('click', function(e) {
+                if (window.innerWidth > 992) return; // 仅在移动端生效
 
+                // 如果是外部链接，直接在新窗口打开，并关闭菜单
                 if (this.target === '_blank') {
                     closeMobileMenu();
-                    return;
+                    return; // 允许链接的默认行为（打开新窗口）
                 }
 
                 const parentLi = this.closest('.nav-links > li');
                 const hasDropdown = parentLi && parentLi.querySelector('.dropdown');
                 const isSubLink = this.closest('.dropdown');
 
+                // 判断是否是需要关闭菜单的链接：
+                // 1. 是二级菜单中的链接
+                // 2. 是没有下拉菜单的顶级链接
+                // 3. 是有下拉菜单但不是下拉父链接本身（即点击了“工具箱”下的某个具体工具）
                 if (isSubLink || (parentLi && !hasDropdown) || 
                    (parentLi && hasDropdown && !this.classList.contains('dropdown-parent-link') && this.getAttribute('href') !== '#')) {
                     closeMobileMenu();
@@ -635,16 +633,14 @@
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 if (window.innerWidth > 992) {
-                    closeMobileMenu();
+                    closeMobileMenu(); // 桌面端时确保菜单关闭
                 }
                 
-                // 移动端特殊处理
-                if (window.innerWidth <= 992) {
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
+                // 移动端特殊处理：当屏幕小于992px时，防止body滚动，固定页面
+                if (window.innerWidth <= 992 && navLinks.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
                 } else {
-                    document.body.style.position = '';
-                    document.body.style.width = '';
+                    document.body.style.overflow = '';
                 }
             }, 100);
         });
@@ -654,35 +650,51 @@
             loadingIndicator.classList.add('hidden');
         };
 
+        // Iframe 加载错误处理
+        // 注意：外部网站的 X-Frame-Options 阻止通常不会触发 iframe.onerror，
+        // 而是由浏览器直接阻止加载内容，并在控制台报错。
+        mainIframe.onerror = function() {
+            loadingIndicator.classList.add('hidden');
+            console.error('Iframe content failed to load or was blocked.');
+            // 可以在这里显示一个错误消息给用户，例如：
+            // alert('内容无法加载，可能是由于安全限制。');
+        };
+
         // 路由功能
         function updateIframeContent() {
+            // 每次切换页面时显示加载指示器
             loadingIndicator.classList.remove('hidden'); 
             
             const hash = window.location.hash.substring(1);
-            let pageKey = hash; 
+            // 默认页面为 'home'
+            let pageKey = hash || 'home'; 
+            
+            // 获取页面信息
+            const pageInfo = pageMap[pageKey];
             
             // 确定当前页面对应的顶级菜单项
             let activeTopLevelPageKey = pageKey;
             const toolsSubPages = ['quzhong', 'duibi', 'pinyin', 'xingjinzi', 'shufafengge'];
             if (toolsSubPages.includes(pageKey)) {
                 activeTopLevelPageKey = 'tools'; 
-            } else if (!pageKey) {
-                activeTopLevelPageKey = 'home';
             }
 
-            const iframeSrc = pageMap[pageKey];
-            
-            // 更新iframe内容
-            if (iframeSrc && mainIframe.src !== iframeSrc) {
-                mainIframe.src = iframeSrc;
-                document.title = pageTitles[pageKey] || '字造 - 专注分享字体领域优质内容';
-            } else if (!iframeSrc && pageKey !== '') { 
-                if (pageKey !== 'tools') {
-                    mainIframe.src = pageMap['home'];
-                    document.title = pageTitles['home'] || '字造 - 专注分享字体领域优质内容';
+            // 处理页面加载逻辑
+            if (pageInfo) {
+                if (mainIframe.src !== pageInfo.url) { // 避免重复加载相同的URL
+                    mainIframe.src = pageInfo.url;
+                } else {
+                    // 如果URL没变，直接隐藏加载指示器
+                    // （例如，用户点击了当前已加载页面的链接）
+                    loadingIndicator.classList.add('hidden'); 
                 }
-            } else if (pageKey === '') { 
-                activeTopLevelPageKey = 'home'; 
+                document.title = pageInfo.title;
+            } else {
+                // 如果哈希值无效，跳转到首页
+                mainIframe.src = pageMap['home'].url;
+                document.title = pageMap['home'].title;
+                activeTopLevelPageKey = 'home';
+                loadingIndicator.classList.add('hidden'); // 无效页面直接隐藏加载
             }
 
             // 更新导航状态
@@ -700,17 +712,20 @@
 
         // 初始化和事件监听
         window.addEventListener('load', () => {
+            // 初始加载时显示加载指示器
             loadingIndicator.classList.remove('hidden'); 
             updateIframeContent();
             
-            // 移动端特殊处理
-            if (window.innerWidth <= 992) {
-                document.body.style.position = 'fixed';
-                document.body.style.width = '100%';
-            }
+            // 移动端特殊处理：当屏幕小于992px时，如果菜单打开，则阻止滚动
+            // 但更好的做法是在菜单打开/关闭时控制 overflow
         });
         
         window.addEventListener('hashchange', updateIframeContent);
+
+        // 首次加载时，如果没有hash，手动设置hash为home，确保iframe加载
+        if (!window.location.hash) {
+            window.location.hash = '#home';
+        }
     </script>
 </body>
 </html>
