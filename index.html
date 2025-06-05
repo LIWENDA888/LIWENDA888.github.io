@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>字造 - 专注分享字体领域优质内容</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
@@ -23,23 +23,20 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        html {
+        html, body {
             height: 100%;
             width: 100%;
             overflow-x: hidden;
             scroll-behavior: smooth;
-            /* 彻底移除 html 上的背景渐变，防止任何蓝色显示 */
-            /* background: linear-gradient(135deg, #1a2a6c, #2a3a7c, #1a2a6c); */
+            background-color: #ffffff;
         }
 
         body {
-            height: 100%;
-            width: 100%;
-            color: #333; /* 文本颜色改为深色，以适应浅色背景 */
+            position: relative;
             display: flex;
             flex-direction: column;
-            background-color: #ffffff; /* 将 body 背景设置为纯白色，确保无蓝色透出 */
-            min-height: 100vh; /* 确保 body 至少占据整个视口高度 */
+            min-height: 100vh;
+            color: #333;
         }
         
         /* 导航栏 */
@@ -60,7 +57,7 @@
         .navbar-inner {
             max-width: 1700px;
             width: 100%;
-            padding: 0 10px; /* 桌面端内边距 */
+            padding: 0 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -138,7 +135,7 @@
 
         /* 下拉箭头样式 */
         .dropdown-arrow {
-            margin-left: 8px; /* 增加与文字的距离 */
+            margin-left: 8px;
             font-size: 0.8em;
             transition: transform 0.3s ease;
         }
@@ -245,7 +242,7 @@
         /* 移动端样式 */
         @media (max-width: 992px) {
             .navbar-inner {
-                padding: 0 20px; /* 手机端内边距 */
+                padding: 0 20px;
             }
             
             .nav-links {
@@ -261,7 +258,7 @@
                 transition: right 0.4s ease;
                 box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
                 z-index: 999;
-                overflow-y: auto; /* 菜单内容过长时可滚动 */
+                overflow-y: auto;
             }
             
             .nav-links.active {
@@ -273,7 +270,7 @@
             }
             
             .nav-links > li > a {
-                padding: 12px 25px; /* 一级菜单文字右移 */
+                padding: 12px 25px;
                 width: 100%;
                 border-bottom: 1px solid rgba(0,0,0,0.05);
                 color: #333;
@@ -329,9 +326,9 @@
                 background: rgba(255, 255, 255, 0.95);
                 box-shadow: none;
                 padding: 0;
-                max-height: 0; /* 初始隐藏 */
+                max-height: 0;
                 overflow: hidden;
-                opacity: 1; /* 通过 max-height 控制显隐 */
+                opacity: 1;
                 visibility: visible;
                 transform: none;
                 transition: max-height 0.4s ease, margin-top 0.4s ease;
@@ -342,12 +339,12 @@
             }
             
             .dropdown.active {
-                max-height: 500px; /* 展开高度 */
+                max-height: 500px;
                 margin-top: 5px;
             }
             
             .dropdown li a {
-                padding: 10px 0 10px 45px; /* 子菜单文字右移 */
+                padding: 10px 0 10px 45px;
                 color: #333;
             }
 
@@ -393,42 +390,41 @@
             }
         }
         
-        /* 主内容区域 */
+        /* 主内容区域 - 优化部分 */
         #content-area {
-            flex-grow: 1;
-            position: relative;
-            width: 100%;
+            position: absolute;
+            top: 70px; /* 导航栏高度 */
+            bottom: 0;
+            left: 0;
+            right: 0;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* 防止内容溢出导致横向滚动 */
-            /* #content-area 自身可以不需要背景，它被 iframe 完全覆盖 */
+            overflow: hidden;
         }
 
         #main-iframe {
-            flex-grow: 1;
+            flex: 1;
             width: 100%;
+            height: 100%;
             border: none;
-            background-color: #ffffff; /* 确保 iframe 自身背景是白色 */
-            padding: 0;
-            box-shadow: none;
-            min-height: calc(100vh - 70px); /* 确保iframe高度足够，减去导航栏高度 */
+            background-color: #ffffff;
             display: block;
         }
 
-        /* 加载指示器 (覆盖在iframe上方) */
+        /* 加载指示器 */
         #loading-indicator {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95); /* 确保加载指示器背景是白色（带透明度） */
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 50;
-            color: #333; /* 文本颜色也调整为深色 */
+            color: #333;
             transition: opacity 0.3s ease;
             opacity: 1;
             pointer-events: auto;
@@ -456,7 +452,7 @@
 
         #loading-indicator p {
             font-size: 1.1rem;
-            color: #333; /* 确保文字颜色 */
+            color: #333;
         }
     </style>
 </head>
@@ -478,7 +474,6 @@
                     <a href="#bao" data-page="bao"><span class="dot"></span><span>百宝库</span></a>
                 </li>
                 <li>
-                    <!-- 修改：href="#", 添加 class, 添加箭头图标 -->
                     <a href="#" data-page="tools" class="dropdown-parent-link"><span class="dot"></span><span>工具箱 <i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
                     <ul class="dropdown">
                         <li><a href="#quzhong" data-page="quzhong"><span class="dot"></span>字符去重</a></li>
@@ -511,16 +506,17 @@
     </div>
     
     <script>
+        // 性能优化：缓存DOM元素
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         const mainIframe = document.getElementById('main-iframe');
         const loadingIndicator = document.getElementById('loading-indicator');
 
+        // 页面映射表
         const pageMap = {
             'home': 'pages/home/index.html',
             'hao': 'pages/hao/index.html', 
             'bao': 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c',
-            // 'tools' 对应的页面已移除，因为我们不希望它直接加载页面
             'quzhong': 'pages/toolbox/1.html',
             'duibi': 'pages/toolbox/2.html',
             'pinyin': 'pages/toolbox/3.html', 
@@ -528,11 +524,11 @@
             'shufafengge': 'pages/toolbox/write/index.html',
         };
 
+        // 页面标题
         const pageTitles = {
             'home': '字造 - 专注分享字体领域优质内容',
             'hao': '字造导航 - 设计师的私藏灵感库',
             'bao': '字造百宝库 - 设计师的资源百宝库',
-            // 'tools' 标题已移除，因为不直接加载页面
             'quzhong': '文本字符去重工具 - 字造ZIZAO',
             'duibi': '文字字符对比工具 - 字造ZIZAO',
             'pinyin': '汉字拼音转换工具 - 字造ZIZAO',
@@ -544,25 +540,24 @@
         function closeMobileMenu() {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
-            document.body.style.overflow = ''; // 恢复body滚动
+            document.body.style.overflow = '';
             
-            // 关闭所有下拉菜单并移除 expanded 类
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
-                const parentLink = dropdown.previousElementSibling; // 假设父链接在 dropdown 之前
+                const parentLink = dropdown.previousElementSibling;
                 if (parentLink && parentLink.classList.contains('dropdown-parent-link')) {
                     parentLink.classList.remove('expanded');
                 }
             });
         }
         
+        // 汉堡菜单点击事件
         hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
+            const isActive = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            // 防止body滚动
-            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-
-            // 汉堡菜单打开时关闭所有下拉菜单
+            document.body.style.overflow = isActive ? 'hidden' : '';
+            
+            // 关闭所有下拉菜单
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
                 const parentLink = dropdown.previousElementSibling;
@@ -572,44 +567,40 @@
             });
         });
         
-        // 移动端下拉菜单切换 和 桌面端阻止父链接的默认行为
+        // 导航链接处理
         document.querySelectorAll('.nav-links > li').forEach(parentLi => {
             const parentLink = parentLi.querySelector('a');
             const dropdown = parentLi.querySelector('.dropdown');
 
-            if (dropdown) { // 只有有下拉菜单的父链接才需要特殊处理
+            if (dropdown) {
                 parentLink.addEventListener('click', (e) => {
-                    // 如果是桌面端点击了带有下拉菜单的父链接 (href="#")，阻止其默认行为
-                    // 这样就不会导致 hash 变为 ''，iframe 内容不会被重置
+                    // 桌面端阻止父链接默认行为
                     if (window.innerWidth > 992 && parentLink.classList.contains('dropdown-parent-link')) {
                         e.preventDefault(); 
                     }
                     
-                    // 移动端下拉菜单切换逻辑
+                    // 移动端下拉菜单切换
                     if (window.innerWidth <= 992) {
-                        e.preventDefault(); // 阻止移动端点击父链接时的默认哈希跳转
+                        e.preventDefault();
                         
-                        // 关闭其他下拉菜单并移除它们的 expanded 类
                         document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
                             if (openDropdown !== dropdown) {
                                 openDropdown.classList.remove('active');
                                 const otherParentLink = openDropdown.previousElementSibling; 
-                                if (otherParentLink && otherParentLink.classList.contains('dropdown-parent-link')) {
+                                if (otherParentLink) {
                                     otherParentLink.classList.remove('expanded');
                                 }
                             }
                         });
                         
-                        // 切换当前下拉菜单的显示/隐藏
                         dropdown.classList.toggle('active'); 
-                        // 切换父链接的 'expanded' 类，用于控制箭头旋转
                         parentLink.classList.toggle('expanded');
                     }
                 });
             }
         });
         
-        // 点击导航链接后关闭移动菜单
+        // 导航链接点击后关闭移动菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth > 992) return; 
@@ -623,15 +614,14 @@
                 const hasDropdown = parentLi && parentLi.querySelector('.dropdown');
                 const isSubLink = this.closest('.dropdown');
 
-                // 如果是子链接，或者是一级链接但没有下拉菜单，或者是一级下拉菜单但 href="#" 且已展开，则关闭菜单
-                // 修改：确保点击一级带下拉菜单的父链接时不关闭，因为是用来展开/折叠的
-                if (isSubLink || (parentLi && !hasDropdown) || (parentLi && hasDropdown && !this.classList.contains('dropdown-parent-link') && this.getAttribute('href') !== '#')) {
+                if (isSubLink || (parentLi && !hasDropdown) || 
+                   (parentLi && hasDropdown && !this.classList.contains('dropdown-parent-link') && this.getAttribute('href') !== '#')) {
                     closeMobileMenu();
                 }
             });
         });
         
-        // 点击菜单外部时关闭移动菜单
+        // 点击菜单外部关闭
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 992 && navLinks.classList.contains('active') && 
                 !e.target.closest('.nav-links') && !e.target.closest('.hamburger')) {
@@ -639,7 +629,7 @@
             }
         });
 
-        // 窗口大小调整时关闭移动菜单
+        // 窗口大小调整优化
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
@@ -647,83 +637,80 @@
                 if (window.innerWidth > 992) {
                     closeMobileMenu();
                 }
-            }, 250); 
+                
+                // 移动端特殊处理
+                if (window.innerWidth <= 992) {
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                } else {
+                    document.body.style.position = '';
+                    document.body.style.width = '';
+                }
+            }, 100);
         });
         
-        // Iframe 加载完成时隐藏加载指示器
+        // Iframe 加载完成处理
         mainIframe.onload = function() {
             loadingIndicator.classList.add('hidden');
         };
 
-        // 路由功能：更新 Iframe 内容和导航状态
+        // 路由功能
         function updateIframeContent() {
             loadingIndicator.classList.remove('hidden'); 
             
             const hash = window.location.hash.substring(1);
             let pageKey = hash; 
             
-            // 确定当前页面对应的顶级菜单项，用于高亮显示
+            // 确定当前页面对应的顶级菜单项
             let activeTopLevelPageKey = pageKey;
             const toolsSubPages = ['quzhong', 'duibi', 'pinyin', 'xingjinzi', 'shufafengge'];
             if (toolsSubPages.includes(pageKey)) {
                 activeTopLevelPageKey = 'tools'; 
-            } else if (!pageKey) { // 如果hash为空（例如首次加载或点击非hash链接），默认激活首页
+            } else if (!pageKey) {
                 activeTopLevelPageKey = 'home';
             }
 
             const iframeSrc = pageMap[pageKey];
             
-            // 只有当 pageMap 中有对应的页面时才加载 iframe
-            // 并且避免不必要的重新加载
+            // 更新iframe内容
             if (iframeSrc && mainIframe.src !== iframeSrc) {
                 mainIframe.src = iframeSrc;
                 document.title = pageTitles[pageKey] || '字造 - 专注分享字体领域优质内容';
             } else if (!iframeSrc && pageKey !== '') { 
-                // 如果 hash 不是空字符串，但 pageMap 中没有对应页面，
-                // 且不是 'tools' (下拉菜单父链接)，则回到首页
-                if (pageKey === 'tools') { 
-                    // 'tools' 作为父链接，不加载页面，不改变标题
-                    // 保持当前 iframe.src 和 document.title 不变
-                } else {
-                    mainIframe.src = pageMap['home']; // 加载默认首页
+                if (pageKey !== 'tools') {
+                    mainIframe.src = pageMap['home'];
                     document.title = pageTitles['home'] || '字造 - 专注分享字体领域优质内容';
                 }
             } else if (pageKey === '') { 
-                // 如果 hash 是空字符串 (例如点击了 href="#" 的链接)，
-                // 保持当前 iframe.src 和 document.title 不变。
-                // 这样可以避免点击“工具箱”父链接时页面内容刷新。
-                // 但是确保 'home' 仍然是高亮的。
                 activeTopLevelPageKey = 'home'; 
             }
 
-            // 更新主导航项的 active 状态
+            // 更新导航状态
             document.querySelectorAll('.nav-links > li > a').forEach(link => {
                 if (link.hasAttribute('data-page')) { 
                     const linkPage = link.getAttribute('data-page'); 
-                    if (linkPage === activeTopLevelPageKey) {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
+                    link.classList.toggle('active', linkPage === activeTopLevelPageKey);
                 }
             });
 
-            // 更新二级菜单项的 active 状态
             document.querySelectorAll('.dropdown li a').forEach(subLink => {
-                if (subLink.getAttribute('data-page') === pageKey) {
-                    subLink.classList.add('active-sub'); 
-                } else {
-                    subLink.classList.remove('active-sub');
-                }
+                subLink.classList.toggle('active-sub', subLink.getAttribute('data-page') === pageKey);
             });
         }
 
+        // 初始化和事件监听
         window.addEventListener('load', () => {
             loadingIndicator.classList.remove('hidden'); 
             updateIframeContent();
+            
+            // 移动端特殊处理
+            if (window.innerWidth <= 992) {
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+            }
         });
+        
         window.addEventListener('hashchange', updateIframeContent);
-
     </script>
 </body>
 </html>
