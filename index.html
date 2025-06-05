@@ -15,7 +15,7 @@
     <link rel="icon" href="index.ico" type="image/x-icon"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <style>
-        /* 全局重置与基础样式 */
+        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
@@ -23,50 +23,41 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        html, body {
-            height: 100%; /* 确保html和body占据100%高度 */
-            width: 100%;  /* 确保html和body占据100%宽度 */
-            overflow-x: hidden; /* 防止横向滚动条，避免右侧蓝色区域 */
-            scroll-behavior: smooth; /* 平滑滚动 */
+        html {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c, #1a2a6c); /* 渐变背景 */
         }
 
         body {
+            height: 100%;
+            width: 100%;
             color: #fff;
             display: flex;
             flex-direction: column;
         }
-
-        /* 专门用于背景的容器，确保背景覆盖整个视口 */
-        .background-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a2a6c, #2a3a7c, #1a2a6c);
-            z-index: -1; /* 放在最底层 */
-        }
         
-        /* 导航栏样式 */
+        /* 导航栏 */
         .navbar {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 70px; 
             position: sticky;
             top: 0;
             width: 100%;
             z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .navbar-inner {
             max-width: 1200px;
             width: 100%;
-            padding: 0 10px; /* **重要修正**：减小内边距，使内容更靠近两边边缘 */
+            padding: 0 10px; /* 桌面端内边距 */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -111,7 +102,7 @@
             position: relative;
         }
         
-        /* 导航项圆点指示器 */
+        /* 导航项圆点 */
         .nav-links > li > a .dot {
             display: block;
             width: 7px; 
@@ -142,7 +133,7 @@
             box-shadow: 0 0 10px rgba(255, 126, 95, 0.7);
         }
         
-        /* 下拉菜单样式 */
+        /* 下拉菜单 */
         .dropdown {
             list-style: none;
             position: absolute;
@@ -203,15 +194,15 @@
             border-color: #ff7e5f;
         }
 
-        /* 二级菜单活跃状态样式 */
+        /* 二级菜单活跃状态 */
         .dropdown li a.active-sub {
             color: #ff7e5f; 
-            font-weight: 600; /* 略微加粗文字 */
+            font-weight: 600;
         }
         .dropdown li a.active-sub .dot {
             background: #ff7e5f;
             border-color: #ff7e5f;
-            box-shadow: 0 0 10px rgba(255, 126, 95, 0.5); /* 二级菜单的活跃圆点阴影 */
+            box-shadow: 0 0 10px rgba(255, 126, 95, 0.5);
         }
         
         /* 汉堡菜单按钮 */
@@ -239,7 +230,7 @@
         /* 移动端样式 */
         @media (max-width: 992px) {
             .navbar-inner {
-                padding: 0 20px; /* 手机端保持20px左右内边距 */
+                padding: 0 20px; /* 手机端内边距 */
             }
             
             .nav-links {
@@ -251,11 +242,11 @@
                 background: rgba(255, 255, 255, 0.98);
                 flex-direction: column;
                 align-items: flex-start;
-                padding: 80px 20px 20px; /* 确保顶部和底部有足够空间，左右padding */
+                padding: 80px 20px 20px;
                 transition: right 0.4s ease;
                 box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
                 z-index: 999;
-                overflow-y: auto; /* 确保菜单内容过长时可滚动 */
+                overflow-y: auto; /* 菜单内容过长时可滚动 */
             }
             
             .nav-links.active {
@@ -267,7 +258,7 @@
             }
             
             .nav-links > li > a {
-                padding: 12px 25px; /* 增加左侧内边距，使文字向右移动 */
+                padding: 12px 25px; /* 一级菜单文字右移 */
                 width: 100%;
                 border-bottom: 1px solid rgba(0,0,0,0.05);
                 color: #333;
@@ -318,15 +309,14 @@
             
             /* 移动端二级菜单 */
             .dropdown {
-                list-style: none;
-                position: static; /* 静态定位 */
+                position: static;
                 width: 100%;
                 background: rgba(255, 255, 255, 0.95);
                 box-shadow: none;
                 padding: 0;
                 max-height: 0; /* 初始隐藏 */
                 overflow: hidden;
-                opacity: 1; /* 在移动端保持可见，通过 max-height 控制显隐 */
+                opacity: 1; /* 通过 max-height 控制显隐 */
                 visibility: visible;
                 transform: none;
                 transition: max-height 0.4s ease, margin-top 0.4s ease;
@@ -337,12 +327,12 @@
             }
             
             .dropdown.active {
-                max-height: 500px; /* 展开时的高度 */
+                max-height: 500px; /* 展开高度 */
                 margin-top: 5px;
             }
             
             .dropdown li a {
-                padding: 10px 0 10px 45px; /* 增加左侧内边距，比一级菜单更靠右 */
+                padding: 10px 0 10px 45px; /* 子菜单文字右移 */
                 color: #333;
             }
 
@@ -360,7 +350,7 @@
                 border-color: #ff7e5f;
             }
 
-            /* 移动端二级菜单活跃状态样式 */
+            /* 移动端二级菜单活跃状态 */
             .dropdown li a.active-sub {
                 color: #ff7e5f;
                 font-weight: 600;
@@ -383,14 +373,14 @@
             }
         }
         
-        /* 主内容区域及Iframe样式 */
+        /* 主内容区域 */
         #content-area {
             flex-grow: 1;
             position: relative;
             width: 100%;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* 防止 iframe 内容溢出导致横向滚动 */
+            overflow: hidden; /* 防止内容溢出导致横向滚动 */
         }
 
         #main-iframe {
@@ -400,11 +390,11 @@
             background: transparent;
             padding: 0;
             box-shadow: none;
-            min-height: calc(100vh - 70px); /* 确保iframe内容至少占据视口减去导航栏的高度 */
-            display: block; /* 移除可能的默认内联元素间隙 */
+            min-height: calc(100vh - 70px); /* 确保iframe高度足够 */
+            display: block;
         }
 
-        /* 加载指示器样式 */
+        /* 加载指示器 (覆盖在iframe上方) */
         #loading-indicator {
             position: absolute;
             top: 0;
@@ -449,8 +439,6 @@
     </style>
 </head>
 <body>
-    <div class="background-gradient"></div> <!-- 新增背景容器 -->
-
     <nav class="navbar">
         <div class="navbar-inner">
             <a href="#home" class="logo">
@@ -505,12 +493,11 @@
         const mainIframe = document.getElementById('main-iframe');
         const loadingIndicator = document.getElementById('loading-indicator');
 
-        // 页面路径映射表
         const pageMap = {
             'home': 'pages/home/index.html',
             'hao': 'pages/hao/index.html', 
             'bao': 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c',
-            'tools': 'pages/toolbox/1.html', // 工具箱默认页面
+            'tools': 'pages/toolbox/1.html',
             'quzhong': 'pages/toolbox/1.html',
             'duibi': 'pages/toolbox/2.html',
             'pinyin': 'pages/toolbox/3.html', 
@@ -518,7 +505,6 @@
             'shufafengge': 'pages/toolbox/write/index.html',
         };
 
-        // 页面标题映射表
         const pageTitles = {
             'home': '字造 - 专注分享字体领域优质内容',
             'hao': '字造导航 - 设计师的私藏灵感库',
@@ -538,26 +524,21 @@
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
             });
-            // 确保移除body上的 overflow-y: hidden （如果之前有设置的话）
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // 恢复body滚动
         }
         
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            // 当打开/关闭菜单时，防止body滚动
-            if (navLinks.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+            // 防止body滚动
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
 
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
             });
         });
         
-        // 移动端下拉菜单切换逻辑
+        // 移动端下拉菜单切换
         document.querySelectorAll('.nav-links > li').forEach(parentLi => {
             const parentLink = parentLi.querySelector('a');
             const dropdown = parentLi.querySelector('.dropdown');
@@ -565,32 +546,27 @@
             if (dropdown) { 
                 parentLink.addEventListener('click', (e) => {
                     if (window.innerWidth <= 992) {
-                        // 阻止父链接的默认哈希跳转行为
-                        if (e.target === parentLink || e.target.closest('.nav-links > li > a') === parentLink) {
-                            e.preventDefault(); 
-                            
-                            // 关闭所有其他打开的下拉菜单
-                            document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
-                                if (openDropdown !== dropdown) {
-                                    openDropdown.classList.remove('active');
-                                }
-                            });
-                            dropdown.classList.toggle('active'); // 切换当前点击的下拉菜单
-                        }
+                        e.preventDefault(); // 阻止默认哈希跳转
+                        
+                        // 关闭其他下拉菜单
+                        document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
+                            if (openDropdown !== dropdown) {
+                                openDropdown.classList.remove('active');
+                            }
+                        });
+                        dropdown.classList.toggle('active'); // 切换当前菜单
                     }
                 });
             }
         });
         
-        // 点击导航链接后关闭移动菜单（非外部链接且非仅展开下拉菜单的父链接）
+        // 点击导航链接后关闭移动菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function() {
-                if (window.innerWidth > 992) {
-                    return; 
-                }
+                if (window.innerWidth > 992) return; 
 
                 if (this.target === '_blank') {
-                    closeMobileMenu(); // 外部链接点击后也关闭菜单
+                    closeMobileMenu();
                     return;
                 }
 
@@ -598,7 +574,7 @@
                 const hasDropdown = parentLi && parentLi.querySelector('.dropdown');
                 const isSubLink = this.closest('.dropdown');
 
-                // 如果是子链接，或者父链接没有下拉菜单
+                // 如果是子链接或无下拉菜单的父链接，则关闭菜单
                 if (isSubLink || (parentLi && !hasDropdown)) {
                     closeMobileMenu();
                 }
@@ -613,7 +589,7 @@
             }
         });
 
-        // 窗口大小调整时关闭移动菜单 (从移动端到桌面端)
+        // 窗口大小调整时关闭移动菜单
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
@@ -636,7 +612,7 @@
             const hash = window.location.hash.substring(1);
             const pageKey = hash || 'home'; 
             
-            // 确定当前页面对应的顶级菜单项的 data-page 值，用于高亮显示
+            // 确定当前页面对应的顶级菜单项，用于高亮显示
             let activeTopLevelPageKey = pageKey;
             const toolsSubPages = ['quzhong', 'duibi', 'pinyin', 'xingjinzi', 'shufafengge'];
             if (toolsSubPages.includes(pageKey)) {
@@ -670,8 +646,7 @@
             // 更新页面标题
             document.title = pageTitles[pageKey] || '字造 - 专注分享字体领域优质内容';
         }
-        
-        // 页面加载和哈希变化时调用更新函数
+
         window.addEventListener('load', () => {
             loadingIndicator.classList.remove('hidden'); 
             updateIframeContent();
