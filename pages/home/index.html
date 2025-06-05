@@ -37,8 +37,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
         html { scroll-behavior: smooth; }
         body {
-            /* 更复杂的渐变背景 */
-            background: linear-gradient(135deg, #f7f9fc 0%, #eef1f6 50%, #f7f9fc 100%);
+            /* 修改为纯白色背景 */
+            background-color: #FFFFFF;
             color: var(--text-color); overflow-x: hidden;
             line-height: 1.6; display: flex; flex-direction: column; position: relative;
             min-height: 100vh; /* 确保 body 至少占满视口高度 */
@@ -46,6 +46,8 @@
             isolation: isolate; /* 确保伪元素背景叠加效果正确 */
         }
 
+        /* 移除或注释掉 body::before 伪元素，以消除背景上的渐变叠加 */
+        /*
         body::before {
             content: '';
             position: absolute;
@@ -55,8 +57,9 @@
             height: 100%;
             background: linear-gradient(45deg, rgba(255, 140, 25, 0.05), rgba(255, 94, 91, 0.05));
             opacity: 0.6;
-            z-index: -3; /* 在所有背景元素之下 */
+            z-index: -3;
         }
+        */
 
         /* --- Animations --- */
         @keyframes fadeInUp {
@@ -380,13 +383,13 @@
         <section class="hero">
             <!-- 替换 H1 文本为 SVG 图片 -->
             <div class="hero-title">
-                <img src="images/logo.svg" alt="字造 - 字体美学与设计探索的起点" loading="lazy">
+                <img src="images.svg" alt="字造 - 字体美学与设计探索的起点" loading="lazy">
             </div>
             <p class="hero-subtitle">我们汇聚字体领域的优质内容、前沿工具与无限灵感，助您点亮创意，定义个性。</p>
             <div class="hero-actions">
-                <a href="index.html" class="btn btn-primary-cta" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.zizao.top/pages/toolbox/" class="btn btn-primary-cta" target="_blank" rel="noopener noreferrer">
                     开始探索
-                    <i class="fas fa-tools"></i>
+                    <i class="fa-solid fa-arrow-trend-up"></i>
                 </a>
                 <div class="secondary-actions">
                     <a href="#" class="btn btn-secondary" id="addWechatFriendTrigger">
@@ -442,7 +445,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const currentYearSpan = document.getElementById('currentYear');
             const particlesContainer = document.getElementById('particles');
-            // 移除了 parallaxElements 等与 JS 视差相关的变量和逻辑
 
             const footerWechatTrigger = document.getElementById('footerWechatTrigger');
             const addWechatFriendTrigger = document.getElementById('addWechatFriendTrigger');
