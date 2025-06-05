@@ -568,18 +568,25 @@
             
             // 初始化页面
             function init() {
-                const isMobile = window.innerWidth <= 768;
-                const isCollapsedLocalStorage = localStorage.getItem('sidebarCollapsed') === 'true';
+                // 根据 localStorage 存储的状态确定侧边栏的初始展开/折叠状态
+                // 默认情况下，如果 localStorage 中没有记录，或者记录是 'true' (折叠)，则设置为折叠。
+                // 如果明确记录是 'false' (展开)，则在桌面端将其展开。
+                const isCollapsedLocalStorage = localStorage.getItem('sidebarCollapsed'); // 'true', 'false', or null
 
-                if (isMobile) {
-                    // 手机端始终以折叠状态开始 (即隐藏)
-                    sidebar.classList.add('collapsed');
-                } else {
-                    // 桌面端根据localStorage决定折叠状态
-                    if (isCollapsedLocalStorage) {
-                        sidebar.classList.add('collapsed');
-                    } else {
+                if (isCollapsedLocalStorage === 'false') {
+                    // 如果用户上次明确展开了侧边栏，并且当前是桌面视图，则将其展开
+                    if (window.innerWidth > 768) {
                         sidebar.classList.remove('collapsed');
+                    } else {
+                        // 手机端始终默认折叠
+                        sidebar.classList.add('collapsed');
+                    }
+                } else {
+                    // 默认折叠侧边栏 (包括 localStorage 为 null 或 'true' 的情况)
+                    sidebar.classList.add('collapsed');
+                    // 如果 localStorage 为 null (首次访问)，则将默认折叠状态保存起来
+                    if (isCollapsedLocalStorage === null) {
+                        localStorage.setItem('sidebarCollapsed', 'true');
                     }
                 }
                 
@@ -620,8 +627,11 @@
                     sidebar.classList.add('collapsed');
                 } else {
                     // 桌面端，根据localStorage恢复侧边栏状态
+                    // 如果localStorage记录为false（上次是展开），则展开；否则折叠
                     const isCollapsedLocalStorage = localStorage.getItem('sidebarCollapsed') === 'true';
-                    if (!isCollapsedLocalStorage) { 
+                    if (isCollapsedLocalStorage) { 
+                        sidebar.classList.add('collapsed');
+                    } else {
                         sidebar.classList.remove('collapsed');
                     }
                 }
