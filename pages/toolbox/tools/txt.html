@@ -17,7 +17,7 @@
             background: #FFF3E0;
             min-height: 100vh;
             overflow: hidden;
-            color: #333;
+            color: #333; /* 页面其他文本颜色，不变 */
             transition: background-color 0.4s ease;
         }
 
@@ -156,6 +156,9 @@
             background-color: rgba(255, 255, 255, 0.95);
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
             text-align: left;
+            /* -------- 这里是修改的地方 -------- */
+            color: black; 
+            /* -------------------------------- */
         }
 
         .status-bar {
@@ -405,7 +408,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
+     }
 
             #findInput {
                 width: 60px;
@@ -588,6 +591,7 @@
         function updateCharStats() {
             const text = editor.innerText || editor.textContent;
 
+            // 过滤掉非中文字符和空格、换行符，只统计中文字符
             const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
 
             totalCharCount.textContent = chineseChars.length;
@@ -680,6 +684,7 @@
                         const text = node.textContent;
                         const parent = node.parentNode;
 
+                        // Avoid processing already highlighted text or inside a highlight span
                         if (parent && parent.classList.contains('highlight')) {
                             return;
                         }
@@ -689,6 +694,7 @@
                             span.innerHTML = text.replace(regex, match =>
                                 `<span class="highlight">${match}</span>`
                             );
+                            // Replace the original text node with the new span's children
                             if (span.childNodes.length > 0) {
                                 const fragment = document.createDocumentFragment();
                                 while (span.firstChild) {
@@ -698,6 +704,7 @@
                             }
                         }
                     } else {
+                        // Skip children of existing highlight spans to prevent nested highlights
                         if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('highlight')) {
                             return;
                         }
@@ -719,6 +726,7 @@
             function clearHighlights() {
                 const highlights = editor.querySelectorAll('.highlight');
                 highlights.forEach(highlight => {
+                    // Replace the highlight span with its text content
                     const textNode = document.createTextNode(highlight.textContent);
                     highlight.parentNode.replaceChild(textNode, highlight);
                 });
@@ -750,11 +758,13 @@
         function setupBackgroundThemes() {
             bgButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
                     bgButtons.forEach(b => b.classList.remove('active'));
+                    // Add active class to the clicked button
                     btn.classList.add('active');
 
                     const theme = btn.getAttribute('data-theme');
-                    document.body.className = `theme-${theme}`;
+                    document.body.className = `theme-${theme}`; // Update body class
                 });
             });
         }
@@ -762,7 +772,9 @@
         function setupTextAlignment() {
             alignButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    // Remove active class from all alignment buttons
                     alignButtons.forEach(b => b.classList.remove('active'));
+                    // Add active class to the clicked button
                     btn.classList.add('active');
 
                     const align = btn.getAttribute('data-align');
@@ -771,6 +783,7 @@
             });
         }
 
+        // Initialize editor settings and event listeners when the DOM is fully loaded
         window.addEventListener('DOMContentLoaded', () => {
             initEditor();
             setupAutoSave();
