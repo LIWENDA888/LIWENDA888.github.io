@@ -140,6 +140,7 @@
             transform: rotate(180deg);
         }
 
+        /* 下拉菜单 */
         .dropdown {
             list-style: none;
             position: absolute;
@@ -210,6 +211,7 @@
             box-shadow: 0 0 10px rgba(255, 126, 95, 0.5);
         }
 
+        /* 汉堡菜单 */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -231,6 +233,7 @@
             transition: all 0.3s ease;
         }
 
+        /* 媒体查询 - 移动端样式 */
         @media (max-width: 992px) {
             .navbar-inner {
                 padding: 0 20px;
@@ -412,6 +415,7 @@
             background-color: transparent;
         }
 
+        /* 加载指示器 */
         #loading-indicator {
             position: absolute;
             top: 0;
@@ -468,13 +472,16 @@
                     <a href="#home" class="active" data-page="home"><span class="dot"></span><span>首页</span></a>
                 </li>
                 <li>
+                    <a href="#fonts" data-page="fonts"><span class="dot"></span><span>字库产品</span></a>
+                </li>
+                <li>
                     <a href="#hao" data-page="hao"><span class="dot"></span><span>设计导航</span></a>
                 </li>
                 <li>
-                    <a href="#bao" data-page="bao"><span class="dot"></span><span>百宝库</span></a>
+                    <a href="#Material" data-page="Material"><span class="dot"></span><span>设计资源</span></a>
                 </li>
                 <li>
-                    <a href="#" data-page="tools" class="dropdown-parent-link"><span class="dot"></span><span>Web工具<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
+                    <a href="#" data-page="tools" class="dropdown-parent-link"><span class="dot"></span><span>设计工具<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
                     <ul class="dropdown">
                         <li><a href="#txt" data-page="txt"><span class="dot"></span>在线TXT编辑</a></li>
                         <li><a href="#quchong" data-page="quzhong"><span class="dot"></span>字符去重</a></li>
@@ -486,7 +493,8 @@
                 </li>
 
                 <li>
-                    <a href="https://www.zizao.top/pages/toolbox" data-page="iconfont" target="_blank" rel="noopener noreferrer"><span class="dot"></span><span>字造工具箱纯享版⤴</span></a>
+                    <!-- 移除了 data-page="iconfont"，因为它是一个外部链接，不通过 iframe 加载器由 pageMap 管理 -->
+                    <a href="https://www.zizao.top/pages/toolbox" target="_blank" rel="noopener noreferrer"><span class="dot"></span><span>字造百宝库-工具箱版⤴</span></a>
                 </li>
             </ul>
 
@@ -507,29 +515,32 @@
         <div id="wrapper-home" class="iframe-wrapper active" data-top-page="home">
             <iframe data-src="pages/home/index.html"></iframe>
         </div>
+        <div id="wrapper-fonts" class="iframe-wrapper" data-top-page="fonts">
+            <iframe data-src="pages/fonts/index.html"></iframe>
+        </div>
         <div id="wrapper-hao" class="iframe-wrapper" data-top-page="hao">
             <iframe data-src="pages/hao/index.html"></iframe>
         </div>
-        <div id="wrapper-bao" class="iframe-wrapper" data-top-page="bao">
-            <iframe data-src="https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c"></iframe>
+        <div id="wrapper-Material" class="iframe-wrapper" data-top-page="Material">
+            <iframe data-src="pages/Material/index.html"></iframe>
         </div>
         <div id="wrapper-txt" class="iframe-wrapper" data-top-page="tools">
-            <iframe data-src="https://www.zizao.top/pages/toolbox/#txt"></iframe>
+            <iframe data-src="pages/toolbox/tools/txt.html"></iframe>
         </div>
         <div id="wrapper-quchong" class="iframe-wrapper" data-top-page="tools">
-            <iframe data-src="https://www.zizao.top/pages/toolbox/#quchong"></iframe>
+            <iframe data-src="pages/toolbox/tools/quchong.html"></iframe>
         </div>
         <div id="wrapper-duibi" class="iframe-wrapper" data-top-page="tools">
-            <iframe data-src="https://www.zizao.top/pages/toolbox/#duibi"></iframe>
+            <iframe data-src="pages/toolbox/tools/duibi.html"></iframe>
         </div>
         <div id="wrapper-pinyin" class="iframe-wrapper" data-top-page="tools">
-            <iframe data-src="https://www.zizao.top/pages/toolbox/#pinyin"></iframe>
+            <iframe data-src="pages/toolbox/tools/pinyin.html"></iframe>
         </div>
         <div id="wrapper-xinjinzi" class="iframe-wrapper" data-top-page="tools">
-            <iframe data-src="https://www.zizao.top/pages/toolbox/#xinjinzi"></iframe>
+            <iframe data-src="pages/toolbox/tools/xinjinzi.html"></iframe>
         </div>
         <div id="wrapper-shufa" class="iframe-wrapper" data-top-page="tools">
-            <iframe data-src="https://www.zizao.top/pages/toolbox/#shufa"></iframe>
+            <iframe data-src="pages/toolbox/tools/write/index.html"></iframe>
         </div>
     </div>
 
@@ -539,23 +550,24 @@
         const loadingIndicator = document.getElementById('loading-indicator');
         const iframeWrappers = document.querySelectorAll('.iframe-wrapper');
 
+        // 移除了 'iconfont' 条目，因为它是一个外部链接，不通过 iframe 加载器处理
         const pageMap = {
             'home': { url: 'pages/home/index.html', title: '字造 - 专注分享字体领域优质内容', topPage: 'home' },
+            'fonts': { url: 'pages/fonts/index.html', title: '字造字库 - 以字体探索美学新感知', topPage: 'fonts' },
             'hao': { url: 'pages/hao/index.html', title: '字造导航 - 设计师的私藏灵感库', topPage: 'hao' },
-            'bao': { url: 'https://zizaotop.feishu.cn/share/base/query/shrcn0Ka5zIo6q8TCHmstW2OS6c', title: '字造百宝库 - 设计师的资源百宝库', topPage: 'bao' },
-            'txt': { url: 'https://www.zizao.top/pages/toolbox/#txt', title: '在线TXT文本编辑器 - 字造ZIZAO', topPage: 'tools' },
-            'quchong': { url: 'https://www.zizao.top/pages/toolbox/#quchong', title: '文本字符去重工具 - 字造ZIZAO', topPage: 'tools' },
-            'duibi': { url: 'https://www.zizao.top/pages/toolbox/#duibi', title: '文字字符对比工具 - 字造ZIZAO', topPage: 'tools' },
-            'pinyin': { url: 'https://www.zizao.top/pages/toolbox/#pinyin', title: '汉字拼音转换工具 - 字造ZIZAO', topPage: 'tools' },
-            'xinjinzi': { url: 'https://www.zizao.top/pages/toolbox/#xinjinzi', title: '形近字查询工具 - 字造ZIZAO', topPage: 'tools' },
-            'shufa': { url: 'https://www.zizao.top/pages/toolbox/#shufa', title: '书法风格查询工具 - 字造ZIZAO', topPage: 'tools' },
-            'iconfont': { url: 'https://www.zizao.top/pages/toolbox', title: '字造工具箱纯享版', type: 'zao', topPage: 'zao' }
+            'Material': { url: 'pages/Material/index.html', title: '字造百宝库 - 设计师的资源百宝库', topPage: 'Material' },
+            'txt': { url: 'pages/toolbox/tools/txt.html', title: '在线TXT文本编辑器 - 字造ZIZAO', topPage: 'tools' },
+            'quchong': { url: 'pages/toolbox/tools/quchong.html', title: '文本字符去重工具 - 字造ZIZAO', topPage: 'tools' },
+            'duibi': { url: 'pages/toolbox/tools/duibi.html', title: '文字字符对比工具 - 字造ZIZAO', topPage: 'tools' },
+            'pinyin': { url: 'pages/toolbox/tools/pinyin.html', title: '汉字拼音转换工具 - 字造ZIZAO', topPage: 'tools' },
+            'xinjinzi': { url: 'pages/toolbox/tools/xinjinzi.html', title: '形近字查询工具 - 字造ZIZAO', topPage: 'tools' },
+            'shufa': { url: 'pages/toolbox/tools/write/index.html', title: '书法风格查询工具 - 字造ZIZAO', topPage: 'tools' },
         };
 
         function closeMobileMenu() {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // 恢复滚动
 
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
@@ -569,8 +581,9 @@
         hamburger.addEventListener('click', () => {
             const isActive = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            document.body.style.overflow = isActive ? 'hidden' : '';
+            document.body.style.overflow = isActive ? 'hidden' : ''; // 防止背景滚动
 
+            // 关闭所有打开的下拉菜单
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
                 const parentLink = dropdown.previousElementSibling;
@@ -586,6 +599,7 @@
 
             if (dropdown) {
                 parentLink.addEventListener('click', (e) => {
+                    // 桌面端阻止默认行为，让 CSS 悬停效果工作
                     if (window.innerWidth > 992 && parentLink.classList.contains('dropdown-parent-link')) {
                         e.preventDefault();
                     }
@@ -593,6 +607,7 @@
                     if (window.innerWidth <= 992) {
                         e.preventDefault();
 
+                        // 关闭其他已打开的下拉菜单
                         document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
                             if (openDropdown !== dropdown) {
                                 openDropdown.classList.remove('active');
@@ -612,6 +627,7 @@
 
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function(e) {
+                // 桌面端，阻止下拉父链接的默认行为，允许CSS悬停工作
                 if (window.innerWidth > 992) {
                     if (this.classList.contains('dropdown-parent-link')) {
                         e.preventDefault();
@@ -619,25 +635,19 @@
                     return;
                 }
 
-                const pageKey = this.getAttribute('data-page');
-                const pageInfo = pageMap[pageKey];
-
-                if (pageInfo && pageInfo.type === 'external') {
-                    closeMobileMenu();
-                    return;
-                }
-
+                // 移动端菜单关闭逻辑
                 const parentLi = this.closest('.nav-links > li');
                 const hasDropdown = parentLi && parentLi.querySelector('.dropdown');
                 const isSubLink = this.closest('.dropdown');
 
-                if (isSubLink || (parentLi && !hasDropdown) ||
-                   (parentLi && hasDropdown && !this.classList.contains('dropdown-parent-link') && this.getAttribute('href') !== '#')) {
+                // 如果是子链接，或者是没有下拉菜单的顶级链接，关闭移动菜单
+                if (isSubLink || (parentLi && !hasDropdown)) {
                     closeMobileMenu();
                 }
             });
         });
 
+        // 点击导航菜单外部关闭菜单
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 992 && navLinks.classList.contains('active') &&
                 !e.target.closest('.nav-links') && !e.target.closest('.hamburger')) {
@@ -650,13 +660,13 @@
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 if (window.innerWidth > 992) {
-                    closeMobileMenu();
+                    closeMobileMenu(); // 桌面模式下自动关闭移动菜单
                 }
 
                 if (window.innerWidth <= 992 && navLinks.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden';
+                    document.body.style.overflow = 'hidden'; // 移动菜单打开时阻止背景滚动
                 } else {
-                    document.body.style.overflow = '';
+                    document.body.style.overflow = ''; // 恢复滚动
                 }
             }, 100);
         });
@@ -667,15 +677,11 @@
 
             const pageInfo = pageMap[pageKey];
 
-            if (pageInfo && pageInfo.type === 'external') {
-                loadingIndicator.classList.add('hidden');
-                return;
-            }
-
             const targetWrapperId = `wrapper-${pageKey}`;
             const targetWrapper = document.getElementById(targetWrapperId);
 
             if (!pageInfo || !targetWrapper) {
+                // 如果哈希无效或丢失，默认导航到首页
                 window.location.hash = '#home';
                 loadingIndicator.classList.add('hidden');
                 return;
@@ -683,9 +689,9 @@
 
             const targetIframe = targetWrapper.querySelector('iframe');
             if (!targetIframe.src) {
-                loadingIndicator.classList.remove('hidden');
+                loadingIndicator.classList.remove('hidden'); // 显示加载指示器
             } else {
-                loadingIndicator.classList.add('hidden');
+                loadingIndicator.classList.add('hidden'); // 隐藏加载指示器
             }
 
             iframeWrappers.forEach(wrapper => {
@@ -698,16 +704,17 @@
             if (!targetIframe.src) {
                 targetIframe.src = targetIframe.dataset.src;
                 targetIframe.onload = function() {
-                    loadingIndicator.classList.add('hidden');
-                    this.onload = null;
+                    loadingIndicator.classList.add('hidden'); // 加载完成后隐藏指示器
+                    this.onload = null; // 防止重复触发
                 };
                 targetIframe.onerror = function() {
-                    loadingIndicator.classList.add('hidden');
-                    console.error('Iframe content failed to load or was blocked for:', targetIframe.src);
-                    this.onerror = null;
+                    loadingIndicator.classList.add('hidden'); // 加载失败也隐藏指示器
+                    console.error('Iframe 内容加载失败或被阻止:', targetIframe.src);
+                    this.onerror = null; // 防止重复触发
                 };
             }
 
+            // 更新顶级导航链接的 active 状态
             document.querySelectorAll('.nav-links > li > a').forEach(link => {
                 if (link.hasAttribute('data-page')) {
                     const linkPageKey = link.getAttribute('data-page');
@@ -715,18 +722,20 @@
                 }
             });
 
+            // 更新下拉子链接的 active 状态
             document.querySelectorAll('.dropdown li a').forEach(subLink => {
                 subLink.classList.toggle('active-sub', subLink.getAttribute('data-page') === pageKey);
             });
         }
 
         window.addEventListener('load', () => {
-            loadingIndicator.classList.remove('hidden');
+            loadingIndicator.classList.remove('hidden'); // 页面加载时显示加载指示器
             updateIframeContent();
         });
 
         window.addEventListener('hashchange', updateIframeContent);
 
+        // 如果没有哈希值，则设置默认哈希为 #home
         if (!window.location.hash) {
             window.location.hash = '#home';
         }
