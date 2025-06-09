@@ -24,16 +24,19 @@
         }
 
         :root {
-            --primary-color: #ff6b35;
-            --primary-light: #ff9c7d;
+            /* 更改为新的主色 FF8C19 */
+            --primary-color: #FF8C19;
+            /* 调整为新的主色的浅色版本，以保持渐变效果 */
+            --primary-light: #FFAD6B; /* 稍微浅一点的橙色 */
             --secondary-color: #2d3142;
             --light-gray: #f8f9fa;
             --medium-gray: #e9ecef;
             --dark-gray: #6c757d;
             --white: #ffffff;
             --black: #212529;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.12);
+            /* 调整阴影变量，使其整体更轻 */
+            --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.05); /* 更轻的阴影 */
+            --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.09); /* 相对更显眼但整体也更轻的阴影 */
             --transition: all 0.3s ease;
         }
 
@@ -44,8 +47,9 @@
             min-height: 100vh;
             padding: 40px 20px;
             background-image:
-                radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.05) 0%, transparent 25%),
-                radial-gradient(circle at 90% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 25%);
+                /* 根据新的主色 FF8C19 (RGB: 255, 140, 25) 调整透明渐变 */
+                radial-gradient(circle at 10% 20%, rgba(255, 140, 25, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(255, 140, 25, 0.05) 0%, transparent 25%);
         }
 
         .container {
@@ -129,7 +133,8 @@
 
         .search-box input:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+            /* 搜索框的焦点阴影，保持不变，使其更显眼 */
+            box-shadow: 0 0 0 3px rgba(255, 140, 25, 0.2); 
             z-index: 1;
             position: relative;
         }
@@ -152,8 +157,9 @@
         }
 
         .search-box button:hover {
-            background: #e55a2b;
-            border-color: #e55a2b;
+            /* 调整为新的主色的深色版本 */
+            background: #E57D16; 
+            border-color: #E57D16;
         }
 
         .section-divider {
@@ -190,28 +196,31 @@
             flex-grow: 1;
         }
 
+        /* 调整快捷搜索按钮样式 */
         .quick-search-button {
             background: var(--white);
             color: var(--secondary-color);
-            border: 1px solid var(--medium-gray);
-            padding: 10px 20px;
-            border-radius: 25px;
+            border: 2px solid var(--medium-gray); /* 保持描边宽度 */
+            padding: 5px 15px; /* 减小上下内边距 */
+            border-radius: 18px; /* 调整为更圆 */
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-sm); /* 使用更轻的阴影 */
         }
 
         .quick-search-button:hover {
             background: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
-            box-shadow: var(--shadow-md);
+            border-width: 2px; /* 悬停时也保持相同边框宽度 */
+            box-shadow: var(--shadow-md); /* 悬停时使用相对更显眼的阴影 */
             transform: scale(1.02);
         }
+        /* 快捷搜索按钮样式调整结束 */
 
         .results-info {
             display: flex;
@@ -262,7 +271,7 @@
             background: var(--white);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-sm); /* 使用更轻的阴影 */
             transition: var(--transition);
             display: flex;
             flex-direction: column;
@@ -271,7 +280,7 @@
         }
 
         .collection-card:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-md); /* 悬停时使用相对更显眼的阴影 */
         }
 
         .card-header-color {
@@ -320,7 +329,8 @@
         }
 
         .card-tag {
-            background: rgba(255, 107, 53, 0.15);
+            /* 根据新的主色 FF8C19 (RGB: 255, 140, 25) 调整透明度 */
+            background: rgba(255, 140, 25, 0.15);
             color: var(--primary-color);
             padding: 6px 14px;
             border-radius: 20px;
@@ -405,7 +415,7 @@
             background: var(--white);
             border-radius: 18px;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-sm); /* 使用更轻的阴影 */
             transition: var(--transition);
             display: flex;
             flex-direction: column;
@@ -415,7 +425,7 @@
         }
 
         .result-card:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-md); /* 悬停时使用相对更显眼的阴影 */
         }
 
         .result-card::before {
@@ -425,7 +435,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, transparent 50%, rgba(255, 107, 53, 0.03) 100%);
+            /* 根据新的主色 FF8C19 (RGB: 255, 140, 25) 调整透明渐变 */
+            background: linear-gradient(135deg, transparent 50%, rgba(255, 140, 25, 0.03) 100%);
             z-index: -1;
         }
 
@@ -512,8 +523,9 @@
         }
 
         .result-card-download-button:hover {
-            background: #e55a2b;
-            border-color: #e55a2b;
+            /* 调整为新的主色的深色版本 */
+            background: #E57D16;
+            border-color: #E57D16;
         }
 
         footer {
@@ -523,7 +535,32 @@
             font-size: 0.95rem;
             border-top: 1px solid var(--medium-gray);
             margin-top: 20px;
+            /* Added for footer content alignment */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* NEW CSS for footer links */
+        footer p {
+            margin-bottom: 8px; /* Add some spacing between paragraphs in footer */
+            line-height: 1.5; /* Ensure good line height for readability */
+        }
+
+        footer p:last-child {
+            margin-bottom: 0; /* No margin after the last paragraph */
+        }
+
+        .footer-link {
+            color: var(--dark-gray); /* Match existing text color */
+            text-decoration: none; /* Remove underline */
+            transition: var(--transition); /* Smooth transition for hover */
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color); /* Change color on hover */
+        }
+        /* END NEW CSS */
 
         .no-results {
             grid-column: 1 / -1;
@@ -532,7 +569,7 @@
             color: var(--dark-gray);
             background: var(--white);
             border-radius: 20px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-sm); /* 使用更轻的阴影 */
         }
 
         .decor-element {
@@ -666,12 +703,8 @@
                 gap: 10px;
                 padding: 0;
             }
-            .quick-search-buttons {
-                justify-content: flex-start;
-                width: 100%;
-            }
             .quick-search-button {
-                padding: 8px 16px;
+                padding: 8px 16px; /* 手机端仍保持这个padding，覆盖桌面版 */
                 font-size: 0.9rem;
             }
             .section-divider {
@@ -755,7 +788,20 @@
         </main>
 
         <footer>
-            <p>© 2025 字造ZIZAO.TOP | 资源 | 软件 | 样机 | 素材</p>
+            <!-- 将现有文本部分转换为链接 -->
+            <p>© 2025 字造ZIZAO.TOP |
+                <a href="#" class="footer-link">资源</a> |
+                <a href="#" class="footer-link">软件</a> |
+                <a href="#" class="footer-link">样机</a> |
+                <a href="#" class="footer-link">素材</a>
+            </p>
+            <!-- 新增的额外链接行 -->
+            <p>
+                <a href="#" class="footer-link">关于我们</a> |
+                <a href="#" class="footer-link">联系我们</a> |
+                <a href="#" class="footer-link">隐私政策</a> |
+                <a href="#" class="footer-link">服务条款</a>
+            </p>
         </footer>
     </div>
 
@@ -860,7 +906,8 @@
             backButton.style.display = 'flex';
 
             const results = searchableContentCards.filter(card =>
-                card.title.toLowerCase().includes(query.toLowerCase())
+                card.title.toLowerCase().includes(query.toLowerCase()) ||
+                card.description.toLowerCase().includes(query.toLowerCase())
             );
 
             resultsCountEl.innerHTML = `找到 <span>${results.length}</span> 个相关结果`;
