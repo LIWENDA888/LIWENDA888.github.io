@@ -53,7 +53,7 @@
         }
 
         .navbar-inner {
-            max-width: 1700px;
+            max-width: 1900px;
             width: 100%;
             padding: 0 10px;
             display: flex;
@@ -79,7 +79,7 @@
 
         .nav-links {
             display: flex;
-            gap: 8px;
+            gap: 12px; /* 优化：增加主导航项之间的间距 */
             list-style: none;
         }
 
@@ -91,12 +91,12 @@
             color: #333;
             text-decoration: none;
             font-weight: 500;
-            padding: 10px 20px;
+            padding: 8px 16px; /* 优化：减少垂直和水平内边距 */
             border-radius: 8px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px; /* 优化：减小内部图标与文字间距 */
             position: relative;
         }
 
@@ -149,7 +149,7 @@
             background: rgba(255, 255, 255, 0.98);
             width: 200px;
             border-radius: 10px;
-            padding: 12px 0;
+            padding: 10px 0; /* 优化：减少下拉菜单容器的垂直内边距 */
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             opacity: 0;
             visibility: hidden;
@@ -175,8 +175,8 @@
         .dropdown li a {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
+            gap: 8px; /* 优化：减小内部图标与文字间距 */
+            padding: 8px 16px; /* 优化：减少垂直和水平内边距 */
             color: #333;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -194,7 +194,7 @@
         .dropdown li a:hover {
             color: #ff7e5f;
             background: rgba(255, 126, 95, 0.05);
-            padding-left: 25px;
+            padding-left: 20px; /* 优化：调整悬停时左内边距 */
         }
         .dropdown li a:hover .dot {
             background: #ff7e5f;
@@ -259,16 +259,16 @@
                 right: 0;
             }
 
-            .nav-links li {
+         .nav-links li {
                 width: 100%;
             }
 
             .nav-links > li > a {
-                padding: 12px 25px;
+                padding: 12px 25px; /* 移动端保持原样，提供良好触控体验 */
                 width: 100%;
                 border-bottom: 1px solid rgba(0,0,0,0.05);
                 color: #333;
-                gap: 10px;
+                gap: 10px; /* 移动端保持原样 */
             }
 
             .nav-links > li > a .dot {
@@ -337,8 +337,9 @@
             }
 
             .dropdown li a {
-                padding: 10px 0 10px 45px;
+                padding: 10px 0 10px 45px; /* 移动端保持原样，确保缩进良好 */
                 color: #333;
+                gap: 10px; /* 移动端保持原样 */
             }
 
             .dropdown li a .dot {
@@ -349,6 +350,7 @@
             .dropdown li a:hover {
                 background: rgba(255, 126, 95, 0.05);
                 color: #ff7e5f;
+                padding-left: 50px; /* 优化：移动端悬停时左内边距调整 */
             }
             .dropdown li a:hover .dot {
                 background: #ff7e5f;
@@ -584,11 +586,13 @@
             document.body.style.overflow = isActive ? 'hidden' : ''; // 防止背景滚动
 
             // 关闭所有打开的下拉菜单
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                dropdown.classList.remove('active');
-                const parentLink = dropdown.previousElementSibling;
-                if (parentLink) {
-                    parentLink.classList.remove('expanded');
+            document.querySelectorAll('.dropdown.active').forEach(openDropdown => {
+                if (openDropdown !== dropdown) { // Make sure not to close the one just opened if clicked on parent
+                    openDropdown.classList.remove('active');
+                    const otherParentLink = openDropdown.previousElementSibling;
+                    if (otherParentLink) {
+                        otherParentLink.classList.remove('expanded');
+                    }
                 }
             });
         });
