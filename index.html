@@ -183,7 +183,7 @@
             align-items: center;
             justify-content: flex-start;
             gap: 8px;
-            padding: 8px 16px;
+            padding: 8px 16px; /* 统一左右内边距，使其高亮更对称 */
             color: #333;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -292,12 +292,6 @@
         }
         .full-width-dropdown .dropdown-column ul li:last-child {
             margin-bottom: 0;
-        }
-
-        /* 桌面端全宽下拉菜单链接的内边距调整，用于文本对齐 */
-        .full-width-dropdown .dropdown-column ul li a {
-            padding: 8px 16px 8px 5px;
-            font-size: 16px;
         }
 
         /* 汉堡菜单 */
@@ -523,7 +517,8 @@
 
             /* 移动端全宽下拉菜单链接的内边距调整 */
             .full-width-dropdown .dropdown-column ul li a {
-                padding: 10px 0 10px 8px;
+                /* 原有 padding: 10px 0 10px 8px; */
+                padding: 10px 8px; /* 统一左右内边距 */
                 justify-content: flex-start;
             }
         }
