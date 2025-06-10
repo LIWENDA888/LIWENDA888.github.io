@@ -15,7 +15,7 @@
     <link rel="icon" href="index.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        /* General Reset & Base Styles */
+        /* 通用重置与基础样式 */
         * {
             margin: 0;
             padding: 0;
@@ -39,7 +39,7 @@
             color: #333;
         }
 
-        /* Navbar Styles */
+        /* 导航栏样式 */
         .navbar {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
@@ -145,11 +145,11 @@
             transform: rotate(180deg);
         }
 
-        /* Normal Dropdown (e.g., 设计工具) */
+        /* 普通下拉菜单 (如: 设计工具) */
         .dropdown {
             list-style: none;
             position: absolute;
-            top: 100%;
+            top: calc(100% + 15px); /* 初始位置略低于父链接 */
             left: 0;
             background: rgba(255, 255, 255, 0.98);
             width: 200px;
@@ -158,26 +158,25 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             opacity: 0;
             visibility: hidden;
-            transform: translateY(8px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: opacity 0.3s ease, visibility 0.3s ease, top 0.3s ease;
+            transition-delay: 0.1s; /* 鼠标离开时延迟隐藏，防止闪烁 */
             z-index: 100;
         }
 
         .nav-links li:hover .dropdown {
             opacity: 1;
             visibility: visible;
-            transform: translateY(12px);
+            top: 100%; /* 鼠标进入时，向上平滑移动与父链接底部对齐 */
+            transition-delay: 0s; /* 鼠标进入时立即显示 */
         }
 
+        /* 移除普通下拉菜单项的底部分割线 */
         .dropdown li {
             padding: 0;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-        }
-        .dropdown li:last-child {
             border-bottom: none;
         }
 
-        /* Common styles for all sub-menu links */
+        /* 子菜单链接的通用样式 */
         .dropdown li a,
         .full-width-dropdown .dropdown-column ul li a {
             display: flex;
@@ -205,7 +204,7 @@
         .full-width-dropdown .dropdown-column ul li a:hover {
             color: #ff7e5f;
             background: rgba(255, 126, 95, 0.05);
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* 悬停时的轻微上浮效果 */
         }
         .dropdown li a:hover .dot,
         .full-width-dropdown .dropdown-column ul li a:hover .dot {
@@ -226,7 +225,7 @@
             box-shadow: 0 0 10px rgba(255, 126, 95, 0.5);
         }
 
-        /* Full-width Dropdown (e.g., 字库产品) */
+        /* 全宽下拉菜单 (如: 字库产品) */
         .full-width-dropdown {
             position: fixed;
             top: 70px;
@@ -239,8 +238,8 @@
             padding: 30px 0;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(8px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition-delay: 0.1s; /* 鼠标离开时延迟隐藏 */
             border-radius: 0 0 10px 10px;
             display: block;
         }
@@ -248,28 +247,28 @@
         .has-full-width-dropdown:hover .full-width-dropdown {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transition-delay: 0s; /* 鼠标进入时立即显示 */
         }
 
         .dropdown-inner-wrapper {
-            display: flex;
+            display: flex; /* 确保列布局 */
             justify-content: center;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            gap: 40px;
+            gap: 40px; /* 列之间的间距 */
         }
 
         .dropdown-column {
-            flex: 1;
-            min-width: 180px;
+            flex: 1; /* 每列均匀分配宽度 */
+            min-width: 180px; /* 列的最小宽度 */
             text-align: left;
-            border-right: 1px solid rgba(0,0,0,0.08);
+            border-right: 1px solid rgba(0,0,0,0.08); /* 列之间的分割线 */
             padding: 0 20px;
         }
 
         .dropdown-column:last-child {
-            border-right: none;
+            border-right: none; /* 最后一列无右侧分割线 */
         }
 
         .column-desc {
@@ -286,26 +285,24 @@
             margin: 0;
         }
 
+        /* 桌面端全宽下拉菜单项无底部分割线 */
         .full-width-dropdown .dropdown-column ul li {
-            /* 调整这里：减少列表项的底部外边距，使其更靠近 */
-            margin-bottom: 5px; /* 从10px调整为5px */
+            margin-bottom: 5px;
             border-bottom: none;
         }
         .full-width-dropdown .dropdown-column ul li:last-child {
             margin-bottom: 0;
         }
 
-        /* Desktop: Adjust padding for full-width dropdown links to align text precisely */
+        /* 桌面端全宽下拉菜单链接的内边距调整，用于文本对齐 */
         .full-width-dropdown .dropdown-column ul li a {
-            /* (padding-left) + 7px (dot width) + 8px (gap) = 20px (column-desc text start) */
-            /* padding-left = 20 - 7 - 8 = 5px */
             padding: 8px 16px 8px 5px;
             font-size: 16px;
         }
 
-        /* Hamburger Menu */
+        /* 汉堡菜单 */
         .hamburger {
-            display: none;
+            display: none; /* 默认隐藏，在移动端显示 */
             cursor: pointer;
             background: transparent;
             border: none;
@@ -325,7 +322,7 @@
             transition: all 0.3s ease;
         }
 
-        /* Hamburger Menu Animation */
+        /* 汉堡菜单动画 */
         .hamburger.active span:nth-child(1) {
             transform: translateY(8px) rotate(45deg);
         }
@@ -338,7 +335,7 @@
             transform: translateY(-8px) rotate(-45deg);
         }
 
-        /* Mobile Styles */
+        /* 移动端样式 */
         @media (max-width: 992px) {
             .navbar-inner {
                 padding: 0 20px;
@@ -347,7 +344,7 @@
             .nav-links {
                 position: fixed;
                 top: 0;
-                right: -100%;
+                right: -100%; /* 初始隐藏在右侧 */
                 width: 280px;
                 height: 100vh;
                 background: rgba(255, 255, 255, 0.98);
@@ -361,7 +358,7 @@
             }
 
             .nav-links.active {
-                right: 0;
+                right: 0; /* 激活时滑入 */
             }
 
             .nav-links li {
@@ -371,7 +368,7 @@
             .nav-links > li > a {
                 padding: 12px 25px;
                 width: 100%;
-                border-bottom: 1px solid rgba(0,0,0,0.05);
+                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端顶级菜单项有底部边框 */
                 color: #333;
                 gap: 10px;
             }
@@ -402,36 +399,37 @@
             }
 
             .hamburger {
-                display: block;
+                display: block; /* 移动端显示汉堡菜单 */
             }
 
-            /* Mobile Normal Dropdown */
+            /* 移动端普通下拉菜单 (如: 设计工具) */
             .dropdown {
-                position: static;
+                position: static; /* 移动端改为静态定位 */
                 width: 100%;
                 background: rgba(255, 255, 255, 0.95);
                 box-shadow: none;
                 padding: 0;
-                max-height: 0;
+                max-height: 0; /* 通过 max-height 实现折叠动画 */
                 overflow: hidden;
-                opacity: 1;
-                visibility: visible;
+                opacity: 1; /* 移动端使用 max-height 过渡，保持 opacity 为 1 */
+                visibility: visible; /* 移动端使用 max-height 过渡，保持 visibility 为 visible */
                 transform: none;
                 transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
                 border-radius: 0;
                 margin-top: 0;
-                border-top: 1px solid rgba(0,0,0,0.05);
-                border-bottom: 1px solid rgba(0,0,0,0.05);
+                border-top: none; /* 移动端设计工具菜单不显示顶部分割线 */
+                border-bottom: none; /* 移动端设计工具菜单不显示底部分割线 */
+                transition-delay: 0s;
             }
 
             .dropdown.active {
-                max-height: 500px;
+                max-height: 500px; /* 展开后的最大高度 */
                 margin-top: 5px;
             }
 
-            /* Mobile Common Sub-menu links */
+            /* 移动端子菜单链接样式 */
             .dropdown li a {
-                padding: 10px 0 10px 45px; /* Indent for readability */
+                padding: 10px 0 10px 45px; /* 缩进以增强可读性 */
                 color: #333;
                 gap: 10px;
                 font-size: initial;
@@ -449,7 +447,7 @@
             .full-width-dropdown .dropdown-column ul li a:hover {
                 background: rgba(255, 126, 95, 0.05);
                 color: #ff7e5f;
-                transform: none;
+                transform: none; /* 移动端子链接悬停时不使用 transform */
             }
             .dropdown li a:hover .dot,
             .full-width-dropdown .dropdown-column ul li a:hover .dot {
@@ -457,27 +455,31 @@
                 border-color: #ff7e5f;
             }
 
-            .dropdown li,
+            /* 确保只有全宽下拉菜单项有底部边框 (在移动端) */
             .full-width-dropdown .dropdown-column ul li {
                 border-bottom: 1px solid rgba(0,0,0,0.05);
             }
-            .dropdown li:last-child,
             .full-width-dropdown .dropdown-column ul li:last-child {
                 border-bottom: none;
             }
-
-            .nav-links li:hover .dropdown {
-                transform: none;
+            /* 覆盖桌面端规则，确保普通下拉菜单项在移动端无底部分割线 */
+            .dropdown li {
+                border-bottom: none;
             }
 
-            /* Mobile Full-width Dropdown */
+            .nav-links li:hover .dropdown { /* 重置桌面端悬停规则，避免在移动端干扰 */
+                transform: none;
+                top: auto;
+            }
+
+            /* 移动端全宽下拉菜单 */
             .full-width-dropdown {
-                position: static;
+                position: static; /* 移动端改为静态定位 */
                 width: 100%;
                 background: rgba(255, 255, 255, 0.95);
                 box-shadow: none;
                 padding: 0;
-                max-height: 0;
+                max-height: 0; /* 通过 max-height 实现折叠动画 */
                 overflow: hidden;
                 opacity: 1;
                 visibility: visible;
@@ -485,31 +487,32 @@
                 transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
                 border-radius: 0;
                 margin-top: 0;
-                border-top: 1px solid rgba(0,0,0,0.05);
-                border-bottom: 1px solid rgba(0,0,0,0.05);
+                border-top: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有顶部分割线 */
+                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有底部分割线 */
+                transition-delay: 0s;
             }
 
             .full-width-dropdown.active {
-                max-height: 1500px;
+                max-height: 1500px; /* 展开后的最大高度 */
                 margin-top: 5px;
             }
 
             .full-width-dropdown .dropdown-inner-wrapper {
-                flex-direction: column;
+                flex-direction: column; /* 移动端改为垂直堆叠 */
                 max-width: none;
                 padding: 0;
                 gap: 0;
             }
 
             .dropdown-column {
-                border-right: none;
-                border-bottom: 1px solid rgba(0,0,0,0.05);
+                border-right: none; /* 移动端无右侧分割线 */
+                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端列之间有底部边框 */
                 padding: 15px 25px;
                 text-align: left;
             }
 
             .dropdown-column:last-child {
-                border-bottom: none;
+                border-bottom: none; /* 最后一列无底部边框 */
             }
 
             .full-width-dropdown .column-desc {
@@ -518,16 +521,14 @@
                 font-size: 1em;
             }
 
-            /* Mobile: Adjust padding for full-width dropdown links */
+            /* 移动端全宽下拉菜单链接的内边距调整 */
             .full-width-dropdown .dropdown-column ul li a {
-                /* (padding-left) + 7px (dot width) + 10px (gap) = 25px (column-desc text start) */
-                /* padding-left = 25 - 7 - 10 = 8px */
                 padding: 10px 0 10px 8px;
                 justify-content: flex-start;
             }
         }
 
-        /* Iframe Content Area & Loading Indicator */
+        /* Iframe 内容区与加载指示器 */
         #content-area {
             position: absolute;
             top: 70px;
@@ -544,14 +545,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            display: none;
+            display: none; /* 默认隐藏 */
             background-color: #ffffff;
             transition: opacity 0.3s ease-in-out;
             opacity: 0;
         }
 
         .iframe-wrapper.active {
-            display: block;
+            display: block; /* 激活时显示 */
             opacity: 1;
         }
 
@@ -582,7 +583,7 @@
 
         #loading-indicator.hidden {
             opacity: 0;
-            pointer-events: none;
+            pointer-events: none; /* 隐藏时不允许点击 */
         }
 
         .spinner {
@@ -648,6 +649,15 @@
                                     <li><a href="#font-service-4" data-page="font-service-4"><span class="dot"></span>常见问题</a></li>
                                 </ul>
                             </div>
+                            <div class="dropdown-column">
+                                <p class="column-desc">关于字造</p>
+                                <ul>
+                                    <li><a href="#about-us" data-page="about-us"><span class="dot"></span>关于我们</a></li>
+                                    <li><a href="#contact-us" data-page="contact-us"><span class="dot"></span>联系我们</a></li>
+                                    <li><a href="#career" data-page="career"><span class="dot"></span>加入我们</a></li>
+                                    <li><a href="#news" data-page="news"><span class="dot"></span>最新动态</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -688,6 +698,7 @@
             <p>内容加载中...</p>
         </div>
 
+        <!-- iframe 容器 -->
         <div id="wrapper-home" class="iframe-wrapper active" data-top-page="home">
             <iframe data-src="pages/home/index.html"></iframe>
         </div>
@@ -700,7 +711,6 @@
         <div id="wrapper-Material" class="iframe-wrapper" data-top-page="Material">
             <iframe data-src="pages/Material/index.html"></iframe>
         </div>
-        <!-- New: Wrapper for the main tools page -->
         <div id="wrapper-tools" class="iframe-wrapper" data-top-page="tools">
             <iframe data-src="pages/toolbox/index.html"></iframe>
         </div>
@@ -758,6 +768,18 @@
         <div id="wrapper-font-service-4" class="iframe-wrapper" data-top-page="fonts">
             <iframe data-src="pages/fonts/service-4.html"></iframe>
         </div>
+        <div id="wrapper-about-us" class="iframe-wrapper" data-top-page="fonts">
+            <iframe data-src="pages/about/about-us.html"></iframe>
+        </div>
+        <div id="wrapper-contact-us" class="iframe-wrapper" data-top-page="fonts">
+            <iframe data-src="pages/about/contact-us.html"></iframe>
+        </div>
+        <div id="wrapper-career" class="iframe-wrapper" data-top-page="fonts">
+            <iframe data-src="pages/about/career.html"></iframe>
+        </div>
+        <div id="wrapper-news" class="iframe-wrapper" data-top-page="fonts">
+            <iframe data-src="pages/about/news.html"></iframe>
+        </div>
     </div>
 
     <script>
@@ -766,6 +788,7 @@
         const loadingIndicator = document.getElementById('loading-indicator');
         const iframeWrappers = document.querySelectorAll('.iframe-wrapper');
 
+        // 页面URL与标题映射
         const pageMap = {
             'home': { url: 'pages/home/index.html', title: '字造 - 专注分享字体领域优质内容', topPage: 'home' },
             'fonts': { url: 'pages/fonts/index.html', title: '字造字库 - 以字体探索美学新感知', topPage: 'fonts' },
@@ -791,14 +814,20 @@
             'font-service-2': { url: 'pages/fonts/service-2.html', title: '授权咨询与采购 - 字库产品', topPage: 'fonts' },
             'font-service-3': { url: 'pages/fonts/service-3.html', title: '问题反馈 - 字库产品', topPage: 'fonts' },
             'font-service-4': { url: 'pages/fonts/service-4.html', title: '常见问题 - 字库产品', topPage: 'fonts' },
+            'about-us': { url: 'pages/about/about-us.html', title: '关于我们 - 字造ZIZAO', topPage: 'fonts' },
+            'contact-us': { url: 'pages/about/contact-us.html', title: '联系我们 - 字造ZIZAO', topPage: 'fonts' },
+            'career': { url: 'pages/about/career.html', title: '加入我们 - 字造ZIZAO', topPage: 'fonts' },
+            'news': { url: 'pages/about/news.html', title: '最新动态 - 字造ZIZAO', topPage: 'fonts' },
         };
 
+        // 关闭移动端菜单
         function closeMobileMenu() {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // 恢复滚动
 
-            document.querySelectorAll('.dropdown, .full-width-dropdown').forEach(dropdown => {
+            // 关闭所有展开的下拉菜单
+            document.querySelectorAll('.dropdown.active, .full-width-dropdown.active').forEach(dropdown => {
                 dropdown.classList.remove('active');
                 const parentLink = dropdown.previousElementSibling;
                 if (parentLink && parentLink.classList.contains('dropdown-parent-link')) {
@@ -807,38 +836,29 @@
             });
         }
 
+        // 汉堡菜单点击事件
         hamburger.addEventListener('click', () => {
             const isActive = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            document.body.style.overflow = isActive ? 'hidden' : '';
-
-            document.querySelectorAll('.dropdown.active, .full-width-dropdown.active').forEach(openDropdown => {
-                if (openDropdown !== hamburger.closest('.navbar-inner').querySelector('.dropdown.active') &&
-                    openDropdown !== hamburger.closest('.navbar-inner').querySelector('.full-width-dropdown.active')) { // Ensure we only close *other* dropdowns
-                    openDropdown.classList.remove('active');
-                    const otherParentLink = openDropdown.previousElementSibling;
-                    if (otherParentLink) {
-                        otherParentLink.classList.remove('expanded');
-                    }
-                }
-            });
+            document.body.style.overflow = isActive ? 'hidden' : ''; // 阻止滚动
         });
 
+        // 导航链接点击事件 (处理移动端下拉菜单的展开/收起)
         document.querySelectorAll('.nav-links > li').forEach(parentLi => {
             const parentLink = parentLi.querySelector('a');
             const dropdown = parentLi.querySelector('.dropdown') || parentLi.querySelector('.full-width-dropdown');
 
             if (dropdown) {
                 parentLink.addEventListener('click', (e) => {
+                    // 桌面端使用CSS hover，不阻止默认行为
                     if (window.innerWidth > 992) {
-                        if (parentLink.getAttribute('href') === '#') {
-                            e.preventDefault();
-                        }
                         return;
                     }
 
+                    // 移动端阻止默认链接跳转，只用于展开/收起菜单
                     e.preventDefault();
 
+                    // 关闭其他已展开的下拉菜单
                     document.querySelectorAll('.dropdown.active, .full-width-dropdown.active').forEach(openDropdown => {
                         if (openDropdown !== dropdown) {
                             openDropdown.classList.remove('active');
@@ -849,28 +869,35 @@
                         }
                     });
 
+                    // 切换当前下拉菜单的展开状态
                     dropdown.classList.toggle('active');
                     parentLink.classList.toggle('expanded');
                 });
             }
         });
 
+        // 导航链接点击事件 (处理iframe加载和移动端菜单关闭)
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (window.innerWidth > 992) {
+            link.addEventListener('click', function() {
+                // 如果是外部链接，不处理，直接跳转
+                if (this.target === '_blank' || this.rel === 'noopener noreferrer') {
                     return;
                 }
 
-                const parentLi = this.closest('.nav-links > li');
-                const isTopLevelLinkWithNoDropdown = parentLi && !parentLi.querySelector('.dropdown') && !parentLi.querySelector('.full-width-dropdown');
-                const isSubLink = this.closest('.dropdown') || this.closest('.full-width-dropdown');
+                // 如果是移动端，并且点击的是子链接或无下拉菜单的顶级链接，则关闭菜单
+                if (window.innerWidth <= 992) {
+                    const parentLi = this.closest('.nav-links > li');
+                    const isTopLevelLinkWithNoDropdown = parentLi && !parentLi.querySelector('.dropdown') && !parentLi.querySelector('.full-width-dropdown');
+                    const isSubLink = this.closest('.dropdown') || this.closest('.full-width-dropdown');
 
-                if (isSubLink || isTopLevelLinkWithNoDropdown) {
-                    closeMobileMenu();
+                    if (isSubLink || isTopLevelLinkWithNoDropdown) {
+                        closeMobileMenu();
+                    }
                 }
             });
         });
 
+        // 点击菜单外部时关闭移动端菜单
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 992 && navLinks.classList.contains('active') &&
                 !e.target.closest('.nav-links') && !e.target.closest('.hamburger')) {
@@ -878,82 +905,91 @@
             }
         });
 
+        // 窗口大小调整时处理
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 if (window.innerWidth > 992) {
-                    closeMobileMenu();
+                    closeMobileMenu(); // 桌面端尺寸时确保移动菜单关闭
                 }
-
-                if (window.innerWidth <= 992 && navLinks.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
+                // 根据移动菜单是否激活，控制body滚动
+                document.body.style.overflow = (window.innerWidth <= 992 && navLinks.classList.contains('active')) ? 'hidden' : '';
             }, 100);
         });
 
+        // 更新iframe内容和导航链接的激活状态
         function updateIframeContent() {
             const hash = window.location.hash.substring(1);
-            let pageKey = hash || 'home';
+            let pageKey = hash || 'home'; // 默认页面为 'home'
 
             const pageInfo = pageMap[pageKey];
             const targetWrapperId = `wrapper-${pageKey}`;
             const targetWrapper = document.getElementById(targetWrapperId);
 
             if (!pageInfo || !targetWrapper) {
+                // 如果哈希无效，回退到首页
                 window.location.hash = '#home';
                 loadingIndicator.classList.add('hidden');
                 return;
             }
 
             const targetIframe = targetWrapper.querySelector('iframe');
+            // 如果iframe内容未加载，显示加载指示器
             if (!targetIframe.src) {
                 loadingIndicator.classList.remove('hidden');
             } else {
                 loadingIndicator.classList.add('hidden');
             }
 
+            // 隐藏所有iframe容器，然后显示目标容器
             iframeWrappers.forEach(wrapper => {
                 wrapper.classList.remove('active');
             });
             targetWrapper.classList.add('active');
 
+            // 更新页面标题
             document.title = pageInfo.title;
 
+            // 如果iframe尚未加载，则设置其src并监听加载完成事件
             if (!targetIframe.src) {
                 targetIframe.src = targetIframe.dataset.src;
                 targetIframe.onload = function() {
                     loadingIndicator.classList.add('hidden');
-                    this.onload = null;
+                    this.onload = null; // 移除事件监听，防止重复触发
                 };
                 targetIframe.onerror = function() {
                     loadingIndicator.classList.add('hidden');
-                    console.error('Iframe content failed to load or was blocked:', targetIframe.src);
-                    this.onerror = null;
+                    console.error('iframe内容加载失败或被阻止:', targetIframe.src);
+                    this.onerror = null; // 移除事件监听
                 };
             }
 
+            // 更新主导航链接的激活状态
             document.querySelectorAll('.nav-links > li > a').forEach(link => {
                 if (link.hasAttribute('data-page')) {
                     const linkPageKey = link.getAttribute('data-page');
+                    // 如果当前页面的顶级父页面与链接的data-page匹配，则设为激活
                     link.classList.toggle('active', linkPageKey === pageInfo.topPage);
                 }
             });
 
+            // 更新子导航链接的激活状态
             document.querySelectorAll('.dropdown li a, .full-width-dropdown li a').forEach(subLink => {
                 subLink.classList.toggle('active-sub', subLink.getAttribute('data-page') === pageKey);
             });
         }
 
+        // 页面加载完成时执行
         window.addEventListener('load', () => {
-            loadingIndicator.classList.remove('hidden');
+            loadingIndicator.classList.remove('hidden'); // 初始加载时显示加载指示器
             updateIframeContent();
         });
 
+        // 监听URL哈希变化
         window.addEventListener('hashchange', updateIframeContent);
 
+        // 如果URL中没有哈希，设置默认哈希为 #home
         if (!window.location.hash) {
             window.location.hash = '#home';
         }
