@@ -57,9 +57,9 @@
         .navbar-inner {
             max-width: 1900px;
             width: 100%;
-            padding: 0 10px;
+            padding: 0 20px; /* 调整内边距 */
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Logo 和 nav-main-area/hamburger 之间留白 */
             align-items: center;
         }
 
@@ -71,6 +71,7 @@
             font-weight: 700;
             color: #333;
             text-decoration: none;
+            flex-shrink: 0; /* 防止Logo被挤压 */
         }
 
         .logo-img {
@@ -79,10 +80,24 @@
             display: block;
         }
 
+        /* 导航链接和搜索框的包裹容器 */
+        .nav-main-area {
+            display: flex; /* 桌面端并排显示 */
+            align-items: center;
+            flex-grow: 1; /* 占据 Logo 和 Hamburger 之间的所有可用空间 */
+            /* 桌面端不在这里设置 justify-content，由 nav-links 的 margin-left: auto 控制 */
+
+            /* --- NEW / MODIFIED FOR DESKTOP LAYOUT --- */
+            justify-content: flex-end; /* 将 nav-links 和 search-container 推到右侧 */
+            gap: 20px; /* 控制 nav-links 和 search-container 之间的间距 */
+            /* --- END NEW / MODIFIED --- */
+        }
+
         .nav-links {
-            display: flex;
+            display: flex; /* 桌面端默认flex */
             gap: 12px;
             list-style: none;
+            /* margin-left: auto; /* REMOVED: This was pushing nav-links and search-container to the far right */
         }
 
         .nav-links li {
@@ -294,6 +309,59 @@
             margin-bottom: 0;
         }
 
+        /* 搜索框容器 */
+        .search-container {
+            /* margin-left: 20px; /* REMOVED: Gap on nav-main-area now handles this spacing */
+            width: 200px; /* 桌面端宽度 */
+            flex-shrink: 0; /* 防止被挤压 */
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background-color: #f9f9f9;
+            overflow: hidden; /* 确保子元素遵循圆角 */
+            transition: all 0.3s ease;
+            padding: 5px 20px; /* 重点修改：增加了水平内边距，特别是右侧 */
+            width: 100%; /* 填充父容器宽度 */
+            gap: 8px; /* 保留：输入框和按钮之间的间距 */
+        }
+
+        .search-box:focus-within {
+            border-color: #ff7e5f;
+            box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.2);
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 4px 0;
+            font-size: 0.95em;
+            background-color: transparent;
+            color: #333;
+        }
+
+        #searchInput::placeholder {
+            color: #999;
+        }
+
+        #searchButton {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 1.1em;
+            padding: 0;
+            transition: color 0.3s ease;
+        }
+
+        #searchButton:hover {
+            color: #ff7e5f;
+        }
+
         /* 汉堡菜单 */
         .hamburger {
             display: none; /* 默认隐藏，在移动端显示 */
@@ -304,6 +372,7 @@
             height: 35px;
             position: relative;
             z-index: 1001;
+            flex-shrink: 0; /* 防止汉堡菜单被挤压 */
         }
 
         .hamburger span {
@@ -332,10 +401,27 @@
         /* 移动端样式 */
         @media (max-width: 992px) {
             .navbar-inner {
-                padding: 0 20px;
+                padding: 0 10px; /* 移动端顶部栏更紧凑 */
+                /* justify-content: space-between; 保持 Logo、nav-main-area、hamburger 之间留白 */
             }
 
+            .logo {
+                /* margin-right: 10px; /* Logo与搜索框的间距，由nav-main-area的flex-grow控制 */
+                flex-shrink: 0;
+            }
+
+            /* 移动端：nav-main-area 填充 Logo 和 Hamburger 之间的空间 */
+            .nav-main-area {
+                flex-grow: 1; /* 占据中间所有可用空间 */
+                justify-content: flex-start; /* 移动端，search-container靠左 */
+                gap: 0; /* 移动端，nav-main-area 不控制内部 gap */
+                display: flex; /* 确保 search-container 可以在里面 flex-grow */
+                align-items: center;
+            }
+
+            /* 移动端隐藏桌面导航链接，并将其作为侧边栏处理 */
             .nav-links {
+                display: none; /* 默认隐藏 */
                 position: fixed;
                 top: 0;
                 right: -100%; /* 初始隐藏在右侧 */
@@ -353,6 +439,7 @@
 
             .nav-links.active {
                 right: 0; /* 激活时滑入 */
+                display: flex; /* 激活时显示 */
             }
 
             .nav-links li {
@@ -360,11 +447,15 @@
             }
 
             .nav-links > li > a {
-                padding: 12px 25px;
+                padding: 12px 25px; /* 移动端列表项更大的内边距 */
                 width: 100%;
                 border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端顶级菜单项有底部边框 */
                 color: #333;
                 gap: 10px;
+            }
+
+            .nav-links > li:last-child > a { /* 如果是最后一个顶级菜单项，移除底边框 */
+                border-bottom: none;
             }
 
             .nav-links > li > a .dot {
@@ -394,6 +485,22 @@
 
             .hamburger {
                 display: block; /* 移动端显示汉堡菜单 */
+                margin-left: 10px; /* 汉堡菜单与搜索框的间距 */
+            }
+
+            /* 移动端搜索框样式 */
+            .search-container {
+                margin: 0; /* 移除桌面端左右间距 */
+                flex-grow: 1; /* 让搜索框填充 nav-main-area */
+                width: auto; /* 宽度由 flex-grow 控制 */
+                padding: 0 5px; /* 搜索框容器的左右内边距 */
+            }
+            .search-box {
+                padding: 4px 8px; /* 移动端搜索框内边距 */
+                width: 100%; /* 确保搜索框填充其父容器 */
+            }
+            #searchInput {
+                font-size: 0.85em; /* 移动端字体更小 */
             }
 
             /* 移动端普通下拉菜单 (如: 设计工具) */
@@ -411,8 +518,8 @@
                 transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
                 border-radius: 0;
                 margin-top: 0;
-                border-top: none; /* 移动端设计工具菜单不显示顶部分割线 */
-                border-bottom: none; /* 移动端设计工具菜单不显示底部分割线 */
+                border-top: none;
+                border-bottom: none;
                 transition-delay: 0s;
             }
 
@@ -481,8 +588,8 @@
                 transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
                 border-radius: 0;
                 margin-top: 0;
-                border-top: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有顶部分割线 */
-                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有底部分割线 */
+                border-top: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有顶 කොටස */
+                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有底 කොටස */
                 transition-delay: 0s;
             }
 
@@ -517,7 +624,6 @@
 
             /* 移动端全宽下拉菜单链接的内边距调整 */
             .full-width-dropdown .dropdown-column ul li a {
-                /* 原有 padding: 10px 0 10px 8px; */
                 padding: 10px 8px; /* 统一左右内边距 */
                 justify-content: flex-start;
             }
@@ -609,75 +715,82 @@
                 <img src="logo.svg" alt="zizaotop Logo" class="logo-img">
             </a>
 
-            <ul class="nav-links">
-                <li>
-                    <a href="#home" class="active" data-page="home"><span class="dot"></span><span>首页</span></a>
-                </li>
-                <li class="has-full-width-dropdown">
-                    <a href="#fonts" data-page="fonts" class="dropdown-parent-link"><span class="dot"></span><span>字库产品<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
-                    <div class="full-width-dropdown">
-                        <div class="dropdown-inner-wrapper">
-                            <div class="dropdown-column">
-                                <p class="column-desc">精选字库系列</p>
-                                <ul>
-                                    <li><a href="#font-collection-1" data-page="font-collection-1"><span class="dot"></span>字造优选字体</a></li>
-                                    <li><a href="#font-collection-2" data-page="font-collection-2"><span class="dot"></span>新锐设计师字体</a></li>
-                                    <li><a href="#font-collection-3" data-page="font-collection-3"><span class="dot"></span>经典复刻字体</a></li>
-                                    <li><a href="#font-collection-4" data-page="font-collection-4"><span class="dot"></span>限时免费字体</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown-column">
-                                <p class="column-desc">热门应用场景</p>
-                                <ul>
-                                    <li><a href="#font-scene-1" data-page="font-scene-1"><span class="dot"></span>标题海报字体</a></li>
-                                    <li><a href="#font-scene-2" data-page="font-scene-2"><span class="dot"></span>品牌Logo字体</a></li>
-                                    <li><a href="#font-scene-3" data-page="font-scene-3"><span class="dot"></span>电商Banner字体</a></li>
-                                    <li><a href="#font-scene-4" data-page="font-scene-4"><span class="dot"></span>游戏动漫字体</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown-column">
-                                <p class="column-desc">字库服务与支持</p>
-                                <ul>
-                                    <li><a href="#font-service-1" data-page="font-service-1"><span class="dot"></span>字体定制服务</a></li>
-                                    <li><a href="#font-service-2" data-page="font-service-2"><span class="dot"></span>授权咨询与采购</a></li>
-                                    <li><a href="#font-service-3" data-page="font-service-3"><span class="dot"></span>问题反馈</a></li>
-                                    <li><a href="#font-service-4" data-page="font-service-4"><span class="dot"></span>常见问题</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown-column">
-                                <p class="column-desc">关于字造</p>
-                                <ul>
-                                    <li><a href="#about-us" data-page="about-us"><span class="dot"></span>关于我们</a></li>
-                                    <li><a href="#contact-us" data-page="contact-us"><span class="dot"></span>联系我们</a></li>
-                                    <li><a href="#career" data-page="career"><span class="dot"></span>加入我们</a></li>
-                                    <li><a href="#news" data-page="news"><span class="dot"></span>最新动态</a></li>
-                                </ul>
+            <!-- 导航链接和搜索框的包裹容器 -->
+            <div class="nav-main-area">
+                <ul class="nav-links">
+                    <li>
+                        <a href="#home" class="active" data-page="home"><span class="dot"></span><span>首页</span></a>
+                    </li>
+                    <li class="has-full-width-dropdown">
+                        <a href="#fonts" data-page="fonts" class="dropdown-parent-link"><span class="dot"></span><span>字库产品<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
+                        <div class="full-width-dropdown">
+                            <div class="dropdown-inner-wrapper">
+                                <div class="dropdown-column">
+                                    <p class="column-desc">精选字库系列</p>
+                                    <ul>
+                                        <li><a href="#font-collection-1" data-page="font-collection-1"><span class="dot"></span>字造优选字体</a></li>
+                                        <li><a href="#font-collection-2" data-page="font-collection-2"><span class="dot"></span>新锐设计师字体</a></li>
+                                        <li><a href="#font-collection-3" data-page="font-collection-3"><span class="dot"></span>经典复刻字体</a></li>
+                                        <li><a href="#font-collection-4" data-page="font-collection-4"><span class="dot"></span>限时免费字体</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-column">
+                                    <p class="column-desc">热门应用场景</p>
+                                    <ul>
+                                        <li><a href="#font-scene-1" data-page="font-scene-1"><span class="dot"></span>标题海报字体</a></li>
+                                        <li><a href="#font-scene-2" data-page="font-scene-2"><span class="dot"></span>品牌Logo字体</a></li>
+                                        <li><a href="#font-scene-3" data-page="font-scene-3"><span class="dot"></span>电商Banner字体</a></li>
+                                        <li><a href="#font-scene-4" data-page="font-scene-4"><span class="dot"></span>游戏动漫字体</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-column">
+                                    <p class="column-desc">字库服务与支持</p>
+                                    <ul>
+                                        <li><a href="#font-service-1" data-page="font-service-1"><span class="dot"></span>字体定制服务</a></li>
+                                        <li><a href="#font-service-2" data-page="font-service-2"><span class="dot"></span>授权咨询与采购</a></li>
+                                        <li><a href="#font-service-3" data-page="font-service-3"><span class="dot"></span>问题反馈</a></li>
+                                        <li><a href="#font-service-4" data-page="font-service-4"><span class="dot"></span>常见问题</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-column">
+                                    <p class="column-desc">关于字造</p>
+                                    <ul>
+                                        <li><a href="#about-us" data-page="about-us"><span class="dot"></span>关于我们</a></li>
+                                        <li><a href="#contact-us" data-page="contact-us"><span class="dot"></span>联系我们</a></li>
+                                        <li><a href="#career" data-page="career"><span class="dot"></span>加入我们</a></li>
+                                        <li><a href="#news" data-page="news"><span class="dot"></span>最新动态</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <a href="#hao" data-page="hao"><span class="dot"></span><span>设计导航</span></a>
-                </li>
-                <li>
-                    <a href="#Material" data-page="Material"><span class="dot"></span><span>设计资源</span></a>
-                </li>
-                <li>
-                    <a href="#tools" data-page="tools" class="dropdown-parent-link"><span class="dot"></span><span>设计工具<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
-                    <ul class="dropdown">
-                        <li><a href="#txt" data-page="txt"><span class="dot"></span>在线TXT编辑</a></li>
-                        <li><a href="#quchong" data-page="quchong"><span class="dot"></span>字符去重</a></li>
-                        <li><a href="#duibi" data-page="duibi"><span class="dot"></span>文本对比</a></li>
-                        <li><a href="#pinyin" data-page="pinyin"><span class="dot"></span>汉字拼音转换</a></li>
-                        <li><a href="#xinjinzi" data-page="xinjinzi"><span class="dot"></span>形近字查询</a></li>
-                        <li><a href="#shufa" data-page="shufa"><span class="dot"></span>书法风格</a></li>
-                    </ul>
-                </li>
+                    </li>
+                    <li>
+                        <a href="#hao" data-page="hao"><span class="dot"></span><span>设计导航</span></a>
+                    </li>
+                    <li>
+                        <a href="#Material" data-page="Material"><span class="dot"></span><span>设计资源</span></a>
+                    </li>
+                    <li>
+                        <a href="#tools" data-page="tools" class="dropdown-parent-link"><span class="dot"></span><span>设计工具<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span></a>
+                        <ul class="dropdown">
+                            <li><a href="#txt" data-page="txt"><span class="dot"></span>在线TXT编辑</a></li>
+                            <li><a href="#quchong" data-page="quchong"><span class="dot"></span>字符去重</a></li>
+                            <li><a href="#duibi" data-page="duibi"><span class="dot"></span>文本对比</a></li>
+                            <li><a href="#pinyin" data-page="pinyin"><span class="dot"></span>汉字拼音转换</a></li>
+                            <li><a href="#xinjinzi" data-page="xinjinzi"><span class="dot"></span>形近字查询</a></li>
+                            <li><a href="#shufa" data-page="shufa"><span class="dot"></span>书法风格</a></li>
+                        </ul>
+                    </li>
+                </ul>
 
-                <li>
-                    <a href="https://www.zizao.top/pages/toolbox" target="_blank" rel="noopener noreferrer"><span class="dot"></span><span>字造百宝库-工具箱版⤴</span></a>
-                </li>
-            </ul>
+                <!-- 搜索框容器 -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="搜索设计资源...">
+                        <button id="searchButton" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
 
             <button class="hamburger">
                 <span></span>
@@ -703,6 +816,7 @@
         <div id="wrapper-hao" class="iframe-wrapper" data-top-page="hao">
             <iframe data-src="pages/hao/index.html"></iframe>
         </div>
+        <!-- 设计资源 iframe，其 data-src 不变，但实际 src 会根据搜索参数动态生成 -->
         <div id="wrapper-Material" class="iframe-wrapper" data-top-page="Material">
             <iframe data-src="pages/Material/index.html"></iframe>
         </div>
@@ -782,12 +896,15 @@
         const navLinks = document.querySelector('.nav-links');
         const loadingIndicator = document.getElementById('loading-indicator');
         const iframeWrappers = document.querySelectorAll('.iframe-wrapper');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
 
         // 页面URL与标题映射
         const pageMap = {
             'home': { url: 'pages/home/index.html', title: '字造 - 专注分享字体领域优质内容', topPage: 'home' },
             'fonts': { url: 'pages/fonts/index.html', title: '字造字库 - 以字体探索美学新感知', topPage: 'fonts' },
             'hao': { url: 'pages/hao/index.html', title: '字造导航 - 设计师的私藏灵感库', topPage: 'hao' },
+            // 注意：这里的url只是一个基础URL，实际iframe的src会根据q参数动态拼接
             'Material': { url: 'pages/Material/index.html', title: '字造百宝库 - 设计师的资源百宝库', topPage: 'Material' },
             'tools': { url: 'pages/toolbox/index.html', title: '字造工具箱 - 字体设计实用工具', topPage: 'tools' },
             'txt': { url: 'pages/toolbox/tools/txt.html', title: '在线TXT文本编辑器 - 字造ZIZAO', topPage: 'tools' },
@@ -913,10 +1030,42 @@
             }, 100);
         });
 
+        // 执行搜索的函数
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            // 搜索结果将始终定位到 '设计资源' 页面，并带上 q 参数
+            let newHash = '#Material';
+
+            if (searchTerm) {
+                newHash += `?q=${encodeURIComponent(searchTerm)}`;
+            }
+
+            // 如果是移动端，关闭菜单 (如果搜索框在侧边栏内)
+            // 由于现在搜索框始终在顶部，这一步不再严格必要，但保留它无害
+            if (window.innerWidth <= 992) {
+                closeMobileMenu();
+            }
+
+            // 更新 URL 哈希，这将触发 updateIframeContent 函数
+            window.location.hash = newHash;
+        }
+
+        // 搜索按钮点击事件
+        searchButton.addEventListener('click', performSearch);
+
+        // 搜索输入框回车事件
+        searchInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+
         // 更新iframe内容和导航链接的激活状态
         function updateIframeContent() {
-            const hash = window.location.hash.substring(1);
-            let pageKey = hash || 'home'; // 默认页面为 'home'
+            const fullHash = window.location.hash.substring(1); // 例如 "Material?q=font" 或 "home"
+            const parts = fullHash.split('?');
+            let pageKey = parts[0] || 'home'; // 获取页面标识 (例如 "Material")
+            const queryString = parts[1]; // 获取查询字符串 (例如 "q=font")
 
             const pageInfo = pageMap[pageKey];
             const targetWrapperId = `wrapper-${pageKey}`;
@@ -930,25 +1079,19 @@
             }
 
             const targetIframe = targetWrapper.querySelector('iframe');
-            // 如果iframe内容未加载，显示加载指示器
-            if (!targetIframe.src) {
-                loadingIndicator.classList.remove('hidden');
-            } else {
-                loadingIndicator.classList.add('hidden');
+            const baseSrc = targetIframe.dataset.src; // 从 data-src 获取原始基础 URL (例如 "pages/Material/index.html")
+
+            let newIframeSrc = baseSrc;
+            // 如果是设计资源页面 (Material) 且存在查询字符串，则将查询字符串添加到 iframe 的 src
+            // 这样, 当搜索时, iframe 会加载 pages/Material/index.html?q=关键词
+            if (pageKey === 'Material' && queryString) {
+                newIframeSrc += `?${queryString}`;
             }
 
-            // 隐藏所有iframe容器，然后显示目标容器
-            iframeWrappers.forEach(wrapper => {
-                wrapper.classList.remove('active');
-            });
-            targetWrapper.classList.add('active');
-
-            // 更新页面标题
-            document.title = pageInfo.title;
-
-            // 如果iframe尚未加载，则设置其src并监听加载完成事件
-            if (!targetIframe.src) {
-                targetIframe.src = targetIframe.dataset.src;
+            // 如果 iframe 的当前 src 与新的 src 不同，才进行加载
+            if (targetIframe.src !== newIframeSrc) {
+                loadingIndicator.classList.remove('hidden');
+                targetIframe.src = newIframeSrc; // 更新 iframe 的 src
                 targetIframe.onload = function() {
                     loadingIndicator.classList.add('hidden');
                     this.onload = null; // 移除事件监听，防止重复触发
@@ -958,19 +1101,35 @@
                     console.error('iframe内容加载失败或被阻止:', targetIframe.src);
                     this.onerror = null; // 移除事件监听
                 };
+            } else {
+                // 如果 src 没有改变，直接隐藏加载指示器
+                loadingIndicator.classList.add('hidden');
             }
+
+
+            // 更新页面标题
+            document.title = pageInfo.title;
+
+            // 隐藏所有 iframe wrapper
+            iframeWrappers.forEach(wrapper => {
+                wrapper.classList.remove('active');
+            });
+            // 激活当前 iframe wrapper
+            targetWrapper.classList.add('active');
+
 
             // 更新主导航链接的激活状态
             document.querySelectorAll('.nav-links > li > a').forEach(link => {
                 if (link.hasAttribute('data-page')) {
                     const linkPageKey = link.getAttribute('data-page');
-                    // 如果当前页面的顶级父页面与链接的data-page匹配，则设为激活
+                    // 'pageInfo.topPage' 确保即使是子页面（如 'txt'），其主分类（'tools'）也能高亮
                     link.classList.toggle('active', linkPageKey === pageInfo.topPage);
                 }
             });
 
-            // 更新子导航链接的激活状态
+            // 更新子导航链接的激活状态 (针对dropdown和full-width-dropdown内的链接)
             document.querySelectorAll('.dropdown li a, .full-width-dropdown li a').forEach(subLink => {
+                // 只有当 subLink 的 data-page 严格等于当前的 pageKey 时才激活
                 subLink.classList.toggle('active-sub', subLink.getAttribute('data-page') === pageKey);
             });
         }
