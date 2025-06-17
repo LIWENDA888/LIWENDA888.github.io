@@ -57,9 +57,9 @@
         .navbar-inner {
             max-width: 1900px;
             width: 100%;
-            padding: 0 20px; /* 调整内边距 */
+            padding: 0 20px;
             display: flex;
-            justify-content: space-between; /* Logo 和 nav-main-area/hamburger 之间留白 */
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -71,7 +71,7 @@
             font-weight: 700;
             color: #333;
             text-decoration: none;
-            flex-shrink: 0; /* 防止Logo被挤压 */
+            flex-shrink: 0;
         }
 
         .logo-img {
@@ -82,22 +82,17 @@
 
         /* 导航链接和搜索框的包裹容器 */
         .nav-main-area {
-            display: flex; /* 桌面端并排显示 */
+            display: flex;
             align-items: center;
             flex-grow: 1; /* 占据 Logo 和 Hamburger 之间的所有可用空间 */
-            /* 桌面端不在这里设置 justify-content，由 nav-links 的 margin-left: auto 控制 */
-
-            /* --- NEW / MODIFIED FOR DESKTOP LAYOUT --- */
             justify-content: flex-end; /* 将 nav-links 和 search-container 推到右侧 */
-            gap: 20px; /* 控制 nav-links 和 search-container 之间的间距 */
-            /* --- END NEW / MODIFIED --- */
+            gap: 24px; /* 调整：增加导航链接和搜索框之间的间距，使其更舒适 */
         }
 
         .nav-links {
-            display: flex; /* 桌面端默认flex */
-            gap: 12px;
+            display: flex;
+            gap: 20px; /* 调整：增加导航项之间的间距，使其更舒适 */
             list-style: none;
-            /* margin-left: auto; /* REMOVED: This was pushing nav-links and search-container to the far right */
         }
 
         .nav-links li {
@@ -174,7 +169,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease, top 0.3s ease;
-            transition-delay: 0.1s; /* 鼠标离开时延迟隐藏，防止闪烁 */
+            transition-delay: 0.1s;
             z-index: 100;
         }
 
@@ -182,7 +177,7 @@
             opacity: 1;
             visibility: visible;
             top: 100%; /* 鼠标进入时，向上平滑移动与父链接底部对齐 */
-            transition-delay: 0s; /* 鼠标进入时立即显示 */
+            transition-delay: 0s;
         }
 
         /* 移除普通下拉菜单项的底部分割线 */
@@ -198,7 +193,7 @@
             align-items: center;
             justify-content: flex-start;
             gap: 8px;
-            padding: 8px 16px; /* 统一左右内边距，使其高亮更对称 */
+            padding: 8px 16px;
             color: #333;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -219,7 +214,7 @@
         .full-width-dropdown .dropdown-column ul li a:hover {
             color: #ff7e5f;
             background: rgba(255, 126, 95, 0.05);
-            transform: translateY(-2px); /* 悬停时的轻微上浮效果 */
+            transform: translateY(-2px);
         }
         .dropdown li a:hover .dot,
         .full-width-dropdown .dropdown-column ul li a:hover .dot {
@@ -254,7 +249,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
-            transition-delay: 0.1s; /* 鼠标离开时延迟隐藏 */
+            transition-delay: 0.1s;
             border-radius: 0 0 10px 10px;
             display: block;
         }
@@ -262,28 +257,28 @@
         .has-full-width-dropdown:hover .full-width-dropdown {
             opacity: 1;
             visibility: visible;
-            transition-delay: 0s; /* 鼠标进入时立即显示 */
+            transition-delay: 0s;
         }
 
         .dropdown-inner-wrapper {
-            display: flex; /* 确保列布局 */
+            display: flex;
             justify-content: center;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            gap: 40px; /* 列之间的间距 */
+            gap: 40px;
         }
 
         .dropdown-column {
-            flex: 1; /* 每列均匀分配宽度 */
-            min-width: 180px; /* 列的最小宽度 */
+            flex: 1;
+            min-width: 180px;
             text-align: left;
-            border-right: 1px solid rgba(0,0,0,0.08); /* 列之间的分割线 */
+            border-right: 1px solid rgba(0,0,0,0.08);
             padding: 0 20px;
         }
 
         .dropdown-column:last-child {
-            border-right: none; /* 最后一列无右侧分割线 */
+            border-right: none;
         }
 
         .column-desc {
@@ -300,7 +295,6 @@
             margin: 0;
         }
 
-        /* 桌面端全宽下拉菜单项无底部分割线 */
         .full-width-dropdown .dropdown-column ul li {
             margin-bottom: 5px;
             border-bottom: none;
@@ -311,9 +305,8 @@
 
         /* 搜索框容器 */
         .search-container {
-            /* margin-left: 20px; /* REMOVED: Gap on nav-main-area now handles this spacing */
-            width: 200px; /* 桌面端宽度 */
-            flex-shrink: 0; /* 防止被挤压 */
+            width: 220px; /* 调整：桌面端宽度略微增加，更显大气 */
+            flex-shrink: 0;
         }
 
         .search-box {
@@ -322,11 +315,11 @@
             border: 1px solid #ddd;
             border-radius: 20px;
             background-color: #f9f9f9;
-            overflow: hidden; /* 确保子元素遵循圆角 */
+            overflow: hidden;
             transition: all 0.3s ease;
-            padding: 5px 20px; /* 重点修改：增加了水平内边距，特别是右侧 */
-            width: 100%; /* 填充父容器宽度 */
-            gap: 8px; /* 保留：输入框和按钮之间的间距 */
+            padding: 6px 16px; /* 调整：增加垂直内边距和调整水平内边距，使搜索框更饱满 */
+            width: 100%;
+            gap: 8px;
         }
 
         .search-box:focus-within {
@@ -338,7 +331,7 @@
             flex-grow: 1;
             border: none;
             outline: none;
-            padding: 4px 0;
+            padding: 0; /* 内部padding已由search-box控制 */
             font-size: 0.95em;
             background-color: transparent;
             color: #333;
@@ -364,7 +357,7 @@
 
         /* 汉堡菜单 */
         .hamburger {
-            display: none; /* 默认隐藏，在移动端显示 */
+            display: none;
             cursor: pointer;
             background: transparent;
             border: none;
@@ -372,7 +365,7 @@
             height: 35px;
             position: relative;
             z-index: 1001;
-            flex-shrink: 0; /* 防止汉堡菜单被挤压 */
+            flex-shrink: 0;
         }
 
         .hamburger span {
@@ -401,30 +394,29 @@
         /* 移动端样式 */
         @media (max-width: 992px) {
             .navbar-inner {
-                padding: 0 10px; /* 移动端顶部栏更紧凑 */
-                /* justify-content: space-between; 保持 Logo、nav-main-area、hamburger 之间留白 */
+                padding: 0 10px;
             }
 
             .logo {
-                /* margin-right: 10px; /* Logo与搜索框的间距，由nav-main-area的flex-grow控制 */
-                flex-shrink: 0;
+                font-size: 1.4rem; /* 调整：移动端Logo字体略小 */
+            }
+            .logo-img {
+                height: 30px; /* 调整：移动端Logo图片略小 */
             }
 
-            /* 移动端：nav-main-area 填充 Logo 和 Hamburger 之间的空间 */
             .nav-main-area {
-                flex-grow: 1; /* 占据中间所有可用空间 */
-                justify-content: flex-start; /* 移动端，search-container靠左 */
-                gap: 0; /* 移动端，nav-main-area 不控制内部 gap */
-                display: flex; /* 确保 search-container 可以在里面 flex-grow */
+                flex-grow: 1;
+                justify-content: flex-start;
+                gap: 0; /* 移动端 nav-main-area 不控制内部 gap，由 search-container 的 padding 控制 */
+                display: flex;
                 align-items: center;
             }
 
-            /* 移动端隐藏桌面导航链接，并将其作为侧边栏处理 */
             .nav-links {
-                display: none; /* 默认隐藏 */
+                display: none;
                 position: fixed;
                 top: 0;
-                right: -100%; /* 初始隐藏在右侧 */
+                right: -100%;
                 width: 280px;
                 height: 100vh;
                 background: rgba(255, 255, 255, 0.98);
@@ -438,8 +430,8 @@
             }
 
             .nav-links.active {
-                right: 0; /* 激活时滑入 */
-                display: flex; /* 激活时显示 */
+                right: 0;
+                display: flex;
             }
 
             .nav-links li {
@@ -447,14 +439,14 @@
             }
 
             .nav-links > li > a {
-                padding: 12px 25px; /* 移动端列表项更大的内边距 */
+                padding: 12px 25px;
                 width: 100%;
-                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端顶级菜单项有底部边框 */
+                border-bottom: 1px solid rgba(0,0,0,0.05);
                 color: #333;
                 gap: 10px;
             }
 
-            .nav-links > li:last-child > a { /* 如果是最后一个顶级菜单项，移除底边框 */
+            .nav-links > li:last-child > a {
                 border-bottom: none;
             }
 
@@ -484,36 +476,36 @@
             }
 
             .hamburger {
-                display: block; /* 移动端显示汉堡菜单 */
-                margin-left: 10px; /* 汉堡菜单与搜索框的间距 */
+                display: block;
+                margin-left: 12px; /* 调整：增加汉堡菜单与搜索框的间距 */
             }
 
             /* 移动端搜索框样式 */
             .search-container {
-                margin: 0; /* 移除桌面端左右间距 */
+                margin: 0;
                 flex-grow: 1; /* 让搜索框填充 nav-main-area */
-                width: auto; /* 宽度由 flex-grow 控制 */
-                padding: 0 5px; /* 搜索框容器的左右内边距 */
+                width: auto;
+                padding: 0 8px; /* 调整：增加搜索框容器的左右内边距，使左右留白更明显 */
             }
             .search-box {
-                padding: 4px 8px; /* 移动端搜索框内边距 */
-                width: 100%; /* 确保搜索框填充其父容器 */
+                padding: 6px 12px; /* 调整：移动端搜索框内边距与桌面端保持一致，确保触控区域足够大 */
+                width: 100%;
             }
             #searchInput {
-                font-size: 0.85em; /* 移动端字体更小 */
+                font-size: 0.9em; /* 调整：移动端字体略微增大，更易读 */
             }
 
             /* 移动端普通下拉菜单 (如: 设计工具) */
             .dropdown {
-                position: static; /* 移动端改为静态定位 */
+                position: static;
                 width: 100%;
                 background: rgba(255, 255, 255, 0.95);
                 box-shadow: none;
                 padding: 0;
-                max-height: 0; /* 通过 max-height 实现折叠动画 */
+                max-height: 0;
                 overflow: hidden;
-                opacity: 1; /* 移动端使用 max-height 过渡，保持 opacity 为 1 */
-                visibility: visible; /* 移动端使用 max-height 过渡，保持 visibility 为 visible */
+                opacity: 1;
+                visibility: visible;
                 transform: none;
                 transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
                 border-radius: 0;
@@ -524,13 +516,13 @@
             }
 
             .dropdown.active {
-                max-height: 500px; /* 展开后的最大高度 */
+                max-height: 500px;
                 margin-top: 5px;
             }
 
             /* 移动端子菜单链接样式 */
             .dropdown li a {
-                padding: 10px 0 10px 45px; /* 缩进以增强可读性 */
+                padding: 10px 0 10px 45px;
                 color: #333;
                 gap: 10px;
                 font-size: initial;
@@ -548,7 +540,7 @@
             .full-width-dropdown .dropdown-column ul li a:hover {
                 background: rgba(255, 126, 95, 0.05);
                 color: #ff7e5f;
-                transform: none; /* 移动端子链接悬停时不使用 transform */
+                transform: none;
             }
             .dropdown li a:hover .dot,
             .full-width-dropdown .dropdown-column ul li a:hover .dot {
@@ -556,31 +548,30 @@
                 border-color: #ff7e5f;
             }
 
-            /* 确保只有全宽下拉菜单项有底部边框 (在移动端) */
             .full-width-dropdown .dropdown-column ul li {
                 border-bottom: 1px solid rgba(0,0,0,0.05);
             }
             .full-width-dropdown .dropdown-column ul li:last-child {
                 border-bottom: none;
             }
-            /* 覆盖桌面端规则，确保普通下拉菜单项在移动端无底部分割线 */
+
             .dropdown li {
                 border-bottom: none;
             }
 
-            .nav-links li:hover .dropdown { /* 重置桌面端悬停规则，避免在移动端干扰 */
+            .nav-links li:hover .dropdown {
                 transform: none;
                 top: auto;
             }
 
             /* 移动端全宽下拉菜单 */
             .full-width-dropdown {
-                position: static; /* 移动端改为静态定位 */
+                position: static;
                 width: 100%;
                 background: rgba(255, 255, 255, 0.95);
                 box-shadow: none;
                 padding: 0;
-                max-height: 0; /* 通过 max-height 实现折叠动画 */
+                max-height: 0;
                 overflow: hidden;
                 opacity: 1;
                 visibility: visible;
@@ -588,32 +579,32 @@
                 transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
                 border-radius: 0;
                 margin-top: 0;
-                border-top: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有顶 කොටස */
-                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端全宽菜单有底 කොටස */
+                border-top: 1px solid rgba(0,0,0,0.05);
+                border-bottom: 1px solid rgba(0,0,0,0.05);
                 transition-delay: 0s;
             }
 
             .full-width-dropdown.active {
-                max-height: 1500px; /* 展开后的最大高度 */
+                max-height: 1500px;
                 margin-top: 5px;
             }
 
             .full-width-dropdown .dropdown-inner-wrapper {
-                flex-direction: column; /* 移动端改为垂直堆叠 */
+                flex-direction: column;
                 max-width: none;
                 padding: 0;
                 gap: 0;
             }
 
             .dropdown-column {
-                border-right: none; /* 移动端无右侧分割线 */
-                border-bottom: 1px solid rgba(0,0,0,0.05); /* 移动端列之间有底部边框 */
+                border-right: none;
+                border-bottom: 1px solid rgba(0,0,0,0.05);
                 padding: 15px 25px;
                 text-align: left;
             }
 
             .dropdown-column:last-child {
-                border-bottom: none; /* 最后一列无底部边框 */
+                border-bottom: none;
             }
 
             .full-width-dropdown .column-desc {
@@ -622,9 +613,8 @@
                 font-size: 1em;
             }
 
-            /* 移动端全宽下拉菜单链接的内边距调整 */
             .full-width-dropdown .dropdown-column ul li a {
-                padding: 10px 8px; /* 统一左右内边距 */
+                padding: 10px 8px;
                 justify-content: flex-start;
             }
         }
@@ -646,14 +636,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            display: none; /* 默认隐藏 */
+            display: none;
             background-color: #ffffff;
             transition: opacity 0.3s ease-in-out;
             opacity: 0;
         }
 
         .iframe-wrapper.active {
-            display: block; /* 激活时显示 */
+            display: block;
             opacity: 1;
         }
 
@@ -684,7 +674,7 @@
 
         #loading-indicator.hidden {
             opacity: 0;
-            pointer-events: none; /* 隐藏时不允许点击 */
+            pointer-events: none;
         }
 
         .spinner {
