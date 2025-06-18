@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>字造导航 - 设计师的灵感百宝库</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
             --primary-color: #FF8C19;
             --primary-light: rgba(255, 140, 25, 0.1);
             --text-color: #2d3748;
             --text-light: #718096;
-            --bg-color: #f8f9fa; /* 页面整体背景色改为浅灰色 */
-            --card-bg: #f1f3f5; /* 卡片背景色保持原有的稍深浅灰色 */
+            --bg-color: #f8f9fa;
+            --card-bg: #f1f3f5;
             --border-color: #e2e8f0;
             --border-radius: 16px;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -24,13 +24,15 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .app-container {
@@ -40,6 +42,33 @@
             margin: 0 auto;
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .mobile-fab-toggle-btn {
+            display: none; /* 默认隐藏，在移动端显示 */
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001; /* 浮于最上层 */
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease;
+        }
+
+        .mobile-fab-toggle-btn:hover {
+            transform: translateY(-2px);
+            background-color: #e07d16;
         }
 
         .primary-nav {
@@ -51,6 +80,21 @@
             top: 0;
             height: 100vh;
             overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .drawer-close-btn {
+            display: none; /* 默认隐藏，移动端抽屉模式显示 */
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-light);
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px;
+            z-index: 10;
         }
 
         .nav-header {
@@ -91,22 +135,30 @@
             text-align: left;
             display: flex;
             align-items: center;
+            width: 100%;
         }
 
-        .primary-category:hover {
+        .primary-category:hover,
+        .primary-category:active,
+        .primary-category:focus {
             background-color: var(--primary-light);
-        }
-
-        .primary-category.active {
             color: var(--primary-color);
-            background-color: var(--primary-light);
             font-weight: 600;
+        }
+        .primary-category.is-active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .primary-category.is-active:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
         }
 
         .primary-category i {
             margin-right: 12px;
             font-size: 18px;
-            width: 20px;
+            width: 20px; /* 图标固定宽度，防止文本抖动 */
             color: var(--primary-color);
         }
 
@@ -122,7 +174,7 @@
             border-bottom: 1px solid var(--border-color);
             background-color: var(--bg-color);
             position: sticky;
-            top: 0;
+            top: 0; /* 吸顶效果 */
             z-index: 10;
         }
 
@@ -147,7 +199,7 @@
             font-size: 14px;
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-bottom: none;
+            border-bottom: none; /* 创建标签页效果 */
             transition: var(--transition);
             border-radius: 12px 12px 0 0;
         }
@@ -179,7 +231,7 @@
 
         .search-input-container:focus-within {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255, 140, 25, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 140, 25, 0.2); /* 聚焦光环 */
         }
 
         .search-input {
@@ -188,6 +240,7 @@
             border: none;
             font-size: 15px;
             transition: var(--transition);
+            background-color: white;
         }
 
         .search-input:focus {
@@ -219,9 +272,11 @@
             border-radius: 0 0 var(--border-radius) var(--border-radius);
             box-shadow: var(--shadow-md);
             z-index: 100;
-            display: none;
+            display: none; /* 默认隐藏 */
             max-height: 300px;
             overflow-y: auto;
+            border: 1px solid var(--border-color); /* 增加建议列表边框 */
+            border-top: none; /* 与输入框视觉连接 */
         }
 
         .search-suggestions.active {
@@ -258,6 +313,7 @@
             font-size: 14px;
             cursor: pointer;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .quick-link:hover {
@@ -274,13 +330,13 @@
 
         .category-group {
             margin-bottom: 50px;
+            /* scroll-margin-top 会在JS中根据搜索栏高度动态设置 */
         }
 
         .category-header {
             margin-bottom: 25px;
             display: flex;
-            align-items: center;
-            gap: 20px;
+            flex-direction: column;
         }
 
         .category-title {
@@ -312,6 +368,7 @@
             white-space: nowrap;
             color: var(--text-light);
             border: 1px solid var(--border-color);
+            background-color: white;
         }
 
         .subcategory-item:hover {
@@ -326,7 +383,7 @@
         }
 
         .cards-container {
-            display: none;
+            display: none; /* 默认隐藏，由JS激活显示 */
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
@@ -336,7 +393,7 @@
         }
 
         .card {
-            background-color: var(--card-bg); /* 使用卡片特定的背景色 */
+            background-color: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             padding: 20px;
@@ -346,13 +403,13 @@
             color: inherit;
             min-height: 120px;
             border: 1px solid var(--border-color);
-            align-items: center;
+            align-items: center; /* 垂直居中卡片内容 */
         }
 
         .card:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-md);
-            border: 1px solid transparent;
+            border: 1px solid transparent; /* 悬停时移除边框，使过渡更平滑 */
         }
 
         .card-header {
@@ -366,6 +423,7 @@
             border-radius: 10px;
             object-fit: cover;
             margin-right: 12px;
+            flex-shrink: 0;
         }
 
         .card-title {
@@ -379,35 +437,28 @@
             color: var(--text-light);
             line-height: 1.4;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 2; /* 描述限制两行 */
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .mobile-menu-toggle {
-            display: none;
-            padding: 14px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-            font-size: 15px;
-            color: var(--text-color);
-            border: none;
-            background: none;
-            text-align: left;
-            align-items: center;
-            justify-content: space-between;
+        .mobile-overlay-backdrop {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin-bottom: 8px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明遮罩 */
+            z-index: 999; /* 低于抽屉 */
+            opacity: 0;
+            pointer-events: none; /* 隐藏时不可点击 */
+            transition: opacity 0.3s ease;
         }
-
-        .mobile-menu-toggle i {
-            transition: var(--transition);
-        }
-
-        .mobile-menu-toggle.active i {
-            transform: rotate(180deg);
+        .mobile-overlay-backdrop.is-visible {
+            display: block;
+            opacity: 1;
+            pointer-events: auto; /* 显示时可点击 */
         }
 
         @media (max-width: 1024px) {
@@ -415,49 +466,58 @@
                 flex-direction: column;
                 border-left: none;
                 border-right: none;
+                padding-top: 0;
+            }
+
+            .mobile-fab-toggle-btn {
+                display: flex; /* 显示浮动按钮 */
             }
 
             .primary-nav {
-                position: static;
-                width: 100%;
-                height: auto;
-                padding: 20px;
+                position: fixed; /* 固定在视口 */
+                top: 0;
+                left: 0;
+                width: 280px;
+                height: 100vh;
+                transform: translateX(-100%); /* 默认在屏幕外 */
+                transition: transform 0.3s ease;
+                z-index: 1000; /* 高于内容 */
+                box-shadow: var(--shadow-md);
                 border-right: none;
-                border-bottom: 1px solid var(--border-color);
-                overflow-y: visible;
+                padding: 20px;
+            }
+
+            .primary-nav.is-open {
+                transform: translateX(0); /* 滑入 */
+            }
+
+            .primary-nav .nav-header {
+                display: flex;
+            }
+
+            .drawer-close-btn {
+                display: block; /* 显示关闭按钮 */
             }
 
             .search-section {
                 padding: 20px;
+                position: static; /* 移动端搜索栏取消吸顶 */
             }
 
             .cards-section {
                 padding: 20px;
             }
+
+            .category-group {
+                scroll-margin-top: 20px; /* 最小间距 */
+            }
         }
 
         @media (max-width: 768px) {
-            .primary-categories {
-                display: none;
-                flex-direction: column;
-            }
-
-            .primary-categories.active {
-                display: flex;
-            }
-
-            .mobile-menu-toggle {
-                display: flex;
-            }
-
             .search-engine-tabs {
-                overflow-x: auto;
+                overflow-x: auto; /* 允许标签横向滚动 */
                 padding-bottom: 0;
                 justify-content: flex-start;
-            }
-
-            .search-engine-tab:nth-child(n+4) {
-                display: none;
             }
 
             .search-engine-tabs::-webkit-scrollbar {
@@ -478,29 +538,28 @@
             }
 
             .search-input {
-                padding: 14px 30px;
-            }
-
-            .search-engine-tabs {
-                justify-content: center;
+                padding: 14px 20px;
             }
         }
     </style>
 </head>
 <body>
+<button class="mobile-fab-toggle-btn">
+    <i class="fas fa-bars"></i>
+</button>
+
+<div class="mobile-overlay-backdrop"></div>
+
 <div class="app-container">
     <div class="primary-nav">
+        <button class="drawer-close-btn"><i class="fas fa-times"></i></button>
+
         <div class="nav-header">
-            <img src="logo.svg" alt="Logo" class="logo">
+            <img src="https://via.placeholder.com/180x60/FF8C19/FFFFFF?text=Logo" alt="Logo" class="logo">
         </div>
 
-        <button class="mobile-menu-toggle">
-            <span>切换分类</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-
         <div class="primary-categories">
-            <button class="primary-category active" data-category="A">
+            <button class="primary-category" data-category="A">
                 <i class="fas fa-star"></i>
                 <span>精选推荐</span>
             </button>
@@ -708,451 +767,452 @@
 </div>
 
 <script>
+    // --- 数据定义 ---
     const cardData = {
         'A1': [
-            {url: 'https://www.dazi.co/',icon: 'icon/1.svg',title: 'AskManyAI',desc: '来自全球的超多AI工具集合站，体验甚至超过原平台'},
-            {url: 'https://github.com',icon: 'icon/1.svg',title: 'Github',desc: '全世界最大的开源社区，在这里可以找到几乎所有的开源项目'},
-            {url: 'https://searx.bndkt.io',icon: 'icon/1.svg',title: 'SearXNG',desc: 'Google的绝佳替代，最强大的元搜索引擎'},
-            {url: 'https://huaban.com',icon: 'icon/1.svg',title: '花瓣',desc: '收集设计灵感，保存有用的素材'},
-            {url: 'https://www.zcool.com.cn',icon: 'icon/1.svg',title: '站酷',desc: '中国人气设计师互动平台'},
-            {url: 'https://www.pinterest.com',icon: 'icon/1.svg',title: 'Pinterest',desc: '全球最大的创意灵感图片采集站'},
-            {url: 'https://dribbble.com/',icon: 'icon/1.svg',title: 'Dribbble',desc: '面向设计师的社交网络平台'},
-            {url: 'https://behance.net/',icon: 'icon/1.svg',title: 'Behance',desc: 'Adobe旗下的设计师交流平台'},
-            {url: 'https://www.youtube.com',icon: 'icon/1.svg',title: 'YouTube',desc: '全球最大的学习分享平台'},
-            {url: 'https://www.uisdc.com',icon: 'icon/1.svg',title: '优设',desc: '人气设计师交流学习平台'},
-            {url: 'https://snapany.com/zh',icon: 'icon/1.svg',title: '万能视频下载',desc: '复制链接，下载任何地方的视频'},
-            {url: 'https://search.chongbuluo.com/',icon: 'icon/1.svg',title: '网盘搜索',desc: '支持常用4大网盘-聚合网盘搜索引擎'},
-            {url: 'https://wormhole.app/',icon: 'icon/1.svg',title: '文件传输',desc: '临时传送助手-端对端无需担心隐私泄露'},
-            {url: 'https://www.airpano.com/',icon: 'icon/1.svg',title: 'VR看世界',desc: '坐在家里就能看到来自全世界的景色'},
-            {url: 'https://free.com.tw/',icon: 'icon/1.svg',title: '免费资源社区',desc: '来自湾湾的免费资源分享网站'},
-            {url: 'https://docsmall.com',icon: 'icon/1.svg',title: '图像处理工具集',desc: '在线处理PDF-GIF-抠图-压缩等的图片工具'},
-        ],
-        'B1': [
-            {url: 'https://www.zcool.com.cn/discover?cate=8&subCate=14',icon: 'icon/1.svg',title: '站酷-字体',desc: '站酷站内的字体设计师会在这里展示最新的设计作品'},
-            {url: 'https://www.shufazidian.com/',icon: 'icon/1.svg',title: '图像处理工具集',desc: '书法字典 搜汉字的各种书写风格'},
-            {url: 'http://www.shufami.com/',icon: 'icon/1.svg',title: '书法迷',desc: '中国书法字典网收集整理大师毛笔字'},
-            {url: 'https://www.fantiz5.com/zixing/',icon: 'icon/1.svg',title: '字形演变',desc: '可以查看汉字的演变过程'},
-            {url: 'http://www.ziticq.com/Works',icon: 'icon/1.svg',title: '字体传奇网',desc: '分类收录各风格字体作品和素材'},
-            {url: 'https://www.zitisheji.com',icon: 'icon/1.svg',title: '字体江湖',desc: '「字体帮」字体设计师刘兵克建立，会有很多字体设计师在此打卡练习'},
-            {url: 'http://ziti.cndesign.com/inspiration.html',icon: 'icon/1.svg',title: 'CND设计网-字体灵感',desc: 'CND设计网下的字体灵感搜索'},
-        ],
-        'B2': [
-            {url: 'https://www.typeroom.eu/',icon: 'icon/1.svg',title: 'Typeroom',desc: '字体排版设计前沿网站'},
-            {url: 'https://www.typographicposters.com/archive',icon: 'icon/1.svg',title: 'Typographicposters',desc: '专注于文字排版和抽象图形类的海报设计网站'},
-            {url: 'http://labor-atories.com/works/',icon: 'icon/1.svg',title: 'Labor-atories',desc: '日本书籍封面设计'},
-            {url: 'https://thedieline.com/',icon: 'icon/1.svg',title: 'Dieline',desc: '全球最受欢迎包装设计博客'},
-            {url: 'https://www.marble-co.net/portfolio',icon: 'icon/1.svg',title: 'Marble.co',desc: '可爱活泼风～平面设计案例'},
-            {url: 'https://www.niklasalm.se',icon: 'icon/1.svg',title: 'Niklasalm',desc: '最佳网站设计奖项和灵感'},
-            {url: 'https://www.awwwards.com/',icon: 'icon/1.svg',title: 'Awwwards',desc: '优秀的创意合成图片与视频社区'},
-            {url: 'https://www.designspiration.com/',icon: 'icon/1.svg',title: 'Designspiration',desc: '差不多算是美国版花瓣网'},
-            {url: 'https://fontsinuse.com/',icon: 'icon/1.svg',title: 'Fonts in Use',desc: '字体的美与价值～8000条商用实例'},
-            {url: 'https://www.underconsideration.com/artofthemenu/',icon: 'icon/1.svg',title: 'Art of Menu',desc: '来自各地看不完的优美菜单设计'}
-        ],
-        'B3': [
-            {url: 'https://abduzeedo.com/',icon: 'icon/1.svg',title: 'Abdudo',desc: '每日分享高品质设计创意灵感'},
-            {url: 'https://www.trendlist.org/',icon: 'icon/1.svg',title: 'Trend List',desc: '一位大牛眼中的平面设计之美'},
-            {url: 'https://www.brandguidelines.net/',icon: 'icon/1.svg',title: 'BrandGuidelines',desc: '分享来自全球各地的品牌VI案例'},
-            {url: 'https://theinspirationgrid.com/',icon: 'icon/1.svg',title: 'Inspiration Grid',desc: '来自全球新奇的品牌创意案例'},
-        ],
-        'B4': [
-            {url: 'http://logostock.jp',icon: 'icon/1.svg',title: 'Logostock',desc: '一个日本logo设计社区'},
-            {url: 'https://worldvectorlogo.com',icon: 'icon/1.svg',title: 'Worldvectorlogo',desc: '免费下载各种品牌logo'},
-            {url: 'https://www.logomoose.com',icon: 'icon/1.svg',title: 'LogoMoose',desc: '一个logo灵感和设计社区'},
-            {url: 'https://logopond.com',icon: 'icon/1.svg',title: 'Logopond',desc: '国外优秀logo灵感社区'},
-        ],
-        'B5': [
-            {url: 'http://www.cnu.cc/',icon: 'icon/1.svg',title: 'CNU',desc: '高质量摄影社区'},
-            {url: 'https://vision.xitek.com/sight/',icon: 'icon/1.svg',title: '色影无忌',desc: '中国影像生活门户'},
-            {url: 'https://www.designspiration.com/',icon: 'icon/1.svg',title: 'Designspiration',desc: '提供设计灵感、插画摄影、时尚艺术'},
-            {url: 'https://photock.jp',icon: 'icon/1.svg',title: 'Photock',desc: '8000+免版权摄影图片'},
-            {url: 'https://www.foodiesfeed.com/',icon: 'icon/1.svg',title: 'Foodies Feed',desc: '秀色可餐！免费高清食物照片'},
-        ],
+    {url: 'https://www.dazi.co/',icon: 'icon/1.svg',title: 'AskManyAI',desc: '来自全球的超多AI工具集合站，体验甚至超过原平台'},
+    {url: 'https://github.com',icon: 'icon/1.svg',title: 'Github',desc: '全世界最大的开源社区，在这里可以找到几乎所有的开源项目'},
+    {url: 'https://searx.bndkt.io',icon: 'icon/1.svg',title: 'SearXNG',desc: 'Google的绝佳替代，最强大的元搜索引擎'},
+    {url: 'https://huaban.com',icon: 'icon/1.svg',title: '花瓣',desc: '收集设计灵感，保存有用的素材'},
+    {url: 'https://www.zcool.com.cn',icon: 'icon/1.svg',title: '站酷',desc: '中国人气设计师互动平台'},
+    {url: 'https://www.pinterest.com',icon: 'icon/1.svg',title: 'Pinterest',desc: '全球最大的创意灵感图片采集站'},
+    {url: 'https://dribbble.com/',icon: 'icon/1.svg',title: 'Dribbble',desc: '面向设计师的社交网络平台'},
+    {url: 'https://behance.net/',icon: 'icon/1.svg',title: 'Behance',desc: 'Adobe旗下的设计师交流平台'},
+    {url: 'https://www.youtube.com',icon: 'icon/1.svg',title: 'YouTube',desc: '全球最大的学习分享平台'},
+    {url: 'https://www.uisdc.com',icon: 'icon/1.svg',title: '优设',desc: '人气设计师交流学习平台'},
+    {url: 'https://snapany.com/zh',icon: 'icon/1.svg',title: '万能视频下载',desc: '复制链接，下载任何地方的视频'},
+    {url: 'https://search.chongbuluo.com/',icon: 'icon/1.svg',title: '网盘搜索',desc: '支持常用4大网盘-聚合网盘搜索引擎'},
+    {url: 'https://wormhole.app/',icon: 'icon/1.svg',title: '文件传输',desc: '临时传送助手-端对端无需担心隐私泄露'},
+    {url: 'https://www.airpano.com/',icon: 'icon/1.svg',title: 'VR看世界',desc: '坐在家里就能看到来自全世界的景色'},
+    {url: 'https://free.com.tw/',icon: 'icon/1.svg',title: '免费资源社区',desc: '来自湾湾的免费资源分享网站'},
+    {url: 'https://docsmall.com',icon: 'icon/1.svg',title: '图像处理工具集',desc: '在线处理PDF-GIF-抠图-压缩等的图片工具'},
+],
+'B1': [
+    {url: 'https://www.zcool.com.cn/discover?cate=8&subCate=14',icon: 'icon/1.svg',title: '站酷-字体',desc: '站酷站内的字体设计师会在这里展示最新的设计作品'},
+    {url: 'https://www.shufazidian.com/',icon: 'icon/1.svg',title: '图像处理工具集',desc: '书法字典 搜汉字的各种书写风格'},
+    {url: 'http://www.shufami.com/',icon: 'icon/1.svg',title: '书法迷',desc: '中国书法字典网收集整理大师毛笔字'},
+    {url: 'https://www.fantiz5.com/zixing/',icon: 'icon/1.svg',title: '字形演变',desc: '可以查看汉字的演变过程'},
+    {url: 'http://www.ziticq.com/Works',icon: 'icon/1.svg',title: '字体传奇网',desc: '分类收录各风格字体作品和素材'},
+    {url: 'https://www.zitisheji.com',icon: 'icon/1.svg',title: '字体江湖',desc: '「字体帮」字体设计师刘兵克建立，会有很多字体设计师在此打卡练习'},
+    {url: 'http://ziti.cndesign.com/inspiration.html',icon: 'icon/1.svg',title: 'CND设计网-字体灵感',desc: 'CND设计网下的字体灵感搜索'},
+],
+'B2': [
+    {url: 'https://www.typeroom.eu/',icon: 'icon/1.svg',title: 'Typeroom',desc: '字体排版设计前沿网站'},
+    {url: 'https://www.typographicposters.com/archive',icon: 'icon/1.svg',title: 'Typographicposters',desc: '专注于文字排版和抽象图形类的海报设计网站'},
+    {url: 'http://labor-atories.com/works/',icon: 'icon/1.svg',title: 'Labor-atories',desc: '日本书籍封面设计'},
+    {url: 'https://thedieline.com/',icon: 'icon/1.svg',title: 'Dieline',desc: '全球最受欢迎包装设计博客'},
+    {url: 'https://www.marble-co.net/portfolio',icon: 'icon/1.svg',title: 'Marble.co',desc: '可爱活泼风～平面设计案例'},
+    {url: 'https://www.niklasalm.se',icon: 'icon/1.svg',title: 'Niklasalm',desc: '最佳网站设计奖项和灵感'},
+    {url: 'https://www.awwwards.com/',icon: 'icon/1.svg',title: 'Awwwards',desc: '优秀的创意合成图片与视频社区'},
+    {url: 'https://www.designspiration.com/',icon: 'icon/1.svg',title: 'Designspiration',desc: '差不多算是美国版花瓣网'},
+    {url: 'https://fontsinuse.com/',icon: 'icon/1.svg',title: 'Fonts in Use',desc: '字体的美与价值～8000条商用实例'},
+    {url: 'https://www.underconsideration.com/artofthemenu/',icon: 'icon/1.svg',title: 'Art of Menu',desc: '来自各地看不完的优美菜单设计'}
+],
+'B3': [
+    {url: 'https://abduzeedo.com/',icon: 'icon/1.svg',title: 'Abdudo',desc: '每日分享高品质设计创意灵感'},
+    {url: 'https://www.trendlist.org/',icon: 'icon/1.svg',title: 'Trend List',desc: '一位大牛眼中的平面设计之美'},
+    {url: 'https://www.brandguidelines.net/',icon: 'icon/1.svg',title: 'BrandGuidelines',desc: '分享来自全球各地的品牌VI案例'},
+    {url: 'https://theinspirationgrid.com/',icon: 'icon/1.svg',title: 'Inspiration Grid',desc: '来自全球新奇的品牌创意案例'},
+],
+'B4': [
+    {url: 'http://logostock.jp',icon: 'icon/1.svg',title: 'Logostock',desc: '一个日本logo设计社区'},
+    {url: 'https://worldvectorlogo.com',icon: 'icon/1.svg',title: 'Worldvectorlogo',desc: '免费下载各种品牌logo'},
+    {url: 'https://www.logomoose.com',icon: 'icon/1.svg',title: 'LogoMoose',desc: '一个logo灵感和设计社区'},
+    {url: 'https://logopond.com',icon: 'icon/1.svg',title: 'Logopond',desc: '国外优秀logo灵感社区'},
+],
+'B5': [
+    {url: 'http://www.cnu.cc/',icon: 'icon/1.svg',title: 'CNU',desc: '高质量摄影社区'},
+    {url: 'https://vision.xitek.com/sight/',icon: 'icon/1.svg',title: '色影无忌',desc: '中国影像生活门户'},
+    {url: 'https://www.designspiration.com/',icon: 'icon/1.svg',title: 'Designspiration',desc: '提供设计灵感、插画摄影、时尚艺术'},
+    {url: 'https://photock.jp',icon: 'icon/1.svg',title: 'Photock',desc: '8000+免版权摄影图片'},
+    {url: 'https://www.foodiesfeed.com/',icon: 'icon/1.svg',title: 'Foodies Feed',desc: '秀色可餐！免费高清食物照片'},
+],
 
-        'C1': [
-            {url: 'https://www.foundertype.com/',icon: 'icon/1.svg',title: '方正字库',desc: '暂无介绍'},
-            {url: 'https://www.hanyi.com.cn/',icon: 'icon/1.svg',title: '汉仪字库',desc: '暂无介绍'},
-            {url: 'https://www.makefont.com/',icon: 'icon/1.svg',title: '造字工房',desc: '暂无介绍'},
-            {url: 'http://www.reeji.com/',icon: 'icon/1.svg',title: '锐字潮牌字库',desc: '暂无介绍'},
-            {url: 'https://izihun.com/',icon: 'icon/1.svg',title: '字魂',desc: '暂无介绍'},
-            {url: 'http://www.zitiguanjia.com/',icon: 'icon/1.svg',title: 'Aa字库',desc: '暂无介绍'},
-            {url: 'https://www.alibabafonts.com/',icon: 'icon/1.svg',title: '阿里巴巴字库',desc: '暂无介绍'},
-            {url: 'https://ziku.zitisheji.com/',icon: 'icon/1.svg',title: '刘兵克字库',desc: '暂无介绍'},
-            {url: 'http://hxbzt.com/',icon: 'icon/1.svg',title: '胡晓波字体',desc: '暂无介绍'},
-            {url: 'https://www.sjtype.com/',icon: 'icon/1.svg',title: '三极字库',desc: '暂无介绍'},
-            {url: 'https://xiquezaozi.taobao.com/',icon: 'icon/1.svg',title: '喜鹊造字',desc: '暂无介绍'},
-            {url: 'https://www.ssfonts.com/',icon: 'icon/1.svg',title: '上首造字',desc: '暂无介绍'},
-            {url: 'https://www.gongfanzk.cn/',icon: 'icon/1.svg',title: '龚凡字库',desc: '暂无介绍'},
-            {url: 'https://tsanger.cn/',icon: 'icon/1.svg',title: '仓耳屏显字库',desc: '暂无介绍'},
-            {url: 'https://www.arphic.com.cn/',icon: 'icon/1.svg',title: '文鼎字库',desc: '暂无介绍'},
-            {url: 'http://www.z01.cn/',icon: 'icon/1.svg',title: '逐浪字库',desc: '暂无介绍'},
-            {url: 'https://www.yegenyou.com/',icon: 'icon/1.svg',title: '叶根友字库',desc: '暂无介绍'},
-            {url: 'https://sinotype.vcg.com/',icon: 'icon/1.svg',title: '华文字库',desc: '暂无介绍'},
-            {url: 'https://www.dynacw.com.cn/',icon: 'icon/1.svg',title: '华康字库',desc: '暂无介绍'},
-            {url: 'https://www.tensentype.com/',icon: 'icon/1.svg',title: '腾祥字库',desc: '暂无介绍'},
-            {url: 'http://www.thinkfont.com/',icon: 'icon/1.svg',title: '字语字库',desc: '暂无介绍'},
-            {url: 'https://sentyfont.com/',icon: 'icon/1.svg',title: '新蒂字体',desc: '暂无介绍'},
-            {url: 'http://www.zxfont.com/',icon: 'icon/1.svg',title: '字心坊',desc: '暂无介绍'},
-            {url: 'https://www.yefont.com/',icon: 'icon/1.svg',title: '也字工厂',desc: '暂无介绍'},
-            {url: 'https://shanhaiziku.com/',icon: 'icon/1.svg',title: '山海字库',desc: '暂无介绍'},
-            {url: 'https://hstype.com/',icon: 'icon/1.svg',title: '火山字型',desc: '暂无介绍'},
-        ],
-        'C2': [
-            {url: 'https://www.axis-praxis.org/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '在线可变字体站，在这里可以体验到智能字体的魅力'},
-            {url: 'https://dinamodarkroom.com/',icon: 'icon/1.svg',title: 'Dinamo ',desc: 'Dinamo可变字体工作室的网站，提供了各类可变字体浏览'},
-            {url: 'https://play.typedetail.com/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '暂无介绍'},
-            {url: 'https://v-fonts.com/',icon: 'icon/1.svg',title: 'Dinamo ',desc: '暂无介绍'},
-            {url: 'https://wakamaifondue.com/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '暂无介绍'},
-        ],
-        'C3': [
-            {url: 'https://www.qiuziti.com/',icon: 'icon/1.svg',title: '求字体',desc: '找字体神器 还提供字体下载'},
-            {url: 'https://v.ziti163.com/Font#/',icon: 'icon/1.svg',title: '字体大师',desc: '在线写字，生成自己的字库字体'},
-            {url: 'https://symbl.cc/cn/',icon: 'icon/1.svg',title: 'SYMBL符号大全',desc: '包含了几乎所有可复制使用的符号'},
-            {url: 'https://www.aies.cn/pinyin.html',icon: 'icon/1.svg',title: '汉字转拼音',desc: '在线汉字转换拼音-可以带声调'},
-            {url: 'https://www.aies.cn/',icon: 'icon/1.svg',title: '繁体字转换',desc: '简体繁体之间可以互相转换'},
-            {url: 'https://kmcha.com/text-compare',icon: 'icon/1.svg',title: '文本对比',desc: '在线对比两个文本的字数'},
-            {url: 'https://www.fantiz5.com/xingjinzi/',icon: 'icon/1.svg',title: '形近字查询',desc: '可以一键搜索外形相近的汉字'},
-            {url: 'https://paper.z2h.cn/',icon: 'icon/1.svg',title: 'Z2H字帖',desc: '自己定制一套适合自己的练字字帖'},
-            {url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: '字体动画',desc: '支持上传图片生成动画'},
-        ],
-        'C4': [
-            {url: 'https://boolpic.fun/animation',icon: 'icon/1.svg',title: 'Photo Animation',desc: '上传图片生成类似PPT转场动画'},
-            {url: 'https://beta.endlesstools.io',icon: 'icon/1.svg',title: 'Endless tools',desc: 'Web端字体视觉效果编辑工具'},
-            {url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: 'YASAI字体动画',desc: '8个在线可编辑的文字效果工具'},
-            {url: 'https://spacetypegenerator.com/',icon: 'icon/1.svg',title: 'SpaceTG英文动画',desc: '可以自己编辑生成动画的文字，只支持英文'}
-        ],
+'C1': [
+    {url: 'https://www.foundertype.com/',icon: 'icon/1.svg',title: '方正字库',desc: '暂无介绍'},
+    {url: 'https://www.hanyi.com.cn/',icon: 'icon/1.svg',title: '汉仪字库',desc: '暂无介绍'},
+    {url: 'https://www.makefont.com/',icon: 'icon/1.svg',title: '造字工房',desc: '暂无介绍'},
+    {url: 'http://www.reeji.com/',icon: 'icon/1.svg',title: '锐字潮牌字库',desc: '暂无介绍'},
+    {url: 'https://izihun.com/',icon: 'icon/1.svg',title: '字魂',desc: '暂无介绍'},
+    {url: 'http://www.zitiguanjia.com/',icon: 'icon/1.svg',title: 'Aa字库',desc: '暂无介绍'},
+    {url: 'https://www.alibabafonts.com/',icon: 'icon/1.svg',title: '阿里巴巴字库',desc: '暂无介绍'},
+    {url: 'https://ziku.zitisheji.com/',icon: 'icon/1.svg',title: '刘兵克字库',desc: '暂无介绍'},
+    {url: 'http://hxbzt.com/',icon: 'icon/1.svg',title: '胡晓波字体',desc: '暂无介绍'},
+    {url: 'https://www.sjtype.com/',icon: 'icon/1.svg',title: '三极字库',desc: '暂无介绍'},
+    {url: 'https://xiquezaozi.taobao.com/',icon: 'icon/1.svg',title: '喜鹊造字',desc: '暂无介绍'},
+    {url: 'https://www.ssfonts.com/',icon: 'icon/1.svg',title: '上首造字',desc: '暂无介绍'},
+    {url: 'https://www.gongfanzk.cn/',icon: 'icon/1.svg',title: '龚凡字库',desc: '暂无介绍'},
+    {url: 'https://tsanger.cn/',icon: 'icon/1.svg',title: '仓耳屏显字库',desc: '暂无介绍'},
+    {url: 'https://www.arphic.com.cn/',icon: 'icon/1.svg',title: '文鼎字库',desc: '暂无介绍'},
+    {url: 'http://www.z01.cn/',icon: 'icon/1.svg',title: '逐浪字库',desc: '暂无介绍'},
+    {url: 'https://www.yegenyou.com/',icon: 'icon/1.svg',title: '叶根友字库',desc: '暂无介绍'},
+    {url: 'https://sinotype.vcg.com/',icon: 'icon/1.svg',title: '华文字库',desc: '暂无介绍'},
+    {url: 'https://www.dynacw.com.cn/',icon: 'icon/1.svg',title: '华康字库',desc: '暂无介绍'},
+    {url: 'https://www.tensentype.com/',icon: 'icon/1.svg',title: '腾祥字库',desc: '暂无介绍'},
+    {url: 'http://www.thinkfont.com/',icon: 'icon/1.svg',title: '字语字库',desc: '暂无介绍'},
+    {url: 'https://sentyfont.com/',icon: 'icon/1.svg',title: '新蒂字体',desc: '暂无介绍'},
+    {url: 'http://www.zxfont.com/',icon: 'icon/1.svg',title: '字心坊',desc: '暂无介绍'},
+    {url: 'https://www.yefont.com/',icon: 'icon/1.svg',title: '也字工厂',desc: '暂无介绍'},
+    {url: 'https://shanhaiziku.com/',icon: 'icon/1.svg',title: '山海字库',desc: '暂无介绍'},
+    {url: 'https://hstype.com/',icon: 'icon/1.svg',title: '火山字型',desc: '暂无介绍'},
+],
+'C2': [
+    {url: 'https://www.axis-praxis.org/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '在线可变字体站，在这里可以体验到智能字体的魅力'},
+    {url: 'https://dinamodarkroom.com/',icon: 'icon/1.svg',title: 'Dinamo ',desc: 'Dinamo可变字体工作室的网站，提供了各类可变字体浏览'},
+    {url: 'https://play.typedetail.com/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '暂无介绍'},
+    {url: 'https://v-fonts.com/',icon: 'icon/1.svg',title: 'Dinamo ',desc: '暂无介绍'},
+    {url: 'https://wakamaifondue.com/',icon: 'icon/1.svg',title: 'Axis-praxis',desc: '暂无介绍'},
+],
+'C3': [
+    {url: 'https://www.qiuziti.com/',icon: 'icon/1.svg',title: '求字体',desc: '找字体神器 还提供字体下载'},
+    {url: 'https://v.ziti163.com/Font#/',icon: 'icon/1.svg',title: '字体大师',desc: '在线写字，生成自己的字库字体'},
+    {url: 'https://symbl.cc/cn/',icon: 'icon/1.svg',title: 'SYMBL符号大全',desc: '包含了几乎所有可复制使用的符号'},
+    {url: 'https://www.aies.cn/pinyin.html',icon: 'icon/1.svg',title: '汉字转拼音',desc: '在线汉字转换拼音-可以带声调'},
+    {url: 'https://www.aies.cn/',icon: 'icon/1.svg',title: '繁体字转换',desc: '简体繁体之间可以互相转换'},
+    {url: 'https://kmcha.com/text-compare',icon: 'icon/1.svg',title: '文本对比',desc: '在线对比两个文本的字数'},
+    {url: 'https://www.fantiz5.com/xingjinzi/',icon: 'icon/1.svg',title: '形近字查询',desc: '可以一键搜索外形相近的汉字'},
+    {url: 'https://paper.z2h.cn/',icon: 'icon/1.svg',title: 'Z2H字帖',desc: '自己定制一套适合自己的练字字帖'},
+    {url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: '字体动画',desc: '支持上传图片生成动画'},
+],
+'C4': [
+    {url: 'https://boolpic.fun/animation',icon: 'icon/1.svg',title: 'Photo Animation',desc: '上传图片生成类似PPT转场动画'},
+    {url: 'https://beta.endlesstools.io',icon: 'icon/1.svg',title: 'Endless tools',desc: 'Web端字体视觉效果编辑工具'},
+    {url: 'https://wangyasai.github.io/designtools.html',icon: 'icon/1.svg',title: 'YASAI字体动画',desc: '8个在线可编辑的文字效果工具'},
+    {url: 'https://spacetypegenerator.com/',icon: 'icon/1.svg',title: 'SpaceTG英文动画',desc: '可以自己编辑生成动画的文字，只支持英文'}
+],
 
-        'D1': [
-            {cat: 'C',subcat: 'C1',url: 'https://chat.deepseek.com/',icon: 'icon/1.svg',title: 'Deekseek',desc: '全球领先的国产推理性“AI助手”'},
-            {cat: 'C',subcat: 'C1',url: 'https://yuanbao.tencent.com/chat/naQivTmsDa',icon: 'icon/1.svg',title: '腾讯元宝',desc: '腾讯混元大模型，并有Deekseek R1加持，对微信超强兼容功能强大'},
-            {cat: 'C',subcat: 'C1',url: 'https://chatgpt.com/',icon: 'icon/1.svg',title: 'ChatGPT',desc: 'OpenAI的研发的知名AI聊天助手'},
-            {cat: 'C',subcat: 'C1',url: 'https://gemini.google.com/app',icon: 'icon/1.svg',title: 'Gemini Flash',desc: '谷歌研发的人工智能对话模型'},
-            {cat: 'C',subcat: 'C1',url: 'https://kimi.moonshot.cn/',icon: 'icon/1.svg',title: 'Kimi Chat',desc: '智能聊天+超长文本处理'},
-            {cat: 'C',subcat: 'C1',url: 'http://chatyy.nbmzdl.cn/?hometype=chat',icon: 'icon/1.svg',title: 'NotionAI',desc: '国内版ChatGPT智能聊天机器人'},
-            {cat: 'C',subcat: 'C1',url: 'https://www.doubao.com',icon: 'icon/1.svg',title: '豆包',desc: '字节跳动旗下通用性AI大模型'},
-            {cat: 'C',subcat: 'C1',url: 'https://xinghuo.xfyun.cn/desk',icon: 'icon/1.svg',title: '讯飞星火',desc: '综合性AI 智能聊天+生图+PPT...'},
-            {cat: 'C',subcat: 'C1',url: 'https://tongyi.aliyun.com/qianwen/',icon: 'icon/1.svg',title: '通义千问',desc: '阿里出品！AI聊天+智能生图+视频摘要'},
-            {cat: 'C',subcat: 'C1',url: 'https://metaso.cn/?s=bdpc',icon: 'icon/1.svg',title: '秘塔AI',desc: 'AI智能分析文案生成'},
-        ],
-        'D2': [
-            {cat: 'C',subcat: 'C2',url: 'https://stability.ai/',icon: 'icon/1.svg',title: 'Stable Diffusion',desc: '开源AI图像生成工具”'},
-            {cat: 'C',subcat: 'C2',url: 'https://www.dall-e.com/',icon: 'icon/1.svg',title: 'DALL-E',desc: 'OpenAI的AI图像生成工具'},
-            {cat: 'C',subcat: 'C2',url: 'https://jimeng.jianying.com/',icon: 'icon/1.svg',title: '即梦AI',desc: '图片转视频的智能创作平台'},
-            {cat: 'C',subcat: 'C2',url: 'https://www.liblib.art/',icon: 'icon/1.svg',title: '哩布哩布AI',desc: '国产人气AI生图大模型社区'},
-            {cat: 'C',subcat: 'C2',url: 'https://tongyi.aliyun.com/wanxiang/',icon: 'icon/1.svg',title: '通义万相',desc: '阿里云旗下的智能生图平台'},
-            {cat: 'C',subcat: 'C2',url: 'https://picwish.cn/create',icon: 'icon/1.svg',title: '佐糖AI',desc: '图片修复+在线抠图+背景合成'},
-            {cat: 'C',subcat: 'C2',url: 'https://gamma.app/',icon: 'icon/1.svg',title: 'Gamma',desc: 'AI制作PPT 一秒生成'},
-            {cat: 'C',subcat: 'C2',url: 'https://applet.rightbrainai.cn/',icon: 'icon/1.svg',title: 'Vega AI',desc: '在线免费AI插画创作平台'},
-            {cat: 'C',subcat: 'C2',url: 'https://www.ishencai.com/',icon: 'icon/1.svg',title: '神采AI',desc: 'AIGC艺术生成平台，可以从草图、照片或文本中生成图像、视频和动画等形式'},
-        ],
-        'D3': [
-            {cat: 'C',subcat: 'C3',url: 'https://aigc.baidu.com/home',icon: 'icon/1.svg',title: '度加',desc: 'AI生成视频文案和匹配视频'},
-        ],
-        'D4': [
-            {cat: 'C',subcat: 'C4',url: 'https://xinghuo.xfyun.cn/desk',icon: 'icon/1.svg',title: '天工AI',desc: 'AI智能音乐+AI智能生图'},
-        ],
+'D1': [
+    {cat: 'C',subcat: 'C1',url: 'https://chat.deepseek.com/',icon: 'icon/1.svg',title: 'Deekseek',desc: '全球领先的国产推理性“AI助手”'},
+    {cat: 'C',subcat: 'C1',url: 'https://yuanbao.tencent.com/chat/naQivTmsDa',icon: 'icon/1.svg',title: '腾讯元宝',desc: '腾讯混元大模型，并有Deekseek R1加持，对微信超强兼容功能强大'},
+    {cat: 'C',subcat: 'C1',url: 'https://chatgpt.com/',icon: 'icon/1.svg',title: 'ChatGPT',desc: 'OpenAI的研发的知名AI聊天助手'},
+    {cat: 'C',subcat: 'C1',url: 'https://gemini.google.com/app',icon: 'icon/1.svg',title: 'Gemini Flash',desc: '谷歌研发的人工智能对话模型'},
+    {cat: 'C',subcat: 'C1',url: 'https://kimi.moonshot.cn/',icon: 'icon/1.svg',title: 'Kimi Chat',desc: '智能聊天+超长文本处理'},
+    {cat: 'C',subcat: 'C1',url: 'http://chatyy.nbmzdl.cn/?hometype=chat',icon: 'icon/1.svg',title: 'NotionAI',desc: '国内版ChatGPT智能聊天机器人'},
+    {cat: 'C',subcat: 'C1',url: 'https://www.doubao.com',icon: 'icon/1.svg',title: '豆包',desc: '字节跳动旗下通用性AI大模型'},
+    {cat: 'C',subcat: 'C1',url: 'https://xinghuo.xfyun.cn/desk',icon: 'icon/1.svg',title: '讯飞星火',desc: '综合性AI 智能聊天+生图+PPT...'},
+    {cat: 'C',subcat: 'C1',url: 'https://tongyi.aliyun.com/qianwen/',icon: 'icon/1.svg',title: '通义千问',desc: '阿里出品！AI聊天+智能生图+视频摘要'},
+    {cat: 'C',subcat: 'C1',url: 'https://metaso.cn/?s=bdpc',icon: 'icon/1.svg',title: '秘塔AI',desc: 'AI智能分析文案生成'},
+],
+'D2': [
+    {cat: 'C',subcat: 'C2',url: 'https://stability.ai/',icon: 'icon/1.svg',title: 'Stable Diffusion',desc: '开源AI图像生成工具”'},
+    {cat: 'C',subcat: 'C2',url: 'https://www.dall-e.com/',icon: 'icon/1.svg',title: 'DALL-E',desc: 'OpenAI的AI图像生成工具'},
+    {cat: 'C',subcat: 'C2',url: 'https://jimeng.jianying.com/',icon: 'icon/1.svg',title: '即梦AI',desc: '图片转视频的智能创作平台'},
+    {cat: 'C',subcat: 'C2',url: 'https://www.liblib.art/',icon: 'icon/1.svg',title: '哩布哩布AI',desc: '国产人气AI生图大模型社区'},
+    {cat: 'C',subcat: 'C2',url: 'https://tongyi.aliyun.com/wanxiang/',icon: 'icon/1.svg',title: '通义万相',desc: '阿里云旗下的智能生图平台'},
+    {cat: 'C',subcat: 'C2',url: 'https://picwish.cn/create',icon: 'icon/1.svg',title: '佐糖AI',desc: '图片修复+在线抠图+背景合成'},
+    {cat: 'C',subcat: 'C2',url: 'https://gamma.app/',icon: 'icon/1.svg',title: 'Gamma',desc: 'AI制作PPT 一秒生成'},
+    {cat: 'C',subcat: 'C2',url: 'https://applet.rightbrainai.cn/',icon: 'icon/1.svg',title: 'Vega AI',desc: '在线免费AI插画创作平台'},
+    {cat: 'C',subcat: 'C2',url: 'https://www.ishencai.com/',icon: 'icon/1.svg',title: '神采AI',desc: 'AIGC艺术生成平台，可以从草图、照片或文本中生成图像、视频和动画等形式'},
+],
+'D3': [
+    {cat: 'C',subcat: 'C3',url: 'https://aigc.baidu.com/home',icon: 'icon/1.svg',title: '度加',desc: 'AI生成视频文案和匹配视频'},
+],
+'D4': [
+    {cat: 'C',subcat: 'C4',url: 'https://xinghuo.xfyun.cn/desk',icon: 'icon/1.svg',title: '天工AI',desc: 'AI智能音乐+AI智能生图'},
+],
 
-        'E1': [
-            {cat: 'D',subcat: 'D1',url: 'https://www.fonts.net.cn/',icon: 'icon/1.svg',title: '字体天下',desc: '网站汇集超多字体，部分免商可下载'},
-            {cat: 'D',subcat: 'D1',url: 'https://font.sucai999.com/',icon: 'icon/1.svg',title: '字体搬运工',desc: '整理收集来自全网的免商用字体'},
-            {cat: 'D',subcat: 'D1',url: 'https://www.maoken.com/',icon: 'icon/1.svg',title: '猫啃网',desc: '专注于免商用中文字体下载'},
-            {cat: 'D',subcat: 'D1',url: 'https://www.100font.com/',icon: 'icon/1.svg',title: '100Font',desc: '专门整理收集免商用字体的网站'},
-        ],
-        'E2': [
-            {cat: 'D',subcat: 'D2',url: 'https://www.fontspace.com',icon: 'icon/1.svg',title: 'Fontspace',desc: '好看的英文字体这里都有'},
-            {cat: 'D',subcat: 'D2',url: 'https://www.urbanfonts.com',icon: 'icon/1.svg',title: 'Urban Fonts',desc: '英文字体资源搜索与下载'},
-            {cat: 'D',subcat: 'D2',url: 'https://zh.fonts2u.com/',icon: 'icon/1.svg',title: 'Fonts2u',desc: '字体资源支持搜索与下载'},
-            {cat: 'D',subcat: 'D2',url: 'https://www.fontyukle.net/',icon: 'icon/1.svg',title: 'Fontyukle',desc: '世界上最大的自由字体的网站'},
-            {cat: 'D',subcat: 'D2',url: 'http://www.losttype.com/browse/',icon: 'icon/1.svg',title: 'Losttype',desc: '字体非常漂亮展示方式特别'},
-            {cat: 'D',subcat: 'D2',url: 'https://www.1001freefonts.com/',icon: 'icon/1.svg',title: '1001freefonts',desc: '超过20万个高质量字体下载'},
-            {cat: 'D',subcat: 'D2',url: 'https://www.dafont.com/',icon: 'icon/1.svg',title: 'Dafont',desc: '数量巨多的免费英文字体下载'},
-            {cat: 'D',subcat: 'D2',url: 'http://www.fontfabric.com/',icon: 'icon/1.svg',title: 'Fontfabric',desc: '提供优秀好用的英文字体下载'},
-            {cat: 'D',subcat: 'D2',url: 'https://www.myfonts.com',icon: 'icon/1.svg',title: 'Myfonts',desc: '上传图片搜索英文字体功能强大'},
-            {cat: 'D',subcat: 'D2',url: 'https://www.fontsquirrel.com/',icon: 'icon/1.svg',title: 'Fontsquirrel',desc: '超赞的精心挑选的免费字体下载'},
-            {cat: 'D',subcat: 'D2',url: 'https://usemodify.com',icon: 'icon/1.svg',title: 'Use & Modify',desc: '奇怪而美丽的英文字体'},
-            {cat: 'D',subcat: 'D2',url: 'https://vaufonts.com/',icon: 'icon/1.svg',title: 'VAN fonts',desc: '在线生成英文艺术字'},
-        ],
-        'E3': [
-            {cat: 'D',subcat: 'D3',url: 'https://www.logosc.cn/so/',icon: 'icon/1.svg',title: '搜图神器',desc: '多站点免版权图片搜索一键搜索'},
-            {cat: 'D',subcat: 'D3',url: 'https://www.pexels.com/zh-cn/',icon: 'icon/1.svg',title: 'Pexels',desc: '全球知名图片视频网站 还支持中文'},
-            {cat: 'D',subcat: 'D3',url: 'https://pixabay.com/',icon: 'icon/1.svg',title: 'Pixabay',desc: '超过450张高质量免版权图库'},
-            {cat: 'D',subcat: 'D3',url: 'https://en.freejpg.com.ar/',icon: 'icon/1.svg',title: 'Reejpg',desc: '共有11.5万张的免费图片库'},
-            {cat: 'D',subcat: 'D3',url: 'https://kaboompics.com/',icon: 'icon/1.svg',title: 'Kaboompics',desc: '按具体的属性进行的分类'},
-            {cat: 'D',subcat: 'D3',url: 'https://picjumbo.com/',icon: 'icon/1.svg',title: 'Picjumbo',desc: '图片质量很高的免费图库'},
-            {cat: 'D',subcat: 'D3',url: 'https://fancycrave.com/stock-photos/free/',icon: 'icon/1.svg',title: 'Fancycrave',desc: '分类好的免费图片合集'},
-            {cat: 'D',subcat: 'D3',url: 'https://www.freelyphotos.com/',icon: 'icon/1.svg',title: 'Freelyphotos',desc: '一个业余爱好者运营的站点'},
-            {cat: 'D',subcat: 'D3',url: 'https://www.stockvault.net/',icon: 'icon/1.svg',title: 'Stockvault',desc: '每天都会添加新的照片、纹理和插图！'},
-            {cat: 'D',subcat: 'D3',url: 'http://www.designerspics.com/',icon: 'icon/1.svg',title: 'Designerspics',desc: '清晰的无版权图片，使用无需署名'},
-            {cat: 'D',subcat: 'D3',url: 'https://photostockeditor.com/',icon: 'icon/1.svg',title: 'Photo stockedito',desc: '35万的无版权图片储备提供使用'},
-            {cat: 'D',subcat: 'D3',url: 'https://shotstash.com/',icon: 'icon/1.svg',title: 'Shot stash',desc: '为专业人士提供有创意的免费高清图片素材'},
-            {cat: 'D',subcat: 'D3',url: 'https://www.pakutaso.com/',icon: 'icon/1.svg',title: 'Pakutaso',desc: '日本很知名的图片素材站'},
-            {cat: 'D',subcat: 'D3',url: 'https://visualhunt.com/',icon: 'icon/1.svg',title: 'Visualhunt',desc: '界面比较清爽的图片搜索站点'},
-            {cat: 'D',subcat: 'D3',url: 'https://www.hippopx.com/',icon: 'icon/1.svg',title: 'Hippopx',desc: '分类比较细致的免版权图库'},
-            {cat: 'D',subcat: 'D3',url: 'https://unsplash.com/',icon: 'icon/1.svg',title: 'Unsplash',desc: '分类比较详细，各种类型都有'},
-            {cat: 'D',subcat: 'D3',url: 'https://www.everypixel.com',icon: 'icon/1.svg',title: 'Everypixel',desc: '能智能搜索各大图片网站的图片'},
-            {cat: 'D',subcat: 'D3',url: 'https://barnimages.com',icon: 'icon/1.svg',title: 'Barnimages',desc: '提供免费高清晰度图片集合的站点'},
-            {cat: 'D',subcat: 'D3',url: 'https://jeshoots.com/',icon: 'icon/1.svg',title: 'Jeshoots',desc: '图片质量还不错的无版权图片网站'},
-            {cat: 'D',subcat: 'D3',url: 'http://gratisography.com/',icon: 'icon/1.svg',title: 'Gratisography',desc: '精选时尚流行和富有设计感的图片'},
-        ],
-        'E4': [
-            {cat: 'D', subcat: 'D4', url: 'https://coverr.co/stock-video-footage', icon: 'icon/1.svg', title: 'Coverr', desc: '使用免费的视频素材无需注明出处'},
-            {cat: 'D', subcat: 'D4', url: 'https://mazwai.com', icon: 'icon/1.svg', title: 'Mazwai', desc: '专为视频剪辑打造的免版权视频站'},
-            {cat: 'D', subcat: 'D4', url: 'https://mixkit.co/', icon: 'icon/1.svg', title: 'Mixkit', desc: '分类比较全，有视频、BGM、音效'},
-            {cat: 'D', subcat: 'D4', url: 'https://www.marpi.studio/artwork', icon: 'icon/1.svg', title: 'Marpi', desc: '世界各地拍摄视频直接下载'},
-            {cat: 'D', subcat: 'D4', url: 'https://www.videezy.com/', icon: 'icon/1.svg', title: 'Videezy', desc: '提供大量免费高画质HD、4K影片素材'},
-            {cat: 'D', subcat: 'D4', url: 'https://musicmaker.site/', icon: 'icon/1.svg', title: 'Musicmaker', desc: '专为视频剪辑打造的免版权视频站'},
-        ],
-        'E5': [
-            {cat: 'D', subcat: 'D5', url: 'https://dova-s.jp/', icon: 'icon/1.svg', title: 'Dova-s', desc: '提供超过上万首免费音乐素材'},
-            {cat: 'D', subcat: 'D5', url: 'http://amachamusic.chagasi.com/', icon: 'icon/1.svg', title: 'Chagasi', desc: '原创的自由使用免版权音乐素材'},
-            {cat: 'D', subcat: 'D5', url: 'https://cchound.com/', icon: 'icon/1.svg', title: 'Cchound', desc: '拥有海量免版税的公共领域音乐资源'},
-            {cat: 'D', subcat: 'D5', url: 'https://musopen.org/music/', icon: 'icon/1.svg', title: 'Musopen', desc: '提供古典各类乐器音乐资源'},
-            {cat: 'D', subcat: 'D5', url: 'https://www.looperman.com/loops', icon: 'icon/1.svg', title: 'Looperman', desc: '很实用的无限循环背景音乐'},
-            {cat: 'D', subcat: 'D5', url: 'https://www.bensound.com/', icon: 'icon/1.svg', title: 'Bensound', desc: '收集了许多超有感觉的音乐'},
-            {cat: 'D', subcat: 'D5', url: 'https://freemusicarchive.org/', icon: 'icon/1.svg', title: 'Archive', desc: '质量不错的免版权音乐收集站'},
-        ],
-        'E6': [
-            // 免版权音效
-            {cat: 'D', subcat: 'D6', url: 'https://www.tam-music.com/', icon: 'icon/1.svg', title: 'Tam-music', desc: '免费提供分类详细的音乐音效素材'},
-        ],
-        // 设计神器
-        'F1': [
-            // 在线设计平台
-            {cat: 'E',subcat: 'E1',url: 'https://www.figma.com',icon: 'icon/1.svg',title: 'Figma',desc: '在线协作UI设计工具'},
-            {cat: 'E',subcat: 'E1',url: 'https://icons8.com/mega-creator/',icon: 'icon/1.svg',title: 'Mega Creator',desc: 'Web端矢量插画设计工具'},
-            {cat: 'E',subcat: 'E1',url: 'https://www.modyfi.com/',icon: 'icon/1.svg',title: 'Modyfi',desc: '新一代Web端AI图像编辑工具'},
-            {cat: 'E',subcat: 'E1',url: 'https://www.logoaa.com',icon: 'icon/1.svg',title: 'Logoaa',desc: '基于事先设计LOGO基础上在线修改'},
-        ],
-        'F2': [
-            // LOGO生成
-            {"cat": "E", "subcat": "E2", "url": "https://www.logoaa.com", "icon": "icon/1.svg", "title": "Logoaa", "desc": "基于事先设计LOGO基础上在线修改"},
-            {"cat": "E", "subcat": "E2", "url": "https://www.designevo.com/cn/", "icon": "icon/1.svg", "title": "Designevo", "desc": "可以调整图标颜色和英文字体选择"},
-            {"cat": "E", "subcat": "E2", "url": "https://www.freelogodesign.org/", "icon": "icon/1.svg", "title": "Freelogo", "desc": "根据设计需求可以添加元素丰富设计"},
-            {"cat": "E", "subcat": "E2", "url": "https://www.logogarden.com/", "icon": "icon/1.svg", "title": "Logogarden", "desc": "提供大量LOGO的矢量素材自由选择"},
-            {"cat": "E", "subcat": "E2", "url": "https://logotypemaker.com/", "icon": "icon/1.svg", "title": "Logotype", "desc": "在线换颜色换字体加效果等生成标志"},
-            {"cat": "E", "subcat": "E2", "url": "http://yeelogo.com", "icon": "icon/1.svg", "title": "Yeelogo", "desc": "拥有海量模版的免费在线LOGO制作"},
-        ],
-        'F3': [
-            // 背景生成
-            {"cat": "E", "subcat": "E3", "url": "https://getwaves.io/", "icon": "icon/1.svg", "title": "Getwaves", "desc": "波浪图形 可调节形态，支持SVG下载"},
-            {"cat": "E", "subcat": "E3", "url": "https://demo.marpi.pl/resonate/", "icon": "icon/1.svg", "title": "Resonate", "desc": "炫酷图形 炫酷图形生成，可以改位置形态"},
-            {"cat": "E", "subcat": "E3", "url": "https://glitchart.io/", "icon": "icon/1.svg", "title": "Glitchart", "desc": "形状渐变背景 可以调整角度颜色形状"},
-            {"cat": "E", "subcat": "E3", "url": "https://paveldogreat.github.io/WebGL-Fluid-Simulation/", "icon": "icon/1.svg", "title": "WebGL Fluid Simulation", "desc": "WebGL流体效果 会动的渐变色，还可以自己调节"},
-            {"cat": "E", "subcat": "E3", "url": "https://codepen.io/pissang/full/geajpX", "icon": "icon/1.svg", "title": "剪纸风渐变", "desc": "剪纸风渐变 右上角控制台可以修改参数"},
-            {"cat": "E", "subcat": "E3", "url": "https://codepen.io/Yakudoo/full/rJjOJx/", "icon": "icon/1.svg", "title": "流动型渐变", "desc": "流动型渐变 可以更改色相等参数"},
-            {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/Perlin-Noise/", "icon": "icon/1.svg", "title": "Perlin Noise", "desc": "流线型线条 更改线条密度、颜色"},
-            {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/Play-a-ball/", "icon": "icon/1.svg", "title": "欧普球生成器", "desc": "欧普球生成器 可以调节线条密度、角度"},
-            {"cat": "E", "subcat": "E3", "url": "https://demo.marpi.pl/resonate/", "icon": "icon/1.svg", "title": "Resonate", "desc": "渐变流线背景 支持任意方式去修改效果"},
-            {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/PerlinNoisePainter/", "icon": "icon/1.svg", "title": "PerlinNoisePainter", "desc": "五角星元素 任意效果展示一个会动的五角星"},
-            {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/Awesome-Mosaic/", "icon": "icon/1.svg", "title": "Awesome Mosaic", "desc": "马赛克背景 可以调节的会动的马赛克背景"},
-            {"cat": "E", "subcat": "E3", "url": "https://coolbackgrounds.io/", "icon": "icon/1.svg", "title": "Cool Backgrounds", "desc": "波浪图形 可调节形态，支持SVG下载"},
-            {"cat": "E", "subcat": "E3", "url": "https://codepen.io/tsuhre/full/BYbjyg", "icon": "icon/1.svg", "title": "炫光背景", "desc": "炫光背景 随意滑动即可生成，再次点击重置"},
-        ],
-        'F4': [
-            // 去除背景
-            {"cat": "E", "subcat": "E4", "url": "https://www.fococlipping.com/", "icon": "icon/1.svg", "title": "Foco Clipping", "desc": "一次最多支持30张图片"},
-            {"cat": "E", "subcat": "E4", "url": "https://idify.netlify.app/", "icon": "icon/1.svg", "title": "Idify", "desc": "界面美观，只有一个上传图片按钮"},
-            {"cat": "E", "subcat": "E4", "url": "https://www.unscreen.com/upload", "icon": "icon/1.svg", "title": "Unscreen", "desc": "不止免费，还有更为全面的PRO版本"},
-        ],
-        'F5': [
-            // 抹除物体
-            {"cat": "E", "subcat": "E5", "url": "https://www.experte.com/background-remover", "icon": "icon/1.svg", "title": "Experte Background Remover", "desc": "无需注册，上传即抠"},
-            {"cat": "E", "subcat": "E5", "url": "https://zh.bgsub.com/", "icon": "icon/1.svg", "title": "Bgsub", "desc": "支持在线抠图并换上自己想要的背景"},
-            {"cat": "E", "subcat": "E5", "url": "https://autoclipping.com/", "icon": "icon/1.svg", "title": "Autoclipping", "desc": "只需上传图片即可手动完成抠图"},
-            {"cat": "E", "subcat": "E5", "url": "https://online.photoscissors.com/", "icon": "icon/1.svg", "title": "Photoscissors", "desc": "最大可支持5M的图片保留"},
-            {"cat": "E", "subcat": "E5", "url": "https://zh.clippingmagic.com/", "icon": "icon/1.svg", "title": "Clippingmagic", "desc": "在线抠除图像背景，支持中文"},
-            {"cat": "E", "subcat": "E5", "url": "https://www.remove.bg/", "icon": "icon/1.svg", "title": "Remove.bg", "desc": "仅需五秒钟就可以自动抠图"},
-            {"cat": "E", "subcat": "E5", "url": "https://www.watermarkremover.io/zh", "icon": "icon/1.svg", "title": "Watermarkremover", "desc": "免费在线水印移除工具"},
-            {"cat": "E", "subcat": "E5", "url": "https://magicstudio.com/zh/magiceraser/", "icon": "icon/1.svg", "title": "Magic Eraser", "desc": "不需要的人物文本涂抹就删掉"},
-            {"cat": "E", "subcat": "E5", "url": "https://www.hama.app/zh", "icon": "icon/1.svg", "title": "Haha", "desc": "不想要图片内容涂抹删除"},
-        ],
-        'F6': [
-            // 画质增强
-            {"cat": "E", "subcat": "E6", "url": "https://imgupscaler.com/zh-tw", "icon": "icon/1.svg", "title": "Img.upscaler", "desc": "免费最高支持至4000px*4000px"},
-            {"cat": "E", "subcat": "E6", "url": "https://www.modyfi.com/", "icon": "icon/1.svg", "title": "Modyfi", "desc": "老照片修复 支持老照片修复、老照片上色和魔法动态照片"},
-            {"cat": "E", "subcat": "E6", "url": "https://palette.fm/", "icon": "icon/1.svg", "title": "Palette", "desc": "给黑白图片增添颜色，无需登录"},
-            {"cat": "E", "subcat": "E6", "url": "https://bigjpg.com/", "icon": "icon/1.svg", "title": "Bigjpg", "desc": "AI人工智能图片放大"},
-            {"cat": "E", "subcat": "E6", "url": "https://qingtu.cn/", "icon": "icon/1.svg", "title": "清图", "desc": "国内的AI项目，逻辑更舒适"},
-            {"cat": "E", "subcat": "E6", "url": "https://upscayl.org/", "icon": "icon/1.svg", "title": "Upscayl", "desc": "得下载才能使用"},
-            {"cat": "E", "subcat": "E6", "url": "https://www.upscale.media/zh", "icon": "icon/1.svg", "title": "Upscale", "desc": "免费仅支持最高1500px*1500px"},
-            {"cat": "E", "subcat": "E6", "url": "https://unlimited.waifu2x.net/", "icon": "icon/1.svg", "title": "Waifu2x", "desc": "可以自定义参数再增强画质"},
-            {"cat": "E", "subcat": "E6", "url": "https://ezgif.com/video-to-gif", "icon": "icon/1.svg", "title": "Ezgif", "desc": "支持视频转GIF，编辑GIF"},
-        ],
-        'F7': [
-            // 图像压缩
-            {"cat": "E", "subcat": "E7", "url": "https://compresspng.com/", "icon": "icon/1.svg", "title": "Compresspng", "desc": "支持格式-PNG、JPG、PDF、GIF"},
-            {"cat": "E", "subcat": "E7", "url": "https://imgtool.v1.mk/", "icon": "icon/1.svg", "title": "Imgtool", "desc": "图片极致压缩 只有一个功能-极致压缩"},
-            {"cat": "E", "subcat": "E7", "url": "https://zh.recompressor.com/", "icon": "icon/1.svg", "title": "Recompressor", "desc": "图像优化神器，网站还支持中文显示，无需翻译"},
-            {"cat": "E", "subcat": "E7", "url": "https://squoosh.app/", "icon": "icon/1.svg", "title": "Squoosh", "desc": "界面干净清爽，效果也非常好"},
-            {"cat": "E", "subcat": "E7", "url": "https://tinypng.com/", "icon": "icon/1.svg", "title": "Tinypng", "desc": "支持一次压缩20张5M以下的文件"},
-            {"cat": "E", "subcat": "E7", "url": "https://www.yalijuda.com/", "icon": "icon/1.svg", "title": "鸭力巨大", "desc": "一键压缩图片视频，释放存储空间"},
-            {"cat": "E", "subcat": "E7", "url": "https://www.picdiet.com/zh-cn", "icon": "icon/1.svg", "title": "Picdiet", "desc": "对压缩对象没有任何限制且完全免费"},
-            {"cat": "E", "subcat": "E7", "url": "https://www.jpeg.io/", "icon": "icon/1.svg", "title": "Jpeg.io", "desc": "将其转换为高度优化的图片"},
-        ],
-        // 设计素材
-        'G1': [
-            // VI样机            
-            {"cat": "F", "subcat": "F1", "url": "https://www.jpeg.io/", "icon": "icon/1.svg", "title": "Jpeg.io", "desc": "将其转换为高度优化的图片"},
-            {"cat": "F", "subcat": "F1", "url": "https://mockups-design.com/", "icon": "icon/1.svg", "title": "Mockups-design", "desc": "一个可免费可商用的样机素材网站"},
-            {"cat": "F", "subcat": "F1", "url": "https://unblast.com/", "icon": "icon/1.svg", "title": "Unblast", "desc": "网站搜集了大量的免费样机"},
-            {"cat": "F", "subcat": "F1", "url": "https://www.graphberry.com", "icon": "icon/1.svg", "title": "Graphberry", "desc": "优质的 PSD样机模型素材站"},
-            {"cat": "F", "subcat": "F1", "url": "https://www.ls.graphics/free-mockups", "icon": "icon/1.svg", "title": "Is.graphics", "desc": "一家提供高质量样机模板的网站"},
-            {"cat": "F", "subcat": "F1", "url": "https://mockup.sitapix.com", "icon": "icon/1.svg", "title": "西田样机", "desc": "提供免费高质量样机的中文网站"},
-            {"cat": "F", "subcat": "F1", "url": "https://www.mockupworld.co", "icon": "icon/1.svg", "title": "Mockupworld", "desc": "一个国外免费实体样机素材网站"},
-            {"cat": "F", "subcat": "F1", "url": "https://themockup.club", "icon": "icon/1.svg", "title": "TheMockupClub", "desc": "比较优质的免费的样机下载站"},
-            {"cat": "F", "subcat": "F1", "url": "https://www.pixeden.com/", "icon": "icon/1.svg", "title": "Pixeden", "desc": "网站里面的Mockups分类非常全"}, 
-        ],
-        'G2': [
-            // PNG素材            
-            {"cat": "F", "subcat": "F2", "url": "http://www.pngall.com/", "icon": "icon/1.svg", "title": "Pngall", "desc": "类型丰富的免费PNG下载站"},
-            {"cat": "F", "subcat": "F2", "url": "http://pngimg.com/", "icon": "icon/1.svg", "title": "Pngimg", "desc": "号称全世界最大的PNG透明背景图库"},
-            {"cat": "F", "subcat": "F2", "url": "https://www.kisspng.com/", "icon": "icon/1.svg", "title": "Kisspng", "desc": "所有图像都无需登录免费无限制下载"},
-            {"cat": "F", "subcat": "F2", "url": "https://www.pixelsquid.com/", "icon": "icon/1.svg", "title": "Pixelsquid", "desc": "旋转3D素材获得完美的角度下载"},
-            {"cat": "F", "subcat": "F2", "url": "http://www.pngpix.com/", "icon": "icon/1.svg", "title": "Pngpix", "desc": "种类多而且质量很高png矢量图片站"},
-            {"cat": "F", "subcat": "F2", "url": "https://pngimg.com/", "icon": "icon/1.svg", "title": "pngimg", "desc": "全球知名的PNG优质素材库"},
-            {"cat": "F", "subcat": "F2", "url": "http://www.stickpng.com/", "icon": "icon/1.svg", "title": "Stickpng", "desc": "提供免扣PNG格式资源免费下载"},
-        ],
-        'G3': [
-            // 矢量素材            
-            {"cat": "F", "subcat": "F3", "url": "https://undraw.co/", "icon": "icon/1.svg", "title": "Undraw", "desc": "提供完全免费的 SVG/PNG 图片"},
-            {"cat": "F", "subcat": "F3", "url": "https://dealjumbo.com/", "icon": "icon/1.svg", "title": "Dealjumbo", "desc": "网站整体质量较高 下载需要输入邮箱"},
-            {"cat": "F", "subcat": "F3", "url": "http://www.iconninja.com", "icon": "icon/1.svg", "title": "Iconninja", "desc": "所有的展示素材均提供详细的信"},
-            {"cat": "F", "subcat": "F3", "url": "https://www.shareicon.net", "icon": "icon/1.svg", "title": "Shareicon", "desc": "免费提供超过25万矢量图片素材"},
-            {"cat": "F", "subcat": "F3", "url": "http://flat-icon-design.com/", "icon": "icon/1.svg", "title": "Flat-icon", "desc": "日本的免费可商用扁平化矢量网站"},
-            {"cat": "F", "subcat": "F3", "url": "http://bg-patterns.com/", "icon": "icon/1.svg", "title": "Bg-patterns", "desc": "矢量平铺背景纹理免费生成下载"},
-            {"cat": "F", "subcat": "F3", "url": "https://www.freepik.com/", "icon": "icon/1.svg", "title": "Freepik", "desc": "收集最多免费矢量图资源的网站之一"},
-            {"cat": "F", "subcat": "F3", "url": "https://www.vectorportal.com/", "icon": "icon/1.svg", "title": "Vectorportal", "desc": "超过3500万免费矢量素材下载"},
-            {"cat": "F", "subcat": "F3", "url": "https://www.vecteezy.com", "icon": "icon/1.svg", "title": "Vecteezy", "desc": "一个免费矢量图的网站"},
-        ],
-        'G4': [
-            // 插画素材            
-            {"cat": "F", "subcat": "F4", "url": "https://www.handz.design", "icon": "icon/1.svg", "title": "Handz", "desc": "网站拥有各种手势人物造型下载"},
-            {"cat": "F", "subcat": "F4", "url": "https://superscene.pro", "icon": "icon/1.svg", "title": "Superscene", "desc": "高质量3D插画模型部分提供免费下载"},
-            {"cat": "F", "subcat": "F4", "url": "https://iradesign.io/", "icon": "icon/1.svg", "title": "Iradesign", "desc": "免版权且提供5种渐变色自定义各部位"},
-            {"cat": "F", "subcat": "F4", "url": "https://igoutu.cn/illustrations", "icon": "icon/1.svg", "title": "Igoutu", "desc": "分类明细的插画，免费下载PNG格式"},
-            {"cat": "F", "subcat": "F4", "url": "https://mixkit.co/free-stock-art/", "icon": "icon/1.svg", "title": "Mixkit", "desc": "免费高质量艺术类插画下载"},
-            {"cat": "F", "subcat": "F4", "url": "https://vertex.im/", "icon": "icon/1.svg", "title": "Vertex", "desc": "比较常见的3D图标，支持旋转角度下载"},
-            {"cat": "F", "subcat": "F4", "url": "https://stubborn.fun/", "icon": "icon/1.svg", "title": "Stubborn", "desc": "随意搭配身体部位和矢量人物插画"},
-            {"cat": "F", "subcat": "F4", "url": "https://lukaszadam.com/illustrations", "icon": "icon/1.svg", "title": "lukaszadam", "desc": "各种免版权插画风格图标"},
-            {"cat": "F", "subcat": "F4", "url": "https://stubborn.fun/", "icon": "icon/1.svg", "title": "Stubborn", "desc": "可选择色彩，并且输入邮箱免费下载"},
-            {"cat": "F", "subcat": "F4", "url": "https://www.humaaans.com/", "icon": "icon/1.svg", "title": "Humaaans", "desc": "网站所有内容免费商用但是需要梯子"},
-            {"cat": "F", "subcat": "F4", "url": "https://cocomaterial.com/", "icon": "icon/1.svg", "title": "CoCo Material", "desc": "3000+简约插画免费下载"},
-        ],
-        'G5': [
-            // PSD素材            
-            {"cat": "F", "subcat": "F5", "url": "https://freebiesbug.com", "icon": "icon/1.svg", "title": "Freebiesbug", "desc": "提供精心挑选的PSD资源"},
-            {"cat": "F", "subcat": "F5", "url": "https://www.freepik.com", "icon": "icon/1.svg", "title": "Freepik", "desc": "收录了很多高质量PSD素材图片"},
-            {"cat": "F", "subcat": "F5", "url": "https://www.1001freedownloads.com", "icon": "icon/1.svg", "title": "1001free", "desc": "设计师寻找的免费素材网站"},
-            {"cat": "F", "subcat": "F5", "url": "https://freebiesjedi.com", "icon": "icon/1.svg", "title": "Freebiesjedi", "desc": "免费提供各类素材资源下载"},
-            {"cat": "F", "subcat": "F5", "url": "https://fbrushes.com/", "icon": "icon/1.svg", "title": "Fbrushes", "desc": "提供各类素材资源的站点"},
-            {"cat": "F", "subcat": "F5", "url": "https://psdboom.com/", "icon": "icon/1.svg", "title": "Psdboom", "desc": "提供免费PSD以及收录各式背景"},
-        ],
-        'G6': [
-            // 背景纹理            
-            {"cat": "F", "subcat": "F6", "url": "https://patterninja.com/", "icon": "icon/1.svg", "title": "Patterninja", "desc": "纹理背景用来做PPT的背景图超赞"},
-            {"cat": "F", "subcat": "F6", "url": "http://www.heropatterns.com/", "icon": "icon/1.svg", "title": "Heropatterns", "desc": "纹理颇有质感特别大气的材质贴图"},
-            {"cat": "F", "subcat": "F6", "url": "http://texturer.com/", "icon": "icon/1.svg", "title": "Texture", "desc": "数十类精品免费真实纹理背景素材"},
-            {"cat": "F", "subcat": "F6", "url": "https://www.textureking.com/", "icon": "icon/1.svg", "title": "Textureking", "desc": "多种精品酷炫效果自然纹理"},
-            {"cat": "F", "subcat": "F6", "url": "http://patternico.com/", "icon": "icon/1.svg", "title": "Patternico", "desc": "可以上传自己酷炫的作品，互动性较强"},
-            {"cat": "F", "subcat": "F6", "url": "https://patternico.com/emoji/", "icon": "icon/1.svg", "title": "Patternico", "desc": "自选图标以生成好看的背景图"},
-            {"cat": "F", "subcat": "F6", "url": "https://www.toptal.com/designers/subtlepatterns/", "icon": "icon/1.svg", "title": "Toptal", "desc": "纹理背景简约，适合古风类型"},
-            {"cat": "F", "subcat": "F6", "url": "https://www.transparenttextures.com/", "icon": "icon/1.svg", "title": "Transpare", "desc": "根据色彩选择精美纹理背景"},
-        ],
-        'G7': [
-            // 图标Emoji           
-            {"cat": "F", "subcat": "F7", "url": "http://www.iconfont.cn", "icon": "icon/1.svg", "title": "Iconfont", "desc": "由阿里巴巴打造的矢量图标交流平台"},
-            {"cat": "F", "subcat": "F7", "url": "https://www.iconsdb.com/", "icon": "icon/1.svg", "title": "Iconsdb", "desc": "目前拥有4000多个图标的免费图标库"},
-            {"cat": "F", "subcat": "F7", "url": "https://www.iconfinder.com/", "icon": "icon/1.svg", "title": "Iconfinder", "desc": "世界上前几大免费设计图标搜索引擎"},
-            {"cat": "F", "subcat": "F7", "url": "https://yesicon.app/", "icon": "icon/1.svg", "title": "Yesicon", "desc": "免费的图标库，直接就能下载"},
-            {"cat": "F", "subcat": "F7", "url": "https://iconmonstr.com/", "icon": "icon/1.svg", "title": "Iconmonstr", "desc": "提供大量黑白图标的素材站"},
-            {"cat": "F", "subcat": "F7", "url": "https://pluspng.com/", "icon": "icon/1.svg", "title": "PLUSPNG", "desc": "专注于全球图标收集的网站提供下载"},
-            {"cat": "F", "subcat": "F7", "url": "https://www.materialui.co/icons", "icon": "icon/1.svg", "title": "Materialui", "desc": "搜索框快速搜索面性风格和线性风格"},
-            {"cat": "F", "subcat": "F7", "url": "https://www.webalys.com/nova/", "icon": "icon/1.svg", "title": "Webalys", "desc": "数量十分齐全每个图标都可选择风格"},
-        ],
-        'G8': [
-            // PPT模板
-            {"cat": "F", "subcat": "F8", "url": "https://www.pptstore.net/", "icon": "icon/1.svg", "title": "Pptstore", "desc": "国内高质量原创设计模板"},
-            {"cat": "F", "subcat": "F8", "url": "http://www.1ppt.com/", "icon": "icon/1.svg", "title": "1ppt", "desc": "网站颜值不高，但是内容免费下载"},
-            {"cat": "F", "subcat": "F8", "url": "https://slidemodel.com/", "icon": "icon/1.svg", "title": "Slidemodel", "desc": "每周提供150个ppt模板免费下载"},
-            {"cat": "F", "subcat": "F8", "url": "https://graphicriver.net/presentation-templates", "icon": "icon/1.svg", "title": "Graphicriver", "desc": "全球最高设计水平的PPT模板站"},
-            {"cat": "F", "subcat": "F8", "url": "https://slidehunter.com/", "icon": "icon/1.svg", "title": "Slidehunter", "desc": "免费ppt模板网站，还提供3D类型的"},
-            {"cat": "F", "subcat": "F8", "url": "https://www.presentationload.com/", "icon": "icon/1.svg", "title": "Presentationload", "desc": "欧洲的收费网站，简约之美+商务之美"},
-            {"cat": "F", "subcat": "F8", "url": "https://www.presentationmagazine.com/", "icon": "icon/1.svg", "title": "Magazine", "desc": "网站模板大部分的模板可以免费使用"},
-            {"cat": "F", "subcat": "F8", "url": "https://justfreeslide.com/", "icon": "icon/1.svg", "title": "Justfreeslide", "desc": "免费资源需要分享获取下载链接"},
-            {"cat": "F", "subcat": "F8", "url": "http://www.officeplus.cn/Template/Home.shtml", "icon": "icon/1.svg", "title": "Officeplus", "desc": "微软Office官方在线模板网站"},
-        ],
-        'G9': [
-            // PS笔刷
-            {"cat": "F", "subcat": "F9", "url": "https://www.brushlovers.com/tag/brush", "icon": "icon/1.svg", "title": "Brushlovers", "desc": "比较全面的PS资源网站集合"},
-            {"cat": "F", "subcat": "F9", "url": "https://myphotoshopbrushes.com/", "icon": "icon/1.svg", "title": "Brushes", "desc": "简洁的搜索菜单方便进行过滤"},
-            {"cat": "F", "subcat": "F9", "url": "https://www.brushking.eu/", "icon": "icon/1.svg", "title": "Brushking", "desc": "根据分类轻松找需要的笔刷"},
-            {"cat": "F", "subcat": "F9", "url": "https://qbrushes.net/", "icon": "icon/1.svg", "title": "Qbrushes", "desc": "提供分类查找到笔刷类型"},
-            {"cat": "F", "subcat": "F9", "url": "https://www.brusheezy.com/brushes", "icon": "icon/1.svg", "title": "Brusheezy", "desc": "根据PS版本进行过滤分类笔刷"},
-            {"cat": "F", "subcat": "F9", "url": "http://www.chezplumeau.com", "icon": "icon/1.svg", "title": "Chezplumeau", "desc": "发现寻找具有特定主题的笔刷"},
-            {"cat": "F", "subcat": "F9", "url": "http://wowbrushes.com/", "icon": "icon/1.svg", "title": "Wowbrushes", "desc": "网站提供各种高质量的笔刷笔触下载"},
-            {"cat": "F", "subcat": "F9", "url": "https://photoshoproadmap.com/", "icon": "icon/1.svg", "title": "Photoshoproadmap", "desc": "大量独特的优质Photoshop笔刷集合"},
-        ],
-        // 配色方案
-        'H1': [
-            // 纯色搭配
-            {"cat": "G", "subcat": "G1", "url": "http://colorsafe.co/", "icon": "icon/1.svg", "title": "Colorsafe", "desc": "选择一个颜色，会给出不一样的方案"},
-            {"cat": "G", "subcat": "G1", "url": "http://colllor.com/", "icon": "icon/1.svg", "title": "Colllor", "desc": "一个色系给出50种深浅的选择"},
-            {"cat": "G", "subcat": "G1", "url": "https://www.materialpalette.com", "icon": "icon/1.svg", "title": "Materialpalette", "desc": "非常适合扁平化设计的工具"},
-            {"cat": "G", "subcat": "G1", "url": "https://www.sessions.edu", "icon": "icon/1.svg", "title": "Sessions", "desc": "对比颜色很方便，各种色彩搭配"},
-            {"cat": "G", "subcat": "G1", "url": "http://Coolors.co", "icon": "icon/1.svg", "title": "Coolors", "desc": "各种色块搭配多种配色模式"},
-            {"cat": "G", "subcat": "G1", "url": "https://colorhunt.co/", "icon": "icon/1.svg", "title": "Colorhunt", "desc": "不同色彩之间进行搭配"},
-            {"cat": "G", "subcat": "G1", "url": "https://color.adobe.com/", "icon": "icon/1.svg", "title": "Color.Adobe", "desc": "提供常用五种色彩模式选择"},
-            {"cat": "G", "subcat": "G1", "url": "http://www.colorhunter.com", "icon": "icon/1.svg", "title": "Colorhunter", "desc": "操作方便，特别适合新手使用"},
-            {"cat": "G", "subcat": "G1", "url": "https://color.hailpixel.com/", "icon": "icon/1.svg", "title": "Color.hailpixel", "desc": "移动鼠标就能得到不一样的颜色"},
-            {"cat": "G", "subcat": "G1", "url": "http://colrd.com/", "icon": "icon/1.svg", "title": "Colrd", "desc": "推荐这个是把图片所有颜色拆成单个色"},
-        ],
-        'H2': [
-            // 渐变配色
-            {"cat": "G", "subcat": "G2", "url": "https://uigradients.com/#Passion", "icon": "icon/1.svg", "title": "Uigradients", "desc": "点击左上角显示全部，右上角旋转角度"},
-            {"cat": "G", "subcat": "G2", "url": "https://gradient.shapefactory.co", "icon": "icon/1.svg", "title": "Gradient", "desc": "点击色块上的圆圈可以改变角度"},
-            {"cat": "G", "subcat": "G2", "url": "https://webgradients.com", "icon": "icon/1.svg", "title": "Webgradients", "desc": "点击即可大图预览和下载"},
-            {"cat": "G", "subcat": "G2", "url": "https://www.grabient.com/", "icon": "icon/1.svg", "title": "Grabient", "desc": "成千上万漂亮的渐变色站点"},
-            {"cat": "G", "subcat": "G2", "url": "https://coliss.com/articles/web-services/online-cssgradientbutton.html", "icon": "icon/1.svg", "title": "Coliss", "desc": "可以把调好的渐变色生成CSS网页代码"},
-            {"cat": "G", "subcat": "G2", "url": "https://webkul.github.io/coolhue/", "icon": "icon/1.svg", "title": "Webkul", "desc": "点击下载图片下方复制颜色代码"},
-        ],
-        // 知识社区
-        'I1': [
-            // 设计书籍
-            {"url": "https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw", "icon": "icon/1.svg", "title": "千本设计书籍-设计师必备推荐", "desc": "搜集来自全球的知名设计书籍"},
-        ],
-        // 软件工具
-        'J1': [
-            // 软件下载
-            {"cat": "I", "subcat": "I1", "url": "https://www.jb51.net/", "icon": "icon/1.svg", "title": "脚本之家", "desc": "提供互联网全方位在线工具无套路分享"},
-            {"cat": "I", "subcat": "I1", "url": "https://www.fosshub.com/", "icon": "icon/1.svg", "title": "Fosshub", "desc": "来自全球免费好用的软件"},
-            {"cat": "I", "subcat": "I1", "url": "https://www.lookae.com", "icon": "icon/1.svg", "title": "LookAE", "desc": "各类需要的设计资源，这里可能全都有"},
-            {"cat": "I", "subcat": "I1", "url": "https://fonts.google.com/", "icon": "icon/1.svg", "title": "Google Fonts", "desc": "海量免费字体资源"},
-            {"cat": "I", "subcat": "I1", "url": "https://www.weidown.com/", "icon": "icon/1.svg", "title": "微当下载", "desc": "全能的各设备软件分享站"},
-            {"cat": "I", "subcat": "I1", "url": "https://www.appinn.com/", "icon": "icon/1.svg", "title": "小众软件", "desc": "分享有趣的绿色免费软件"},
-            {"cat": "I", "subcat": "I1", "url": "https://www.runker.net", "icon": "icon/1.svg", "title": "行客工作室", "desc": "各类电脑软件这里都有，下载方便"},
-        ],
-        'J2': [
-            // 资源搜索
-            {"cat": "I", "subcat": "I2", "url": "https://searx.org/", "icon": "icon/1.svg", "title": "SearXNG", "desc": "全世界最强大的元搜索引擎"},
-            {"cat": "I", "subcat": "I2", "url": "https://search.chongbuluo.com/", "icon": "icon/1.svg", "title": "虫部落 · 快搜", "desc": "聚合了全球所有的搜索工具"},
-            {"cat": "I", "subcat": "I2", "url": "https://www.chaonengsou.com/", "icon": "icon/1.svg", "title": "网盘超能搜", "desc": "聚合多个网盘搜索，常用都可搜"},
-        ],
-        'J3': [
-            // 格式转换
-            {"cat": "I", "subcat": "I3", "url": "https://www.aconvert.com/cn/", "icon": "icon/1.svg", "title": "AC文件转换", "desc": "【推荐】支持的类型全-使用方便"},
-            {"cat": "I", "subcat": "I3", "url": "https://convertio.co/zh/video-converter/", "icon": "icon/1.svg", "title": "Convertio", "desc": "在线转换任何格式的视频文件"},
-            {"cat": "I", "subcat": "I3", "url": "https://www.ilovepdf.com/", "icon": "icon/1.svg", "title": "Ilovepdf", "desc": "支持多种格式之间进行互转"},
-            {"cat": "I", "subcat": "I3", "url": "http://www.alltoall.net/", "icon": "icon/1.svg", "title": "Alltoall", "desc": "支持多达200多种格式在线转换"},
-            {"cat": "I", "subcat": "I3", "url": "https://www.pdfconvertonline.com/cn/", "icon": "icon/1.svg", "title": "Pdfconvertonline", "desc": "网站支持各类文件之间进行互转"},
-        ],
-        'J4': [
-            // 偏门利器
-            {"cat": "I", "subcat": "I4", "url": "https://swiftqr.tanpok.com/", "icon": "icon/1.svg", "title": "文本生成二维码", "desc": "仅支持文本生成二维码"},
-            {"cat": "I", "subcat": "I4", "url": "https://sms-activate.io/cn?%2Fcn=", "icon": "icon/1.svg", "title": "SMS", "desc": "虚拟国外手机号码短信验证"},
-            {"cat": "I", "subcat": "I4", "url": "https://www.qrcode-monkey.com/", "icon": "icon/1.svg", "title": "生成二维码", "desc": "任何内容都可以生成二维码"},
-            {"cat": "I", "subcat": "I4", "url": "https://www.shorturl.at/", "icon": "icon/1.svg", "title": "网址变短", "desc": "可以让任何网址变短的神器"},
-            {"cat": "I", "subcat": "I4", "url": "https://personas.draftbit.com/", "icon": "icon/1.svg", "title": "卡通头像生成", "desc": "在线设计卡通头像并下载"},
-            {"cat": "I", "subcat": "I4", "url": "http://www.12tool.com/", "icon": "icon/1.svg", "title": "聊天截图生成", "desc": "线上生成微信支付宝截图"},
-        ],
+'E1': [
+    {cat: 'D',subcat: 'D1',url: 'https://www.fonts.net.cn/',icon: 'icon/1.svg',title: '字体天下',desc: '网站汇集超多字体，部分免商可下载'},
+    {cat: 'D',subcat: 'D1',url: 'https://font.sucai999.com/',icon: 'icon/1.svg',title: '字体搬运工',desc: '整理收集来自全网的免商用字体'},
+    {cat: 'D',subcat: 'D1',url: 'https://www.maoken.com/',icon: 'icon/1.svg',title: '猫啃网',desc: '专注于免商用中文字体下载'},
+    {cat: 'D',subcat: 'D1',url: 'https://www.100font.com/',icon: 'icon/1.svg',title: '100Font',desc: '专门整理收集免商用字体的网站'},
+],
+'E2': [
+    {cat: 'D',subcat: 'D2',url: 'https://www.fontspace.com',icon: 'icon/1.svg',title: 'Fontspace',desc: '好看的英文字体这里都有'},
+    {cat: 'D',subcat: 'D2',url: 'https://www.urbanfonts.com',icon: 'icon/1.svg',title: 'Urban Fonts',desc: '英文字体资源搜索与下载'},
+    {cat: 'D',subcat: 'D2',url: 'https://zh.fonts2u.com/',icon: 'icon/1.svg',title: 'Fonts2u',desc: '字体资源支持搜索与下载'},
+    {cat: 'D',subcat: 'D2',url: 'https://www.fontyukle.net/',icon: 'icon/1.svg',title: 'Fontyukle',desc: '世界上最大的自由字体的网站'},
+    {cat: 'D',subcat: 'D2',url: 'http://www.losttype.com/browse/',icon: 'icon/1.svg',title: 'Losttype',desc: '字体非常漂亮展示方式特别'},
+    {cat: 'D',subcat: 'D2',url: 'https://www.1001freefonts.com/',icon: 'icon/1.svg',title: '1001freefonts',desc: '超过20万个高质量字体下载'},
+    {cat: 'D',subcat: 'D2',url: 'https://www.dafont.com/',icon: 'icon/1.svg',title: 'Dafont',desc: '数量巨多的免费英文字体下载'},
+    {cat: 'D',subcat: 'D2',url: 'http://www.fontfabric.com/',icon: 'icon/1.svg',title: 'Fontfabric',desc: '提供优秀好用的英文字体下载'},
+    {cat: 'D',subcat: 'D2',url: 'https://www.myfonts.com',icon: 'icon/1.svg',title: 'Myfonts',desc: '上传图片搜索英文字体功能强大'},
+    {cat: 'D',subcat: 'D2',url: 'https://www.fontsquirrel.com/',icon: 'icon/1.svg',title: 'Fontsquirrel',desc: '超赞的精心挑选的免费字体下载'},
+    {cat: 'D',subcat: 'D2',url: 'https://usemodify.com',icon: 'icon/1.svg',title: 'Use & Modify',desc: '奇怪而美丽的英文字体'},
+    {cat: 'D',subcat: 'D2',url: 'https://vaufonts.com/',icon: 'icon/1.svg',title: 'VAN fonts',desc: '在线生成英文艺术字'},
+],
+'E3': [
+    {cat: 'D',subcat: 'D3',url: 'https://www.logosc.cn/so/',icon: 'icon/1.svg',title: '搜图神器',desc: '多站点免版权图片搜索一键搜索'},
+    {cat: 'D',subcat: 'D3',url: 'https://www.pexels.com/zh-cn/',icon: 'icon/1.svg',title: 'Pexels',desc: '全球知名图片视频网站 还支持中文'},
+    {cat: 'D',subcat: 'D3',url: 'https://pixabay.com/',icon: 'icon/1.svg',title: 'Pixabay',desc: '超过450张高质量免版权图库'},
+    {cat: 'D',subcat: 'D3',url: 'https://en.freejpg.com.ar/',icon: 'icon/1.svg',title: 'Reejpg',desc: '共有11.5万张的免费图片库'},
+    {cat: 'D',subcat: 'D3',url: 'https://kaboompics.com/',icon: 'icon/1.svg',title: 'Kaboompics',desc: '按具体的属性进行的分类'},
+    {cat: 'D',subcat: 'D3',url: 'https://picjumbo.com/',icon: 'icon/1.svg',title: 'Picjumbo',desc: '图片质量很高的免费图库'},
+    {cat: 'D',subcat: 'D3',url: 'https://fancycrave.com/stock-photos/free/',icon: 'icon/1.svg',title: 'Fancycrave',desc: '分类好的免费图片合集'},
+    {cat: 'D',subcat: 'D3',url: 'https://www.freelyphotos.com/',icon: 'icon/1.svg',title: 'Freelyphotos',desc: '一个业余爱好者运营的站点'},
+    {cat: 'D',subcat: 'D3',url: 'https://www.stockvault.net/',icon: 'icon/1.svg',title: 'Stockvault',desc: '每天都会添加新的照片、纹理和插图！'},
+    {cat: 'D',subcat: 'D3',url: 'http://www.designerspics.com/',icon: 'icon/1.svg',title: 'Designerspics',desc: '清晰的无版权图片，使用无需署名'},
+    {cat: 'D',subcat: 'D3',url: 'https://photostockeditor.com/',icon: 'icon/1.svg',title: 'Photo stockedito',desc: '35万的无版权图片储备提供使用'},
+    {cat: 'D',subcat: 'D3',url: 'https://shotstash.com/',icon: 'icon/1.svg',title: 'Shot stash',desc: '为专业人士提供有创意的免费高清图片素材'},
+    {cat: 'D',subcat: 'D3',url: 'https://www.pakutaso.com/',icon: 'icon/1.svg',title: 'Pakutaso',desc: '日本很知名的图片素材站'},
+    {cat: 'D',subcat: 'D3',url: 'https://visualhunt.com/',icon: 'icon/1.svg',title: 'Visualhunt',desc: '界面比较清爽的图片搜索站点'},
+    {cat: 'D',subcat: 'D3',url: 'https://www.hippopx.com/',icon: 'icon/1.svg',title: 'Hippopx',desc: '分类比较细致的免版权图库'},
+    {cat: 'D',subcat: 'D3',url: 'https://unsplash.com/',icon: 'icon/1.svg',title: 'Unsplash',desc: '分类比较详细，各种类型都有'},
+    {cat: 'D',subcat: 'D3',url: 'https://www.everypixel.com',icon: 'icon/1.svg',title: 'Everypixel',desc: '能智能搜索各大图片网站的图片'},
+    {cat: 'D',subcat: 'D3',url: 'https://barnimages.com',icon: 'icon/1.svg',title: 'Barnimages',desc: '提供免费高清晰度图片集合的站点'},
+    {cat: 'D',subcat: 'D3',url: 'https://jeshoots.com/',icon: 'icon/1.svg',title: 'Jeshoots',desc: '图片质量还不错的无版权图片网站'},
+    {cat: 'D',subcat: 'D3',url: 'http://gratisography.com/',icon: 'icon/1.svg',title: 'Gratisography',desc: '精选时尚流行和富有设计感的图片'},
+],
+'E4': [
+    {cat: 'D', subcat: 'D4', url: 'https://coverr.co/stock-video-footage', icon: 'icon/1.svg', title: 'Coverr', desc: '使用免费的视频素材无需注明出处'},
+    {cat: 'D', subcat: 'D4', url: 'https://mazwai.com', icon: 'icon/1.svg', title: 'Mazwai', desc: '专为视频剪辑打造的免版权视频站'},
+    {cat: 'D', subcat: 'D4', url: 'https://mixkit.co/', icon: 'icon/1.svg', title: 'Mixkit', desc: '分类比较全，有视频、BGM、音效'},
+    {cat: 'D', subcat: 'D4', url: 'https://www.marpi.studio/artwork', icon: 'icon/1.svg', title: 'Marpi', desc: '世界各地拍摄视频直接下载'},
+    {cat: 'D', subcat: 'D4', url: 'https://www.videezy.com/', icon: 'icon/1.svg', title: 'Videezy', desc: '提供大量免费高画质HD、4K影片素材'},
+    {cat: 'D', subcat: 'D4', url: 'https://musicmaker.site/', icon: 'icon/1.svg', title: 'Musicmaker', desc: '专为视频剪辑打造的免版权视频站'},
+],
+'E5': [
+    {cat: 'D', subcat: 'D5', url: 'https://dova-s.jp/', icon: 'icon/1.svg', title: 'Dova-s', desc: '提供超过上万首免费音乐素材'},
+    {cat: 'D', subcat: 'D5', url: 'http://amachamusic.chagasi.com/', icon: 'icon/1.svg', title: 'Chagasi', desc: '原创的自由使用免版权音乐素材'},
+    {cat: 'D', subcat: 'D5', url: 'https://cchound.com/', icon: 'icon/1.svg', title: 'Cchound', desc: '拥有海量免版税的公共领域音乐资源'},
+    {cat: 'D', subcat: 'D5', url: 'https://musopen.org/music/', icon: 'icon/1.svg', title: 'Musopen', desc: '提供古典各类乐器音乐资源'},
+    {cat: 'D', subcat: 'D5', url: 'https://www.looperman.com/loops', icon: 'icon/1.svg', title: 'Looperman', desc: '很实用的无限循环背景音乐'},
+    {cat: 'D', subcat: 'D5', url: 'https://www.bensound.com/', icon: 'icon/1.svg', title: 'Bensound', desc: '收集了许多超有感觉的音乐'},
+    {cat: 'D', subcat: 'D5', url: 'https://freemusicarchive.org/', icon: 'icon/1.svg', title: 'Archive', desc: '质量不错的免版权音乐收集站'},
+],
+'E6': [
+    // 免版权音效
+    {cat: 'D', subcat: 'D6', url: 'https://www.tam-music.com/', icon: 'icon/1.svg', title: 'Tam-music', desc: '免费提供分类详细的音乐音效素材'},
+],
+// 设计神器
+'F1': [
+    // 在线设计平台
+    {cat: 'E',subcat: 'E1',url: 'https://www.figma.com',icon: 'icon/1.svg',title: 'Figma',desc: '在线协作UI设计工具'},
+    {cat: 'E',subcat: 'E1',url: 'https://icons8.com/mega-creator/',icon: 'icon/1.svg',title: 'Mega Creator',desc: 'Web端矢量插画设计工具'},
+    {cat: 'E',subcat: 'E1',url: 'https://www.modyfi.com/',icon: 'icon/1.svg',title: 'Modyfi',desc: '新一代Web端AI图像编辑工具'},
+    {cat: 'E',subcat: 'E1',url: 'https://www.logoaa.com',icon: 'icon/1.svg',title: 'Logoaa',desc: '基于事先设计LOGO基础上在线修改'},
+],
+'F2': [
+    // LOGO生成
+    {"cat": "E", "subcat": "E2", "url": "https://www.logoaa.com", "icon": "icon/1.svg", "title": "Logoaa", "desc": "基于事先设计LOGO基础上在线修改"},
+    {"cat": "E", "subcat": "E2", "url": "https://www.designevo.com/cn/", "icon": "icon/1.svg", "title": "Designevo", "desc": "可以调整图标颜色和英文字体选择"},
+    {"cat": "E", "subcat": "E2", "url": "https://www.freelogodesign.org/", "icon": "icon/1.svg", "title": "Freelogo", "desc": "根据设计需求可以添加元素丰富设计"},
+    {"cat": "E", "subcat": "E2", "url": "https://www.logogarden.com/", "icon": "icon/1.svg", "title": "Logogarden", "desc": "提供大量LOGO的矢量素材自由选择"},
+    {"cat": "E", "subcat": "E2", "url": "https://logotypemaker.com/", "icon": "icon/1.svg", "title": "Logotype", "desc": "在线换颜色换字体加效果等生成标志"},
+    {"cat": "E", "subcat": "E2", "url": "http://yeelogo.com", "icon": "icon/1.svg", "title": "Yeelogo", "desc": "拥有海量模版的免费在线LOGO制作"},
+],
+'F3': [
+    // 背景生成
+    {"cat": "E", "subcat": "E3", "url": "https://getwaves.io/", "icon": "icon/1.svg", "title": "Getwaves", "desc": "波浪图形 可调节形态，支持SVG下载"},
+    {"cat": "E", "subcat": "E3", "url": "https://demo.marpi.pl/resonate/", "icon": "icon/1.svg", "title": "Resonate", "desc": "炫酷图形 炫酷图形生成，可以改位置形态"},
+    {"cat": "E", "subcat": "E3", "url": "https://glitchart.io/", "icon": "icon/1.svg", "title": "Glitchart", "desc": "形状渐变背景 可以调整角度颜色形状"},
+    {"cat": "E", "subcat": "E3", "url": "https://paveldogreat.github.io/WebGL-Fluid-Simulation/", "icon": "icon/1.svg", "title": "WebGL Fluid Simulation", "desc": "WebGL流体效果 会动的渐变色，还可以自己调节"},
+    {"cat": "E", "subcat": "E3", "url": "https://codepen.io/pissang/full/geajpX", "icon": "icon/1.svg", "title": "剪纸风渐变", "desc": "剪纸风渐变 右上角控制台可以修改参数"},
+    {"cat": "E", "subcat": "E3", "url": "https://codepen.io/Yakudoo/full/rJjOJx/", "icon": "icon/1.svg", "title": "流动型渐变", "desc": "流动型渐变 可以更改色相等参数"},
+    {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/Perlin-Noise/", "icon": "icon/1.svg", "title": "Perlin Noise", "desc": "流线型线条 更改线条密度、颜色"},
+    {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/Play-a-ball/", "icon": "icon/1.svg", "title": "欧普球生成器", "desc": "欧普球生成器 可以调节线条密度、角度"},
+    {"cat": "E", "subcat": "E3", "url": "https://demo.marpi.pl/resonate/", "icon": "icon/1.svg", "title": "Resonate", "desc": "渐变流线背景 支持任意方式去修改效果"},
+    {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/PerlinNoisePainter/", "icon": "icon/1.svg", "title": "PerlinNoisePainter", "desc": "五角星元素 任意效果展示一个会动的五角星"},
+    {"cat": "E", "subcat": "E3", "url": "https://wangyasai.github.io/Awesome-Mosaic/", "icon": "icon/1.svg", "title": "Awesome Mosaic", "desc": "马赛克背景 可以调节的会动的马赛克背景"},
+    {"cat": "E", "subcat": "E3", "url": "https://coolbackgrounds.io/", "icon": "icon/1.svg", "title": "Cool Backgrounds", "desc": "波浪图形 可调节形态，支持SVG下载"},
+    {"cat": "E", "subcat": "E3", "url": "https://codepen.io/tsuhre/full/BYbjyg", "icon": "icon/1.svg", "title": "炫光背景", "desc": "炫光背景 随意滑动即可生成，再次点击重置"},
+],
+'F4': [
+    // 去除背景
+    {"cat": "E", "subcat": "E4", "url": "https://www.fococlipping.com/", "icon": "icon/1.svg", "title": "Foco Clipping", "desc": "一次最多支持30张图片"},
+    {"cat": "E", "subcat": "E4", "url": "https://idify.netlify.app/", "icon": "icon/1.svg", "title": "Idify", "desc": "界面美观，只有一个上传图片按钮"},
+    {"cat": "E", "subcat": "E4", "url": "https://www.unscreen.com/upload", "icon": "icon/1.svg", "title": "Unscreen", "desc": "不止免费，还有更为全面的PRO版本"},
+],
+'F5': [
+    // 抹除物体
+    {"cat": "E", "subcat": "E5", "url": "https://www.experte.com/background-remover", "icon": "icon/1.svg", "title": "Experte Background Remover", "desc": "无需注册，上传即抠"},
+    {"cat": "E", "subcat": "E5", "url": "https://zh.bgsub.com/", "icon": "icon/1.svg", "title": "Bgsub", "desc": "支持在线抠图并换上自己想要的背景"},
+    {"cat": "E", "subcat": "E5", "url": "https://autoclipping.com/", "icon": "icon/1.svg", "title": "Autoclipping", "desc": "只需上传图片即可手动完成抠图"},
+    {"cat": "E", "subcat": "E5", "url": "https://online.photoscissors.com/", "icon": "icon/1.svg", "title": "Photoscissors", "desc": "最大可支持5M的图片保留"},
+    {"cat": "E", "subcat": "E5", "url": "https://zh.clippingmagic.com/", "icon": "icon/1.svg", "title": "Clippingmagic", "desc": "在线抠除图像背景，支持中文"},
+    {"cat": "E", "subcat": "E5", "url": "https://www.remove.bg/", "icon": "icon/1.svg", "title": "Remove.bg", "desc": "仅需五秒钟就可以自动抠图"},
+    {"cat": "E", "subcat": "E5", "url": "https://www.watermarkremover.io/zh", "icon": "icon/1.svg", "title": "Watermarkremover", "desc": "免费在线水印移除工具"},
+    {"cat": "E", "subcat": "E5", "url": "https://magicstudio.com/zh/magiceraser/", "icon": "icon/1.svg", "title": "Magic Eraser", "desc": "不需要的人物文本涂抹就删掉"},
+    {"cat": "E", "subcat": "E5", "url": "https://www.hama.app/zh", "icon": "icon/1.svg", "title": "Haha", "desc": "不想要图片内容涂抹删除"},
+],
+'F6': [
+    // 画质增强
+    {"cat": "E", "subcat": "E6", "url": "https://imgupscaler.com/zh-tw", "icon": "icon/1.svg", "title": "Img.upscaler", "desc": "免费最高支持至4000px*4000px"},
+    {"cat": "E", "subcat": "E6", "url": "https://www.modyfi.com/", "icon": "icon/1.svg", "title": "Modyfi", "desc": "老照片修复 支持老照片修复、老照片上色和魔法动态照片"},
+    {"cat": "E", "subcat": "E6", "url": "https://palette.fm/", "icon": "icon/1.svg", "title": "Palette", "desc": "给黑白图片增添颜色，无需登录"},
+    {"cat": "E", "subcat": "E6", "url": "https://bigjpg.com/", "icon": "icon/1.svg", "title": "Bigjpg", "desc": "AI人工智能图片放大"},
+    {"cat": "E", "subcat": "E6", "url": "https://qingtu.cn/", "icon": "icon/1.svg", "title": "清图", "desc": "国内的AI项目，逻辑更舒适"},
+    {"cat": "E", "subcat": "E6", "url": "https://upscayl.org/", "icon": "icon/1.svg", "title": "Upscayl", "desc": "得下载才能使用"},
+    {"cat": "E", "subcat": "E6", "url": "https://www.upscale.media/zh", "icon": "icon/1.svg", "title": "Upscale", "desc": "免费仅支持最高1500px*1500px"},
+    {"cat": "E", "subcat": "E6", "url": "https://unlimited.waifu2x.net/", "icon": "icon/1.svg", "title": "Waifu2x", "desc": "可以自定义参数再增强画质"},
+    {"cat": "E", "subcat": "E6", "url": "https://ezgif.com/video-to-gif", "icon": "icon/1.svg", "title": "Ezgif", "desc": "支持视频转GIF，编辑GIF"},
+],
+'F7': [
+    // 图像压缩
+    {"cat": "E", "subcat": "E7", "url": "https://compresspng.com/", "icon": "icon/1.svg", "title": "Compresspng", "desc": "支持格式-PNG、JPG、PDF、GIF"},
+    {"cat": "E", "subcat": "E7", "url": "https://imgtool.v1.mk/", "icon": "icon/1.svg", "title": "Imgtool", "desc": "图片极致压缩 只有一个功能-极致压缩"},
+    {"cat": "E", "subcat": "E7", "url": "https://zh.recompressor.com/", "icon": "icon/1.svg", "title": "Recompressor", "desc": "图像优化神器，网站还支持中文显示，无需翻译"},
+    {"cat": "E", "subcat": "E7", "url": "https://squoosh.app/", "icon": "icon/1.svg", "title": "Squoosh", "desc": "界面干净清爽，效果也非常好"},
+    {"cat": "E", "subcat": "E7", "url": "https://tinypng.com/", "icon": "icon/1.svg", "title": "Tinypng", "desc": "支持一次压缩20张5M以下的文件"},
+    {"cat": "E", "subcat": "E7", "url": "https://www.yalijuda.com/", "icon": "icon/1.svg", "title": "鸭力巨大", "desc": "一键压缩图片视频，释放存储空间"},
+    {"cat": "E", "subcat": "E7", "url": "https://www.picdiet.com/zh-cn", "icon": "icon/1.svg", "title": "Picdiet", "desc": "对压缩对象没有任何限制且完全免费"},
+    {"cat": "E", "subcat": "E7", "url": "https://www.jpeg.io/", "icon": "icon/1.svg", "title": "Jpeg.io", "desc": "将其转换为高度优化的图片"},
+],
+// 设计素材
+'G1': [
+    // VI样机            
+    {"cat": "F", "subcat": "F1", "url": "https://www.jpeg.io/", "icon": "icon/1.svg", "title": "Jpeg.io", "desc": "将其转换为高度优化的图片"},
+    {"cat": "F", "subcat": "F1", "url": "https://mockups-design.com/", "icon": "icon/1.svg", "title": "Mockups-design", "desc": "一个可免费可商用的样机素材网站"},
+    {"cat": "F", "subcat": "F1", "url": "https://unblast.com/", "icon": "icon/1.svg", "title": "Unblast", "desc": "网站搜集了大量的免费样机"},
+    {"cat": "F", "subcat": "F1", "url": "https://www.graphberry.com", "icon": "icon/1.svg", "title": "Graphberry", "desc": "优质的 PSD样机模型素材站"},
+    {"cat": "F", "subcat": "F1", "url": "https://www.ls.graphics/free-mockups", "icon": "icon/1.svg", "title": "Is.graphics", "desc": "一家提供高质量样机模板的网站"},
+    {"cat": "F", "subcat": "F1", "url": "https://mockup.sitapix.com", "icon": "icon/1.svg", "title": "西田样机", "desc": "提供免费高质量样机的中文网站"},
+    {"cat": "F", "subcat": "F1", "url": "https://www.mockupworld.co", "icon": "icon/1.svg", "title": "Mockupworld", "desc": "一个国外免费实体样机素材网站"},
+    {"cat": "F", "subcat": "F1", "url": "https://themockup.club", "icon": "icon/1.svg", "title": "TheMockupClub", "desc": "比较优质的免费的样机下载站"},
+    {"cat": "F", "subcat": "F1", "url": "https://www.pixeden.com/", "icon": "icon/1.svg", "title": "Pixeden", "desc": "网站里面的Mockups分类非常全"}, 
+],
+'G2': [
+    // PNG素材            
+    {"cat": "F", "subcat": "F2", "url": "http://www.pngall.com/", "icon": "icon/1.svg", "title": "Pngall", "desc": "类型丰富的免费PNG下载站"},
+    {"cat": "F", "subcat": "F2", "url": "http://pngimg.com/", "icon": "icon/1.svg", "title": "Pngimg", "desc": "号称全世界最大的PNG透明背景图库"},
+    {"cat": "F", "subcat": "F2", "url": "https://www.kisspng.com/", "icon": "icon/1.svg", "title": "Kisspng", "desc": "所有图像都无需登录免费无限制下载"},
+    {"cat": "F", "subcat": "F2", "url": "https://www.pixelsquid.com/", "icon": "icon/1.svg", "title": "Pixelsquid", "desc": "旋转3D素材获得完美的角度下载"},
+    {"cat": "F", "subcat": "F2", "url": "http://www.pngpix.com/", "icon": "icon/1.svg", "title": "Pngpix", "desc": "种类多而且质量很高png矢量图片站"},
+    {"cat": "F", "subcat": "F2", "url": "https://pngimg.com/", "icon": "icon/1.svg", "title": "pngimg", "desc": "全球知名的PNG优质素材库"},
+    {"cat": "F", "subcat": "F2", "url": "http://www.stickpng.com/", "icon": "icon/1.svg", "title": "Stickpng", "desc": "提供免扣PNG格式资源免费下载"},
+],
+'G3': [
+    // 矢量素材            
+    {"cat": "F", "subcat": "F3", "url": "https://undraw.co/", "icon": "icon/1.svg", "title": "Undraw", "desc": "提供完全免费的 SVG/PNG 图片"},
+    {"cat": "F", "subcat": "F3", "url": "https://dealjumbo.com/", "icon": "icon/1.svg", "title": "Dealjumbo", "desc": "网站整体质量较高 下载需要输入邮箱"},
+    {"cat": "F", "subcat": "F3", "url": "http://www.iconninja.com", "icon": "icon/1.svg", "title": "Iconninja", "desc": "所有的展示素材均提供详细的信"},
+    {"cat": "F", "subcat": "F3", "url": "https://www.shareicon.net", "icon": "icon/1.svg", "title": "Shareicon", "desc": "免费提供超过25万矢量图片素材"},
+    {"cat": "F", "subcat": "F3", "url": "http://flat-icon-design.com/", "icon": "icon/1.svg", "title": "Flat-icon", "desc": "日本的免费可商用扁平化矢量网站"},
+    {"cat": "F", "subcat": "F3", "url": "http://bg-patterns.com/", "icon": "icon/1.svg", "title": "Bg-patterns", "desc": "矢量平铺背景纹理免费生成下载"},
+    {"cat": "F", "subcat": "F3", "url": "https://www.freepik.com/", "icon": "icon/1.svg", "title": "Freepik", "desc": "收集最多免费矢量图资源的网站之一"},
+    {"cat": "F", "subcat": "F3", "url": "https://www.vectorportal.com/", "icon": "icon/1.svg", "title": "Vectorportal", "desc": "超过3500万免费矢量素材下载"},
+    {"cat": "F", "subcat": "F3", "url": "https://www.vecteezy.com", "icon": "icon/1.svg", "title": "Vecteezy", "desc": "一个免费矢量图的网站"},
+],
+'G4': [
+    // 插画素材            
+    {"cat": "F", "subcat": "F4", "url": "https://www.handz.design", "icon": "icon/1.svg", "title": "Handz", "desc": "网站拥有各种手势人物造型下载"},
+    {"cat": "F", "subcat": "F4", "url": "https://superscene.pro", "icon": "icon/1.svg", "title": "Superscene", "desc": "高质量3D插画模型部分提供免费下载"},
+    {"cat": "F", "subcat": "F4", "url": "https://iradesign.io/", "icon": "icon/1.svg", "title": "Iradesign", "desc": "免版权且提供5种渐变色自定义各部位"},
+    {"cat": "F", "subcat": "F4", "url": "https://igoutu.cn/illustrations", "icon": "icon/1.svg", "title": "Igoutu", "desc": "分类明细的插画，免费下载PNG格式"},
+    {"cat": "F", "subcat": "F4", "url": "https://mixkit.co/free-stock-art/", "icon": "icon/1.svg", "title": "Mixkit", "desc": "免费高质量艺术类插画下载"},
+    {"cat": "F", "subcat": "F4", "url": "https://vertex.im/", "icon": "icon/1.svg", "title": "Vertex", "desc": "比较常见的3D图标，支持旋转角度下载"},
+    {"cat": "F", "subcat": "F4", "url": "https://stubborn.fun/", "icon": "icon/1.svg", "title": "Stubborn", "desc": "随意搭配身体部位和矢量人物插画"},
+    {"cat": "F", "subcat": "F4", "url": "https://lukaszadam.com/illustrations", "icon": "icon/1.svg", "title": "lukaszadam", "desc": "各种免版权插画风格图标"},
+    {"cat": "F", "subcat": "F4", "url": "https://stubborn.fun/", "icon": "icon/1.svg", "title": "Stubborn", "desc": "可选择色彩，并且输入邮箱免费下载"},
+    {"cat": "F", "subcat": "F4", "url": "https://www.humaaans.com/", "icon": "icon/1.svg", "title": "Humaaans", "desc": "网站所有内容免费商用但是需要梯子"},
+    {"cat": "F", "subcat": "F4", "url": "https://cocomaterial.com/", "icon": "icon/1.svg", "title": "CoCo Material", "desc": "3000+简约插画免费下载"},
+],
+'G5': [
+    // PSD素材            
+    {"cat": "F", "subcat": "F5", "url": "https://freebiesbug.com", "icon": "icon/1.svg", "title": "Freebiesbug", "desc": "提供精心挑选的PSD资源"},
+    {"cat": "F", "subcat": "F5", "url": "https://www.freepik.com", "icon": "icon/1.svg", "title": "Freepik", "desc": "收录了很多高质量PSD素材图片"},
+    {"cat": "F", "subcat": "F5", "url": "https://www.1001freedownloads.com", "icon": "icon/1.svg", "title": "1001free", "desc": "设计师寻找的免费素材网站"},
+    {"cat": "F", "subcat": "F5", "url": "https://freebiesjedi.com", "icon": "icon/1.svg", "title": "Freebiesjedi", "desc": "免费提供各类素材资源下载"},
+    {"cat": "F", "subcat": "F5", "url": "https://fbrushes.com/", "icon": "icon/1.svg", "title": "Fbrushes", "desc": "提供各类素材资源的站点"},
+    {"cat": "F", "subcat": "F5", "url": "https://psdboom.com/", "icon": "icon/1.svg", "title": "Psdboom", "desc": "提供免费PSD以及收录各式背景"},
+],
+'G6': [
+    // 背景纹理            
+    {"cat": "F", "subcat": "F6", "url": "https://patterninja.com/", "icon": "icon/1.svg", "title": "Patterninja", "desc": "纹理背景用来做PPT的背景图超赞"},
+    {"cat": "F", "subcat": "F6", "url": "http://www.heropatterns.com/", "icon": "icon/1.svg", "title": "Heropatterns", "desc": "纹理颇有质感特别大气的材质贴图"},
+    {"cat": "F", "subcat": "F6", "url": "http://texturer.com/", "icon": "icon/1.svg", "title": "Texture", "desc": "数十类精品免费真实纹理背景素材"},
+    {"cat": "F", "subcat": "F6", "url": "https://www.textureking.com/", "icon": "icon/1.svg", "title": "Textureking", "desc": "多种精品酷炫效果自然纹理"},
+    {"cat": "F", "subcat": "F6", "url": "http://patternico.com/", "icon": "icon/1.svg", "title": "Patternico", "desc": "可以上传自己酷炫的作品，互动性较强"},
+    {"cat": "F", "subcat": "F6", "url": "https://patternico.com/emoji/", "icon": "icon/1.svg", "title": "Patternico", "desc": "自选图标以生成好看的背景图"},
+    {"cat": "F", "subcat": "F6", "url": "https://www.toptal.com/designers/subtlepatterns/", "icon": "icon/1.svg", "title": "Toptal", "desc": "纹理背景简约，适合古风类型"},
+    {"cat": "F", "subcat": "F6", "url": "https://www.transparenttextures.com/", "icon": "icon/1.svg", "title": "Transpare", "desc": "根据色彩选择精美纹理背景"},
+],
+'G7': [
+    // 图标Emoji           
+    {"cat": "F", "subcat": "F7", "url": "http://www.iconfont.cn", "icon": "icon/1.svg", "title": "Iconfont", "desc": "由阿里巴巴打造的矢量图标交流平台"},
+    {"cat": "F", "subcat": "F7", "url": "https://www.iconsdb.com/", "icon": "icon/1.svg", "title": "Iconsdb", "desc": "目前拥有4000多个图标的免费图标库"},
+    {"cat": "F", "subcat": "F7", "url": "https://www.iconfinder.com/", "icon": "icon/1.svg", "title": "Iconfinder", "desc": "世界上前几大免费设计图标搜索引擎"},
+    {"cat": "F", "subcat": "F7", "url": "https://yesicon.app/", "icon": "icon/1.svg", "title": "Yesicon", "desc": "免费的图标库，直接就能下载"},
+    {"cat": "F", "subcat": "F7", "url": "https://iconmonstr.com/", "icon": "icon/1.svg", "title": "Iconmonstr", "desc": "提供大量黑白图标的素材站"},
+    {"cat": "F", "subcat": "F7", "url": "https://pluspng.com/", "icon": "icon/1.svg", "title": "PLUSPNG", "desc": "专注于全球图标收集的网站提供下载"},
+    {"cat": "F", "subcat": "F7", "url": "https://www.materialui.co/icons", "icon": "icon/1.svg", "title": "Materialui", "desc": "搜索框快速搜索面性风格和线性风格"},
+    {"cat": "F", "subcat": "F7", "url": "https://www.webalys.com/nova/", "icon": "icon/1.svg", "title": "Webalys", "desc": "数量十分齐全每个图标都可选择风格"},
+],
+'G8': [
+    // PPT模板
+    {"cat": "F", "subcat": "F8", "url": "https://www.pptstore.net/", "icon": "icon/1.svg", "title": "Pptstore", "desc": "国内高质量原创设计模板"},
+    {"cat": "F", "subcat": "F8", "url": "http://www.1ppt.com/", "icon": "icon/1.svg", "title": "1ppt", "desc": "网站颜值不高，但是内容免费下载"},
+    {"cat": "F", "subcat": "F8", "url": "https://slidemodel.com/", "icon": "icon/1.svg", "title": "Slidemodel", "desc": "每周提供150个ppt模板免费下载"},
+    {"cat": "F", "subcat": "F8", "url": "https://graphicriver.net/presentation-templates", "icon": "icon/1.svg", "title": "Graphicriver", "desc": "全球最高设计水平的PPT模板站"},
+    {"cat": "F", "subcat": "F8", "url": "https://slidehunter.com/", "icon": "icon/1.svg", "title": "Slidehunter", "desc": "免费ppt模板网站，还提供3D类型的"},
+    {"cat": "F", "subcat": "F8", "url": "https://www.presentationload.com/", "icon": "icon/1.svg", "title": "Presentationload", "desc": "欧洲的收费网站，简约之美+商务之美"},
+    {"cat": "F", "subcat": "F8", "url": "https://www.presentationmagazine.com/", "icon": "icon/1.svg", "title": "Magazine", "desc": "网站模板大部分的模板可以免费使用"},
+    {"cat": "F", "subcat": "F8", "url": "https://justfreeslide.com/", "icon": "icon/1.svg", "title": "Justfreeslide", "desc": "免费资源需要分享获取下载链接"},
+    {"cat": "F", "subcat": "F8", "url": "http://www.officeplus.cn/Template/Home.shtml", "icon": "icon/1.svg", "title": "Officeplus", "desc": "微软Office官方在线模板网站"},
+],
+'G9': [
+    // PS笔刷
+    {"cat": "F", "subcat": "F9", "url": "https://www.brushlovers.com/tag/brush", "icon": "icon/1.svg", "title": "Brushlovers", "desc": "比较全面的PS资源网站集合"},
+    {"cat": "F", "subcat": "F9", "url": "https://myphotoshopbrushes.com/", "icon": "icon/1.svg", "title": "Brushes", "desc": "简洁的搜索菜单方便进行过滤"},
+    {"cat": "F", "subcat": "F9", "url": "https://www.brushking.eu/", "icon": "icon/1.svg", "title": "Brushking", "desc": "根据分类轻松找需要的笔刷"},
+    {"cat": "F", "subcat": "F9", "url": "https://qbrushes.net/", "icon": "icon/1.svg", "title": "Qbrushes", "desc": "提供分类查找到笔刷类型"},
+    {"cat": "F", "subcat": "F9", "url": "https://www.brusheezy.com/brushes", "icon": "icon/1.svg", "title": "Brusheezy", "desc": "根据PS版本进行过滤分类笔刷"},
+    {"cat": "F", "subcat": "F9", "url": "http://www.chezplumeau.com", "icon": "icon/1.svg", "title": "Chezplumeau", "desc": "发现寻找具有特定主题的笔刷"},
+    {"cat": "F", "subcat": "F9", "url": "http://wowbrushes.com/", "icon": "icon/1.svg", "title": "Wowbrushes", "desc": "网站提供各种高质量的笔刷笔触下载"},
+    {"cat": "F", "subcat": "F9", "url": "https://photoshoproadmap.com/", "icon": "icon/1.svg", "title": "Photoshoproadmap", "desc": "大量独特的优质Photoshop笔刷集合"},
+],
+// 配色方案
+'H1': [
+    // 纯色搭配
+    {"cat": "G", "subcat": "G1", "url": "http://colorsafe.co/", "icon": "icon/1.svg", "title": "Colorsafe", "desc": "选择一个颜色，会给出不一样的方案"},
+    {"cat": "G", "subcat": "G1", "url": "http://colllor.com/", "icon": "icon/1.svg", "title": "Colllor", "desc": "一个色系给出50种深浅的选择"},
+    {"cat": "G", "subcat": "G1", "url": "https://www.materialpalette.com", "icon": "icon/1.svg", "title": "Materialpalette", "desc": "非常适合扁平化设计的工具"},
+    {"cat": "G", "subcat": "G1", "url": "https://www.sessions.edu", "icon": "icon/1.svg", "title": "Sessions", "desc": "对比颜色很方便，各种色彩搭配"},
+    {"cat": "G", "subcat": "G1", "url": "http://Coolors.co", "icon": "icon/1.svg", "title": "Coolors", "desc": "各种色块搭配多种配色模式"},
+    {"cat": "G", "subcat": "G1", "url": "https://colorhunt.co/", "icon": "icon/1.svg", "title": "Colorhunt", "desc": "不同色彩之间进行搭配"},
+    {"cat": "G", "subcat": "G1", "url": "https://color.adobe.com/", "icon": "icon/1.svg", "title": "Color.Adobe", "desc": "提供常用五种色彩模式选择"},
+    {"cat": "G", "subcat": "G1", "url": "http://www.colorhunter.com", "icon": "icon/1.svg", "title": "Colorhunter", "desc": "操作方便，特别适合新手使用"},
+    {"cat": "G", "subcat": "G1", "url": "https://color.hailpixel.com/", "icon": "icon/1.svg", "title": "Color.hailpixel", "desc": "移动鼠标就能得到不一样的颜色"},
+    {"cat": "G", "subcat": "G1", "url": "http://colrd.com/", "icon": "icon/1.svg", "title": "Colrd", "desc": "推荐这个是把图片所有颜色拆成单个色"},
+],
+'H2': [
+    // 渐变配色
+    {"cat": "G", "subcat": "G2", "url": "https://uigradients.com/#Passion", "icon": "icon/1.svg", "title": "Uigradients", "desc": "点击左上角显示全部，右上角旋转角度"},
+    {"cat": "G", "subcat": "G2", "url": "https://gradient.shapefactory.co", "icon": "icon/1.svg", "title": "Gradient", "desc": "点击色块上的圆圈可以改变角度"},
+    {"cat": "G", "subcat": "G2", "url": "https://webgradients.com", "icon": "icon/1.svg", "title": "Webgradients", "desc": "点击即可大图预览和下载"},
+    {"cat": "G", "subcat": "G2", "url": "https://www.grabient.com/", "icon": "icon/1.svg", "title": "Grabient", "desc": "成千上万漂亮的渐变色站点"},
+    {"cat": "G", "subcat": "G2", "url": "https://coliss.com/articles/web-services/online-cssgradientbutton.html", "icon": "icon/1.svg", "title": "Coliss", "desc": "可以把调好的渐变色生成CSS网页代码"},
+    {"cat": "G", "subcat": "G2", "url": "https://webkul.github.io/coolhue/", "icon": "icon/1.svg", "title": "Webkul", "desc": "点击下载图片下方复制颜色代码"},
+],
+// 知识社区
+'I1': [
+    // 设计书籍
+    {"url": "https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw", "icon": "icon/1.svg", "title": "千本设计书籍-设计师必备推荐", "desc": "搜集来自全球的知名设计书籍"},
+],
+// 软件工具
+'J1': [
+    // 软件下载
+    {"cat": "I", "subcat": "I1", "url": "https://www.jb51.net/", "icon": "icon/1.svg", "title": "脚本之家", "desc": "提供互联网全方位在线工具无套路分享"},
+    {"cat": "I", "subcat": "I1", "url": "https://www.fosshub.com/", "icon": "icon/1.svg", "title": "Fosshub", "desc": "来自全球免费好用的软件"},
+    {"cat": "I", "subcat": "I1", "url": "https://www.lookae.com", "icon": "icon/1.svg", "title": "LookAE", "desc": "各类需要的设计资源，这里可能全都有"},
+    {"cat": "I", "subcat": "I1", "url": "https://fonts.google.com/", "icon": "icon/1.svg", "title": "Google Fonts", "desc": "海量免费字体资源"},
+    {"cat": "I", "subcat": "I1", "url": "https://www.weidown.com/", "icon": "icon/1.svg", "title": "微当下载", "desc": "全能的各设备软件分享站"},
+    {"cat": "I", "subcat": "I1", "url": "https://www.appinn.com/", "icon": "icon/1.svg", "title": "小众软件", "desc": "分享有趣的绿色免费软件"},
+    {"cat": "I", "subcat": "I1", "url": "https://www.runker.net", "icon": "icon/1.svg", "title": "行客工作室", "desc": "各类电脑软件这里都有，下载方便"},
+],
+'J2': [
+    // 资源搜索
+    {"cat": "I", "subcat": "I2", "url": "https://searx.org/", "icon": "icon/1.svg", "title": "SearXNG", "desc": "全世界最强大的元搜索引擎"},
+    {"cat": "I", "subcat": "I2", "url": "https://search.chongbuluo.com/", "icon": "icon/1.svg", "title": "虫部落 · 快搜", "desc": "聚合了全球所有的搜索工具"},
+    {"cat": "I", "subcat": "I2", "url": "https://www.chaonengsou.com/", "icon": "icon/1.svg", "title": "网盘超能搜", "desc": "聚合多个网盘搜索，常用都可搜"},
+],
+'J3': [
+    // 格式转换
+    {"cat": "I", "subcat": "I3", "url": "https://www.aconvert.com/cn/", "icon": "icon/1.svg", "title": "AC文件转换", "desc": "【推荐】支持的类型全-使用方便"},
+    {"cat": "I", "subcat": "I3", "url": "https://convertio.co/zh/video-converter/", "icon": "icon/1.svg", "title": "Convertio", "desc": "在线转换任何格式的视频文件"},
+    {"cat": "I", "subcat": "I3", "url": "https://www.ilovepdf.com/", "icon": "icon/1.svg", "title": "Ilovepdf", "desc": "支持多种格式之间进行互转"},
+    {"cat": "I", "subcat": "I3", "url": "http://www.alltoall.net/", "icon": "icon/1.svg", "title": "Alltoall", "desc": "支持多达200多种格式在线转换"},
+    {"cat": "I", "subcat": "I3", "url": "https://www.pdfconvertonline.com/cn/", "icon": "icon/1.svg", "title": "Pdfconvertonline", "desc": "网站支持各类文件之间进行互转"},
+],
+'J4': [
+    // 偏门利器
+    {"cat": "I", "subcat": "I4", "url": "https://swiftqr.tanpok.com/", "icon": "icon/1.svg", "title": "文本生成二维码", "desc": "仅支持文本生成二维码"},
+    {"cat": "I", "subcat": "I4", "url": "https://sms-activate.io/cn?%2Fcn=", "icon": "icon/1.svg", "title": "SMS", "desc": "虚拟国外手机号码短信验证"},
+    {"cat": "I", "subcat": "I4", "url": "https://www.qrcode-monkey.com/", "icon": "icon/1.svg", "title": "生成二维码", "desc": "任何内容都可以生成二维码"},
+    {"cat": "I", "subcat": "I4", "url": "https://www.shorturl.at/", "icon": "icon/1.svg", "title": "网址变短", "desc": "可以让任何网址变短的神器"},
+    {"cat": "I", "subcat": "I4", "url": "https://personas.draftbit.com/", "icon": "icon/1.svg", "title": "卡通头像生成", "desc": "在线设计卡通头像并下载"},
+    {"cat": "I", "subcat": "I4", "url": "http://www.12tool.com/", "icon": "icon/1.svg", "title": "聊天截图生成", "desc": "线上生成微信支付宝截图"},
+],
     };
 
     const searchEngines = {
@@ -1172,16 +1232,41 @@
         { text: "UI设计", url: "https://www.baidu.com/s?wd=UI设计" },
     ];
 
-    function initNavigation() {
-        const primaryCategories = document.querySelectorAll('.primary-category');
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const primaryCategoriesContainer = document.querySelector('.primary-categories');
+    // --- DOM 元素选择 ---
+    const mobileMenuToggleBtn = document.querySelector('.mobile-fab-toggle-btn');
+    const primaryNav = document.querySelector('.primary-nav');
+    const drawerCloseBtn = document.querySelector('.drawer-close-btn');
+    const mobileOverlayBackdrop = document.querySelector('.mobile-overlay-backdrop');
+    const primaryCategories = document.querySelectorAll('.primary-category');
+    const categoryGroups = document.querySelectorAll('.category-group');
+    const searchSection = document.querySelector('.search-section');
 
+    // --- 全局状态变量 ---
+    let isScrollingProgrammatically = false; // 标志是否正在进行程序性滚动（由点击导航触发）
+    let scrollEndTimer = null; // 用于检测滚动停止的定时器
+    const SCROLL_STOP_DELAY = 150; // 滚动停止的延迟时间（毫秒）
+
+    // --- 辅助函数 ---
+    function closeDrawer() {
+        primaryNav.classList.remove('is-open');
+        mobileOverlayBackdrop.classList.remove('is-visible');
+        document.body.style.overflow = ''; // 恢复body滚动
+    }
+
+    function openDrawer() {
+        primaryNav.classList.add('is-open');
+        mobileOverlayBackdrop.classList.add('is-visible');
+        document.body.style.overflow = 'hidden'; // 禁止body滚动
+    }
+
+    // --- 主要初始化函数 ---
+    function initNavigation() {
+        // 填充卡片数据到对应的容器
         Object.keys(cardData).forEach(subcategory => {
             const container = document.querySelector(`.cards-container[data-subcategory="${subcategory}"]`);
             if (container) {
                 container.innerHTML = cardData[subcategory].map(card => `
-                    <a href="${card.url}" class="card" target="_blank">
+                    <a href="${card.url}" class="card" target="_blank" rel="noopener noreferrer">
                         <div class="card-header">
                             <img src="${card.icon}" class="card-icon" loading="lazy" alt="${card.title}">
                             <div>
@@ -1194,54 +1279,52 @@
             }
         });
 
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function() {
-                this.classList.toggle('active');
-                primaryCategoriesContainer.classList.toggle('active');
-            });
-        }
-
-        primaryCategories.forEach(primaryCatBtn => {
-            const categoryCode = primaryCatBtn.dataset.category;
-            const subcategoryList = document.querySelector(`.subcategory-list[data-category="${categoryCode}"]`);
-
-            if (subcategoryList) {
-                const firstSubcategoryItem = subcategoryList.querySelector('.subcategory-item');
-                if (firstSubcategoryItem) {
-                    firstSubcategoryItem.classList.add('active');
-                    const firstSubcategoryCode = firstSubcategoryItem.dataset.subcategory;
-                    const firstCardsContainer = document.querySelector(`.cards-container[data-subcategory="${firstSubcategoryCode}"]`);
-                    if (firstCardsContainer) {
-                        firstCardsContainer.classList.add('active');
-                    }
+        // 初始化每个主分类下的第一个子分类为激活状态
+        document.querySelectorAll('.subcategory-list').forEach(subcategoryList => {
+            const firstSubcategoryItem = subcategoryList.querySelector('.subcategory-item');
+            if (firstSubcategoryItem) {
+                firstSubcategoryItem.classList.add('active');
+                const firstCardsContainer = document.querySelector(`.cards-container[data-subcategory="${firstSubcategoryItem.dataset.subcategory}"]`);
+                if (firstCardsContainer) {
+                    firstCardsContainer.classList.add('active');
                 }
             }
         });
 
+        // 左侧主分类按钮的点击事件监听
         primaryCategories.forEach(item => {
             item.addEventListener('click', function() {
+                isScrollingProgrammatically = true; // 设置标志，表示正在进行程序性滚动
+
+                primaryCategories.forEach(pc => pc.classList.remove('is-active')); // 移除所有高亮
+                this.classList.add('is-active'); // 高亮被点击的按钮
+
                 const category = this.dataset.category;
 
-                primaryCategories.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-
-                if (window.innerWidth <= 768) {
-                    primaryCategoriesContainer.classList.remove('active');
-                    mobileMenuToggle.classList.remove('active');
+                // 移动端点击后关闭抽屉
+                if (window.innerWidth <= 1024 && primaryNav.classList.contains('is-open')) {
+                    closeDrawer();
                 }
 
                 const targetGroup = document.getElementById(`category-${category}`);
                 if (targetGroup) {
-                    const searchSectionHeight = document.querySelector('.search-section').offsetHeight;
-                    const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchSectionHeight - 20;
+                    // 计算吸顶搜索栏的高度和额外的内边距
+                    const stickyHeaderHeight = searchSection.offsetHeight;
+                    const topPadding = 20;
+
+                    // 滚动到目标元素，并考虑吸顶搜索栏的偏移
+                    const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - stickyHeaderHeight - topPadding;
+
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
                     });
+                    // isScrollingProgrammatically 标志会在滚动停止后由 window.addEventListener('scroll') 重置
                 }
             });
         });
 
+        // 子分类按钮的点击事件监听
         document.querySelectorAll('.subcategory-item').forEach(item => {
             item.addEventListener('click', function() {
                 const currentSubcategoryCode = this.dataset.subcategory;
@@ -1256,6 +1339,107 @@
                 document.querySelector(`.cards-container[data-subcategory="${currentSubcategoryCode}"]`).classList.add('active');
             });
         });
+
+        // --- Intersection Observer 用于基于滚动的导航高亮 ---
+        // 获取吸顶搜索栏的动态高度，用于调整观察器边距
+        let stickyHeaderHeight = searchSection.offsetHeight;
+        const topPaddingForObserver = 20; // 额外内边距，提供视觉舒适度
+
+        // 窗口大小变化时更新吸顶搜索栏高度 (例如：移动端横屏)
+        window.addEventListener('resize', () => {
+            stickyHeaderHeight = searchSection.offsetHeight;
+        });
+
+        const observerOptions = {
+            root: null, // 视口作为根元素
+            // 关键：将观察区域的顶部向下偏移，使其与吸顶搜索栏下方对齐
+            rootMargin: `-${stickyHeaderHeight + topPaddingForObserver}px 0px 0px 0px`,
+            threshold: 0.1
+        };
+
+        const categoryObserver = new IntersectionObserver((entries) => {
+            // 如果当前正在进行程序性滚动（通过点击导航触发），则不应由 IntersectionObserver 更新高亮状态
+            if (isScrollingProgrammatically) {
+                return;
+            }
+
+            let newActiveCategory = null;
+
+            // 过滤出当前与调整后视口相交的元素，并按其顶部位置排序，以获取最靠上的元素
+            const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+            intersectingEntries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+            // 如果存在相交元素，选择第一个（最靠上）的元素作为新的活跃分类
+            if (intersectingEntries.length > 0) {
+                newActiveCategory = intersectingEntries[0].target.dataset.categoryGroup;
+            }
+
+            // 处理页面最顶部区域的特殊情况：
+            // 如果没有分类组当前与观察区域相交（例如，还在滚动到顶部），确保“精选推荐 (A)”被高亮。
+            if (newActiveCategory === null) {
+                const firstCategoryGroup = document.getElementById('category-A');
+                // 检查滚动位置是否在“A”分类的“高亮判断线”上方
+                if (firstCategoryGroup && window.scrollY < firstCategoryGroup.offsetTop - stickyHeaderHeight - topPaddingForObserver) {
+                    newActiveCategory = 'A';
+                }
+            }
+            
+            // 将 'is-active' 类应用于对应的主分类按钮
+            if (newActiveCategory !== null) {
+                const currentlyActiveButton = document.querySelector('.primary-category.is-active');
+                // 只有当新的活跃分类与当前不同时才进行更新
+                if (!currentlyActiveButton || currentlyActiveButton.dataset.category !== newActiveCategory) {
+                    primaryCategories.forEach(pc => pc.classList.remove('is-active'));
+                    const correspondingButton = document.querySelector(`.primary-category[data-category="${newActiveCategory}"]`);
+                    if (correspondingButton) {
+                        correspondingButton.classList.add('is-active');
+                        // 确保左侧导航栏中活跃按钮在视口内可见
+                        correspondingButton.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest'
+                        });
+                    }
+                }
+            }
+        }, observerOptions);
+
+        // 开始观察每个分类组元素
+        categoryGroups.forEach(group => {
+            categoryObserver.observe(group);
+        });
+
+        // --- 全局滚动事件监听器，用于判断程序性滚动何时结束 ---
+        window.addEventListener('scroll', () => {
+            if (isScrollingProgrammatically) {
+                clearTimeout(scrollEndTimer);
+                // 如果在 SCROLL_STOP_DELAY 时间内没有新的滚动事件，则认为滚动停止
+                scrollEndTimer = setTimeout(() => {
+                    isScrollingProgrammatically = false; // 滚动停止，解除程序性滚动标志
+                    // 强制 Intersection Observer 重新评估：
+                    // 这对于确保程序性滚动结束后，高亮能立即同步到正确的位置至关重要。
+                    categoryGroups.forEach(group => {
+                        categoryObserver.unobserve(group); // 停止观察（以触发重新评估）
+                        categoryObserver.observe(group);    // 重新观察（会立即触发一次检测）
+                    });
+                }, SCROLL_STOP_DELAY);
+            }
+        });
+
+        // 页面加载时的初始设置：确保第一个分类 'A' 是高亮的
+        const setInitialActiveCategory = () => {
+            // 只有当页面位于顶部时才设置，避免覆盖用户已滚动到的位置
+            if (window.scrollY === 0) {
+                const firstCategoryA = document.querySelector('.primary-category[data-category="A"]');
+                if (firstCategoryA && !firstCategoryA.classList.contains('is-active')) {
+                    primaryCategories.forEach(pc => pc.classList.remove('is-active'));
+                    firstCategoryA.classList.add('is-active');
+                }
+            }
+        };
+
+        // 使用小延迟确保所有 DOM 和 CSS 计算完成
+        window.addEventListener('load', () => setTimeout(setInitialActiveCategory, 100));
+        setTimeout(setInitialActiveCategory, 50);
     }
 
     function initSearch() {
@@ -1265,14 +1449,14 @@
         const quickLinks = document.querySelectorAll('.quick-link');
         const searchSuggestionsContainer = document.querySelector('.search-suggestions');
 
-        let currentEngine = 'baidu';
+        let currentEngine = 'baidu'; // 默认搜索引擎
 
         searchEngineTabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 currentEngine = this.dataset.engine;
-
                 searchEngineTabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
+                searchInput.focus();
             });
         });
 
@@ -1281,7 +1465,14 @@
             if (query) {
                 const engineData = searchEngines[currentEngine];
                 if (engineData) {
-                    window.open(engineData.url + encodeURIComponent(query), '_blank');
+                    let searchUrl = engineData.url;
+                    // 对百度翻译进行特殊处理
+                    if (currentEngine === 'fanyi' && query) {
+                        searchUrl = engineData.url + encodeURIComponent(query);
+                    } else {
+                        searchUrl += encodeURIComponent(query);
+                    }
+                    window.open(searchUrl, '_blank', 'noopener noreferrer'); // 安全地在新标签页打开
                     searchInput.value = '';
                     searchSuggestionsContainer.classList.remove('active');
                 }
@@ -1298,22 +1489,25 @@
 
         quickLinks.forEach(link => {
             link.addEventListener('click', function() {
-                window.open(this.dataset.url, '_blank');
+                window.open(this.dataset.url, '_blank', 'noopener noreferrer');
             });
         });
 
+        // 输入框聚焦时显示建议列表（如果为空）
         searchInput.addEventListener('focus', function() {
             if (this.value.trim() === '') {
                 searchSuggestionsContainer.classList.add('active');
             }
         });
 
+        // 输入框失焦时隐藏建议列表，带少量延迟
         searchInput.addEventListener('blur', function() {
             setTimeout(() => {
                 searchSuggestionsContainer.classList.remove('active');
             }, 200);
         });
 
+        // 根据输入内容控制建议列表可见性
         searchInput.addEventListener('input', function() {
             if (this.value.trim() === '') {
                 searchSuggestionsContainer.classList.add('active');
@@ -1324,7 +1518,7 @@
 
         function generateSearchSuggestions() {
             searchSuggestionsContainer.innerHTML = searchSuggestions.map(suggestion => `
-                <a href="${suggestion.url}" class="suggestion-item" target="_blank">${suggestion.text}</a>
+                <a href="${suggestion.url}" class="suggestion-item" target="_blank" rel="noopener noreferrer">${suggestion.text}</a>
             `).join('');
         }
 
@@ -1335,7 +1529,10 @@
         initNavigation();
         initSearch();
 
-        document.querySelector('.primary-category[data-category="A"]').classList.add('active');
+        // 移动端抽屉开关和背景点击事件
+        mobileMenuToggleBtn.addEventListener('click', openDrawer);
+        drawerCloseBtn.addEventListener('click', closeDrawer);
+        mobileOverlayBackdrop.addEventListener('click', closeDrawer); // 点击背景时关闭抽屉
     });
 </script>
 </body>
