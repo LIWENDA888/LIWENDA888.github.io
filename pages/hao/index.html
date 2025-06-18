@@ -11,8 +11,8 @@
             --primary-light: rgba(255, 140, 25, 0.1);
             --text-color: #2d3748;
             --text-light: #718096;
-            --bg-color: #f8f9fa;
-            --card-bg: #f1f3f5;
+            --bg-color: #f8f9fa; /* 页面整体背景色改为浅灰色 */
+            --card-bg: #f1f3f5; /* 卡片背景色保持原有的稍深浅灰色 */
             --border-color: #e2e8f0;
             --border-radius: 16px;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -31,22 +31,17 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            background-image:
-                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
         }
 
         .app-container {
             display: flex;
             min-height: 100vh;
-            max-width: 1600px; /* 增加 app-container 的最大宽度 */
+            max-width: 2000px;
             margin: 0 auto;
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
         }
 
-        /* 左侧导航 - 一级分类区域 */
         .primary-nav {
             width: 280px;
             padding: 30px 20px;
@@ -70,7 +65,7 @@
         }
 
         .logo {
-            max-width: 180px; /* 增加logo宽度 */
+            max-width: 180px;
             max-height: 60px;
             width: auto;
             height: auto;
@@ -115,7 +110,6 @@
             color: var(--primary-color);
         }
 
-        /* 右侧内容区 */
         .content-area {
             flex: 1;
             display: flex;
@@ -123,14 +117,13 @@
             overflow-y: auto;
         }
 
-        /* 搜索区域 */
         .search-section {
             padding: 30px 40px;
             border-bottom: 1px solid var(--border-color);
             background-color: var(--bg-color);
-            position: sticky; /* 使搜索区域粘性定位 */
+            position: sticky;
             top: 0;
-            z-index: 10; /* 确保在滚动时覆盖内容 */
+            z-index: 10;
         }
 
         .search-area {
@@ -217,7 +210,6 @@
             background-color: #e07d16;
         }
 
-        /* 搜索建议 */
         .search-suggestions {
             position: absolute;
             top: 100%;
@@ -240,9 +232,9 @@
             padding: 12px 20px;
             cursor: pointer;
             transition: var(--transition);
-            text-decoration: none; /* 移除下划线 */
-            color: inherit; /* 继承父元素的颜色 */
-            display: block; /* 使链接占据整个区域 */
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .suggestion-item:hover {
@@ -274,19 +266,16 @@
             border-color: var(--primary-color);
         }
 
-        /* 卡片区域 */
         .cards-section {
             flex: 1;
-            padding: 30px 60px; /* 增加 cards-section 的左右 padding */
+            padding: 30px 60px;
             background-color: var(--bg-color);
         }
 
-        /* 针对一级分类的容器 */
         .category-group {
-            margin-bottom: 50px; /* 增加每个一级分类组之间的间距 */
+            margin-bottom: 50px;
         }
 
-        /* 分类标题 */
         .category-header {
             margin-bottom: 25px;
             display: flex;
@@ -306,12 +295,11 @@
             line-height: 1.2;
         }
 
-        /* 二级分类 */
         .subcategory-list {
-            display: flex; /* 默认显示 */
+            display: flex;
             gap: 10px;
             margin-bottom: 25px;
-            flex-wrap: wrap; /* 允许换行 */
+            flex-wrap: wrap;
         }
 
         .subcategory-item {
@@ -337,19 +325,18 @@
             border-color: var(--primary-color);
         }
 
-        /* 网址卡片容器 */
         .cards-container {
-            display: none; /* 默认隐藏所有二级分类卡片容器 */
+            display: none;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .cards-container.active {
-            display: grid; /* 只有被激活的二级分类卡片容器才显示 */
+            display: grid;
         }
 
         .card {
-            background-color: var(--card-bg);
+            background-color: var(--card-bg); /* 使用卡片特定的背景色 */
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             padding: 20px;
@@ -365,7 +352,7 @@
         .card:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-md);
-            border: 1px solid transparent; /* 移除hover时的描边 */
+            border: 1px solid transparent;
         }
 
         .card-header {
@@ -397,7 +384,6 @@
             overflow: hidden;
         }
 
-        /* 移动端折叠菜单 */
         .mobile-menu-toggle {
             display: none;
             padding: 14px 18px;
@@ -424,7 +410,6 @@
             transform: rotate(180deg);
         }
 
-        /* 响应式设计 */
         @media (max-width: 1024px) {
             .app-container {
                 flex-direction: column;
@@ -468,10 +453,9 @@
             .search-engine-tabs {
                 overflow-x: auto;
                 padding-bottom: 0;
-                justify-content: flex-start; /* 保持左对齐 */
+                justify-content: flex-start;
             }
 
-            /* 手机端只显示三个搜索引擎 */
             .search-engine-tab:nth-child(n+4) {
                 display: none;
             }
@@ -493,34 +477,29 @@
                 grid-template-columns: 1fr;
             }
 
-            /* 加长搜索框 */
             .search-input {
-                padding: 14px 30px; /* 增加内边距 */
+                padding: 14px 30px;
             }
 
-            /* 搜索引擎按钮居中 */
             .search-engine-tabs {
-                justify-content: center; /* 修改为居中对齐 */
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
 <div class="app-container">
-    <!-- 左侧一级分类区域 -->
     <div class="primary-nav">
         <div class="nav-header">
             <img src="logo.svg" alt="Logo" class="logo">
         </div>
 
-        <!-- 移动端折叠菜单按钮 -->
         <button class="mobile-menu-toggle">
             <span>切换分类</span>
             <i class="fas fa-chevron-down"></i>
         </button>
 
         <div class="primary-categories">
-            <!-- 默认激活第一个分类 -->
             <button class="primary-category active" data-category="A">
                 <i class="fas fa-star"></i>
                 <span>精选推荐</span>
@@ -564,9 +543,7 @@
         </div>
     </div>
 
-    <!-- 右侧内容区 -->
     <div class="content-area">
-        <!-- 搜索区域 -->
         <div class="search-section">
             <div class="search-area">
                 <div class="search-engine-tabs">
@@ -585,7 +562,6 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <!-- 搜索建议 -->
                     <div class="search-suggestions">
                     </div>
                 </div>
@@ -599,9 +575,7 @@
             </div>
         </div>
 
-        <!-- 卡片区域 - 每个一级分类对应一个 .category-group -->
         <div class="cards-section">
-            <!-- 精选推荐 A -->
             <div class="category-group" data-category-group="A" id="category-A">
                 <div class="category-header">
                     <h2 class="category-title">精选推荐</h2>
@@ -615,7 +589,6 @@
                 <div class="cards-container" data-subcategory="A2"></div>
             </div>
 
-            <!-- 灵感创意 B -->
             <div class="category-group" data-category-group="B" id="category-B">
                 <div class="category-header">
                     <h2 class="category-title">灵感创意</h2>
@@ -624,18 +597,11 @@
                 <div class="subcategory-list" data-category="B">
                     <div class="subcategory-item active" data-subcategory="B1">#字体灵感</div>
                     <div class="subcategory-item" data-subcategory="B2">#版式设计</div>
-                    <div class="subcategory-item" data-subcategory="B3">#品牌VI</div>
-                    <div class="subcategory-item" data-subcategory="B4">#LOGO设计</div>
-                    <div class="subcategory-item" data-subcategory="B5">#摄影鉴赏</div>
                 </div>
                 <div class="cards-container active" data-subcategory="B1"></div>
                 <div class="cards-container" data-subcategory="B2"></div>
-                <div class="cards-container" data-subcategory="B3"></div>
-                <div class="cards-container" data-subcategory="B4"></div>
-                <div class="cards-container" data-subcategory="B5"></div>
             </div>
 
-            <!-- 字体字符 C -->
             <div class="category-group" data-category-group="C" id="category-C">
                 <div class="category-header">
                     <h2 class="category-title">字体字符</h2>
@@ -644,16 +610,11 @@
                 <div class="subcategory-list" data-category="C">
                     <div class="subcategory-item active" data-subcategory="C1">#字体品牌</div>
                     <div class="subcategory-item" data-subcategory="C2">#可变字体</div>
-                    <div class="subcategory-item" data-subcategory="C3">#字形字符</div>
-                    <div class="subcategory-item" data-subcategory="C4">#动画效果</div>
                 </div>
                 <div class="cards-container active" data-subcategory="C1"></div>
                 <div class="cards-container" data-subcategory="C2"></div>
-                <div class="cards-container" data-subcategory="C3"></div>
-                <div class="cards-container" data-subcategory="C4"></div>
             </div>
 
-            <!-- AI工具 D -->
             <div class="category-group" data-category-group="D" id="category-D">
                 <div class="category-header">
                     <h2 class="category-title">AI工具</h2>
@@ -662,16 +623,11 @@
                 <div class="subcategory-list" data-category="D">
                     <div class="subcategory-item active" data-subcategory="D1">#AI聊天</div>
                     <div class="subcategory-item" data-subcategory="D2">#AI绘图</div>
-                    <div class="subcategory-item" data-subcategory="D3">#AI视频</div>
-                    <div class="subcategory-item" data-subcategory="D4">#AI音频</div>
                 </div>
                 <div class="cards-container active" data-subcategory="D1"></div>
                 <div class="cards-container" data-subcategory="D2"></div>
-                <div class="cards-container" data-subcategory="D3"></div>
-                <div class="cards-container" data-subcategory="D4"></div>
             </div>
 
-            <!-- 免版权资源 E -->
             <div class="category-group" data-category-group="E" id="category-E">
                 <div class="category-header">
                     <h2 class="category-title">免版权资源</h2>
@@ -680,20 +636,11 @@
                 <div class="subcategory-list" data-category="E">
                     <div class="subcategory-item active" data-subcategory="E1">#免版权中文字体</div>
                     <div class="subcategory-item" data-subcategory="E2">#免版权英文字体</div>
-                    <div class="subcategory-item" data-subcategory="E3">#免版权图片</div>
-                    <div class="subcategory-item" data-subcategory="E4">#免版权视频</div>
-                    <div class="subcategory-item" data-subcategory="E5">#免版权音频</div>
-                    <div class="subcategory-item" data-subcategory="E6">#免版权音效</div>
                 </div>
                 <div class="cards-container active" data-subcategory="E1"></div>
                 <div class="cards-container" data-subcategory="E2"></div>
-                <div class="cards-container" data-subcategory="E3"></div>
-                <div class="cards-container" data-subcategory="E4"></div>
-                <div class="cards-container" data-subcategory="E5"></div>
-                <div class="cards-container" data-subcategory="E6"></div>
             </div>
 
-            <!-- 设计神器 F -->
             <div class="category-group" data-category-group="F" id="category-F">
                 <div class="category-header">
                     <h2 class="category-title">设计神器</h2>
@@ -702,22 +649,11 @@
                 <div class="subcategory-list" data-category="F">
                     <div class="subcategory-item active" data-subcategory="F1">#在线设计平台</div>
                     <div class="subcategory-item" data-subcategory="F2">#LOGO生成</div>
-                    <div class="subcategory-item" data-subcategory="F3">#背景生成</div>
-                    <div class="subcategory-item" data-subcategory="F4">#去除背景</div>
-                    <div class="subcategory-item" data-subcategory="F5">#抹除物体</div>
-                    <div class="subcategory-item" data-subcategory="F6">#画质增强</div>
-                    <div class="subcategory-item" data-subcategory="F7">#图像压缩</div>
                 </div>
                 <div class="cards-container active" data-subcategory="F1"></div>
                 <div class="cards-container" data-subcategory="F2"></div>
-                <div class="cards-container" data-subcategory="F3"></div>
-                <div class="cards-container" data-subcategory="F4"></div>
-                <div class="cards-container" data-subcategory="F5"></div>
-                <div class="cards-container" data-subcategory="F6"></div>
-                <div class="cards-container" data-subcategory="F7"></div>
             </div>
 
-            <!-- 设计素材 G -->
             <div class="category-group" data-category-group="G" id="category-G">
                 <div class="category-header">
                     <h2 class="category-title">设计素材</h2>
@@ -726,26 +662,11 @@
                 <div class="subcategory-list" data-category="G">
                     <div class="subcategory-item active" data-subcategory="G1">#VI样机</div>
                     <div class="subcategory-item" data-subcategory="G2">#PNG素材</div>
-                    <div class="subcategory-item" data-subcategory="G3">#矢量素材</div>
-                    <div class="subcategory-item" data-subcategory="G4">#插画素材</div>
-                    <div class="subcategory-item" data-subcategory="G5">#PSD素材</div>
-                    <div class="subcategory-item" data-subcategory="G6">#背景纹理</div>
-                    <div class="subcategory-item" data-subcategory="G7">#图标Emoji</div>
-                    <div class="subcategory-item" data-subcategory="G8">#PPT模板</div>
-                    <div class="subcategory-item" data-subcategory="G9">#PS笔刷</div>
                 </div>
                 <div class="cards-container active" data-subcategory="G1"></div>
                 <div class="cards-container" data-subcategory="G2"></div>
-                <div class="cards-container" data-subcategory="G3"></div>
-                <div class="cards-container" data-subcategory="G4"></div>
-                <div class="cards-container" data-subcategory="G5"></div>
-                <div class="cards-container" data-subcategory="G6"></div>
-                <div class="cards-container" data-subcategory="G7"></div>
-                <div class="cards-container" data-subcategory="G8"></div>
-                <div class="cards-container" data-subcategory="G9"></div>
             </div>
 
-            <!-- 配色方案 H -->
             <div class="category-group" data-category-group="H" id="category-H">
                 <div class="category-header">
                     <h2 class="category-title">配色方案</h2>
@@ -759,7 +680,6 @@
                 <div class="cards-container" data-subcategory="H2"></div>
             </div>
 
-            <!-- 知识社区 I -->
             <div class="category-group" data-category-group="I" id="category-I">
                 <div class="category-header">
                     <h2 class="category-title">知识社区</h2>
@@ -771,7 +691,6 @@
                 <div class="cards-container active" data-subcategory="I1"></div>
             </div>
 
-            <!-- 软件工具 J -->
             <div class="category-group" data-category-group="J" id="category-J">
                 <div class="category-header">
                     <h2 class="category-title">软件工具</h2>
@@ -780,20 +699,15 @@
                 <div class="subcategory-list" data-category="J">
                     <div class="subcategory-item active" data-subcategory="J1">#软件下载</div>
                     <div class="subcategory-item" data-subcategory="J2">#资源搜索</div>
-                    <div class="subcategory-item" data-subcategory="J3">#格式转换</div>
-                    <div class="subcategory-item" data-subcategory="J4">#偏门利器</div>
                 </div>
                 <div class="cards-container active" data-subcategory="J1"></div>
                 <div class="cards-container" data-subcategory="J2"></div>
-                <div class="cards-container" data-subcategory="J3"></div>
-                <div class="cards-container" data-subcategory="J4"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // 卡片数据
     const cardData = {
         'A1': [
             {url: 'https://www.dazi.co/',icon: 'icon/1.svg',title: 'AskManyAI',desc: '来自全球的超多AI工具集合站，体验甚至超过原平台'},
@@ -1239,24 +1153,8 @@
             {"cat": "I", "subcat": "I4", "url": "https://personas.draftbit.com/", "icon": "icon/1.svg", "title": "卡通头像生成", "desc": "在线设计卡通头像并下载"},
             {"cat": "I", "subcat": "I4", "url": "http://www.12tool.com/", "icon": "icon/1.svg", "title": "聊天截图生成", "desc": "线上生成微信支付宝截图"},
         ],
-
     };
 
-    // 分类数据
-    const categoryData = {
-        'A': { title: '精选推荐', desc: '精选优质设计资源和创意平台' },
-        'B': { title: '灵感创意', desc: '激发创意的灵感来源和设计思路' },
-        'C': { title: '字体字符', desc: '各类精美字体和字库资源' },
-        'D': { title: 'AI工具', desc: '最新最实用的AI工具和资源' },
-        'E': { title: '免版权资源', desc: '可商用的免版权图片、视频等素材' },
-        'F': { title: '设计神器', desc: '提升效率的设计工具和软件' },
-        'G': { title: '设计素材', desc: '高质量设计模板和素材资源' },
-        'H': { title: '配色方案', desc: '专业色彩搭配和调色板工具' },
-        'I': { title: '知识社区', desc: '设计师交流学习的专业社区' },
-        'J': { title: '软件工具', desc: '实用高效的各类设计软件' },
-    };
-
-    // 搜索配置
     const searchEngines = {
         baidu: { name: '百度', url: 'https://www.baidu.com/s?wd=' },
         chatbaidu: { name: '百度AI', url: 'https://chat.baidu.com/search?word=' },
@@ -1267,7 +1165,6 @@
         google: { name: 'Google', url: 'https://www.google.com/search?q=' },
     };
 
-    // 搜索建议数据
     const searchSuggestions = [
         { text: "设计灵感", url: "https://www.baidu.com/s?wd=设计灵感" },
         { text: "前端开发", url: "https://www.baidu.com/s?wd=前端开发" },
@@ -1275,13 +1172,11 @@
         { text: "UI设计", url: "https://www.baidu.com/s?wd=UI设计" },
     ];
 
-    // 初始化导航和卡片显示
     function initNavigation() {
         const primaryCategories = document.querySelectorAll('.primary-category');
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const primaryCategoriesContainer = document.querySelector('.primary-categories');
 
-        // 填充卡片内容
         Object.keys(cardData).forEach(subcategory => {
             const container = document.querySelector(`.cards-container[data-subcategory="${subcategory}"]`);
             if (container) {
@@ -1299,7 +1194,6 @@
             }
         });
 
-        // 移动端菜单切换
         if (mobileMenuToggle) {
             mobileMenuToggle.addEventListener('click', function() {
                 this.classList.toggle('active');
@@ -1307,7 +1201,6 @@
             });
         }
 
-        // 默认激活所有一级分类下的第一个二级分类和对应的卡片
         primaryCategories.forEach(primaryCatBtn => {
             const categoryCode = primaryCatBtn.dataset.category;
             const subcategoryList = document.querySelector(`.subcategory-list[data-category="${categoryCode}"]`);
@@ -1325,28 +1218,22 @@
             }
         });
 
-        // 主分类点击事件 (带平滑滚动)
         primaryCategories.forEach(item => {
             item.addEventListener('click', function() {
                 const category = this.dataset.category;
 
-                // 切换active状态
                 primaryCategories.forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
 
-                // 隐藏移动端菜单
                 if (window.innerWidth <= 768) {
                     primaryCategoriesContainer.classList.remove('active');
                     mobileMenuToggle.classList.remove('active');
                 }
 
-                // 平滑滚动到对应的分类组
                 const targetGroup = document.getElementById(`category-${category}`);
                 if (targetGroup) {
-                    // 获取搜索区域的高度
                     const searchSectionHeight = document.querySelector('.search-section').offsetHeight;
-                    // 计算滚动位置，减去搜索区域的高度以避免被其覆盖
-                    const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchSectionHeight - 20; // 额外减去20px作为padding
+                    const targetPosition = targetGroup.getBoundingClientRect().top + window.scrollY - searchSectionHeight - 20;
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -1355,28 +1242,22 @@
             });
         });
 
-        // 子分类点击事件
         document.querySelectorAll('.subcategory-item').forEach(item => {
             item.addEventListener('click', function() {
                 const currentSubcategoryCode = this.dataset.subcategory;
-                const parentCategoryCode = this.parentElement.dataset.category; // 获取所属的一级分类
+                const parentCategoryCode = this.parentElement.dataset.category;
 
-                // 移除当前一级分类下所有二级分类的active状态
                 this.parentElement.querySelectorAll('.subcategory-item').forEach(i => i.classList.remove('active'));
-                // 激活当前点击的二级分类
                 this.classList.add('active');
 
-                // 隐藏当前一级分类下所有卡片容器
                 document.querySelectorAll(`.category-group[data-category-group="${parentCategoryCode}"] .cards-container`).forEach(container => {
                     container.classList.remove('active');
                 });
-                // 显示当前点击的二级分类对应的卡片容器
                 document.querySelector(`.cards-container[data-subcategory="${currentSubcategoryCode}"]`).classList.add('active');
             });
         });
     }
 
-    // 初始化搜索功能
     function initSearch() {
         const searchEngineTabs = document.querySelectorAll('.search-engine-tab');
         const searchInput = document.querySelector('.search-input');
@@ -1386,18 +1267,15 @@
 
         let currentEngine = 'baidu';
 
-        // 切换搜索引擎
         searchEngineTabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 currentEngine = this.dataset.engine;
 
-                // 更新active状态
                 searchEngineTabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
             });
         });
 
-        // 搜索功能
         function performSearch() {
             const query = searchInput.value.trim();
             if (query) {
@@ -1406,11 +1284,7 @@
                     window.open(engineData.url + encodeURIComponent(query), '_blank');
                     searchInput.value = '';
                     searchSuggestionsContainer.classList.remove('active');
-                } else {
-                    console.error(`未找到搜索引擎: ${currentEngine}`);
-                    // alert(`未找到搜索引擎: ${currentEngine}`); // 避免频繁弹窗影响用户体验
                 }
-
             }
         }
 
@@ -1422,14 +1296,12 @@
 
         searchBtn.addEventListener('click', performSearch);
 
-        // 快速链接
         quickLinks.forEach(link => {
             link.addEventListener('click', function() {
                 window.open(this.dataset.url, '_blank');
             });
         });
 
-        // 搜索建议
         searchInput.addEventListener('focus', function() {
             if (this.value.trim() === '') {
                 searchSuggestionsContainer.classList.add('active');
@@ -1439,7 +1311,7 @@
         searchInput.addEventListener('blur', function() {
             setTimeout(() => {
                 searchSuggestionsContainer.classList.remove('active');
-            }, 200); // 延迟隐藏，以便点击建议项
+            }, 200);
         });
 
         searchInput.addEventListener('input', function() {
@@ -1450,23 +1322,19 @@
             }
         });
 
-        // 生成搜索建议
         function generateSearchSuggestions() {
             searchSuggestionsContainer.innerHTML = searchSuggestions.map(suggestion => `
                 <a href="${suggestion.url}" class="suggestion-item" target="_blank">${suggestion.text}</a>
             `).join('');
         }
 
-        generateSearchSuggestions(); // 初始化搜索建议
-
+        generateSearchSuggestions();
     }
 
-    // 页面加载完成后初始化
     document.addEventListener('DOMContentLoaded', function() {
         initNavigation();
         initSearch();
 
-        // 修正：首次加载时，让左侧导航的“精选推荐”按钮处于active状态
         document.querySelector('.primary-category[data-category="A"]').classList.add('active');
     });
 </script>
