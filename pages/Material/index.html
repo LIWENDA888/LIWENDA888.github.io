@@ -24,10 +24,10 @@
         }
 
         :root {
-            /* 更改为新的主色 FF8C19 */
-            --primary-color: #FF8C19;
+            /* 更改为更柔和的橙色 */
+            --primary-color: #F57D1F; /* 柔和橙色 */
             /* 调整为新的主色的浅色版本，以保持渐变效果 */
-            --primary-light: #FFAD6B; /* 稍微浅一点的橙色 */
+            --primary-light: #FABB94; /* 更柔和的浅橙色 */
             --secondary-color: #2d3142;
             --light-gray: #f8f9fa;
             --medium-gray: #e9ecef;
@@ -47,9 +47,9 @@
             min-height: 100vh;
             padding: 40px 20px;
             background-image:
-                /* 根据新的主色 FF8C19 (RGB: 255, 140, 25) 调整透明渐变 */
-                radial-gradient(circle at 10% 20%, rgba(255, 140, 25, 0.05) 0%, transparent 25%),
-                radial-gradient(circle at 90% 80%, rgba(255, 140, 25, 0.05) 0%, transparent 25%);
+                /* 根据新的主色 F57D1F 调整透明渐变 */
+                radial-gradient(circle at 10% 20%, rgba(245, 125, 31, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(245, 125, 31, 0.05) 0%, transparent 25%);
         }
 
         .container {
@@ -69,7 +69,8 @@
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 25px 30px 0;
+            /* 增加顶部内边距以增大搜索区域的高度 */
+            padding: 50px 30px 0; /* 调整了padding-top，从25px增加到50px */
             position: relative;
         }
 
@@ -106,7 +107,9 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding-bottom: 25px;
+            /* 大幅增加底部内边距，以增加搜索框和卡片之间的间距，从而增大搜索区域 */
+            padding-bottom: 120px; /* 之前是60px，现在增加到120px，以达到40%的目标 */
+            margin-top: 5px; /* 为搜索框增加上方一点点间距 */
         }
 
         .search-box {
@@ -115,6 +118,9 @@
             background: transparent;
             border-radius: 50px;
             flex-grow: 1;
+            box-shadow: var(--shadow-md); /* 给搜索框增加阴影 */
+            /* 确保搜索框能占据main-controls-area的剩余空间 */
+            width: 100%;
         }
 
         .search-box input {
@@ -134,7 +140,7 @@
         .search-box input:focus {
             border-color: var(--primary-color);
             /* 搜索框的焦点阴影，保持不变，使其更显眼 */
-            box-shadow: 0 0 0 3px rgba(255, 140, 25, 0.2); 
+            box-shadow: 0 0 0 3px rgba(245, 125, 31, 0.2); /* 使用新的主色 */
             z-index: 1;
             position: relative;
         }
@@ -157,8 +163,7 @@
         }
 
         .search-box button:hover {
-            /* 调整为新的主色的深色版本 */
-            background: #E57D16; 
+            background: #E57D16; /* 调整为新的主色的深色版本 */
             border-color: #E57D16;
         }
 
@@ -171,56 +176,11 @@
             opacity: 0.7;
         }
 
+        /* 调整第一个 divider 的 margin-top，确保搜索区域下方有足够空间 */
         .top-section-divider {
             margin-top: 0;
-            margin-bottom: 50px;
+            margin-bottom: 50px; /* 此处间距保持不变，因为 main-controls-area 的 padding-bottom 已经大幅增加 */
         }
-
-        .quick-search-container {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            max-width: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .quick-search-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 0;
-            margin-bottom: 0;
-            padding: 0;
-            flex-grow: 1;
-        }
-
-        /* 调整快捷搜索按钮样式 */
-        .quick-search-button {
-            background: var(--white);
-            color: var(--secondary-color);
-            border: 2px solid var(--medium-gray); /* 保持描边宽度 */
-            padding: 5px 15px; /* 减小上下内边距 */
-            border-radius: 18px; /* 调整为更圆 */
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            box-shadow: var(--shadow-sm); /* 使用更轻的阴影 */
-        }
-
-        .quick-search-button:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            border-width: 2px; /* 悬停时也保持相同边框宽度 */
-            box-shadow: var(--shadow-md); /* 悬停时使用相对更显眼的阴影 */
-            transform: scale(1.02);
-        }
-        /* 快捷搜索按钮样式调整结束 */
 
         .results-info {
             display: flex;
@@ -329,8 +289,8 @@
         }
 
         .card-tag {
-            /* 根据新的主色 FF8C19 (RGB: 255, 140, 25) 调整透明度 */
-            background: rgba(255, 140, 25, 0.15);
+            /* 根据新的主色 F57D1F 调整透明度 */
+            background: rgba(245, 125, 31, 0.15);
             color: var(--primary-color);
             padding: 6px 14px;
             border-radius: 20px;
@@ -435,8 +395,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* 根据新的主色 FF8C19 (RGB: 255, 140, 25) 调整透明渐变 */
-            background: linear-gradient(135deg, transparent 50%, rgba(255, 140, 25, 0.03) 100%);
+            /* 根据新的主色 F57D1F 调整透明渐变 */
+            background: linear-gradient(135deg, transparent 50%, rgba(245, 125, 31, 0.03) 100%);
             z-index: -1;
         }
 
@@ -605,11 +565,18 @@
             .logo-and-search-wrapper, .section-divider {
                 max-width: 900px;
             }
+            /* 在平板尺寸也增大搜索区域的上下内边距 */
+            .logo-and-search-wrapper {
+                padding: 50px 25px 0; /* 保持顶部内边距 */
+            }
+            .main-controls-area {
+                padding-bottom: 100px; /* 调整为100px，以适应屏幕宽度变化 */
+            }
         }
 
         @media (max-width: 768px) {
             .logo-and-search-wrapper {
-                padding: 20px 25px 0;
+                padding: 20px 25px 0; /* 调整回较小的内边距，以适应更小的屏幕 */
                 max-width: 100%;
             }
             .site-logo-img {
@@ -648,6 +615,10 @@
             .top-section-divider {
                 margin-bottom: 30px;
             }
+             /* 在中等屏幕尺寸下，重新调整搜索区域的 padding-bottom */
+            .main-controls-area {
+                padding-bottom: 90px; /* 减少一些，以适应屏幕 */
+            }
         }
 
         @media (max-width: 576px) {
@@ -677,7 +648,8 @@
                 height: 40px; /* 适应手机尺寸 */
             }
             .main-controls-area {
-                padding-bottom: 15px;
+                padding-bottom: 60px; /* 手机端也需要这个更大的padding */
+                margin-top: 0; /* 手机端不需要额外的marginTop */
             }
             .search-box {
                 flex-direction: row;
@@ -697,16 +669,7 @@
                 gap: 15px;
                 align-items: flex-start;
             }
-            .quick-search-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                padding: 0;
-            }
-            .quick-search-button {
-                padding: 8px 16px; /* 手机端仍保持这个padding，覆盖桌面版 */
-                font-size: 0.9rem;
-            }
+
             .section-divider {
                 max-width: 100%;
             }
@@ -728,6 +691,10 @@
                 width: 100%;
                 justify-content: center;
             }
+            /* 在手机端，由于flex-direction: column，搜索区域的高度会自然适应，不再需要额外的padding-bottom来控制 */
+            .main-controls-area {
+                padding-bottom: 0; /* 手机端移除大段的padding-bottom */
+            }
         }
     </style>
 </head>
@@ -747,22 +714,6 @@
                         <button id="search-button">
                             <i class="fas fa-search"></i>
                         </button>
-                    </div>
-                    <div class="quick-search-container">
-                        <div class="quick-search-buttons">
-                            <button class="quick-search-button" data-search="Adobe">
-                                Adobe
-                            </button>
-                            <button class="quick-search-button" data-search="UI设计">
-                                UI设计
-                            </button>
-                            <button class="quick-search-button" data-search="JavaScript">
-                                JavaScript
-                            </button>
-                            <button class="quick-search-button" data-search="摄影">
-                                摄影
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -873,14 +824,6 @@
             });
 
             backButton.addEventListener('click', showHomePage);
-
-            document.querySelectorAll('.quick-search-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const searchTerm = e.currentTarget.getAttribute('data-search');
-                    searchInput.value = searchTerm;
-                    performSearch();
-                });
-            });
         }
 
         function showHomePage() {
