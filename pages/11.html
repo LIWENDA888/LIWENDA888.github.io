@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造Type - 专注字体的独立工作室</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Font Awesome 库保留，因为可能其他地方还在使用，但底部图标将不再依赖它 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* 确保body至少占满视口高度 */
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0));
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .header-wrapper.scrolled {
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            padding: 15px 15px; /* 减少水平内边距，让内容更靠近边缘 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            transition: padding 0.4s ease;
+        }
+
+        .header-wrapper.scrolled .header {
+            padding: 12px 15px; /* 减少水平内边距，让内容更靠近边缘 */
+        }
+
+        .logo-img {
+            height: auto; /* 保持图片比例 */
+            transition: transform 0.3s ease, width 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-default {
+            width: 120px; /* 修改：固定宽度为120px */
+            display: block;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));
+        }
+
+        .logo-scrolled {
+            width: 90px; /* 修改：滚动后宽度为90px */
+            display: none;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        }
+
+        .header-wrapper.scrolled .logo-default {
+            display: none;
+        }
+
+        .header-wrapper.scrolled .logo-scrolled {
+            display: block;
+        }
+
+        .logo-default:hover,
+        .logo-scrolled:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            position: relative;
+            transition: all 0.3s ease-out;
+            border-radius: 8px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+            letter-spacing: 0.8px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-links a::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background-color: transparent;
+            margin-right: 10px;
+            transition: all 0.3s ease-out;
+            flex-shrink: 0;
+        }
+
+        .nav-links a:hover {
+            color: #FF8C19;
+            background-color: rgba(255,140,25,0.1);
+            text-shadow: none;
+        }
+
+        .nav-links a:hover::before {
+            background-color: #FF8C19;
+            border-color: #FF8C19;
+        }
+
+        .header-wrapper.scrolled .nav-links a {
+            color: #333;
+            text-shadow: none;
+        }
+
+        .header-wrapper.scrolled .nav-links a::before {
+            border-color: #333;
+        }
+        .header-wrapper.scrolled .nav-links a:hover {
+            color: #FF8C19;
+        }
+        .header-wrapper.scrolled .nav-links a:hover::before {
+            background-color: #FF8C19;
+            border-color: #FF8C19;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            margin-left: auto;
+            order: 2;
+        }
+
+        .menu-toggle .bar {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: white;
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        .header-wrapper.scrolled .menu-toggle .bar {
+             background: white;
+             box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        .menu-toggle .bar:nth-child(1) { top: 0px; }
+        .menu-toggle .bar:nth-child(2) { top: 7px; }
+        .menu-toggle .bar:nth-child(3) { top: 14px; }
+
+        .menu-toggle.open .bar:nth-child(1) { top: 7px; transform: rotate(135deg); }
+        .menu-toggle.open .bar:nth-child(2) { opacity: 0; left: -60px; }
+        .menu-toggle.open .bar:nth-child(3) { top: 7px; transform: rotate(-135deg); }
+
+        .main-content {
+            flex-grow: 1;
+            padding-top: 80px;
+        }
+
+        .slider-container {
+            width: 100%;
+            height: 650px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 0;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 15%;
+            position: relative;
+            background-color: #c0c0c0;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.65), rgba(0,0,0,0.4));
+            z-index: 1;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            margin: 0 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255,255,255,0.9);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 30px;
+            padding-top: 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            margin-top: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            display: inline-block;
+            padding: 0 25px;
+            position: relative;
+            z-index: 2;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #FF8C19, #FFBF00);
+            border-radius: 2px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 400px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: perspective(1000px) rotateY(3deg) scale(1.04);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-image {
+            height: 220px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            background-color: #e0e0e0;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 25px;
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, #FF8C19, #FFBF00);
+            transition: width 0.4s ease-out;
+            border-radius: 2px;
+        }
+
+        .card:hover .card-title::after {
+            width: 120px;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #FF8C19, #FFBF00);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(255,140,25,0.3);
+            z-index: 2;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-description {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            margin-top: auto;
+            /* 实现两行截断 */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* 控制为两行 */
+            overflow: hidden;
+            text-overflow: ellipsis; /* 可选：添加省略号 */
+        }
+
+        .card-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #ecf0f1;
+            padding: 60px 0 30px;
+            text-align: center;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .footer-content p {
+            color: #bdc3c7;
+            line-height: 1.9;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            margin: 0 15px;
+            /* color: white; /* 移除此行，因为现在是图片图标 */
+            text-decoration: none; /* 确保链接没有下划线 */
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+            /* font-size: 1.4rem; /* 移除此行，因为现在是图片图标 */
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .social-icons a:hover {
+            background: #FF8C19;
+            /* 移除了 rotate(5deg) */
+            transform: translateY(-8px) scale(1.15); 
+            border-color: #FF8C19;
+            box-shadow: 0 10px 25px rgba(255,140,25,0.5);
+        }
+
+        /* 样式化社交图标图片 */
+        .social-icons a img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 保持图片比例，使其适应容器 */
+            padding: 12px; /* 给图片留一些内边距，使其不完全撑满圆形容器 */
+            filter: grayscale(100%) brightness(200%); /* 默认黑白 */
+            transition: filter 0.4s ease;
+        }
+
+        .social-icons a:hover img {
+            filter: grayscale(0%) brightness(100%); /* hover 时恢复彩色 */
+        }
+        
+        /* 第一个图标的二维码弹窗样式 */
+        .social-icon-qr {
+            position: relative; /* 确保弹窗定位在其内部 */
+        }
+
+        .qr-code-popup {
+            position: absolute;
+            bottom: calc(100% + 15px); /* 位于图标上方，留有 15px 间距 */
+            left: 50%;
+            transform: translateX(-50%); /* 这个是水平居中，不是旋转 */
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none; /* 默认隐藏 */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* 这个是淡入淡出效果 */
+            z-index: 100; /* 确保在其他内容之上 */
+            width: 150px; /* 弹窗宽度 */
+            text-align: center;
+        }
+
+        .social-icon-qr:hover .qr-code-popup {
+            display: block; /* 悬浮时显示 */
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .qr-code-popup .qr-img {
+            width: 100%; /* 二维码图片填充弹窗 */
+            height: auto;
+            display: block;
+            margin-bottom: 5px; /* 图片和文字之间留白 */
+        }
+
+        .qr-code-popup p {
+            color: #333;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .qr-popup-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 箭头大小 */
+            border-right: 10px solid transparent;
+            border-top: 10px solid white; /* 箭头颜色与弹窗背景色一致 */
+            bottom: -10px; /* 放置在弹窗底部 */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 35px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.95rem;
+            color: #bdc3c7;
+        }
+
+        /* 媒体查询 */
+        @media (max-width: 1200px) {
+            .cards-container { grid-template-columns: repeat(3, 1fr); }
+            .slider-container { height: 550px; }
+            .header { padding: 15px 10px; } /* 靠边 */
+            .header-wrapper.scrolled .header { padding: 12px 10px; } /* 靠边 */
+            .logo-default { width: 120px; } /* 修改：Logo宽度 */
+            .logo-scrolled { width: 90px; } /* 修改：Logo宽度 */
+            .nav-links li { margin-left: 20px; } /* 调整间距 */
+            .nav-links a { font-size: 1rem; padding: 7px 15px; }
+            .section-title h2 { font-size: 2.2rem; }
+            .container { padding-top: 30px; }
+        }
+
+        @media (max-width: 992px) {
+            .cards-container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .slider-container { height: 450px; }
+            .section-title h2 { font-size: 2rem; }
+            .section-title h2::after { width: 80px; bottom: -12px; }
+            .card { height: 380px; }
+            .card-image { height: 200px; }
+            .card-title { font-size: 1.4rem; }
+            .container { padding-top: 25px; }
+        }
+
+        @media (max-width: 768px) {
+            .slider-container { height: 380px; }
+            .slide { padding: 0 10%; }
+            .section-title h2 { font-size: 1.8rem; }
+            .section-title h2::after { width: 70px; bottom: -10px; }
+            .main-content { padding-top: 70px; }
+
+            .header-wrapper,
+            .header-wrapper.scrolled {
+                background: rgba(0,0,0,0.9);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+
+            .header,
+            .header-wrapper.scrolled .header {
+                padding: 18px 10px; /* 减少水平内边距，让内容更靠近边缘 */
+            }
+
+            /* 隐藏桌面Logo，显示移动端Logo */
+            .logo-default {
+                display: none !important; /* 强制隐藏 */
+            }
+            .logo-scrolled {
+                display: block !important; /* 强制显示 */
+                width: 130px; /* 修改：为移动端小屏幕设置一个合适的Logo宽度，从150px调整为130px */
+                filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2));
+            }
+
+            .nav-links a,
+            .header-wrapper.scrolled .nav-links a {
+                color: white;
+                text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+            }
+            .nav-links a::before,
+            .header-wrapper.scrolled .nav-links a::before {
+                border-color: white;
+            }
+
+            .nav-links a:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                color: white;
+            }
+            .nav-links a:hover::before {
+                background-color: #FF8C19;
+                border: 2px solid #FF8C19;
+            }
+
+            .menu-toggle {
+                display: block;
+                order: 2;
+                width: 30px;
+                height: 20px;
+            }
+
+            .menu-toggle .bar {
+                height: 3px;
+                background: white;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            }
+            .header-wrapper.scrolled .menu-toggle .bar {
+                 background: white;
+                 box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            }
+
+            .menu-toggle .bar:nth-child(1) { top: 0px; }
+            .menu-toggle .bar:nth-child(2) { top: 7px; }
+            .menu-toggle .bar:nth-child(3) { top: 14px; }
+
+            .menu-toggle.open .bar:nth-child(1) { top: 7px; transform: rotate(135deg); }
+            .menu-toggle.open .bar:nth-child(2) { opacity: 0; left: -60px; }
+            .menu-toggle.open .bar:nth-child(3) { top: 7px; transform: rotate(-135deg); }
+
+            .nav-links {
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                visibility: hidden;
+                transition: max-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0.5s;
+                width: 100%;
+                flex-direction: column;
+                margin-top: 15px;
+                background-color: rgba(0,0,0,0.8);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                border-radius: 10px;
+                padding: 0;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+            .nav-links.active {
+                max-height: 450px;
+                opacity: 1;
+                visibility: visible;
+                transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            }
+
+            .nav-links li {
+                margin: 0;
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+            .nav-links li:last-child { border-bottom: none; }
+
+            .nav-links a {
+                padding: 15px 25px;
+                font-size: 1.05rem;
+                border-radius: 0;
+                text-align: left;
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+             .container { padding-top: 20px; }
+        }
+
+        @media (max-width: 576px) {
+            .cards-container { grid-template-columns: 1fr; gap: 25px; }
+            .slider-container { height: 300px; }
+            .section-title h2 { font-size: 1.5rem; }
+            .section-title h2::after { width: 50px; }
+            .card { height: 360px; }
+            .card-image { height: 180px; }
+            .card-content { padding: 20px; }
+            .card-title { font-size: 1.3rem; }
+            .card-tag { font-size: 0.8rem; padding: 6px 15px; top: 15px; right: 15px;}
+
+            .social-icons a { width: 48px; height: 48px; margin: 0 10px; }
+            .social-icons a img { padding: 10px; } /* 缩小图片内边距 */
+            .header,
+            .header-wrapper.scrolled .header {
+                padding: 15px 8px; /* 减少水平内边距，让内容更靠近边缘 */
+            }
+            .logo-scrolled { width: 110px; } /* 修改：Logo宽度再缩小一点 */
+            .footer-content h3 { font-size: 1.6rem; }
+            .footer-content p { font-size: 0.9rem; }
+            .container { padding-top: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-wrapper">
+        <header class="header">
+            <a href="https://example.com/" target="_blank" rel="noopener noreferrer" class="logo">
+                <img src="https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb" alt="默认 Logo" class="logo-img logo-default">
+                <img src="https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb" alt="滚动后 Logo" class="logo-img logo-scrolled">
+            </a>
+            <div class="menu-toggle" id="mobile-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">首页</a></li>
+                <li><a href="https://example.com/featured" target="_blank" rel="noopener noreferrer">字库产品</a></li>
+                <li><a href="https://example.com/products" target="_blank" rel="noopener noreferrer">设计导航</a></li>
+                <li><a href="https://example.com/services" target="_blank" rel="noopener noreferrer">设计资源</a></li>
+                <li><a href="https://example.com/portfolio" target="_blank" rel="noopener noreferrer">设计工具</a></li>
+                <li><a href="https://example.com/blog" target="_blank" rel="noopener noreferrer">关于我们</a></li>
+            </ul>
+        </header>
+    </div>
+
+    <div class="slider-container" id="home">
+        <div class="slide" id="mainSlide">
+        </div>
+        <div class="slider-nav" id="sliderNav"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>精选作品</h2>
+            </div>
+            <div class="cards-container" id="cardsContainer1"></div>
+        </div>
+
+        <div class="container">
+            <div class="section-title">
+                <h2>最新上线</h2>
+            </div>
+            <div class="cards-container" id="cardsContainer2"></div>
+        </div>
+
+        <div class="container">
+            <div class="section-title">
+                <h2>灵感画廊</h2>
+            </div>
+            <div class="cards-container" id="cardsContainer3"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>字造Type</h3>
+            <p>
+                专注字体字库以及字体类工具分享，立志于让造字变得更简单
+            </p>
+
+            <div class="social-icons">
+                <!-- 第一个图标替换为二维码弹窗 -->
+                <a href="javascript:void(0);" class="social-icon-qr" aria-label="微信公众号">
+                    <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="微信图标">
+                    <div class="qr-code-popup">
+                        <img src="https://gd-hbimg.huaban.com/6770b7bfcbc4faef023bda6966c6277f7678cf8ba03-DFGOH8_fw1200" alt="微信公众号二维码" class="qr-img">
+                        <p>扫码关注我们</p>
+                        <span class="qr-popup-arrow"></span>
+                    </div>
+                </a>
+                <!-- 其他图标替换为图片 -->
+                <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                    <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="Twitter图标">
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="Instagram图标">
+                </a>
+                <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+                    <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="Pinterest图标">
+                </a>
+                <a href="https://dribbble.com/" target="_blank" rel="noopener noreferrer" aria-label="Dribbble">
+                    <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="Dribbble图标">
+                </a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利 |  专注字体的独立工作室</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenu.addEventListener('click', function() {
+                this.classList.toggle('open');
+                navLinks.classList.toggle('active');
+            });
+
+            const headerWrapper = document.querySelector('.header-wrapper');
+            
+            // 优化滚动事件监听器，使用节流（Throttling）
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        if (window.scrollY > 50) {
+                            headerWrapper.classList.add('scrolled');
+                        } else {
+                            headerWrapper.classList.remove('scrolled');
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            const slides = [
+                {
+                    imageUrl: "https://gd-hbimg.huaban.com/4e75a501e60b2d020b511bac2236cfc661ab287e44d522-5fVoRR"
+                },
+                {
+                    imageUrl: "https://gd-hbimg.huaban.com/c1a8a9bd1c39c118306e48e6ec944f3fe5988be82753be-kT9MPA"
+                },
+                {
+                    imageUrl: "https://gd-hbimg.huaban.com/e9b9d42fe7533300bcae0401a69bcb1fa51a432d10e0d7-0AjW3Y"
+                }
+            ];
+
+            const mainSlide = document.getElementById('mainSlide');
+            const sliderNav = document.getElementById('sliderNav');
+            let currentSlide = 0;
+
+            function initSlider() {
+                updateSlide(0);
+                
+                slides.forEach((slide, index) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'slider-dot';
+                    if (index === 0) dot.classList.add('active');
+                    
+                    dot.addEventListener('click', () => {
+                        currentSlide = index;
+                        updateSlide(currentSlide);
+                    });
+                    
+                    sliderNav.appendChild(dot);
+                });
+                
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    updateSlide(currentSlide);
+                }, 5000);
+            }
+
+            function updateSlide(index) {
+                const slide = slides[index];
+                mainSlide.style.backgroundImage = `url(${slide.imageUrl})`;
+                
+                document.querySelectorAll('.slider-dot').forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            const newCardImageUrl = "https://gd-hbimg.huaban.com/9bd893bc8f24adeb484c0cbd9d3ba5a68faa4bbeafa1b-6vmjdu";
+
+            const allCardData = [
+                { title: "技术创新", description: "探索最新的技术突破和创新应用，改变世界的未来。从人工智能到生物科技，每一次飞跃都在重塑我们的生活方式。", tag: "科技",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/tech-innovation" },
+                { title: "自然奇观", description: "地球上最壮观的自然景观，见证大自然的鬼斧神工。从巍峨的山脉到神秘的深海，感受地球脉搏的震撼与宁静。", tag: "自然",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/nature-wonders" },
+                { title: "艺术之旅", description: "从古典到现代，探索人类艺术的多样性与创造力。每一笔色彩、每一段旋律都承载着独特的故事和情感。", tag: "艺术",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/art-journey" },
+                { title: "宇宙探索", description: "深入浩瀚宇宙，发现星际间的奥秘与未知领域。从遥远的星系到神秘的黑洞，宇宙的边界等待我们去定义。", tag: "太空",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/space-exploration" },
+                { title: "健康生活", description: "提升生活品质的健康秘诀和日常保健知识。均衡饮食、适度运动和积极心态，构筑幸福人生。", tag: "健康",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/healthy-living" },
+                { title: "建筑设计", description: "世界顶尖建筑作品，展示人类工程与美学的完美结合。从古老的金字塔到现代的摩天大楼，建筑是凝固的艺术。", tag: "建筑",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/architecture-design" },
+                { title: "美食文化", description: "全球美食之旅，品尝不同文化的独特风味与烹饪艺术。从街头小吃到米其林星级餐厅，味蕾的极致享受。", tag: "美食",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/food-culture" },
+                { title: "海洋奥秘", description: "深入海洋深处，探索神秘的水下世界与海洋生物。五彩斑斓的珊瑚礁，深海巨兽的传说，蓝色星球的秘密。", tag: "海洋",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/ocean-mysteries" },
+
+                { title: "数字艺术", description: "感受虚拟与现实交融的数字艺术魅力，探索无限创意的数字世界。从像素画到CG渲染，每一次创作都是一次数字的飞翔。", tag: "数字艺术",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/digital-art" },
+                { title: "城市景观", description: "捕捉现代都市的独特魅力，从繁忙的街头到璀璨的夜景，感受城市脉搏的跳动与不眠的活力。", tag: "城市",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/cityscape" },
+                { title: "复古未来", description: "探索过去与未来的奇妙融合，在怀旧中寻找创新灵感。", tag: "设计",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/retro-future" },
+                { title: "绿色环保", description: "关注可持续发展，用设计助力地球家园的生态平衡与美好未来。", tag: "环保",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/eco-friendly" },
+                { title: "摄影视角", description: "捕捉瞬间之美，用镜头记录世界的每一个精彩与动人画面。", tag: "摄影",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/photography" },
+                { title: "文学故事", description: "品味文字的魅力，沉浸于引人入胜的故事情节和思想世界。", tag: "文学",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/literature" },
+                { title: "音乐韵律", description: "感受声音的魔力，从古典到流行，尽享音乐带来的心灵震撼。", tag: "音乐",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/music-rhythm" },
+                { title: "异域风情", description: "探索世界各地独特的文化习俗，体验别样的生活方式与魅力。", tag: "文化",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/exotic-culture" },
+
+                { title: "运动激情", description: "释放活力，挑战极限，感受运动带来的健康与无限激情。", tag: "运动",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/sports-passion" },
+                { title: "教育未来", description: "展望教育的新模式与趋势，为未来人才培养提供创新思路。", tag: "教育",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/education-future" },
+                { title: "心理健康", description: "关注内心世界，提供实用心理调适方法，拥抱积极人生。", tag: "心理",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/mental-health" },
+                { title: "时尚潮流", description: "洞察全球时尚前沿趋势，引领个性穿搭与生活品味。", tag: "时尚",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/fashion-trends" },
+                { title: "历史回眸", description: "追溯人类文明的轨迹，探寻那些影响深远的历史时刻与人物。", tag: "历史",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/historical-glimpse" },
+                { title: "旅行探险", description: "开启未知旅程，探索世界角落，记录每一次心跳的冒险。", tag: "旅行",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/travel-adventure" },
+                { title: "智能家居", description: "构建智慧生活空间，让科技为居家体验带来更多便利与舒适。", tag: "智能",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/smart-home" },
+                { title: "宠物生活", description: "分享与萌宠的温馨日常，学习科学养宠知识，享受陪伴的乐趣。", tag: "宠物",
+                  imageUrl: newCardImageUrl,
+                  linkUrl: "https://example.com/pet-life" }
+            ];
+
+            function generateCards(containerId, data) {
+                const cardsContainer = document.getElementById(containerId);
+                cardsContainer.innerHTML = '';
+                
+                data.forEach(card => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'card';
+                    cardElement.innerHTML = `
+                        <div class="card-image" style="background-image: url(${card.imageUrl})"></div>
+                        <div class="card-tag">${card.tag}</div>
+                        <div class="card-content">
+                            <h3 class="card-title">${card.title}</h3>
+                            <p class="card-description">${card.description}</p>
+                        </div>
+                        <a href="${card.linkUrl}" target="_blank" rel="noopener noreferrer" class="card-link" aria-label="${card.title}"></a>
+                    `;
+                    
+                    cardsContainer.appendChild(cardElement);
+                });
+            }
+
+            function lazyLoadCardImages() {
+                const lazyImages = document.querySelectorAll('.card-image');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const imgDiv = entry.target;
+                            // 从CSS中获取背景图片URL，需要注意格式
+                            const backgroundImage = imgDiv.style.backgroundImage;
+                            if (backgroundImage && backgroundImage.startsWith('url(') && backgroundImage.endsWith(')')) {
+                                const imageUrl = backgroundImage.slice(5, -2); // 移除url(" 和 ")
+                                imgDiv.style.backgroundImage = `url(${imageUrl})`;
+                            }
+                            observer.unobserve(imgDiv);
+                        }
+                    });
+                }, {
+                    rootMargin: '0px',
+                    threshold: 0.1
+                });
+                
+                lazyImages.forEach(imgDiv => {
+                    observer.observe(imgDiv);
+                });
+            }
+
+            initSlider();
+
+            generateCards('cardsContainer1', allCardData.slice(0, 8));
+            generateCards('cardsContainer2', allCardData.slice(8, 16));
+            generateCards('cardsContainer3', allCardData.slice(16, 24));
+
+            lazyLoadCardImages();
+        });
+    </script>
+</body>
+</html>
