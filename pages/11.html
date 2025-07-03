@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -329,7 +328,7 @@
             background-size: cover;
             background-position: center;
             transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-            background-color: #e0e0e0;
+            background-color: #e0e0e0; /* 占位符背景色 */
         }
 
         .card:hover .card-image {
@@ -800,7 +799,7 @@
         </div>
 
         <div class="copyright">
-            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利 |  专注字体的独立工作室</p>
+            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利 |  专注字体领域的独立工作室</p>
         </div>
     </footer>
 
@@ -809,29 +808,30 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const navLinks = document.getElementById('navLinks');
             
+            // 移动菜单切换功能
             mobileMenu.addEventListener('click', function() {
                 this.classList.toggle('open');
                 navLinks.classList.toggle('active');
             });
 
+            // 滚动时 header 样式变化
             const headerWrapper = document.querySelector('.header-wrapper');
-            
-            // 优化滚动事件监听器，使用节流（Throttling）
-            let ticking = false;
+            let ticking = false; // 用于节流的标志
             window.addEventListener('scroll', function() {
                 if (!ticking) {
                     window.requestAnimationFrame(function() {
-                        if (window.scrollY > 50) {
+                        if (window.scrollY > 50) { // 当滚动超过50px时
                             headerWrapper.classList.add('scrolled');
                         } else {
                             headerWrapper.classList.remove('scrolled');
                         }
-                        ticking = false;
+                        ticking = false; // 允许下一次requestAnimationFrame执行
                     });
-                    ticking = true;
+                    ticking = true; // 阻止下一次requestAnimationFrame在当前动画帧执行前执行
                 }
             });
 
+            // 首页轮播图配置
             const slides = [
                 {
                     imageUrl: "https://gd-hbimg.huaban.com/4e75a501e60b2d020b511bac2236cfc661ab287e44d522-5fVoRR"
@@ -848,14 +848,17 @@
             const sliderNav = document.getElementById('sliderNav');
             let currentSlide = 0;
 
+            // 初始化轮播图
             function initSlider() {
-                updateSlide(0);
+                updateSlide(0); // 设置初始 slide
                 
+                // 创建轮播图导航点
                 slides.forEach((slide, index) => {
                     const dot = document.createElement('div');
                     dot.className = 'slider-dot';
-                    if (index === 0) dot.classList.add('active');
+                    if (index === 0) dot.classList.add('active'); // 激活第一个点
                     
+                    // 点击导航点切换 slide
                     dot.addEventListener('click', () => {
                         currentSlide = index;
                         updateSlide(currentSlide);
@@ -864,16 +867,19 @@
                     sliderNav.appendChild(dot);
                 });
                 
+                // 设置自动播放
                 setInterval(() => {
-                    currentSlide = (currentSlide + 1) % slides.length;
+                    currentSlide = (currentSlide + 1) % slides.length; // 循环切换
                     updateSlide(currentSlide);
-                }, 5000);
+                }, 5000); // 每 5 秒切换一次
             }
 
+            // 更新当前显示的 slide 和导航点
             function updateSlide(index) {
                 const slide = slides[index];
                 mainSlide.style.backgroundImage = `url(${slide.imageUrl})`;
                 
+                // 更新导航点的 active 状态
                 document.querySelectorAll('.slider-dot').forEach((dot, i) => {
                     if (i === index) {
                         dot.classList.add('active');
@@ -883,94 +889,100 @@
                 });
             }
 
-            const newCardImageUrl = "https://tc.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250702/7gfe/1761X987/9bd893bc8f24adeb484c0cbd9d3ba5a68faa4bbeafa1b-6vmjdu.jpg";
-
-            const allCardData = [
-                { title: "技术创新", description: "探索最新的技术突破和创新应用，改变世界的未来。从人工智能到生物科技，每一次飞跃都在重塑我们的生活方式。", tag: "科技",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/tech-innovation" },
-                { title: "自然奇观", description: "地球上最壮观的自然景观，见证大自然的鬼斧神工。从巍峨的山脉到神秘的深海，感受地球脉搏的震撼与宁静。", tag: "自然",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/nature-wonders" },
-                { title: "艺术之旅", description: "从古典到现代，探索人类艺术的多样性与创造力。每一笔色彩、每一段旋律都承载着独特的故事和情感。", tag: "艺术",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/art-journey" },
-                { title: "宇宙探索", description: "深入浩瀚宇宙，发现星际间的奥秘与未知领域。从遥远的星系到神秘的黑洞，宇宙的边界等待我们去定义。", tag: "太空",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/space-exploration" },
-                { title: "健康生活", description: "提升生活品质的健康秘诀和日常保健知识。均衡饮食、适度运动和积极心态，构筑幸福人生。", tag: "健康",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/healthy-living" },
-                { title: "建筑设计", description: "世界顶尖建筑作品，展示人类工程与美学的完美结合。从古老的金字塔到现代的摩天大楼，建筑是凝固的艺术。", tag: "建筑",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/architecture-design" },
-                { title: "美食文化", description: "全球美食之旅，品尝不同文化的独特风味与烹饪艺术。从街头小吃到米其林星级餐厅，味蕾的极致享受。", tag: "美食",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/food-culture" },
-                { title: "海洋奥秘", description: "深入海洋深处，探索神秘的水下世界与海洋生物。五彩斑斓的珊瑚礁，深海巨兽的传说，蓝色星球的秘密。", tag: "海洋",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/ocean-mysteries" },
-
-                { title: "数字艺术", description: "感受虚拟与现实交融的数字艺术魅力，探索无限创意的数字世界。从像素画到CG渲染，每一次创作都是一次数字的飞翔。", tag: "数字艺术",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/digital-art" },
-                { title: "城市景观", description: "捕捉现代都市的独特魅力，从繁忙的街头到璀璨的夜景，感受城市脉搏的跳动与不眠的活力。", tag: "城市",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/cityscape" },
-                { title: "复古未来", description: "探索过去与未来的奇妙融合，在怀旧中寻找创新灵感。", tag: "设计",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/retro-future" },
-                { title: "绿色环保", description: "关注可持续发展，用设计助力地球家园的生态平衡与美好未来。", tag: "环保",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/eco-friendly" },
-                { title: "摄影视角", description: "捕捉瞬间之美，用镜头记录世界的每一个精彩与动人画面。", tag: "摄影",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/photography" },
-                { title: "文学故事", description: "品味文字的魅力，沉浸于引人入胜的故事情节和思想世界。", tag: "文学",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/literature" },
-                { title: "音乐韵律", description: "感受声音的魔力，从古典到流行，尽享音乐带来的心灵震撼。", tag: "音乐",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/music-rhythm" },
-                { title: "异域风情", description: "探索世界各地独特的文化习俗，体验别样的生活方式与魅力。", tag: "文化",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/exotic-culture" },
-
-                { title: "运动激情", description: "释放活力，挑战极限，感受运动带来的健康与无限激情。", tag: "运动",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/sports-passion" },
-                { title: "教育未来", description: "展望教育的新模式与趋势，为未来人才培养提供创新思路。", tag: "教育",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/education-future" },
-                { title: "心理健康", description: "关注内心世界，提供实用心理调适方法，拥抱积极人生。", tag: "心理",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/mental-health" },
-                { title: "时尚潮流", description: "洞察全球时尚前沿趋势，引领个性穿搭与生活品味。", tag: "时尚",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/fashion-trends" },
-                { title: "历史回眸", description: "追溯人类文明的轨迹，探寻那些影响深远的历史时刻与人物。", tag: "历史",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/historical-glimpse" },
-                { title: "旅行探险", description: "开启未知旅程，探索世界角落，记录每一次心跳的冒险。", tag: "旅行",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/travel-adventure" },
-                { title: "智能家居", description: "构建智慧生活空间，让科技为居家体验带来更多便利与舒适。", tag: "智能",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/smart-home" },
-                { title: "宠物生活", description: "分享与萌宠的温馨日常，学习科学养宠知识，享受陪伴的乐趣。", tag: "宠物",
-                  imageUrl: newCardImageUrl,
-                  linkUrl: "https://example.com/pet-life" }
+            // --- 重要：集中管理卡片图片 URL ---
+            // 请将这里的 URL 替换为你自己的图片资源
+            const cardImageUrls = [
+                "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb", // 示例 1
+                "https://gd-hbimg.huaban.com/308914ff22382f7b31e35d00591a99bb045b633a05163-f5R9Fq", // 示例 2
+                "https://gd-hbimg.huaban.com/96152ee9f54f9839129c1c5f3d274df4980585ff0269c-bM087r", // 示例 3
+                "https://gd-hbimg.huaban.com/e087a32a11df9090140744b9b14822617093bf30e5b19-6jO2zG", // 示例 4
+                "https://gd-hbimg.huaban.com/34d9163c9e8a4567870a190604cf1480893272c3019a2-wW0s1A", // 示例 5
+                "https://gd-hbimg.huaban.com/4c2d4363e8f87267b6c872654875332951c5945112f0b-K1M72L", // 示例 6
+                "https://gd-hbimg.huaban.com/4138cf4bb164250c8382d718b54b319936093552a5512-E5U51q", // 示例 7
+                "https://gd-hbimg.huaban.com/24b07f9f6468200f858b565a61f4d00597e53e141986c-nF8j7D", // 示例 8
+                "https://gd-hbimg.huaban.com/3568842d7730580fb10c2a51b98b6d09006651c912a55-T7K5y9", // 示例 9
+                "https://gd-hbimg.huaban.com/495a6554902b6a49a127463b594170c115f7d80c13d13-l5v00P", // 示例 10
+                "https://gd-hbimg.huaban.com/9420f8672676df57e588df00113e859e69e565b909671-g0M4wD", // 示例 11
+                "https://gd-hbimg.huaban.com/cd05efef1d67439f917c37a382ee87a3d35a94460266b-432cM5", // 示例 12
+                "https://gd-hbimg.huaban.com/780074e64507c8d560d0ff2c49c5c44c550c90c2a392d-zJc76w", // 示例 13
+                "https://gd-hbimg.huaban.com/08d4b050074778614c407641406146b75c7cfd69317a0-rX0t0J", // 示例 14
+                "https://gd-hbimg.huaban.com/f8e177c4d251d8c3b995039f9568c592b5e8f3e7165b2-Q00sBq", // 示例 15
+                "https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl", // 示例 16
+                "https://gd-hbimg.huaban.com/95543e224f35f2e016f74d22bb6098960d5b728e4917d-J9I73t", // 示例 17
+                "https://gd-hbimg.huaban.com/312190f847c06f09e14190dd37670df81a2f31080c31a-R2F66a", // 示例 18
+                "https://gd-hbimg.huaban.com/46c26cc6d338f75074622f7e8453d01353046c070e0f6-dE6Xk6", // 示例 19
+                "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb"  // 示例 20 (循环使用最后一个 URL)
             ];
 
+            // 卡片数据定义，包含标题、描述、标签、链接，以及图片 URL 的索引
+            const allCardData = [
+                { title: "技术创新", description: "探索最新的技术突破和创新应用，改变世界的未来。从人工智能到生物科技，每一次飞跃都在重塑我们的生活方式。", tag: "科技",
+                  imageUrlIndex: 0, linkUrl: "https://example.com/tech-innovation" },
+                { title: "自然奇观", description: "地球上最壮观的自然景观，见证大自然的鬼斧神工。从巍峨的山脉到神秘的深海，感受地球脉搏的震撼与宁静。", tag: "自然",
+                  imageUrlIndex: 1, linkUrl: "https://example.com/nature-wonders" },
+                { title: "艺术之旅", description: "从古典到现代，探索人类艺术的多样性与创造力。每一笔色彩、每一段旋律都承载着独特的故事和情感。", tag: "艺术",
+                  imageUrlIndex: 2, linkUrl: "https://example.com/art-journey" },
+                { title: "宇宙探索", description: "深入浩瀚宇宙，发现星际间的奥秘与未知领域。从遥远的星系到神秘的黑洞，宇宙的边界等待我们去定义。", tag: "太空",
+                  imageUrlIndex: 3, linkUrl: "https://example.com/space-exploration" },
+                { title: "健康生活", description: "提升生活品质的健康秘诀和日常保健知识。均衡饮食、适度运动和积极心态，构筑幸福人生。", tag: "健康",
+                  imageUrlIndex: 4, linkUrl: "https://example.com/healthy-living" },
+                { title: "建筑设计", description: "世界顶尖建筑作品，展示人类工程与美学的完美结合。从古老的金字塔到现代的摩天大楼，建筑是凝固的艺术。", tag: "建筑",
+                  imageUrlIndex: 5, linkUrl: "https://example.com/architecture-design" },
+                { title: "美食文化", description: "全球美食之旅，品尝不同文化的独特风味与烹饪艺术。从街头小吃到米其林星级餐厅，味蕾的极致享受。", tag: "美食",
+                  imageUrlIndex: 6, linkUrl: "https://example.com/food-culture" },
+                { title: "海洋奥秘", description: "深入海洋深处，探索神秘的水下世界与海洋生物。五彩斑斓的珊瑚礁，深海巨兽的传说，蓝色星球的秘密。", tag: "海洋",
+                  imageUrlIndex: 7, linkUrl: "https://example.com/ocean-mysteries" },
+
+                { title: "数字艺术", description: "感受虚拟与现实交融的数字艺术魅力，探索无限创意的数字世界。从像素画到CG渲染，每一次创作都是一次数字的飞翔。", tag: "数字艺术",
+                  imageUrlIndex: 8, linkUrl: "https://example.com/digital-art" },
+                { title: "城市景观", description: "捕捉现代都市的独特魅力，从繁忙的街头到璀璨的夜景，感受城市脉搏的跳动与不眠的活力。", tag: "城市",
+                  imageUrlIndex: 9, linkUrl: "https://example.com/cityscape" },
+                { title: "复古未来", description: "探索过去与未来的奇妙融合，在怀旧中寻找创新灵感。", tag: "设计",
+                  imageUrlIndex: 10, linkUrl: "https://example.com/retro-future" },
+                { title: "绿色环保", description: "关注可持续发展，用设计助力地球家园的生态平衡与美好未来。", tag: "环保",
+                  imageUrlIndex: 11, linkUrl: "https://example.com/eco-friendly" },
+                { title: "摄影视角", description: "捕捉瞬间之美，用镜头记录世界的每一个精彩与动人画面。", tag: "摄影",
+                  imageUrlIndex: 12, linkUrl: "https://example.com/photography" },
+                { title: "文学故事", description: "品味文字的魅力，沉浸于引人入胜的故事情节和思想世界。", tag: "文学",
+                  imageUrlIndex: 13, linkUrl: "https://example.com/literature" },
+                { title: "音乐韵律", description: "感受声音的魔力，从古典到流行，尽享音乐带来的心灵震撼。", tag: "音乐",
+                  imageUrlIndex: 14, linkUrl: "https://example.com/music-rhythm" },
+                { title: "异域风情", description: "探索世界各地独特的文化习俗，体验别样的生活方式与魅力。", tag: "文化",
+                  imageUrlIndex: 15, linkUrl: "https://example.com/exotic-culture" },
+
+                { title: "运动激情", description: "释放活力，挑战极限，感受运动带来的健康与无限激情。", tag: "运动",
+                  imageUrlIndex: 16, linkUrl: "https://example.com/sports-passion" },
+                { title: "教育未来", description: "展望教育的新模式与趋势，为未来人才培养提供创新思路。", tag: "教育",
+                  imageUrlIndex: 17, linkUrl: "https://example.com/education-future" },
+                { title: "心理健康", description: "关注内心世界，提供实用心理调适方法，拥抱积极人生。", tag: "心理",
+                  imageUrlIndex: 18, linkUrl: "https://example.com/mental-health" },
+                { title: "时尚潮流", description: "洞察全球时尚前沿趋势，引领个性穿搭与生活品味。", tag: "时尚",
+                  imageUrlIndex: 19, linkUrl: "https://example.com/fashion-trends" },
+                { title: "历史回眸", description: "追溯人类文明的轨迹，探寻那些影响深远的历史时刻与人物。", tag: "历史",
+                  imageUrlIndex: 0, linkUrl: "https://example.com/historical-glimpse" }, // 使用了第一个图片 URL
+                { title: "旅行探险", description: "开启未知旅程，探索世界角落，记录每一次心跳的冒险。", tag: "旅行",
+                  imageUrlIndex: 1, linkUrl: "https://example.com/travel-adventure" }, // 使用了第二个图片 URL
+                { title: "智能家居", description: "构建智慧生活空间，让科技为居家体验带来更多便利与舒适。", tag: "智能",
+                  imageUrlIndex: 2, linkUrl: "https://example.com/smart-home" }, // 使用了第三个图片 URL
+                { title: "宠物生活", description: "分享与萌宠的温馨日常，学习科学养宠知识，享受陪伴的乐趣。", tag: "宠物",
+                  imageUrlIndex: 3, linkUrl: "https://example.com/pet-life" } // 使用了第四个图片 URL
+            ];
+
+            // 渲染卡片到指定的容器
             function generateCards(containerId, data) {
                 const cardsContainer = document.getElementById(containerId);
-                cardsContainer.innerHTML = '';
+                cardsContainer.innerHTML = ''; // 清空容器内容
                 
-                data.forEach(card => {
+                data.forEach((card, index) => {
                     const cardElement = document.createElement('div');
                     cardElement.className = 'card';
+                    
+                    // 确定图片 URL：使用索引从 cardImageUrls 数组中获取
+                    // 如果索引超出数组长度，则使用循环的方式（模运算）来获取图片
+                    const imageUrl = cardImageUrls[card.imageUrlIndex % cardImageUrls.length]; 
+                    
                     cardElement.innerHTML = `
-                        <div class="card-image" style="background-image: url(${card.imageUrl})"></div>
+                        <div class="card-image" style="background-image: url(${imageUrl})"></div>
                         <div class="card-tag">${card.tag}</div>
                         <div class="card-content">
                             <h3 class="card-title">${card.title}</h3>
@@ -983,38 +995,41 @@
                 });
             }
 
+            // 延迟加载卡片图片的函数
             function lazyLoadCardImages() {
                 const lazyImages = document.querySelectorAll('.card-image');
                 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
+                        if (entry.isIntersecting) { // 当元素进入视口时
                             const imgDiv = entry.target;
-                            // 从CSS中获取背景图片URL，需要注意格式
-                            const backgroundImage = imgDiv.style.backgroundImage;
-                            if (backgroundImage && backgroundImage.startsWith('url(') && backgroundImage.endsWith(')')) {
-                                const imageUrl = backgroundImage.slice(5, -2); // 移除url(" 和 ")
-                                imgDiv.style.backgroundImage = `url(${imageUrl})`;
-                            }
-                            observer.unobserve(imgDiv);
+                            const backgroundImage = imgDiv.style.backgroundImage; // 获取设置的背景图样式
+                            // 这里的 imgDiv.style.backgroundImage 已经是通过 innerHTML 设置好的，所以不需要再次设置了。
+                            // 如果你之前没有在 innerHTML 中设置背景图，这里才需要设置。
+                            
+                            observer.unobserve(imgDiv); // 停止观察这个元素
                         }
                     });
                 }, {
-                    rootMargin: '0px',
-                    threshold: 0.1
+                    rootMargin: '0px', // 视口外边距
+                    threshold: 0.1 // 当元素有 10% 进入视口时触发
                 });
                 
+                // 观察所有的 .card-image 元素
                 lazyImages.forEach(imgDiv => {
                     observer.observe(imgDiv);
                 });
             }
 
+            // 初始化轮播图
             initSlider();
 
-            generateCards('cardsContainer1', allCardData.slice(0, 8));
-            generateCards('cardsContainer2', allCardData.slice(8, 16));
-            generateCards('cardsContainer3', allCardData.slice(16, 24));
+            // 生成并填充卡片到各个容器
+            generateCards('cardsContainer1', allCardData.slice(0, 8));   // 精选作品
+            generateCards('cardsContainer2', allCardData.slice(8, 16));  // 最新上线
+            generateCards('cardsContainer3', allCardData.slice(16, 24)); // 灵感画廊
 
+            // 启动懒加载图片功能
             lazyLoadCardImages();
         });
     </script>
