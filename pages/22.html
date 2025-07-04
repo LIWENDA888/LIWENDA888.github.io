@@ -23,32 +23,34 @@
             --secondary-color: #ccc;
             --text-color-dark: #1f2937;
             --text-color-light: #4b5563;
-            --brand-color: #FF8C19;
-            --brand-color-hover: #e07a0e;
+            --brand-color: #FF8C19; /* 橙色，活泼 */
+            --brand-color-hover: #e07a0e; /* 橙色深一色调 */
             --bg-color-white: #ffffff;
-            --bg-color-hover: rgba(255, 255, 255, 0.15);
-            --bg-color-dropdown: rgba(51, 51, 51, 0.95);
-            --overlay-background: rgba(0, 0, 0, 0.6);
+            --bg-color-hover: rgba(255, 255, 255, 0.15); /* 导航链接悬停背景 */
+            --bg-color-dropdown: rgba(51, 51, 51, 0.95); /* 备用，未用到 */
+            --overlay-background: rgba(0, 0, 0, 0.6); /* 主页面背景遮罩 */
 
             /* 边框 */
-            --border-color-light: #e5e7eb;
+            --border-color-light: #e5e7eb; /* 浅灰色边框 */
 
             /* 阴影 */
-            --shadow-color-medium: rgba(0, 0, 0, 0.08);
+            --shadow-color-medium: rgba(0, 0, 0, 0.08); /* 轻微阴影 */
 
             /* 字体 */
             --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
             /* 动画 */
-            --transition-base: all 0.3s ease-in-out;
-            --transition-nav-slide: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            --transition-base: all 0.3s ease-in-out; /* 通用过渡动画 */
+            --transition-nav-slide: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* 导航滑入动画 */
 
-            /* 页面相关 */
-            --navbar-height: 70px;
-            --border-radius-base: 30px; /*  统一圆角 */
-            --page-background-image: url('https://tc.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250702/7gfe/1761X987/9bd893bc8f24adeb484c0cbd9d3ba5a68faa4bbeafa1b-6vmjdu.jpg');
+            /* 页面布局相关 */
+            --navbar-height: 70px; /* 导航栏高度 */
+            --border-radius-base: 30px; /* 主要圆角半径 */
+            --page-background-image: url('https://tc.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250702/7gfe/1761X987/9bd893bc8f24adeb484c0cbd9d3ba5a68faa4bbeafa1b-6vmjdu.jpg'); /* 背景图 */
+            --navbar-blur: blur(10px); /* 导航栏背景模糊效果 */
         }
 
+        /* 全局重置 */
         * {
             margin: 0;
             padding: 0;
@@ -60,24 +62,25 @@
         body {
             height: 100%;
             width: 100%;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            overflow-x: hidden; /* 防止水平滚动 */
+            scroll-behavior: smooth; /* 平滑滚动 */
             font-weight: 400;
         }
 
         body {
             background-color: var(--bg-color-white);
             background-image: var(--page-background-image);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-size: cover; /* 背景图覆盖整个区域 */
+            background-position: center; /* 背景图居中 */
+            background-attachment: fixed; /* 背景图固定，随内容滚动 */
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            color: var(--primary-color);
-            overflow-y: auto;
+            flex-direction: column; /* 内容垂直布局 */
+            min-height: 100vh; /* 最小高度为视口高度 */
+            color: var(--primary-color); /* 文字颜色 */
+            overflow-y: auto; /* 当内容超出时，允许垂直滚动 */
         }
 
+        /* 背景遮罩层 */
         body::before {
             content: '';
             position: fixed;
@@ -85,10 +88,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--overlay-background); /* 使用变量 */
-            z-index: -1;
+            background-color: var(--overlay-background); /* 使用变量定义遮罩颜色 */
+            z-index: -1; /* 放在内容下方 */
         }
 
+        /* 链接样式 */
         a {
             color: var(--primary-color);
             text-decoration: none;
@@ -96,49 +100,53 @@
         }
 
         a:hover {
-            color: var(--brand-color);
+            color: var(--brand-color); /* 悬停时变为品牌色 */
         }
 
-        /* 按钮基础样式 */
+        /* 基础按钮样式 */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 12px 24px;
-            border-radius: var(--border-radius-base); /* 使用变量 */
+            border-radius: var(--border-radius-base); /* 使用变量定义圆角 */
             font-weight: 500;
             font-size: 1rem;
             cursor: pointer;
             transition: var(--transition-base);
-            white-space: nowrap;
+            white-space: nowrap; /* 防止文本换行 */
             border: none;
-            outline: none;
+            outline: none; /* 移除轮廓 */
         }
 
+        /* 主要按钮样式 */
         .btn-primary {
             background-color: var(--brand-color);
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: var(--brand-color-hover); /* 使用变量 */
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
+            background-color: var(--brand-color-hover);
+            transform: translateY(-2px); /* 轻微向上移动 */
+            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3); /* 添加阴影反馈 */
         }
 
+        /* 次要按钮样式 */
         .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.1); /* 半透明白色背景 */
             color: var(--primary-color);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* 添加一个细微的边框 */
         }
 
-        /* 覆盖.btn的hover效果，只保留移动 */
+        /* 次要按钮悬停效果: 仅轻微移动，不改变背景和颜色 */
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1); /*  恢复背景色*/
-            transform: translateY(-2px); /* 仅移动，不改变颜色 */
+            background-color: rgba(255, 255, 255, 0.1); /* 保持原有背景 */
+            transform: translateY(-2px); /* 轻微向上移动 */
+            box-shadow: none; /* 移除可能产生的阴影 */
         }
 
-
+        /* 图标按钮通用样式 (如果需要) */
         .btn-icon {
             width: 40px;
             height: 40px;
@@ -151,29 +159,30 @@
 
         /* 导航栏样式 */
         .navbar {
-            backdrop-filter: var(--navbar-blur);
-            -webkit-backdrop-filter: var(--navbar-blur);
+            backdrop-filter: var(--navbar-blur); /* 应用模糊效果 */
+            -webkit-backdrop-filter: var(--navbar-blur); /* 兼容 Safari */
             height: var(--navbar-height);
-            position: sticky;
+            position: sticky; /* 固定在顶部 */
             top: 0;
             width: 100%;
-            z-index: 1000;
+            z-index: 1000; /* 确保在其他内容上方 */
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* 内容居中 */
+            align-items: center; /* 内容垂直居中 */
             transition: var(--transition-base);
         }
 
         .navbar-inner {
-            max-width: 1900px;
-            width: 100%;
-            padding: 0 30px;
+            max-width: 1900px; /* 最大宽度 */
+            width: 100%; /* 宽度自适应 */
+            padding: 0 30px; /* 水平内边距 */
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
+            justify-content: space-between; /* 子元素两端对齐 */
+            align-items: center; /* 子元素垂直居中 */
+            gap: 20px; /* 子元素间距 */
         }
 
+        /* Logo 样式 */
         .logo {
             display: flex;
             align-items: center;
@@ -182,13 +191,13 @@
             font-weight: 800;
             color: var(--primary-color);
             text-decoration: none;
-            flex-shrink: 0;
+            flex-shrink: 0; /* 防止 Logo 被压缩 */
             letter-spacing: -0.5px;
             transition: var(--transition-base);
         }
 
         .logo:hover {
-            transform: scale(1.03);
+            transform: scale(1.03); /* 悬停时略微放大 */
             color: var(--brand-color);
         }
 
@@ -200,20 +209,22 @@
         }
 
         .logo:hover .logo-img {
-            transform: rotate(-5deg);
+            transform: rotate(-5deg); /* 悬停时图片轻微旋转 */
         }
 
+        /* 导航内容区域 */
         .nav-content-area {
             display: flex;
             align-items: center;
             gap: 30px;
-            margin-left: auto;
+            margin-left: auto; /* 推到右侧 */
         }
 
+        /* 导航链接列表 */
         .nav-links {
             display: flex;
             gap: 15px;
-            list-style: none;
+            list-style: none; /* 去掉列表标记 */
             align-items: center;
         }
 
@@ -221,14 +232,12 @@
             color: var(--primary-color);
             font-weight: 500;
             padding: 10px 18px;
-            border-radius: var(--border-radius-base); /* 使用变量 */
+            border-radius: var(--border-radius-base); /* 使用变量定义圆角 */
             transition: var(--transition-base);
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 16px;
-            position: relative;
-            overflow: hidden;
             letter-spacing: -0.2px;
             background: transparent;
         }
@@ -238,35 +247,36 @@
             width: 8px;
             height: 8px;
             background-color: transparent;
-            border: 2px solid var(--secondary-color);
+            border: 2px solid var(--secondary-color); /* 圆点边框 */
             border-radius: 50%;
             transition: var(--transition-base);
             flex-shrink: 0;
         }
 
         .nav-links > li > a:hover {
-            background: var(--bg-color-hover);
+            background: var(--bg-color-hover); /* 悬停时有背景 */
             color: var(--brand-color);
         }
 
         .nav-links > li > a:hover .dot {
-            background-color: var(--brand-color);
+            background-color: var(--brand-color); /* 悬停时圆点变品牌色 */
             border-color: var(--brand-color);
-            box-shadow: 0 0 10px rgba(255, 140, 25, 0.6);
+            box-shadow: 0 0 10px rgba(255, 140, 25, 0.6); /* 添加阴影 */
         }
 
+        /* 汉堡包菜单按钮 */
         .hamburger {
-            display: none;
+            display: none; /* 默认隐藏，只在小屏幕显示 */
             cursor: pointer;
             background: transparent;
             border: none;
             width: 45px;
             height: 45px;
             position: relative;
-            z-index: 1001;
+            z-index: 1001; /* 确保在导航栏内容之上 */
             flex-shrink: 0;
             padding: 8px;
-            margin-left: auto;
+            margin-left: auto; /* 推到最右侧 */
         }
 
         .hamburger span {
@@ -279,66 +289,78 @@
             transition: var(--transition-base);
         }
 
+        /* 汉堡包菜单激活状态下的样式 */
         .hamburger.active span:nth-child(1) {
-            transform: translateY(10px) rotate(45deg);
+            transform: translateY(10px) rotate(45deg); /* 第一条线向上旋转 */
         }
 
         .hamburger.active span:nth-child(2) {
-            opacity: 0;
+            opacity: 0; /* 第二条线消失 */
         }
 
         .hamburger.active span:nth-child(3) {
-            transform: translateY(-10px) rotate(-45deg);
+            transform: translateY(-10px) rotate(-45deg); /* 第三条线向下旋转 */
         }
 
+        /* 移动端导航覆盖层 */
         .mobile-nav-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 998;
+            background-color: rgba(0, 0, 0, 0.8); /* 半透明黑色背景 */
+            z-index: 998; /* 在导航内容下方，但在页面内容上方 */
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            visibility: hidden; /* 默认隐藏 */
+            transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* 平滑过渡 */
         }
 
         .mobile-nav-overlay.active {
             opacity: 1;
-            visibility: visible;
+            visibility: visible; /* 显示覆盖层 */
         }
 
-        /* --- 主内容样式 --- */
+        /* --- 主内容区域样式 --- */
         .main-content {
-            flex-grow: 1;
+            flex-grow: 1; /* 占据剩余空间 */
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            flex-direction: column;
-            padding-bottom: 80px; /* 为底部栏留出空间 */
+            justify-content: center; /* 内容水平居中 */
+            align-items: center; /* 内容垂直居中 */
+            padding: 20px 20px 80px; /* 上部内边距略减，底部内边距保留给底部栏 */
+            flex-direction: column; /* 子元素垂直排列 */
         }
 
+        /* 搜索区域容器 */
         .search-area {
             width: 100%;
-            max-width: 800px; /*  扩大搜索框区域 */
+            max-width: 800px; /* 搜索框最大宽度 */
             display: flex;
-            flex-direction: column; /* 垂直排列 */
-            align-items: center;
-            margin-bottom: 20px;
+            flex-direction: column; /* 子元素垂直排列 */
+            align-items: center; /* 子元素居中 */
+            margin-top: 20px; /* 与导航栏的间距 */
+            margin-bottom: 20px; /* 与下方按钮的间距 */
         }
 
+        /* 搜索引擎切换按钮容器 */
         .engine-buttons-container {
             display: flex;
             justify-content: center;
-            gap: 12px; /* 增大间距 */
+            gap: 12px; /* 按钮间距 */
             margin-bottom: 10px;
         }
 
+        /* 手机端隐藏搜索引擎切换按钮 */
+        @media (max-width: 768px) {
+            .engine-buttons-container {
+                display: none;
+            }
+        }
+
+        /* 单个搜索引擎按钮样式 */
         .engine-button {
             border: none;
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.1); /* 半透明背景 */
             color: var(--primary-color);
             padding: 8px 12px;
             border-radius: 8px;
@@ -350,52 +372,48 @@
 
         .engine-button:hover,
         .engine-button.active {
-            background-color: var(--brand-color);
+            background-color: var(--brand-color); /* 激活或悬停时变为品牌色 */
             color: white;
         }
 
         .engine-button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* 轻微向上移动 */
         }
 
+        /* 搜索框容器 */
         .search-container {
-            position: relative;
-            width: 100%; /* 确保占据父容器的全部宽度 */
+            position: relative; /* 为搜索按钮定位提供基准 */
+            width: 100%;
         }
 
+        /* 搜索框样式 */
         .search-box {
             width: 100%;
             height: 60px;
-            padding: 0 25px 0 35px; /* 修改左内边距 */
-            border: 2px solid rgba(255, 255, 255, 0.2); /* 降低透明度 */
-            border-radius: 50px;
+            padding: 0 25px 0 35px; /* 左侧内边距加大，容纳图标 (如果未来需要) */
+            border: 2px solid rgba(255, 255, 255, 0.2); /* 半透明边框 */
+            border-radius: 50px; /* 圆角 */
             font-size: 1.1rem;
-            background: rgba(255, 255, 255, 0.5); /* 降低透明度 */
+            background: rgba(255, 255, 255, 0.5); /* 半透明背景 */
             backdrop-filter: blur(5px); /* 毛玻璃效果 */
-            color: var(--text-color-dark);
-            /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);  // 移除聚焦时的阴影 */
-            outline: none;
+            color: var(--text-color-dark); /* 文字颜色 */
+            outline: none; /* 移除焦点轮廓 */
             transition: var(--transition-base);
-            padding-right: 70px;
+            padding-right: 70px; /* 右侧内边距，为搜索按钮预留空间 */
         }
 
         .search-box::placeholder {
-            color: var(--text-color-light);
+            color: var(--text-color-light); /* 占位符颜色 */
         }
-
-        /* .search-box:focus {  // 移除聚焦时的边框和阴影
-            border-color: var(--brand-color);
-            box-shadow: 0 5px 25px rgba(255, 140, 25, 0.3);
-        } */
 
         /* 搜索按钮 */
         .search-btn {
             position: absolute;
             right: 15px;
-            top: 10px;
+            top: 10px; /* 居中垂直 */
             height: 40px;
             width: 40px;
-            border-radius: 50%;
+            border-radius: 50%; /* 圆形按钮 */
             border: none;
             background: var(--brand-color);
             color: white;
@@ -409,7 +427,7 @@
 
         .search-btn:hover {
             background: var(--brand-color-hover);
-            transform: scale(1.1);
+            transform: scale(1.1); /* 悬停时放大 */
         }
 
         /* 快捷按钮区域 */
@@ -417,20 +435,39 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 15px; /* 按钮间距 */
+            margin-top: 30px; /* 与搜索框的间距 */
             padding: 0 20px;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* 允许按钮换行 */
+        }
+
+        /* 手机端按钮样式调整 */
+        @media (max-width: 992px) { /* 确保手机端样式在较小的屏幕上生效 */
+            .button-area {
+                gap: 10px; /* 手机端按钮间距缩小 */
+                padding: 0 10px;
+            }
+            .btn-secondary {
+                font-size: 0.9rem; /* 手机端字体缩小 */
+                padding: 10px 18px; /* 手机端内边距缩小 */
+            }
+            /* 手机端调整搜索区域和按钮区域的间距 */
+            .search-area {
+                margin-top: 0; /* 手机端搜索区域不再需要顶部外边距 */
+            }
+            .button-area {
+                margin-top: 20px; /* 手机端按钮区域与搜索区域的间距 */
+            }
         }
 
         /* 底部栏 */
         .footer {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.4); /* 半透明背景 */
             text-align: center;
             padding: 15px 0;
             font-size: 0.9rem;
-            margin-top: auto; /* 推到底部 */
+            margin-top: auto; /* 将底部栏推到页面底部 */
         }
 
         /* 展开网址卡片按钮 */
@@ -438,32 +475,31 @@
             position: fixed;
             bottom: 50px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%); /* 水平居中 */
             border: none;
-            border-radius: var(--border-radius-base); /* 使用变量 */
+            border-radius: var(--border-radius-base);
             padding: 12px 24px;
             font-size: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            z-index: 1001; /* 确保在最上层 */
-            transition: transform 0.3s ease-in-out; /* 添加过渡效果 */
-            color: var(--primary-color); /* 确保文字颜色正确 */
-        }
-
-        /* 覆盖.btn的hover效果 */
-        .expand-button:hover {
-            /*  由于.btn的悬停效果会改变文字颜色，在这里重新设置回来  */
+            z-index: 1001; /* 在最高层 */
+            transition: transform 0.3s ease-in-out;
             color: var(--primary-color);
-            transform: translateX(-50%) translateY(-2px);
+            background-color: rgba(0, 0, 0, 0.3); /* 添加一个半透明背景，使其在背景图上更易见 */
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-
+        .expand-button:hover {
+            color: var(--primary-color); /* 保持文字颜色 */
+            transform: translateX(-50%) translateY(-2px); /* 悬停时向上移动 */
+            background-color: rgba(0, 0, 0, 0.4); /* 悬停时背景加深 */
+        }
 
         /* 箭头跳动动画 */
         .expand-button i.fa-arrow-up {
-            animation: bounce 1s infinite alternate;
+            animation: bounce 1s infinite alternate; /* 无限循环，交替播放 */
         }
 
         @keyframes bounce {
@@ -471,119 +507,120 @@
                 transform: translateY(0);
             }
             to {
-                transform: translateY(-5px);
+                transform: translateY(-5px); /* 轻微向上弹起 */
             }
         }
 
         /* 全屏显示的嵌入页面容器 */
         .fullscreen-container {
             position: fixed;
-            bottom: 0; /* 从底部开始 */
+            bottom: 0; /* 底部对齐 */
             left: 0;
             width: 100%;
-            height: 100%; /* 全屏高度 */
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1002; /* 比展开按钮高 */
-            display: none; /* 默认隐藏 */
+            height: calc(100vh - 100px); /* 设置高度为视口高度减去100px，提供底部间距 */
+            background-color: rgba(0, 0, 0, 0.9); /* 深色背景 */
+            z-index: 1002; /* 最高层级 */
+            display: flex; /* 使用 flex 布局 */
             align-items: center; /* 垂直居中 */
             justify-content: center; /* 水平居中 */
-            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-            opacity: 0; /* 初始透明度 */
-            transform: translateY(100%); /* 初始位置，在屏幕底部 */
+            /* 调整过渡动画：增加时长和偏移量，使动画更明显 */
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+            opacity: 0; /* 初始透明度为0 */
+            transform: translateY(100%); /* 初始位置在屏幕下方，确保滑入动画 */
         }
 
         .fullscreen-container.active {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0); /* 移动到初始位置 */
+            opacity: 1; /* 显示时透明度为1 */
+            transform: translateY(0); /* 移动到屏幕顶部（原位），底部对齐 */
         }
 
-        /* 遮罩层（点击关闭） */
+        /* 覆盖层（用于点击关闭） */
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            cursor: pointer;
+            height: 100%; /* 覆盖整个父容器 */
+            cursor: pointer; /* 指针变为手型 */
+            z-index: 1001; /* 在 iframe 内容之上 */
         }
 
         /* 嵌入页面容器 */
         .iframe-container {
             position: relative;
-            width: 100%; /* 全屏宽度 */
-            height: 100%; /* 全屏高度 */
+            width: 100%;
+            height: calc(100% - 40px); /* 调整 iframeContainer 的高度，留出关闭按钮的空间 */
             background-color: var(--bg-color-white);
             overflow: hidden; /* 防止 iframe 内容溢出 */
+            border-radius: var(--border-radius-base); /* 和其他元素保持圆角风格 */
+            display: flex; /* 使用 flex 布局，方便控制内部元素 */
+            flex-direction: column; /* 子元素垂直排列 */
+            align-items: center;
+            justify-content: center;
         }
 
-        /* 嵌入页面 */
+        /* 嵌入的 iframe 样式 */
         .fullscreen-iframe {
             width: 100%;
             height: 100%;
-            border: none;
+            border: none; /* 移除 iframe 边框 */
+            border-radius: var(--border-radius-base); /* 保持圆角 */
         }
 
         /* 关闭按钮 */
         .close-button {
             position: absolute;
-            top: 10px;
+            top: 10px; /* 调整关闭按钮的位置，使其在容器可视区域内 */
             right: 10px;
-            background-color: rgba(0, 0, 0, 0.7); /* 调整背景色 */
+            background-color: rgba(0, 0, 0, 0.7); /* 半透明背景 */
             color: white;
             border: none;
-            border-radius: 50%;
-            width: 35px; /* 增大按钮尺寸 */
-            height: 35px; /* 增大按钮尺寸 */
+            border-radius: 50%; /* 圆形按钮 */
+            width: 35px;
+            height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem; /* 增大图标尺寸 */
+            font-size: 1.4rem; /* 图标大小 */
             cursor: pointer;
-            z-index: 1; /* 确保在iframe上方 */
-            transition: background-color 0.2s ease, transform 0.2s ease; /* 添加缩放动画 */
+            z-index: 1; /* 在 iframe 内容上方 */
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
         .close-button:hover {
-            background-color: rgba(0, 0, 0, 0.9); /* 更深背景色 */
-            transform: scale(1.1); /* 悬停时略微放大 */
+            background-color: rgba(0, 0, 0, 0.9); /* 悬停时背景更深 */
+            transform: scale(1.1); /* 悬停时放大 */
         }
 
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .navbar-inner {
-                padding: 0 15px;
-            }
-
-            .logo {
-                font-size: 1.5rem;
-            }
-
+        /* 响应式调整：移动端菜单显示 */
+        @media (max-width: 992px) { /* 调整断点，使汉堡包菜单在稍大屏幕上就出现 */
             .nav-links {
                 display: none; /* 默认隐藏导航链接 */
             }
 
             .hamburger {
-                display: block; /* 手机端显示汉堡包菜单 */
+                display: block; /* 显示汉堡包菜单 */
             }
 
             .nav-content-area.active .nav-links {
-                display: flex;
-                flex-direction: column; /* 垂直排列导航链接 */
+                display: flex; /* 显示导航链接 */
+                flex-direction: column; /* 垂直排列 */
                 position: fixed; /* 固定定位 */
                 top: var(--navbar-height); /* 位于导航栏下方 */
                 left: 0;
                 width: 100%;
-                background-color: rgba(0, 0, 0, 0.8); /* 覆盖背景色 */
+                background-color: rgba(0, 0, 0, 0.8); /* 覆盖层背景 */
                 padding: 20px;
-                z-index: 999; /* 确保在最前面 */
-                border-bottom: 1px solid var(--border-color-light);
+                z-index: 999; /* 在导航栏之上 */
+                border-bottom: 1px solid var(--border-color-light); /* 添加底部边框 */
             }
 
             .nav-links > li > a {
-                padding: 15px;
-                border-radius: 8px;
-                font-size: 1.1rem;
+                padding: 15px; /* 调整手机端链接内边距 */
+                border-radius: 8px; /* 手机端链接圆角 */
+                font-size: 1.1rem; /* 手机端链接字体 */
+                width: 100%; /* 链接宽度占满 */
+                text-align: center; /* 文本居中 */
             }
 
             .search-box {
@@ -623,13 +660,16 @@
         </div>
     </nav>
 
+    <!-- 移动端导航覆盖层 -->
     <div class="mobile-nav-overlay"></div>
 
     <main class="main-content">
         <div class="search-area">
+            <!-- 搜索引擎切换按钮 (在手机端隐藏) -->
             <div class="engine-buttons-container" id="engine-buttons-container">
-                <!-- 搜索引擎按钮 -->
+                <!-- 搜索引擎按钮会在此动态生成 -->
             </div>
+            <!-- 搜索框 -->
             <div class="search-container">
                 <input type="text" class="search-box" id="search-input" placeholder="输入搜索内容..." autocomplete="off">
                 <button class="search-btn" id="search-button">
@@ -640,9 +680,32 @@
 
         <!-- 快捷按钮区域 -->
         <div class="button-area">
-            <!--  去掉了按钮左侧的图标，只需删除<i>标签即可 -->
             <a href="https://www.tencent.com/zh-cn/metaverse" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                 腾讯元宝
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
+            </a>
+            <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                示例按钮
             </a>
             <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
                 示例按钮
@@ -650,18 +713,21 @@
         </div>
     </main>
 
+    <!-- 展开网址卡片按钮 -->
     <button class="btn btn-secondary expand-button" id="expand-button">
         <i class="fas fa-arrow-up"></i> 展开网址卡片
     </button>
 
+    <!-- 全屏嵌入的容器 -->
     <div class="fullscreen-container" id="fullscreen-container">
-        <div class="overlay" id="overlay"></div>
+        <div class="overlay" id="overlay"></div> <!-- 点击关闭的覆盖层 -->
         <div class="iframe-container">
             <button class="close-button" id="close-button"><i class="fas fa-times"></i></button>
             <iframe src="https://www.zizao.top" class="fullscreen-iframe"></iframe>
         </div>
     </div>
 
+    <!-- 底部栏 -->
     <footer class="footer">
         <p>&copy; 2024 字造. <a href="#">隐私政策</a> | <a href="#">服务条款</a></p>
     </footer>
@@ -673,13 +739,14 @@
             const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
             const body = document.body;
 
-            // 导航菜单切换功能
+            // --- 移动端导航菜单切换功能 ---
             function toggleMobileMenu(show) {
                 const shouldShow = show === undefined ? !navContentArea.classList.contains('active') : show;
                 hamburger.classList.toggle('active', shouldShow);
                 hamburger.setAttribute('aria-expanded', shouldShow);
                 navContentArea.classList.toggle('active', shouldShow);
                 mobileNavOverlay.classList.toggle('active', shouldShow);
+                // 菜单打开时禁止页面滚动，关闭时恢复
                 body.style.overflow = shouldShow ? 'hidden' : '';
             }
 
@@ -688,147 +755,130 @@
             }
 
             hamburger.addEventListener('click', () => toggleMobileMenu());
-            mobileNavOverlay.addEventListener('click', closeMobileMenu);
+            mobileNavOverlay.addEventListener('click', closeMobileMenu); // 点击覆盖层关闭菜单
 
+            // 点击导航链接时关闭菜单
             navContentArea.addEventListener('click', (e) => {
                 const targetLink = e.target.closest('a[href]');
                 if (!targetLink) return;
+                // 在移动端且链接不是在新标签页打开时，关闭菜单
                 if (window.innerWidth <= 992 && !targetLink.target) {
                     closeMobileMenu();
                 }
             });
 
-            // 窗口大小改变时重置菜单状态
+            // 窗口大小改变时，如果屏幕宽度大于阈值，则关闭移动端菜单
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 992 && navContentArea.classList.contains('active')) {
                     closeMobileMenu();
                 }
+                // 如果菜单没有激活，恢复页面滚动
                 if (!navContentArea.classList.contains('active')) {
                     body.style.overflow = '';
                 }
             });
 
-            // 搜索引擎功能
+            // --- 搜索引擎功能 ---
             const searchInput = document.getElementById('search-input');
             const searchButton = document.getElementById('search-button');
             const engineButtonsContainer = document.getElementById('engine-buttons-container');
-            // 搜索引擎配置
+
+            // 搜索引擎配置 (可以根据需要添加或修改)
             const engines = {
-                google: {
-                    name: 'Google',
-                    url: 'https://www.google.com/search?q='
-                },
-                bing: {
-                    name: 'Bing',
-                    url: 'https://www.bing.com/search?q='
-                },
-                duckduckgo: {
-                    name: 'DuckDuckGo',
-                    url: 'https://duckduckgo.com/?q='
-                },
-                yahoo: {
-                    name: 'Yahoo',
-                    url: 'https://search.yahoo.com/search?p='
-                },
-                yandex: {
-                    name: 'Yandex',
-                    url: 'https://yandex.com/search/?text='
-                },
-                baidu: {
-                    name: 'Baidu',
-                    url: 'https://www.baidu.com/s?wd='
-                }
+                google: { name: 'Google', url: 'https://www.google.com/search?q=' },
+                bing: { name: 'Bing', url: 'https://www.bing.com/search?q=' },
+                duckduckgo: { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
+                yahoo: { name: 'Yahoo', url: 'https://search.yahoo.com/search?p=' },
+                yandex: { name: 'Yandex', url: 'https://yandex.com/search/?text=' },
+                baidu: { name: 'Baidu', url: 'https://www.baidu.com/s?wd=' }
             };
 
-            // 当前选中的搜索引擎
-            let currentEngine = 'google';
+            // 获取用户偏好的搜索引擎，如果本地没有则默认使用 Google
+            let currentEngine = localStorage.getItem('searchEngine') || 'google';
 
-            // 初始化 - 检查本地存储中的搜索引擎偏好
-            const savedEngine = localStorage.getItem('searchEngine');
-            if (savedEngine && engines[savedEngine]) {
-                currentEngine = savedEngine;
-            }
-
-            // 创建引擎按钮
+            // 初始化搜索引擎按钮
             function createEngineButtons() {
                 for (const engineKey in engines) {
                     const engine = engines[engineKey];
                     const button = document.createElement('button');
                     button.classList.add('engine-button');
                     button.dataset.engine = engineKey;
-                    button.textContent = engine.name; // 移除图标
+                    button.textContent = engine.name;
                     engineButtonsContainer.appendChild(button);
 
+                    // 设置当前激活的搜索引擎按钮
                     if (engineKey === currentEngine) {
                         button.classList.add('active');
-                }
+                    }
                 }
             }
-            createEngineButtons();
+            // 只在搜索引擎按钮容器存在时创建按钮
+            if (engineButtonsContainer) {
+                createEngineButtons();
+            }
 
-            const engineButtons = document.querySelectorAll('.engine-button');
 
-            // 切换搜索引擎 - 使用事件委托
-            engineButtonsContainer.addEventListener('click', (event) => {
-                const button = event.target.closest('.engine-button');
-                if (!button) return; // 如果点击的不是按钮，则退出
-                currentEngine = button.dataset.engine;
-                engineButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                localStorage.setItem('searchEngine', currentEngine);
-            });
+            // 事件委托：处理搜索引擎切换按钮的点击事件
+            if (engineButtonsContainer) {
+                engineButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.engine-button');
+                    if (!button) return; // 如果点击的不是按钮，则不执行操作
+                    currentEngine = button.dataset.engine;
+                    // 更新所有按钮的激活状态
+                    document.querySelectorAll('.engine-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    // 保存用户偏好
+                    localStorage.setItem('searchEngine', currentEngine);
+                });
+            }
 
-            // 执行搜索
+
+            // 执行搜索的函数
             function performSearch() {
                 const query = searchInput.value.trim();
                 if (query) {
                     const searchUrl = engines[currentEngine].url + encodeURIComponent(query);
-                    window.open(searchUrl, '_blank');
+                    window.open(searchUrl, '_blank'); // 在新标签页打开搜索结果
                 } else {
-                    // 添加搜索框动画效果
-                    searchInput.style.borderColor = 'var(--brand-color)';
-                    searchInput.placeholder = "请输入搜索内容...";
+                    // 输入为空时的反馈
+                    searchInput.placeholder = "请输入搜索内容！";
+                    searchInput.style.borderColor = 'var(--brand-color)'; // 红色边框
                     setTimeout(() => {
-                        searchInput.style.borderColor = '';
+                        searchInput.style.borderColor = 'rgba(255, 255, 255, 0.2)'; /* 恢复边框 */
+                        searchInput.placeholder = "输入搜索内容..."; /* 恢复占位符 */
                     }, 1000);
                 }
             }
 
-
-            // 回车键搜索
-            searchInput.addEventListener('keydown', function(e) { // 监听keydown事件，而不是keypress
+            // 监听回车键执行搜索
+            searchInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
-                    e.preventDefault(); // 阻止默认行为 (例如，页面滚动)
+                    e.preventDefault(); // 阻止默认表单提交或页面刷新
                     performSearch();
                 }
             });
 
-            // 搜索按钮点击事件
+            // 监听搜索按钮点击事件
             searchButton.addEventListener('click', performSearch);
 
-            // 输入框聚焦效果 - 移除
-            /*
-            searchInput.addEventListener('focus', function() {
-                this.style.borderColor = 'var(--brand-color)';
-                this.style.boxShadow = '0 5px 25px rgba(255, 140, 25, 0.3)';
-            });
-            */
-
+            // 搜索框失去焦点时的样式恢复 (移除了聚焦时的样式，所以这里也只处理失去焦点后的恢复)
             searchInput.addEventListener('blur', function() {
-                this.style.borderColor = '';
-                this.style.boxShadow = '';
+                this.style.borderColor = 'rgba(255, 255, 255, 0.2)'; /* 恢复到初始边框颜色 */
+                this.style.boxShadow = ''; /* 移除可能存在的阴影 */
             });
 
-            // 展开网址卡片功能
+            // --- 全屏网址卡片功能 ---
             const expandButton = document.getElementById('expand-button');
             const fullscreenContainer = document.getElementById('fullscreen-container');
             const overlay = document.getElementById('overlay');
             const closeButton = document.getElementById('close-button');
 
+            // 点击展开按钮打开全屏卡片
             expandButton.addEventListener('click', () => {
                 fullscreenContainer.classList.add('active');
             });
 
+            // 点击覆盖层或关闭按钮关闭全屏卡片
             overlay.addEventListener('click', () => {
                 fullscreenContainer.classList.remove('active');
             });
