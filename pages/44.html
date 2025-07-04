@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源导航中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #FF8C19; /* 深橙色 */
+            --secondary-color: #000000; /* 黑色 */
+            --accent-color: #e67e22; /* 根据主要颜色调整的强调色 */
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            position: relative; /* 为返回按钮定位做准备 */
+        }
+
+        /* 左侧分类导航 */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px 0;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 2px solid #f1f3f9;
+            margin-bottom: 20px;
+            display: flex; /* 使内部元素垂直排列 */
+            flex-direction: column;
+            align-items: center; /* 水平居中对齐内容 */
+        }
+        
+        /* 新增的 Logo 样式 */
+        .custom-logo {
+            width: 100%; /* 占满 sidebar-header 的宽度 */
+            height: 100px; /* 调整高度以适应 Logo */
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            margin-bottom: 20px; /* 与搜索框的间距 */
+            padding: 0 25px; /* 保持与原 sidebar-header 的左右边距一致 */
+        }
+
+        .custom-logo img {
+            max-width: 100%; /* 确保图片不会超出容器宽度 */
+            max-height: 100%; /* 确保图片不会超出容器高度 */
+            object-fit: contain; /* 保持图片比例并填满容器 */
+            border-radius: 12px; /* 可选，如果你的 logo 是圆角的 */
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%; /* 让搜索框也占满宽度 */
+            padding: 0 25px; /* 保持与 sidebar-header 的左右边距一致 */
+            box-sizing: border-box;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            /* box-shadow: var(--box-shadow); */ /* 移除搜索框的阴影 */
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 5px 15px rgba(255, 140, 25, 0.2); /* accent-color 阴影 */
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 45px; /* 调整搜索图标的 left 位置，使其与新输入的 padding 匹配 */
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            font-size: 1.1rem;
+        }
+
+        .sidebar h2 {
+            padding: 0 25px 15px;
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+        }
+
+        .categories {
+            list-style: none;
+            overflow-y: auto;
+            max-height: calc(100vh - 280px); /* 调整 max-height 以适应新的 sidebar-header 高度 */
+            padding: 0 15px;
+        }
+
+        .categories li {
+            padding: 0;
+        }
+
+        .category-btn {
+            display: flex;
+            align-items: center;
+            padding: 14px 15px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .category-btn:hover {
+            background: #f8f9ff;
+            color: var(--primary-color);
+        }
+
+        .category-btn.active {
+            background: #f0f4ff;
+            color: var(--primary-color);
+            font-weight: 600;
+            /* border: 2px solid var(--primary-color); */ /* 移除选中状态的边框描边 */
+        }
+
+        .category-btn i {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        /* 右侧内容区域 */
+        .content {
+            flex: 1;
+        }
+
+        .category-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .category-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .category-section h2 i {
+            margin-right: 12px;
+            color: var(--primary-color);
+            background: #f0f4ff;
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* 二级分类标签 */
+        .subcategory-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f3f9;
+        }
+
+        .subcategory-tab {
+            padding: 10px 22px;
+            background: #f1f3f9;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .subcategory-tab:hover {
+            background: #e2e8ff; 
+        }
+
+        .subcategory-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* 卡片区域 */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid #edf2f7;
+            display: flex;
+            padding: 15px;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 140, 25, 0.15); 
+            border-color: #f5a342;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            overflow: hidden; 
+        }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            border-radius: 8px; 
+            padding: 8px; 
+            box-sizing: border-box; 
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color); 
+        }
+
+        .card p {
+            color: var(--gray-color);
+            line-height: 1.5;
+            font-size: 0.88rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1600px) {
+             .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            .sidebar-header {
+                padding-bottom: 15px; /* 减少一些底部的 padding */
+            }
+            .custom-logo {
+                height: 80px; /* 在小屏幕上减小 Logo 高度 */
+                margin-bottom: 15px;
+            }
+            .search-box {
+                padding: 0 15px; /* 调整搜索框的 padding */
+            }
+            .search-box input {
+                 padding: 10px 15px 10px 40px; /* 调整搜索框输入框的 padding */
+            }
+            .search-box i {
+                left: 30px; /* 调整搜索图标的位置 */
+            }
+            .categories {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                max-height: none;
+                padding: 0 15px; /* 保持分类列表的 padding */
+            }
+            .category-btn {
+                padding: 12px 15px;
+                border-radius: 8px;
+            }
+        }
+
+        @media (max-width: 992px) {
+             .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            .subcategory-tabs {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                flex-wrap: nowrap;
+            }
+            .subcategory-tab {
+                white-space: nowrap;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        /* 搜索结果区域样式 */
+        #search-results-section {
+            flex: 1; 
+            display: none; /* 默认隐藏 */
+            flex-direction: column; 
+            gap: 20px;
+        }
+        
+        #search-results-section h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* 移除了返回按钮的图标 */
+        #search-results-section h2 .back-button {
+            background: var(--light-color);
+            border: 1px solid #e2e8f0;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            /* 移除了之前的 fa-arrow-left 图标，直接显示文本 */
+            margin-left: auto; /* 新增：使返回按钮右对齐 */
+        }
+
+        #search-results-section h2 .back-button:hover {
+            background: var(--gray-color);
+            color: white;
+        }
+
+        .search-results-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            flex: 1; 
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 15px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--gray-color);
+            font-size: 1.1rem;
+            padding: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧分类导航 -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- 新的自定义 Logo 结构 -->
+                <div class="custom-logo">
+                    <!-- 确保 custom-logo.png 文件存在 -->
+                    <img src="custom-logo.png" alt="自定义 Logo">
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="搜索网站、工具或资源..." id="search-input">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
+            <h2>资源分类</h2>
+            <ul class="categories" id="categories-list">
+                <li><a href="#design" class="category-btn active"><i class="fas fa-palette"></i> 设计资源</a></li>
+                <li><a href="#dev" class="category-btn"><i class="fas fa-code"></i> 开发工具</a></li>
+                <li><a href="#ai" class="category-btn"><i class="fas fa-robot"></i> AI 工具</a></li>
+                <li><a href="#marketing" class="category-btn"><i class="fas fa-chart-line"></i> 营销增长</a></li>
+                <li><a href="#productivity" class="category-btn"><i class="fas fa-tasks"></i> 效率工具</a></li>
+                <li><a href="#learning" class="category-btn"><i class="fas fa-graduation-cap"></i> 学习平台</a></li>
+                <li><a href="#finance" class="category-btn"><i class="fas fa-coins"></i> 金融投资</a></li>
+                <li><a href="#health" class="category-btn"><i class="fas fa-heartbeat"></i> 健康生活</a></li>
+            </ul>
+        </div>
+
+        <!-- 右侧内容区域 -->
+        <div class="content" id="main-content">
+            <!-- 设计资源分类 -->
+            <section id="design" class="category-section">
+                <h2><i class="fas fa-palette"></i> 设计资源</h2>
+                
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="design" data-subcategory="ui">UI/UX 设计</div>
+                    <div class="subcategory-tab" data-category="design" data-subcategory="graphic">图形设计</div>
+                    <div class="subcategory-tab" data-category="design" data-subcategory="inspiration">设计灵感</div>
+                    <div class="subcategory-tab" data-category="design" data-subcategory="tools">设计工具</div>
+                </div>
+                
+                <div class="cards-container" id="design-ui"></div>
+                <div class="cards-container hidden" id="design-graphic"></div>
+                <div class="cards-container hidden" id="design-inspiration"></div>
+                <div class="cards-container hidden" id="design-tools"></div>
+            </section>
+            
+            <!-- 开发工具分类 -->
+            <section id="dev" class="category-section">
+                <h2><i class="fas fa-code"></i> 开发工具</h2>
+                
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="dev" data-subcategory="frontend">前端开发</div>
+                    <div class="subcategory-tab" data-category="dev" data-subcategory="backend">后端框架</div>
+                    <div class="subcategory-tab" data-category="dev" data-subcategory="database">数据库</div>
+                    <div class="subcategory-tab" data-category="dev" data-subcategory="devops">DevOps</div>
+                </div>
+                
+                <div class="cards-container" id="dev-frontend"></div>
+                <div class="cards-container hidden" id="dev-backend"></div>
+                <div class="cards-container hidden" id="dev-database"></div>
+                <div class="cards-container hidden" id="dev-devops"></div>
+            </section>
+            
+            <!-- AI 工具分类 -->
+            <section id="ai" class="category-section">
+                <h2><i class="fas fa-robot"></i> AI 工具</h2>
+                
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="ai" data-subcategory="writing">AI 写作</div>
+                    <div class="subcategory-tab" data-category="ai" data-subcategory="image">图像生成</div>
+                    <div class="subcategory-tab" data-category="ai" data-subcategory="coding">代码辅助</div>
+                </div>
+                
+                <div class="cards-container" id="ai-writing"></div>
+                <div class="cards-container hidden" id="ai-image"></div>
+                <div class="cards-container hidden" id="ai-coding"></div>
+            </section>
+            
+            <!-- 示例：添加更多分类 -->
+            <!-- 营销增长 -->
+            <section id="marketing" class="category-section">
+                <h2><i class="fas fa-chart-line"></i> 营销增长</h2>
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="marketing" data-subcategory="seo">SEO优化</div>
+                    <div class="subcategory-tab" data-category="marketing" data-subcategory="social">社交媒体</div>
+                    <div class="subcategory-tab" data-category="marketing" data-subcategory="analytics">数据分析</div>
+                </div>
+                <div class="cards-container" id="marketing-seo"></div>
+                <div class="cards-container hidden" id="marketing-social"></div>
+                <div class="cards-container hidden" id="marketing-analytics"></div>
+            </section>
+
+            <!-- 效率工具 -->
+            <section id="productivity" class="category-section">
+                <h2><i class="fas fa-tasks"></i> 效率工具</h2>
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="productivity" data-subcategory="notes">笔记记录</div>
+                    <div class="subcategory-tab" data-category="productivity" data-subcategory="todo">待办事项</div>
+                    <div class="subcategory-tab" data-category="productivity" data-subcategory="collaboration">团队协作</div>
+                </div>
+                <div class="cards-container" id="productivity-notes"></div>
+                <div class="cards-container hidden" id="productivity-todo"></div>
+                <div class="cards-container hidden" id="productivity-collaboration"></div>
+            </section>
+
+            <!-- 学习平台 -->
+            <section id="learning" class="category-section">
+                <h2><i class="fas fa-graduation-cap"></i> 学习平台</h2>
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="learning" data-subcategory="online">在线课程</div>
+                    <div class="subcategory-tab" data-category="learning" data-subcategory="coding">编程学习</div>
+                    <div class="subcategory-tab" data-category="learning" data-subcategory="reading">阅读</div>
+                </div>
+                <div class="cards-container" id="learning-online"></div>
+                <div class="cards-container hidden" id="learning-coding"></div>
+                <div class="cards-container hidden" id="learning-reading"></div>
+            </section>
+
+            <!-- 金融投资 -->
+            <section id="finance" class="category-section">
+                <h2><i class="fas fa-coins"></i> 金融投资</h2>
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="finance" data-subcategory="stocks">股票</div>
+                    <div class="subcategory-tab" data-category="finance" data-subcategory="crypto">加密货币</div>
+                    <div class="subcategory-tab" data-category="finance" data-subcategory="news">资讯</div>
+                </div>
+                <div class="cards-container" id="finance-stocks"></div>
+                <div class="cards-container hidden" id="finance-crypto"></div>
+                <div class="cards-container hidden" id="finance-news"></div>
+            </section>
+
+            <!-- 健康生活 -->
+            <section id="health" class="category-section">
+                <h2><i class="fas fa-heartbeat"></i> 健康生活</h2>
+                <div class="subcategory-tabs">
+                    <div class="subcategory-tab active initial-active" data-category="health" data-subcategory="fitness">健身</div>
+                    <div class="subcategory-tab" data-category="health" data-subcategory="nutrition">营养</div>
+                    <div class="subcategory-tab" data-category="health" data-subcategory="mental">心理健康</div>
+                </div>
+                <div class="cards-container" id="health-fitness"></div>
+                <div class="cards-container hidden" id="health-nutrition"></div>
+                <div class="cards-container hidden" id="health-mental"></div>
+            </section>
+        </div>
+
+        <!-- 搜索结果区域 -->
+        <section id="search-results-section" class="category-section">
+            <h2>
+                搜索结果 
+                <button class="back-button">返回</button> 
+            </h2>
+            <div class="search-results-container" id="search-results-container">
+                <!-- 搜索结果将在这里动态加载 -->
+            </div>
+        </section>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 资源导航中心 | 已收录 856 个优质网站资源 | 使用高效渲染技术确保流畅体验</p>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const searchInput = document.getElementById('search-input');
+        const searchResultsSection = document.getElementById('search-results-section');
+        const searchResultsContainer = document.getElementById('search-results-container');
+        const backButton = searchResultsSection.querySelector('.back-button');
+        const categoriesList = document.getElementById('categories-list');
+
+        // 获取所有分类的链接和对应的section
+        const categoryLinks = document.querySelectorAll('.category-btn');
+        const categorySections = document.querySelectorAll('.category-section'); // 确保所有分类section都有此class
+
+        // --- 数据源 ---
+        const allCardsData = [
+            // 设计资源
+            { category: 'design', subcategory: 'ui', title: 'Figma', description: '基于浏览器的界面设计协作工具，支持实时协作和设计系统管理', icon: 'placeholder-icon.png', link: 'https://www.figma.com' },
+            { category: 'design', subcategory: 'ui', title: 'Adobe XD', description: 'Adobe推出的UX/UI设计和原型制作工具，集成Adobe生态系统', icon: 'placeholder-icon.png', link: 'https://www.adobe.com/products/xd.html' },
+            { category: 'design', subcategory: 'ui', title: 'Sketch', description: '专为Mac设计的矢量图形编辑工具，界面简洁，插件丰富', icon: 'placeholder-icon.png', link: 'https://www.sketch.com' },
+            { category: 'design', subcategory: 'ui', title: 'InVision', description: '原型设计和协作平台，支持交互动画和设计反馈', icon: 'placeholder-icon.png', link: 'https://www.invisionapp.com' },
+            { category: 'design', subcategory: 'ui', title: 'Proto.io', description: '创建高保真交互原型，无需编码即可实现复杂交互', icon: 'placeholder-icon.png', link: 'https://www.proto.io' },
+
+            { category: 'design', subcategory: 'graphic', title: 'Canva', description: '简单易用的在线设计工具，提供海量模板，适合非专业设计师', icon: 'placeholder-icon.png', link: 'https://www.canva.com' },
+            { category: 'design', subcategory: 'graphic', title: 'Affinity Designer', description: '专业矢量图形设计软件，功能强大，价格实惠', icon: 'placeholder-icon.png', link: 'https://affinity.serif.com' },
+            { category: 'design', subcategory: 'graphic', title: 'CorelDRAW', description: '老牌矢量图形设计软件，广泛应用于印刷和排版领域', icon: 'placeholder-icon.png', link: 'https://www.coreldraw.com' },
+            { category: 'design', subcategory: 'graphic', title: 'Photopea', description: '免费在线图片编辑器，支持PSD文件，功能类似Photoshop', icon: 'placeholder-icon.png', link: 'https://www.photopea.com' },
+            { category: 'design', subcategory: 'graphic', title: 'Vectr', description: '免费的在线矢量图形编辑器，易于上手，适用于初学者', icon: 'placeholder-icon.png', link: 'https://vectr.com' },
+
+            { category: 'design', subcategory: 'inspiration', title: 'Dribbble', description: '设计师作品展示平台，汇集全球顶尖设计作品', icon: 'placeholder-icon.png', link: 'https://dribbble.com' },
+            { category: 'design', subcategory: 'inspiration', title: 'Behance', description: 'Adobe旗下的设计师作品展示平台，内容全面丰富', icon: 'placeholder-icon.png', link: 'https://www.behance.net' },
+            { category: 'design', subcategory: 'inspiration', title: 'Pinterest', description: '图片分享和灵感收集平台，适合寻找设计灵感和素材', icon: 'placeholder-icon.png', link: 'https://www.pinterest.com' },
+            { category: 'design', subcategory: 'inspiration', title: 'Uplabs', description: '高质量UI设计资源和灵感库，涵盖App和网站设计', icon: 'placeholder-icon.png', link: 'https://www.uplabs.com' },
+            { category: 'design', subcategory: 'inspiration', title: 'Mobbin', description: '移动端设计模式和灵感库，收集了大量真实App截图', icon: 'placeholder-icon.png', link: 'https://mobbin.com' },
+            
+            { category: 'design', subcategory: 'tools', title: 'Figma', description: '基于浏览器的界面设计协作工具，支持实时协作', icon: 'placeholder-icon.png', link: 'https://www.figma.com' },
+            { category: 'design', subcategory: 'tools', title: 'Zeplin', description: '设计交付工具，帮助设计师和开发者高效协作', icon: 'placeholder-icon.png', link: 'https://zeplin.io' },
+            { category: 'design', subcategory: 'tools', title: 'Abstract', description: '设计版本控制和协作平台，支持设计文件管理', icon: 'placeholder-icon.png', link: 'https://www.abstract.com' },
+            { category: 'design', subcategory: 'tools', title: 'LottieFiles', description: '提供Lottie动画库和工具，用于网页和App的动效设计', icon: 'placeholder-icon.png', link: 'https://www.lottiefiles.com' },
+            { category: 'design', subcategory: 'tools', title: 'Fontjoy', description: 'AI驱动的字体组合工具，帮助寻找和谐的字体搭配', icon: 'placeholder-icon.png', link: 'https://www.fontjoy.com' },
+
+            // 开发工具
+            { category: 'dev', subcategory: 'frontend', title: 'GitHub', description: '全球最大的代码托管平台，支持版本控制和协作开发', icon: 'placeholder-icon.png', link: 'https://github.com' },
+            { category: 'dev', subcategory: 'frontend', title: 'CodePen', description: '前端代码在线编辑和展示平台，分享HTML、CSS和JS代码', icon: 'placeholder-icon.png', link: 'https://codepen.io' },
+            { category: 'dev', subcategory: 'frontend', title: 'VS Code', description: '微软开发的轻量级代码编辑器，支持多种语言和扩展', icon: 'placeholder-icon.png', link: 'https://code.visualstudio.com' },
+            { category: 'dev', subcategory: 'frontend', title: 'Stack Overflow', description: '程序员问答社区，解决开发中遇到的问题', icon: 'placeholder-icon.png', link: 'https://stackoverflow.com' },
+            { category: 'dev', subcategory: 'frontend', title: 'npm', description: 'JavaScript的包管理器，提供海量开源库', icon: 'placeholder-icon.png', link: 'https://www.npmjs.com' },
+
+            { category: 'dev', subcategory: 'backend', title: 'Node.js', description: '基于Chrome V8引擎的JavaScript运行时环境', icon: 'placeholder-icon.png', link: 'https://nodejs.org' },
+            { category: 'dev', subcategory: 'backend', title: 'Django', description: 'Python的高级Web框架，鼓励快速开发和实用设计', icon: 'placeholder-icon.png', link: 'https://www.djangoproject.com' },
+            { category: 'dev', subcategory: 'backend', title: 'Laravel', description: 'PHP Web应用框架，具有优雅的语法和丰富的功能', icon: 'placeholder-icon.png', link: 'https://laravel.com' },
+            { category: 'dev', subcategory: 'backend', title: 'Ruby on Rails', description: '使用Ruby编写的Web应用框架，强调约定优于配置', icon: 'placeholder-icon.png', link: 'https://rubyonrails.org' },
+            { category: 'dev', subcategory: 'backend', title: 'Spring Boot', description: 'Java开发框架，用于构建独立的、生产级的Spring应用', icon: 'placeholder-icon.png', link: 'https://spring.io' },
+
+            // AI 工具
+            { category: 'ai', subcategory: 'writing', title: 'ChatGPT', description: 'OpenAI开发的对话式AI模型，用于内容生成和编程辅助', icon: 'placeholder-icon.png', link: 'https://chat.openai.com' },
+            { category: 'ai', subcategory: 'writing', title: 'Copy.ai', description: 'AI驱动的文案创作工具，帮助生成营销文案和内容', icon: 'placeholder-icon.png', link: 'https://www.copy.ai' },
+            { category: 'ai', subcategory: 'writing', title: 'Jasper', description: 'AI写作助手，帮助创建博客文章、社交媒体内容等', icon: 'placeholder-icon.png', link: 'https://jasper.ai' },
+            { category: 'ai', subcategory: 'writing', title: 'Writesonic', description: 'AI内容创作平台，支持长篇博客文章、广告文案等', icon: 'placeholder-icon.png', link: 'https://writesonic.com' },
+            { category: 'ai', subcategory: 'writing', title: 'Smodin.io', description: 'AI写作工具，提供文章生成、改写和摘要功能', icon: 'placeholder-icon.png', link: 'https://smodin.io' },
+
+            { category: 'ai', subcategory: 'image', title: 'Midjourney', description: '强大的AI图像生成工具，通过文字描述创建艺术图像', icon: 'placeholder-icon.png', link: 'https://www.midjourney.com' },
+            { category: 'ai', subcategory: 'image', title: 'Adobe Firefly', description: 'Adobe推出的创意生成式AI工具，集成创意云生态', icon: 'placeholder-icon.png', link: 'https://www.adobe.com/sensei/generative-ai/firefly.html' },
+            { category: 'ai', subcategory: 'image', title: 'DALL·E 2', description: 'OpenAI的图像生成系统，根据文本描述创建原创图像', icon: 'placeholder-icon.png', link: 'https://openai.com/dall-e-2' },
+            { category: 'ai', subcategory: 'image', title: 'Stable Diffusion', description: '强大的开源AI图像生成模型，可本地部署和微调', icon: 'placeholder-icon.png', link: 'https://stablediffusion.com/' },
+            { category: 'ai', subcategory: 'image', title: 'Leonardo.Ai', description: 'AI图像生成平台，提供游戏素材和艺术创作工具', icon: 'placeholder-icon.png', link: 'https://leonardo.ai/' },
+
+            // 营销增长
+            { category: 'marketing', subcategory: 'seo', title: 'Google Search Console', description: '监控网站在Google搜索中的表现，进行优化', icon: 'placeholder-icon.png', link: 'https://search.google.com/search-console' },
+            { category: 'marketing', subcategory: 'seo', title: 'SEMrush', description: '功能强大的SEO和SEM营销工具套件', icon: 'placeholder-icon.png', link: 'https://www.semrush.com' },
+            { category: 'marketing', subcategory: 'social', title: 'Buffer', description: '管理和发布社交媒体内容，分析效果', icon: 'placeholder-icon.png', link: 'https://buffer.com' },
+            { category: 'marketing', subcategory: 'social', title: 'Hootsuite', description: '一站式社交媒体管理平台', icon: 'placeholder-icon.png', link: 'https://www.hootsuite.com' },
+            { category: 'marketing', subcategory: 'analytics', title: 'Google Analytics', description: '强大的网站流量分析工具', icon: 'placeholder-icon.png', link: 'https://analytics.google.com' },
+            { category: 'marketing', subcategory: 'analytics', title: 'Hotjar', description: '提供用户行为分析，如热力图和用户录屏', icon: 'placeholder-icon.png', link: 'https://www.hotjar.com' },
+
+            // 效率工具
+            { category: 'productivity', subcategory: 'notes', title: 'Evernote', description: '强大的笔记和信息组织工具', icon: 'placeholder-icon.png', link: 'https://evernote.com' },
+            { category: 'productivity', subcategory: 'notes', title: 'Notion', description: '集笔记、项目管理、知识库于一体的All-in-one Workspace', icon: 'placeholder-icon.png', link: 'https://www.notion.so' },
+            { category: 'productivity', subcategory: 'todo', title: 'Todoist', description: '简洁高效的待办事项管理应用', icon: 'placeholder-icon.png', link: 'https://todoist.com' },
+            { category: 'productivity', subcategory: 'todo', title: 'Microsoft To Do', description: '微软的待办事项和任务管理应用', icon: 'placeholder-icon.png', link: 'https://todo.microsoft.com' },
+            { category: 'productivity', subcategory: 'collaboration', title: 'Slack', description: '团队沟通和协作平台', icon: 'placeholder-icon.png', link: 'https://slack.com' },
+            { category: 'productivity', subcategory: 'collaboration', title: 'Trello', description: '基于看板的团队协作工具', icon: 'placeholder-icon.png', link: 'https://trello.com' },
+
+            // 学习平台
+            { category: 'learning', subcategory: 'online', title: 'Coursera', description: '提供来自全球顶尖大学和公司的在线课程', icon: 'placeholder-icon.png', link: 'https://www.coursera.org' },
+            { category: 'learning', subcategory: 'online', title: 'edX', description: '提供大学课程和专业证书的在线学习平台', icon: 'placeholder-icon.png', link: 'https://www.edx.org' },
+            { category: 'learning', subcategory: 'coding', title: 'freeCodeCamp', description: '免费学习编程的互动平台，提供证书和社区支持', icon: 'placeholder-icon.png', link: 'https://www.freecodecamp.org' },
+            { category: 'learning', subcategory: 'coding', title: 'LeetCode', description: '在线编程挑战平台，提高算法和数据结构能力', icon: 'placeholder-icon.png', link: 'https://leetcode.com' },
+            { category: 'learning', subcategory: 'reading', title: 'Medium', description: '内容丰富的博客和文章发布平台', icon: 'placeholder-icon.png', link: 'https://medium.com' },
+            { category: 'learning', subcategory: 'reading', title: 'Project Gutenberg', description: '提供大量免费电子书的网站', icon: 'placeholder-icon.png', link: 'https://www.gutenberg.org' },
+
+            // 金融投资
+            { category: 'finance', subcategory: 'stocks', title: 'Investing.com', description: '提供全球金融市场数据、图表和分析', icon: 'placeholder-icon.png', link: 'https://www.investing.com' },
+            { category: 'finance', subcategory: 'stocks', title: 'Yahoo Finance', description: '股票报价、财经新闻和市场分析', icon: 'placeholder-icon.png', link: 'https://finance.yahoo.com' },
+            { category: 'finance', subcategory: 'crypto', title: 'CoinMarketCap', description: '加密货币市场价格追踪和信息网站', icon: 'placeholder-icon.png', link: 'https://coinmarketcap.com' },
+            { category: 'finance', subcategory: 'crypto', title: 'CoinGecko', description: '另一个流行的加密货币数据聚合网站', icon: 'placeholder-icon.png', link: 'https://www.coingecko.com' },
+            { category: 'finance', subcategory: 'news', title: 'Bloomberg', description: '全球领先的商业和金融信息提供商', icon: 'placeholder-icon.png', link: 'https://www.bloomberg.com' },
+            { category: 'finance', subcategory: 'news', title: 'Wall Street Journal', description: '知名财经新闻媒体', icon: 'placeholder-icon.png', link: 'https://www.wsj.com' },
+
+            // 健康生活
+            { category: 'health', subcategory: 'fitness', title: 'Nike Training Club', description: '提供各种健身课程和训练计划', icon: 'placeholder-icon.png', link: 'https://www.nike.com/ntc' },
+            { category: 'health', subcategory: 'fitness', title: 'Fitbod', description: 'AI驱动的个性化健身计划应用', icon: 'placeholder-icon.png', link: 'https://www.fitbod.com' },
+            { category: 'health', subcategory: 'nutrition', title: 'MyFitnessPal', description: '追踪饮食和运动，管理健康', icon: 'placeholder-icon.png', link: 'https://www.myfitnesspal.com' },
+            { category: 'health', subcategory: 'nutrition', title: 'FatSecret', description: '提供食物数据库和营养追踪功能', icon: 'placeholder-icon.png', link: 'https://www.fatsecret.com' },
+            { category: 'health', subcategory: 'mental', title: 'Calm', description: '冥想和睡眠应用，帮助放松身心', icon: 'placeholder-icon.png', link: 'https://www.calm.com' },
+            { category: 'health', subcategory: 'mental', title: 'Headspace', description: '引导式冥想和正念练习平台', icon: 'placeholder-icon.png', link: 'https://www.headspace.com' },
+        ];
+
+        // --- 功能函数 ---
+
+        // 渲染卡片到指定容器
+        function renderCards(cardsData, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = ''; // 清空原有内容
+            cardsData.forEach(cardData => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                cardElement.setAttribute('onclick', `window.open('${cardData.link}', '_blank')`);
+                
+                // 处理图标，确保 icon 属性存在
+                const iconHtml = cardData.icon 
+                    ? `<div class="card-icon"><img src="${cardData.icon}" alt="${cardData.title} 图标"></div>` 
+                    : '<div class="card-icon"></div>'; // 如果没有图标，显示一个空的占位符
+
+                cardElement.innerHTML = `
+                    ${iconHtml}
+                    <div class="card-content">
+                        <h3>${cardData.title}</h3>
+                        <p>${cardData.description}</p>
+                    </div>
+                `;
+                container.appendChild(cardElement);
+                addCardHoverEffect(cardElement); // 为新卡片添加悬停效果
+            });
+        }
+
+        // 切换二级分类视图
+        function switchSubcategory(category, subcategory) {
+            const section = document.getElementById(category);
+            if (!section) return;
+
+            // 激活当前子分类标签
+            section.querySelectorAll('.subcategory-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            const activeTab = section.querySelector(`.subcategory-tab[data-subcategory="${subcategory}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+
+            // 显示/隐藏卡片容器
+            section.querySelectorAll('.cards-container').forEach(container => {
+                if (container.id === `${category}-${subcategory}`) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            });
+        }
+
+        // 执行搜索
+        function performSearch(term) {
+            sidebar.classList.add('hidden');
+            mainContent.classList.add('hidden');
+            searchResultsSection.style.display = 'flex'; 
+
+            const matchingCards = allCardsData.filter(card => 
+                card.title.toLowerCase().includes(term) || 
+                card.description.toLowerCase().includes(term)
+            );
+
+            searchResultsContainer.innerHTML = '';
+
+            if (matchingCards.length > 0) {
+                renderCards(matchingCards, 'search-results-container');
+            } else {
+                searchResultsContainer.innerHTML = '<div class="no-results">抱歉，没有找到符合您搜索条件的资源。</div>';
+            }
+        }
+
+        // 重置视图 (清除搜索结果，显示正常内容)
+        function resetView() {
+            searchInput.value = '';
+            searchResultsSection.style.display = 'none';
+
+            sidebar.classList.remove('hidden');
+            mainContent.classList.remove('hidden');
+            
+            // 恢复到默认显示的第一个子分类
+            document.querySelectorAll('.category-section').forEach(section => {
+                // 查找当前section中是否有默认高亮的tab (initial-active)
+                const firstTab = section.querySelector('.subcategory-tab.initial-active');
+                if (firstTab) {
+                    switchSubcategory(section.id, firstTab.getAttribute('data-subcategory'));
+                } else {
+                    // 如果没有initial-active, 则显示第一个子分类
+                    const firstTabFallback = section.querySelector('.subcategory-tab');
+                    if(firstTabFallback) {
+                       switchSubcategory(section.id, firstTabFallback.getAttribute('data-subcategory'));
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 为卡片添加悬停效果（通过JS动态添加）
+        function addCardHoverEffect(cardElement) {
+            cardElement.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.98)';
+                this.style.opacity = '0.9';
+            });
+            
+            cardElement.addEventListener('mouseup', function() {
+                this.style.transform = '';
+                this.style.opacity = '';
+            });
+            
+            cardElement.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.opacity = '';
+            });
+        }
+
+        // 初始化UI：渲染所有卡片并设置默认显示的子分类
+        function initializeUI() {
+            const categories = ['design', 'dev', 'ai', 'marketing', 'productivity', 'learning', 'finance', 'health'];
+            const subcategories = {
+                design: ['ui', 'graphic', 'inspiration', 'tools'],
+                dev: ['frontend', 'backend', 'database', 'devops'],
+                ai: ['writing', 'image', 'coding'],
+                marketing: ['seo', 'social', 'analytics'],
+                productivity: ['notes', 'todo', 'collaboration'],
+                learning: ['online', 'coding', 'reading'],
+                finance: ['stocks', 'crypto', 'news'],
+                health: ['fitness', 'nutrition', 'mental']
+            };
+
+            categories.forEach(category => {
+                if (subcategories[category]) {
+                    subcategories[category].forEach(subcategory => {
+                        const filteredCards = allCardsData.filter(card => card.category === category && card.subcategory === subcategory);
+                        renderCards(filteredCards, `${category}-${subcategory}`);
+                    });
+                }
+            });
+
+            // 设置页面加载时默认显示的第一个子分类
+            document.querySelectorAll('.category-section').forEach(section => {
+                // 查找具有 'initial-active' 类的子分类标签
+                const firstTab = section.querySelector('.subcategory-tab.initial-active');
+                if (firstTab) {
+                    switchSubcategory(section.id, firstTab.getAttribute('data-subcategory'));
+                } else {
+                    // 如果没有标记为 initial-active 的，则默认显示第一个子分类标签对应的视图
+                    const firstTabFallback = section.querySelector('.subcategory-tab');
+                    if (firstTabFallback) {
+                        switchSubcategory(section.id, firstTabFallback.getAttribute('data-subcategory'));
+                    }
+                }
+            });
+            
+            // 页面加载时也需要执行一次，以确保初始加载时的正确高亮
+            highlightCategoryOnScroll();
+        }
+
+        // --- 滚动时高亮左侧分类导航 ---
+        function highlightCategoryOnScroll() {
+            let currentSectionId = null;
+            const scrollPosition = window.scrollY || window.pageYOffset; // 当前滚动位置
+
+            // 遍历所有分类section，检查哪个在视口中可见
+            // 从最后一个 section 开始检查，避免在两个 section 重叠时出现错误的高亮
+            for (let i = categorySections.length - 1; i >= 0; i--) {
+                const section = categorySections[i];
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                // 判断section是否在视口内（或接近视口顶部）
+                // 这里的阈值可以调整，例如 + 100px 是为了让用户滚动到下一个分类的开头前，当前分类就能切换高亮
+                // - 100px 是为了防止在页面顶部时，下方较远的分类被误认为当前
+                if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionTop + sectionHeight - 100) {
+                    currentSectionId = section.getAttribute('id');
+                    break; // 找到第一个匹配的就停止
+                }
+            }
+
+            // 更新左侧导航栏的高亮状态
+            categoryLinks.forEach(link => {
+                link.classList.remove('active'); // 先移除所有高亮
+                if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active'); // 为当前可见的section的链接添加高亮
+                }
+            });
+        }
+
+        // --- 事件监听器 ---
+
+        // 1. 左侧分类导航点击事件 (包括平滑跳转)
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 高亮当前点击的分类
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+
+                if (targetSection) {
+                    // 平滑滚动到目标分类，并确保其顶部对齐
+                    // 使用一个小的偏移量，使其顶部不会完全贴合屏幕，留一点空间
+                    const offset = 100; // 可以根据你的需要调整这个值
+                    window.scrollTo({ 
+                        top: targetSection.offsetTop - offset, 
+                        behavior: 'smooth' 
+                    });
+                }
+            });
+        });
+        
+        // 2. 二级分类标签点击事件 (切换子分类视图)
+        document.querySelectorAll('.subcategory-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                const subcategory = this.getAttribute('data-subcategory');
+                switchSubcategory(category, subcategory);
+
+                // 当切换子分类时，也同步更新左侧主分类的高亮
+                // 这有助于确保用户在切换子分类后，左侧导航的选中状态仍然正确
+                document.querySelectorAll('.category-btn').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${category}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // 3. 搜索输入框事件 (监听输入，执行搜索或重置视图)
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+            
+            if (searchTerm.length > 0) {
+                performSearch(searchTerm);
+            } else {
+                resetView(); // 如果清空搜索框，则恢复正常视图
+            }
+        });
+        
+        // 4. 返回按钮点击事件 (从搜索结果返回到正常浏览)
+        backButton.addEventListener('click', resetView);
+
+        // --- DOM加载完成后执行初始化 ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeUI(); // 初始化所有卡片和默认视图
+            
+            // 添加滚动事件监听器来高亮分类
+            window.addEventListener('scroll', highlightCategoryOnScroll);
+        });
+
+    </script>
+</body>
+</html>
