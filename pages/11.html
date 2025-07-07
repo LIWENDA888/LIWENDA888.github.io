@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>字造Type - 专注字体的独立工作室</title>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <!-- Font Awesome 库保留，因为可能其他地方还在使用，但底部图标将不再依赖它 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <style>
+        /* ... （之前的 CSS 代码保持不变，除了关于 footer 的部分） ... */
         * {
             margin: 0;
             padding: 0;
@@ -411,7 +411,7 @@
         footer {
             background: #1a1a1a;
             color: #ecf0f1;
-            padding: 60px 0 30px;
+            padding: 60px 0 30px; /* 调整了底部内边距 */
             text-align: center;
             width: 100%;
             margin-top: auto;
@@ -455,18 +455,15 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.08);
             margin: 0 15px;
-            /* color: white; /* 移除此行，因为现在是图片图标 */
             text-decoration: none; /* 确保链接没有下划线 */
             transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-            /* font-size: 1.4rem; /* 移除此行，因为现在是图片图标 */
             border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .social-icons a:hover {
             background: #FF8C19;
-            /* 移除了 rotate(5deg) */
-            transform: translateY(-8px) scale(1.15); 
+            transform: translateY(-8px) scale(1.15);
             border-color: #FF8C19;
             box-shadow: 0 10px 25px rgba(255,140,25,0.5);
         }
@@ -537,6 +534,33 @@
             bottom: -10px; /* 放置在弹窗底部 */
             left: 50%;
             transform: translateX(-50%);
+ }
+
+        /* 新增：底部行动按钮容器和按钮样式 (位置已调整到 footer 外) */
+        .footer-cta-container {
+            text-align: center; /* 确保容器内的元素居中 */
+            margin-bottom: 50px; /* 在 footer 和上面的内容之间留出一些空间 */
+            /* margin-top: -20px;  // 移除或调整此行，因为现在它在 footer 外 */
+        }
+
+        .footer-cta-button {
+            display: inline-block; /* 使按钮可以设置宽度和内边距，并且可以居中 */
+            background: linear-gradient(to right, #FF8C19, #FFBF00);
+            color: white;
+            padding: 15px 35px; /* 按钮的内边距 */
+            border-radius: 30px; /* 圆角 */
+            font-size: 1.1rem; /* 字号 */
+            font-weight: 700; /* 加粗 */
+            text-decoration: none; /* 去掉链接下划线 */
+            box-shadow: 0 8px 25px rgba(255, 140, 25, 0.4); /* 阴影 */
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); /* 平滑过渡效果 */
+            cursor: pointer;
+            border: none; /* 去掉默认边框 */
+        }
+
+        .footer-cta-button:hover {
+            transform: translateY(-5px) scale(1.05); /* 悬浮时向上移动并放大 */
+            box-shadow: 0 12px 30px rgba(255, 140, 25, 0.6); /* 更强的悬浮阴影 */
         }
 
         .copyright {
@@ -710,6 +734,13 @@
             .footer-content h3 { font-size: 1.6rem; }
             .footer-content p { font-size: 0.9rem; }
             .container { padding-top: 15px; }
+
+            /* 修正移动端 footer-cta-container 的 margin-bottom，使其离 copyright 更近 */
+            @media (max-width: 576px) {
+                 .footer-cta-container {
+                    margin-bottom: 30px; /* 减小底部间距 */
+                 }
+            }
         }
     </style>
 </head>
@@ -765,6 +796,11 @@
         </div>
     </div>
 
+    <!-- 修正位置：将按钮区域移到 footer 的上方 -->
+    <div class="footer-cta-container">
+        <a href="https://example.com/join-us" target="_blank" rel="noopener noreferrer" class="footer-cta-button">加入字造营，获取更多</a>
+    </div>
+
     <footer>
         <div class="footer-content">
             <h3>字造Type</h3>
@@ -773,7 +809,6 @@
             </p>
 
             <div class="social-icons">
-                <!-- 第一个图标替换为二维码弹窗 -->
                 <a href="javascript:void(0);" class="social-icon-qr" aria-label="微信公众号">
                     <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="微信图标">
                     <div class="qr-code-popup">
@@ -782,7 +817,6 @@
                         <span class="qr-popup-arrow"></span>
                     </div>
                 </a>
-                <!-- 其他图标替换为图片 -->
                 <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                     <img src="https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl_fw1200" alt="Twitter图标">
                 </a>
@@ -808,30 +842,27 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const navLinks = document.getElementById('navLinks');
             
-            // 移动菜单切换功能
             mobileMenu.addEventListener('click', function() {
                 this.classList.toggle('open');
                 navLinks.classList.toggle('active');
             });
 
-            // 滚动时 header 样式变化
             const headerWrapper = document.querySelector('.header-wrapper');
-            let ticking = false; // 用于节流的标志
+            let ticking = false; 
             window.addEventListener('scroll', function() {
                 if (!ticking) {
                     window.requestAnimationFrame(function() {
-                        if (window.scrollY > 50) { // 当滚动超过50px时
+                        if (window.scrollY > 50) {
                             headerWrapper.classList.add('scrolled');
                         } else {
                             headerWrapper.classList.remove('scrolled');
                         }
-                        ticking = false; // 允许下一次requestAnimationFrame执行
+                        ticking = false;
                     });
-                    ticking = true; // 阻止下一次requestAnimationFrame在当前动画帧执行前执行
+                    ticking = true;
                 }
             });
 
-            // 首页轮播图配置
             const slides = [
                 {
                     imageUrl: "https://gd-hbimg.huaban.com/4e75a501e60b2d020b511bac2236cfc661ab287e44d522-5fVoRR"
@@ -848,17 +879,14 @@
             const sliderNav = document.getElementById('sliderNav');
             let currentSlide = 0;
 
-            // 初始化轮播图
             function initSlider() {
-                updateSlide(0); // 设置初始 slide
+                updateSlide(0);
                 
-                // 创建轮播图导航点
                 slides.forEach((slide, index) => {
                     const dot = document.createElement('div');
                     dot.className = 'slider-dot';
-                    if (index === 0) dot.classList.add('active'); // 激活第一个点
+                    if (index === 0) dot.classList.add('active');
                     
-                    // 点击导航点切换 slide
                     dot.addEventListener('click', () => {
                         currentSlide = index;
                         updateSlide(currentSlide);
@@ -867,19 +895,16 @@
                     sliderNav.appendChild(dot);
                 });
                 
-                // 设置自动播放
                 setInterval(() => {
-                    currentSlide = (currentSlide + 1) % slides.length; // 循环切换
+                    currentSlide = (currentSlide + 1) % slides.length;
                     updateSlide(currentSlide);
-                }, 5000); // 每 5 秒切换一次
+                }, 5000);
             }
 
-            // 更新当前显示的 slide 和导航点
             function updateSlide(index) {
                 const slide = slides[index];
                 mainSlide.style.backgroundImage = `url(${slide.imageUrl})`;
                 
-                // 更新导航点的 active 状态
                 document.querySelectorAll('.slider-dot').forEach((dot, i) => {
                     if (i === index) {
                         dot.classList.add('active');
@@ -889,32 +914,29 @@
                 });
             }
 
-            // --- 重要：集中管理卡片图片 URL ---
-            // 请将这里的 URL 替换为你自己的图片资源
             const cardImageUrls = [
-                "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb", // 示例 1
-                "https://gd-hbimg.huaban.com/308914ff22382f7b31e35d00591a99bb045b633a05163-f5R9Fq", // 示例 2
-                "https://gd-hbimg.huaban.com/96152ee9f54f9839129c1c5f3d274df4980585ff0269c-bM087r", // 示例 3
-                "https://gd-hbimg.huaban.com/e087a32a11df9090140744b9b14822617093bf30e5b19-6jO2zG", // 示例 4
-                "https://gd-hbimg.huaban.com/34d9163c9e8a4567870a190604cf1480893272c3019a2-wW0s1A", // 示例 5
-                "https://gd-hbimg.huaban.com/4c2d4363e8f87267b6c872654875332951c5945112f0b-K1M72L", // 示例 6
-                "https://gd-hbimg.huaban.com/4138cf4bb164250c8382d718b54b319936093552a5512-E5U51q", // 示例 7
-                "https://gd-hbimg.huaban.com/24b07f9f6468200f858b565a61f4d00597e53e141986c-nF8j7D", // 示例 8
-                "https://gd-hbimg.huaban.com/3568842d7730580fb10c2a51b98b6d09006651c912a55-T7K5y9", // 示例 9
-                "https://gd-hbimg.huaban.com/495a6554902b6a49a127463b594170c115f7d80c13d13-l5v00P", // 示例 10
-                "https://gd-hbimg.huaban.com/9420f8672676df57e588df00113e859e69e565b909671-g0M4wD", // 示例 11
-                "https://gd-hbimg.huaban.com/cd05efef1d67439f917c37a382ee87a3d35a94460266b-432cM5", // 示例 12
-                "https://gd-hbimg.huaban.com/780074e64507c8d560d0ff2c49c5c44c550c90c2a392d-zJc76w", // 示例 13
-                "https://gd-hbimg.huaban.com/08d4b050074778614c407641406146b75c7cfd69317a0-rX0t0J", // 示例 14
-                "https://gd-hbimg.huaban.com/f8e177c4d251d8c3b995039f9568c592b5e8f3e7165b2-Q00sBq", // 示例 15
-                "https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl", // 示例 16
-                "https://gd-hbimg.huaban.com/95543e224f35f2e016f74d22bb6098960d5b728e4917d-J9I73t", // 示例 17
-                "https://gd-hbimg.huaban.com/312190f847c06f09e14190dd37670df81a2f31080c31a-R2F66a", // 示例 18
-                "https://gd-hbimg.huaban.com/46c26cc6d338f75074622f7e8453d01353046c070e0f6-dE6Xk6", // 示例 19
-                "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb"  // 示例 20 (循环使用最后一个 URL)
+                "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb",
+                "https://gd-hbimg.huaban.com/308914ff22382f7b31e35d00591a99bb045b633a05163-f5R9Fq",
+                "https://gd-hbimg.huaban.com/96152ee9f54f9839129c1c5f3d274df4980585ff0269c-bM087r",
+                "https://gd-hbimg.huaban.com/e087a32a11df9090140744b9b14822617093bf30e5b19-6jO2zG",
+                "https://gd-hbimg.huaban.com/34d9163c9e8a4567870a190604cf1480893272c3019a2-wW0s1A",
+                "https://gd-hbimg.huaban.com/4c2d4363e8f87267b6c872654875332951c5945112f0b-K1M72L",
+                "https://gd-hbimg.huaban.com/4138cf4bb164250c8382d718b54b319936093552a5512-E5U51q",
+                "https://gd-hbimg.huaban.com/24b07f9f6468200f858b565a61f4d00597e53e141986c-nF8j7D",
+                "https://gd-hbimg.huaban.com/3568842d7730580fb10c2a51b98b6d09006651c912a55-T7K5y9",
+                "https://gd-hbimg.huaban.com/495a6554902b6a49a127463b594170c115f7d80c13d13-l5v00P",
+                "https://gd-hbimg.huaban.com/9420f8672676df57e588df00113e859e69e565b909671-g0M4wD",
+                "https://gd-hbimg.huaban.com/cd05efef1d67439f917c37a382ee87a3d35a94460266b-432cM5",
+                "https://gd-hbimg.huaban.com/780074e64507c8d560d0ff2c49c5c44c550c90c2a392d-zJc76w",
+                "https://gd-hbimg.huaban.com/08d4b050074778614c407641406146b75c7cfd69317a0-rX0t0J",
+                "https://gd-hbimg.huaban.com/f8e177c4d251d8c3b995039f9568c592b5e8f3e7165b2-Q00sBq",
+                "https://gd-hbimg.huaban.com/0af9ca6e9e5c7d325353e9f72bb494baf80b2d4e8d3a-htJ2bl",
+                "https://gd-hbimg.huaban.com/95543e224f35f2e016f74d22bb6098960d5b728e4917d-J9I73t",
+                "https://gd-hbimg.huaban.com/312190f847c06f09e14190dd37670df81a2f31080c31a-R2F66a",
+                "https://gd-hbimg.huaban.com/46c26cc6d338f75074622f7e8453d01353046c070e0f6-dE6Xk6",
+                "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb"
             ];
 
-            // 卡片数据定义，包含标题、描述、标签、链接，以及图片 URL 的索引
             const allCardData = [
                 { title: "技术创新", description: "探索最新的技术突破和创新应用，改变世界的未来。从人工智能到生物科技，每一次飞跃都在重塑我们的生活方式。", tag: "科技",
                   imageUrlIndex: 0, linkUrl: "https://example.com/tech-innovation" },
@@ -959,27 +981,24 @@
                 { title: "时尚潮流", description: "洞察全球时尚前沿趋势，引领个性穿搭与生活品味。", tag: "时尚",
                   imageUrlIndex: 19, linkUrl: "https://example.com/fashion-trends" },
                 { title: "历史回眸", description: "追溯人类文明的轨迹，探寻那些影响深远的历史时刻与人物。", tag: "历史",
-                  imageUrlIndex: 0, linkUrl: "https://example.com/historical-glimpse" }, // 使用了第一个图片 URL
+                  imageUrlIndex: 0, linkUrl: "https://example.com/historical-glimpse" },
                 { title: "旅行探险", description: "开启未知旅程，探索世界角落，记录每一次心跳的冒险。", tag: "旅行",
-                  imageUrlIndex: 1, linkUrl: "https://example.com/travel-adventure" }, // 使用了第二个图片 URL
+                  imageUrlIndex: 1, linkUrl: "https://example.com/travel-adventure" },
                 { title: "智能家居", description: "构建智慧生活空间，让科技为居家体验带来更多便利与舒适。", tag: "智能",
-                  imageUrlIndex: 2, linkUrl: "https://example.com/smart-home" }, // 使用了第三个图片 URL
+                  imageUrlIndex: 2, linkUrl: "https://example.com/smart-home" },
                 { title: "宠物生活", description: "分享与萌宠的温馨日常，学习科学养宠知识，享受陪伴的乐趣。", tag: "宠物",
-                  imageUrlIndex: 3, linkUrl: "https://example.com/pet-life" } // 使用了第四个图片 URL
+                  imageUrlIndex: 3, linkUrl: "https://example.com/pet-life" }
             ];
 
-            // 渲染卡片到指定的容器
             function generateCards(containerId, data) {
                 const cardsContainer = document.getElementById(containerId);
-                cardsContainer.innerHTML = ''; // 清空容器内容
+                cardsContainer.innerHTML = '';
                 
                 data.forEach((card, index) => {
                     const cardElement = document.createElement('div');
                     cardElement.className = 'card';
                     
-                    // 确定图片 URL：使用索引从 cardImageUrls 数组中获取
-                    // 如果索引超出数组长度，则使用循环的方式（模运算）来获取图片
-                    const imageUrl = cardImageUrls[card.imageUrlIndex % cardImageUrls.length]; 
+                    const imageUrl = cardImageUrls[card.imageUrlIndex % cardImageUrls.length];
                     
                     cardElement.innerHTML = `
                         <div class="card-image" style="background-image: url(${imageUrl})"></div>
@@ -995,41 +1014,32 @@
                 });
             }
 
-            // 延迟加载卡片图片的函数
             function lazyLoadCardImages() {
                 const lazyImages = document.querySelectorAll('.card-image');
                 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) { // 当元素进入视口时
+                        if (entry.isIntersecting) {
                             const imgDiv = entry.target;
-                            const backgroundImage = imgDiv.style.backgroundImage; // 获取设置的背景图样式
-                            // 这里的 imgDiv.style.backgroundImage 已经是通过 innerHTML 设置好的，所以不需要再次设置了。
-                            // 如果你之前没有在 innerHTML 中设置背景图，这里才需要设置。
-                            
-                            observer.unobserve(imgDiv); // 停止观察这个元素
+                            observer.unobserve(imgDiv);
                         }
                     });
                 }, {
-                    rootMargin: '0px', // 视口外边距
-                    threshold: 0.1 // 当元素有 10% 进入视口时触发
+                    rootMargin: '0px',
+                    threshold: 0.1
                 });
                 
-                // 观察所有的 .card-image 元素
                 lazyImages.forEach(imgDiv => {
                     observer.observe(imgDiv);
                 });
             }
 
-            // 初始化轮播图
             initSlider();
 
-            // 生成并填充卡片到各个容器
-            generateCards('cardsContainer1', allCardData.slice(0, 8));   // 精选作品
-            generateCards('cardsContainer2', allCardData.slice(8, 16));  // 最新上线
-            generateCards('cardsContainer3', allCardData.slice(16, 24)); // 灵感画廊
+            generateCards('cardsContainer1', allCardData.slice(0, 8));
+            generateCards('cardsContainer2', allCardData.slice(8, 16));
+            generateCards('cardsContainer3', allCardData.slice(16, 24));
 
-            // 启动懒加载图片功能
             lazyLoadCardImages();
         });
     </script>
