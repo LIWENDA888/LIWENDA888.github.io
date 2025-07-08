@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造Type ｜ 让每个想法，轻松成字！</title>
+    <title>字造Type ｜ 让每个想法，轻松成字</title>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <style>
@@ -193,7 +193,7 @@
 
         .main-content {
             flex-grow: 1;
-            padding-top: 80px;
+            padding-top: 80px; /* 确保内容在固定头部下方 */
         }
 
         .slider-container {
@@ -262,6 +262,8 @@
             margin: 0 auto;
             padding: 0 30px;
             padding-top: 40px;
+            /* 为每个 container 设置一个底部间距，最后一个 container 会与 footer 之间有这个间距 */
+            padding-bottom: 40px; /* 原本没有，为了对齐CTA按钮添加 */
         }
 
         .section-title {
@@ -298,7 +300,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 40px;
-            margin-bottom: 80px;
+            margin-bottom: 80px; /* 这个 margin-bottom 我注释掉了，由 .container 的 padding-bottom 代替，以保持整体一致性 */
         }
 
         .card {
@@ -411,7 +413,7 @@
             padding: 60px 0 30px;
             text-align: center;
             width: 100%;
-            margin-top: auto;
+            margin-top: auto; /* 确保 footer 始终在最底部 */
         }
 
         .footer-content {
@@ -531,9 +533,11 @@
             transform: translateX(-50%);
         }
 
+        /* CTA 按钮的样式和间距调整 */
         .footer-cta-container {
             text-align: center;
-            margin-bottom: 50px;
+            /* 调整此处的 padding-bottom，使其与 .container 的 padding-bottom 匹配 */
+            padding-bottom: 40px;
         }
 
         .footer-cta-button {
@@ -559,7 +563,7 @@
         .copyright {
             text-align: center;
             padding-top: 35px;
-            margin-top: 40px;
+            margin-top: 40px; /* 这是 footer 内部的 top margin，与 CTA 按钮的间距无关 */
             border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 0.95rem;
             color: #bdc3c7;
@@ -589,7 +593,9 @@
             .nav-links li { margin-left: 20px; }
             .nav-links a { font-size: 1rem; padding: 7px 15px; }
             .section-title h2 { font-size: 2.2rem; }
-            .container { padding-top: 30px; }
+            .container { padding-top: 30px; padding-bottom: 30px; } /* 调整媒体查询中的 container padding */
+            .cards-container { margin-bottom: 60px; } /* 调整媒体查询中的 cards-container margin */
+            .footer-cta-container { padding-bottom: 30px; } /* 调整媒体查询中的 CTA container padding */
         }
 
         @media (max-width: 992px) {
@@ -600,7 +606,9 @@
             .card { height: 380px; }
             .card-image { height: 200px; }
             .card-title { font-size: 1.4rem; }
-            .container { padding-top: 25px; }
+            .container { padding-top: 25px; padding-bottom: 25px; } /* 调整媒体查询中的 container padding */
+            .cards-container { margin-bottom: 50px; } /* 调整媒体查询中的 cards-container margin */
+            .footer-cta-container { padding-bottom: 25px; } /* 调整媒体查询中的 CTA container padding */
         }
 
         @media (max-width: 768px) {
@@ -714,7 +722,9 @@
                 align-items: center;
             }
 
-             .container { padding-top: 20px; }
+             .container { padding-top: 20px; padding-bottom: 20px; } /* 调整媒体查询中的 container padding */
+             .cards-container { margin-bottom: 40px; } /* 调整媒体查询中的 cards-container margin */
+             .footer-cta-container { padding-bottom: 20px; } /* 调整媒体查询中的 CTA container padding */
         }
 
         @media (max-width: 576px) {
@@ -737,7 +747,9 @@
             .logo-scrolled { width: 110px; }
             .footer-content h3 { font-size: 1.6rem; }
             .footer-content p { font-size: 0.9rem; }
-            .container { padding-top: 15px; }
+            .container { padding-top: 15px; padding-bottom: 15px; } /* 调整媒体查询中的 container padding */
+            .cards-container { margin-bottom: 30px; } /* 调整媒体查询中的 cards-container margin */
+            .footer-cta-container { padding-bottom: 15px; } /* 调整媒体查询中的 CTA container padding */
 
             .footer-cta-container {
                 margin-bottom: 30px;
@@ -794,10 +806,11 @@
             </div>
             <div class="cards-container" id="cardsContainer3"></div>
         </div>
-    </div>
-
-    <div class="footer-cta-container">
-        <a href="https://example.com/join-us" target="_blank" rel="noopener noreferrer" class="footer-cta-button">加入字造营，获取更多</a>
+        
+        <!-- 新增的 CTA 容器，用于包裹按钮 -->
+        <div class="footer-cta-container">
+            <a href="https://example.com/join-us" target="_blank" rel="noopener noreferrer" class="footer-cta-button">加入字造营，获取更多</a>
+        </div>
     </div>
 
     <footer>
