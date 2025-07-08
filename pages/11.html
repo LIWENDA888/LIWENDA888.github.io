@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造Type - 专注字体的独立工作室</title>
+    <title>字造Type ｜ 让每个想法，轻松成字！</title>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
     <style>
-        /* ... （之前的 CSS 代码保持不变，除了关于 footer 的部分） ... */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +22,7 @@
         body {
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* 确保body至少占满视口高度 */
+            min-height: 100vh;
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
@@ -45,7 +44,7 @@
         }
 
         .header {
-            padding: 15px 15px; /* 减少水平内边距，让内容更靠近边缘 */
+            padding: 15px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -56,23 +55,23 @@
         }
 
         .header-wrapper.scrolled .header {
-            padding: 12px 15px; /* 减少水平内边距，让内容更靠近边缘 */
+            padding: 12px 15px;
         }
 
         .logo-img {
-            height: auto; /* 保持图片比例 */
+            height: auto;
             transition: transform 0.3s ease, width 0.3s ease, filter 0.3s ease;
             cursor: pointer;
         }
 
         .logo-default {
-            width: 120px; /* 修改：固定宽度为120px */
+            width: 120px;
             display: block;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));
         }
 
         .logo-scrolled {
-            width: 90px; /* 修改：滚动后宽度为90px */
+            width: 90px;
             display: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
         }
@@ -203,7 +202,6 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            margin-bottom: 0;
         }
 
         .slide {
@@ -328,7 +326,7 @@
             background-size: cover;
             background-position: center;
             transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-            background-color: #e0e0e0; /* 占位符背景色 */
+            background-color: #e0e0e0;
         }
 
         .card:hover .card-image {
@@ -390,12 +388,11 @@
             color: #555;
             line-height: 1.6;
             margin-top: auto;
-            /* 实现两行截断 */
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2; /* 控制为两行 */
+            -webkit-line-clamp: 2;
             overflow: hidden;
-            text-overflow: ellipsis; /* 可选：添加省略号 */
+            text-overflow: ellipsis;
         }
 
         .card-link {
@@ -411,7 +408,7 @@
         footer {
             background: #1a1a1a;
             color: #ecf0f1;
-            padding: 60px 0 30px; /* 调整了底部内边距 */
+            padding: 60px 0 30px;
             text-align: center;
             width: 100%;
             margin-top: auto;
@@ -455,7 +452,7 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.08);
             margin: 0 15px;
-            text-decoration: none; /* 确保链接没有下划线 */
+            text-decoration: none;
             transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
             border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -468,54 +465,52 @@
             box-shadow: 0 10px 25px rgba(255,140,25,0.5);
         }
 
-        /* 样式化社交图标图片 */
         .social-icons a img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 保持图片比例，使其适应容器 */
-            padding: 12px; /* 给图片留一些内边距，使其不完全撑满圆形容器 */
-            filter: grayscale(100%) brightness(200%); /* 默认黑白 */
+            object-fit: contain;
+            padding: 12px;
+            filter: grayscale(100%) brightness(200%);
             transition: filter 0.4s ease;
         }
 
         .social-icons a:hover img {
-            filter: grayscale(0%) brightness(100%); /* hover 时恢复彩色 */
+            filter: grayscale(0%) brightness(100%);
         }
-        
-        /* 第一个图标的二维码弹窗样式 */
+
         .social-icon-qr {
-            position: relative; /* 确保弹窗定位在其内部 */
+            position: relative;
         }
 
         .qr-code-popup {
             position: absolute;
-            bottom: calc(100% + 15px); /* 位于图标上方，留有 15px 间距 */
+            bottom: calc(100% + 15px);
             left: 50%;
-            transform: translateX(-50%); /* 这个是水平居中，不是旋转 */
+            transform: translateX(-50%);
             background-color: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            display: none; /* 默认隐藏 */
+            display: none;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* 这个是淡入淡出效果 */
-            z-index: 100; /* 确保在其他内容之上 */
-            width: 150px; /* 弹窗宽度 */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 100;
+            width: 150px;
             text-align: center;
         }
 
         .social-icon-qr:hover .qr-code-popup {
-            display: block; /* 悬浮时显示 */
+            display: block;
             opacity: 1;
             visibility: visible;
         }
 
         .qr-code-popup .qr-img {
-            width: 100%; /* 二维码图片填充弹窗 */
+            width: 100%;
             height: auto;
             display: block;
-            margin-bottom: 5px; /* 图片和文字之间留白 */
+            margin-bottom: 5px;
         }
 
         .qr-code-popup p {
@@ -528,39 +523,37 @@
             position: absolute;
             width: 0;
             height: 0;
-            border-left: 10px solid transparent; /* 箭头大小 */
+            border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-top: 10px solid white; /* 箭头颜色与弹窗背景色一致 */
-            bottom: -10px; /* 放置在弹窗底部 */
+            border-top: 10px solid white;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
- }
+        }
 
-        /* 新增：底部行动按钮容器和按钮样式 (位置已调整到 footer 外) */
         .footer-cta-container {
-            text-align: center; /* 确保容器内的元素居中 */
-            margin-bottom: 50px; /* 在 footer 和上面的内容之间留出一些空间 */
-            /* margin-top: -20px;  // 移除或调整此行，因为现在它在 footer 外 */
+            text-align: center;
+            margin-bottom: 50px;
         }
 
         .footer-cta-button {
-            display: inline-block; /* 使按钮可以设置宽度和内边距，并且可以居中 */
+            display: inline-block;
             background: linear-gradient(to right, #FF8C19, #FFBF00);
             color: white;
-            padding: 15px 35px; /* 按钮的内边距 */
-            border-radius: 30px; /* 圆角 */
-            font-size: 1.1rem; /* 字号 */
-            font-weight: 700; /* 加粗 */
-            text-decoration: none; /* 去掉链接下划线 */
-            box-shadow: 0 8px 25px rgba(255, 140, 25, 0.4); /* 阴影 */
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1); /* 平滑过渡效果 */
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(255, 140, 25, 0.4);
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
             cursor: pointer;
-            border: none; /* 去掉默认边框 */
+            border: none;
         }
 
         .footer-cta-button:hover {
-            transform: translateY(-5px) scale(1.05); /* 悬浮时向上移动并放大 */
-            box-shadow: 0 12px 30px rgba(255, 140, 25, 0.6); /* 更强的悬浮阴影 */
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 140, 25, 0.6);
         }
 
         .copyright {
@@ -572,15 +565,28 @@
             color: #bdc3c7;
         }
 
+        .copyright a {
+            color: #bdc3c7;
+            font-size: 0.95rem;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .copyright a:hover {
+            color: #FF8C19;
+        }
+
         /* 媒体查询 */
         @media (max-width: 1200px) {
             .cards-container { grid-template-columns: repeat(3, 1fr); }
             .slider-container { height: 550px; }
-            .header { padding: 15px 10px; } /* 靠边 */
-            .header-wrapper.scrolled .header { padding: 12px 10px; } /* 靠边 */
-            .logo-default { width: 120px; } /* 修改：Logo宽度 */
-            .logo-scrolled { width: 90px; } /* 修改：Logo宽度 */
-            .nav-links li { margin-left: 20px; } /* 调整间距 */
+            .header { padding: 15px 10px; }
+            .header-wrapper.scrolled .header { padding: 12px 10px; }
+            .logo-default { width: 120px; }
+            .logo-scrolled { width: 90px; }
+            .nav-links li { margin-left: 20px; }
             .nav-links a { font-size: 1rem; padding: 7px 15px; }
             .section-title h2 { font-size: 2.2rem; }
             .container { padding-top: 30px; }
@@ -612,16 +618,15 @@
 
             .header,
             .header-wrapper.scrolled .header {
-                padding: 18px 10px; /* 减少水平内边距，让内容更靠近边缘 */
+                padding: 18px 10px;
             }
 
-            /* 隐藏桌面Logo，显示移动端Logo */
             .logo-default {
-                display: none !important; /* 强制隐藏 */
+                display: none !important;
             }
             .logo-scrolled {
-                display: block !important; /* 强制显示 */
-                width: 130px; /* 修改：为移动端小屏幕设置一个合适的Logo宽度，从150px调整为130px */
+                display: block !important;
+                width: 130px;
                 filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2));
             }
 
@@ -672,7 +677,6 @@
             .nav-links {
                 max-height: 0;
                 opacity: 0;
-                overflow: hidden;
                 visibility: hidden;
                 transition: max-height 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0.5s;
                 width: 100%;
@@ -725,21 +729,18 @@
             .card-tag { font-size: 0.8rem; padding: 6px 15px; top: 15px; right: 15px;}
 
             .social-icons a { width: 48px; height: 48px; margin: 0 10px; }
-            .social-icons a img { padding: 10px; } /* 缩小图片内边距 */
+            .social-icons a img { padding: 10px; }
             .header,
             .header-wrapper.scrolled .header {
-                padding: 15px 8px; /* 减少水平内边距，让内容更靠近边缘 */
+                padding: 15px 8px;
             }
-            .logo-scrolled { width: 110px; } /* 修改：Logo宽度再缩小一点 */
+            .logo-scrolled { width: 110px; }
             .footer-content h3 { font-size: 1.6rem; }
             .footer-content p { font-size: 0.9rem; }
             .container { padding-top: 15px; }
 
-            /* 修正移动端 footer-cta-container 的 margin-bottom，使其离 copyright 更近 */
-            @media (max-width: 576px) {
-                 .footer-cta-container {
-                    margin-bottom: 30px; /* 减小底部间距 */
-                 }
+            .footer-cta-container {
+                margin-bottom: 30px;
             }
         }
     </style>
@@ -762,14 +763,13 @@
                 <li><a href="https://example.com/products" target="_blank" rel="noopener noreferrer">设计导航</a></li>
                 <li><a href="https://example.com/services" target="_blank" rel="noopener noreferrer">设计资源</a></li>
                 <li><a href="https://example.com/portfolio" target="_blank" rel="noopener noreferrer">设计工具</a></li>
-                <li><a href="https://example.com/blog" target="_blank" rel="noopener noreferrer">关于我们</a></li>
+                <li><a href="https://example.com/about-us" target="_blank" rel="noopener noreferrer">关于我们</a></li>
             </ul>
         </header>
     </div>
 
     <div class="slider-container" id="home">
-        <div class="slide" id="mainSlide">
-        </div>
+        <div class="slide" id="mainSlide"></div>
         <div class="slider-nav" id="sliderNav"></div>
     </div>
 
@@ -796,7 +796,6 @@
         </div>
     </div>
 
-    <!-- 修正位置：将按钮区域移到 footer 的上方 -->
     <div class="footer-cta-container">
         <a href="https://example.com/join-us" target="_blank" rel="noopener noreferrer" class="footer-cta-button">加入字造营，获取更多</a>
     </div>
@@ -805,7 +804,7 @@
         <div class="footer-content">
             <h3>字造Type</h3>
             <p>
-                专注字体字库以及字体类工具分享，立志于让造字变得更简单
+                专注字体领域的独立工作室，通过下方平台可获取更多内容
             </p>
 
             <div class="social-icons">
@@ -833,7 +832,13 @@
         </div>
 
         <div class="copyright">
-            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利 |  专注字体领域的独立工作室</p>
+            <p>
+                &copy; 2025 ZIZAO.TOP.保留所有权利
+                <a href="https://example.com/design-cooperation" target="_blank" rel="noopener noreferrer" aria-label="设计合作">设计合作</a> |
+                <a href="https://example.com/copyright-notice" target="_blank" rel="noopener noreferrer" aria-label="版权说明">版权说明</a> |
+                <a href="https://example.com/font-licensing" target="_blank" rel="noopener noreferrer" aria-label="字体授权">字体授权</a> |
+                <a href="https://example.com/about-us" target="_blank" rel="noopener noreferrer" aria-label="关于我们">关于我们</a>
+            </p>
         </div>
     </footer>
 
@@ -842,78 +847,70 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const navLinks = document.getElementById('navLinks');
             
+            // 移动端菜单切换
             mobileMenu.addEventListener('click', function() {
                 this.classList.toggle('open');
                 navLinks.classList.toggle('active');
             });
 
             const headerWrapper = document.querySelector('.header-wrapper');
-            let ticking = false; 
+            let ticking = false;
+            // 滚动事件处理函数
             window.addEventListener('scroll', function() {
                 if (!ticking) {
                     window.requestAnimationFrame(function() {
-                        if (window.scrollY > 50) {
-                            headerWrapper.classList.add('scrolled');
-                        } else {
-                            headerWrapper.classList.remove('scrolled');
-                        }
+                        headerWrapper.classList.toggle('scrolled', window.scrollY > 50);
                         ticking = false;
                     });
                     ticking = true;
                 }
             });
 
+            // 轮播图数据
             const slides = [
-                {
-                    imageUrl: "https://gd-hbimg.huaban.com/4e75a501e60b2d020b511bac2236cfc661ab287e44d522-5fVoRR"
-                },
-                {
-                    imageUrl: "https://gd-hbimg.huaban.com/c1a8a9bd1c39c118306e48e6ec944f3fe5988be82753be-kT9MPA"
-                },
-                {
-                    imageUrl: "https://gd-hbimg.huaban.com/e9b9d42fe7533300bcae0401a69bcb1fa51a432d10e0d7-0AjW3Y"
-                }
+                { imageUrl: "https://gd-hbimg.huaban.com/4e75a501e60b2d020b511bac2236cfc661ab287e44d522-5fVoRR" },
+                { imageUrl: "https://gd-hbimg.huaban.com/c1a8a9bd1c39c118306e48e6ec944f3fe5988be82753be-kT9MPA" },
+                { imageUrl: "https://gd-hbimg.huaban.com/e9b9d42fe7533300bcae0401a69bcb1fa51a432d10e0d7-0AjW3Y" }
             ];
 
             const mainSlide = document.getElementById('mainSlide');
             const sliderNav = document.getElementById('sliderNav');
             let currentSlide = 0;
 
+            // 初始化轮播图
             function initSlider() {
-                updateSlide(0);
-                
-                slides.forEach((slide, index) => {
+                updateSlide(0); // 初始化显示第一张
+
+                // 创建导航点
+                slides.forEach((_, index) => {
                     const dot = document.createElement('div');
                     dot.className = 'slider-dot';
                     if (index === 0) dot.classList.add('active');
-                    
                     dot.addEventListener('click', () => {
                         currentSlide = index;
                         updateSlide(currentSlide);
                     });
-                    
                     sliderNav.appendChild(dot);
                 });
-                
+
+                // 自动播放
                 setInterval(() => {
                     currentSlide = (currentSlide + 1) % slides.length;
                     updateSlide(currentSlide);
                 }, 5000);
             }
 
+            // 更新轮播图内容和导航点状态
             function updateSlide(index) {
                 const slide = slides[index];
                 mainSlide.style.backgroundImage = `url(${slide.imageUrl})`;
-                
+
                 document.querySelectorAll('.slider-dot').forEach((dot, i) => {
-                    if (i === index) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
+                    dot.classList.toggle('active', i === index);
                 });
             }
 
+            // 卡片图片数据
             const cardImageUrls = [
                 "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb",
                 "https://gd-hbimg.huaban.com/308914ff22382f7b31e35d00591a99bb045b633a05163-f5R9Fq",
@@ -937,69 +934,44 @@
                 "https://gd-hbimg.huaban.com/21371119761caeef4c8d298e955141aa175177e3dd99-pvi5jb"
             ];
 
+            // 所有卡片数据
             const allCardData = [
-                { title: "技术创新", description: "探索最新的技术突破和创新应用，改变世界的未来。从人工智能到生物科技，每一次飞跃都在重塑我们的生活方式。", tag: "科技",
-                  imageUrlIndex: 0, linkUrl: "https://example.com/tech-innovation" },
-                { title: "自然奇观", description: "地球上最壮观的自然景观，见证大自然的鬼斧神工。从巍峨的山脉到神秘的深海，感受地球脉搏的震撼与宁静。", tag: "自然",
-                  imageUrlIndex: 1, linkUrl: "https://example.com/nature-wonders" },
-                { title: "艺术之旅", description: "从古典到现代，探索人类艺术的多样性与创造力。每一笔色彩、每一段旋律都承载着独特的故事和情感。", tag: "艺术",
-                  imageUrlIndex: 2, linkUrl: "https://example.com/art-journey" },
-                { title: "宇宙探索", description: "深入浩瀚宇宙，发现星际间的奥秘与未知领域。从遥远的星系到神秘的黑洞，宇宙的边界等待我们去定义。", tag: "太空",
-                  imageUrlIndex: 3, linkUrl: "https://example.com/space-exploration" },
-                { title: "健康生活", description: "提升生活品质的健康秘诀和日常保健知识。均衡饮食、适度运动和积极心态，构筑幸福人生。", tag: "健康",
-                  imageUrlIndex: 4, linkUrl: "https://example.com/healthy-living" },
-                { title: "建筑设计", description: "世界顶尖建筑作品，展示人类工程与美学的完美结合。从古老的金字塔到现代的摩天大楼，建筑是凝固的艺术。", tag: "建筑",
-                  imageUrlIndex: 5, linkUrl: "https://example.com/architecture-design" },
-                { title: "美食文化", description: "全球美食之旅，品尝不同文化的独特风味与烹饪艺术。从街头小吃到米其林星级餐厅，味蕾的极致享受。", tag: "美食",
-                  imageUrlIndex: 6, linkUrl: "https://example.com/food-culture" },
-                { title: "海洋奥秘", description: "深入海洋深处，探索神秘的水下世界与海洋生物。五彩斑斓的珊瑚礁，深海巨兽的传说，蓝色星球的秘密。", tag: "海洋",
-                  imageUrlIndex: 7, linkUrl: "https://example.com/ocean-mysteries" },
-
-                { title: "数字艺术", description: "感受虚拟与现实交融的数字艺术魅力，探索无限创意的数字世界。从像素画到CG渲染，每一次创作都是一次数字的飞翔。", tag: "数字艺术",
-                  imageUrlIndex: 8, linkUrl: "https://example.com/digital-art" },
-                { title: "城市景观", description: "捕捉现代都市的独特魅力，从繁忙的街头到璀璨的夜景，感受城市脉搏的跳动与不眠的活力。", tag: "城市",
-                  imageUrlIndex: 9, linkUrl: "https://example.com/cityscape" },
-                { title: "复古未来", description: "探索过去与未来的奇妙融合，在怀旧中寻找创新灵感。", tag: "设计",
-                  imageUrlIndex: 10, linkUrl: "https://example.com/retro-future" },
-                { title: "绿色环保", description: "关注可持续发展，用设计助力地球家园的生态平衡与美好未来。", tag: "环保",
-                  imageUrlIndex: 11, linkUrl: "https://example.com/eco-friendly" },
-                { title: "摄影视角", description: "捕捉瞬间之美，用镜头记录世界的每一个精彩与动人画面。", tag: "摄影",
-                  imageUrlIndex: 12, linkUrl: "https://example.com/photography" },
-                { title: "文学故事", description: "品味文字的魅力，沉浸于引人入胜的故事情节和思想世界。", tag: "文学",
-                  imageUrlIndex: 13, linkUrl: "https://example.com/literature" },
-                { title: "音乐韵律", description: "感受声音的魔力，从古典到流行，尽享音乐带来的心灵震撼。", tag: "音乐",
-                  imageUrlIndex: 14, linkUrl: "https://example.com/music-rhythm" },
-                { title: "异域风情", description: "探索世界各地独特的文化习俗，体验别样的生活方式与魅力。", tag: "文化",
-                  imageUrlIndex: 15, linkUrl: "https://example.com/exotic-culture" },
-
-                { title: "运动激情", description: "释放活力，挑战极限，感受运动带来的健康与无限激情。", tag: "运动",
-                  imageUrlIndex: 16, linkUrl: "https://example.com/sports-passion" },
-                { title: "教育未来", description: "展望教育的新模式与趋势，为未来人才培养提供创新思路。", tag: "教育",
-                  imageUrlIndex: 17, linkUrl: "https://example.com/education-future" },
-                { title: "心理健康", description: "关注内心世界，提供实用心理调适方法，拥抱积极人生。", tag: "心理",
-                  imageUrlIndex: 18, linkUrl: "https://example.com/mental-health" },
-                { title: "时尚潮流", description: "洞察全球时尚前沿趋势，引领个性穿搭与生活品味。", tag: "时尚",
-                  imageUrlIndex: 19, linkUrl: "https://example.com/fashion-trends" },
-                { title: "历史回眸", description: "追溯人类文明的轨迹，探寻那些影响深远的历史时刻与人物。", tag: "历史",
-                  imageUrlIndex: 0, linkUrl: "https://example.com/historical-glimpse" },
-                { title: "旅行探险", description: "开启未知旅程，探索世界角落，记录每一次心跳的冒险。", tag: "旅行",
-                  imageUrlIndex: 1, linkUrl: "https://example.com/travel-adventure" },
-                { title: "智能家居", description: "构建智慧生活空间，让科技为居家体验带来更多便利与舒适。", tag: "智能",
-                  imageUrlIndex: 2, linkUrl: "https://example.com/smart-home" },
-                { title: "宠物生活", description: "分享与萌宠的温馨日常，学习科学养宠知识，享受陪伴的乐趣。", tag: "宠物",
-                  imageUrlIndex: 3, linkUrl: "https://example.com/pet-life" }
+                { title: "技术创新", description: "探索最新的技术突破和创新应用，改变世界的未来。从人工智能到生物科技，每一次飞跃都在重塑我们的生活方式。", tag: "科技", imageUrlIndex: 0, linkUrl: "https://example.com/tech-innovation" },
+                { title: "自然奇观", description: "地球上最壮观的自然景观，见证大自然的鬼斧神工。从巍峨的山脉到神秘的深海，感受地球脉搏的震撼与宁静。", tag: "自然", imageUrlIndex: 1, linkUrl: "https://example.com/nature-wonders" },
+                { title: "艺术之旅", description: "从古典到现代，探索人类艺术的多样性与创造力。每一笔色彩、每一段旋律都承载着独特的故事和情感。", tag: "艺术", imageUrlIndex: 2, linkUrl: "https://example.com/art-journey" },
+                { title: "宇宙探索", description: "深入浩瀚宇宙，发现星际间的奥秘与未知领域。从遥远的星系到神秘的黑洞，宇宙的边界等待我们去定义。", tag: "太空", imageUrlIndex: 3, linkUrl: "https://example.com/space-exploration" },
+                { title: "健康生活", description: "提升生活品质的健康秘诀和日常保健知识。均衡饮食、适度运动和积极心态，构筑幸福人生。", tag: "健康", imageUrlIndex: 4, linkUrl: "https://example.com/healthy-living" },
+                { title: "建筑设计", description: "世界顶尖建筑作品，展示人类工程与美学的完美结合。从古老的金字塔到现代的摩天大楼，建筑是凝固的艺术。", tag: "建筑", imageUrlIndex: 5, linkUrl: "https://example.com/architecture-design" },
+                { title: "美食文化", description: "全球美食之旅，品尝不同文化的独特风味与烹饪艺术。从街头小吃到米其林星级餐厅，味蕾的极致享受。", tag: "美食", imageUrlIndex: 6, linkUrl: "https://example.com/food-culture" },
+                { title: "海洋奥秘", description: "深入海洋深处，探索神秘的水下世界与海洋生物。五彩斑斓的珊瑚礁，深海巨兽的传说，蓝色星球的秘密。", tag: "海洋", imageUrlIndex: 7, linkUrl: "https://example.com/ocean-mysteries" },
+                { title: "数字艺术", description: "感受虚拟与现实交融的数字艺术魅力，探索无限创意的数字世界。从像素画到CG渲染，每一次创作都是一次数字的飞翔。", tag: "数字艺术", imageUrlIndex: 8, linkUrl: "https://example.com/digital-art" },
+                { title: "城市景观", description: "捕捉现代都市的独特魅力，从繁忙的街头到璀璨的夜景，感受城市脉搏的跳动与不眠的活力。", tag: "城市", imageUrlIndex: 9, linkUrl: "https://example.com/cityscape" },
+                { title: "复古未来", description: "探索过去与未来的奇妙融合，在怀旧中寻找创新灵感。", tag: "设计", imageUrlIndex: 10, linkUrl: "https://example.com/retro-future" },
+                { title: "绿色环保", description: "关注可持续发展，用设计助力地球家园的生态平衡与美好未来。", tag: "环保", imageUrlIndex: 11, linkUrl: "https://example.com/eco-friendly" },
+                { title: "摄影视角", description: "捕捉瞬间之美，用镜头记录世界的每一个精彩与动人画面。", tag: "摄影", imageUrlIndex: 12, linkUrl: "https://example.com/photography" },
+                { title: "文学故事", description: "品味文字的魅力，沉浸于引人入胜的故事情节和思想世界。", tag: "文学", imageUrlIndex: 13, linkUrl: "https://example.com/literature" },
+                { title: "音乐韵律", description: "感受声音的魔力，从古典到流行，尽享音乐带来的心灵震撼。", tag: "音乐", imageUrlIndex: 14, linkUrl: "https://example.com/music-rhythm" },
+                { title: "异域风情", description: "探索世界各地独特的文化习俗，体验别样的生活方式与魅力。", tag: "文化", imageUrlIndex: 15, linkUrl: "https://example.com/exotic-culture" },
+                { title: "运动激情", description: "释放活力，挑战极限，感受运动带来的健康与无限激情。", tag: "运动", imageUrlIndex: 16, linkUrl: "https://example.com/sports-passion" },
+                { title: "教育未来", description: "展望教育的新模式与趋势，为未来人才培养提供创新思路。", tag: "教育", imageUrlIndex: 17, linkUrl: "https://example.com/education-future" },
+                { title: "心理健康", description: "关注内心世界，提供实用心理调适方法，拥抱积极人生。", tag: "心理", imageUrlIndex: 18, linkUrl: "https://example.com/mental-health" },
+                { title: "时尚潮流", description: "洞察全球时尚前沿趋势，引领个性穿搭与生活品味。", tag: "时尚", imageUrlIndex: 19, linkUrl: "https://example.com/fashion-trends" },
+                { title: "历史回眸", description: "追溯人类文明的轨迹，探寻那些影响深远的历史时刻与人物。", tag: "历史", imageUrlIndex: 0, linkUrl: "https://example.com/historical-glimpse" },
+                { title: "旅行探险", description: "开启未知旅程，探索世界角落，记录每一次心跳的冒险。", tag: "旅行", imageUrlIndex: 1, linkUrl: "https://example.com/travel-adventure" },
+                { title: "智能家居", description: "构建智慧生活空间，让科技为居家体验带来更多便利与舒适。", tag: "智能", imageUrlIndex: 2, linkUrl: "https://example.com/smart-home" },
+                { title: "宠物生活", description: "分享与萌宠的温馨日常，学习科学养宠知识，享受陪伴的乐趣。", tag: "宠物", imageUrlIndex: 3, linkUrl: "https://example.com/pet-life" }
             ];
 
+            // 生成卡片函数
             function generateCards(containerId, data) {
                 const cardsContainer = document.getElementById(containerId);
                 cardsContainer.innerHTML = '';
-                
-                data.forEach((card, index) => {
+
+                data.forEach((card) => {
                     const cardElement = document.createElement('div');
                     cardElement.className = 'card';
-                    
                     const imageUrl = cardImageUrls[card.imageUrlIndex % cardImageUrls.length];
-                    
+
                     cardElement.innerHTML = `
                         <div class="card-image" style="background-image: url(${imageUrl})"></div>
                         <div class="card-tag">${card.tag}</div>
@@ -1009,14 +981,13 @@
                         </div>
                         <a href="${card.linkUrl}" target="_blank" rel="noopener noreferrer" class="card-link" aria-label="${card.title}"></a>
                     `;
-                    
                     cardsContainer.appendChild(cardElement);
                 });
             }
 
+            // 懒加载卡片图片（此处仅为演示，实际效果需更复杂的逻辑）
             function lazyLoadCardImages() {
                 const lazyImages = document.querySelectorAll('.card-image');
-                
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -1028,19 +999,16 @@
                     rootMargin: '0px',
                     threshold: 0.1
                 });
-                
                 lazyImages.forEach(imgDiv => {
                     observer.observe(imgDiv);
                 });
             }
 
-            initSlider();
-
-            generateCards('cardsContainer1', allCardData.slice(0, 8));
-            generateCards('cardsContainer2', allCardData.slice(8, 16));
-            generateCards('cardsContainer3', allCardData.slice(16, 24));
-
-            lazyLoadCardImages();
+            initSlider(); // 初始化轮播图
+            generateCards('cardsContainer1', allCardData.slice(0, 8)); // 生成第一个卡片区
+            generateCards('cardsContainer2', allCardData.slice(8, 16)); // 生成第二个卡片区
+            generateCards('cardsContainer3', allCardData.slice(16, 24)); // 生成第三个卡片区
+            lazyLoadCardImages(); // 执行懒加载（如需完整实现，需考虑图片src的设置）
         });
     </script>
 </body>
