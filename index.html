@@ -2,971 +2,1199 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>字造 - 专注分享字体领域优质内容</title>
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
-    <meta name="author" content="字造">
-    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
-    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="https://www.zizao.top/logo.png">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造Type ｜ 让每个想法，轻松成字</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS 变量定义 */
-        :root {
-            --primary-color: #333; /* 主要颜色 (深文本颜色) */
-            --secondary-color: #555; /* 次要颜色 (中等文本颜色) */
-            --brand-color: #FF8C19; /* 品牌颜色 (橙色) */
-
-            --text-color-dark: #2c3e50; /* 深文本颜色 */
-            --text-color-medium: #555; /* 中等文本颜色 */
-            --text-color-light: #9ca3af; /* 浅文本颜色 */
-
-            --border-color-light: #e5e7eb; /* 浅边框颜色 */
-            --border-color-medium: #d1d5db; /* 中等边框颜色 */
-
-            --bg-color-white: #ffffff; /* 白色背景 */
-            --bg-color-light: #f7f7f7; /* 浅灰色背景 */
-            --bg-color-hover-primary: rgba(51, 51, 51, 0.08); /* 主要颜色悬停背景 */
-            --bg-color-dropdown: var(--bg-color-white); /* 下拉菜单背景 */
-
-            --shadow-color-large: rgba(0, 0, 0, 0.15); /* 大阴影颜色 */
-
-            --navbar-bg: rgba(255, 255, 255, 0.95); /* 导航栏背景 */
-            --navbar-blur: blur(12px); /* 导航栏模糊效果 */
-
-            --transition-base: all 0.3s ease-in-out; /* 基本过渡效果 */
-            --transition-nav-slide: right 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* 导航滑入过渡 */
-
-            --navbar-height: 70px; /* 导航栏高度 */
-        }
-
         /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei";
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow-x: hidden; /* 防止横向滚动 */
-            scroll-behavior: smooth; /* 平滑滚动 */
-            background-color: var(--bg-color-white);
-            color: var(--text-color-dark);
-            font-weight: 400;
-        }
-
+        
         body {
+            background: #f8fafc;
+            color: #1e293b;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* 确保内容区域至少占满视口高度 */
+            min-height: 100vh;
+            line-height: 1.6;
         }
-
-        a {
-            color: var(--primary-color);
-            text-decoration: none; /* 去除下划线 */
-            transition: var(--transition-base);
-        }
-
-        a:hover {
-            color: var(--primary-color); /* 悬停时颜色不变，因为我们的hover效果是背景色，而非文字颜色 */
-        }
-
-        /* 导航栏 */
+        
+        /* 顶部导航栏 */
         .navbar {
-            background: var(--navbar-bg);
-            backdrop-filter: var(--navbar-blur);
-            -webkit-backdrop-filter: var(--navbar-blur); /* Safari兼容 */
-            border-bottom: 1px solid var(--border-color-light);
-            height: var(--navbar-height);
-            position: sticky; /* 固定在顶部 */
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
             top: 0;
-            width: 100%;
-            z-index: 1000; /* 确保在最上层 */
-            display: flex;
-            justify-content: center; /* 内容居中 */
-            align-items: center;
+            z-index: 100;
+            padding: 0 5%;
         }
-
-        .navbar-inner {
-            max-width: 1900px; /* 最大宽度限制 */
-            width: 100%;
-            padding: 0 30px; /* 左右内边距 */
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            justify-content: space-between; /* 子元素左右对齐 */
+            justify-content: space-between;
             align-items: center;
-            gap: 20px; /* 子元素间隙 */
+            height: 80px;
         }
-
+        
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.7rem;
-            font-weight: 700;
-            color: var(--text-color-dark);
             text-decoration: none;
-            flex-shrink: 0; /* 不允许收缩 */
+            height: 80px;
         }
-
-        .logo-img {
-            height: 36px;
-            width: auto;
-            display: block;
+        
+        .logo-image { 
+            height: 40px; 
+            width: auto; 
+            margin-right: 12px;
         }
-
-        /* 导航内容区域和链接 */
-        .nav-content-area {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-left: auto; /* 推到最右边 */
-        }
-
+        
         .nav-links {
             display: flex;
-            gap: 25px;
-            list-style: none; /* 去除列表标记 */
-            align-items: center;
+            gap: 35px;
         }
-
-        /* 基础链接样式 */
-        .nav-links > li > a {
-            color: var(--text-color-dark);
-            font-weight: 500; /* 保持一级菜单字体粗细一致 */
-            padding: 8px 15px;
-            border-radius: 10px; /* 圆角 */
-            transition: var(--transition-base);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            position: relative; /* 为下拉菜单定位做准备 */
-            overflow: hidden; /* 隐藏超出部分 */
-        }
-
-        /* 初始圆点样式 */
-        .nav-links > li > a .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: transparent;
-            border: 2px solid var(--secondary-color);
-            border-radius: 50%; /* 圆形 */
-            transition: var(--transition-base);
-            flex-shrink: 0;
-        }
-
-        /* ================================================= */
-        /* == 合并后的链接悬停/激活/展开状态样式            == */
-        /* ================================================= */
-
-        /* 所有导航链接（一级和二级）在悬停、激活和展开状态下的背景和文字颜色 */
-        .nav-links > li > a:hover,
-        .nav-links > li > a.active,
-        .nav-links > li > a.expanded,
-        .dropdown li a:hover,
-        .dropdown li a.active-sub {
-            background: var(--bg-color-hover-primary);
-            color: var(--brand-color); /* <-- 修改为品牌色 */
-        }
-
-        /* 所有导航链接（一级和二级）在悬停、激活和展开状态下的圆点样式 */
-        .nav-links > li > a:hover .dot,
-        .nav-links > li > a.active .dot,
-        .nav-links > li > a.expanded .dot,
-        .dropdown li a:hover .dot,
-        .dropdown li a.active-sub .dot {
-            background: var(--brand-color); /* <-- 修改为品牌色 */
-            border-color: var(--brand-color); /* <-- 修改为品牌色 */
-            box-shadow: 0 0 8px rgba(255, 140, 25, 0.6); /* <-- 修改为品牌色的透明版本 */
-        }
-        /* ================================================= */
-
-
-        .dropdown-arrow {
-            margin-left: 6px;
-            font-size: 0.75em;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .nav-links > li:hover .dropdown-parent-link .dropdown-arrow,
-        .nav-links > li .dropdown-parent-link.expanded .dropdown-arrow {
-            transform: rotate(180deg); /* 展开箭头 */
-        }
-
-        /* 下拉菜单 (桌面端) */
-        .nav-links > li {
-            position: relative; /* 为下拉菜单定位提供相对基准 */
-        }
-
-        .dropdown {
-            list-style: none;
-            position: absolute;
-            background: var(--bg-color-dropdown);
-            border-radius: 12px;
-            padding: 8px 0;
-            box-shadow: 0 10px 30px var(--shadow-color-large);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-            z-index: 100;
-            top: calc(100% + 8px); /* 从父级元素底部开始，并向下偏移 */
-            transform: translateY(0); /* 默认不偏移，与 top 配合 */
-            left: 0;
-            transform-origin: top center; /* 动画原点 */
-            width: 220px;
-            border: 1px solid var(--border-color-light);
-        }
-
-        .dropdown.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* 二级菜单项样式 - 调整间距 */
-        .dropdown li a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 7px 20px; /* 调整为更紧凑的间距 */
-            color: var(--text-color-dark); /* 默认颜色 */
-            transition: var(--transition-base);
-            font-size: 14px;
-            border-radius: 8px;
-            margin: 0 10px; /* 左右外边距 */
-            font-weight: 450; /* 保持二级菜单字体粗细 */
-            border-bottom: none; /* 移除分割线 */
-        }
-
-        /* 搜索框 */
-        .search-container {
-            flex-shrink: 0;
-            margin-left: 20px;
-            width: auto;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            border: 1px solid var(--border-color-medium);
-            border-radius: 24px;
-            background-color: var(--bg-color-light);
-            transition: var(--transition-base);
-            width: 280px;
-            gap: 8px;
-            height: 40px;
-            padding: 0 15px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .search-box:focus-within {
-            border-color: var(--primary-color);
-            background-color: var(--bg-color-white);
-            box-shadow: 0 0 0 3px rgba(51, 51, 51, 0.2); /* 输入时添加聚焦效果 */
-        }
-
-        #searchInput {
-            flex-grow: 1; /* 占据剩余空间 */
-            border: none;
-            outline: none;
-            padding: 0;
-            font-size: 14px;
-            background-color: transparent;
-            color: var(--text-color-dark);
-            height: 100%;
-            caret-color: var(--primary-color); /* 光标颜色 */
-        }
-
-        #searchInput::placeholder {
-            color: var(--text-color-light);
-        }
-
-        #searchButton {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--secondary-color);
-            font-size: 16px;
-            padding: 5px;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            height: 100%;
-            border-radius: 6px;
-        }
-
-        #searchButton:hover {
-            color: var(--primary-color);
-            background-color: var(--bg-color-hover-primary);
-        }
-
-        /* 汉堡菜单 */
-        .hamburger {
-            display: none; /* 默认隐藏，移动端显示 */
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            width: 40px;
-            height: 40px;
+        
+        .nav-links a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
             position: relative;
-            z-index: 1001; /* 确保在导航内容上方 */
-            flex-shrink: 0;
-            padding: 5px;
-            margin-left: auto; /* 推到最右边 */
+            font-size: 1.05rem;
         }
-
-        .hamburger span {
-            display: block;
-            width: 22px;
-            height: 2.5px;
-            background: var(--primary-color);
-            border-radius: 2px;
-            margin: 5px auto;
-            transition: var(--transition-base);
+        
+        .nav-links a:hover {
+            color: #FF8C19;
         }
-
-        .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); } /* 第一条线 */
-        .hamburger.active span:nth-child(2) { opacity: 0; } /* 第二条线隐藏 */
-        .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); } /* 第三条线 */
-
-        /* 移动端导航遮罩层 */
-        .mobile-nav-overlay {
-            position: fixed;
-            top: 0;
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
             left: 0;
             width: 100%;
+            height: 3px;
+            background: #FF8C19;
+        }
+        
+        /* 汉堡菜单按钮 */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #FF8C19;
+        }
+        
+        /* 轮播图区域 */
+        .slider {
+            width: 100%;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slides {
+            display: flex;
+            width: calc(100% * var(--slide-count)); 
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 998;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.5s ease;
         }
-
-        .mobile-nav-overlay.active {
-            opacity: 1;
-            visibility: visible;
+        
+        .slide {
+            width: calc(100% / var(--slide-count)); 
+            height: 100%;
+            position: relative;
+            overflow: hidden;
         }
-
-        /* 响应式调整 */
-        @media (max-width: 992px) {
-            .navbar-inner { padding: 0 20px; }
-            .logo { font-size: 1.5rem; }
-            .logo-img { height: 32px; }
-
-            .hamburger { display: block; } /* 显示汉堡菜单 */
-            .search-container { display: none; } /* 隐藏桌面搜索框 */
-
-            /* 移动端导航面板 */
-            .nav-content-area {
-                position: fixed;
-                top: var(--navbar-height); /* 紧贴导航栏下方 */
-                right: -100%; /* 默认隐藏在右侧 */
-                width: 75vw;
-                max-width: 300px;
-                height: calc(100vh - var(--navbar-height)); /* 剩余视口高度 */
-                background: var(--navbar-bg);
-                backdrop-filter: var(--navbar-blur);
-                -webkit-backdrop-filter: var(--navbar-blur);
-                flex-direction: column; /* 垂直布局 */
-                align-items: flex-start; /* 左对齐 */
-                transition: var(--transition-nav-slide);
-                box-shadow: -6px 0 40px var(--shadow-color-large);
-                z-index: 999; /* 在遮罩层上方 */
-                overflow-y: auto; /* 允许滚动 */
-                border-left: 1px solid var(--border-color-light); /* 改为左边框 */
-            }
-
-            .nav-content-area.active {
-                right: 0; /* 滑入显示 */
-                display: flex; /* 确保显示 */
-            }
-
-            .nav-links {
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-                gap: 0;
-                padding: 10px 0;
-            }
-
-            .nav-links > li {
-                width: 100%;
-                border-bottom: 1px solid var(--border-color-light);
-            }
-
-            .nav-links > li:last-child {
-                border-bottom: none;
-            }
-
-            .nav-links > li > a {
-                width: 100%;
-                padding: 14px 25px;
-                gap: 12px;
-                font-size: 16px;
-                font-weight: 500;
-                justify-content: flex-start;
-                border-radius: 0; /* 移除圆角 */
-            }
-
-            .nav-links > li > a .dot {
-                margin-right: 12px;
-            }
-
-            /* 移动端下拉菜单 */
-            .dropdown {
-                position: static; /* 取消绝对定位 */
-                width: 100%;
-                background: var(--bg-color-dropdown); /* 移动端下拉菜单背景可以与桌面端相同 */
-                box-shadow: none;
-                padding: 0;
-                max-height: 0; /* 默认隐藏 */
-                overflow: hidden;
-                transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1), padding 0.4s ease;
-                border-radius: 0;
-                margin-top: 0;
-                border: none;
-            }
-
-            .dropdown.active {
-                max-height: 500px; /* 显示高度 */
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
-
-            /* 移动端二级菜单项样式 */
-            .dropdown li a {
-                padding-left: 45px; /* 缩进 */
-                gap: 10px;
-                font-size: 15px;
-                border-radius: 0;
-                justify-content: flex-start;
-                border-bottom: none; /* 确保在移动端也没有分割线 */
-                margin: 0;
-                color: var(--text-color-medium); /* 移动端二级菜单默认颜色 */
-            }
-        }
-
-        /* 内容区域和 iframe */
-        #content-area {
-            flex-grow: 1; /* 占据剩余空间 */
+        
+        .slide a {
+            display: block;
             width: 100%;
-            background-color: var(--bg-color-white);
-            display: flex; /* 使得 iframes 可以像 flex 项一样管理 */
-            flex-direction: column; /* 垂直堆叠 iframes */
+            height: 100%;
+            text-decoration: none;
         }
 
-        .iframe-wrapper {
+        .slide img {
             width: 100%;
-            /* 确保 iframe wrapper 至少有足够的垂直空间 */
-            /* 100vh - 导航栏高度 - 导航栏底部边框 */
-            min-height: calc(100vh - var(--navbar-height) - 1px);
-            background-color: var(--bg-color-white);
-            display: none; /* 默认隐藏 */
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            flex-shrink: 0; /* 防止收缩 */
-            flex-grow: 1; /* 允许其根据内容增长，同时占据剩余空间 */
-            overflow: hidden; /* 防止 iframe 内部内容溢出 */
-        }
-
-        .iframe-wrapper.active {
-            display: block; /* 显示激活的 iframe */
-            opacity: 1;
-        }
-
-        .iframe-wrapper iframe {
-            width: 100%;
-            height: 100%; /* Iframe 填充其父容器的 100% 高度 */
-            border: none; /* 去除 iframe 边框 */
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
-
-        /* 加载指示器 */
-        #loading-indicator {
-            position: absolute; /* 相对于 body 定位，覆盖整个 viewport */
+        
+        /* 隐藏轮播图的文字内容 */
+        .slide-content {
+            display: none;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .slider-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .slider-dot.active {
+            background: #FF8C19;
+            transform: scale(1.2);
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            flex: 1;
+            padding: 0 5%; 
+            padding-bottom: 100px; 
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-top: 80px; 
+            margin-bottom: 20px; 
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: #0f172a;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .section-title p {
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        /* 卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px; 
+            margin-top: 40px; 
+        }
+        
+        .card-wrapper {
+            position: relative;
+            height: 300px; 
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px -1px rgba(0, 0, 0, 0.05), 
+                        0 4px 8px -4px rgba(0, 0, 0, 0.05);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            height: 100%;
+            position: absolute;
+            width: 100%;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(241, 245, 249, 0.8);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1002; /* 确保在所有内容之上 */
-            color: var(--text-color-dark);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            opacity: 1;
-            pointer-events: auto; /* 可点击 */
-            transform: translateY(0);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            will-change: transform, box-shadow, height;
+            z-index: 1;
         }
-
-        #loading-indicator.hidden {
+        
+        .card .cover-container {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .card .cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .card .content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card .title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            line-height: 1.4;
+        }
+        
+        .card .short-description {
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 15px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            padding-bottom: 10px;
+        }
+        
+        .card .tag {
+            background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+            color: #FF8C19;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .card .full-description {
             opacity: 0;
-            pointer-events: none; /* 不可点击 */
-            transform: translateY(-20px); /* 向上移出视野 */
+            height: 0;
+            overflow: hidden;
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.7;
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(10px);
         }
-
-        .spinner {
-            border: 5px solid var(--border-color-light); /* 边框 */
-            border-top: 5px solid var(--primary-color); /* 旋转部分 */
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            animation: spin 1.1s linear infinite; /* 应用旋转动画 */
+        
+        .card-wrapper:hover .card {
+            height: 400px; 
+            transform: translateY(-30px); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            /* border-color: rgba(255, 140, 25, 0.6);  -- 移除此行 */
+            z-index: 10;
+        }
+        
+        .card-wrapper:hover .cover {
+            transform: scale(1.1);
+        }
+        
+        .card-wrapper:hover .title {
+            font-size: 1.35rem;
             margin-bottom: 20px;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        .card-wrapper:hover .short-description {
+            opacity: 0;
+            height: 0;
+            margin-bottom: 0;
+        }
+        
+        .card-wrapper:hover .full-description {
+            opacity: 1;
+            height: auto;
+            margin-bottom: 20px;
+            transform: translateY(0);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #FF8C19, #FFBF00);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 3;
+        }
+        
+        /* 卡片入场动画 */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 每张卡片的动画延迟 */
+        .card-wrapper:nth-child(1) .card { animation-delay: 0.1s; }
+        .card-wrapper:nth-child(2) .card { animation-delay: 0.2s; }
+        .card-wrapper:nth-child(3) .card { animation-delay: 0.3s; }
+        .card-wrapper:nth-child(4) .card { animation-delay: 0.4s; }
+        .card-wrapper:nth-child(5) .card { animation-delay: 0.5s; }
+        
+        /* 底部区域 */
+        .footer {
+            background: #1a1a1a; /* 修改：深灰色背景 */
+            color: #e0e0e0; /* 调整：文字颜色以适应深色背景 */
+            padding: 80px 5% 30px; 
+            text-align: center;
+            position: relative; 
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 25px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .footer-about p {
+            color: #b0b0b0; /* 调整：文字颜色以适应深色背景 */
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            position: relative; 
+        }
+        
+        .social-links a {
+            color: #c0c0c0; /* 调整：图标链接颜色以适应深色背景 */
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            position: relative; 
+            text-decoration: none; 
+        }
+        
+        .social-links a:hover {
+            color: #FF8C19; 
+            transform: translateY(-3px);
         }
 
-        #loading-indicator p {
-            font-size: 1.15rem;
-            font-weight: 500;
-            color: var(--text-color-medium);
-            letter-spacing: 0.5px;
+        .social-links .icon-image { 
+            width: 24px; 
+            height: 24px; 
+            filter: invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%); 
+            transition: all 0.3s;
         }
 
-        /* 滚动条样式 */
-        ::-webkit-scrollbar { width: 8px; height: 8px; } /* 滚动条宽度 */
-        ::-webkit-scrollbar-track { background: var(--bg-color-light); border-radius: 10px; } /* 滚动条轨道 */
-        ::-webkit-scrollbar-thumb { background: var(--border-color-medium); border-radius: 10px; transition: background-color 0.3s ease; } /* 滚动条滑块 */
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); } /* 滑块悬停效果 */
-
-        * {
-            scrollbar-color: var(--border-color-medium) var(--bg-color-light); /* Firefox 滚动条样式 */
-            scrollbar-width: thin; /* Firefox 滚动条宽度 */
+        .social-links a:hover .icon-image {
+            filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
         }
 
-        /* 字体导入 */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        /* 二维码图标样式 */
+        .qr-code-icon {
+            /* 继承自 .social-links a 的样式 */
+        }
+
+        .qr-code-icon .icon-image {
+            width: 28px; 
+            height: 28px;
+            filter: invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%);
+        }
+
+        .qr-code-icon:hover .icon-image {
+            filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
+        }
+
+        /* 二维码弹窗容器样式 */
+        .qr-code-container {
+            position: absolute; 
+            bottom: calc(100% + 10px); 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 11; 
+            display: none; 
+            text-align: center;
+            white-space: nowrap; 
+            
+            padding-bottom: 25px; 
+        }
+
+        .qr-code-container img {
+            width: 120px; 
+            height: 120px;
+            border-radius: 4px;
+        }
+
+        .qr-code-container p {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .qr-code-container::after {
+            content: ''; 
+            position: absolute;
+            left: 50%; 
+            transform: translateX(-50%); 
+            bottom: 10px; 
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; 
+            border-right: 10px solid transparent; 
+            border-top: 10px solid white; 
+            z-index: 12; 
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #c0c0c0; /* 调整：链接颜色以适应深色背景 */
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            color: #909090; /* 调整：版权信息颜色以适应深色背景 */
+            font-size: 0.95rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* 响应式调整 - 导航栏折叠 */
+        @media (max-width: 992px) {
+            .slider {
+                height: 380px;
+            }
+            
+            .slide-content {
+                padding: 40px 5%;
+            }
+            
+            .slide-content h2 {
+                font-size: 2rem;
+            }
+            
+            .slide-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                margin-top: 60px; 
+            }
+
+            .cards-grid {
+                gap: 30px; 
+                margin-top: 30px; 
+            }
+
+            .footer {
+                padding-top: 60px; 
+            }
+
+            .main-content {
+                padding-bottom: 80px; 
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+            }
+            
+            .nav-links a {
+                padding: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a.active::after {
+                display: none;
+            }
+            
+            .slider {
+                height: 320px;
+            }
+            
+            .slide-content h2 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+            
+            .slide-content p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                margin-top: 40px; 
+                margin-bottom: 20px; 
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 30px; 
+            }
+            
+            .footer {
+                padding: 50px 5% 25px;
+            }
+            
+            .social-links {
+                gap: 20px;
+            }
+
+            .footer-links {
+                gap: 20px;
+                margin-bottom: 25px;
+            }
+
+            .main-content {
+                padding-bottom: 60px; 
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .slider {
+                height: 280px;
+            }
+            
+            .slide-content h2 {
+                font-size: 1.6rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                margin-top: 30px; 
+                margin-bottom: 15px; 
+            }
+            
+            .cards-grid {
+                gap: 25px; 
+                margin-top: 25px; 
+            }
+            
+            .card-wrapper:hover .card {
+                height: 380px;
+            }
+
+            .footer {
+                padding-top: 40px; 
+            }
+
+            .main-content {
+                padding-bottom: 50px; 
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar" role="navigation" aria-label="主导航">
-        <div class="navbar-inner">
-            <a href="#home" class="logo">
-                <img src="logo.svg" alt="字造ZIZAO Logo" class="logo-img"> <!-- 假设 logo.svg 在根目录 -->
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#top" class="logo">
+                <img src="logo.png" alt="公司Logo" class="logo-image">
             </a>
-
-            <button class="hamburger" aria-label="导航菜单" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-
-            <div class="nav-content-area">
-                <ul class="nav-links">
-                    <li><a href="#home" data-page="home"><span class="dot"></span>首页</a></li>
-                    <li><a href="#fonts" data-page="fonts"><span class="dot"></span>字库产品</a></li>
-                    <li><a href="#hao" data-page="hao"><span class="dot"></span>设计导航</a></li>
-                    <li><a href="#Material" data-page="Material"><span class="dot"></span>设计资源</a></li>
-                    <li>
-                        <a href="#tools" data-page="tools" class="dropdown-parent-link" aria-haspopup="true" aria-expanded="false">
-                            <span class="dot"></span><span>设计工具<i class="fa-solid fa-chevron-down dropdown-arrow"></i></span>
-                        </a>
-                        <ul class="dropdown" role="menu">
-                            <li><a href="#txt" data-page="txt" role="menuitem"><span class="dot"></span>在线TXT编辑</a></li>
-                            <li><a href="#quchong" data-page="quchong" role="menuitem"><span class="dot"></span>字符去重</a></li>
-                            <li><a href="#duibi" data-page="duibi" role="menuitem"><span class="dot"></span>文本对比</a></li>
-                            <li><a href="#pinyin" data-page="pinyin" role="menuitem"><span class="dot"></span>汉字拼音转换</a></li>
-                            <li><a href="#xinjinzi" data-page="xinjinzi" role="menuitem"><span class="dot"></span>形近字查询</a></li>
-                            <li><a href="#shufa" data-page="shufa" role="menuitem"><span class="dot"></span>书法风格</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <div class="search-container">
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="搜索设计资源...">
-                        <button id="searchButton" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-                </div>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="active">首页</a>
+                <a href="#" target="_blank">字体产品</a>
+                <a href="#" target="_blank">正版授权</a>
+                <a href="https://zzfonts.taobao.com" target="_blank">购买字体</a>
+                <a href="#" target="_blank">关于我们</a>
             </div>
         </div>
     </nav>
-
-    <div class="mobile-nav-overlay"></div> <!-- 移动端导航遮罩层 -->
-
-    <div id="content-area">
-        <!-- 加载指示器 -->
-        <div id="loading-indicator">
-            <div class="spinner"></div>
-            <p>正在加载内容...</p>
+    
+    <!-- 轮播图区域 -->
+    <div class="slider">
+        <div class="slides">
+            <!-- 轮播图1 -->
+            <div class="slide">
+                <a href="https://example.com/slide1-link" target="_blank">
+                    <img src="11.webp" alt="数字化解决方案">
+                    <div class="slide-content">
+                    </div>
+                </a>
+            </div>
+            <!-- 轮播图2 -->
+            <div class="slide">
+                <a href="https://example.com/slide2-link" target="_blank">
+                    <img src="22.webp" alt="智能办公">
+                    <div class="slide-content">
+                    </div>
+                </a>
+            </div>
         </div>
-
-        <!-- iframe 包装器 -->
-        <div id="wrapper-home" class="iframe-wrapper" data-page-key="home"><iframe data-src="pages/home/index.html" title="首页内容"></iframe></div>
-        <div id="wrapper-fonts" class="iframe-wrapper" data-page-key="fonts"><iframe data-src="pages/fonts/index.html" title="字库产品内容"></iframe></div>
-        <div id="wrapper-hao" class="iframe-wrapper" data-page-key="hao"><iframe data-src="pages/hao/index.html" title="设计导航内容"></iframe></div>
-        <div id="wrapper-Material" class="iframe-wrapper" data-page-key="Material"><iframe data-src="pages/Material/index.html" title="设计资源内容"></iframe></div>
-        <div id="wrapper-txt" class="iframe-wrapper" data-page-key="txt"><iframe data-src="pages/toolbox/tools/txt.html" title="在线TXT编辑工具内容"></iframe></div>
-        <div id="wrapper-quchong" class="iframe-wrapper" data-page-key="quchong"><iframe data-src="pages/toolbox/tools/quchong.html" title="字符去重工具内容"></iframe></div>
-        <div id="wrapper-duibi" class="iframe-wrapper" data-page-key="duibi"><iframe data-src="pages/toolbox/tools/duibi.html" title="文本对比工具内容"></iframe></div>
-        <div id="wrapper-pinyin" class="iframe-wrapper" data-page-key="pinyin"><iframe data-src="pages/toolbox/tools/pinyin.html" title="汉字拼音转换工具内容"></iframe></div>
-        <div id="wrapper-xinjinzi" class="iframe-wrapper" data-page-key="xinjinzi"><iframe data-src="pages/toolbox/tools/xinjinzi.html" title="形近字查询工具内容"></iframe></div>
-        <div id="wrapper-shufa" class="iframe-wrapper" data-page-key="shufa"><iframe data-src="pages/toolbox/tools/write/index.html" title="书法风格工具内容"></iframe></div>
+        <div class="slider-controls">
+            <!-- 轮播图点将由 JavaScript 动态生成 -->
+        </div>
     </div>
+    
+        <main class="main-content">
+            <div class="container">
+                <div class="section-title">
+                    <h2>我们的产品</h2>
+                    <p>为自己而努力，为提升而奋斗，为强大而分享</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card-wrapper">
+                        <a href="#" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="字造字库" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">字造字库</h3>
+                                <p class="short-description">以字体探索美学心新感知</p>
+                                <p class="full-description">持续开发有价值的字体是，探索可变技术在中文字库领域的更多可能性</p>
+                                <div class="tags">
+                                    <span class="tag">免费</span>
+                                    <span class="tag">可变字体</span>
+                                    <span class="tag">超低价字体</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
-    <script>
-        // 页面元数据，包含页面标题和父级键用于导航高亮
-        const PAGE_METADATA = {
-            'home': { title: '字造 - 专注分享字体领域优质内容', parent: 'home' },
-            'fonts': { title: '字造字库 - 以字体探索美学新感知', parent: 'fonts' },
-            'hao': { title: '字造导航 - 设计师的私藏灵感库', parent: 'hao' },
-            'Material': { title: '字造百宝库 - 设计师的资源百宝库', parent: 'Material' },
-            'tools': { title: '字造设计工具箱', parent: 'tools' }, // 工具父级
-            'txt': { title: '在线TXT文本编辑器 - 字造ZIZAO', parent: 'tools' },
-            'quchong': { title: '文本字符去重工具 - 字造ZIZAO', parent: 'tools' },
-            'duibi': { title: '文字字符对比工具 - 字造ZIZAO', parent: 'tools' },
-            'pinyin': { title: '汉字拼音转换工具 - 字造ZIZAO', parent: 'tools' },
-            'xinjinzi': { title: '形近字查询工具 - 字造ZIZAO', parent: 'tools' },
-            'shufa': { title: '书法风格查询工具 - 字造ZIZAO', parent: 'tools' },
-        };
-
-        // DOM 元素获取
-        const hamburger = document.querySelector('.hamburger');
-        const navContentArea = document.querySelector('.nav-content-area');
-        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const iframeWrappers = document.querySelectorAll('.iframe-wrapper');
-        const searchInput = document.getElementById('searchInput');
-        const searchButton = document.getElementById('searchButton');
-        const navLinksList = document.querySelector('.nav-links');
-        const body = document.body;
-
-        let currentActivePageKey = ''; // 当前激活的页面键
-
-        /**
-         * 切换移动端菜单的显示/隐藏状态。
-         * @param {boolean} show - true 为显示，false 为隐藏。
-         */
-        function toggleMobileMenu(show) {
-            hamburger.classList.toggle('active', show);
-            hamburger.setAttribute('aria-expanded', show ? 'true' : 'false'); // 更新 ARIA 属性
-            navContentArea.classList.toggle('active', show);
-            mobileNavOverlay.classList.toggle('active', show);
-            body.style.overflow = show ? 'hidden' : ''; // 隐藏背景滚动
-        }
-
-        /**
-         * 关闭移动端菜单及所有展开的下拉菜单。
-         */
-        function closeMobileMenuAndDropdowns() {
-            toggleMobileMenu(false);
-            // 关闭所有下拉菜单并重置其 ARIA 状态
-            document.querySelectorAll('.dropdown.active').forEach(dropdown => {
-                dropdown.classList.remove('active');
-                const parentLink = dropdown.previousElementSibling;
-                if (parentLink && parentLink.classList.contains('dropdown-parent-link')) {
-                    parentLink.classList.remove('expanded');
-                    parentLink.setAttribute('aria-expanded', 'false');
-                }
-            });
-        }
-
-        /**
-         * 从 URL hash 获取当前页面键。
-         * @returns {string} 当前页面键。
-         */
-        function getPageKeyFromHash() {
-            let pageKey = window.location.hash.substring(1).split('?')[0];
-            return pageKey || 'home'; // 默认为 home
-        }
-
-        /**
-         * 更新 iframe 内容和页面状态。
-         */
-        function updateIframeContent() {
-            const targetPageKey = getPageKeyFromHash();
-            const pageInfo = PAGE_METADATA[targetPageKey] || PAGE_METADATA['home'];
-            const targetWrapper = document.getElementById(`wrapper-${targetPageKey}`);
-
-            if (!targetWrapper) {
-                // 如果找不到对应的 iframe wrapper，则重定向到 home
-                window.location.hash = '#home';
-                return;
-            }
-
-            const iframe = targetWrapper.querySelector('iframe');
-            const iframeDataSrc = iframe.dataset.src;
-            const currentHashParams = window.location.hash.includes('?') ? `?${window.location.hash.split('?')[1]}` : '';
-            const newIframeSrc = iframeDataSrc + currentHashParams;
-
-            // 仅在页面键或 iframe src 发生变化时才执行加载和切换
-            if (currentActivePageKey !== targetPageKey || iframe.src !== newIframeSrc) {
-                loadingIndicator.classList.remove('hidden');
-
-                // 移除所有 iframe wrapper 的激活状态
-                iframeWrappers.forEach(wrapper => wrapper.classList.remove('active'));
-
-                // 设置 iframe 的 src，触发加载
-                iframe.src = newIframeSrc;
-
-                const loadHandler = () => {
-                    loadingIndicator.classList.add('hidden');
-                    targetWrapper.classList.add('active'); // 显示目标 wrapper
-                    currentActivePageKey = targetPageKey; // 更新当前激活页键
-                    updateNavActiveState(pageInfo.parent); // 更新导航高亮
-                    document.title = pageInfo.title; // 更新页面标题
-                    iframe.removeEventListener('load', loadHandler); // 移除监听器
-                    iframe.removeEventListener('error', errorHandler);
-                };
-
-                const errorHandler = () => {
-                    console.error('Iframe 加载错误:', targetPageKey);
-                    loadingIndicator.classList.add('hidden');
-                    // 即使加载失败也激活 wrapper，确保页面状态正确
-                    targetWrapper.classList.add('active');
-                    currentActivePageKey = targetPageKey;
-                    updateNavActiveState(pageInfo.parent);
-                    document.title = pageInfo.title;
-                    iframe.removeEventListener('load', loadHandler);
-                    iframe.removeEventListener('error', errorHandler);
-                };
-
-                iframe.addEventListener('load', loadHandler);
-                iframe.addEventListener('error', errorHandler);
-            } else if (!targetWrapper.classList.contains('active')) {
-                // 如果是同一页面但未激活，则仅激活 wrapper
-                iframeWrappers.forEach(wrapper => wrapper.classList.remove('active'));
-                targetWrapper.classList.add('active');
-                updateNavActiveState(pageInfo.parent);
-                document.title = pageInfo.title;
-            }
-        }
-
-        /**
-         * 更新导航栏中当前激活的链接高亮和 ARIA 状态。
-         * @param {string} activeParentKey - 当前激活页面的父级键。
-         */
-        function updateNavActiveState(activeParentKey) {
-            // 先移除所有链接的高亮状态和 ARIA 属性
-            document.querySelectorAll('.nav-links a[data-page], .dropdown li a').forEach(link => {
-                link.classList.remove('active', 'expanded', 'active-sub');
-                link.removeAttribute('aria-current'); // 移除当前页面指示
-                if (link.classList.contains('dropdown-parent-link')) {
-                    link.setAttribute('aria-expanded', 'false'); // 重置下拉菜单展开状态
-                }
-            });
-
-            // 激活父级链接
-            const parentLink = document.querySelector(`.nav-links a[data-page="${activeParentKey}"]`);
-            if (parentLink) {
-                parentLink.classList.add('active');
-                parentLink.setAttribute('aria-current', 'page'); // 设置当前页面指示
-                // 如果父级是带有下拉菜单的链接，同时标记为展开
-                if (parentLink.classList.contains('dropdown-parent-link')) {
-                    parentLink.classList.add('expanded');
-                    parentLink.setAttribute('aria-expanded', 'true'); // 设置下拉菜单展开状态
-                    const dropdown = parentLink.nextElementSibling;
-                    if (dropdown && dropdown.classList.contains('dropdown')) {
-                        dropdown.classList.add('active'); // 同时激活下拉菜单
-                    }
-                }
-            }
-
-            // 激活当前页面的子链接（如果存在）
-            const currentLink = document.querySelector(`.nav-links a[data-page="${currentActivePageKey}"]`);
-            if (currentLink && currentLink.closest('.dropdown')) {
-                currentLink.classList.add('active-sub');
-                currentLink.setAttribute('aria-current', 'page');
-            }
-        }
-
-        let desktopHoverTimeout; // 用于桌面悬停的 timeout ID
-        /**
-         * 设置桌面端导航项的悬停效果和 ARIA 属性。
-         */
-        function setupDesktopDropdownHover() {
-            // 确保每次重新设置时，旧的监听器不会重复绑定
-            navLinksList.querySelectorAll('li').forEach(li => {
-                const dropdown = li.querySelector('.dropdown');
-                const parentLink = li.querySelector('.dropdown-parent-link');
-                if (dropdown && parentLink) {
-                    // 如果已经绑定过，先移除
-                    if (li._mouseenterHandler) {
-                        li.removeEventListener('mouseenter', li._mouseenterHandler);
-                        li.removeEventListener('mouseleave', li._mouseleaveHandler);
-                    }
-
-                    const mouseenterHandler = () => {
-                        clearTimeout(desktopHoverTimeout);
-
-                        // 快速关闭其他已打开的下拉菜单，避免重叠
-                        document.querySelectorAll('.nav-links > li > .dropdown').forEach(otherDropdown => {
-                            if (otherDropdown !== dropdown && otherDropdown.classList.contains('active')) {
-                                otherDropdown.classList.remove('active');
-                                const otherParent = otherDropdown.previousElementSibling;
-                                if (otherParent && otherParent.classList.contains('dropdown-parent-link')) {
-                                    otherParent.classList.remove('expanded');
-                                    otherParent.setAttribute('aria-expanded', 'false');
-                                }
-                            }
-                        });
-
-                        dropdown.classList.add('active');
-                        parentLink.classList.add('expanded');
-                        parentLink.setAttribute('aria-expanded', 'true');
-                    };
-
-                    const mouseleaveHandler = () => {
-                        desktopHoverTimeout = setTimeout(() => {
-                            if (dropdown.classList.contains('active')) {
-                                dropdown.classList.remove('active');
-                                parentLink.classList.remove('expanded');
-                                parentLink.setAttribute('aria-expanded', 'false');
-                            }
-                        }, 150);
-                    };
+                    <div class="card-wrapper">
+                        <a href="#" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="字造超引" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">字造超引</h3>
+                                <p class="short-description">字库设计师必备的字形搜索神器</p>
+                                <p class="full-description">输入中文单字即可检索所有字形相近的字符，字库设计首选小工具</p>
+                                <div class="tags">
+                                    <span class="tag">形近字查询</span>
+                                    <span class="tag">字符位置定位</span>
+                                    <span class="tag">字库开发必备</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                     
-                    // 绑定新的监听器并保存引用，以便后续移除
-                    li.addEventListener('mouseenter', mouseenterHandler);
-                    li.addEventListener('mouseleave', mouseleaveHandler);
-                    li._mouseenterHandler = mouseenterHandler;
-                    li._mouseleaveHandler = mouseleaveHandler;
+                    <div class="card-wrapper">
+                        <a href="https://www.zizao.top/hao" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="设计导航" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">字造设计导航</h3>
+                                <p class="short-description">设计师的灵感百宝库-设计师必备</p>
+                                <p class="full-description">整理囊括了几乎所有优质好用网站，设计师的灵感百宝库</p>
+                                <div class="tags">
+                                    <span class="tag">400+网站</span>
+                                    <span class="tag">综合设计</span>
+                                    <span class="tag">集成搜索</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">在线设计工具导航</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">书法网站导航</h3>
+                                <p class="short-description">设计师的灵感百宝库</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">免费商用字体导航</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="section-title">
+                    <h2>推荐浏览内容</h2>
+                    <p>专注字体领域优质内容及设计资源收集分享</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card-wrapper">
+                        <a href="https://example.com/design" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="设计工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">怎么做一款自己的字体（最全面）</h3>
+                                <p class="short-description">专为专业设计师打造的全套UI设计工具</p>
+                                <p class="full-description">专为专业设计师打造的全套UI设计工具，包含高级组件库、交互原型设计和团队协作功能。</p>
+                                <div class="tags">
+                                    <span class="tag">设计系统</span>
+                                    <span class="tag">协作</span>
+                                    <span class="tag">原型</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="card-wrapper">
+                        <a href="https://example.com/analytics" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="数据分析" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">什么是GB2312标准</h3>
+                                <p class="short-description">企业级实时数据可视化和预测分析</p>
+                                <p class="full-description">内置AI辅助功能可自动识别关键指标和异常数据，帮助您做出更明智的商业决策。提供客户细分和ROI分析功能。</p>
+                                <div class="tags">
+                                    <span class="tag">BI</span>
+                                    <span class="tag">可视化</span>
+                                    <span class="tag">AI分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">中文字库字符表</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">千款设计素材</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">千本设计书籍（2025最新）</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">免费商用字体下载</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">Adobe全家桶（2017版-2025版）</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">AI/PS脚本插件</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card-wrapper">
+                        <a href="https://example.com/marketing" class="card" target="_blank">
+                            <div class="cover-container">
+                                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="营销工具" class="cover">
+                            </div>
+                            <div class="content">
+                                <h3 class="title">设计师电脑必备软件</h3>
+                                <p class="short-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。</p>
+                                <p class="full-description">全渠道营销自动化平台，整合电子邮件、社交媒体和广告投放。基于用户行为的个性化营销策略，A/B测试和转化率优化工具一应俱全。</p>
+                                <div class="tags">
+                                    <span class="tag">自动化</span>
+                                    <span class="tag">多渠道</span>
+                                    <span class="tag">分析</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    
+    <!-- 底部区域 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="#top" class="footer-logo">了解更多请关注</a>
+            <div class="social-links">
+
+                <a href="#" class="qr-code-icon"> 
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码1" class="icon-image">
+                    <div class="qr-code-container">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信好友二维码">
+                        <p>微信扫码添加好友</p>
+                    </div>
+                </a>
+                
+                <a href="#" class="qr-code-icon"> 
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码2" class="icon-image">
+                    <div class="qr-code-container">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
+                        <p>微信扫码关注公众号</p>
+                    </div>
+                </a>
+                
+                <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页" class="icon-image">
+                </a>
+                <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="icon-image">
+                </a>
+                <a href="https://www.zcool.com.cn/u/15462186" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页" class="icon-image">
+                </a>
+                <a href="https://space.bilibili.com/339715446" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页" class="icon-image">
+                </a>
+                <a href="https://weibo.com/u/7931697572" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Z51u/101X100/wb.webp" alt="微博主页" class="icon-image">
+                </a>
+                <a href="https://www.youtube.com/@zizaotop" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/TeqK/101X100/you.webp" alt="Youtube主页" class="icon-image">
+                </a>
+                <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/8Aos/101X100/z.webp" alt="知乎主页" class="icon-image">
+                </a>
+            </div>
+
+            <div class="footer-links">
+                <a href="https://example.com/design-cooperation" target="_blank">设计合作</a>
+                <a href="https://example.com/contact-us" target="_blank">联系我们</a>
+                <a href="https://example.com/privacy-policy" target="_blank">隐私政策</a>
+                <a href="https://example.com/terms-of-service" target="_blank">服务条款</a>
+                <a href="https://example.com/terms-of-service" target="_blank">服务条款</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 ZIZAO.TOP. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 轮播图功能
+        const slidesContainer = document.querySelector('.slides');
+        const slideElements = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        const slideCount = slideElements.length;
+
+        // 设置 CSS 变量 --slide-count
+        slidesContainer.style.setProperty('--slide-count', slideCount);
+
+        // 动态生成轮播图指示点
+        const sliderControls = document.querySelector('.slider-controls');
+        sliderControls.innerHTML = ''; 
+        for (let i = 0; i < slideCount; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('slider-dot');
+            if (i === 0) {
+                dot.classList.add('active'); 
+            }
+            dot.dataset.slide = i; 
+            dot.addEventListener('click', () => {
+                goToSlide(i);
+                resetTimer();
+            });
+            sliderControls.appendChild(dot);
+        }
+
+        // 重新获取指示点引用
+        const dots = document.querySelectorAll('.slider-dot');
+
+        let slideInterval = setInterval(nextSlide, 5000); // 初始轮播间隔
+
+        // 跳转到指定幻灯片
+        function goToSlide(index) {
+            currentSlide = index;
+            slidesContainer.style.transform = `translateX(-${currentSlide * (100 / slideCount)}%)`;
+            
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentSlide].classList.add('active');
+        }
+        
+        // 切换到下一张幻灯片
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slideCount;
+            goToSlide(currentSlide);
+        }
+        
+        // 重置轮播计时器
+        function resetTimer() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // 鼠标进入/离开轮播图时停止/恢复自动播放
+        const slider = document.querySelector('.slider');
+        slider.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+        });
+        
+        slider.addEventListener('mouseleave', () => {
+            resetTimer();
+        });
+        
+        // 移动端菜单切换功能
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // 点击导航链接后收起菜单
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) { 
+                    navLinks.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
                 }
             });
-        }
+        });
 
-        /**
-         * 移除桌面端导航项的悬停效果。
-         */
-        function removeDesktopDropdownHover() {
-            navLinksList.querySelectorAll('li').forEach(li => {
-                // 移除保存的监听器
-                if (li._mouseenterHandler) {
-                    li.removeEventListener('mouseenter', li._mouseenterHandler);
-                    li.removeEventListener('mouseleave', li._mouseleaveHandler);
-                    li._mouseenterHandler = null;
-                    li._mouseleaveHandler = null;
-                }
-                // 确保所有桌面下拉菜单关闭
-                const dropdown = li.querySelector('.dropdown');
-                const parentLink = li.querySelector('.dropdown-parent-link');
-                if (dropdown && dropdown.classList.contains('active')) {
-                    dropdown.classList.remove('active');
-                }
-                if (parentLink && parentLink.classList.contains('expanded')) {
-                    parentLink.classList.remove('expanded');
-                    parentLink.setAttribute('aria-expanded', 'false');
-                }
-            });
-            clearTimeout(desktopHoverTimeout); // 清除任何待执行的关闭定时器
-        }
+        // 二维码悬浮弹窗功能
+        const qrCodeIcons = document.querySelectorAll('.qr-code-icon');
 
+        qrCodeIcons.forEach(iconLink => {
+            const qrCodeContainer = iconLink.querySelector('.qr-code-container');
 
-        /**
-         * 执行搜索操作。
-         */
-        function performSearch() {
-            const searchTerm = searchInput.value.trim();
-            // 跳转到设计资源页面，并带上搜索词
-            window.location.hash = `#Material${searchTerm ? `?q=${encodeURIComponent(searchTerm)}` : ''}`;
-            if (window.innerWidth <= 992) closeMobileMenuAndDropdowns(); // 移动端搜索后关闭菜单
-        }
+            if (qrCodeContainer) {
+                let hideTimeout;
 
-        // --- 事件监听器设置 ---
+                iconLink.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                    qrCodeContainer.style.display = 'block';
+                });
 
-        // 汉堡菜单点击事件
-        hamburger.addEventListener('click', () => toggleMobileMenu(!navContentArea.classList.contains('active')));
-        // 移动端导航遮罩层点击事件，关闭菜单
-        mobileNavOverlay.addEventListener('click', closeMobileMenuAndDropdowns);
+                iconLink.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
+                            qrCodeContainer.style.display = 'none';
+                        }
+                    }, 100);
+                });
 
-        // 导航链接点击事件处理
-        navLinksList.addEventListener('click', function(e) {
-            const targetLink = e.target.closest('a[data-page]');
-            // 忽略非链接点击、下拉菜单内部链接点击或直接点击 dropdown 元素本身
-            if (!targetLink || targetLink.closest('.dropdown') === e.target || targetLink.matches('.dropdown *')) {
-                return;
-            }
+                qrCodeContainer.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                    qrCodeContainer.style.display = 'block';
+                });
 
-            const targetHash = targetLink.getAttribute('href');
-            const parentLi = targetLink.closest('li');
-            const dropdown = parentLi?.querySelector('.dropdown');
-
-            if (window.innerWidth <= 992) { // 移动端逻辑
-                if (dropdown && targetLink.classList.contains('dropdown-parent-link')) {
-                    e.preventDefault(); // 阻止默认跳转
-                    // 切换下拉菜单的激活状态和 ARIA 属性
-                    dropdown.classList.toggle('active');
-                    targetLink.classList.toggle('expanded');
-                    targetLink.setAttribute('aria-expanded', targetLink.classList.contains('expanded') ? 'true' : 'false');
-                } else {
-                    closeMobileMenuAndDropdowns(); // 点击非下拉父级链接时关闭菜单
-                    if (window.location.hash !== targetHash) {
-                        window.location.hash = targetHash; // 导航到新页面
-                    } else {
-                        updateIframeContent(); // 如果 hash 相同，强制更新内容
-                    }
-                }
-            } else { // 桌面端逻辑
-                if (window.location.hash !== targetHash) {
-                    window.location.hash = targetHash; // 导航到新页面
-                } else {
-                    updateIframeContent(); // 如果 hash 相同，强制更新内容
-                }
-                // 桌面端点击后，不需要特别关闭下拉菜单，hover会处理
+                qrCodeContainer.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
+                            qrCodeContainer.style.display = 'none';
+                        }
+                    }, 100);
+                });
             }
         });
-
-        let resizeTimeout; // 用于处理窗口大小改变的防抖定时器
-        let currentModeIsDesktop = window.innerWidth > 992; // 初始模式判断
-        // 窗口大小改变事件监听
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                const isMobile = window.innerWidth <= 992;
-                
-                if (isMobile && currentModeIsDesktop) {
-                    // 从桌面模式切换到移动模式
-                    removeDesktopDropdownHover(); // 移除桌面悬停逻辑
-                    closeMobileMenuAndDropdowns(); // 确保移动菜单是关闭的
-                    currentModeIsDesktop = false;
-                } else if (!isMobile && !currentModeIsDesktop) {
-                    // 从移动模式切换到桌面模式
-                    setupDesktopDropdownHover(); // 设置桌面悬停逻辑
-                    closeMobileMenuAndDropdowns(); // 确保移动菜单是关闭的
-                    currentModeIsDesktop = true;
-                }
-                
-                updateIframeContent(); // 窗口改变时可能需要更新内容
-            }, 100); // 100ms 防抖
-        });
-
-        // 搜索按钮点击事件
-        searchButton.addEventListener('click', performSearch);
-        // 输入框回车键事件
-        searchInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') performSearch();
-        });
-
-        // --- 初始化 ---
-
-        // 如果初始没有 hash，则设置为 home
-        if (!window.location.hash) window.location.hash = '#home';
-
-        // 页面加载完成后更新内容并设置桌面悬停
-        window.addEventListener('load', () => {
-            updateIframeContent();
-            if (window.innerWidth > 992) { // 仅在桌面模式下设置悬停
-                setupDesktopDropdownHover();
-            }
-        });
-
-        // hash 改变时触发内容更新
-        window.addEventListener('hashchange', updateIframeContent);
-
     </script>
 </body>
 </html>
