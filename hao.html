@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字造导航 - 设计师的灵感百宝库</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计资源">
+    <meta name="author" content="字造">
+    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="https://www.zizao.top/logo.png">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF8C19;
+            --secondary-color: #333;
+            --accent-color: #e67e22;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c7575;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --transition-color-bg: all 0.3s ease; /* 只对颜色和背景做过渡 */
+            --background-light: #f4f6f8;
+            --divider-color: #e0e0e0;
+            --card-bg-color: #f8f8f8; /* 调整为更明显的浅灰色 */
+            --card-hover-shadow: 0 10px 25px rgba(255, 140, 25, 0.15); /* 卡片hover阴影 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--dark-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column; /* Added for footer positioning */
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0 5%;
+            width: 100%;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 80px;
+        }
+
+        .logo-image {
+            height: 40px;
+            width: auto;
+            margin-right: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 1.05rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .menu-toggle {
+            display: none; /* Default for mobile, will be overridden by media query */
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .main-content-wrapper {
+            flex: 1; /* Pushes footer to the bottom */
+            padding: 20px;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+            display: flex;
+            gap: 30px;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            height: fit-content;
+            position: sticky;
+            top: calc(80px + 20px);
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 20px;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 2px solid #f1f3f9;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .custom-logo {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .custom-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .categories {
+            list-style: none;
+            overflow-y: auto;
+            max-height: calc(100vh - (80px + 20px + 100px)); /* Adjusted height */
+            padding: 0 15px;
+        }
+
+        .categories::-webkit-scrollbar {
+            width: 8px;
+        }
+        .categories::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+        .categories::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+        }
+        .categories::-webkit-scrollbar-thumb:hover {
+            background-color: var(--accent-color);
+        }
+
+        .categories li {
+            padding: 0;
+        }
+
+        .category-btn {
+            display: flex;
+            align-items: center;
+            padding: 14px 15px; /* 固定 padding */
+            padding-left: 45px; /* 固定 padding-left */
+            text-decoration: none;
+            color: var(--dark-color);
+            font-size: 1.05rem; /* 固定字体大小 */
+            font-weight: 500; /* 固定默认字重 */
+            transition: background var(--transition-color-bg), color var(--transition-color-bg), font-weight var(--transition-color-bg); /* 只过渡颜色和背景，以及字重 */
+            position: relative;
+            border-radius: 8px; /* 固定圆角 */
+            margin-bottom: 5px;
+            min-height: 50px; /* 确保最小高度 */
+            line-height: 1.2; /* 确保行高稳定 */
+        }
+
+        .category-btn::before {
+            content: "\2022"; /* Bullet point */
+            position: absolute;
+            left: 12px; /* 固定位置 */
+            top: 50%;
+            transform: translateY(-50%); /* 保持垂直居中 */
+            font-size: 1.5rem; /* 固定小圆点大小 */
+            color: var(--primary-color);
+            opacity: 0.7;
+            transition: color var(--transition-color-bg), opacity var(--transition-color-bg); /* 只过渡颜色和透明度 */
+        }
+
+        .category-btn:hover {
+            background: #f8f9ff;
+            color: var(--primary-color);
+        }
+
+        .category-btn:hover::before {
+            color: var(--accent-color);
+        }
+
+        .category-btn.active {
+            background: #f0f4ff;
+            color: var(--primary-color);
+            font-weight: 600; /* 激活时加粗 */
+        }
+
+        .category-btn.active::before {
+            color: var(--primary-color);
+            opacity: 1;
+            /* 移除任何可能改变大小或位置的属性 */
+            /* font-size, left, transform 都已在默认状态固定 */
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .search-area {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 0;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .search-engine-btn {
+            padding: 8px 18px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition-color-bg);
+            font-size: 0.9rem;
+            border: none;
+            background: transparent;
+            color: var(--gray-color);
+            position: relative;
+            margin-right: 0px;
+            border-top-left-radius: 8px; /* Added for better shape */
+            border-top-right-radius: 8px; /* Added for better shape */
+            z-index: 0;
+        }
+
+        .search-engine-btn.active {
+            color: white;
+            background-color: var(--primary-color);
+            z-index: 1;
+        }
+
+        .search-divider {
+            height: 1px;
+            background-color: var(--divider-color);
+            width: 100%;
+            margin: 0;
+        }
+
+        .search-engine-btn:not(.active):hover {
+            color: var(--secondary-color);
+            background-color: #f8f9ff;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--light-color); /* Kept light color */
+            border-radius: 15px;
+            padding: 15px 20px;
+            z-index: 1;
+            transition: var(--transition-color-bg);
+            width: 100%;
+            margin-top: 0;
+        }
+
+        #search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            padding: 0;
+        }
+
+        #search-input::placeholder {
+            color: var(--gray-color);
+        }
+
+        #search-button {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1.3rem;
+            padding: 5px;
+            transition: var(--transition-color-bg);
+            flex-shrink: 0;
+        }
+
+        #search-button:hover {
+            color: var(--accent-color);
+        }
+
+        .quick-links-area {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .quick-link-btn {
+            padding: 8px 18px;
+            background-color: var(--light-color);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition-color-bg);
+            font-size: 0.9rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .quick-link-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .category-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .category-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            position: relative;
+            line-height: 1.3;
+        }
+
+        .subcategory-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f3f9;
+        }
+
+        .subcategory-tab {
+            padding: 10px 22px;
+            background: #f1f3f9;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition-color-bg);
+            font-size: 0.95rem;
+        }
+
+        .subcategory-tab:hover {
+            background: #e2e8ff;
+        }
+
+        .subcategory-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px; /* 增加上下左右间距 */
+        }
+
+        .card {
+            background: var(--card-bg-color); /* 使用变量设置背景色 */
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; /* 只对transform, shadow, background做过渡 */
+            display: flex;
+            padding: 15px;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+            background: #f8f8f8; /* hover时背景变为白色，提供“浮起”感 */
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .card p {
+            color: var(--gray-color);
+            line-height: 1.5;
+            font-size: 0.88rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger icon on mobile */
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 0; /* Adjust padding for mobile menu */
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                max-height: 0; /* Initially hidden */
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-links.active {
+                max-height: 500px; /* Max height to reveal menu */
+                padding: 20px 0; /* Add padding when active */
+            }
+
+            .nav-links a {
+                padding: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a.active::after {
+                display: none; /* Hide active indicator on mobile menu */
+            }
+        }
+
+        @media (min-width: 769px) {
+            .menu-toggle {
+                display: none; /* Hide hamburger icon on desktop */
+            }
+            .nav-links {
+                max-height: none !important; /* Ensure nav links are always visible on desktop */
+                overflow: visible !important;
+                padding: 0 !important; /* Remove mobile-specific padding */
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+                margin-bottom: 30px;
+                padding-bottom: 0;
+            }
+            .sidebar-header {
+                padding-bottom: 15px;
+            }
+            .custom-logo {
+                height: 70px;
+                margin-bottom: 10px;
+            }
+            .categories {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                max-height: none; /* Allow full height */
+                padding: 0 15px;
+                overflow-y: visible;
+            }
+            .categories::-webkit-scrollbar {
+                display: none;
+            }
+            .category-btn {
+                padding: 10px 15px;
+                padding-left: 35px;
+                font-size: 1rem;
+                min-height: 40px; /* Adjust min-height for smaller screens */
+            }
+            .category-btn::before {
+                left: 12px;
+                font-size: 1.3rem;
+                transform: translateY(-50%); /* Consistent centering */
+            }
+            .search-area {
+                margin-bottom: 20px;
+                padding: 20px;
+            }
+            .search-filters {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .search-input-wrapper {
+                width: 100%;
+                border-radius: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 12px 15px;
+            }
+            #search-input, #search-button {
+                width: 100%;
+            }
+            #search-button {
+                margin-top: 10px;
+            }
+            .quick-links-area {
+                justify-content: center;
+            }
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted for larger screens within 1200px */
+            }
+            .category-section h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+             .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            .sidebar {
+                padding: 20px 0;
+            }
+            .sidebar-header {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            .subcategory-tabs {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                flex-wrap: nowrap;
+            }
+            .subcategory-tab {
+                white-space: nowrap;
+            }
+            .search-area {
+                padding: 15px;
+            }
+            .search-input-wrapper {
+                padding: 10px 15px;
+            }
+            .category-section {
+                padding: 20px;
+            }
+            .category-section h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            .subcategory-tabs {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body id="top">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#top" class="logo">
+                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="公司Logo" class="logo-image">
+            </a>
+
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <div class="nav-links" id="navLinks">
+                <a href="https://www.zizao.top" target="_blank">字造首页</a>
+                <a href="#top" class="active">设计导航</a>
+                <a href="#" target="_blank">字体导航</a>
+                <a href="#" target="_blank">工具导航</a>
+                <a href="#" target="_blank">书法导航</a>
+                <a href="#" target="_blank">关于我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content-wrapper">
+        <div class="container">
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="custom-logo" onclick="window.open('https://www.zizaotop/hao', '_blank')">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/2tE5/219X79/haologo.png" alt="haoLogo">
+                    </div>
+                </div>
+
+                <ul class="categories" id="categories-list">
+                    <li><a href="#A" class="category-btn active">精选推荐</a></li>
+                    <li><a href="#B" class="category-btn">灵感创意</a></li>
+                    <li><a href="#C" class="category-btn">字体字形</a></li>
+                    <li><a href="#D" class="category-btn">AI工具</a></li>
+                    <li><a href="#E" class="category-btn">免版权资源</a></li>
+                    <li><a href="#F" class="category-btn">设计神器</a></li>
+                    <li><a href="#G" class="category-btn">设计素材</a></li>
+                    <li><a href="#H" class="category-btn">配色方案</a></li>
+                    <li><a href="#I" class="category-btn">知识社区</a></li>
+                    <li><a href="#J" class="category-btn">软件工具</a></li>
+                </ul>
+            </div>
+
+            <div class="content" id="main-content">
+                <div class="search-area">
+                    <div class="search-filters">
+                        <span class="search-engine-btn active" data-engine="baidu">百度</span>
+                        <span class="search-engine-btn" data-engine="ai">百度AI</span>
+                        <span class="search-engine-btn" data-engine="tupian">百度图片</span>
+                        <span class="search-engine-btn" data-engine="mian">免版权图片</span>
+                        <span class="search-engine-btn" data-engine="fanyi">百度翻译</span>
+                        <span class="search-engine-btn" data-engine="bing">Bing</span>
+                        <span class="search-engine-btn" data-engine="google">Google</span>
+                    </div>
+                    <div class="search-divider"></div>
+                    <div class="search-input-wrapper">
+                        <input type="text" id="search-input" placeholder="搜索 百度...">
+                        <button id="search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="quick-links-area">
+                        <span class="quick-link-btn" data-link="https://www.dazi.co/index">AskManyAI</span>
+                        <span class="quick-link-btn" data-link="https://www.pinterest.com">Pinterest</span>
+                        <span class="quick-link-btn" data-link="https://chat.deepseek.com">Deepseek</span>
+                        <span class="quick-link-btn" data-link="https://yuanbao.tencent.com">腾讯元宝</span>
+                        <span class="quick-link-btn" data-link="https://www.wenxiaobai.com">问小白AI</span>
+                    </div>
+                </div>
+
+                <section id="A" class="category-section">
+                    <h2>精选推荐</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="A" data-subcategory="A1">#精选推荐</div>
+                    </div>
+                    <div class="cards-container" id="A-A1"></div>
+                </section>
+
+                <section id="B" class="category-section">
+                    <h2>灵感创意</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="B" data-subcategory="B1">#字体灵感</div>
+                        <div class="subcategory-tab" data-category="B" data-subcategory="B2">#版式设计</div>
+                        <div class="subcategory-tab" data-category="B" data-subcategory="B3">#品牌VI</div>
+                        <div class="subcategory-tab" data-category="B" data-subcategory="B4">#LOGO设计</div>
+                        <div class="subcategory-tab" data-category="B" data-subcategory="B5">#摄影鉴赏</div>
+                    </div>
+                    <div class="cards-container" id="B-B1"></div>
+                    <div class="cards-container hidden" id="B-B2"></div>
+                    <div class="cards-container hidden" id="B-B3"></div>
+                    <div class="cards-container hidden" id="B-B4"></div>
+                    <div class="cards-container hidden" id="B-B5"></div>
+                </section>
+
+                <section id="C" class="category-section">
+                    <h2>字体字形</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="C" data-subcategory="C1">#字体品牌</div>
+                        <div class="subcategory-tab" data-category="C" data-subcategory="C2">#可变字体</div>
+                        <div class="subcategory-tab" data-category="C" data-subcategory="C3">#字形字符</div>
+                        <div class="subcategory-tab" data-category="C" data-subcategory="C4">#动画效果</div>
+                    </div>
+                    <div class="cards-container" id="C-C1"></div>
+                    <div class="cards-container hidden" id="C-C2"></div>
+                    <div class="cards-container hidden" id="C-C3"></div>
+                    <div class="cards-container hidden" id="C-C4"></div>
+                </section>
+
+                <section id="D" class="category-section">
+                    <h2>AI工具</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="D" data-subcategory="D1">#AI聊天</div>
+                        <div class="subcategory-tab" data-category="D" data-subcategory="D2">#AI绘图</div>
+                        <div class="subcategory-tab" data-category="D" data-subcategory="D3">#AI视频</div>
+                        <div class="subcategory-tab" data-category="D" data-subcategory="D4">#AI音频</div>
+                    </div>
+                    <div class="cards-container" id="D-D1"></div>
+                    <div class="cards-container hidden" id="D-D2"></div>
+                    <div class="cards-container hidden" id="D-D3"></div>
+                    <div class="cards-container hidden" id="D-D4"></div>
+                </section>
+
+                <section id="E" class="category-section">
+                    <h2>免版权资源</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="E" data-subcategory="E1">#免版权中文字体</div>
+                        <div class="subcategory-tab" data-category="E" data-subcategory="E2">#免版权英文字体</div>
+                        <div class="subcategory-tab" data-category="E" data-subcategory="E3">#免版权图片</div>
+                        <div class="subcategory-tab" data-category="E" data-subcategory="E4">#免版权视频</div>
+                        <div class="subcategory-tab" data-category="E" data-subcategory="E5">#免版权音频</div>
+                        <div class="subcategory-tab" data-category="E" data-subcategory="E6">#免版权音效</div>
+                    </div>
+                    <div class="cards-container" id="E-E1"></div>
+                    <div class="cards-container hidden" id="E-E2"></div>
+                    <div class="cards-container hidden" id="E-E3"></div>
+                    <div class="cards-container hidden" id="E-E4"></div>
+                    <div class="cards-container hidden" id="E-E5"></div>
+                    <div class="cards-container hidden" id="E-E6"></div>
+                </section>
+
+                <section id="F" class="category-section">
+                    <h2>设计神器</h2>
+                    <div class="subcategory-tabs">
+                        <!-- Corrected data-category and data-subcategory attributes -->
+                        <div class="subcategory-tab active initial-active" data-category="F" data-subcategory="F1">#在线设计平台</div>
+                        <div class="subcategory-tab" data-category="F" data-subcategory="F2">#LOGO生成</div>
+                        <div class="subcategory-tab" data-category="F" data-subcategory="F3">#背景生成</div>
+                        <div class="subcategory-tab" data-category="F" data-subcategory="F4">#去除背景</div>
+                        <div class="subcategory-tab" data-category="F" data-subcategory="F5">#抹除物体</div>
+                        <div class="subcategory-tab" data-category="F" data-subcategory="F6">#画质增强</div>
+                        <div class="subcategory-tab" data-category="F" data-subcategory="F7">#图像压缩</div>
+                    </div>
+                    <div class="cards-container" id="F-F1"></div>
+                    <div class="cards-container hidden" id="F-F2"></div>
+                    <div class="cards-container hidden" id="F-F3"></div>
+                    <div class="cards-container hidden" id="F-F4"></div>
+                    <div class="cards-container hidden" id="F-F5"></div>
+                    <div class="cards-container hidden" id="F-F6"></div>
+                    <div class="cards-container hidden" id="F-F7"></div>
+                </section>
+
+                <section id="G" class="category-section">
+                    <h2>设计素材</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="G" data-subcategory="G1">#VI样机</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G2">#PNG素材</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G3">#矢量素材</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G4">#插画素材</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G5">#PSD素材</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G6">#背景纹理</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G7">#图标Emoji</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G8">#PPT模板</div>
+                        <div class="subcategory-tab" data-category="G" data-subcategory="G9">#PS笔刷</div>
+                    </div>
+                    <div class="cards-container" id="G-G1"></div>
+                    <div class="cards-container hidden" id="G-G2"></div>
+                    <div class="cards-container hidden" id="G-G3"></div>
+                    <div class="cards-container hidden" id="G-G4"></div>
+                    <div class="cards-container hidden" id="G-G5"></div>
+                    <div class="cards-container hidden" id="G-G6"></div>
+                    <div class="cards-container hidden" id="G-G7"></div>
+                    <div class="cards-container hidden" id="G-G8"></div>
+                    <div class="cards-container hidden" id="G-G9"></div>
+                </section>
+
+                <section id="H" class="category-section">
+                    <h2>配色方案</h2>
+                    <div class="subcategory-tabs">
+                        <!-- Corrected data-category attribute -->
+                        <div class="subcategory-tab active initial-active" data-category="H" data-subcategory="H1">#纯色搭配</div>
+                        <div class="subcategory-tab" data-category="H" data-subcategory="H2">#渐变配色</div>
+                    </div>
+                    <div class="cards-container" id="H-H1"></div>
+                    <div class="cards-container hidden" id="H-H2"></div>
+                </section>
+
+                <section id="I" class="category-section">
+                    <h2>知识社区</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="I" data-subcategory="I1">#设计书籍</div>
+                    </div>
+                    <div class="cards-container" id="I-I1"></div>
+                </section>
+
+                <section id="J" class="category-section">
+                    <h2>软件工具</h2>
+                    <div class="subcategory-tabs">
+                        <div class="subcategory-tab active initial-active" data-category="J" data-subcategory="J1">#软件下载</div>
+                        <div class="subcategory-tab" data-category="J" data-subcategory="J2">#资源搜索</div>
+                        <div class="subcategory-tab" data-category="J" data-subcategory="J3">#格式转换</div>
+                        <div class="subcategory-tab" data-category="J" data-subcategory="J4">#偏门利器</div>
+                    </div>
+                    <div class="cards-container" id="J-J1"></div>
+                    <div class="cards-container hidden" id="J-J2"></div>
+                    <div class="cards-container hidden" id="J-J3"></div>
+                    <div class="cards-container hidden" id="J-J4"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>© 2025 字造设计导航 | 已收录 400+ 优质设计网站</p>
+    </div>
+
+    <script>
+        const allCardsData = [
+            { category: 'A', subcategory: 'A1', title: 'AskManyAI', description: '来自全球的超多AI工具集合站，体验甚至超过原平台', link: 'https://www.dazi.co/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
+            { "category": "A", "subcategory": "A1", "title": "Github", "description": "全世界最大的开源社区，在这里可以找到几乎所有的开源项目", "link": "https://github.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "SearXNG", "description": "Google的绝佳替代，最强大的元搜索引擎", "link": "https://searx.bndkt.io", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "花瓣", "description": "收集设计灵感，保存有用的素材", "link": "https://huaban.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "站酷", "description": "中国人气设计师互动平台", "link": "https://www.zcool.com.cn", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "Pinterest", "description": "全球最大的创意灵感图片采集站", "link": "https://www.pinterest.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "Dribbble", "description": "面向设计师的社交网络平台", "link": "https://dribbble.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "Behance", "description": "Adobe旗下的设计师交流平台", "link": "https://behance.net/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "YouTube", "description": "全球最大的学习分享平台", "link": "https://www.youtube.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "优设", "description": "人气设计师交流学习平台", "link": "https://www.uisdc.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "万能视频下载", "description": "复制链接，下载任何地方的视频", "link": "https://snapany.com/zh", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "网盘搜索", "description": "支持常用4大网盘-聚合网盘搜索引擎", "link": "https://search.chongbuluo.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "文件传输", "description": "临时传送助手-端对端无需担心隐私泄露", "link": "https://wormhole.app/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "VR看世界", "description": "坐在家里就能看到来自全世界的景色", "link": "https://www.airpano.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "免费资源社区", "description": "来自湾湾的免费资源分享网站", "link": "https://free.com.tw/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "图像处理工具集", "description": "在线处理PDF-GIF-抠图-压缩等的图片工具", "link": "https://docsmall.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" }
+        ];
+
+        const appConfig = {
+            categories: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+            subcategories: {
+                A: ['A1'],
+                B: ['B1', 'B2', 'B3', 'B4', 'B5'],
+                C: ['C1', 'C2', 'C3', 'C4'],
+                D: ['D1', 'D2', 'D3', 'D4'],
+                E: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6'],
+                F: ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7'],
+                G: ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9'],
+                H: ['H1', 'H2'],
+                I: ['I1'],
+                J: ['J1', 'J2', 'J3', 'J4']
+            },
+            defaultCategory: 'A',
+            defaultSubcategory: 'A1'
+        };
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        function toggleMobileMenu() {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        function handleResize() {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('active');
+                menuToggle.querySelector('i').classList.remove('fa-times');
+                menuToggle.querySelector('i').classList.add('fa-bars');
+            }
+        }
+
+        function renderCards(cardsData, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.warn(`Container with ID "${containerId}" not found.`);
+                return;
+            }
+            container.innerHTML = cardsData.map(cardData => `
+                <div class="card" onclick="window.open('${cardData.link}', '_blank')">
+                    ${cardData.icon ? `<div class="card-icon"><img src="${cardData.icon}" alt="${cardData.title} 图标" onerror="this.onerror=null; this.src='https://via.placeholder.com/50/EEE/888?text=NO';"></div>` : ''}
+                    <div class="card-content">
+                        <h3>${cardData.title}</h3>
+                        <p>${cardData.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchSubcategory(category, subcategory) {
+            const section = document.getElementById(category);
+            if (!section) {
+                console.warn(`Category section "${category}" not found.`);
+                return;
+            }
+
+            section.querySelectorAll('.subcategory-tab').forEach(tab => tab.classList.remove('active'));
+            const activeTab = section.querySelector(`.subcategory-tab[data-subcategory="${subcategory}"]`);
+            if (activeTab) activeTab.classList.add('active');
+
+            section.querySelectorAll('.cards-container').forEach(container => container.classList.add('hidden'));
+            const targetContainer = section.querySelector(`#${category}-${subcategory}`); // Corrected ID lookup
+            if (targetContainer) targetContainer.classList.remove('hidden');
+        }
+
+        function highlightCategoryOnScroll() {
+            let currentSectionId = null;
+            const scrollPosition = window.scrollY || window.pageYOffset;
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            const offset = navbarHeight + 50;
+
+            const categorySections = document.querySelectorAll('.category-section');
+
+            for (let i = categorySections.length - 1; i >= 0; i--) {
+                const section = categorySections[i];
+                if (scrollPosition >= section.offsetTop - offset) {
+                    currentSectionId = section.getAttribute('id');
+                    break;
+                }
+            }
+
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.querySelectorAll('.category-btn').forEach(link => {
+                link.classList.remove('active');
+                if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function switchSearchEngine(engine) {
+            const searchInput = document.getElementById('search-input');
+            document.querySelectorAll('.search-engine-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.search-engine-btn[data-engine="${engine}"]`).classList.add('active');
+
+            switch (engine) {
+                case 'baidu': searchInput.placeholder = '搜索 百度...'; break;
+                case 'ai': searchInput.placeholder = '搜索 百度AI...'; break;
+                case 'tupian': searchInput.placeholder = '搜索 百度图片...'; break;
+                case 'mian': searchInput.placeholder = '搜索 免版权图片...'; break; // Placeholder, adjust if needed
+                case 'fanyi': searchInput.placeholder = '搜索 百度翻译...'; break;
+                case 'bing': searchInput.placeholder = '搜索 Bing...'; break;
+                case 'google': searchInput.placeholder = '搜索 Google...'; break;
+                default: searchInput.placeholder = '搜索...';
+            }
+            // Optional: You might want to clear the search input when switching engines
+            // searchInput.value = '';
+        }
+
+        // Moved performSearch to global scope so it can be accessed by event listeners
+        function performSearch() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (!searchTerm) {
+                alert('请输入搜索内容！');
+                return;
+            }
+
+            const currentEngine = document.querySelector('.search-engine-btn.active')?.getAttribute('data-engine');
+            let searchUrl = '';
+
+            switch (currentEngine) {
+                case 'baidu': searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(searchTerm)}`; break;
+                case 'ai': searchUrl = `https://chat.baidu.com/search?word=${encodeURIComponent(searchTerm)}`; break;
+                case 'tupian': searchUrl = `https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=${encodeURIComponent(searchTerm)}`; break;
+                case 'mian': searchUrl = `https://www.logosc.cn/so/s${encodeURIComponent(searchTerm)}`; break;
+                case 'fanyi': searchUrl = `https://fanyi.baidu.com/#/zh/en/${encodeURIComponent(searchTerm)}`; break;
+                case 'bing': searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(searchTerm)}`; break;
+                case 'google': searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerm)}`; break;
+                default: searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(searchTerm)}`;
+            }
+            window.open(searchUrl, '_blank');
+        }
+
+        function initializeUI() {
+            // Render all cards into their respective containers
+            appConfig.categories.forEach(category => {
+                appConfig.subcategories[category]?.forEach(subcategory => {
+                    const filteredCards = allCardsData.filter(card => card.category === category && card.subcategory === subcategory);
+                    renderCards(filteredCards, `${category}-${subcategory}`); // Corrected ID format
+                });
+            });
+
+            // Set initial active category and subcategory
+            const { defaultCategory, defaultSubcategory } = appConfig;
+
+            // Highlight default category in sidebar
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.querySelectorAll('.category-btn').forEach(link => {
+                link.classList.remove('active');
+            });
+            const defaultCatBtn = categoriesList.querySelector(`.category-btn[href="#${defaultCategory}"]`);
+            if (defaultCatBtn) {
+                defaultCatBtn.classList.add('active');
+            }
+
+            // Activate default subcategory tab and display its cards
+            const initialSection = document.getElementById(defaultCategory);
+            const firstSubTab = initialSection?.querySelector(`.subcategory-tab[data-subcategory="${defaultSubcategory}"]`);
+            if (firstSubTab) {
+                switchSubcategory(defaultCategory, firstSubTab.getAttribute('data-subcategory'));
+            } else {
+                // Fallback if default subcategory not found, activate first available tab
+                const firstAvailableTab = initialSection?.querySelector('.subcategory-tab');
+                if (firstAvailableTab) {
+                    switchSubcategory(defaultCategory, firstAvailableTab.getAttribute('data-subcategory'));
+                }
+            }
+
+            // Initial check for mobile menu state on load
+            handleResize();
+            switchSearchEngine('baidu'); // Set initial search engine
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeUI();
+
+            menuToggle.addEventListener('click', toggleMobileMenu);
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleMobileMenu(); // Close menu after clicking a link
+                    }
+                });
+            });
+
+            window.addEventListener('resize', handleResize);
+            window.addEventListener('scroll', highlightCategoryOnScroll);
+            highlightCategoryOnScroll(); // Call once on load to set initial state
+
+            document.getElementById('categories-list').querySelectorAll('.category-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Remove active from all category buttons
+                    document.getElementById('categories-list').querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                    // Add active to the clicked button
+                    this.classList.add('active');
+
+                    const targetSection = document.querySelector(this.getAttribute('href'));
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - navbarHeight - 20,
+                            behavior: 'smooth'
+                        });
+
+                        // Also activate the first subcategory tab of the newly selected category
+                        const categoryId = this.getAttribute('href').replace('#', '');
+                        const section = document.getElementById(categoryId);
+                        if (section) {
+                            const firstSubTab = section.querySelector('.subcategory-tab');
+                            if (firstSubTab) {
+                                switchSubcategory(categoryId, firstSubTab.getAttribute('data-subcategory'));
+                            }
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('.subcategory-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    const subcategory = this.getAttribute('data-subcategory');
+                    switchSubcategory(category, subcategory);
+                    // Ensure the main category button remains active when a subcategory is clicked
+                    document.getElementById('categories-list').querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                    document.getElementById('categories-list').querySelector(`.category-btn[href="#${category}"]`).classList.add('active');
+                });
+            });
+
+            document.querySelectorAll('.search-engine-btn').forEach(btn => {
+                btn.addEventListener('click', () => switchSearchEngine(btn.getAttribute('data-engine')));
+            });
+
+            const searchButton = document.getElementById('search-button');
+            const searchInput = document.getElementById('search-input');
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', event => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    performSearch();
+                }
+            });
+
+            document.querySelectorAll('.quick-link-btn').forEach(btn => {
+                btn.addEventListener('click', () => window.open(btn.getAttribute('data-link'), '_blank'));
+            });
+        });
+    </script>
+</body>
+</html>
