@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造Type - 让每个想法，轻松成字</title>
+    <title>字造字库 - 以字体探索美学新感知</title>
     <meta name="description" content="字造Type致力于提供高品质字体产品和设计工具，让你的设计灵感轻松实现。探索免费字体、商用字体、设计资源与创意教程。">
     <meta name="keywords" content="字造Type, 字库, 字体设计, 字体下载, 免费字体, 商用字体, 设计导航, 设计工具, 创意排版, 中文字体, 艺术字体">
     <meta name="author" content="字造Type">
-    <meta property="og:title" content="字造Type - 让每个想法，轻松成字">
-    <meta property="og:description" content="字造Type致力于提供高品质字体产品和设计工具，让你的设计灵感轻松实现。探索免费字体、商用字体、设计资源与创意教程。">
-    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iI_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,14 +21,13 @@
         }
 
         body {
-            background: #f8f8f8; /* 调整为浅灰色 */
+            background: #f8f8f8;
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* 使内容垂直布局 */
+            flex-direction: column;
             overflow-x: hidden;
-            perspective: 1000px;
-            color: #1e293b; /* 保持原 body 字体颜色 */
-            line-height: 1.6; /* 保持原 body 行高 */
+            color: #1e293b;
+            line-height: 1.6;
         }
 
         /* 顶部导航栏 */
@@ -53,7 +47,6 @@
             justify-content: space-between;
             align-items: center;
             height: 80px;
-            position: relative;
         }
 
         .logo {
@@ -79,22 +72,11 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
-            position: relative;
             font-size: 1.05rem;
         }
 
         .nav-links a:hover {
             color: #FF8C19;
-        }
-
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: #FF8C19;
         }
 
         /* 汉堡菜单按钮 */
@@ -107,44 +89,42 @@
 
         /* 主要内容区域 */
         .main-content {
-            flex: 1; /* 确保 main-content 占据剩余空间 */
-            padding-bottom: 80px; /* 底部间距 */
+            flex: 1;
+            padding-bottom: 80px;
             display: flex;
-            flex-direction: column; /* 确保内容垂直排列 */
-            align-items: center; /* 使内部内容水平居中 */
-            position: relative; /* 为装饰元素提供定位上下文 */
+            flex-direction: column;
+            align-items: center;
+            position: relative;
         }
 
         /* 广告位 */
         .ad-banner {
             width: 100%;
-            height: 180px; /* 广告位高度 */
-            background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); /* 示例背景图 - 使用第一张卡片图片 */
+            height: 180px;
             background-size: cover;
             background-position: center;
-            margin-bottom: 80px; /* 广告位与分类按钮的间距 */
+            margin-bottom: 80px;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .main-content > .container {
-            max-width: 1800px; /* 限制最大宽度，确保卡片不会无限延伸 */
+            max-width: 1800px;
             width: 100%;
             position: relative;
             z-index: 10;
-            padding: 0 20px; /* 左右内边距 */
+            padding: 0 20px;
         }
 
         /* 分类按钮样式 */
         .category-buttons {
             text-align: center;
-            margin-bottom: 50px; /* 按钮与卡片之间的间距 */
+            margin-bottom: 50px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px; /* 按钮之间的间距 */
+            gap: 15px;
         }
 
         .category-button {
@@ -178,7 +158,6 @@
         /* 卡片网格布局 */
         .cards-grid {
             display: grid;
-            /* 保持 minmax(350px, 1fr)，配合父容器 max-width 即可实现最大4列 */
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 50px;
         }
@@ -190,65 +169,35 @@
             overflow: hidden;
             background: white;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-            transform: scale(1) rotateX(0deg) rotateY(0deg);
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease-out, transform 0.5s ease-out; /* 添加 opacity 和 transform 过渡 */
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease-out;
             cursor: pointer;
             display: flex;
             flex-direction: column;
+            aspect-ratio: 1 / 1.2; /* 保持卡片比例 */
             border: 1px solid rgba(255, 255, 255, 0.2);
-
-            aspect-ratio: 1 / 1.2; /* 设置卡片比例为 1:1.2 (宽度:高度) */
-        }
-
-        /* 隐藏的卡片样式 */
-        .card.hidden {
-            opacity: 0;
-            transform: scale(0.8) translateY(20px);
-            pointer-events: none; /* 禁用鼠标事件 */
-            height: 0;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease-out, transform 0.5s ease-out, height 0.5s ease-out, margin 0.5s ease-out, padding 0.5s ease-out;
         }
 
         .card:hover {
-            transform: scale(1.09) rotateX(0deg) rotateY(0deg);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3), 0 0 100px rgba(255, 126, 95, 0.4);
+            transform: translateY(-10px); /* 仅向上移动 */
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.3);
             z-index: 100;
+            border: none; /* 悬浮时移除细微边框 */
         }
 
         /* 图片区域 */
         .card-image {
             position: relative;
-            height: 100%; /* 初始时图片铺满整个卡片 */
+            height: 100%; /* 占据卡片剩余空间 */
             background-size: cover;
             background-position: center;
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-            z-index: 1;
-            border-radius: 25px;
+            transition: height 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* 仅图片高度过渡 */
+            border-radius: 25px; /* 默认是圆角 */
             overflow: hidden;
         }
 
         .card:hover .card-image {
-            height: 60%; /* 悬浮时图片占据卡片总高度的 60% */
-            transform: scale(1.05);
-            border-radius: 25px 25px 0 0;
-        }
-
-        .card-image::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%);
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .card:hover .card-image::before {
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+            height: 60%; /* 图片区域收缩 */
+            border-radius: 25px 25px 0 0; /* 顶部圆角消失 */
         }
 
         /* 卡片标题 */
@@ -256,12 +205,11 @@
             position: absolute;
             bottom: 35px;
             left: 35px;
-            transform: none;
             color: white;
             font-size: 2.8rem;
             font-weight: 900;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-            z-index: 2;
+            z-index: 3; /* 确保标题在渐变和图片上方 */
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             text-align: left;
             width: calc(100% - 70px);
@@ -269,22 +217,22 @@
         }
 
         .card:hover .card-title {
-            bottom: 20px; /* 调整标题位置 */
+            bottom: 20px;
             left: 35px;
-            transform: translateY(-10px); /* 微调标题上移距离 */
-            font-size: 2.5rem;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transform: translateY(-10px);
+            font-size: 2.4rem; /* 标题稍微缩小 */
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
         }
 
         /* 内容区域 */
         .card-content {
             padding: 0;
             background: white;
-            flex-grow: 1; /* 确保内容区域占据卡片剩余的所有高度 */
-            display: flex; /* 让内容区域成为 flex 容器 */
-            flex-direction: column; /* 内容垂直排列 */
-            justify-content: flex-start; /* 默认从顶部开始 */
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: height 0.5s cubic-bezier(0.23, 1, 0.32, 1), padding 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* 仅内容高度和内边距过渡 */
             overflow: hidden;
             height: 0; /* 初始隐藏 */
             border-radius: 0 0 25px 25px;
@@ -292,104 +240,65 @@
         }
 
         .card:hover .card-content {
-            height: auto; /* 让内容区域自动调整高度，因为 flex-grow 已经控制了 */
-            padding: 25px 35px 25px; /* 上下各增加 10px 左右，以达到居中效果 */
-            border-top: 1px solid rgba(230, 230, 230, 0.8);
-            justify-content: center; /* 使 description 和 tags 作为一个整体在垂直方向居中 */
+            height: auto; /* 显示内容 */
+            padding: 25px 35px 25px;
+            border-top: 1px solid rgba(230, 230, 230, 0.8); /* 顶部边界线 */
+            justify-content: center; /* 内容居中 */
         }
 
         /* 描述文字 */
         .card-description {
             font-size: 1.05rem;
-            line-height: 1.5; /* 调整行高 */
-            /* **** 关键修改：增加 description 和 tags 之间的间距 **** */
-            margin-bottom: 15px; /* 增加描述和标签之间的间距 */
+            line-height: 1.5;
             color: #4f6176;
             font-weight: 300;
 
-            /* 优化：限制为3行 */
+            /* 限制行数，防止内容过多 */
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* 限制在3行 */
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis; /* 超出部分显示省略号 */
+            text-overflow: ellipsis;
 
             max-height: 0; /* 初始隐藏 */
-            opacity: 0; /* 初始隐藏 */
-            transition: max-height 0.6s ease-out, opacity 0.5s ease-out 0.2s;
+            opacity: 0;
+            transition: max-height 0.5s ease-out, opacity 0.4s ease-out 0.2s; /* 延迟显示 */
+            margin-bottom: 20px; /* **新增：增加描述和标签之间的间距** */
         }
 
         .card:hover .card-description {
-            max-height: calc(1.5em * 3 + 5px); /* 3行文字高度 + 额外一点空间 */
+            max-height: calc(1.5em * 3 + 5px); /* 展开描述 */
             opacity: 1;
-            /* margin-bottom 保持不变，因为已经在上方定义 */
-            transition: max-height 0.6s ease-out, opacity 0.5s ease-in 0.2s;
         }
 
         /* 标签区域 */
         .card-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px; /* 压缩标签间距 */
-            /* margin-top: 0px; 由 description 的 margin-bottom 控制 */
+            gap: 10px;
 
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            /* margin-top: 20px; */ /* 如果需要，也可以在父容器上设置 margin-top */
         }
 
         .card:hover .card-tags {
             opacity: 1;
             transform: translateY(0);
-            transition: opacity 0.5s ease-in 0.3s, transform 0.5s ease-in 0.3s;
+            transition: opacity 0.4s ease-in 0.3s, transform 0.4s ease-in 0.3s; /* 延迟出现 */
         }
 
         .tag {
-            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
             color: white;
-            padding: 7px 18px; /* 压缩标签内边距 */
+            padding: 7px 18px;
             border-radius: 30px;
-            font-size: 0.85rem; /* 字体小一点 */
+            font-size: 0.85rem;
             font-weight: 600;
             transition: all 0.3s ease-out;
             box-shadow: 0 5px 15px rgba(255, 126, 95, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .tag:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(255, 126, 95, 0.45);
-            background: linear-gradient(135deg, #feb47b 0%, #ff7e5f 100%);
-        }
-
-        /* 光泽动画效果 */
-        .card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -250%;
-            width: 70%;
-            height: 100%;
-            background: linear-gradient(to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.7) 50%,
-                rgba(255, 255, 255, 0) 100%);
-            transform: skewX(-20deg);
-            z-index: 3;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease-out;
-        }
-
-        .card:hover::after {
-            animation: shine 1.5s forwards;
-            opacity: 1;
-        }
-
-        @keyframes shine {
-            0% { left: -250%; }
-            60% { left: 100%; }
-            100% { left: 100%; opacity: 0; }
         }
 
         /* 装饰性元素 */
@@ -399,7 +308,6 @@
             z-index: 1;
             filter: blur(100px);
             opacity: 0.12;
-            transform: translateZ(-100px);
         }
 
         .decor-1 {
@@ -421,33 +329,15 @@
         }
 
         @keyframes float {
-            0% { transform: translate(0, 0) translateZ(-100px); }
-            100% { transform: translate(20px, 30px) translateZ(-100px); }
-        }
-
-        /* 卡片加载动画（现在也会应用于显示过滤后的卡片） */
-        .card:not(.hidden) { /* 确保只对未隐藏的卡片应用 */
-            animation: cardAppear 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            animation-delay: calc(var(--i) * 0.12s);
-            opacity: 0; /* 初始时隐藏以应用动画 */
-        }
-
-        @keyframes cardAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(80px) scale(0.85);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 30px); }
         }
 
         /* 底部区域 */
         .footer {
             background: #1a1a1a;
             color: #e0e0e0;
-         padding: 80px 5% 30px; /* 调整底部内边距，保持一致 */
+            padding: 80px 5% 30px;
             text-align: center;
             position: relative;
         }
@@ -491,7 +381,6 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             text-decoration: none;
         }
 
@@ -515,11 +404,6 @@
         .qr-code-icon .icon-image {
             width: 28px;
             height: 28px;
-            filter: invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%);
-        }
-
-        .qr-code-icon:hover .icon-image {
-            filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
         }
 
         /* 二维码弹窗容器样式 */
@@ -536,7 +420,7 @@
             display: none; /* 默认隐藏 */
             text-align: center;
             white-space: nowrap;
-            padding-bottom: 25px; /* 调整底部内边距，为箭头留出空间 */
+            padding-bottom: 25px;
         }
 
         .qr-code-container img {
@@ -556,7 +440,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 10px; /* 调整箭头位置，使其与padding-bottom配合 */
+            bottom: 10px;
             width: 0;
             height: 0;
             border-left: 10px solid transparent;
@@ -617,14 +501,14 @@
                 gap: 30px;
             }
             .card:hover .card-image {
-                height: 60%; /* 保持 60% 比例 */
+                height: 60%;
             }
             .card-content {
                 height: 0;
             }
             .card:hover .card-content {
                 height: auto;
-                padding: 20px 30px 20px; /* 调整小屏幕下悬浮后内容区域内边距，保持居中 */
+                padding: 20px 30px 20px;
             }
             .card-title {
                 font-size: 2.5rem;
@@ -637,9 +521,6 @@
                 bottom: 25px;
                 left: 30px;
                 transform: translateY(-15px);
-            }
-             .card:hover .card-description {
-                margin-bottom: 12px; /* 响应式调整间距 */
             }
         }
 
@@ -690,7 +571,7 @@
                 margin-bottom: 60px;
             }
             .footer {
-                padding: 50px 5% 25px;
+                padding-top: 50px;
             }
 
             .social-links {
@@ -721,14 +602,14 @@
                 gap: 25px;
             }
             .card:hover .card-image {
-                height: 60%; /* 保持 60% 比例 */
+                height: 60%;
             }
             .card-content {
                 height: 0;
             }
             .card:hover .card-content {
                 height: auto;
-                padding: 15px 25px 15px; /* 进一步调整极小屏幕下悬浮后内容区域内边距，保持居中 */
+                padding: 15px 25px 15px;
             }
             .card-title {
                 font-size: 2.2rem;
@@ -741,9 +622,6 @@
                 bottom: 18px;
                 left: 25px;
                 transform: translateY(-10px);
-            }
-            .card:hover .card-description {
-                margin-bottom: 8px; /* 响应式调整间距 */
             }
             .decor {
                 filter: blur(70px);
@@ -790,6 +668,7 @@
     </nav>
 
     <main class="main-content">
+        <!-- 装饰性元素 -->
         <div class="decor decor-1"></div>
         <div class="decor decor-2"></div>
 
@@ -816,7 +695,6 @@
         <div class="footer-content">
             <a href="#top" class="footer-logo">了解更多请关注</a>
             <div class="social-links">
-
                 <a href="#" class="qr-code-icon">
                     <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码1" class="icon-image">
                     <div class="qr-code-container">
@@ -824,7 +702,6 @@
                         <p>微信扫码添加好友</p>
                     </div>
                 </a>
-
                 <a href="#" class="qr-code-icon">
                     <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码2" class="icon-image">
                     <div class="qr-code-container">
@@ -832,7 +709,6 @@
                         <p>微信扫码关注公众号</p>
                     </div>
                </a>
-
                 <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank">
                     <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="icon-image">
                 </a>
@@ -875,7 +751,6 @@
 
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-
             const icon = menuToggle.querySelector('i');
             if (navLinks.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
@@ -886,10 +761,8 @@
             }
         });
 
-        // 点击导航链接后收起菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                // 检查是否在移动设备视口
                 if (window.innerWidth <= 768) {
                     navLinks.classList.remove('active');
                     const icon = menuToggle.querySelector('i');
@@ -901,55 +774,52 @@
 
         // 二维码悬浮弹窗功能
         const qrCodeIcons = document.querySelectorAll('.qr-code-icon');
+        let hideTimeout;
 
         qrCodeIcons.forEach(iconLink => {
             const qrCodeContainer = iconLink.querySelector('.qr-code-container');
 
-            if (qrCodeContainer) {
-                let hideTimeout;
+            iconLink.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                qrCodeContainer.style.display = 'block';
+            });
 
-                iconLink.addEventListener('mouseenter', () => {
-                    clearTimeout(hideTimeout);
-                    qrCodeContainer.style.display = 'block';
-                });
+            iconLink.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
+                        qrCodeContainer.style.display = 'none';
+                    }
+                }, 100);
+            });
 
-                iconLink.addEventListener('mouseleave', () => {
-                    hideTimeout = setTimeout(() => {
-                        if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
-                            qrCodeContainer.style.display = 'none';
-                        }
-                    }, 100);
-                });
+            qrCodeContainer.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                qrCodeContainer.style.display = 'block';
+            });
 
-                qrCodeContainer.addEventListener('mouseenter', () => {
-                    clearTimeout(hideTimeout);
-                    qrCodeContainer.style.display = 'block';
-                });
-
-                qrCodeContainer.addEventListener('mouseleave', () => {
-                    hideTimeout = setTimeout(() => {
-                        if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
-                            qrCodeContainer.style.display = 'none';
-                        }
-                    }, 100);
-                });
-            }
+            qrCodeContainer.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
+                        qrCodeContainer.style.display = 'none';
+                    }
+                }, 100);
+            });
         });
 
-        // 卡片数据数组，每个卡片增加 'category' 和 'link' 属性
+        // 卡片数据数组
         const cardData = [
             {
                 imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '山脉奇观',
-                description: '探索世界上最雄伟的山脉景观，从阿尔卑斯到喜马拉雅，感受大自然的壮丽与力量。这些地质奇迹形成于数百万年前，见证了地球的变迁。',
+                description: '探索世界上最雄伟的山脉景观，从阿尔卑斯到喜马拉雅，感受大自然的壮丽与力量。',
                 tags: ['自然', '探险', '摄影'],
                 category: '自然风光',
-                link: 'https://www.nationalgeographic.com/' // 示例链接
+                link: 'https://www.nationalgeographic.com/'
             },
             {
                 imageUrl: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '未来建筑',
-                description: '当代建筑艺术的巅峰之作，融合创新材料与可持续设计理念，创造人与空间的和谐对话。探索未来城市的蓝图与可能性。',
+                description: '当代建筑艺术的巅峰之作，融合创新材料与可持续设计理念，创造人与空间的和谐对话。',
                 tags: ['设计', '创新', '城市'],
                 category: '建筑设计',
                 link: 'https://www.archdaily.com/'
@@ -957,7 +827,7 @@
             {
                 imageUrl: 'https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '抽象艺术',
-                description: '突破传统的视觉表达，当代艺术家用色彩与形式探索情感与意识的边界。每一幅作品都是内心世界的映射与对话。',
+                description: '突破传统的视觉表达，当代艺术家用色彩与形式探索情感与意识的边界。',
                 tags: ['油画', '创意', '展览'],
                 category: '艺术创作',
                 link: 'https://www.moma.org/'
@@ -965,7 +835,7 @@
             {
                 imageUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '数字世界',
-                description: '从基础算法到人工智能，编程语言构建了我们的数字世界。探索代码背后的艺术与科学，开启无限创新可能。',
+                description: '从基础算法到人工智能，编程语言构建了我们的数字世界。',
                 tags: ['编程', '科技', '未来'],
                 category: '数字科技',
                 link: 'https://www.wired.com/'
@@ -973,7 +843,7 @@
             {
                 imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '宇宙探索',
-                description: '深入浩瀚宇宙，探索星系、星云与黑洞的奥秘。了解人类如何通过科技窥视宇宙起源与未来命运。',
+                description: '深入浩瀚宇宙，探索星系、星云与黑洞的奥秘。',
                 tags: ['天文', '科学', '探索'],
                 category: '科学探索',
                 link: 'https://www.nasa.gov/'
@@ -981,7 +851,7 @@
             {
                 imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '生态平衡',
-                description: '保护地球生物多样性，维护生态系统平衡。探索可持续发展之路，为下一代创造更美好的生活环境。',
+                description: '保护地球生物多样性，维护生态系统平衡。',
                 tags: ['自然', '环保', '未来'],
                 category: '自然风光',
                 link: 'https://www.worldwildlife.org/'
@@ -997,7 +867,7 @@
             {
                 imageUrl: 'https://images.unsplash.com/photo-1506157788698-c1155986c75c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 title: '美食文化',
-                description: '探索世界各地独特的饮食传统与烹饪技艺，品味舌尖上的艺术，感受不同文化的魅力。',
+                description: '探索世界各地独特的饮食传统与烹饪技艺，品味舌尖上的艺术。',
                 tags: ['美食', '文化', '生活'],
                 category: '生活美学',
                 link: 'https://www.foodandwine.com/'
@@ -1006,28 +876,28 @@
 
         const cardsGrid = document.getElementById('cardsGrid');
         const categoryButtonsContainer = document.getElementById('categoryButtons');
-        let currentCategory = '所有'; // 初始显示所有卡片
+        let currentCategory = '所有'; // 默认显示所有分类
 
         // 设置广告位的背景图
         const adBanner = document.getElementById('adBanner');
-        // 使用第一张卡片的图片作为广告位图片，或者您可以替换成您自己的广告图片URL
-        adBanner.style.backgroundImage = `url('${cardData[0].imageUrl}')`;
+        if (cardData.length > 0) {
+            adBanner.style.backgroundImage = `url('${cardData[0].imageUrl}')`;
+        }
 
         // 渲染分类按钮
         function renderCategoryButtons() {
-            // 获取所有不重复的分类
             const categories = new Set(cardData.map(card => card.category));
-            const allCategories = ['所有', ...Array.from(categories)]; // 添加 '所有' 按钮
+            const allCategories = ['所有', ...Array.from(categories)];
 
-            categoryButtonsContainer.innerHTML = ''; // 清空现有按钮
+            categoryButtonsContainer.innerHTML = '';
 
             allCategories.forEach(category => {
                 const button = document.createElement('button');
                 button.className = 'category-button';
                 button.textContent = category;
-                button.dataset.category = category; // 存储分类名称
+                button.dataset.category = category;
                 if (category === currentCategory) {
-                    button.classList.add('active'); // 默认选中 '所有'
+                    button.classList.add('active');
                 }
                 button.addEventListener('click', () => filterCards(category));
                 categoryButtonsContainer.appendChild(button);
@@ -1036,78 +906,59 @@
 
         // 渲染卡片
         function renderCards(filterCategory = '所有') {
-            // 先将所有卡片隐藏，以应用隐藏动画
-            const allCards = cardsGrid.querySelectorAll('.card');
-            allCards.forEach(card => {
-                card.classList.add('hidden');
-            });
-
-            // 过滤卡片数据
             const filteredData = filterCategory === '所有' ? cardData : cardData.filter(card => card.category === filterCategory);
 
-            // 清空网格并重新渲染可见卡片
-            // 使用 setTimeout 延迟清空和渲染，让隐藏动画有时间播放
-            setTimeout(() => {
-                cardsGrid.innerHTML = '';
-                filteredData.forEach((data, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    card.style.setProperty('--i', index);
-                    card.dataset.category = data.category; // 在卡片上也添加 data-category 属性
+            cardsGrid.innerHTML = ''; // 清空所有卡片
+            filteredData.forEach((data, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.category = data.category;
 
-                    // 添加点击事件，跳转到指定链接
-                    card.addEventListener('click', () => {
-                        if (data.link) {
-                            window.open(data.link, '_blank');
-                        }
-                    });
-
-                    const cardImage = document.createElement('div');
-                    cardImage.className = 'card-image';
-                    cardImage.style.backgroundImage = `url('${data.imageUrl}')`;
-
-                    const cardTitle = document.createElement('h3');
-                    cardTitle.className = 'card-title';
-                    cardTitle.textContent = data.title;
-                    cardImage.appendChild(cardTitle);
-                    card.appendChild(cardImage);
-
-                    const cardContent = document.createElement('div');
-                    cardContent.className = 'card-content';
-
-                    const cardDescription = document.createElement('p');
-                    cardDescription.className = 'card-description';
-                    cardDescription.textContent = data.description;
-                    cardContent.appendChild(cardDescription);
-
-                    const cardTags = document.createElement('div');
-                    cardTags.className = 'card-tags';
-                    data.tags.forEach(tagText => {
-                        const tagSpan = document.createElement('span');
-                        tagSpan.className = 'tag';
-                        tagSpan.textContent = tagText;
-                        cardTags.appendChild(tagSpan);
-                    });
-                    cardContent.appendChild(cardTags);
-                    card.appendChild(cardContent);
-
-                    cardsGrid.appendChild(card);
-
-                    // 移除 hidden 类，让卡片显示动画播放
-                    setTimeout(() => {
-                        card.classList.remove('hidden');
-                    }, 50); // 稍微延迟，确保 hidden 类应用上
+                card.addEventListener('click', () => {
+                    if (data.link) {
+                        window.open(data.link, '_blank');
+                    }
                 });
-                // 重新绑定事件监听器
-                attachCardEventListeners();
-            }, 500); // 动画时长0.5s，所以延迟0.5s再清空
+
+                const cardImage = document.createElement('div');
+                cardImage.className = 'card-image';
+                cardImage.style.backgroundImage = `url('${data.imageUrl}')`;
+
+                const cardTitle = document.createElement('h3');
+                cardTitle.className = 'card-title';
+                cardTitle.textContent = data.title;
+                cardImage.appendChild(cardTitle);
+                card.appendChild(cardImage);
+
+                const cardContent = document.createElement('div');
+                cardContent.className = 'card-content';
+
+                const cardDescription = document.createElement('p');
+                cardDescription.className = 'card-description';
+                cardDescription.textContent = data.description;
+                cardContent.appendChild(cardDescription);
+
+                const cardTags = document.createElement('div');
+                cardTags.className = 'card-tags';
+                data.tags.forEach(tagText => {
+                    const tagSpan = document.createElement('span');
+                    tagSpan.className = 'tag';
+                    tagSpan.textContent = tagText;
+                    cardTags.appendChild(tagSpan);
+                });
+                cardContent.appendChild(cardTags);
+                card.appendChild(cardContent);
+
+                cardsGrid.appendChild(card);
+            });
         }
 
         // 过滤卡片功能
         function filterCards(category) {
+            if (currentCategory === category) return;
+
             currentCategory = category;
 
-            // 更新按钮的 active 状态
             document.querySelectorAll('.category-button').forEach(button => {
                 if (button.dataset.category === category) {
                     button.classList.add('active');
@@ -1119,63 +970,10 @@
             renderCards(category);
         }
 
-        // 附加卡片事件监听器（封装成函数）
-        function attachCardEventListeners() {
-            document.querySelectorAll('.card').forEach(card => {
-                card.removeEventListener('mousemove', handleMouseMove);
-                card.removeEventListener('mouseleave', handleMouseLeave);
-                card.removeEventListener('mouseenter', handleMouseEnter);
-
-                card.addEventListener('mousemove', handleMouseMove);
-                card.addEventListener('mouseleave', handleMouseLeave);
-                card.addEventListener('mouseenter', handleMouseEnter);
-            });
-        }
-
-        // 定义事件处理函数
-        function handleMouseMove(e) {
-            const card = e.currentTarget;
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateY = (x - centerX) / 25;
-            const rotateX = (centerY - y) / 25;
-
-            // 只有当鼠标真的在卡片上且卡片未被隐藏时才应用3D旋转
-            if (card.matches(':hover') && !card.classList.contains('hidden')) {
-                card.style.transform = `scale(1.09) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`; // 保持hover时的scale
-            }
-        }
-
-        function handleMouseLeave(e) {
-            const card = e.currentTarget;
-            // 当卡片被隐藏时，不应有3D旋转，所以在此检查
-            if (!card.classList.contains('hidden')) {
-                card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease-out';
-                card.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
-
-                setTimeout(() => {
-                    card.style.transition = '';
-                }, 500);
-            }
-        }
-
-        function handleMouseEnter(e) {
-            const card = e.currentTarget;
-             // 当卡片被隐藏时，不应触发mouseenter效果
-            if (!card.classList.contains('hidden')) {
-                 card.style.transition = 'all 0.7s cubic-bezier(0.23, 1, 0.32, 1)';
-            }
-        }
-
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', () => {
-            renderCategoryButtons(); // 先渲染按钮
-            renderCards(currentCategory); // 默认渲染所有卡片
+            renderCategoryButtons();
+            renderCards(currentCategory);
         });
     </script>
 </body>
