@@ -25,6 +25,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            /* 确保 body 不会水平滚动 */
             overflow-x: hidden;
             color: #1e293b;
             line-height: 1.6;
@@ -73,10 +74,30 @@
             font-weight: 500;
             transition: color 0.3s;
             font-size: 1.05rem;
+            position: relative; /* 为下划线定位 */
+            padding: 0 5px; /* 增加点击区域 */
         }
 
         .nav-links a:hover {
             color: #FF8C19;
+        }
+
+        /* 活跃链接下划线 */
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; /* 调整位置 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%; /* 调整宽度 */
+            height: 3px;
+            background: linear-gradient(90deg, #FF8C19, #FFD700); /* 渐变色 */
+            border-radius: 2px;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .nav-links a.active:hover::after {
+             width: 90%; /* 悬停时稍微变宽 */
         }
 
         /* 汉堡菜单按钮 */
@@ -95,6 +116,9 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            /* 确保内部元素不会溢出 */
+            width: 100%;
+            overflow: hidden; /* 防止内部浮动元素导致滚动 */
         }
 
         /* 广告位 */
@@ -125,6 +149,8 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
+            /* 防止按钮行溢出 */
+            padding: 0 10px; /* 稍微增加内边距以防边缘过近 */
         }
 
         .category-button {
@@ -138,6 +164,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            /* 确保按钮不会溢出 */
+            flex-shrink: 0;
         }
 
         .category-button:hover {
@@ -263,7 +291,7 @@
             max-height: 0; /* 初始隐藏 */
             opacity: 0;
             transition: max-height 0.5s ease-out, opacity 0.4s ease-out 0.2s; /* 延迟显示 */
-            margin-bottom: 20px; /* **新增：增加描述和标签之间的间距** */
+            margin-bottom: 20px; /* 增加描述和标签之间的间距 */
         }
 
         .card:hover .card-description {
@@ -280,7 +308,6 @@
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-            /* margin-top: 20px; */ /* 如果需要，也可以在父容器上设置 margin-top */
         }
 
         .card:hover .card-tags {
@@ -372,6 +399,7 @@
             gap: 25px;
             margin-bottom: 30px;
             position: relative;
+            flex-wrap: wrap; /* 允许换行 */
         }
 
         .social-links a {
@@ -382,6 +410,9 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            /* 确保每个链接不会导致溢出 */
+            flex-shrink: 0;
+            position: relative; /* 为二维码弹窗定位 */
         }
 
         .social-links a:hover {
@@ -421,6 +452,9 @@
             text-align: center;
             white-space: nowrap;
             padding-bottom: 25px;
+            /* 确保弹窗不会溢出屏幕 */
+            max-width: 90vw; /* 限制最大宽度 */
+            box-sizing: border-box; /* 包含padding在内 */
         }
 
         .qr-code-container img {
@@ -547,13 +581,13 @@
                 max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.3s ease, padding 0.3s ease;
-                display: none;
+                display: none; /* 初始状态下隐藏，由JS控制显示 */
             }
 
             .nav-links.active {
-                max-height: 500px;
+                max-height: 500px; /* 足够的高度来显示所有链接 */
                 padding: 20px 0;
-                display: flex;
+                display: flex; /* 在活跃时显示 */
             }
 
             .nav-links a {
@@ -562,14 +596,21 @@
                 text-align: center;
             }
 
+            /* 手机端下划线行为 */
             .nav-links a.active::after {
-                display: none;
+                width: 40px; /* 手机端下划线更短 */
+                bottom: 5px; /* 调整位置 */
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .nav-links a.active:hover::after {
+                width: 40px; /* 手机端悬停时保持相同宽度 */
             }
 
             .ad-banner {
                 height: 120px;
                 margin-bottom: 60px;
-            }
+           }
             .footer {
                 padding-top: 50px;
             }
@@ -592,6 +633,7 @@
             .category-buttons {
                 margin-bottom: 30px;
                 gap: 10px;
+                padding: 0 5px; /* 更小的内边距 */
             }
             .category-button {
                 padding: 8px 20px;
@@ -610,7 +652,7 @@
             .card:hover .card-content {
                 height: auto;
                 padding: 15px 25px 15px;
-            }
+    }
             .card-title {
                 font-size: 2.2rem;
                 bottom: 25px;
@@ -639,9 +681,6 @@
                 bottom: 8%;
                 right: -5%;
             }
-            .footer {
-                padding-top: 40px;
-            }
         }
     </style>
 </head>
@@ -649,7 +688,7 @@
     <!-- 顶部导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#top" class="logo">
+            <a href="https://zizao.top" class="logo">
                 <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Type Logo" class="logo-image">
             </a>
 
@@ -659,7 +698,7 @@
 
             <div class="nav-links" id="navLinks">
                 <a href="https://zizao.top" target="_blank">首页</a>
-                <a href="#top" class="active">字体产品</a>
+                <a href="#top" class="active">字体产品</a> <!-- 默认活动链接 -->
                 <a href="https://zzfonts.taobao.com" target="_blank">购买字体</a>
                 <a href="https://www.zizao.top/hao" target="_blank">设计导航</a>
                 <a href="#" target="_blank">关于我们</a>
@@ -693,7 +732,7 @@
     <!-- 底部区域 -->
     <footer class="footer">
         <div class="footer-content">
-            <a href="#top" class="footer-logo">了解更多请关注</a>
+            <a href="https://zizao.top" class="footer-logo">了解更多请关注</a>
             <div class="social-links">
                 <a href="#" class="qr-code-icon">
                     <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码1" class="icon-image">
@@ -705,7 +744,7 @@
                 <a href="#" class="qr-code-icon">
                     <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码2" class="icon-image">
                     <div class="qr-code-container">
-                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/202502/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
                         <p>微信扫码关注公众号</p>
                     </div>
                </a>
@@ -761,9 +800,11 @@
             }
         });
 
+        // 点击导航链接后收起菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
+                // 如果是手机视图且菜单是打开的，则关闭菜单
+                if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
                     navLinks.classList.remove('active');
                     const icon = menuToggle.querySelector('i');
                     icon.classList.remove('fa-times');
@@ -776,33 +817,45 @@
         const qrCodeIcons = document.querySelectorAll('.qr-code-icon');
         let hideTimeout;
 
+        // 新增函数：隐藏所有二维码弹窗
+        function hideAllQrContainers() {
+            clearTimeout(hideTimeout); // 清除任何待隐藏的定时器
+            document.querySelectorAll('.qr-code-container').forEach(container => {
+                container.style.display = 'none';
+            });
+        }
+
         qrCodeIcons.forEach(iconLink => {
             const qrCodeContainer = iconLink.querySelector('.qr-code-container');
 
             iconLink.addEventListener('mouseenter', () => {
+                hideAllQrContainers(); // 在显示当前弹窗前，先隐藏所有其他弹窗
                 clearTimeout(hideTimeout);
                 qrCodeContainer.style.display = 'block';
             });
 
             iconLink.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
-                    if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
+                    // 只有当鼠标同时不在图标和弹窗上时才隐藏
+                    // 使用 contains 而不是 matches(':hover') 检查父元素是否包含鼠标，更可靠
+                    if (!iconLink.contains(document.activeElement) && !qrCodeContainer.contains(document.activeElement) && !iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
                         qrCodeContainer.style.display = 'none';
                     }
-                }, 100);
+                }, 200); // 增加一点延迟，给用户鼠标移动到弹窗的时间
             });
 
             qrCodeContainer.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout);
-                qrCodeContainer.style.display = 'block';
+                clearTimeout(hideTimeout); // 鼠标进入弹窗时取消隐藏定时器
+                qrCodeContainer.style.display = 'block'; // 确保显示
             });
 
             qrCodeContainer.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
-                    if (!iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
+                    // 只有当鼠标同时不在图标和弹窗上时才隐藏
+                    if (!iconLink.contains(document.activeElement) && !qrCodeContainer.contains(document.activeElement) && !iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
                         qrCodeContainer.style.display = 'none';
                     }
-                }, 100);
+                }, 200); // 增加一点延迟
             });
         });
 
