@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>汉字关联查询工具</title>
+    <title>字造Type - 让每个想法，轻松成字</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
+    <meta name="author" content="字造">
+    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -78,6 +87,75 @@
             line-height: 1.6;
             overflow-x: hidden; 
         }
+
+        /* 顶部导航栏样式 */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100vw;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            /* 关键：为absolute定位的子元素提供定位上下文 */
+            position: relative; 
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 80px;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            margin-right: 12px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+        
+        .nav-links a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 1.05rem;
+        }
+        
+        .nav-links a:hover {
+            color: #FF8C19;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #FF8C19;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #FF8C19;
+        }
         
         .container {
             max-width: var(--content-max-width);
@@ -91,36 +169,41 @@
         }
         
         header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100vw;
             height: var(--header-height);
-            width: 100vw;
             background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        .header-logo {
-            max-height: 80%;
-            max-width: 70%;
-            object-fit: contain;
-        }
-        
-        .header-separator {
-            width: 100vw;
-            height: 1px;
-            background-color: rgba(0,0,0,0.06);
-            box-shadow: none;
-            margin-bottom: var(--section-spacing);
             position: relative;
             z-index: 10;
-            transform: translateY(-1px);
+            overflow: hidden;
+            margin-bottom: var(--section-spacing);
         }
-        .dark-mode .header-separator {
-            background-color: rgba(255,255,255,0.06);
+
+        .ad-carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-carousel-inner {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform var(--transition-speed) ease-in-out;
+        }
+
+        .ad-item {
+            min-width: 100%;
+            height: 100%;
+            display: block;
+            flex-shrink: 0;
+        }
+        
+        .ad-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         body::before {
@@ -256,15 +339,15 @@
         
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Adjusted card width */
-            gap: 15px; /* Adjusted gap */
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
         }
         
         .card {
             background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 5px 15px var(--shadow-color);
-            padding: 15px 10px; /* Adjusted padding */
+            padding: 15px 10px;
             text-align: center;
             cursor: pointer;
             transition: all var(--transition-speed) ease;
@@ -287,8 +370,8 @@
         }
         
         .card-character {
-            font-size: 2.8rem; /* Adjusted font size */
-            margin-bottom: 10px; /* Adjusted margin */
+            font-size: 2.8rem;
+            margin-bottom: 10px;
             color: var(--text-color);
             font-weight: bold;
             line-height: 1;
@@ -298,8 +381,8 @@
         .card-position {
             background: var(--bg-color);
             border-radius: 6px;
-            padding: 6px; /* Adjusted padding */
-            font-size: 0.85rem; /* Adjusted font size */
+            padding: 6px;
+            font-size: 0.85rem;
             color: var(--text-color);
             font-family: monospace;
             font-weight: bold;
@@ -307,14 +390,14 @@
         
         .card-definition {
             position: absolute;
-            top: 5px; /* Adjusted position */
-            right: 5px; /* Adjusted position */
+            top: 5px;
+            right: 5px;
             background: var(--accent-color);
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 3px 6px; /* Adjusted padding */
-            font-size: 0.75rem; /* Adjusted font size */
+            padding: 3px 6px;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
             z-index: 2;
@@ -535,6 +618,50 @@
             color: var(--footer-text-color);
         }
 
+        /* 响应式调整 - 导航栏折叠 */
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+                padding: 0 15px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease;
+                display: none;
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+                padding: 20px 0;
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a.active::after {
+                display: none;
+            }
+        }
 
         @media (max-width: 900px) {
             .container {
@@ -547,7 +674,7 @@
                 max-width: 100%;
                 margin-bottom: calc(var(--section-spacing) * 0.8);
             }
-            .header-separator {
+            header {
                 margin-bottom: calc(var(--section-spacing) * 0.8);
             }
             footer {
@@ -567,10 +694,6 @@
             
             header {
                 height: 100px;
-            }
-            .header-logo {
-                max-height: 90%;
-                max-width: 80%;
             }
             .search-area {
                 padding: 20px;
@@ -612,7 +735,7 @@
             }
             
             .cards-container {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Adjusted width for mobile */
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
                 gap: 10px;
             }
             
@@ -627,10 +750,6 @@
 
             header {
                 height: 80px;
-            }
-            .header-logo {
-                max-height: 80%;
-                max-width: 70%;
             }
             .results-title, .instructions h2 {
                 font-size: 1.4rem;
@@ -662,7 +781,7 @@
                 font-size: 0.85rem;
             }
             .footer-copyright {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
             .search-area,
             .instructions,
@@ -670,7 +789,7 @@
             .settings-panel-wrapper {
                 margin-bottom: calc(var(--section-spacing) * 0.6);
             }
-            .header-separator {
+            header {
                 margin-bottom: calc(var(--section-spacing) * 0.6);
             }
             footer {
@@ -723,10 +842,32 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="https://www.zizao.top" class="logo">
+                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo" class="logo-image">
+            </a>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="https://zizao.top">首页</a>
+                <a href="https://zizao.top/fonts">字库产品</a>
+                <a href="#" class="active">字造超引</a>
+                <a href="https://www.zizao.top/hao">设计导航</a>
+                <a href="#" target="_blank">关于我们</a>
+            </div>
+        </div>
+    </nav>
+
     <header>
-        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="汉字关联查询工具 Logo" class="header-logo">
+        <div class="ad-carousel" id="ad-carousel">
+            <div class="ad-carousel-inner" id="ad-carousel-inner">
+                </div>
+        </div>
     </header>
-    <div class="header-separator"></div>
 
     <div class="container">
         <div class="search-area">
@@ -734,7 +875,7 @@
                 <input type="text" id="character-input" maxlength="1" placeholder="输入一个汉字" autocomplete="off">
                 <button id="search-btn"><i class="fas fa-search"></i></button>
             </div>
-            <p class="input-hint">提示：请输入单个汉字，如"天"、"地"、"人"等</p>
+            <p class="input-hint">提示：请输入单个汉字，如"字"、"造"等</p>
         </div>
         
         <div class="results-container" id="results-container">
@@ -753,7 +894,7 @@
             </div>
             
             <div class="setting-item">
-                <span>夜间模式:</span>
+                <span>深色模式:</span>
                 <label class="toggle-container">
                     <input type="checkbox" id="dark-mode-toggle">
                     <span class="toggle-slider"></span>
@@ -765,7 +906,7 @@
             <h2><i class="fas fa-info-circle"></i> 使用说明</h2>
             <div class="instructions-content">
                 <ol>
-                    <li>在输入框中输入一个汉字（如"天"）</li>
+                    <li>本页面全部数据由字造逐字核对整理，仅包含国标GB2312所涵盖的字符</li>
                     <li>点击搜索按钮或按Enter键进行查询</li>
                     <li>查看该汉字在**自定义字组中以该字开头的词语**的所有关联字（词语中除输入字以外的其他字）</li>
                     <li>每个关联字以卡片形式展示，点击卡片可复制该汉字</li>
@@ -778,14 +919,16 @@
     
     <footer>
         <div class="footer-links-container">
-            <a href="#" target="_blank">隐私政策</a>
+            <a href="https://www.zizao.top" target="_blank">字造首页</a>
             <span class="link-separator">|</span>
-            <a href="#" target="_blank">使用条款</a>
+            <a href="https://www.zizao.top/hao" target="_blank">设计导航</a>
             <span class="link-separator">|</span>
-            <a href="#" target="_blank">常见问题</a>
+            <a href="https://www.zizao.top/fonts" target="_blank">字库产品</a>
+            <span class="link-separator">|</span>
+            <a href="https://www.zizao.top" target="_blank">关于我们</a>
         </div>
         <div class="footer-copyright">
-            <p>&copy; 2023 汉字关联查询工具. 版权所有.</p>
+            <p>全部数据由字造逐字整理而来.  提供免费使用. 勿以此产生任何盈利行为<br>&copy; 2025. 字造超引版权所有. </p>
         </div>
     </footer>
     
@@ -816,6 +959,25 @@
             "自然语言处理",
             "深度学习"
         ];
+        
+        // Ad Carousel Data
+        const adItems = [
+            {
+                link: "https://www.zizao.top/fonts",
+                image: "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png",
+                alt: "广告1"
+            },
+            {
+                link: "https://www.google.com",
+                image: "https://via.placeholder.com/1108x100?text=Ad+Banner+2",
+                alt: "广告2"
+            },
+            {
+                link: "https://www.zizao.top",
+                image: "https://via.placeholder.com/1108x100?text=Ad+Banner+3",
+                alt: "广告3"
+            }
+        ];
 
 
         const characterInput = document.getElementById('character-input');
@@ -826,8 +988,45 @@
         const copyNotification = document.getElementById('copy-notification');
         const pageSizeInput = document.getElementById('page-size');
         const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const adCarouselInner = document.getElementById('ad-carousel-inner');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
 
         const definitionBaseUrl = "https://www.zdic.net/hans/%s";
+
+        let currentAdIndex = 0;
+        let adInterval;
+
+        function initializeAdCarousel() {
+            adItems.forEach(ad => {
+                const a = document.createElement('a');
+                a.href = ad.link;
+                a.target = "_blank";
+                a.classList.add('ad-item');
+                
+                const img = document.createElement('img');
+                img.src = ad.image;
+                img.alt = ad.alt;
+                
+                a.appendChild(img);
+                adCarouselInner.appendChild(a);
+            });
+
+            if (adItems.length > 1) {
+                adInterval = setInterval(nextAd, 5000); // Change ad every 5 seconds
+            }
+        }
+
+        function nextAd() {
+            currentAdIndex = (currentAdIndex + 1) % adItems.length;
+            updateAdCarousel();
+        }
+
+        function updateAdCarousel() {
+            const translateValue = -currentAdIndex * 100;
+            adCarouselInner.style.transform = `translateX(${translateValue}%)`;
+        }
+
 
         function searchCharacters() {
             const inputChar = characterInput.value.trim();
@@ -941,6 +1140,32 @@
         
         darkModeToggle.addEventListener('change', toggleDarkMode);
 
+        // 移动端菜单切换功能
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // 点击导航链接后收起菜单
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) { 
+                    navLinks.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const savedDarkMode = localStorage.getItem('darkMode');
             if (savedDarkMode === 'true') {
@@ -951,7 +1176,8 @@
                 darkModeToggle.checked = false;
             }
 
-            characterInput.value = '语';
+            initializeAdCarousel();
+            characterInput.value = '字';
             searchCharacters();
             
             characterInput.focus();
