@@ -10,7 +10,11 @@
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iI_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 全局重置与基础样式 */
+        /*
+         * ======================================
+         * 全局重置与基础样式
+         * ======================================
+         */
         * {
             margin: 0;
             padding: 0;
@@ -25,13 +29,16 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            /* 确保 body 不会水平滚动 */
             overflow-x: hidden;
             color: #1e293b;
             line-height: 1.6;
         }
 
-        /* 顶部导航栏 */
+        /*
+         * ======================================
+         * 顶部导航栏
+         * ======================================
+         */
         .navbar {
             background: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -74,8 +81,8 @@
             font-weight: 500;
             transition: color 0.3s;
             font-size: 1.05rem;
-            position: relative; /* 为下划线定位 */
-            padding: 0 5px; /* 增加点击区域 */
+            position: relative;
+            padding: 0 5px;
         }
 
         .nav-links a:hover {
@@ -86,18 +93,18 @@
         .nav-links a.active::after {
             content: '';
             position: absolute;
-            bottom: -8px; /* 调整位置 */
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%; /* 调整宽度 */
+            width: 80%;
             height: 3px;
-            background: linear-gradient(90deg, #FF8C19, #FFD700); /* 渐变色 */
+            background: linear-gradient(90deg, #FF8C19, #FFD700);
             border-radius: 2px;
             transition: width 0.3s ease, background 0.3s ease;
         }
 
         .nav-links a.active:hover::after {
-             width: 90%; /* 悬停时稍微变宽 */
+             width: 90%;
         }
 
         /* 汉堡菜单按钮 */
@@ -108,7 +115,11 @@
             color: #FF8C19;
         }
 
-        /* 主要内容区域 */
+        /*
+         * ======================================
+         * 主要内容区域
+         * ======================================
+         */
         .main-content {
             flex: 1;
             padding-bottom: 80px;
@@ -116,12 +127,10 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            /* 确保内部元素不会溢出 */
             width: 100%;
-            overflow: hidden; /* 防止内部浮动元素导致滚动 */
+            overflow: hidden;
         }
 
-        /* 广告位 */
         .ad-banner {
             width: 100%;
             height: 180px;
@@ -141,16 +150,75 @@
             padding: 0 20px;
         }
 
-        /* 分类按钮样式 */
+        /*
+         * ======================================
+         * 搜索和分类区域
+         * ======================================
+         */
+        .search-category-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #dcdcdc;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .search-bar:focus-within {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-color: #ff8c19;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            padding: 0;
+            background: transparent;
+            color: #1e293b;
+        }
+
+        .search-bar input::placeholder {
+            color: #94a3b8;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #ff8c19;
+            padding: 0;
+            margin-left: 10px;
+            transition: color 0.3s;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar button:hover {
+            color: #d87012;
+        }
+
         .category-buttons {
             text-align: center;
-            margin-bottom: 50px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            /* 防止按钮行溢出 */
-            padding: 0 10px; /* 稍微增加内边距以防边缘过近 */
+            padding: 0 10px;
         }
 
         .category-button {
@@ -164,8 +232,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            /* 确保按钮不会溢出 */
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
         }
 
         .category-button:hover {
@@ -183,14 +252,17 @@
             transform: translateY(-2px);
         }
 
-        /* 卡片网格布局 */
+        /*
+         * ======================================
+         * 卡片网格布局
+         * ======================================
+         */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 50px;
         }
 
-        /* 单个卡片样式 */
         .card {
             position: relative;
             border-radius: 25px;
@@ -201,34 +273,32 @@
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            aspect-ratio: 1 / 1.2; /* 保持卡片比例 */
+            aspect-ratio: 1 / 1.2;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .card:hover {
-            transform: translateY(-10px); /* 仅向上移动 */
+            transform: translateY(-10px);
             box-shadow: 0 35px 70px rgba(0, 0, 0, 0.3);
             z-index: 100;
-            border: none; /* 悬浮时移除细微边框 */
+            border: none;
         }
 
-        /* 图片区域 */
         .card-image {
             position: relative;
-            height: 100%; /* 占据卡片剩余空间 */
+            height: 100%;
             background-size: cover;
             background-position: center;
-            transition: height 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* 仅图片高度过渡 */
-            border-radius: 25px; /* 默认是圆角 */
+            transition: height 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 25px;
             overflow: hidden;
         }
 
         .card:hover .card-image {
-            height: 60%; /* 图片区域收缩 */
-            border-radius: 25px 25px 0 0; /* 顶部圆角消失 */
+            height: 60%;
+            border-radius: 25px 25px 0 0;
         }
 
-        /* 卡片标题 */
         .card-title {
             position: absolute;
             bottom: 35px;
@@ -237,7 +307,7 @@
             font-size: 2.8rem;
             font-weight: 900;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-            z-index: 3; /* 确保标题在渐变和图片上方 */
+            z-index: 3;
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             text-align: left;
             width: calc(100% - 70px);
@@ -248,11 +318,10 @@
             bottom: 20px;
             left: 35px;
             transform: translateY(-10px);
-            font-size: 2.4rem; /* 标题稍微缩小 */
+            font-size: 2.4rem;
             text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
         }
 
-        /* 内容区域 */
         .card-content {
             padding: 0;
             background: white;
@@ -260,51 +329,45 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            transition: height 0.5s cubic-bezier(0.23, 1, 0.32, 1), padding 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* 仅内容高度和内边距过渡 */
+            transition: height 0.5s cubic-bezier(0.23, 1, 0.32, 1), padding 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             overflow: hidden;
-            height: 0; /* 初始隐藏 */
+            height: 0;
             border-radius: 0 0 25px 25px;
             border-top: 0px solid rgba(0,0,0,0);
         }
 
         .card:hover .card-content {
-            height: auto; /* 显示内容 */
+            height: auto;
             padding: 25px 35px 25px;
-            border-top: 1px solid rgba(230, 230, 230, 0.8); /* 顶部边界线 */
-            justify-content: center; /* 内容居中 */
+            border-top: 1px solid rgba(230, 230, 230, 0.8);
+            justify-content: center;
         }
 
-        /* 描述文字 */
         .card-description {
             font-size: 1.05rem;
             line-height: 1.5;
             color: #4f6176;
             font-weight: 300;
-
-            /* 限制行数，防止内容过多 */
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-
-            max-height: 0; /* 初始隐藏 */
+            max-height: 0;
             opacity: 0;
-            transition: max-height 0.5s ease-out, opacity 0.4s ease-out 0.2s; /* 延迟显示 */
-            margin-bottom: 20px; /* 增加描述和标签之间的间距 */
+            transition: max-height 0.5s ease-out, opacity 0.4s ease-out 0.2s;
+            margin-bottom: 20px;
         }
 
         .card:hover .card-description {
-            max-height: calc(1.5em * 3 + 5px); /* 展开描述 */
+            max-height: calc(1.5em * 3 + 5px);
             opacity: 1;
         }
 
-        /* 标签区域 */
         .card-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.4s ease-out, transform 0.4s ease-out;
@@ -313,7 +376,7 @@
         .card:hover .card-tags {
             opacity: 1;
             transform: translateY(0);
-            transition: opacity 0.4s ease-in 0.3s, transform 0.4s ease-in 0.3s; /* 延迟出现 */
+            transition: opacity 0.4s ease-in 0.3s, transform 0.4s ease-in 0.3s;
         }
 
         .tag {
@@ -360,7 +423,18 @@
             100% { transform: translate(20px, 30px); }
         }
 
-        /* 底部区域 */
+        .no-results {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-top: 50px;
+        }
+
+        /*
+         * ======================================
+         * 底部区域
+         * ======================================
+         */
         .footer {
             background: #1a1a1a;
             color: #e0e0e0;
@@ -399,7 +473,7 @@
             gap: 25px;
             margin-bottom: 30px;
             position: relative;
-            flex-wrap: wrap; /* 允许换行 */
+            flex-wrap: wrap;
         }
 
         .social-links a {
@@ -410,9 +484,8 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            /* 确保每个链接不会导致溢出 */
             flex-shrink: 0;
-            position: relative; /* 为二维码弹窗定位 */
+            position: relative;
         }
 
         .social-links a:hover {
@@ -431,13 +504,11 @@
             filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
         }
 
-        /* 二维码图标样式 */
         .qr-code-icon .icon-image {
             width: 28px;
             height: 28px;
         }
 
-        /* 二维码弹窗容器样式 */
         .qr-code-container {
             position: absolute;
             bottom: calc(100% + 10px);
@@ -448,13 +519,12 @@
             border-radius: 8px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             z-index: 11;
-            display: none; /* 默认隐藏 */
+            display: none;
             text-align: center;
             white-space: nowrap;
             padding-bottom: 25px;
-            /* 确保弹窗不会溢出屏幕 */
-            max-width: 90vw; /* 限制最大宽度 */
-            box-sizing: border-box; /* 包含padding在内 */
+            max-width: 90vw;
+            box-sizing: border-box;
         }
 
         .qr-code-container img {
@@ -511,7 +581,28 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* 响应式调整 */
+        /*
+         * ======================================
+         * 响应式调整
+         * ======================================
+         */
+        /* 桌面端 */
+        @media (min-width: 901px) {
+            .search-category-section.inline {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+            }
+            .search-category-section.inline .search-bar {
+                margin-bottom: 0;
+                width: 300px;
+                max-width: none;
+            }
+            .search-category-section.inline .category-buttons {
+                flex-wrap: nowrap;
+            }
+        }
+        
         @media (max-width: 1200px) {
             .cards-grid {
                 grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -522,12 +613,19 @@
             }
         }
 
+        /* 平板电脑 */
         @media (max-width: 900px) {
             .ad-banner {
                 height: 150px;
             }
             .category-button {
                 padding: 10px 25px;
+                font-size: 1rem;
+            }
+            .search-bar {
+                padding: 10px 20px;
+            }
+            .search-bar input {
                 font-size: 1rem;
             }
             .cards-grid {
@@ -558,15 +656,14 @@
             }
         }
 
+        /* 小屏幕 */
         @media (max-width: 768px) {
             .nav-container {
                 position: relative;
             }
-
             .menu-toggle {
                 display: block;
             }
-
             .nav-links {
                 position: absolute;
                 top: 100%;
@@ -581,59 +678,67 @@
                 max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.3s ease, padding 0.3s ease;
-                display: none; /* 初始状态下隐藏，由JS控制显示 */
+                display: none;
             }
-
             .nav-links.active {
-                max-height: 500px; /* 足够的高度来显示所有链接 */
+                max-height: 500px;
                 padding: 20px 0;
-                display: flex; /* 在活跃时显示 */
+                display: flex;
             }
-
             .nav-links a {
                 padding: 15px 0;
                 width: 100%;
                 text-align: center;
             }
-
-            /* 手机端下划线行为 */
             .nav-links a.active::after {
-                width: 40px; /* 手机端下划线更短 */
-                bottom: 5px; /* 调整位置 */
+                width: 40px;
+                bottom: 5px;
                 left: 50%;
                 transform: translateX(-50%);
             }
             .nav-links a.active:hover::after {
-                width: 40px; /* 手机端悬停时保持相同宽度 */
+                width: 40px;
             }
-
             .ad-banner {
                 height: 120px;
                 margin-bottom: 60px;
-           }
+            }
             .footer {
                 padding-top: 50px;
             }
-
             .social-links {
                 gap: 20px;
             }
-
             .footer-links {
                 gap: 20px;
                 margin-bottom: 25px;
             }
         }
 
+        /* 手机端 */
         @media (max-width: 600px) {
             .ad-banner {
                 height: 90px;
                 margin-bottom: 40px;
             }
+            .search-category-section.inline {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .search-category-section.inline .search-bar {
+                width: 100%;
+                max-width: none;
+                margin-bottom: 0;
+            }
+            .search-bar {
+                padding: 8px 15px;
+            }
+            .search-bar input {
+                font-size: 0.9rem;
+            }
             .category-buttons {
-                margin-bottom: 30px;
                 gap: 10px;
-                padding: 0 5px; /* 更小的内边距 */
+                padding: 0 5px;
             }
             .category-button {
                 padding: 8px 20px;
@@ -652,7 +757,7 @@
             .card:hover .card-content {
                 height: auto;
                 padding: 15px 25px 15px;
-    }
+            }
             .card-title {
                 font-size: 2.2rem;
                 bottom: 25px;
@@ -685,20 +790,17 @@
     </style>
 </head>
 <body>
-    <!-- 顶部导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="https://zizao.top" class="logo">
                 <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Type Logo" class="logo-image">
             </a>
-
             <div class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
             </div>
-
             <div class="nav-links" id="navLinks">
                 <a href="https://zizao.top" target="_blank">首页</a>
-                <a href="#top" class="active">字体产品</a> <!-- 默认活动链接 -->
+                <a href="#top" class="active">字体产品</a>
                 <a href="https://zzfonts.taobao.com" target="_blank">购买字体</a>
                 <a href="https://www.zizao.top/hao" target="_blank">设计导航</a>
                 <a href="#" target="_blank">关于我们</a>
@@ -707,29 +809,27 @@
     </nav>
 
     <main class="main-content">
-        <!-- 装饰性元素 -->
         <div class="decor decor-1"></div>
         <div class="decor decor-2"></div>
 
-        <!-- 广告位 -->
         <a href="https://www.zizao.top/promo-link" target="_blank" class="ad-banner" id="adBanner">
-            <!-- 图片作为背景图，更灵活 -->
         </a>
 
         <div class="container">
-            <!-- 分类按钮区域 -->
-            <div id="categoryButtons" class="category-buttons">
-                <!-- 按钮将由 JavaScript 填充 -->
+            <div class="search-category-section inline">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="搜索字体、创意、灵感...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+                <div id="categoryButtons" class="category-buttons">
+                </div>
             </div>
 
-            <!-- 卡片网格 -->
             <div id="cardsGrid" class="cards-grid">
-                <!-- 卡片将由 JavaScript 填充 -->
             </div>
         </div>
     </main>
 
-    <!-- 底部区域 -->
     <footer class="footer">
         <div class="footer-content">
             <a href="https://zizao.top" class="footer-logo">了解更多请关注</a>
@@ -784,250 +884,311 @@
     </footer>
 
     <script>
-        // 移动端菜单切换功能
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+        // 将所有逻辑封装在一个 IIFE（Immediately Invoked Function Expression）中，以避免污染全局作用域
+        (function() {
+            /*
+             * ======================================
+             * DOM 元素选择
+             * ======================================
+             */
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const cardsGrid = document.getElementById('cardsGrid');
+            const categoryButtonsContainer = document.getElementById('categoryButtons');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const adBanner = document.getElementById('adBanner');
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // 点击导航链接后收起菜单
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                // 如果是手机视图且菜单是打开的，则关闭菜单
-                if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    const icon = menuToggle.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
+            /*
+             * ======================================
+             * 数据模型
+             * ======================================
+             */
+            const cardData = [
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '山脉奇观',
+                    description: '探索世界上最雄伟的山脉景观，从阿尔卑斯到喜马拉雅，感受大自然的壮丽与力量。',
+                    tags: ['自然', '探险', '摄影'],
+                    category: '自然风光',
+                    link: 'https://www.nationalgeographic.com/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '未来建筑',
+                    description: '当代建筑艺术的巅峰之作，融合创新材料与可持续设计理念，创造人与空间的和谐对话。',
+                    tags: ['设计', '创新', '城市'],
+                    category: '建筑设计',
+                    link: 'https://www.archdaily.com/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '抽象艺术',
+                    description: '突破传统的视觉表达，当代艺术家用色彩与形式探索情感与意识的边界。',
+                    tags: ['油画', '创意', '展览'],
+                    category: '艺术创作',
+                    link: 'https://www.moma.org/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '数字世界',
+                    description: '从基础算法到人工智能，编程语言构建了我们的数字世界。',
+                    tags: ['编程', '科技', '未来'],
+                    category: '数字科技',
+                    link: 'https://www.wired.com/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '宇宙探索',
+                    description: '深入浩瀚宇宙，探索星系、星云与黑洞的奥秘。',
+                    tags: ['天文', '科学', '探索'],
+                    category: '科学探索',
+                    link: 'https://www.nasa.gov/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '生态平衡',
+                    description: '保护地球生物多样性，维护生态系统平衡。',
+                    tags: ['自然', '环保', '未来'],
+                    category: '自然风光',
+                    link: 'https://www.worldwildlife.org/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1532881028308-3c3d5e2e8e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '静物摄影',
+                    description: '通过巧妙的构图和光影，捕捉日常物品的内在美感，赋予它们新的生命。',
+                    tags: ['摄影', '艺术', '生活'],
+                    category: '艺术创作',
+                    link: 'https://www.lensculture.com/'
+                },
+                {
+                    imageUrl: 'https://images.unsplash.com/photo-1506157788698-c1155986c75c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    title: '美食文化',
+                    description: '探索世界各地独特的饮食传统与烹饪技艺，品味舌尖上的艺术。',
+                    tags: ['美食', '文化', '生活'],
+                    category: '生活美学',
+                    link: 'https://www.foodandwine.com/'
                 }
-            });
-        });
+            ];
 
-        // 二维码悬浮弹窗功能
-        const qrCodeIcons = document.querySelectorAll('.qr-code-icon');
-        let hideTimeout;
+            // 初始状态
+            let currentCategory = '所有';
 
-        // 新增函数：隐藏所有二维码弹窗
-        function hideAllQrContainers() {
-            clearTimeout(hideTimeout); // 清除任何待隐藏的定时器
-            document.querySelectorAll('.qr-code-container').forEach(container => {
-                container.style.display = 'none';
-            });
-        }
+            /*
+             * ======================================
+             * 功能函数
+             * ======================================
+             */
+            /**
+             * 渲染分类按钮
+             */
+            function renderCategoryButtons() {
+                const categories = ['所有', ...new Set(cardData.map(card => card.category))];
+                categoryButtonsContainer.innerHTML = '';
 
-        qrCodeIcons.forEach(iconLink => {
-            const qrCodeContainer = iconLink.querySelector('.qr-code-container');
-
-            iconLink.addEventListener('mouseenter', () => {
-                hideAllQrContainers(); // 在显示当前弹窗前，先隐藏所有其他弹窗
-                clearTimeout(hideTimeout);
-                qrCodeContainer.style.display = 'block';
-            });
-
-            iconLink.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => {
-                    // 只有当鼠标同时不在图标和弹窗上时才隐藏
-                    // 使用 contains 而不是 matches(':hover') 检查父元素是否包含鼠标，更可靠
-                    if (!iconLink.contains(document.activeElement) && !qrCodeContainer.contains(document.activeElement) && !iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
-                        qrCodeContainer.style.display = 'none';
+                categories.forEach(category => {
+                    const button = document.createElement('button');
+                    button.className = 'category-button';
+                    button.textContent = category;
+                    button.dataset.category = category;
+                    if (category === currentCategory) {
+                        button.classList.add('active');
                     }
-                }, 200); // 增加一点延迟，给用户鼠标移动到弹窗的时间
-            });
-
-            qrCodeContainer.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout); // 鼠标进入弹窗时取消隐藏定时器
-                qrCodeContainer.style.display = 'block'; // 确保显示
-            });
-
-            qrCodeContainer.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => {
-                    // 只有当鼠标同时不在图标和弹窗上时才隐藏
-                    if (!iconLink.contains(document.activeElement) && !qrCodeContainer.contains(document.activeElement) && !iconLink.matches(':hover') && !qrCodeContainer.matches(':hover')) {
-                        qrCodeContainer.style.display = 'none';
-                    }
-                }, 200); // 增加一点延迟
-            });
-        });
-
-        // 卡片数据数组
-        const cardData = [
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '山脉奇观',
-                description: '探索世界上最雄伟的山脉景观，从阿尔卑斯到喜马拉雅，感受大自然的壮丽与力量。',
-                tags: ['自然', '探险', '摄影'],
-                category: '自然风光',
-                link: 'https://www.nationalgeographic.com/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '未来建筑',
-                description: '当代建筑艺术的巅峰之作，融合创新材料与可持续设计理念，创造人与空间的和谐对话。',
-                tags: ['设计', '创新', '城市'],
-                category: '建筑设计',
-                link: 'https://www.archdaily.com/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '抽象艺术',
-                description: '突破传统的视觉表达，当代艺术家用色彩与形式探索情感与意识的边界。',
-                tags: ['油画', '创意', '展览'],
-                category: '艺术创作',
-                link: 'https://www.moma.org/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '数字世界',
-                description: '从基础算法到人工智能，编程语言构建了我们的数字世界。',
-                tags: ['编程', '科技', '未来'],
-                category: '数字科技',
-                link: 'https://www.wired.com/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '宇宙探索',
-                description: '深入浩瀚宇宙，探索星系、星云与黑洞的奥秘。',
-                tags: ['天文', '科学', '探索'],
-                category: '科学探索',
-                link: 'https://www.nasa.gov/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '生态平衡',
-                description: '保护地球生物多样性，维护生态系统平衡。',
-                tags: ['自然', '环保', '未来'],
-                category: '自然风光',
-                link: 'https://www.worldwildlife.org/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1532881028308-3c3d5e2e8e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '静物摄影',
-                description: '通过巧妙的构图和光影，捕捉日常物品的内在美感，赋予它们新的生命。',
-                tags: ['摄影', '艺术', '生活'],
-                category: '艺术创作',
-                link: 'https://www.lensculture.com/'
-            },
-            {
-                imageUrl: 'https://images.unsplash.com/photo-1506157788698-c1155986c75c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                title: '美食文化',
-                description: '探索世界各地独特的饮食传统与烹饪技艺，品味舌尖上的艺术。',
-                tags: ['美食', '文化', '生活'],
-                category: '生活美学',
-                link: 'https://www.foodandwine.com/'
+                    button.addEventListener('click', () => {
+                        searchInput.value = '';
+                        filterCards(category);
+                    });
+                    categoryButtonsContainer.appendChild(button);
+                });
             }
-        ];
 
-        const cardsGrid = document.getElementById('cardsGrid');
-        const categoryButtonsContainer = document.getElementById('categoryButtons');
-        let currentCategory = '所有'; // 默认显示所有分类
+            /**
+             * 渲染卡片
+             * @param {Array} cardsToRender - 需要渲染的卡片数据数组
+             */
+            function renderCards(cardsToRender) {
+                cardsGrid.innerHTML = '';
 
-        // 设置广告位的背景图
-        const adBanner = document.getElementById('adBanner');
-        if (cardData.length > 0) {
-            adBanner.style.backgroundImage = `url('${cardData[0].imageUrl}')`;
-        }
-
-        // 渲染分类按钮
-        function renderCategoryButtons() {
-            const categories = new Set(cardData.map(card => card.category));
-            const allCategories = ['所有', ...Array.from(categories)];
-
-            categoryButtonsContainer.innerHTML = '';
-
-            allCategories.forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'category-button';
-                button.textContent = category;
-                button.dataset.category = category;
-                if (category === currentCategory) {
-                    button.classList.add('active');
+                if (cardsToRender.length === 0) {
+                    const noResults = document.createElement('p');
+                    noResults.className = 'no-results';
+                    noResults.textContent = '没有找到相关内容，请尝试其他关键词或分类。';
+                    cardsGrid.appendChild(noResults);
+                    return;
                 }
-                button.addEventListener('click', () => filterCards(category));
-                categoryButtonsContainer.appendChild(button);
-            });
-        }
 
-        // 渲染卡片
-        function renderCards(filterCategory = '所有') {
-            const filteredData = filterCategory === '所有' ? cardData : cardData.filter(card => card.category === filterCategory);
+                cardsToRender.forEach(data => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.dataset.category = data.category;
+                    card.addEventListener('click', () => {
+                        if (data.link) {
+                            window.open(data.link, '_blank');
+                        }
+                    });
 
-            cardsGrid.innerHTML = ''; // 清空所有卡片
-            filteredData.forEach((data, index) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.dataset.category = data.category;
+                    const cardImage = document.createElement('div');
+                    cardImage.className = 'card-image';
+                    cardImage.style.backgroundImage = `url('${data.imageUrl}')`;
+                    card.appendChild(cardImage);
 
-                card.addEventListener('click', () => {
-                    if (data.link) {
-                        window.open(data.link, '_blank');
-                    }
+                    const cardTitle = document.createElement('h3');
+                    cardTitle.className = 'card-title';
+                    cardTitle.textContent = data.title;
+                    cardImage.appendChild(cardTitle);
+
+                    const cardContent = document.createElement('div');
+                    cardContent.className = 'card-content';
+                    card.appendChild(cardContent);
+
+                    const cardDescription = document.createElement('p');
+                    cardDescription.className = 'card-description';
+                    cardDescription.textContent = data.description;
+                    cardContent.appendChild(cardDescription);
+
+                    const cardTags = document.createElement('div');
+                    cardTags.className = 'card-tags';
+                    data.tags.forEach(tagText => {
+                        const tagSpan = document.createElement('span');
+                        tagSpan.className = 'tag';
+                        tagSpan.textContent = tagText;
+                        cardTags.appendChild(tagSpan);
+                    });
+                    cardContent.appendChild(cardTags);
+
+                    cardsGrid.appendChild(card);
+                });
+            }
+
+            /**
+             * 根据分类过滤卡片
+             * @param {string} category - 筛选的分类名称
+             */
+            function filterCards(category) {
+                if (currentCategory === category) return;
+                currentCategory = category;
+
+                document.querySelectorAll('.category-button').forEach(button => {
+                    button.classList.toggle('active', button.dataset.category === category);
                 });
 
-                const cardImage = document.createElement('div');
-                cardImage.className = 'card-image';
-                cardImage.style.backgroundImage = `url('${data.imageUrl}')`;
+                searchInput.value = '';
+                const filteredData = category === '所有' ? cardData : cardData.filter(card => card.category === category);
+                renderCards(filteredData);
+            }
 
-                const cardTitle = document.createElement('h3');
-                cardTitle.className = 'card-title';
-                cardTitle.textContent = data.title;
-                cardImage.appendChild(cardTitle);
-                card.appendChild(cardImage);
+            /**
+             * 处理搜索事件
+             */
+            function handleSearch() {
+                const query = searchInput.value.trim().toLowerCase();
+                if (query === '') {
+                    filterCards('所有');
+                    return;
+                }
 
-                const cardContent = document.createElement('div');
-                cardContent.className = 'card-content';
-
-                const cardDescription = document.createElement('p');
-                cardDescription.className = 'card-description';
-                cardDescription.textContent = data.description;
-                cardContent.appendChild(cardDescription);
-
-                const cardTags = document.createElement('div');
-                cardTags.className = 'card-tags';
-                data.tags.forEach(tagText => {
-                    const tagSpan = document.createElement('span');
-                    tagSpan.className = 'tag';
-                    tagSpan.textContent = tagText;
-                    cardTags.appendChild(tagSpan);
-                });
-                cardContent.appendChild(cardTags);
-                card.appendChild(cardContent);
-
-                cardsGrid.appendChild(card);
-            });
-        }
-
-        // 过滤卡片功能
-        function filterCards(category) {
-            if (currentCategory === category) return;
-
-            currentCategory = category;
-
-            document.querySelectorAll('.category-button').forEach(button => {
-                if (button.dataset.category === category) {
-                    button.classList.add('active');
-                } else {
+                document.querySelectorAll('.category-button').forEach(button => {
                     button.classList.remove('active');
+                });
+                currentCategory = '所有';
+
+                const filteredData = cardData.filter(card =>
+                    card.title.toLowerCase().includes(query) ||
+                    card.description.toLowerCase().includes(query) ||
+                    card.tags.some(tag => tag.toLowerCase().includes(query))
+                );
+                renderCards(filteredData);
+            }
+
+            /**
+             * 移动端菜单切换
+             */
+            function toggleMobileMenu() {
+                navLinks.classList.toggle('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
+
+            /**
+             * 隐藏所有二维码弹窗
+             */
+            function hideAllQrContainers() {
+                document.querySelectorAll('.qr-code-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+            }
+
+            /**
+             * 初始化广告位图片
+             */
+            function setAdBannerImage() {
+                if (cardData.length > 0) {
+                    adBanner.style.backgroundImage = `url('${cardData[0].imageUrl}')`;
+                }
+            }
+
+            /*
+             * ======================================
+             * 事件监听器
+             * ======================================
+             */
+            menuToggle.addEventListener('click', toggleMobileMenu);
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+
+            const qrCodeIcons = document.querySelectorAll('.qr-code-icon');
+            qrCodeIcons.forEach(iconLink => {
+                const qrCodeContainer = iconLink.querySelector('.qr-code-container');
+                let hideTimeout;
+
+                iconLink.addEventListener('mouseenter', () => {
+                    hideAllQrContainers();
+                    clearTimeout(hideTimeout);
+                    qrCodeContainer.style.display = 'block';
+                });
+
+                iconLink.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        qrCodeContainer.style.display = 'none';
+                    }, 200);
+                });
+
+                qrCodeContainer.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                });
+
+                qrCodeContainer.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        qrCodeContainer.style.display = 'none';
+                    }, 200);
+                });
+            });
+            
+            searchButton.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    handleSearch();
                 }
             });
 
-            renderCards(category);
-        }
-
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCategoryButtons();
-            renderCards(currentCategory);
-        });
+            /*
+             * ======================================
+             * 初始化
+             * ======================================
+             */
+            document.addEventListener('DOMContentLoaded', () => {
+                setAdBannerImage();
+                renderCategoryButtons();
+                renderCards(cardData);
+            });
+        })();
     </script>
 </body>
 </html>
