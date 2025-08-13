@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造Type - 让每个想法，轻松成字</title>
+    <title>超引-形近字查询神器 - 字造Type</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
     <meta name="author" content="字造">
@@ -85,7 +85,7 @@
             color: var(--text-color);
             font-family: "Microsoft YaHei", sans-serif;
             line-height: 1.6;
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
 
         /* 顶部导航栏样式 */
@@ -106,7 +106,7 @@
             align-items: center;
             height: 80px;
             /* 关键：为absolute定位的子元素提供定位上下文 */
-            position: relative; 
+            position: relative;
         }
         
         .logo {
@@ -165,7 +165,7 @@
             flex-direction: column;
             align-items: center;
             flex-grow: 1;
-            overflow-x: hidden; 
+            overflow-x: hidden;
         }
         
         header {
@@ -265,7 +265,7 @@
         }
         
         #character-input:focus {
-            box-shadow: none; 
+            box-shadow: none;
         }
         
         #character-input::placeholder {
@@ -308,8 +308,10 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0;
+            transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0);
+            }
         }
         
         .results-header {
@@ -865,7 +867,16 @@
     <header>
         <div class="ad-carousel" id="ad-carousel">
             <div class="ad-carousel-inner" id="ad-carousel-inner">
-                </div>
+                <a href="https://www.zizao.top/fonts" target="_blank" class="ad-item">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="广告1">
+                </a>
+                <a href="https://www.google.com" target="_blank" class="ad-item">
+                    <img src="https://via.placeholder.com/1108x100?text=Ad+Banner+2" alt="广告2">
+                </a>
+                <a href="https://www.zizao.top" target="_blank" class="ad-item">
+                    <img src="https://via.placeholder.com/1108x100?text=Ad+Banner+3" alt="广告3">
+                </a>
+            </div>
         </div>
     </header>
 
@@ -928,15 +939,14 @@
             <a href="https://www.zizao.top" target="_blank">关于我们</a>
         </div>
         <div class="footer-copyright">
-            <p>全部数据由字造逐字整理而来.  提供免费使用. 勿以此产生任何盈利行为<br>&copy; 2025. 字造超引版权所有. </p>
+            <p>全部数据由字造逐字整理而来. 提供免费使用. 勿以此产生任何盈利行为<br>&copy; 2025. 字造超引版权所有. </p>
         </div>
     </footer>
     
     <div class="copy-notification" id="copy-notification">已复制到剪贴板</div>
 
     <script>
-        const indexGroup = "天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳云腾致雨露结为霜金生丽水玉出昆冈剑号巨阙珠称夜光果珍李柰菜重芥姜海咸河淡鳞潜羽翔龙师火帝鸟官人皇始制文字乃服衣裳推位让国有虞陶唐吊民伐罪周发殷汤坐朝问道垂拱平章爱育黎首臣伏戎羌遐迩一体率宾归王鸣凤在竹白驹食场化被草木赖及万方盖此身发四大五常恭惟鞠养岂敢毁伤女慕贞洁男效才良知过必改得能莫忘罔谈彼短靡恃己长信使可覆器欲难量墨悲丝染诗赞羔羊景行维贤克念作圣德建名立形端表正空谷传声虚堂习听祸因恶积福缘善庆尺璧非宝寸阴是竞";
-
+        const indexGroup = "天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳云腾致雨露结为霜金生丽水玉出昆冈剑号巨阙珠称夜光果珍李柰菜重芥姜海咸河淡鳞潜羽翔龙师火帝鸟官人皇始制文字乃服衣裳推位让国有虞陶唐吊民伐罪周发殷汤坐朝问道垂拱平章爱育黎首臣伏戎羌遐迩一体率宾归王鸣凤在竹白驹食场化被草木赖及万方盖此身发四大五常恭惟鞠养岂敢毁伤女慕贞洁男效才良知过必改得能莫忘罔谈彼短靡恃己长信使可覆器欲难量墨悲丝染诗赞羔羊景行维贤克念成圣德建名立形端表正空谷传声虚堂习听祸因恶积福缘善庆尺璧非宝寸阴是竞";
         const customWordGroups = [
             "天地", "宇宙", "洪荒", "日月", "盈昃", "辰宿", "列张", "寒来", "暑往", "秋收", "冬藏",
             "闰余", "成岁", "律吕", "调阳", "云腾", "致雨", "露结", "为霜", "金生", "丽水", "玉出",
@@ -960,26 +970,6 @@
             "深度学习"
         ];
         
-        // Ad Carousel Data
-        const adItems = [
-            {
-                link: "https://www.zizao.top/fonts",
-                image: "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png",
-                alt: "广告1"
-            },
-            {
-                link: "https://www.google.com",
-                image: "https://via.placeholder.com/1108x100?text=Ad+Banner+2",
-                alt: "广告2"
-            },
-            {
-                link: "https://www.zizao.top",
-                image: "https://via.placeholder.com/1108x100?text=Ad+Banner+3",
-                alt: "广告3"
-            }
-        ];
-
-
         const characterInput = document.getElementById('character-input');
         const searchBtn = document.getElementById('search-btn');
         const resultsContainer = document.getElementById('results-container');
@@ -997,26 +987,9 @@
         let currentAdIndex = 0;
         let adInterval;
 
-        function initializeAdCarousel() {
-            adItems.forEach(ad => {
-                const a = document.createElement('a');
-                a.href = ad.link;
-                a.target = "_blank";
-                a.classList.add('ad-item');
-                
-                const img = document.createElement('img');
-                img.src = ad.image;
-                img.alt = ad.alt;
-                
-                a.appendChild(img);
-                adCarouselInner.appendChild(a);
-            });
-
-            if (adItems.length > 1) {
-                adInterval = setInterval(nextAd, 5000); // Change ad every 5 seconds
-            }
-        }
-
+        // 优化：从DOM中获取广告项目
+        const adItems = adCarouselInner.querySelectorAll('.ad-item');
+        
         function nextAd() {
             currentAdIndex = (currentAdIndex + 1) % adItems.length;
             updateAdCarousel();
@@ -1065,7 +1038,6 @@
                     }
                 }
             });
-
             if (relatedChars.length === 0) {
                 cardsContainer.innerHTML = `<div class="no-results">抱歉，未找到在自定义字组中以“${inputChar}”开头的关联字。</div>`;
                 resultsCount.textContent = '0个结果';
@@ -1096,20 +1068,17 @@
                 <div class="card-position">${combinedPosition}</div>
                 <button class="card-definition" data-char="${char}">释义</button>
             `;
-            
             card.addEventListener('click', (event) => {
                 if (!event.target.classList.contains('card-definition')) {
                     copyToClipboard(char);
                 }
             });
-
             const definitionButton = card.querySelector('.card-definition');
             definitionButton.addEventListener('click', (event) => {
                 event.stopPropagation();
                 const charToDefine = event.target.dataset.char;
                 window.open(definitionBaseUrl.replace('%s', charToDefine), '_blank');
             });
-
             cardsContainer.appendChild(card);
         }
 
@@ -1137,7 +1106,6 @@
                 searchCharacters();
             }
         });
-        
         darkModeToggle.addEventListener('change', toggleDarkMode);
 
         // 移动端菜单切换功能
@@ -1153,11 +1121,10 @@
                 icon.classList.add('fa-bars');
             }
         });
-        
         // 点击导航链接后收起菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) { 
+                if (window.innerWidth <= 768) {
                     navLinks.classList.remove('active');
                     const icon = menuToggle.querySelector('i');
                     icon.classList.remove('fa-times');
@@ -1165,7 +1132,7 @@
                 }
             });
         });
-
+        
         document.addEventListener('DOMContentLoaded', () => {
             const savedDarkMode = localStorage.getItem('darkMode');
             if (savedDarkMode === 'true') {
@@ -1176,7 +1143,11 @@
                 darkModeToggle.checked = false;
             }
 
-            initializeAdCarousel();
+            // 检查广告项目数量，如果大于1则开启轮播
+            if (adItems.length > 1) {
+                adInterval = setInterval(nextAd, 5000);
+            }
+            
             characterInput.value = '字';
             searchCharacters();
             
