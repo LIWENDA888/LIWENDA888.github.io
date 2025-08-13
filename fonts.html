@@ -55,6 +55,8 @@
             justify-content: space-between;
             align-items: center;
             height: 80px;
+            /* 关键：为absolute定位的子元素提供定位上下文 */
+            position: relative; 
         }
 
         .logo {
@@ -72,7 +74,7 @@
 
         .nav-links {
             display: flex;
-            gap: 35px;
+            gap: 25px;
         }
 
         .nav-links a {
@@ -792,17 +794,17 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="https://zizao.top" class="logo">
+            <a href="https://www.zizao.top" class="logo">
                 <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Type Logo" class="logo-image">
             </a>
             <div class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
             </div>
             <div class="nav-links" id="navLinks">
-                <a href="https://zizao.top" target="_blank">首页</a>
-                <a href="#top" class="active">字体产品</a>
-                <a href="https://zzfonts.taobao.com" target="_blank">购买字体</a>
-                <a href="https://www.zizao.top/hao" target="_blank">设计导航</a>
+                <a href="https://www.zizao.top">首页</a>
+                <a href="" class="active">字库产品</a>
+                <a href="https://www.zizao.top/superindex">字造超引</a>
+                <a href="https://www.zizao.top/hao">设计导航</a>
                 <a href="#" target="_blank">关于我们</a>
             </div>
         </div>
