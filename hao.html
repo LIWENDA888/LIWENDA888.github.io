@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -28,7 +29,7 @@
             --background-light: #f4f6f8;
             --divider-color: #e0e0e0;
             --card-bg-color: #f8f8f8; /* 调整为更明显的浅灰色 */
-            --card-hover-shadow: 0 10px 25px rgba(255, 140, 25, 0.15); /* 卡片hover阴影 */
+            --card-hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* 卡片hover阴影 */
         }
 
         * {
@@ -431,8 +432,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; /* 只对transform, shadow, background做过渡 */
             display: flex;
             padding: 15px;
-            align-items: center;
             cursor: pointer;
+            align-items: center;
         }
 
         .card:hover {
@@ -476,6 +477,12 @@
             color: var(--gray-color);
             line-height: 1.5;
             font-size: 0.88rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* 限制为2行 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: calc(1.5 * 2 * 0.88rem);
         }
 
         .footer {
