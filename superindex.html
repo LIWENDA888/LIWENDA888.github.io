@@ -351,7 +351,7 @@
             cursor: pointer;
             transition: all var(--transition-speed) ease;
             border: 2px solid transparent;
-            position: relative;
+            position: relative; /* 为子元素的绝对定位提供参考 */
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -367,9 +367,10 @@
         .card:active {
             transform: translateY(0);
         }
-        
+
         .card-character {
             font-size: 2.8rem;
+            margin-top: 10px; /* 增加与按钮的间距 */
             margin-bottom: 10px;
             color: var(--text-color);
             font-weight: bold;
@@ -377,7 +378,17 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
-        .card-position {
+        /* 新增的容器样式 */
+        .card-positions-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px; /* 两行之间的间距 */
+        }
+        
+        /* 优化后的排序信息样式 */
+        .card-position-total,
+        .card-position-page {
             background: var(--bg-color);
             border-radius: 6px;
             padding: 6px;
@@ -385,6 +396,8 @@
             color: var(--text-color);
             font-family: monospace;
             font-weight: bold;
+            width: fit-content;
+            margin: 0 auto;
         }
         
         .card-definition {
@@ -394,13 +407,14 @@
             background: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 3px 6px;
-            font-size: 0.75rem;
+            border-radius: 8px; /* 调整圆角 */
+            padding: 2px 6px; /* 减小内边距 */
+            font-size: 0.65rem; /* 减小字号 */
             cursor: pointer;
             transition: all 0.2s;
             z-index: 2;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            line-height: 1;
         }
         
         .card-definition:hover {
@@ -570,6 +584,7 @@
             align-items: center;
             flex-wrap: wrap;
             margin-bottom: 20px;
+            gap: 10px;
         }
 
         .footer-links-container a {
@@ -583,13 +598,6 @@
 
         .footer-links-container a:hover {
             color: var(--footer-link-color);
-        }
-
-        .link-separator {
-            color: var(--footer-text-color);
-            font-size: 1.0rem;
-            padding: 0 5px;
-            user-select: none;
         }
         
         .footer-copyright {
@@ -609,9 +617,6 @@
         }
         .dark-mode .footer-links-container a:hover {
             color: var(--footer-link-color);
-        }
-        .dark-mode .link-separator {
-            color: var(--footer-text-color);
         }
         .dark-mode .footer-copyright {
             color: var(--footer-text-color);
@@ -715,9 +720,6 @@
                 font-size: 0.95rem;
                 padding: 0 12px;
             }
-            .link-separator {
-                font-size: 0.95rem;
-            }
             .footer-copyright {
                 font-size: 0.85rem;
             }
@@ -759,15 +761,14 @@
             .card-character {
                 font-size: 2rem;
             }
-            .card-position {
+            .card-position-total,
+            .card-position-page {
                 font-size: 0.75rem;
                 padding: 6px 4px;
             }
             .card-definition {
                 font-size: 0.65rem;
                 padding: 3px 6px;
-                top: 5px;
-                right: 5px;
             }
             footer {
                 padding: 30px 15px;
@@ -775,9 +776,6 @@
             .footer-links-container a {
                 font-size: 0.85rem;
                 padding: 0 10px;
-            }
-            .link-separator {
-                font-size: 0.85rem;
             }
             .footer-copyright {
                 font-size: 0.75rem;
@@ -830,9 +828,6 @@
             .footer-links-container a {
                 font-size: 0.8rem;
                 padding: 0 8px;
-            }
-            .link-separator {
-                font-size: 0.8rem;
             }
             .footer-copyright {
                 font-size: 0.75rem;
@@ -928,11 +923,8 @@
     <footer>
         <div class="footer-links-container">
             <a href="https://www.zizao.top" target="_blank">字造首页</a>
-            <span class="link-separator">|</span>
             <a href="https://www.zizao.top/hao" target="_blank">设计导航</a>
-            <span class="link-separator">|</span>
             <a href="https://www.zizao.top/fonts" target="_blank">字库产品</a>
-            <span class="link-separator">|</span>
             <a href="https://www.zizao.top" target="_blank">关于我们</a>
         </div>
         <div class="footer-copyright">
@@ -942,30 +934,8 @@
     
     <div class="copy-notification" id="copy-notification">已复制到剪贴板</div>
 
+    <script src="data.js"></script>
     <script>
-        const indexGroup = "天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳云腾致雨露结为霜金生丽水玉出昆冈剑号巨阙珠称夜光果珍李柰菜重芥姜海咸河淡鳞潜羽翔龙师火帝鸟官人皇始制文字乃服衣裳推位让国有虞陶唐吊民伐罪周发殷汤坐朝问道垂拱平章爱育黎首臣伏戎羌遐迩一体率宾归王鸣凤在竹白驹食场化被草木赖及万方盖此身发四大五常恭惟鞠养岂敢毁伤女慕贞洁男效才良知过必改得能莫忘罔谈彼短靡恃己长信使可覆器欲难量墨悲丝染诗赞羔羊景行维贤克念成圣德建名立形端表正空谷传声虚堂习听祸因恶积福缘善庆尺璧非宝寸阴是竞";
-        const customWordGroups = [
-            "天地", "宇宙", "洪荒", "日月", "盈昃", "辰宿", "列张", "寒来", "暑往", "秋收", "冬藏",
-            "闰余", "成岁", "律吕", "调阳", "云腾", "致雨", "露结", "为霜", "金生", "丽水", "玉出",
-            "昆冈", "剑号", "巨阙", "珠称", "夜光", "果珍", "李柰", "菜重", "芥姜", "海咸", "河淡",
-            "鳞潜", "羽翔", "龙师", "火帝", "鸟官", "人皇", "始制", "文字", "乃服", "衣裳", "推位",
-            "让国", "有虞", "陶唐", "吊民", "伐罪", "周发", "殷汤", "坐朝", "问道", "垂拱", "平章",
-            "爱育", "黎首", "臣伏", "戎羌", "遐迩", "一体", "率宾", "归王", "鸣凤", "在竹", "白驹",
-            "食场", "化被", "草木", "赖及", "万方", "盖此", "身发", "四大", "五常", "恭惟", "鞠养",
-            "岂敢", "毁伤", "女慕", "贞洁", "男效", "才良", "知过", "必改", "得能", "莫忘", "罔谈",
-            "彼短", "靡恃", "己长", "信使", "可覆", "器欲", "难量", "墨悲", "丝染", "诗赞", "羔羊",
-            "景行", "维贤", "克念", "成圣", "德建", "名立", "形端", "表正", "空谷", "传声", "虚堂",
-            "习听", "祸因", "恶积", "福缘", "善庆", "尺璧非宝寸阴是竞",
-            "语国补",
-            "国语补",
-            "中华文明",
-            "计算机",
-            "编程语言中",
-            "数据结构",
-            "人工智能",
-            "自然语言处理",
-            "深度学习"
-        ];
         const characterInput = document.getElementById('character-input');
         const searchBtn = document.getElementById('search-btn');
         const resultsContainer = document.getElementById('results-container');
@@ -982,7 +952,6 @@
 
         let currentAdIndex = 0;
         let adInterval;
-        // 优化：从DOM中获取广告项目
         const adItems = adCarouselInner.querySelectorAll('.ad-item');
         function nextAd() {
             currentAdIndex = (currentAdIndex + 1) % adItems.length;
@@ -1052,28 +1021,34 @@
                 relatedChars.forEach(char => {
                     const firstPosition = indexGroup.indexOf(char) + 1;
                     
-                    let combinedPosition = '未知';
+                    let totalPosition = '未知';
+                    let pagePosition = '未知';
 
                     if (firstPosition > 0) {
                         const pageSize = parseInt(pageSizeInput.value || 500);
                         const page = Math.floor((firstPosition - 1) / pageSize) + 1;
                         const positionInPage = (firstPosition - 1) % pageSize + 1;
-                        combinedPosition = `${firstPosition} | ${page}/${positionInPage}`;
+                        totalPosition = firstPosition;
+                        pagePosition = `${page}/${positionInPage}`;
                     }
                     
-                    createCard(char, combinedPosition);
+                    createCard(char, totalPosition, pagePosition);
                 });
                 resultsCount.textContent = `${relatedChars.length}个结果`;
             }
         }
 
-        function createCard(char, combinedPosition) {
+        function createCard(char, totalPosition, pagePosition) {
             const card = document.createElement('div');
             card.classList.add('card');
+            
             card.innerHTML = `
-                <div class="card-character">${char}</div>
-                <div class="card-position">${combinedPosition}</div>
                 <button class="card-definition" data-char="${char}">释义</button>
+                <div class="card-character">${char}</div>
+                <div class="card-positions-wrapper">
+                    <div class="card-position-total">${totalPosition}</div>
+                    <div class="card-position-page">${pagePosition}</div>
+                </div>
             `;
             card.addEventListener('click', (event) => {
                 if (!event.target.classList.contains('card-definition')) {
@@ -1115,7 +1090,6 @@
         });
         darkModeToggle.addEventListener('change', toggleDarkMode);
 
-        // 移动端菜单切换功能
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             
@@ -1128,7 +1102,6 @@
                 icon.classList.add('fa-bars');
             }
         });
-        // 点击导航链接后收起菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
@@ -1153,7 +1126,6 @@
                 adInterval = setInterval(nextAd, 5000);
             }
             
-            // 从 URL 获取搜索参数，并设置输入框值
             const urlParams = new URLSearchParams(window.location.search);
             const urlChar = urlParams.get('char');
             if (urlChar) {
