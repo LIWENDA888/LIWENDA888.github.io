@@ -30,12 +30,10 @@
             --border-color: #E0E0E0;
             --shadow-color: rgba(0,0,0,0.08);
             --success-color: #4CAF50;
-
             --footer-bg: #333333;
             --footer-text-color: #E0E0E0;
             --footer-link-color: #FFC107;
             --footer-border-color: #444444;
-
             --header-height: 100px;
             --transition-speed: 0.3s;
             --content-max-width: 1500px;
@@ -58,7 +56,6 @@
             --border-color: #555555;
             --shadow-color: rgba(0,0,0,0.3);
             --success-color: #66BB6A;
-
             --footer-bg: #1A1A1A;
             --footer-text-color: #B0B0B0;
             --footer-link-color: #FF9800;
@@ -969,7 +966,6 @@
             "自然语言处理",
             "深度学习"
         ];
-        
         const characterInput = document.getElementById('character-input');
         const searchBtn = document.getElementById('search-btn');
         const resultsContainer = document.getElementById('results-container');
@@ -986,10 +982,8 @@
 
         let currentAdIndex = 0;
         let adInterval;
-
         // 优化：从DOM中获取广告项目
         const adItems = adCarouselInner.querySelectorAll('.ad-item');
-        
         function nextAd() {
             currentAdIndex = (currentAdIndex + 1) % adItems.length;
             updateAdCarousel();
@@ -1000,11 +994,24 @@
             adCarouselInner.style.transform = `translateX(${translateValue}%)`;
         }
 
+        function updateUrl(char) {
+            const newUrl = new URL(window.location.href);
+            if (char) {
+                newUrl.searchParams.set('char', char);
+            } else {
+                newUrl.searchParams.delete('char');
+            }
+            window.history.pushState({ path: newUrl.href }, '', newUrl.href);
+        }
 
-        function searchCharacters() {
+        function searchCharacters(isFromUrl = false) {
             const inputChar = characterInput.value.trim();
             cardsContainer.innerHTML = '';
             resultsContainer.style.display = 'block';
+
+            if (!isFromUrl) {
+                updateUrl(inputChar);
+            }
 
             if (inputChar.length === 0) {
                 cardsContainer.innerHTML = '<div class="no-results">请输入一个汉字进行查询。</div>';
@@ -1100,10 +1107,10 @@
             localStorage.setItem('darkMode', isDarkMode);
         }
 
-        searchBtn.addEventListener('click', searchCharacters);
+        searchBtn.addEventListener('click', () => searchCharacters(false));
         characterInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                searchCharacters();
+                searchCharacters(false);
             }
         });
         darkModeToggle.addEventListener('change', toggleDarkMode);
@@ -1132,7 +1139,6 @@
                 }
             });
         });
-        
         document.addEventListener('DOMContentLoaded', () => {
             const savedDarkMode = localStorage.getItem('darkMode');
             if (savedDarkMode === 'true') {
@@ -1143,13 +1149,20 @@
                 darkModeToggle.checked = false;
             }
 
-            // 检查广告项目数量，如果大于1则开启轮播
             if (adItems.length > 1) {
                 adInterval = setInterval(nextAd, 5000);
             }
             
-            characterInput.value = '字';
-            searchCharacters();
+            // 从 URL 获取搜索参数，并设置输入框值
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlChar = urlParams.get('char');
+            if (urlChar) {
+                characterInput.value = decodeURIComponent(urlChar);
+            } else {
+                characterInput.value = '字';
+            }
+            
+            searchCharacters(true);
             
             characterInput.focus();
         });
