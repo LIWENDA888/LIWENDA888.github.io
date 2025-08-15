@@ -167,7 +167,7 @@
         
         header {
             width: 100vw;
-            height: var(--header-height);
+            height: 150px; /* 调整后的高度 */
             background: transparent;
             position: relative;
             z-index: 10;
@@ -175,34 +175,19 @@
             margin-bottom: var(--section-spacing);
         }
 
-        .ad-carousel {
+        .ad-single {
             width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ad-carousel-inner {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform var(--transition-speed) ease-in-out;
-        }
-
-        .ad-item {
-            min-width: 100%;
             height: 100%;
             display: block;
-            flex-shrink: 0;
         }
-        
-        .ad-item img {
+
+        .ad-single img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
-
+        
         body::before {
             content: none;
             height: 0;
@@ -697,7 +682,7 @@
             }
             
             header {
-                height: 100px;
+                height: 120px; /* 调整后的高度 */
             }
             .search-area {
                 padding: 20px;
@@ -750,7 +735,7 @@
             }
 
             header {
-                height: 80px;
+                height: 100px; /* 调整后的高度 */
             }
             .results-title, .instructions h2 {
                 font-size: 1.4rem;
@@ -798,26 +783,27 @@
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
             }
+            /* 保持搜索框的横向布局 */
             .input-group {
-                flex-direction: column;
-                height: auto;
-                max-width: 250px;
+                flex-direction: row;
+                height: 50px;
+                max-width: 100%;
                 border-radius: var(--input-group-border-radius);
             }
             #character-input {
-                border-radius: var(--input-group-border-radius) var(--input-group-border-radius) 0 0;
+                border-radius: var(--input-group-border-radius) 0 0 var(--input-group-border-radius);
                 height: 50px;
-                padding: 10px;
+                padding: 0 10px;
                 font-size: 1.3rem;
             }
             #search-btn {
-                border-radius: 0 0 var(--input-group-border-radius) var(--input-group-border-radius);
-                height: 45px;
+                border-radius: 0 var(--input-group-border-radius) var(--input-group-border-radius) 0;
+                height: 50px;
                 font-size: 1.2rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 0;
+                padding: 0 15px;
             }
             .input-hint {
                 font-size: 0.8rem;
@@ -857,19 +843,9 @@
     </nav>
 
     <header>
-        <div class="ad-carousel" id="ad-carousel">
-            <div class="ad-carousel-inner" id="ad-carousel-inner">
-                <a href="https://www.zizao.top/fonts" target="_blank" class="ad-item">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="广告1">
-                </a>
-                <a href="https://www.google.com" target="_blank" class="ad-item">
-                    <img src="https://via.placeholder.com/1108x100?text=Ad+Banner+2" alt="广告2">
-                </a>
-                <a href="https://www.zizao.top" target="_blank" class="ad-item">
-                    <img src="https://via.placeholder.com/1108x100?text=Ad+Banner+3" alt="广告3">
-                </a>
-            </div>
-        </div>
+        <a href="https://www.zizao.top/fonts" target="_blank" class="ad-single">
+            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="顶部图片">
+        </a>
     </header>
 
     <div class="container">
@@ -944,24 +920,24 @@
         const copyNotification = document.getElementById('copy-notification');
         const pageSizeInput = document.getElementById('page-size');
         const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const adCarouselInner = document.getElementById('ad-carousel-inner');
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
         const definitionBaseUrl = "https://www.zdic.net/hans/%s";
 
-        let currentAdIndex = 0;
-        let adInterval;
-        const adItems = adCarouselInner.querySelectorAll('.ad-item');
-        function nextAd() {
-            currentAdIndex = (currentAdIndex + 1) % adItems.length;
-            updateAdCarousel();
-        }
+        // 移除广告轮播相关代码
+        // let currentAdIndex = 0;
+        // let adInterval;
+        // const adItems = adCarouselInner.querySelectorAll('.ad-item');
+        // function nextAd() {
+        //     currentAdIndex = (currentAdIndex + 1) % adItems.length;
+        //     updateAdCarousel();
+        // }
 
-        function updateAdCarousel() {
-            const translateValue = -currentAdIndex * 100;
-            adCarouselInner.style.transform = `translateX(${translateValue}%)`;
-        }
+        // function updateAdCarousel() {
+        //     const translateValue = -currentAdIndex * 100;
+        //     adCarouselInner.style.transform = `translateX(${translateValue}%)`;
+        // }
 
         function updateUrl(char) {
             const newUrl = new URL(window.location.href);
@@ -1122,9 +1098,10 @@
                 darkModeToggle.checked = false;
             }
 
-            if (adItems.length > 1) {
-                adInterval = setInterval(nextAd, 5000);
-            }
+            // 移除广告轮播的启动代码
+            // if (adItems.length > 1) {
+            //     adInterval = setInterval(nextAd, 5000);
+            // }
             
             const urlParams = new URLSearchParams(window.location.search);
             const urlChar = urlParams.get('char');
