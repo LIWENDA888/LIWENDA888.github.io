@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超引-形近字查询神器 - 字造Type</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
+    <meta name="author" content="字造">
+    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF9800;
+            --secondary-color: #FFC107;
+            --accent-color: #FF5722;
+            
+            --text-color: #333333;
+            --light-text: #666666;
+            --bg-color: #F8F8F8;
+            --body-gradient-start: #FFFFFF;
+            --body-gradient-end: #F0F0F0;
+            
+            --card-bg: #FFFFFF;
+            --border-color: #E0E0E0;
+            --shadow-color: rgba(0,0,0,0.08);
+            --success-color: #4CAF50;
+            --footer-bg: #333333;
+            --footer-text-color: #E0E0E0;
+            --footer-link-color: #FFC107;
+            --footer-border-color: #444444;
+            --header-height: 100px;
+            --transition-speed: 0.3s;
+            --content-max-width: 1500px;
+            --input-group-border-radius: 10px;
+            --section-spacing: 35px;
+        }
+
+        .dark-mode {
+            --primary-color: #F57C00;
+            --secondary-color: #FB8C00;
+            --accent-color: #E64A19;
+            
+            --text-color: #E0E0E0;
+            --light-text: #BDBDBD;
+            --bg-color: #2D2D2D;
+            --body-gradient-start: #1A1A1A;
+            --body-gradient-end: #1A1A1A;
+            
+            --card-bg: #1A1A1A;
+            --border-color: #555555;
+            --shadow-color: rgba(0,0,0,0.3);
+            --success-color: #66BB6A;
+            --footer-bg: #1A1A1A;
+            --footer-text-color: #B0B0B0;
+            --footer-link-color: #FF9800;
+            --footer-border-color: #333333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--transition-speed), 
+                        color var(--transition-speed),
+                        border-color var(--transition-speed),
+                        box-shadow var(--transition-speed);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--body-gradient-start) 0%, var(--body-gradient-end) 100%);
+            min-height: 100vh;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-color);
+            font-family: "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 顶部导航栏样式 */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100vw;
+        }
+        
+        .nav-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            /* 关键：为absolute定位的子元素提供定位上下文 */
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 80px;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            margin-right: 12px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+        
+        .nav-links a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 1.05rem;
+        }
+        
+        .nav-links a:hover {
+            color: #FF8C19;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #FF8C19;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #FF8C19;
+        }
+        
+        .container {
+            max-width: var(--content-max-width);
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            overflow-x: hidden;
+        }
+        
+        header {
+            width: 100vw;
+            height: 150px; /* 调整后的高度 */
+            background: transparent;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            margin-bottom: var(--section-spacing);
+        }
+
+        .ad-single {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .ad-single img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        body::before {
+            content: none;
+            height: 0;
+        }
+        
+        .search-area,
+        .instructions,
+        .results-container,
+        .settings-panel-wrapper {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            margin: 0 auto var(--section-spacing);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: var(--content-max-width);
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-area {
+            text-align: center;
+            margin-top: 0;
+            order: 1;
+        }
+        
+        .input-group {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            height: 60px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border-radius: var(--input-group-border-radius);
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .input-group:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+        }
+        
+        #character-input {
+            flex: 1;
+            height: 100%;
+            border: none;
+            padding: 0 20px;
+            font-size: 1.8rem;
+            text-align: center;
+            outline: none;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-weight: bold;
+            border-radius: 0;
+        }
+        
+        #character-input:focus {
+            box-shadow: none;
+        }
+        
+        #character-input::placeholder {
+            color: var(--light-text);
+            opacity: 0.6;
+        }
+        
+        #search-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+        }
+        
+        #search-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        #search-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .input-hint {
+            margin-top: 15px;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        .results-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            order: 2;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0;
+            transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0);
+            }
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .results-title {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .results-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            border: 2px solid transparent;
+            position: relative; /* 为子元素的绝对定位提供参考 */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow-color);
+            border-color: var(--primary-color);
+        }
+        
+        .card:active {
+            transform: translateY(0);
+        }
+
+        .card-character {
+            font-size: 2.8rem;
+            margin-top: 10px; /* 增加与按钮的间距 */
+            margin-bottom: 10px;
+            color: var(--text-color);
+            font-weight: bold;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        /* 新增的容器样式 */
+        .card-positions-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px; /* 两行之间的间距 */
+        }
+        
+        /* 优化后的排序信息样式 */
+        .card-position-total,
+        .card-position-page {
+            background: var(--bg-color);
+            border-radius: 6px;
+            padding: 6px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            font-family: monospace;
+            font-weight: bold;
+            width: fit-content;
+            margin: 0 auto;
+        }
+        
+        .card-definition {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px; /* 调整圆角 */
+            padding: 2px 6px; /* 减小内边距 */
+            font-size: 0.65rem; /* 减小字号 */
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 2;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            line-height: 1;
+        }
+        
+        .card-definition:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .copy-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: transform var(--transition-speed) ease;
+            z-index: 1000;
+        }
+        
+        .copy-notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .settings-panel-wrapper {
+            margin-top: 0;
+            margin-bottom: var(--section-spacing);
+            padding: 15px 25px;
+            order: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .settings-panel-wrapper h2 {
+            display: none;
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-color);
+            padding: 10px 15px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 1px 3px var(--shadow-color);
+        }
+        
+        .setting-item label {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            color: var(--text-color);
+        }
+        
+        #page-size {
+            width: 70px;
+            padding: 6px 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .toggle-container {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-container input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: var(--transition-speed);
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: var(--transition-speed);
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .instructions {
+            order: 4;
+            margin-bottom: var(--section-spacing);
+        }
+        
+        .instructions h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions-content {
+            display: block;
+        }
+        
+        .instructions ol {
+            padding-left: 25px;
+            color: var(--text-color);
+            list-style-type: decimal;
+        }
+        
+        .instructions li {
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .instructions li:before {
+            content: none;
+        }
+        
+        footer {
+            margin-top: var(--section-spacing);
+            padding: 60px 20px;
+            width: 100vw;
+            background: var(--footer-bg);
+            color: var(--footer-text-color);
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .footer-links-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .footer-links-container a {
+            font-size: 1.0rem;
+            color: var(--footer-text-color);
+            text-decoration: none;
+            padding: 0 15px;
+            white-space: nowrap;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-links-container a:hover {
+            color: var(--footer-link-color);
+        }
+        
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            width: 100%;
+        }
+
+        .dark-mode footer {
+            background: var(--footer-bg);
+            color: var(--footer-text-color);
+            box-shadow: 0 -5px 20px var(--shadow-color);
+        }
+
+        .dark-mode .footer-links-container a {
+            color: var(--footer-text-color);
+        }
+        .dark-mode .footer-links-container a:hover {
+            color: var(--footer-link-color);
+        }
+        .dark-mode .footer-copyright {
+            color: var(--footer-text-color);
+        }
+
+        /* 响应式调整 - 导航栏折叠 */
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+                padding: 0 15px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease;
+                display: none;
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+                padding: 20px 0;
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a.active::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 0 15px;
+            }
+            .search-area,
+            .instructions,
+            .results-container,
+            .settings-panel-wrapper {
+                max-width: 100%;
+                margin-bottom: calc(var(--section-spacing) * 0.8);
+            }
+            header {
+                margin-bottom: calc(var(--section-spacing) * 0.8);
+            }
+            footer {
+                margin-top: calc(var(--section-spacing) * 0.8);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 15px;
+            }
+            
+            .card-character {
+                font-size: 2.5rem;
+            }
+            
+            header {
+                height: 120px; /* 调整后的高度 */
+            }
+            .search-area {
+                padding: 20px;
+            }
+            .input-group {
+                height: 55px;
+                max-width: 500px;
+            }
+            #character-input {
+                font-size: 1.6rem;
+            }
+            #search-btn {
+                font-size: 1.3rem;
+                padding: 0 20px;
+            }
+            footer {
+                padding: 45px 15px;
+            }
+            .footer-links-container a {
+                font-size: 0.95rem;
+                padding: 0 12px;
+            }
+            .footer-copyright {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .input-group {
+                height: 50px;
+                max-width: 100%;
+            }
+            
+            #character-input {
+                font-size: 1.5rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 10px;
+            }
+            
+            .settings-panel-wrapper {
+                gap: 12px;
+                padding: 15px;
+            }
+            
+            .search-area {
+                padding: 15px;
+            }
+
+            header {
+                height: 100px; /* 调整后的高度 */
+            }
+            .results-title, .instructions h2 {
+                font-size: 1.4rem;
+            }
+            .card {
+                padding: 15px 10px;
+            }
+            .card-character {
+                font-size: 2rem;
+            }
+            .card-position-total,
+            .card-position-page {
+                font-size: 0.75rem;
+                padding: 6px 4px;
+            }
+            .card-definition {
+                font-size: 0.65rem;
+                padding: 3px 6px;
+            }
+            footer {
+                padding: 30px 15px;
+            }
+            .footer-links-container a {
+                font-size: 0.85rem;
+                padding: 0 10px;
+            }
+            .footer-copyright {
+                font-size: 0.75rem;
+            }
+            .search-area,
+            .instructions,
+            .results-container,
+            .settings-panel-wrapper {
+                margin-bottom: calc(var(--section-spacing) * 0.6);
+            }
+            header {
+                margin-bottom: calc(var(--section-spacing) * 0.6);
+            }
+            footer {
+                margin-top: calc(var(--section-spacing) * 0.6);
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            /* 保持搜索框的横向布局 */
+            .input-group {
+                flex-direction: row;
+                height: 50px;
+                max-width: 100%;
+                border-radius: var(--input-group-border-radius);
+            }
+            #character-input {
+                border-radius: var(--input-group-border-radius) 0 0 var(--input-group-border-radius);
+                height: 50px;
+                padding: 0 10px;
+                font-size: 1.3rem;
+            }
+            #search-btn {
+                border-radius: 0 var(--input-group-border-radius) var(--input-group-border-radius) 0;
+                height: 50px;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0 15px;
+            }
+            .input-hint {
+                font-size: 0.8rem;
+            }
+            footer {
+                padding: 25px 10px;
+            }
+            .footer-links-container a {
+                font-size: 0.8rem;
+                padding: 0 8px;
+            }
+            .footer-copyright {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="https://www.zizao.top" class="logo">
+                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo" class="logo-image">
+            </a>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="https://www.zizao.top">首页</a>
+                <a href="https://www.zizao.top/fonts">字库产品</a>
+                <a href="https://www.zizao.top/tools">设计百宝库</a>
+                <a href="https://www.zizao.top/hao">设计导航</a>
+                <a href="#" target="_blank">关于我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <a href="https://www.zizao.top/fonts" target="_blank" class="ad-single">
+            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg" alt="顶部图片">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="search-area">
+            <div class="input-group">
+                <input type="text" id="character-input" maxlength="1" placeholder="输入一个汉字" autocomplete="off">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <p class="input-hint">提示：请输入单个汉字，如"字"、"造"等</p>
+        </div>
+        
+        <div class="results-container" id="results-container">
+            <div class="results-header">
+                <h2 class="results-title"><i class="fas fa-list"></i> 关联字组</h2>
+                <div class="results-count" id="results-count">0个结果</div>
+            </div>
+            <div class="cards-container" id="cards-container">
+            </div>
+        </div>
+
+        <div class="settings-panel-wrapper">
+            <div class="setting-item">
+                <label for="page-size">每页字数:</label>
+                <input type="number" id="page-size" min="100" max="1000" value="500">
+            </div>
+            
+            <div class="setting-item">
+                <span>深色模式:</span>
+                <label class="toggle-container">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> 使用说明</h2>
+            <div class="instructions-content">
+                <ol>
+                    <li>本页面全部数据由字造逐字核对整理，仅包含国标GB2312所涵盖的字符</li>
+                    <li>点击搜索按钮或按Enter键进行查询</li>
+                    <li>查看该汉字在**自定义字组中以该字开头的词语**的所有关联字（词语中除输入字以外的其他字）</li>
+                    <li>每个关联字以卡片形式展示，点击卡片可复制该汉字</li>
+                    <li>卡片下方显示该字在《千字文》原文中首次出现的位置信息和大致页码</li>
+                    <li>点击卡片右上角的"释义"按钮可在新标签页中查看该字的详细解释</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links-container">
+            <a href="https://www.zizao.top" target="_blank">字造首页</a>
+            <a href="https://www.zizao.top/hao" target="_blank">设计导航</a>
+            <a href="https://www.zizao.top/fonts" target="_blank">字库产品</a>
+            <a href="https://www.zizao.top" target="_blank">关于我们</a>
+        </div>
+        <div class="footer-copyright">
+            <p>全部数据由字造逐字整理而来. 提供免费使用. 勿以此产生任何盈利行为<br>&copy; 2025. 字造超引版权所有. </p>
+        </div>
+    </footer>
+    
+    <div class="copy-notification" id="copy-notification">已复制到剪贴板</div>
+
+    <script src="data.js"></script>
+    <script>
+        const characterInput = document.getElementById('character-input');
+        const searchBtn = document.getElementById('search-btn');
+        const resultsContainer = document.getElementById('results-container');
+        const cardsContainer = document.getElementById('cards-container');
+        const resultsCount = document.getElementById('results-count');
+        const copyNotification = document.getElementById('copy-notification');
+        const pageSizeInput = document.getElementById('page-size');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        const definitionBaseUrl = "https://www.zdic.net/hans/%s";
+
+        // 移除广告轮播相关代码
+        // let currentAdIndex = 0;
+        // let adInterval;
+        // const adItems = adCarouselInner.querySelectorAll('.ad-item');
+        // function nextAd() {
+        //     currentAdIndex = (currentAdIndex + 1) % adItems.length;
+        //     updateAdCarousel();
+        // }
+
+        // function updateAdCarousel() {
+        //     const translateValue = -currentAdIndex * 100;
+        //     adCarouselInner.style.transform = `translateX(${translateValue}%)`;
+        // }
+
+        function updateUrl(char) {
+            const newUrl = new URL(window.location.href);
+            if (char) {
+                newUrl.searchParams.set('char', char);
+            } else {
+                newUrl.searchParams.delete('char');
+            }
+            window.history.pushState({ path: newUrl.href }, '', newUrl.href);
+        }
+
+        function searchCharacters(isFromUrl = false) {
+            const inputChar = characterInput.value.trim();
+            cardsContainer.innerHTML = '';
+            resultsContainer.style.display = 'block';
+
+            if (!isFromUrl) {
+                updateUrl(inputChar);
+            }
+
+            if (inputChar.length === 0) {
+                cardsContainer.innerHTML = '<div class="no-results">请输入一个汉字进行查询。</div>';
+                resultsCount.textContent = '0个结果';
+                return;
+            }
+
+            if (inputChar.length > 1) {
+                cardsContainer.innerHTML = '<div class="no-results">请输入单个汉字进行查询。</div>';
+                resultsCount.textContent = '0个结果';
+                return;
+            }
+            
+            if (!/^[\u4e00-\u9fa5]$/.test(inputChar)) {
+                 cardsContainer.innerHTML = '<div class="no-results">请输入有效的汉字。</div>';
+                 resultsCount.textContent = '0个结果';
+                 return;
+            }
+
+            const relatedChars = [];
+            const relatedCharsSet = new Set();
+
+            customWordGroups.forEach(wordGroup => {
+                if (wordGroup.length > 0 && wordGroup.charAt(0) === inputChar) {
+                    for (let i = 0; i < wordGroup.length; i++) {
+                        const char = wordGroup.charAt(i);
+                        if (!relatedCharsSet.has(char)) {
+                            relatedChars.push(char);
+                            relatedCharsSet.add(char);
+                        }
+                    }
+                }
+            });
+            if (relatedChars.length === 0) {
+                cardsContainer.innerHTML = `<div class="no-results">抱歉，未找到在自定义字组中以“${inputChar}”开头的关联字。</div>`;
+                resultsCount.textContent = '0个结果';
+            } else {
+                relatedChars.forEach(char => {
+                    const firstPosition = indexGroup.indexOf(char) + 1;
+                    
+                    let totalPosition = '未知';
+                    let pagePosition = '未知';
+
+                    if (firstPosition > 0) {
+                        const pageSize = parseInt(pageSizeInput.value || 500);
+                        const page = Math.floor((firstPosition - 1) / pageSize) + 1;
+                        const positionInPage = (firstPosition - 1) % pageSize + 1;
+                        totalPosition = firstPosition;
+                        pagePosition = `${page}/${positionInPage}`;
+                    }
+                    
+                    createCard(char, totalPosition, pagePosition);
+                });
+                resultsCount.textContent = `${relatedChars.length}个结果`;
+            }
+        }
+
+        function createCard(char, totalPosition, pagePosition) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            
+            card.innerHTML = `
+                <button class="card-definition" data-char="${char}">释义</button>
+                <div class="card-character">${char}</div>
+                <div class="card-positions-wrapper">
+                    <div class="card-position-total">${totalPosition}</div>
+                    <div class="card-position-page">${pagePosition}</div>
+                </div>
+            `;
+            card.addEventListener('click', (event) => {
+                if (!event.target.classList.contains('card-definition')) {
+                    copyToClipboard(char);
+                }
+            });
+            const definitionButton = card.querySelector('.card-definition');
+            definitionButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const charToDefine = event.target.dataset.char;
+                window.open(definitionBaseUrl.replace('%s', charToDefine), '_blank');
+            });
+            cardsContainer.appendChild(card);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                copyNotification.classList.add('show');
+                setTimeout(() => {
+                    copyNotification.classList.remove('show');
+                }, 1500);
+            }).catch(err => {
+                console.error('无法复制文本: ', err);
+                alert('复制失败，请手动复制。');
+            });
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        searchBtn.addEventListener('click', () => searchCharacters(false));
+        characterInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                searchCharacters(false);
+            }
+        });
+        darkModeToggle.addEventListener('change', toggleDarkMode);
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            } else {
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.checked = false;
+            }
+
+            // 移除广告轮播的启动代码
+            // if (adItems.length > 1) {
+            //     adInterval = setInterval(nextAd, 5000);
+            // }
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlChar = urlParams.get('char');
+            if (urlChar) {
+                characterInput.value = decodeURIComponent(urlChar);
+            } else {
+                characterInput.value = '字';
+            }
+            
+            searchCharacters(true);
+            
+            characterInput.focus();
+        });
+    </script>
+</body>
+</html>
