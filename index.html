@@ -48,7 +48,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 70px;
+            height: 60px; /* 统一高度为60px */
             position: relative;
         }
 
@@ -57,7 +57,6 @@
             align-items: center;
             text-decoration: none;
             height: 60px;
-            margin-left: 1%;
         }
 
         .logo-image {
@@ -79,7 +78,6 @@
             font-size: 0.95rem;
             border: 2px solid transparent;
             box-shadow: 0 4px 10px rgba(255, 140, 25, 0.3);
-            margin-right: -6%;
         }
 
         .cooperation-button:hover {
@@ -405,6 +403,8 @@
         }
 
         /* 响应式调整 */
+
+        /* 针对992px及以下屏幕的调整，主要影响平板设备 */
         @media (max-width: 992px) {
             .hero-section {
                 height: 600px;
@@ -427,6 +427,7 @@
                 padding-bottom: 80px;
             }
 
+            /* 调整卡片布局为2列 */
             .card-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 30px;
@@ -446,33 +447,25 @@
             }
         }
 
+        /* 针对768px及以下屏幕的调整，主要影响移动设备 */
         @media (max-width: 768px) {
             .nav-container {
-                height: 50px;
+                height: 60px; /* 统一高度为60px */
                 padding-left: 20px;
                 padding-right: 20px;
             }
 
             .logo {
-                height: 50px;
-                margin-left: 0;
+                height: 60px; /* 统一高度为60px */
             }
 
             .logo-image {
-                height: 25px;
+                height: 30px; /* 统一高度为30px */
             }
 
             .cooperation-button {
-                padding: 6px 16px;
-                font-size: 0.9rem;
-                margin-right: 0;
-                background-color: #FF8C19;
-                color: white;
-                box-shadow: 0 4px 10px rgba(255, 140, 25, 0.3);
-            }
-            .cooperation-button:hover {
-                background-color: #e67e00;
-                transform: translateY(-2px);
+                padding: 4px 14px;
+                font-size: 0.95rem;
             }
 
             /* 移动端英雄区域调整 */
@@ -514,6 +507,7 @@
                 font-size: 1rem;
             }
             .hero-button-secondary {
+                background-color: transparent; /* Reset background for mobile */
                 color: #1e293b;
                 border-color: #1e293b;
             }
@@ -525,6 +519,7 @@
                 padding-right: 5%;
             }
 
+            /* 调整卡片布局为1列 */
             .card-container {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -564,7 +559,7 @@
             }
             /* 优化：在更小屏幕上减小社交图标的间距，防止横向滚动条 */
             .social-links {
-                gap: 15px; 
+                gap: 15px;
             }
         }
     </style>
