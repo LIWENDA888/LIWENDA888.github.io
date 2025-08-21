@@ -27,7 +27,7 @@
             --transition-color-bg: all 0.3s ease;
             --background-light: #f4f6f8;
             --divider-color: #e0e0e0;
-            --card-bg-color: #ffffff; /* 更改为白色以增强对比 */
+            --card-bg-color: #ffffff;
             --card-hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         * {
@@ -179,54 +179,39 @@
             display: flex;
             align-items: center;
             padding: 14px 15px;
-            padding-left: 36px;
             text-decoration: none;
             color: var(--dark-color);
             font-size: 1.05rem;
             font-weight: 500;
-            transition: background var(--transition-color-bg), color var(--transition-color-bg), font-weight var(--transition-color-bg);
+            transition: var(--transition-color-bg);
             position: relative;
             border-radius: 8px;
             margin-bottom: 5px;
             min-height: 50px;
             line-height: 1.2;
-            background-color: #F6F6F6;
-            margin-bottom: 5px;
-            border-radius: 8px;
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
         }
-        .category-btn::before {
-            content: '▪';
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
+        .category-btn i {
+            margin-right: 15px;
             color: #929292;
-            font-size: 1.2em;
-            line-height: 1;
-            transition: none;
+            transition: color 0.3s ease;
         }
         .category-btn:hover {
-            background-color: #EFEFEF;
+            background-color: #f1f3f9;
             color: var(--dark-color);
+        }
+        .category-btn:hover i {
+            color: var(--primary-color);
         }
         .category-btn.active {
-            background-color: rgba(255, 140, 25, 0.1);
-            color: var(--dark-color);
+            background-color: var(--primary-color);
+            color: white;
             font-weight: 600;
-            position: relative;
+            border-color: var(--primary-color);
         }
-        .category-btn.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 80%;
-            background: var(--primary-color);
-            border-radius: 3px;
-            transition: none;
-            box-shadow: 0 0 10px rgba(255, 140, 25, 0.5);
+        .category-btn.active i {
+            color: white;
         }
         .content {
             flex: 1;
@@ -379,36 +364,37 @@
         }
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 恢复为原始布局 */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
+        /* --- 优化后的卡片样式 Start --- */
         .card {
-            background: var(--card-bg-color); /* 保留新的白色背景 */
+            background-color: var(--card-bg-color);
             border-radius: var(--border-radius);
-            border: 1px solid #f0f0f0; /* 保留边框 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
             display: flex;
-            padding: 15px; /* 恢复为原始内边距 */
+            padding: 20px;
             cursor: pointer;
             align-items: center;
+            gap: 15px;
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-            background: var(--light-color); /* 保留新的悬停背景色 */
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            background-color: #fbfbfc; /* 鼠标悬浮时背景色微变 */
         }
         .card-icon {
-            width: 50px; /* 恢复为原始图标尺寸 */
-            height: 50px; /* 恢复为原始图标尺寸 */
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px; /* 恢复为原始间距 */
             flex-shrink: 0;
             overflow: hidden;
-            border-radius: 12px; /* 恢复为原始圆角 */
+            border-radius: 8px;
         }
         .card-icon img {
             width: 100%;
@@ -420,26 +406,32 @@
         }
         .card-content {
             flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         .card h3 {
-            font-size: 1.1rem; /* 恢复为原始标题字体大小 */
-            margin-bottom: 5px; /* 恢复为原始间距 */
+            font-size: 1.1rem;
             color: var(--secondary-color);
             font-weight: 600;
-            transition: color 0.3s ease;
+            margin: 0;
+            line-height: 1.2;
+            margin-bottom: 5px;
+            transition: color 0.4s ease;
         }
         .card p {
-            color: #5a5a5a;
+            color: var(--gray-color);
             line-height: 1.5;
-            font-size: 0.88rem; /* 恢复为原始描述字体大小 */
+            font-size: 0.88rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
             min-height: calc(1.5 * 2 * 0.88rem);
-            transition: color 0.3s ease;
+            transition: color 0.4s ease;
+            margin: 0;
         }
+        /* --- 优化后的卡片样式 End --- */
         .card:hover h3,
         .card:hover p {
             color: var(--dark-color);
@@ -708,16 +700,16 @@
                     </div>
                 </div>
                 <ul class="categories" id="categories-list">
-                    <li><a href="#A" class="category-btn active">常用推荐</a></li>
-                    <li><a href="#B" class="category-btn">灵感创意</a></li>
-                    <li><a href="#C" class="category-btn">字体字形</a></li>
-                    <li><a href="#D" class="category-btn">AI工具</a></li>
-                    <li><a href="#E" class="category-btn">免版权资源</a></li>
-                    <li><a href="#F" class="category-btn">设计神器</a></li>
-                    <li><a href="#G" class="category-btn">设计素材</a></li>
-                    <li><a href="#H" class="category-btn">配色方案</a></li>
-                    <li><a href="#I" class="category-btn">知识社区</a></li>
-                    <li><a href="#J" class="category-btn">软件工具</a></li>
+                    <li><a href="#A" class="category-btn active"><i class="fas fa-caret-right"></i>常用推荐</a></li>
+                    <li><a href="#B" class="category-btn"><i class="fas fa-caret-right"></i>灵感创意</a></li>
+                    <li><a href="#C" class="category-btn"><i class="fas fa-caret-right"></i>字体字形</a></li>
+                    <li><a href="#D" class="category-btn"><i class="fas fa-caret-right"></i>AI工具</a></li>
+                    <li><a href="#E" class="category-btn"><i class="fas fa-caret-right"></i>免版权资源</a></li>
+                    <li><a href="#F" class="category-btn"><i class="fas fa-caret-right"></i>设计神器</a></li>
+                    <li><a href="#G" class="category-btn"><i class="fas fa-caret-right"></i>设计素材</a></li>
+                    <li><a href="#H" class="category-btn"><i class="fas fa-caret-right"></i>配色方案</a></li>
+                    <li><a href="#I" class="category-btn"><i class="fas fa-caret-right"></i>知识社区</a></li>
+                    <li><a href="#J" class="category-btn"><i class="fas fa-caret-right"></i>软件工具</a></li>
                 </ul>
             </div>
             <div class="content" id="main-content">
@@ -1006,10 +998,20 @@
             }
         }
         function highlightCategoryOnScroll() {
-            let currentSectionId = null;
-            const scrollPosition = window.scrollY || window.pageYOffset;
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.querySelectorAll('.category-btn').forEach(link => link.classList.remove('active'));
+            const firstCategorySection = document.getElementById('A');
             const navbarHeight = document.querySelector('.navbar').offsetHeight;
             const offset = navbarHeight + 20;
+            if (window.scrollY <= firstCategorySection.offsetTop - offset) {
+                const firstCatBtn = document.querySelector('.category-btn[href="#A"]');
+                if (firstCatBtn) {
+                    firstCatBtn.classList.add('active');
+                }
+                return;
+            }
+            let currentSectionId = null;
+            const scrollPosition = window.scrollY || window.pageYOffset;
             const categorySections = document.querySelectorAll('.category-section');
             for (let i = categorySections.length - 1; i >= 0; i--) {
                 const section = categorySections[i];
@@ -1018,13 +1020,10 @@
                     break;
                 }
             }
-            const categoriesList = document.getElementById('categories-list');
-            categoriesList.querySelectorAll('.category-btn').forEach(link => {
-                link.classList.remove('active');
-                if (currentSectionId && link.getAttribute('href') === `#${currentSectionId}`) {
-                    link.classList.add('active');
-                }
-            });
+            const activeLink = categoriesList.querySelector(`.category-btn[href="#${currentSectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
         }
         function switchSearchEngine(engine) {
             const searchInput = document.getElementById('search-input');
