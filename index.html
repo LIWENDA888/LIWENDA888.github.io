@@ -247,94 +247,148 @@
             text-decoration: underline;
         }
 
-        /* 底部区域 */
+        /* 优化后的底部栏样式 */
         .footer {
             background: #1a1a1a;
-            color: #e0e0e0;
-            padding: 0 5% 30px;
-            text-align: center;
-            position: relative;
+            color: #d1d9e2;
+            padding: 80px 5% 40px;
+            font-size: 1rem;
         }
 
-        .footer-content {
+        .footer-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding-top: 40px;
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 40px;
+        }
+        
+        /* 手机端手风琴布局默认隐藏 */
+        .footer-accordion-mobile {
+            display: none;
+        }
+
+        .footer-logo-section {
+            grid-column: span 1;
         }
 
         .footer-logo {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 25px;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .footer-about p {
-            color: #b0b0b0;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            font-size: 1rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .social-links {
             display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
-            position: relative;
-            flex-wrap: wrap; /* 确保图标能换行 */
-        }
-
-        .social-links a {
-            color: #c0c0c0;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            text-decoration: none;
+            margin-bottom: 20px;
         }
 
-        .social-links a:hover {
+        .footer-logo img {
+            height: 30px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-logo-text {
+            display: none;
+        }
+
+        .footer-about {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        /* 桌面端的列样式 */
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 30px;
+            height: 2px;
+            background-color: #FF8C19;
+            border-radius: 2px;
+        }
+
+        .footer-links-list {
+            list-style: none;
+        }
+
+        .footer-links-list li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links-list a {
+            color: #c0c0c0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links-list a:hover {
+            color: white;
+            text-decoration: underline;
+            transform: translateX(5px);
+        }
+
+        .social-links-section {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links-section a {
+            display: inline-block;
+            color: #c0c0c0;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .social-links-section a:hover {
             color: #FF8C19;
             transform: translateY(-3px);
         }
 
-        .social-links .icon-image {
-            width: 24px;
-            height: 24px;
-            filter: invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%);
+        /* 统一社交图标和二维码图标的白色滤镜，确保它们正确变为白色 */
+        .icon-image, .qr-code-icon .icon-image {
+            filter: brightness(0) invert(1);
             transition: all 0.3s;
         }
 
-        .social-links a:hover .icon-image {
+        .social-links-section a:hover .icon-image, .qr-code-icon:hover .icon-image {
             filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
         }
 
-        /* 二维码图标样式 */
-        .qr-code-icon {
-        }
-
+        /* 修正二维码图标的尺寸 */
         .qr-code-icon .icon-image {
             width: 28px;
             height: 28px;
-            filter: invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%);
         }
 
-        .qr-code-icon:hover .icon-image {
-            filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
+        .social-links-section a .icon-image {
+             width: 24px;
+             height: 24px;
         }
 
         /* 二维码弹窗容器样式 */
         .qr-code-container {
             position: absolute;
-            bottom: calc(100% + 10px);
+            bottom: calc(100% + 15px);
             left: 50%;
             transform: translateX(-50%);
             background-color: white;
@@ -345,19 +399,20 @@
             display: none;
             text-align: center;
             white-space: nowrap;
-            padding-bottom: 25px;
         }
 
         .qr-code-container img {
             width: 120px;
             height: 120px;
             border-radius: 4px;
+            margin-bottom: 10px;
         }
 
         .qr-code-container p {
             font-size: 0.85rem;
             color: #64748b;
-            margin-top: 10px;
+            margin: 0;
+            line-height: 1.4;
         }
 
         .qr-code-container::after {
@@ -365,46 +420,26 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 10px;
+            bottom: -10px;
             width: 0;
             height: 0;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             border-top: 10px solid white;
-            z-index: 12;
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: #c0c0c0;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: white;
-            text-decoration: underline;
-            transform: translateY(-2px);
-        }
-
-        .copyright {
-            color: #909090;
-            font-size: 0.95rem;
+        .copyright-section {
+            text-align: center;
             padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 30px;
+        }
+
+        .copyright-section p {
+            color: #909090;
+            font-size: 0.9rem;
         }
 
         /* 响应式调整 */
-
-        /* 针对992px及以下屏幕的调整，主要影响平板设备 */
         @media (max-width: 992px) {
             .hero-section {
                 height: 600px;
@@ -427,7 +462,6 @@
                 padding-bottom: 80px;
             }
 
-            /* 调整卡片布局为2列 */
             .card-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 30px;
@@ -445,9 +479,16 @@
             .card-content p {
                 font-size: 1.1rem;
             }
+            /* 底部区域调整 */
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 50px;
+            }
+            .footer-column:nth-child(1) {
+                grid-column: span 2;
+            }
         }
 
-        /* 针对768px及以下屏幕的调整，主要影响移动设备 */
         @media (max-width: 768px) {
             .nav-container {
                 height: 60px; /* 统一高度为60px */
@@ -468,21 +509,20 @@
                 font-size: 0.95rem;
             }
 
-            /* 移动端英雄区域调整 */
             .hero-section {
-                height: auto; /* Allow height to adjust to content */
-                background-image: none; /* Remove background image on smaller screens */
-                display: block; /* Change display to block for vertical stacking */
+                height: auto;
+                background-image: none;
+                display: block;
                 padding: 0;
             }
 
             .hero-image-mobile {
                 width: 100%;
-                height: 350px; /* Or a fixed height */
+                height: 350px;
                 background-image: url('https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg');
                 background-size: cover;
                 background-position: center;
-                display: block; /* Show this on mobile */
+                display: block;
             }
 
             .hero-content {
@@ -507,7 +547,7 @@
                 font-size: 1rem;
             }
             .hero-button-secondary {
-                background-color: transparent; /* Reset background for mobile */
+                background-color: transparent;
                 color: #1e293b;
                 border-color: #1e293b;
             }
@@ -519,7 +559,6 @@
                 padding-right: 5%;
             }
 
-            /* 调整卡片布局为1列 */
             .card-container {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -533,11 +572,103 @@
                 padding: 30px;
             }
 
-            .footer-content {
-                padding-top: 30px;
+            /* 隐藏桌面端布局 */
+            .footer-container {
+                display: none;
+            }
+            
+            /* 显示手机端手风琴布局 */
+            .footer-accordion-mobile {
+                display: block;
+            }
+
+            .footer-logo-section {
+                margin-bottom: 25px; /* 增加 logo 部分和手风琴的间距 */
+                display: flex; /* 新增 */
+                flex-direction: column; /* 新增 */
+                align-items: center; /* 新增 */
+                text-align: center; /* 新增 */
+            }
+
+            .footer-logo {
+                justify-content: center; /* 新增 */
+            }
+
+            .accordion-item {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .accordion-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                padding: 15px 0;
+                position: relative;
+            }
+
+            .accordion-header h4 {
+                margin: 0;
+                color: white;
+                font-size: 1.2rem;
+            }
+
+            .accordion-header h4::after {
+                display: none; /* 隐藏桌面版下划线 */
+            }
+            
+            .accordion-header .icon {
+                color: #FF8C19;
+                font-size: 1.2rem;
+                transition: transform 0.3s ease;
+            }
+            
+            .accordion-header.active .icon {
+                transform: rotate(180deg);
+            }
+            
+            .accordion-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-out, opacity 0.4s ease;
+                opacity: 0;
+                padding-bottom: 0;
+            }
+            
+            .accordion-content.open {
+                max-height: 200px; /* 足够容纳所有链接的高度 */
+                opacity: 1;
+                padding-bottom: 20px;
+            }
+
+            .footer-links-list {
+                padding-left: 0;
+                list-style: none;
+            }
+
+            .footer-links-list li {
+                margin-bottom: 12px;
+            }
+
+            .footer-links-list a {
+                color: #c0c0c0;
+                text-decoration: none;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
+            }
+            
+            .social-links-section {
+                justify-content: center; /* 居中对齐 */
+                margin-top: 15px;
+            }
+
+            .copyright-section {
+                text-align: center; /* 居中对齐 */
+                padding-top: 15px;
+                margin-top: 15px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
             }
         }
-
         @media (max-width: 576px) {
             .hero-image-mobile {
                 height: 250px;
@@ -552,14 +683,13 @@
                 padding: 10px 24px;
             }
             .footer {
-                padding-top: 40px;
+                padding-top: 30px;
             }
             .main-content {
-                padding-bottom: 50px;
+                padding-bottom: 40px;
             }
-            /* 优化：在更小屏幕上减小社交图标的间距，防止横向滚动条 */
-            .social-links {
-                gap: 15px;
+            .social-links-section {
+                justify-content: center; /* 居中对齐 */
             }
         }
     </style>
@@ -624,61 +754,163 @@
 
 
     <footer class="footer">
-        <div class="footer-content">
-            <a class="footer-logo">了解更多请关注</a>
-            <div class="social-links">
+        <div class="footer-container">
+            <div class="footer-logo-section">
+                <div class="footer-logo">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo">
+                </div>
+                <p class="footer-about">
+                    字造（Zizao）致力于为用户提供高质量的字库产品与设计资源，让您的每一个想法都能轻松地变成文字。
+                </p>
+                <div class="social-links-section">
+                    <a class="qr-code-icon">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码1" class="icon-image">
+                        <div class="qr-code-container">
+                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信好友二维码">
+                            <p>微信扫码添加好友</p>
+                        </div>
+                    </a>
 
-                <a class="qr-code-icon">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码1" class="icon-image">
-                    <div class="qr-code-container">
-                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信好友二维码">
-                        <p>微信扫码添加好友</p>
-                    </div>
-                </a>
+                    <a class="qr-code-icon">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码2" class="icon-image">
+                        <div class="qr-code-container">
+                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
+                            <p>微信扫码关注公众号</p>
+                        </div>
+                    </a>
 
-                <a class="qr-code-icon">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码2" class="icon-image">
-                    <div class="qr-code-container">
-                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
-                        <p>微信扫码关注公众号</p>
-                    </div>
-                </a>
-
-                <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="icon-image">
-                </a>
-                <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页" class="icon-image">
-                </a>
-                <a href="https://www.zcool.com.cn/u/15462186" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页" class="icon-image">
-                </a>
-                <a href="https://space.bilibili.com/339715446" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页" class="icon-image">
-                </a>
-                <a href="https://weibo.com/u/7931697572" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Z51u/101X100/wb.webp" alt="微博主页" class="icon-image">
-                </a>
-                <a href="https://www.youtube.com/@zizaotop" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/TeqK/101X100/you.webp" alt="Youtube主页" class="icon-image">
-                </a>
-                <a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/8Aos/101X100/z.webp" alt="知乎主页" class="icon-image">
-                </a>
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="icon-image">
+                    </a>
+                    <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页" class="icon-image">
+                    </a>
+                    <a href="https://www.zcool.com.cn/u/15462186" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页" class="icon-image">
+                    </a>
+                    <a href="https://space.bilibili.com/339715446" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页" class="icon-image">
+                    </a>
+                </div>
             </div>
 
-            <div class="footer-links">
-                <a href="#" target="_blank" rel="noopener noreferrer">设计合作</a>
-                <a href="#" target="_blank" rel="noopener noreferrer">联系我们</a>
-                <a href="#" target="_blank" rel="noopener noreferrer">隐私政策</a>
-                <a href="#" target="_blank" rel="noopener noreferrer">服务条款</a>
+            <div class="footer-column">
+                <h4>产品与服务</h4>
+                <ul class="footer-links-list">
+                    <li><a href="https://www.zizao.top/fonts" target="_blank" rel="noopener noreferrer">字库产品</a></li>
+                    <li><a href="https://www.zizao.top/tools" target="_blank" rel="noopener noreferrer">设计百宝库</a></li>
+                    <li><a href="https://www.zizao.top/hao" target="_blank" rel="noopener noreferrer">设计导航</a></li>
+                </ul>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 ZIZAO.TOP. 保留所有权利.</p>
+
+            <div class="footer-column">
+                <h4>关注我们</h4>
+                <ul class="footer-links-list">
+                    <li><a href="https://weibo.com/u/7931697572" target="_blank" rel="noopener noreferrer">官方微博</a></li>
+                    <li><a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" rel="noopener noreferrer">知乎主页</a></li>
+                    <li><a href="https://www.youtube.com/@zizaotop" target="_blank" rel="noopener noreferrer">YouTube频道</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>联系我们</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">设计合作</a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">加入我们</a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">商务洽谈</a></li>
+                </ul>
             </div>
         </div>
-    </footer>
 
+        <div class="footer-accordion-mobile">
+             <div class="footer-logo-section">
+                <div class="footer-logo">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo">
+                </div>
+                <p class="footer-about">
+                    字造（Zizao）致力于为用户提供高质量的字库产品与设计资源，让您的每一个想法都能轻松地变成文字。
+                </p>
+                <div class="social-links-section">
+                    <a class="qr-code-icon">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码1" class="icon-image">
+                        <div class="qr-code-container">
+                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信好友二维码">
+                            <p>微信扫码添加好友</p>
+                        </div>
+                    </a>
+
+                    <a class="qr-code-icon">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp" alt="微信二维码2" class="icon-image">
+                        <div class="qr-code-container">
+                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
+                            <p>微信扫码关注公众号</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="icon-image">
+                    </a>
+                    <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页" class="icon-image">
+                    </a>
+                    <a href="https://www.zcool.com.cn/u/15462186" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页" class="icon-image">
+                    </a>
+                    <a href="https://space.bilibili.com/339715446" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页" class="icon-image">
+                    </a>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h4>产品与服务</h4>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul class="footer-links-list">
+                        <li><a href="https://www.zizao.top/fonts" target="_blank" rel="noopener noreferrer">字库产品</a></li>
+                        <li><a href="https://www.zizao.top/tools" target="_blank" rel="noopener noreferrer">设计百宝库</a></li>
+                        <li><a href="https://www.zizao.top/hao" target="_blank" rel="noopener noreferrer">设计导航</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h4>关注我们</h4>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul class="footer-links-list">
+                        <li><a href="https://weibo.com/u/7931697572" target="_blank" rel="noopener noreferrer">官方微博</a></li>
+                        <li><a href="https://www.zhihu.com/people/31-16-90-61-82" target="_blank" rel="noopener noreferrer">知乎主页</a></li>
+                        <li><a href="https://www.youtube.com/@zizaotop" target="_blank" rel="noopener noreferrer">YouTube频道</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h4>联系我们</h4>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul class="footer-links-list">
+                        <li><a href="#" target="_blank" rel="noopener noreferrer">设计合作</a></li>
+                        <li><a href="#" target="_blank" rel="noopener noreferrer">加入我们</a></li>
+                        <li><a href="#" target="_blank" rel="noopener noreferrer">商务洽谈</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright-section">
+            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利.
+                <a href="#" style="color:#909090; text-decoration: none; margin-left: 15px;">隐私政策</a> |
+                <a href="#" style="color:#909090; text-decoration: none; margin-left: 5px;">服务条款</a>
+            </p>
+        </div>
+    </footer>
     <script>
         // 二维码悬浮弹窗功能
         const qrCodeIcons = document.querySelectorAll('.qr-code-icon');
@@ -716,6 +948,35 @@
                 });
             }
         });
+
+        // 手风琴功能
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+
+            header.addEventListener('click', () => {
+                const isActive = header.classList.contains('active');
+
+                // 关闭所有手风琴项
+                accordionItems.forEach(otherItem => {
+                    const otherHeader = otherItem.querySelector('.accordion-header');
+                    const otherContent = otherItem.querySelector('.accordion-content');
+                    if (otherHeader !== header) {
+                        otherHeader.classList.remove('active');
+                        otherContent.classList.remove('open');
+                    }
+                });
+
+                // 切换当前点击项的状态
+                if (!isActive) {
+                    header.classList.add('active');
+                    content.classList.add('open');
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
