@@ -14,6 +14,9 @@
     <meta property="og:type" content="website">
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #FF8C19;
@@ -29,6 +32,11 @@
             --divider-color: #e0e0e0;
             --card-bg-color: #ffffff;
             --card-hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --card-hover-translate-y: -4px; /* 调整卡片上移幅度 */
+            
+            /* 新增导航栏变量 */
+            --sub-text-color: #6c7a89;
+            --text-color: #1a2a40;
         }
         * {
             margin: 0;
@@ -43,29 +51,30 @@
             line-height: 1.6;
             display: flex;
             flex-direction: column;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 使用新字体 */
         }
+        /* --- 新导航栏样式 Start --- */
         .navbar {
             background: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: 0 5%;
             width: 100%;
         }
         .nav-container {
-            max-width: 1500px;
+            max-width: 1800px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 70px;
+            padding: 0 5%;
         }
         .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
-            height: 80px;
         }
         .logo-image {
             height: 32px;
@@ -74,34 +83,79 @@
         }
         .nav-links {
             display: flex;
-            gap: 35px;
+            gap: 10px;
         }
         .nav-links a {
-            color: #475569;
+            color: var(--sub-text-color);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
             position: relative;
             font-size: 1.05rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: color 0.3s ease, background-color 0.3s ease;
         }
         .nav-links a:hover {
-            color: var(--primary-color);
+            color: var(--text-color);
+            background-color: #f0f0f0;
+        }
+        .nav-links a.active {
+            color: var(--text-color);
         }
         .nav-links a.active::after {
             content: '';
             position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary-color);
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background-color: var(--sub-text-color);
+            border-radius: 2px;
         }
         .menu-toggle {
             display: none;
             cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            position: relative;
+            z-index: 101;
         }
+        .menu-toggle span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--primary-color);
+            border-radius: 3px;
+            left: 0;
+            opacity: 1;
+            transition: .25s ease-in-out;
+        }
+        .menu-toggle span:nth-child(1) { top: 8px; }
+        .menu-toggle span:nth-child(2), .menu-toggle span:nth-child(3) { top: 18px; }
+        .menu-toggle span:nth-child(4) { top: 28px; }
+        .menu-toggle.active span:nth-child(1) { top: 18px; width: 0; left: 50%; }
+        .menu-toggle.active span:nth-child(2) { transform: rotate(45deg); }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg); }
+        .menu-toggle.active span:nth-child(4) { top: 18px; width: 0; left: 50%; }
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 98;
+        }
+        .menu-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* --- 新导航栏样式 End --- */
         .main-content-wrapper {
             flex: 1;
             padding: 20px;
@@ -122,7 +176,7 @@
             box-shadow: var(--box-shadow);
             height: fit-content;
             position: sticky;
-            top: calc(80px + 20px);
+            top: calc(70px + 20px); /* 导航栏高度调整为70px */
             display: flex;
             flex-direction: column;
             padding-bottom: 20px;
@@ -154,7 +208,7 @@
         .categories {
             list-style: none;
             overflow-y: auto;
-            max-height: calc(100vh - (80px + 20px + 100px));
+            max-height: calc(100vh - (70px + 20px + 100px));
             padding: 0 15px;
         }
         .categories::-webkit-scrollbar {
@@ -382,7 +436,7 @@
             gap: 15px;
         }
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(var(--card-hover-translate-y));
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             background-color: #fbfbfc; /* 鼠标悬浮时背景色微变 */
         }
@@ -580,35 +634,43 @@
             .category-section h2 {
                 font-size: 1.6rem;
             }
-            .menu-toggle {
-                display: block;
-            }
+            /* 新导航栏响应式 */
             .nav-links {
-                position: absolute;
-                top: 100%;
+                position: fixed;
+                top: 0;
                 left: 0;
                 width: 100%;
+                height: 100vh;
                 background: white;
                 flex-direction: column;
+                justify-content: center;
                 align-items: center;
-                gap: 0;
-                padding: 0;
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
+                gap: 20px;
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 0.6s ease, visibility 0.6s ease;
+                z-index: 99;
             }
             .nav-links.active {
-                max-height: 500px;
-                padding: 20px 0;
+                visibility: visible;
+                opacity: 1;
             }
             .nav-links a {
-                padding: 15px 0;
-                width: 100%;
-                text-align: center;
+                font-size: 1.5rem;
+                padding: 15px 25px;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+            }
+            .nav-links.active a {
+                transform: translateY(0);
+                opacity: 1;
             }
             .nav-links a.active::after {
-                display: none;
+                content: none;
+            }
+            .menu-toggle {
+                display: block;
             }
         }
         @media (min-width: 1201px) {
@@ -674,20 +736,24 @@
     </style>
 </head>
 <body id="top">
+    <div class="menu-overlay" id="menuOverlay"></div>
     <nav class="navbar">
         <div class="nav-container">
             <a href="https://www.zizao.top" class="logo">
-                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="公司Logo" class="logo-image">
+                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo" class="logo-image">
             </a>
             <div class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
             <div class="nav-links" id="navLinks">
-                <a href="https://www.zizao.top" target="_blank">首页</a>
+                <a href="https://www.zizao.top">首页</a>
                 <a href="https://www.zizao.top/fonts">字库产品</a>
-                <a href="https://www.zizao.top/tools">设计百宝库</a>
                 <a class="active">设计导航</a>
-                <a href="#" target="_blank">关于我们</a>
+                <a href="https://www.zizao.top/tools">设计百宝库</a>
+                <a href="#">关于我们</a>
             </div>
         </div>
     </nav>
@@ -920,22 +986,21 @@
             bing: { placeholder: '搜索 Bing...', url: 'https://www.bing.com/search?q=' },
             google: { placeholder: '搜索 Google...', url: 'https://www.google.com/search?q=' },
         };
+        // 新增导航栏JS逻辑
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const toggleMenu = () => {
+            const isActive = navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            navLinks.querySelectorAll('a').forEach((link, index) => {
+                link.style.transitionDelay = isActive ? `${index * 0.08}s` : '';
+            });
+        };
         const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
-        function toggleMobileMenu() {
-            navLinks.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        }
         function toggleSidebar() {
             sidebar.classList.toggle('show');
             sidebarOverlay.classList.toggle('show');
@@ -957,9 +1022,7 @@
         }
         function handleResize() {
             if (window.innerWidth > 1200) {
-                navLinks.classList.remove('active');
-                menuToggle.querySelector('i').classList.remove('fa-times');
-                menuToggle.querySelector('i').classList.add('fa-bars');
+                // 原有的菜单逻辑已移除，由新导航栏代替
                 sidebar.classList.remove('show');
                 sidebarOverlay.classList.remove('show');
                 mobileSidebarToggle.querySelector('i').classList.remove('fa-times');
@@ -1071,7 +1134,16 @@
         }
         document.addEventListener('DOMContentLoaded', () => {
             initializeUI();
-            menuToggle.addEventListener('click', toggleMobileMenu);
+            
+            // 新导航栏事件监听
+            menuToggle.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+            navLinks.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' && navLinks.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+
             mobileSidebarToggle.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', closeSidebar);
             window.addEventListener('resize', handleResize);
