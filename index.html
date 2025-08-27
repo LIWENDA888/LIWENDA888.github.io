@@ -374,19 +374,24 @@
 
         /* 优化后的底部栏样式 */
         .footer {
-            background: #1a1a1a;
-            color: #d1d9e2;
+            /* 核心修改：背景色改为页面背景色 */
+            background: #f8fafc;
+            color: #1a2a40;
             padding: 80px 5% 40px;
             font-size: 1rem;
+            /* 核心修改：移除阴影并添加分割线 */
+            box-shadow: none;
+            border-top: 1px solid #e0e0e0;
         }
 
         .footer-container {
-            max-width: 1200px;
+            max-width: 1800px; /* 核心修改：增加最大宽度 */
             margin: 0 auto;
+            /* 修改网格布局，增加一列 */
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* 调整为五列 */
-            gap: 80px; /* 调整为五列，增加间距 */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            grid-template-columns: auto auto 1fr 1fr 1fr 1fr;
+            gap: 120px; /* 核心修改：增加列间距 */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             padding-bottom: 40px;
         }
         
@@ -405,7 +410,8 @@
         .footer-logo img {
             height: 30px;
             width: auto;
-            filter: brightness(0) invert(1);
+            /* 核心修改：移除滤镜 */
+            filter: none;
         }
 
         /* 新增：二维码+社交图标部分 */
@@ -431,6 +437,7 @@
             display: flex;
             gap: 15px;
             align-items: center;
+            margin-top: 15px;
         }
         
         .social-links-section a {
@@ -444,12 +451,14 @@
         .social-links-section img {
             width: 24px;
             height: 24px;
-            filter: brightness(0) invert(1);
+            /* 核心修改：移除滤镜 */
+            filter: none;
             transition: all 0.3s;
         }
 
         .social-links-section a:hover img {
-            filter: invert(61%) sepia(99%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
+            /* 核心修改：调整悬停滤镜颜色 */
+            filter: sepia(100%) saturate(200%) hue-rotate(30deg) brightness(85%) contrast(100%);
         }
 
         .qr-code-group {
@@ -459,21 +468,22 @@
             text-align: center;
             gap: 10px;
             font-size: 0.85rem;
-            color: #b0b0b0;
+            color: var(--sub-text-color);
         }
 
         .qr-code-group img {
             width: 120px;
             height: 120px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* 核心修改：调整阴影参数 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             filter: none;
         }
 
         .qr-code-group p {
             margin: 0;
             font-size: 0.9rem;
-            color: #c0c0c0;
+            color: var(--sub-text-color);
         }
 
         /* 统一的列样式 */
@@ -486,7 +496,7 @@
         .footer-column h4 {
             font-size: 1.2rem;
             font-weight: 600;
-            color: white;
+            color: var(--text-color);
             margin-bottom: 20px;
             position: relative;
             padding-bottom: 8px;
@@ -512,14 +522,14 @@
         }
 
         .footer-links-list a {
-            color: #c0c0c0;
+            color: var(--sub-text-color);
             text-decoration: none;
             font-size: 0.95rem;
             transition: all 0.3s ease;
         }
 
         .footer-links-list a:hover {
-            color: white;
+            color: var(--text-color);
             text-decoration: underline;
             transform: translateX(5px);
         }
@@ -531,18 +541,18 @@
         }
 
         .copyright-section p {
-            color: #909090;
+            color: var(--sub-text-color);
             font-size: 0.9rem;
         }
 
         .copyright-section a {
-            color: #909090;
+            color: var(--sub-text-color);
             text-decoration: none;
             transition: color 0.3s ease, text-decoration 0.3s ease;
         }
 
         .copyright-section a:hover {
-            color: white;
+            color: var(--text-color);
             text-decoration: underline;
         }
         
@@ -613,28 +623,42 @@
             
             /* 手机端英雄区域布局调整 */
             .hero-section {
-                height: auto; /* 高度根据内容自适应 */
+                /* 保持相对定位，让子元素可以绝对定位 */
+                position: relative;
+                /* 移除固定高度，让内容撑开容器 */
+                height: auto; 
+                /* 移除 padding */
                 padding: 0;
-                display: block; /* 恢复正常文档流 */
             }
-
+            
             .hero-section .hero-image-container {
-                position: static; /* 移除绝对定位 */
+                /* 保持静态定位，让图片在文档流中正常排列 */
+                position: static;
+                width: 100%;
                 height: auto;
+                z-index: 0;
             }
-
+            
             .hero-section .hero-image-container img {
-                object-fit: contain; /* 调整图片缩放方式 */
-                object-position: top;
-                height: auto; /* 保证图片正常显示 */
+                /* 确保图片自适应宽度 */
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                object-position: center;
             }
 
             .hero-content {
-                position: static; /* 移除绝对定位，让其在图片下方 */
-                padding: 30px 5%; /* 调整内边距 */
-                color: #1e293b; /* 恢复深色字体 */
-                text-align: left; /* 文字左对齐 */
-                margin-left: 0; /* 移除左边距 */
+                /* 保持静态定位，让文字跟随图片之后 */
+                position: static;
+                width: 100%;
+                max-width: none;
+                z-index: 1;
+                color: #1a2a40; /* 修改为深色字体，使其在白色背景下可见 */
+                text-align: left;
+                margin: 0;
+                padding: 0 5%;
+                /* 核心修改：移除负外边距，添加正常的外边距 */
+                margin-top: 20px; 
             }
 
             .hero-content h1 {
@@ -644,17 +668,17 @@
             .hero-content p {
                 font-size: 1.2rem;
                 margin-bottom: 24px;
-                color: #4a5568;
+                color: var(--sub-text-color); /* 修改为深色字体 */
             }
             .hero-buttons {
-                justify-content: flex-start;
+                justify-content: flex-start; /* 左对齐按钮 */
             }
             .hero-button {
                 font-size: 1rem;
             }
             .hero-button-secondary {
-                color: #1e293b;
-                border-color: #1e293b;
+                color: #1a2a40; /* 修改为深色字体 */
+                border-color: #1a2a40; /* 修改为深色边框 */
             }
 
             .main-content {
@@ -693,7 +717,7 @@
                 align-items: center;
                 text-align: center;
                 padding-bottom: 25px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             }
             
             .footer-contact-section {
@@ -701,7 +725,7 @@
                 text-align: center;
                 padding-top: 25px;
                 padding-bottom: 25px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             }
             
             /* 解决手风琴内容居中问题 */
@@ -719,6 +743,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                color: var(--text-color);
             }
 
             .footer-column h4::after {
@@ -765,12 +790,13 @@
                 text-align: center;
                 padding-top: 15px;
                 margin-top: 15px;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
             }
         }
         @media (max-width: 576px) {
+            /* 更改：增加更小屏幕的调整 */
             .hero-section {
-                height: 400px;
+                height: auto; /* 调整高度以适应更小的屏幕 */
             }
             .hero-content h1 {
                 font-size: 1.8rem;
@@ -876,8 +902,37 @@
                 <p class="footer-about">
                     让每个想法都能轻松成字
                 </p>
+                <div class="social-links-section">
+                    <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页">
+                    </a>
+                    <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页">
+                    </a>
+                    <a href="https://www.zcool.com.cn/u/15462186" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页">
+                    </a>
+                    <a href="https://space.bilibili.com/339715446" target="_blank" rel="noopener noreferrer">
+                        <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页">
+                    </a>
+                </div>
             </div>
             
+            <div class="footer-contact-section" style="padding-top: 0;">
+                <div class="info-contact-container" style="gap: 15px;">
+                    <div class="qr-codes-container" style="display: flex;">
+                        <div class="qr-code-group">
+                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信好友二维码">
+                            <p>微信扫码添加好友</p>
+                        </div>
+                        <div class="qr-code-group">
+                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
+                            <p>微信扫码关注公众号</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="footer-column accordion-item">
                 <h4 class="accordion-header">
                     产品与服务
@@ -913,34 +968,17 @@
                     <li><a href="#" target="_blank" rel="noopener noreferrer">商务洽谈</a></li>
                 </ul>
             </div>
-            
-            <div class="footer-contact-section">
-                <div class="info-contact-container">
-                    <div class="qr-codes-container">
-                        <div class="qr-code-group">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信好友二维码">
-                            <p>微信扫码添加好友</p>
-                        </div>
-                        <div class="qr-code-group">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信公众号二维码">
-                            <p>微信扫码关注公众号</p>
-                        </div>
-                    </div>
-                    <div class="social-links-section">
-                        <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" rel="noopener noreferrer">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页">
-                        </a>
-                        <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" rel="noopener noreferrer">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页">
-                        </a>
-                        <a href="https://www.zcool.com.cn/u/15462186" target="_blank" rel="noopener noreferrer">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页">
-                        </a>
-                        <a href="https://space.bilibili.com/339715446" target="_blank" rel="noopener noreferrer">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页">
-                        </a>
-                    </div>
-                </div>
+
+            <div class="footer-column accordion-item">
+                <h4 class="accordion-header">
+                    帮助中心
+                    <span class="icon">+</span>
+                </h4>
+                <ul class="footer-links-list accordion-content">
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">常见问题</a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">使用教程</a></li>
+                    <li><a href="#" target="_blank" rel="noopener noreferrer">在线客服</a></li>
+                </ul>
             </div>
         </div>
 
@@ -974,6 +1012,7 @@
                 if (e.target.tagName === 'A' && navLinks.classList.contains('active')) {
                     toggleMenu();
                 }
+                e.stopPropagation();
             });
         });
 
