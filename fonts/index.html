@@ -221,7 +221,7 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 移除 transform 过渡效果 */
+            transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
@@ -229,24 +229,14 @@
         }
 
         .hero-featured-left:hover {
-            /* 移除 transform: translateY(-8px); */
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* 新增：图片容器 */
-        .hero-featured-left .image-container,
-        .hero-small-card .image-container {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            border-radius: 16px;
         }
         
         .hero-featured-left img,
         .hero-small-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* 关键修改：图片居中并填充容器 */
             display: block;
             transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -306,7 +296,7 @@
         .hero-small-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* 关键修改：图片居中并填充容器 */
             display: block;
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -327,12 +317,8 @@
             font-weight: 600;
             border-bottom-left-radius: 16px;
             border-bottom-right-radius: 16px;
-            opacity: 0; /* 默认隐藏 */
-            transition: opacity 0.3s ease; /* 悬浮显示动画 */
-        }
-        
-        .hero-small-card:hover .hero-small-card-title {
-            opacity: 1; /* 悬浮显示 */
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
         
         /* 响应式调整 */
@@ -872,6 +858,35 @@
                 padding: 30px;
             }
             
+            /* 手机端 精选内容 样式修改 */
+            .section-title {
+                display: block;
+                margin-bottom: 10px;
+                text-align: left;
+            }
+            
+            .title-left {
+                display: block;
+                gap: 0;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+                margin-bottom: 5px;
+            }
+
+            .sub-heading {
+                display: block;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            
+            .more-link {
+                display: block;
+                font-size: 14px;
+                text-align: left;
+            }
+            
             /* 移动端底部布局调整为手风琴样式 */
             .footer {
                 padding-top: 40px;
@@ -974,6 +989,18 @@
             }
             .social-links-section {
                 justify-content: center;
+            }
+            
+            /* 新增：针对更小屏幕的卡片居中和单列显示 */
+            .cards-container {
+                display: flex; /* 改为 flex 布局 */
+                flex-direction: column; /* 垂直排列 */
+                align-items: center; /* 居中对齐 */
+                gap: 20px;
+            }
+            .card {
+                width: 100%; /* 卡片宽度铺满 */
+                max-width: 400px; /* 限制最大宽度，防止卡片过宽 */
             }
         }
     </style>
