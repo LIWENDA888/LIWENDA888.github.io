@@ -26,17 +26,16 @@
             --dark-color: #212529;
             --gray-color: #6c7575;
             --border-radius: 12px;
-            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
             --transition-color-bg: all 0.3s ease;
             --background-light: #f4f6f8;
             --divider-color: #e0e0e0;
             --card-bg-color: #ffffff;
-            --card-hover-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            --card-hover-translate-y: -4px; /* 调整卡片上移幅度 */
-            
-            /* 新增导航栏变量 */
+            --card-hover-translate-y: -5px;
+            --card-hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.08); /* 调整为更细腻的阴影 */
             --sub-text-color: #6c7a89;
             --text-color: #1a2a40;
+            --spacing-unit: 30px;
         }
         * {
             margin: 0;
@@ -47,140 +46,37 @@
         body {
             background-color: var(--background-light);
             color: var(--dark-color);
-            min-height: 10vh;
+            min-height: 100vh;
             line-height: 1.6;
             display: flex;
             flex-direction: column;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 使用新字体 */
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: var(--spacing-unit);
         }
-        /* --- 新导航栏样式 Start --- */
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-        }
-        .nav-container {
-            max-width: 1800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-            padding: 0 5%;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-        .logo-image {
-            height: 32px;
-            width: auto;
-            margin-right: 12px;
-        }
-        .nav-links {
-            display: flex;
-            gap: 10px;
-        }
-        .nav-links a {
-            color: var(--sub-text-color);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            font-size: 1.05rem;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: color 0.3s ease, background-color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: var(--text-color);
-            background-color: #f0f0f0;
-        }
-        .nav-links a.active {
-            color: var(--text-color);
-        }
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 2px;
-            background-color: var(--sub-text-color);
-            border-radius: 2px;
-        }
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            position: relative;
-            z-index: 101;
-        }
-        .menu-toggle span {
-            display: block;
-            position: absolute;
-            height: 3px;
-            width: 100%;
-            background: var(--primary-color);
-            border-radius: 3px;
-            left: 0;
-            opacity: 1;
-            transition: .25s ease-in-out;
-        }
-        .menu-toggle span:nth-child(1) { top: 8px; }
-        .menu-toggle span:nth-child(2), .menu-toggle span:nth-child(3) { top: 18px; }
-        .menu-toggle span:nth-child(4) { top: 28px; }
-        .menu-toggle.active span:nth-child(1) { top: 18px; width: 0; left: 50%; }
-        .menu-toggle.active span:nth-child(2) { transform: rotate(45deg); }
-        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg); }
-        .menu-toggle.active span:nth-child(4) { top: 18px; width: 0; left: 50%; }
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            z-index: 98;
-        }
-        .menu-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        /* --- 新导航栏样式 End --- */
         .main-content-wrapper {
             flex: 1;
-            padding: 20px;
             width: 100%;
         }
         .container {
-            max-width: 1920px;
+            width: 100%;
             margin: 0 auto;
-            display: flex;
-            gap: 30px;
             position: relative;
         }
         .sidebar {
             width: 250px;
-            flex-shrink: 0;
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            height: fit-content;
-            position: sticky;
-            top: calc(70px + 20px); /* 导航栏高度调整为70px */
             display: flex;
             flex-direction: column;
             padding-bottom: 20px;
             transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            position: fixed;
+            top: var(--spacing-unit);
+            bottom: var(--spacing-unit);
+            left: var(--spacing-unit);
+            height: calc(100vh - (var(--spacing-unit) * 2));
+            z-index: 100;
         }
         .sidebar-header {
             padding: 25px;
@@ -208,7 +104,7 @@
         .categories {
             list-style: none;
             overflow-y: auto;
-            max-height: calc(100vh - (70px + 20px + 100px));
+            max-height: calc(100vh - 120px);
             padding: 0 15px;
         }
         .categories::-webkit-scrollbar {
@@ -237,7 +133,7 @@
             color: var(--dark-color);
             font-size: 1.05rem;
             font-weight: 500;
-            transition: var(--transition-color-bg);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             border-radius: 8px;
             margin-bottom: 5px;
@@ -246,17 +142,22 @@
             background-color: #fff;
             border: 1px solid #f0f0f0;
         }
-        .category-btn i {
+        .category-btn .category-icon {
+            width: 9px;
+            height: 9px;
+            background-color: #929292;
             margin-right: 15px;
-            color: #929292;
-            transition: color 0.3s ease;
+            border-radius: 3px;
+            transform: rotate(45deg);
+            transition: background-color 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .category-btn:hover {
             background-color: #f1f3f9;
             color: var(--dark-color);
+            transform: translateX(4px);
         }
-        .category-btn:hover i {
-            color: var(--primary-color);
+        .category-btn:hover .category-icon {
+            background-color: var(--primary-color);
         }
         .category-btn.active {
             background-color: var(--primary-color);
@@ -264,21 +165,22 @@
             font-weight: 600;
             border-color: var(--primary-color);
         }
-        .category-btn.active i {
-            color: white;
+        .category-btn.active .category-icon {
+            background-color: white;
+            transform: rotate(45deg) scale(1.1);
         }
         .content {
             flex: 1;
+            padding: 0;
+            margin-left: calc(250px + var(--spacing-unit));
         }
-        .search-area {
+        .search-area,
+        .category-section {
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 30px;
-            margin-bottom: 35px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            padding: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
         }
         .search-filters {
             display: flex;
@@ -286,13 +188,13 @@
             align-items: center;
             justify-content: flex-start;
             width: 100%;
-            margin-bottom: 0;
+            margin-bottom: 20px;
         }
         .search-engine-btn {
             padding: 8px 18px;
             cursor: pointer;
             font-weight: 500;
-            transition: var(--transition-color-bg);
+            transition: all 0.3s ease;
             font-size: 0.9rem;
             border: none;
             background: transparent;
@@ -325,9 +227,15 @@
             border-radius: 15px;
             padding: 15px 20px;
             z-index: 1;
-            transition: var(--transition-color-bg);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             width: 100%;
-            margin-top: 0;
+            margin-top: 20px;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .search-input-wrapper.focus-highlight {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), 0 0 0 4px rgba(255, 140, 25, 0.2);
         }
         #search-input {
             flex: 1;
@@ -350,16 +258,18 @@
             padding: 5px;
             transition: var(--transition-color-bg);
             flex-shrink: 0;
+            transition: all 0.3s ease;
         }
         #search-button:hover {
-            color: var(--accent-color);
+            color: var(--primary-color);
+            transform: scale(1.1);
         }
         .quick-links-area {
             display: flex;
             justify-content: flex-start;
             gap: 15px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .quick-link-btn {
             padding: 8px 18px;
@@ -375,13 +285,6 @@
             background-color: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
-        }
-        .category-section {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 30px;
-            margin-bottom: 30px;
         }
         .category-section h2 {
             font-size: 1.8rem;
@@ -406,7 +309,7 @@
             border-radius: 30px;
             cursor: pointer;
             font-weight: 500;
-            transition: var(--transition-color-bg);
+            transition: all 0.3s ease;
             font-size: 0.95rem;
         }
         .subcategory-tab:hover {
@@ -416,91 +319,176 @@
             background: var(--primary-color);
             color: white;
         }
+
+        /* 优化后的卡片样式 */
         .cards-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
-        /* --- 优化后的卡片样式 Start --- */
+
         .card {
             background-color: var(--card-bg-color);
+            border: 1px solid #e9eef2;
             border-radius: var(--border-radius);
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-            overflow: hidden;
-            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
-            display: flex;
-            padding: 20px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            padding: 18px;
             cursor: pointer;
-            align-items: center;
-            gap: 15px;
+            min-height: 120px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
+        
         .card:hover {
             transform: translateY(var(--card-hover-translate-y));
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            background-color: #fbfbfc; /* 鼠标悬浮时背景色微变 */
+            box-shadow: var(--card-hover-shadow);
         }
+        
+        .card-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
         .card-icon {
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            overflow: hidden;
-            border-radius: 8px;
+            background-color: var(--background-light);
         }
+        
         .card-icon img {
-            width: 100%;
-            height: 100%;
+            width: 80%;
+            height: 80%;
             object-fit: contain;
-            border-radius: 8px;
-            padding: 0;
-            box-sizing: border-box;
         }
+        
         .card-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
         }
+
         .card h3 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--secondary-color);
             font-weight: 600;
             margin: 0;
-            line-height: 1.2;
-            margin-bottom: 5px;
-            transition: color 0.4s ease;
+            line-height: 1.3;
+            transition: text-decoration 0.3s ease, text-underline-offset 0.3s ease;
+            text-decoration: none;
         }
+        
+        .card:hover h3 {
+            text-decoration: underline;
+            text-underline-offset: 6px; /* 调整下划线距离 */
+            text-decoration-thickness: 2px;
+        }
+
         .card p {
-            color: var(--gray-color);
+            color: var(--sub-text-color);
             line-height: 1.5;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            min-height: calc(1.5 * 2 * 0.88rem);
-            transition: color 0.4s ease;
             margin: 0;
         }
-        /* --- 优化后的卡片样式 End --- */
-        .card:hover h3,
-        .card:hover p {
-            color: var(--dark-color);
+
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .cards-container {
+                gap: 15px;
+            }
+            .card {
+                padding: 16px;
+                min-height: 110px;
+            }
+            .card h3 {
+                font-size: 1.1rem;
+            }
+            .card p {
+                font-size: 0.85rem;
+            }
+            .card-icon {
+                width: 24px;
+                height: 24px;
+            }
         }
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: var(--gray-color);
-            font-size: 0.9rem;
-            margin-top: auto;
+        
+        @media (max-width: 992px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 12px;
+            }
+            .card {
+                padding: 14px;
+                min-height: 100px;
+            }
+            .card h3 {
+                font-size: 1rem;
+            }
+            .card p {
+                font-size: 0.8rem;
+            }
+            .card-icon {
+                width: 22px;
+                height: 22px;
+            }
         }
+        
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 10px;
+            }
+            .card {
+                padding: 12px;
+                min-height: 90px;
+            }
+            .card h3 {
+                font-size: 0.95rem;
+            }
+            .card p {
+                font-size: 0.75rem;
+            }
+            .card-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 15px;
+                min-height: auto;
+            }
+            .card h3 {
+                font-size: 1.1rem;
+            }
+            .card p {
+                font-size: 0.85rem;
+            }
+            .card-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+        
+        /* 保持其他样式不变 */
         .hidden {
             display: none;
         }
-        /* Mobile-first Sidebar and Overlay */
         .mobile-sidebar-toggle {
             display: none;
             position: fixed;
@@ -540,10 +528,12 @@
             display: block;
             opacity: 1;
         }
-        /* Mobile responsive styles */
         @media (max-width: 1200px) {
+            body {
+                padding: var(--spacing-unit);
+            }
             .container {
-                flex-direction: column;
+                display: block;
             }
             .sidebar {
                 position: fixed;
@@ -559,6 +549,7 @@
                 border-radius: 0;
                 padding-bottom: 0;
                 overflow-y: auto;
+                margin: 0;
             }
             .sidebar.show {
                 transform: translateX(0);
@@ -579,8 +570,12 @@
             .mobile-sidebar-toggle {
                 display: block;
             }
+            .content {
+                padding-left: 0;
+                margin-left: 0;
+            }
             .search-area {
-                margin-bottom: 20px;
+                margin-bottom: var(--spacing-unit);
                 padding: 20px;
             }
             .search-filters {
@@ -628,59 +623,19 @@
                 flex-shrink: 0;
                 white-space: nowrap;
             }
-            .cards-container {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            .category-section {
+                 margin-bottom: var(--spacing-unit);
             }
             .category-section h2 {
                 font-size: 1.6rem;
             }
-            /* 新导航栏响应式 */
             .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: white;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 20px;
-                visibility: hidden;
-                opacity: 0;
-                transition: opacity 0.6s ease, visibility 0.6s ease;
-                z-index: 99;
-            }
-            .nav-links.active {
-                visibility: visible;
-                opacity: 1;
-            }
-            .nav-links a {
-                font-size: 1.5rem;
-                padding: 15px 25px;
-                opacity: 0;
-                transform: translateY(20px);
-                transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
-            }
-            .nav-links.active a {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            .nav-links a.active::after {
-                content: none;
-            }
-            .menu-toggle {
-                display: block;
+                display: none !important;
             }
         }
         @media (min-width: 1201px) {
-            .menu-toggle {
+            .menu-toggle, .menu-overlay {
                 display: none !important;
-            }
-            .nav-links {
-                max-height: none !important;
-                overflow: visible !important;
-                padding: 0 !important;
             }
         }
         @media (max-width: 992px) {
@@ -718,12 +673,14 @@
             }
             .search-area {
                 padding: 15px;
+                margin-bottom: var(--spacing-unit);
             }
             .search-input-wrapper {
                 padding: 10px 15px;
             }
             .category-section {
                 padding: 20px;
+                margin-bottom: var(--spacing-unit);
             }
             .category-section h2 {
                 font-size: 1.5rem;
@@ -737,26 +694,6 @@
 </head>
 <body id="top">
     <div class="menu-overlay" id="menuOverlay"></div>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="https://www.zizao.top" class="logo">
-                <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo" class="logo-image">
-            </a>
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="https://www.zizao.top">首页</a>
-                <a href="https://www.zizao.top/fonts">字库产品</a>
-                <a class="active" href="https://www.zizao.top/hao">设计导航</a>
-                <a href="https://www.zizao.top/tools">设计百宝库</a>
-                <a href="#" target="_blank">关于我们</a>
-            </div>
-        </div>
-    </nav>
     <div class="main-content-wrapper">
         <div class="container">
             <div class="sidebar" id="sidebar">
@@ -766,16 +703,16 @@
                     </div>
                 </div>
                 <ul class="categories" id="categories-list">
-                    <li><a href="#A" class="category-btn active"><i class="fas fa-caret-right"></i>常用推荐</a></li>
-                    <li><a href="#B" class="category-btn"><i class="fas fa-caret-right"></i>灵感创意</a></li>
-                    <li><a href="#C" class="category-btn"><i class="fas fa-caret-right"></i>字体字形</a></li>
-                    <li><a href="#D" class="category-btn"><i class="fas fa-caret-right"></i>AI工具</a></li>
-                    <li><a href="#E" class="category-btn"><i class="fas fa-caret-right"></i>免版权资源</a></li>
-                    <li><a href="#F" class="category-btn"><i class="fas fa-caret-right"></i>设计神器</a></li>
-                    <li><a href="#G" class="category-btn"><i class="fas fa-caret-right"></i>设计素材</a></li>
-                    <li><a href="#H" class="category-btn"><i class="fas fa-caret-right"></i>配色方案</a></li>
-                    <li><a href="#I" class="category-btn"><i class="fas fa-caret-right"></i>知识社区</a></li>
-                    <li><a href="#J" class="category-btn"><i class="fas fa-caret-right"></i>软件工具</a></li>
+                    <li><a href="#A" class="category-btn active"><div class="category-icon"></div>常用推荐</a></li>
+                    <li><a href="#B" class="category-btn"><div class="category-icon"></div>灵感创意</a></li>
+                    <li><a href="#C" class="category-btn"><div class="category-icon"></div>字体字形</a></li>
+                    <li><a href="#D" class="category-btn"><div class="category-icon"></div>AI工具</a></li>
+                    <li><a href="#E" class="category-btn"><div class="category-icon"></div>免版权资源</a></li>
+                    <li><a href="#F" class="category-btn"><div class="category-icon"></div>设计神器</a></li>
+                    <li><a href="#G" class="category-btn"><div class="category-icon"></div>设计素材</a></li>
+                    <li><a href="#H" class="category-btn"><div class="category-icon"></div>配色方案</a></li>
+                    <li><a href="#I" class="category-btn"><div class="category-icon"></div>知识社区</a></li>
+                    <li><a href="#J" class="category-btn"><div class="category-icon"></div>软件工具</a></li>
                 </ul>
             </div>
             <div class="content" id="main-content">
@@ -796,6 +733,7 @@
                         <button id="search-button"><i class="fas fa-search"></i></button>
                     </div>
                     <div class="quick-links-area">
+                        <span class="quick-link-btn" data-link="https://www.zizao.top">字造字型</span>
                         <span class="quick-link-btn" data-link="https://www.dazi.co/index">AskManyAI</span>
                         <span class="quick-link-btn" data-link="https://www.pinterest.com">Pinterest</span>
                         <span class="quick-link-btn" data-link="https://chat.deepseek.com">Deepseek</span>
@@ -979,28 +917,17 @@
         const searchEngineData = {
             baidu: { placeholder: '搜索 百度...', url: 'https://www.baidu.com/s?wd=' },
             ai: { placeholder: '搜索 百度AI...', url: 'https://chat.baidu.com/search?word=' },
-            huaban: { placeholder: '搜索 花瓣图片...', url: 'https://huaban.com/search?q=' },
-            tupian: { placeholder: '搜索 百度图片...', url: 'https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=' },
-            mian: { placeholder: '搜索 免版权图片...', url: 'https://www.logosc.cn/so/s' },
-            fanyi: { placeholder: '搜索 百度翻译...', url: 'https://fanyi.baidu.com/#/zh/en/' },
+            huaban: { placeholder: '搜花瓣图片...', url: 'https://huaban.com/search?q=' },
+            tupian: { placeholder: '搜索百度图片...', url: 'https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=' },
+            mian: { placeholder: '搜索免版权图片...', url: 'https://www.logosc.cn/so/s' },
+            fanyi: { placeholder: '搜索百度翻译...', url: 'https://fanyi.baidu.com/#/zh/en/' },
             bing: { placeholder: '搜索 Bing...', url: 'https://www.bing.com/search?q=' },
             google: { placeholder: '搜索 Google...', url: 'https://www.google.com/search?q=' },
-        };
-        // 新增导航栏JS逻辑
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const toggleMenu = () => {
-            const isActive = navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-            navLinks.querySelectorAll('a').forEach((link, index) => {
-                link.style.transitionDelay = isActive ? `${index * 0.08}s` : '';
-            });
         };
         const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
         function toggleSidebar() {
             sidebar.classList.toggle('show');
             sidebarOverlay.classList.toggle('show');
@@ -1022,7 +949,6 @@
         }
         function handleResize() {
             if (window.innerWidth > 1200) {
-                // 原有的菜单逻辑已移除，由新导航栏代替
                 sidebar.classList.remove('show');
                 sidebarOverlay.classList.remove('show');
                 mobileSidebarToggle.querySelector('i').classList.remove('fa-times');
@@ -1034,15 +960,22 @@
             if (!container || container.innerHTML.trim() !== '') {
                 return;
             }
-            container.innerHTML = cardsData.map(cardData => `
-                <div class="card" onclick="window.open('${cardData.link}', '_blank')">
-                    ${cardData.icon ? `<div class="card-icon"><img src="${cardData.icon}" alt="${cardData.title} 图标" onerror="this.onerror=null; this.src='https://via.placeholder.com/50/EEE/888?text=NO';"></div>` : ''}
-                    <div class="card-content">
-                        <h3>${cardData.title}</h3>
+            container.innerHTML = cardsData.map(cardData => {
+                const iconUrl = cardData.icon || "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg";
+                return `
+                    <div class="card" onclick="window.open('${cardData.link}', '_blank')">
+                        <div class="card-inner">
+                            <div class="card-icon">
+                                <img src="${iconUrl}" alt="${cardData.title} icon">
+                            </div>
+                            <div class="card-content">
+                                <h3>${cardData.title}</h3>
+                            </div>
+                        </div>
                         <p>${cardData.description}</p>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
         function switchSubcategory(category, subcategory) {
             const section = document.getElementById(category);
@@ -1064,7 +997,7 @@
             const categoriesList = document.getElementById('categories-list');
             categoriesList.querySelectorAll('.category-btn').forEach(link => link.classList.remove('active'));
             const firstCategorySection = document.getElementById('A');
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            const navbarHeight = 0;
             const offset = navbarHeight + 20;
             if (window.scrollY <= firstCategorySection.offsetTop - offset) {
                 const firstCatBtn = document.querySelector('.category-btn[href="#A"]');
@@ -1135,15 +1068,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             initializeUI();
             
-            // 新导航栏事件监听
-            menuToggle.addEventListener('click', toggleMenu);
-            menuOverlay.addEventListener('click', toggleMenu);
-            navLinks.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' && navLinks.classList.contains('active')) {
-                    toggleMenu();
-                }
-            });
-
             mobileSidebarToggle.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', closeSidebar);
             window.addEventListener('resize', handleResize);
@@ -1157,7 +1081,7 @@
                 this.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
                 targetButton.classList.add('active');
                 const targetSection = document.querySelector(targetButton.getAttribute('href'));
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const navbarHeight = 0;
                 if (targetSection) {
                     window.scrollTo({
                         top: targetSection.offsetTop - navbarHeight - 20,
@@ -1191,8 +1115,15 @@
             document.querySelectorAll('.search-engine-btn').forEach(btn => {
                 btn.addEventListener('click', () => switchSearchEngine(btn.getAttribute('data-engine')));
             });
-            const searchButton = document.getElementById('search-button');
             const searchInput = document.getElementById('search-input');
+            const searchInputWrapper = searchInput.closest('.search-input-wrapper');
+            searchInput.addEventListener('focus', () => {
+                searchInputWrapper.classList.add('focus-highlight');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInputWrapper.classList.remove('focus-highlight');
+            });
+            const searchButton = document.getElementById('search-button');
             searchButton.addEventListener('click', performSearch);
             searchInput.addEventListener('keypress', event => {
                 if (event.key === 'Enter') {
