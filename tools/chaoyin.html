@@ -16,29 +16,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* 🎨 优化后的色彩和变量，更具设计感 */
         :root {
-            --primary-color: #FF9800;
-            --secondary-color: #FFC107;
+            --primary-color: #FF7A00;
+            --secondary-color: #FF9800;
             --accent-color: #FF5722;
             
-            --text-color: #333333;
+            --text-color: #2D2D2D;
             --light-text: #666666;
-            --bg-color: #F8F8F8;
-            --body-gradient-start: #FFFFFF;
-            --body-gradient-end: #F0F0F0;
+            --bg-color: #F0F2F5;
+            --body-gradient-start: #F9F9FB;
+            --body-gradient-end: #EAEBEE;
             
             --card-bg: #FFFFFF;
-            --border-color: #E0E0E0;
-            --shadow-color: rgba(0,0,0,0.08);
+            --border-color: #E2E2E2;
+            --shadow-color: rgba(0, 0, 0, 0.05);
             --success-color: #4CAF50;
             --footer-bg: #333333;
             --footer-text-color: #E0E0E0;
             --footer-link-color: #FFC107;
             --footer-border-color: #444444;
-            --transition-speed: 0.3s;
+            --transition-speed: 0.4s;
             --content-max-width: 1500px;
-            --input-group-border-radius: 10px;
-            --section-spacing: 30px;
+            --input-group-border-radius: 15px; /* 增加圆角 */
+            --card-border-radius: 20px; /* 增加卡片圆角 */
+            --section-spacing: 35px;
             --sidebar-width: 280px;
         }
 
@@ -49,13 +51,13 @@
             
             --text-color: #E0E0E0;
             --light-text: #BDBDBD;
-            --bg-color: #2D2D2D;
-            --body-gradient-start: #1A1A1A;
-            --body-gradient-end: #1A1A1A;
+            --bg-color: #1A1A1A;
+            --body-gradient-start: #121212; /* 深邃的墨黑色背景 */
+            --body-gradient-end: #121212;
             
-            --card-bg: #1A1A1A;
-            --border-color: #555555;
-            --shadow-color: rgba(0,0,0,0.3);
+            --card-bg: #1E1E1E; /* 带有层次感的卡片背景 */
+            --border-color: #383838;
+            --shadow-color: rgba(0, 0, 0, 0.4);
             --success-color: #66BB6A;
             --footer-bg: #1A1A1A;
             --footer-text-color: #B0B0B0;
@@ -67,10 +69,12 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: background-color var(--transition-speed), 
-                        color var(--transition-speed),
-                        border-color var(--transition-speed),
-                        box-shadow var(--transition-speed);
+            /* 优化过渡效果，让切换更平滑 */
+            transition: background-color var(--transition-speed) ease-in-out, 
+                        color var(--transition-speed) ease-in-out,
+                        border-color var(--transition-speed) ease-in-out,
+                        box-shadow var(--transition-speed) ease-in-out,
+                        transform 0.2s ease-out;
         }
         
         body {
@@ -80,7 +84,8 @@
             display: flex;
             flex-direction: column;
             color: var(--text-color);
-            font-family: "Microsoft YaHei", sans-serif;
+            /* 增加更多字体以提高兼容性 */
+            font-family: "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "Microsoft YaHei", sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -98,8 +103,9 @@
             width: var(--sidebar-width);
             padding: var(--section-spacing);
             background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow-color);
+            border-radius: var(--card-border-radius);
+            /* 优化阴影，更柔和 */
+            box-shadow: 0 15px 40px var(--shadow-color);
             border: 1px solid var(--border-color);
             position: fixed;
             top: var(--section-spacing);
@@ -112,8 +118,8 @@
         }
 
         .sidebar-logo {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
             border-bottom: 1px solid var(--border-color);
             width: 100%;
             text-align: center;
@@ -140,9 +146,10 @@
         .results-container,
         .recommended-section {
             background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px var(--shadow-color);
+            border-radius: var(--card-border-radius);
+            padding: 30px; /* 增加内边距，留出更多空间 */
+            /* 优化阴影 */
+            box-shadow: 0 15px 40px var(--shadow-color);
             margin: 0;
             border: 1px solid var(--border-color);
             width: 100%;
@@ -167,13 +174,13 @@
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
         
         .search-history {
             display: none;
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
             border-top: 1px solid var(--border-color);
         }
 
@@ -192,7 +199,7 @@
         
         .history-card {
             background: var(--bg-color);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 10px 20px;
             text-align: center;
             cursor: pointer;
@@ -207,7 +214,7 @@
             background: var(--primary-color);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px var(--shadow-color);
+            box-shadow: 0 4px 10px rgba(255, 122, 0, 0.3);
         }
         
         .settings-panel-wrapper {
@@ -222,16 +229,16 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 30px;
         }
 
         .sidebar-link-btn {
             display: block;
             width: 100%;
-            padding: 12px 20px;
+            padding: 15px 20px;
             background: var(--bg-color);
-            border-radius: 10px;
+            border-radius: 15px;
             text-decoration: none;
             text-align: center;
             color: var(--text-color);
@@ -244,33 +251,34 @@
             background: var(--primary-color);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px var(--shadow-color);
+            box-shadow: 0 4px 10px rgba(255, 122, 0, 0.3);
         }
         
         .input-group {
             display: flex;
             width: 100%;
             margin: 0;
-            height: 60px;
-            box-shadow: 0 4px 15px var(--shadow-color);
+            height: 65px;
+            box-shadow: 0 8px 20px var(--shadow-color);
             border-radius: var(--input-group-border-radius);
             overflow: hidden;
             border: 2px solid var(--border-color);
             transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
         }
 
+        /* 优化聚焦效果，增加发光感 */
         .input-group:focus-within {
             border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+            box-shadow: 0 0 12px rgba(255, 122, 0, 0.5);
         }
         
         #character-input {
             flex: 1;
             height: 100%;
             border: none;
-            padding: 0 20px;
-            font-size: 1.8rem;
-            text-align: left;
+            padding: 0 25px; /* 增加内边距 */
+            font-size: 2.2rem; /* 增加字体大小 */
+            text-align: center; /* 居中输入更美观 */
             outline: none;
             background: var(--card-bg);
             color: var(--text-color);
@@ -282,8 +290,8 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 0 25px;
-            font-size: 1.5rem;
+            padding: 0 30px; /* 增加按钮宽度 */
+            font-size: 1.8rem; /* 增加图标大小 */
             cursor: pointer;
             transition: all var(--transition-speed);
             display: flex;
@@ -292,21 +300,24 @@
             border-radius: 0;
         }
         
+        /* 优化按钮交互 */
         #search-btn:hover {
             background: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
         }
         
         #search-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.95); /* 更明显的点击反馈 */
+            box-shadow: none;
         }
         
         .results-container {
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.6s ease-out; /* 更平滑的动画效果 */
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
@@ -314,41 +325,41 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
         }
         
         .results-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: var(--primary-color);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
         .results-count {
             background: var(--primary-color);
             color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 1rem;
         }
         
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* 调整卡片尺寸 */
+            gap: 20px;
         }
         
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            padding: 15px 10px;
+            border-radius: var(--card-border-radius);
+            box-shadow: 0 8px 20px var(--shadow-color);
+            padding: 20px 15px; /* 增加内边距 */
             text-align: center;
             cursor: pointer;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition-speed) ease-in-out;
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
@@ -357,52 +368,67 @@
             align-items: center;
         }
         
+        /* 优化卡片悬停效果 */
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px var(--shadow-color);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255, 122, 0, 0.2);
             border-color: var(--primary-color);
         }
         
         .card-character {
-            font-size: 2.8rem;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            font-size: 3.5rem; /* 增加字体大小 */
+            margin-top: 15px;
+            margin-bottom: 15px;
             color: var(--text-color);
             font-weight: bold;
             line-height: 1;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: color 0.3s ease;
         }
         
+        /* 悬停时汉字颜色变亮 */
+        .card:hover .card-character {
+            color: var(--primary-color);
+        }
+
+        /* 更改卡片位置信息的样式，合并为一个容器 */
         .card-positions-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-        }
-        
-        .card-position-total,
-        .card-position-page {
+            gap: 4px;
             background: var(--bg-color);
-            border-radius: 6px;
-            padding: 6px;
-            font-size: 0.85rem;
+            border-radius: 8px;
+            padding: 7px;
+            font-size: 0.9rem;
             color: var(--text-color);
             font-family: monospace;
             font-weight: bold;
             width: fit-content;
             margin: 0 auto;
+            border: 1px solid var(--border-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
         
+        .card-position-total,
+        .card-position-page {
+            /* 移除独立背景，让它们在父容器内分行显示 */
+            background: none;
+            padding: 0;
+            width: fit-content;
+        }
+
         .card-definition {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             background: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 2px 6px;
-            font-size: 0.65rem;
+            border-radius: 10px;
+            padding: 4px 8px;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: all 0.2s;
             z-index: 2;
@@ -412,7 +438,7 @@
         
         .card-definition:hover {
             background: var(--primary-color);
-            transform: scale(1.05);
+            transform: scale(1.05) translateX(-50%);
         }
         
         .copy-notification {
@@ -425,7 +451,7 @@
             padding: 15px 30px;
             border-radius: 8px;
             font-size: 1rem;
-            transition: transform var(--transition-speed) ease;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* 更有趣的弹出动画 */
             z-index: 1000;
         }
         
@@ -437,9 +463,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
             background: var(--bg-color);
-            padding: 10px 15px;
+            padding: 12px 20px;
             border-radius: 30px;
             border: 1px solid var(--border-color);
             box-shadow: inset 0 1px 3px var(--shadow-color);
@@ -447,9 +473,9 @@
         }
         
         #page-size {
-            width: 70px;
-            padding: 6px 10px;
-            border-radius: 5px;
+            width: 80px;
+            padding: 8px 12px;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
             background: var(--card-bg);
             color: var(--text-color);
@@ -459,8 +485,8 @@
         .toggle-container {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
+            width: 55px;
+            height: 28px;
         }
         
         .toggle-container input {
@@ -478,14 +504,14 @@
             bottom: 0;
             background-color: #ccc;
             transition: var(--transition-speed);
-            border-radius: 24px;
+            border-radius: 28px;
         }
         
         .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 22px;
+            width: 22px;
             left: 3px;
             bottom: 3px;
             background-color: white;
@@ -498,7 +524,7 @@
         }
         
         input:checked + .toggle-slider:before {
-            transform: translateX(26px);
+            transform: translateX(27px);
         }
 
         .instructions {
@@ -508,11 +534,11 @@
         .instructions h2,
         .recommended-section h2 {
             color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.6rem;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
         .instructions ol {
@@ -522,11 +548,11 @@
         }
         
         .instructions li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .recommended-section {
-            padding: 25px;
+            padding: 30px;
         }
 
         .recommended-cards-container {
@@ -537,12 +563,12 @@
 
         .recommended-card {
             position: relative;
-            height: 200px;
-            border-radius: 15px;
+            height: 220px; /* 增加高度 */
+            border-radius: var(--card-border-radius);
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            transition: transform var(--transition-speed) ease;
+            box-shadow: 0 8px 20px var(--shadow-color);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
             background-color: var(--bg-color);
             background-size: cover;
             background-position: center;
@@ -559,19 +585,19 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%); /* 更深的渐变 */
             z-index: 1;
         }
 
         .recommended-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px var(--shadow-color);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
 
         .card-content-overlay {
             position: relative;
             z-index: 2;
-            padding: 15px;
+            padding: 20px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -579,15 +605,15 @@
         }
 
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             line-height: 1.2;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .card-description {
-            font-size: 0.9rem;
+            font-size: 1rem;
             opacity: 0.9;
             text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
@@ -596,10 +622,10 @@
         .sidebar-toggle-btn {
             display: none; /* 默认在桌面端隐藏 */
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
+            bottom: 25px;
+            left: 25px;
+            width: 55px;
+            height: 55px;
             background-color: var(--primary-color);
             color: white;
             border: none;
@@ -653,7 +679,7 @@
                 top: 0;
                 left: 0;
                 height: 100vh;
-                width: 250px; /* 移动端侧边栏宽度 */
+                width: 280px; /* 移动端侧边栏宽度 */
                 border-radius: 0;
                 box-shadow: none;
                 z-index: 99;
@@ -670,7 +696,7 @@
             .content-wrapper {
                 margin-left: 0;
                 padding: 0;
-                gap: 20px;
+                gap: 25px;
             }
 
             .sidebar-logo {
@@ -709,14 +735,14 @@
         
         @media (max-width: 768px) {
             body {
-                padding: 20px;
+                padding: 25px;
             }
             .cards-container { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-            .card-character { font-size: 2.5rem; }
-            .search-area { padding: 20px; }
-            .input-group { height: 55px; max-width: 500px; }
-            #character-input { font-size: 1.6rem; }
-            #search-btn { font-size: 1.3rem; padding: 0 20px; }
+            .card-character { font-size: 3rem; }
+            .search-area { padding: 25px; }
+            .input-group { height: 60px; max-width: 500px; }
+            #character-input { font-size: 1.8rem; }
+            #search-btn { font-size: 1.5rem; padding: 0 25px; }
             .footer-container { padding: 45px 15px; }
             .footer-links-container a { font-size: 0.95rem; padding: 0 12px; }
             .footer-copyright { font-size: 0.85rem; }
@@ -737,30 +763,30 @@
         
         @media (max-width: 576px) {
             body {
-                padding: 15px;
+                padding: 20px;
             }
-            .input-group { height: 50px; max-width: 100%; }
-            #character-input { font-size: 1.5rem; }
-            .cards-container { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
-            .search-area { padding: 15px; }
-            .results-title, .instructions h2, .recommended-section h2 { font-size: 1.4rem; }
-            .card { padding: 15px 10px; }
-            .card-character { font-size: 2rem; }
-            .card-position-total, .card-position-page { font-size: 0.75rem; padding: 6px 4px; }
+            .input-group { height: 55px; max-width: 100%; }
+            #character-input { font-size: 1.6rem; }
+            .cards-container { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+            .search-area { padding: 20px; }
+            .results-title, .instructions h2, .recommended-section h2 { font-size: 1.6rem; }
+            .card { padding: 18px 12px; }
+            .card-character { font-size: 2.5rem; }
+            .card-positions-wrapper { font-size: 0.8rem; padding: 7px 5px; }
             .card-definition { font-size: 0.65rem; padding: 3px 6px; }
             .footer-container { padding: 30px 15px; }
             .footer-links-container a { font-size: 0.85rem; padding: 0 10px; }
             .footer-copyright { font-size: 0.75rem; }
 
-            .sidebar-logo { display: block; } /* 移动端logo可以显示，但需要更紧凑的布局 */
+            .sidebar-logo { display: block; }
             .settings-panel-wrapper { flex-direction: column; gap: 10px; }
             .setting-item {
                 font-size: 0.8em;
                 padding: 6px 10px;
             }
-            .recommended-card { height: 180px; }
-            .card-title { font-size: 1.2rem; }
-            .card-description { font-size: 0.8rem; }
+            .recommended-card { height: 200px; }
+            .card-title { font-size: 1.3rem; }
+            .card-description { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -1189,6 +1215,11 @@
         darkModeToggle.addEventListener('change', toggleDarkMode);
         sidebarToggleBtn.addEventListener('click', () => toggleSidebar());
         overlay.addEventListener('click', () => toggleSidebar(false));
+
+        // 核心修改: 监听每页字数输入框的变化，实时更新卡片
+        pageSizeInput.addEventListener('input', () => {
+            searchCharacters(true);
+        });
 
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', () => {
