@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -10,7 +9,7 @@
     <meta name="author" content="字造">
     <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
     <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png">
+    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBbDMDErs/20250803/9BXx/1108X308/logo.png">
     <meta property="og:url" content="https://www.zizao.top">
     <meta property="og:type" content="website">
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
@@ -296,35 +295,51 @@
             gap: 20px;
         }
         
+        /* 新的社交图标容器样式 */
         .social-links {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
             justify-content: center;
+            align-items: center;
+            gap: 24px; /* 增加图标之间的间距 */
+            flex-wrap: wrap;
         }
 
-        /* 新增的图标容器样式 */
-        .icon-wrapper {
-                width: 75px; /* 增加宽度 */
-                height: 40px; /* 保持或略微调整高度 */
-                border-radius: 10px; /* 维持圆角，或根据需要调整 */
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-                overflow: hidden;
-                display: inline-block;
+        /* 图标按钮基础样式 */
+        .social-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px; /* 图标尺寸 */
+            height: 50px;
+            border-radius: 50%; /* 圆形图标 */
+            background-color: #f0f4f8; /* 背景色 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
 
-        .social-icon, .qr-code-icon {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+        .social-button:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px); /* 轻微上浮 */
         }
         
-        .icon-wrapper:hover .social-icon,
-        .icon-wrapper:hover .qr-code-icon {
-            transform: scale(1.1);
+        /* 图标图片样式 */
+        .social-icon, .qr-code-icon {
+            width: 60%; /* 图标图片缩小 */
+            height: 60%;
+            object-fit: contain; /* 保持图片比例 */
+            z-index: 2; /* 确保图标在背景之上 */
+            transition: transform 0.3s ease;
         }
 
+        /* 悬停时图标放大 */
+        .social-button:hover .social-icon,
+        .social-button:hover .qr-code-icon {
+            transform: scale(1.1);
+        }
+        
         /* 二维码容器和弹窗 */
         .qr-code-container {
             position: relative;
@@ -332,34 +347,41 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            cursor: pointer;
         }
 
         .qr-code-popup {
             position: absolute;
-            bottom: 100%;
+            bottom: calc(100% + 15px); /* 增加弹窗与图标的距离 */
             left: 50%;
-            transform: translateX(-50%);
-            margin-bottom: 10px;
-            padding: 10px;
+            transform: translateX(-50%) translateY(10px);
+            padding: 15px;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
             z-index: 10;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
         }
 
+        .qr-code-container:hover .qr-code-popup {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0); /* 悬停时回到正常位置 */
+        }
+        
         .qr-code-popup img {
             width: 120px;
             height: 120px;
             display: block;
         }
 
-        .qr-code-container:hover .qr-code-popup {
-            opacity: 1;
-            visibility: visible;
+        /* 弹窗中的文本样式 */
+        .qr-code-popup p {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-top: 10px;
+            font-weight: 500;
         }
         
         .copyright-section {
@@ -498,7 +520,7 @@
             <div class="contact-social-section">
                 <div class="social-links">
                     <div class="qr-code-container">
-                        <div class="icon-wrapper">
+                        <div class="social-button wechat-button">
                             <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp/webp" alt="微信好友图标" class="qr-code-icon">
                         </div>
                         <div class="qr-code-popup">
@@ -507,7 +529,7 @@
                         </div>
                     </div>
                     <div class="qr-code-container">
-                        <div class="icon-wrapper">
+                        <div class="social-button wechat-button">
                             <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp/webp" alt="微信公众号图标" class="qr-code-icon">
                         </div>
                         <div class="qr-code-popup">
@@ -515,24 +537,24 @@
                             <p>关注微信公众号</p>
                         </div>
                     </div>
-
+                    
                     <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" rel="noopener noreferrer">
-                        <div class="icon-wrapper">
+                        <div class="social-button douyin-button">
                             <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="social-icon">
                         </div>
                     </a>
                     <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" rel="noopener noreferrer">
-                        <div class="icon-wrapper">
+                        <div class="social-button xiaohongshu-button">
                             <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页" class="social-icon">
                         </div>
                     </a>
                     <a href="https://www.zcool.com.cn/u/15462186" target="_blank" rel="noopener noreferrer">
-                        <div class="icon-wrapper">
+                        <div class="social-button zcool-button">
                             <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页" class="social-icon">
                         </div>
                     </a>
                     <a href="https://space.bilibili.com/339715446" target="_blank" rel="noopener noreferrer">
-                        <div class="icon-wrapper">
+                        <div class="social-button bilibili-button">
                             <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页" class="social-icon">
                         </div>
                     </a>
