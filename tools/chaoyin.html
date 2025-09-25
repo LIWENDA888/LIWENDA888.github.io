@@ -90,7 +90,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 20;
+            z-index: 101; /* 调整层级，确保在按钮上方 */
         }
 
         .sidebar-logo {
@@ -171,17 +171,16 @@
         }
 
         .search-btn {
-            width: 65px;
-            background: var(--primary-color);
-            color: white;
+            background: none;
             border: none;
+            color: var(--primary-color);
+            padding: 0 20px;
             cursor: pointer;
             font-size: 1.5rem;
-            transition: background-color var(--transition-speed) ease;
+            transition: color var(--transition-speed) ease;
         }
-
         .search-btn:hover {
-            background: var(--accent-color);
+            color: var(--accent-color);
         }
 
         .loading-spinner {
@@ -606,7 +605,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             font-size: 1.5rem;
             cursor: pointer;
-            z-index: 100;
+            z-index: 100; /* 调整层级，确保在侧边栏下方 */
             transition: transform 0.3s ease, background-color var(--transition-speed);
         }
 
@@ -630,9 +629,12 @@
         }
         
         @media (max-width: 900px) {
+            body {
+                padding: 25px;
+            }
+
             .main-layout {
                 flex-direction: column;
-                padding: 25px;
                 gap: 25px;
             }
             
@@ -648,7 +650,7 @@
                 width: 280px;
                 border-radius: 0;
                 box-shadow: none;
-                z-index: 99;
+                z-index: 101;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease-in-out;
             }
@@ -660,35 +662,7 @@
                 margin-left: 0;
                 gap: 25px;
             }
-
-            .sidebar-logo {
-                display: block;
-                margin-bottom: 0;
-                padding-bottom: 0;
-                border-bottom: none;
-                width: auto;
-            }
-            
-            .sidebar-links {
-                display: flex;
-            }
-
-            .sidebar-logo img {
-                width: 120px;
-            }
-
-            .settings-panel-wrapper {
-                flex-direction: column;
-                gap: 15px;
-                margin-top: 0;
-                width: 100%;
-            }
-
-            .setting-item {
-                flex-grow: 1;
-                justify-content: space-between;
-            }
-
+        
             .recommended-cards-container {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
@@ -699,8 +673,16 @@
             .cards-container { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
             .card-character { font-size: 3rem; }
             .section-card { padding: 25px; }
-            .input-group { height: 60px; } 
-            #character-input { font-size: 1.8rem; }
+            .input-group { height: 60px; }
+            #character-input { 
+                font-size: 1.6rem; 
+                padding: 0 15px; 
+                text-align: left;
+            }
+            .search-btn {
+                width: 55px;
+                padding: 0 15px; /* 统一间距 */
+            }
             .footer-container { padding: 45px 15px; }
             .sidebar-logo img { width: 120px; }
             .settings-panel-wrapper { justify-content: center; }
@@ -710,14 +692,22 @@
         @media (max-width: 576px) {
             body { padding: 20px; }
             .input-group { height: 50px; }
-            #character-input { font-size: 1.6rem; padding: 0 20px; }
+            #character-input { 
+                font-size: 1.4rem; 
+                padding: 0 15px; /* 统一间距 */
+                text-align: left; 
+            }
+            .search-btn {
+                width: 50px;
+                padding: 0 15px; /* 统一间距 */
+            }
             .cards-container { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
             .section-card { padding: 20px; }
             .results-title, .instructions h2, .recommended-section h2 { font-size: 1.6rem; }
             .card { padding: 18px 12px; }
             .card-character { font-size: 2.5rem; }
             .card-positions-wrapper { font-size: 0.8rem; padding: 7px 5px; }
-            .card-definition { font-size: 0.65rem; padding: 3px 6px; }
+            .card-definition { font-size: 1.2rem; }
             .footer-container { padding: 30px 15px; }
             .sidebar-logo { display: block; }
             .settings-panel-wrapper { flex-direction: column; gap: 10px; }
@@ -779,8 +769,7 @@
                 <div class="search-history" id="search-history">
                     <h2 class="search-history-title"><i class="fas fa-history"></i> 近期搜索</h2>
                     <div class="history-cards-container" id="history-cards-container"></div>
-                </div>
-            </section>
+                </section>
             
             <section class="section-card results-container" id="results-container">
                 <header class="results-header">
@@ -938,7 +927,7 @@
 
         async function searchCharacters(isFromUrl = false) {
             showLoading();
-            await new Promise(resolve => setTimeout(resolve, 300)); // 模拟加载延迟
+            await new Promise(resolve => setTimeout(resolve, 300));
 
             const inputChar = DOM.characterInput.value.trim();
             DOM.resultsContainer.style.display = 'block';
