@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>超引-形近字查询神器 - 字造Type</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
+    <meta name="author" content="字造">
+    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* 颜色优化 */
+            --primary-color: #FF7A00; 
+            --secondary-color: #FF9800;
+            --accent-color: #FF5722;
+            --text-color: #1A1A1A;
+            --light-text: #666666;
+            --bg-color: #F5F5F5;
+            --body-bg: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --border-color: #E0E0E0;
+            
+            /* 阴影和圆角优化 */
+            --subtle-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+            --soft-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1), 0 2px 8px -2px rgba(0, 0, 0, 0.04); 
+            --transition-speed: 0.3s;
+            --card-border-radius: 16px; 
+            
+            /* 布局变量 (已修改: 输入框高度) */
+            --input-height: 50px; 
+            --max-content-width: 900px;
+            --message-padding: 30px 0;
+            --user-bubble-bg: #E8E8E8;
+            --ai-bubble-bg: rgba(255, 255, 255, 0.85); /* 增加透明度 */
+            --header-height: 60px; /* 头部高度不变 */
+            --footer-height-approx: 85px; /* 底部估算高度：搜索框+版权信息+padding */
+        }
+
+        .dark-mode {
+            --primary-color: #FF9800;
+            --secondary-color: #FB8C00;
+            --accent-color: #E64A19;
+            --text-color: #E0E0E0;
+            --light-text: #A0A0A0;
+            --bg-color: #1F1F1F;
+            --body-bg: #000000;
+            --card-bg: #282828;
+            --border-color: #404040;
+            --subtle-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --soft-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.4), 0 2px 8px -2px rgba(0, 0, 0, 0.2);
+            --user-bubble-bg: #3A3A3A;
+            --ai-bubble-bg: rgba(40, 40, 40, 0.85); /* 深色模式下也增加透明度 */
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--transition-speed) ease, 
+                        color var(--transition-speed) ease, 
+                        border-color var(--transition-speed) ease, 
+                        box-shadow var(--transition-speed) ease; 
+        }
+        
+        body {
+            background: var(--body-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-color);
+            font-family: "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* 调整 body padding: 留出顶部和底部悬浮栏的空间，内容区域上下各留 20px 缓冲 */
+            padding-top: calc(var(--header-height) + 20px); 
+            padding-bottom: calc(var(--footer-height-approx) + 20px); 
+        }
+
+        /* SVG 图标基础样式 (用于搜索和内容图标) */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            fill: currentColor;
+        }
+
+        /* 1. 顶部导航栏/Header - **增加毛玻璃效果** */
+        .header {
+            position: fixed; 
+            top: 20px; /* 顶部悬浮间距 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px); /* 左右留出 20px 间距 */
+            max-width: var(--max-content-width);
+            height: var(--header-height);
+            background-color: var(--ai-bubble-bg);
+            /* 核心改动：增加毛玻璃效果 */
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
+            /* --------------------------- */
+            border-radius: var(--card-border-radius); 
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: var(--soft-shadow); 
+        }
+        
+        /* 移动端调整顶部栏样式 */
+        @media (max-width: 900px) {
+            .header {
+                top: 10px; /* 移动端顶部间距减小 */
+                width: calc(100% - 20px); /* 移动端左右留出 10px 间距 */
+                height: 50px; /* 移动端高度微调 */
+                padding: 0 15px;
+            }
+            body {
+                padding-top: calc(50px + 20px); /* 匹配移动端 header 高度 */
+            }
+        }
+        
+        /* 移动端宽度更小的调整 */
+        @media (max-width: 576px) {
+             body {
+                padding-bottom: calc(var(--footer-height-approx) + 15px); /* 移动端底部留出空间微调 */
+            }
+        }
+
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .header-logo img {
+            height: 30px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .action-button:hover {
+            color: var(--primary-color);
+            background-color: var(--bg-color);
+        }
+
+        /* 2. 主内容区/消息流 */
+        .chat-container {
+            flex-grow: 1;
+            width: 100%;
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            padding-top: 20px;
+            padding-bottom: 20px; /* 增加底部填充，避免内容紧贴 footer */
+        }
+        
+        /* 消息气泡样式 */
+        .message-bubble {
+            width: 100%;
+            padding: var(--message-padding) 20px;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+            scroll-margin-top: calc(var(--header-height) + 30px); /* 调整滚动定位，避开悬浮 Header */
+        }
+        
+        /* 移除最后一个气泡的边框，使底部更干净 */
+        .message-bubble:last-of-type {
+            border-bottom: none;
+        }
+
+
+        .message-content-wrapper {
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        /* 头像容器 - 30x30 保持不变 */
+        .message-icon {
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; 
+            overflow: hidden; /* 确保图片被剪裁成圆形 */
+        }
+        
+        /* 本地图片样式，确保填满容器 */
+        .message-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* 针对加载状态的图标（如果图片未加载，显示背景色） */
+        .icon-loading {
+            background-color: var(--accent-color); 
+            font-size: 1rem;
+            color: white; /* 确保加载点可见 */
+        }
+        
+        .bubble-content {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border-radius: var(--card-border-radius);
+            font-size: 1.05rem;
+        }
+        
+        .user-bubble .bubble-content {
+            background-color: var(--user-bubble-bg);
+            color: var(--text-color);
+            border-radius: 12px; 
+        }
+        
+        /* 系统消息气泡 - 维持软阴影和卡片式设计 */
+        .system-bubble .bubble-content {
+            /* 恢复为纯色背景，因为卡片式设计本身有阴影 */
+            background-color: var(--card-bg); 
+            color: var(--text-color);
+            box-shadow: var(--soft-shadow); 
+            border: none;
+            padding: 25px; 
+        }
+
+        /* 结果展示样式 */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .results-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .results-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* 关键修改：卡片容器 - 增大宽度 */
+        .cards-container {
+            display: grid; 
+            /* 增大卡片宽度到 90px */
+            grid-template-columns: repeat(auto-fill, minmax(90px, 90px)); 
+            gap: 15px; 
+            justify-content: flex-start; 
+        }
+        
+        .card {
+            padding: 12px 8px; /* 增大内边距 */
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid var(--border-color); 
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 135px; /* 增大高度 */
+            background: var(--card-bg);
+            border-radius: var(--card-border-radius); 
+            box-shadow: var(--subtle-shadow); 
+            transition: all var(--transition-speed) ease-in-out, transform 0.2s ease; 
+        }
+        
+        .card:hover {
+            transform: translateY(-5px) scale(1.02); 
+            box-shadow: 0 15px 25px rgba(255, 122, 0, 0.25), 0 5px 10px rgba(0, 0, 0, 0.05); 
+            border-color: var(--primary-color);
+        }
+        
+        .card-character {
+            font-size: 2.8rem; /* 字体略微增大 */
+            margin: 5px 0 5px;
+            color: var(--text-color);
+            font-weight: bold;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+        
+        .card:hover .card-character {
+            color: var(--primary-color);
+        }
+
+        .card-positions-wrapper {
+            background-color: var(--bg-color);
+            padding: 4px 10px; 
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            font-size: 0.75rem;
+            color: var(--light-text);
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .card-definition {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 1rem;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.2s ease;
+            z-index: 2;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        .card-definition:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        /* 默认提示/使用说明样式 */
+        .instructions-content strong {
+            color: var(--primary-color);
+        }
+
+        /* AI 正在思考气泡样式 */
+        .loading-bubble {
+            background-color: var(--user-bubble-bg);
+            color: var(--text-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+            font-size: 1.05rem;
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: dotFade 1.5s infinite ease-in-out;
+        }
+        
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        /* 3. 底部搜索输入框 - **增加毛玻璃效果** */
+        .input-footer {
+            position: fixed;
+            bottom: 20px; /* 底部悬浮间距 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px); /* 左右留出 20px 间距 */
+            max-width: var(--max-content-width);
+            background-color: var(--ai-bubble-bg);
+            /* 核心改动：增加毛玻璃效果 */
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
+            /* --------------------------- */
+            padding: 15px 0 15px; 
+            border-radius: var(--card-border-radius); 
+            box-shadow: var(--soft-shadow); 
+            z-index: 100;
+        }
+
+        .input-group-wrapper {
+            width: 100%;
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex; /* 确保内容居中 */
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .input-group {
+            width: 100%;
+            height: var(--input-height);
+            border-radius: calc(var(--input-height) / 2); 
+            border: 1px solid var(--border-color); 
+            display: flex;
+            align-items: center;
+            /* 保持输入框内部是纯色，避免毛玻璃影响输入体验 */
+            background: var(--card-bg); 
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .input-group:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.15); 
+        }
+        
+        #character-input {
+            flex-grow: 1;
+            border: none;
+            padding: 0 20px;
+            font-size: 1.5rem;
+            outline: none;
+            background: transparent;
+            color: var(--text-color);
+            font-weight: normal;
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            /* 保持宽度与高度一致，为输入框高度 */
+            width: var(--input-height); 
+            height: 100%;
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: color var(--transition-speed) ease;
+        }
+        .search-btn:hover {
+            color: var(--accent-color);
+        }
+
+        /* 新增：版权信息样式 */
+        .copyright-info {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--light-text);
+            text-align: center;
+        }
+
+        /* 4. 复制通知 */
+        .copy-notification {
+            position: fixed;
+            bottom: -50px; 
+            left: 50%;
+            transform: translateX(-50%); 
+            opacity: 0;
+            background: rgba(0,0,0,0.85); 
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: bottom 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease; 
+            z-index: 1000;
+        }
+        
+        .copy-notification.show {
+            /* 适配新的悬浮底部栏，位于底部栏上方 10px */
+            bottom: calc(var(--footer-height-approx) + 30px);
+            opacity: 1;
+        }
+
+        /* 5. 动画和响应式 */
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes dotFade {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+
+
+        @media (max-width: 900px) {
+            .message-bubble {
+                padding: var(--message-padding) 10px;
+            }
+            .input-footer {
+                 /* 移动端底部悬浮间距减小 */
+                bottom: 10px; 
+                width: calc(100% - 20px); /* 移动端左右留出 10px 间距 */
+            }
+            .input-group-wrapper {
+                padding: 0 10px;
+            }
+             .copy-notification.show {
+                /* 适配移动端悬浮底部栏位置 */
+                bottom: calc(var(--footer-height-approx) + 20px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-logo { font-size: 1.2rem; }
+            .header-logo img { height: 25px; }
+            .action-button { font-size: 1.1rem; padding: 8px; }
+            
+            /* 调整移动端输入框尺寸 */
+            --input-height: 45px; 
+            
+            .input-group { height: var(--input-height); border-radius: calc(var(--input-height) / 2); }
+            #character-input { font-size: 1.3rem; padding: 0 15px; }
+            .search-btn { width: var(--input-height); font-size: 1.2rem; }
+            
+            /* 关键修改：移动端卡片宽度修正 */
+            .card-character { font-size: 2.5rem; } 
+            .cards-container { 
+                /* 移动端卡片宽度增大到 75px */
+                grid-template-columns: repeat(auto-fill, minmax(75px, 75px)); 
+            } 
+
+            /* 移动端调整复制通知位置，确保在底部悬浮栏上方 */
+            .copy-notification.show {
+                bottom: calc(var(--input-height) + 40px); /* 估算 */
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="header">
+        <div class="header-logo">
+            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png" alt="字造Logo">
+        </div>
+        <div class="header-actions">
+            <button class="action-button" id="clear-chat-btn" aria-label="清空聊天记录" title="清空聊天记录">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <button class="action-button" id="dark-mode-btn" aria-label="切换深色模式" title="切换深色模式">
+                <i class="fas fa-sun" id="dark-mode-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="chat-container" id="chat-container">
+    </main>
+
+    <footer class="input-footer">
+        <div class="input-group-wrapper">
+            
+            <div class="input-group">
+                <input type="text" id="character-input" maxlength="1" placeholder="输入一个汉字查询关联字" autocomplete="off" aria-label="输入汉字进行查询">
+                <button id="search-btn" class="search-btn" aria-label="搜索">
+                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 458.6c12.5 12.5 12.5 32.75 0 45.25s-32.75 12.5-45.25 0L330.7 376c-34.46 25.12-76.81 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c88.37 0 160-71.63 160-160S296.3 32 208 32S48 103.6 48 192S119.6 352 208 352z"/></svg>
+                </button>
+            </div>
+            
+            <div class="copyright-info">
+                © 2024 Zizao.top. All rights reserved.
+            </div>
+            
+        </div>
+    </footer>
+    
+    <div class="copy-notification" id="copy-notification">已复制到剪贴板</div>
+
+    <script>
+        const indexGroup = "字造设计师";
+        const customWordGroups = [
+            "字造设计师",
+            "造设计师字",
+            "设计师字造",
+            "计师字造设",
+            "师字造设计",
+            // 假设这里还有更多数据...
+        ];
+    </script>
+    
+    <script>
+        // 定义本地头像图片路径
+        const USER_AVATAR_URL = "./user-avatar.png"; 
+        const SYSTEM_AVATAR_URL = "./system-avatar.png";
+        // 建议：请确保在 HTML 文件同级目录下放置 user-avatar.png 和 system-avatar.png
+        // 如果文件在子目录中，请修改上方路径，例如：const USER_AVATAR_URL = "./images/user-avatar.png";
+
+        const DOM = {
+            characterInput: document.getElementById('character-input'),
+            searchBtn: document.getElementById('search-btn'),
+            chatContainer: document.getElementById('chat-container'),
+            copyNotification: document.getElementById('copy-notification'),
+            darkModeBtn: document.getElementById('dark-mode-btn'), 
+            darkModeIcon: document.getElementById('dark-mode-icon'), 
+            clearChatBtn: document.getElementById('clear-chat-btn')
+        };
+        
+        const definitionBaseUrl = "https://www.zdic.net/hans/%s";
+        let copyTimeout = null; 
+        let currentLoadingMessageId = null; 
+
+        let wordMap = new Map();
+        function preprocessData() {
+            if (typeof customWordGroups !== 'undefined') {
+                customWordGroups.forEach(wordGroup => {
+                    const firstChar = wordGroup.charAt(0);
+                    if (!wordMap.has(firstChar)) {
+                        wordMap.set(firstChar, new Set());
+                    }
+                    const relatedSet = wordMap.get(firstChar);
+                    for (let i = 0; i < wordGroup.length; i++) {
+                        if (wordGroup.charAt(i) !== firstChar) {
+                            relatedSet.add(wordGroup.charAt(i));
+                        }
+                    }
+                });
+            } else {
+                console.error("数据加载失败。");
+            }
+        }
+        
+        // 确保滚动到页面最底部
+        function scrollToBottom() {
+            // 稍作延迟，确保消息渲染完成，并平滑滚动
+            setTimeout(() => {
+                // 直接滚动到整个页面的最底部
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight, 
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+        
+        function addUserMessage(char) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message-bubble', 'user-bubble');
+            messageElement.innerHTML = `
+                <div class="message-content-wrapper">
+                    <div class="message-icon">
+                         <img src="${USER_AVATAR_URL}" alt="用户头像">
+                    </div>
+                    <div class="bubble-content">查询汉字：<strong style="font-size: 1.2em;">${char}</strong></div>
+                </div>
+            `;
+            DOM.chatContainer.appendChild(messageElement);
+        }
+
+        function addLoadingMessage() {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message-bubble', 'system-bubble', 'loading-msg');
+            const messageId = 'msg-loading-' + Date.now();
+            messageElement.id = messageId;
+            currentLoadingMessageId = messageId; 
+            
+            messageElement.innerHTML = `
+                <div class="message-content-wrapper">
+                    <div class="message-icon">
+                         <img src="${SYSTEM_AVATAR_URL}" alt="系统头像">
+                    </div>
+                    <div class="bubble-content loading-bubble">
+                        AI 正在努力查询中
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            `;
+            DOM.chatContainer.appendChild(messageElement);
+            // 搜索后，自动滚动到底部
+            scrollToBottom(); 
+            return messageId;
+        }
+
+        function removeOrReplaceLoadingMessage(contentHtml) {
+            const loadingMsg = document.getElementById(currentLoadingMessageId);
+            if (loadingMsg) {
+                if (contentHtml) {
+                    // 替换加载气泡的内容为最终结果
+                    loadingMsg.classList.remove('loading-msg');
+                    loadingMsg.classList.remove('system-bubble'); 
+                    loadingMsg.classList.add('system-bubble'); 
+                    loadingMsg.innerHTML = `
+                        <div class="message-content-wrapper">
+                            <div class="message-icon">
+                                <img src="${SYSTEM_AVATAR_URL}" alt="系统头像">
+                            </div>
+                            <div class="bubble-content">${contentHtml}</div>
+                        </div>
+                    `;
+                } else {
+                    loadingMsg.remove();
+                }
+            } else if (contentHtml) {
+                addSystemMessage(contentHtml);
+            }
+            currentLoadingMessageId = null;
+            // 替换完成后，再次滚动到底部
+            scrollToBottom(); 
+        }
+
+        function addSystemMessage(contentHtml) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message-bubble', 'system-bubble');
+            messageElement.id = 'msg-' + Date.now();
+            messageElement.innerHTML = `
+                <div class="message-content-wrapper">
+                    <div class="message-icon">
+                         <img src="${SYSTEM_AVATAR_URL}" alt="系统头像">
+                    </div>
+                    <div class="bubble-content">${contentHtml}</div>
+                </div>
+            `;
+            DOM.chatContainer.appendChild(messageElement);
+        }
+
+        /**
+         * 渲染默认的使用说明 (已集成外部链接)
+         */
+        function renderDefaultInstructions() {
+            const instructionsHtml = `
+                <div class="instructions-content">
+                    <h2 class="results-title">
+                        <i class="fas fa-info-circle"></i>
+                        超引使用说明
+                    </h2>
+                    <ol style="padding-left: 20px; margin-top: 15px; list-style-type: decimal; color: var(--light-text);">
+                        <li style="margin-bottom: 10px; font-size: 0.95rem;">本页面数据由字造整理，仅包含国标GB2312字符。</li>
+                        <li style="margin-bottom: 10px; font-size: 0.95rem;">在底部输入框输入**单个汉字**，按回车或点击搜索按钮进行查询。</li>
+                        <li style="margin-bottom: 10px; font-size: 0.95rem;">结果将展示该汉字在**自定义字组中作为词语首字**时，词语中出现的所有**关联字**（排除输入字本身）。</li>
+                        <li style="margin-bottom: 10px; font-size: 0.95rem;">每个关联字以卡片形式展示，**点击卡片可复制该汉字**。</li>
+                        <li style="margin-bottom: 10px; font-size: 0.95rem;">卡片下方显示该字在《千字文》原文中的位置信息（如 ${102}/${2}）。</li>
+                        <li style="margin-bottom: 10px; font-size: 0.95rem;">点击卡片右上角的<strong style="color: var(--accent-color);">信息图标</strong>可在新标签页中查看该字的详细**释义**。</li>
+                    </ol>
+                    <p class="no-results" style="text-align: center; color: var(--light-text); font-size: 1.0rem; line-height: 1.8; padding: 20px 0;">试试查询：<strong style="color: var(--accent-color);">字</strong>、<strong style="color: var(--accent-color);">设</strong>、<strong style="color: var(--accent-color);">计</strong></p>
+                    
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-color); font-size: 0.9rem;">
+                        <span style="color: var(--light-text); margin-right: 15px;">更多设计资源:</span>
+                        <a href="https://www.zizao.top" target="_blank" style="color: var(--primary-color); text-decoration: none; margin-right: 5px;">字造首页</a> |
+                        <a href="https://www.zizao.top/hao" target="_blank" style="color: var(--primary-color); text-decoration: none; margin-left: 5px; margin-right: 5px;">设计导航</a> |
+                        <a href="https://www.zizao.top/fonts" target="_blank" style="color: var(--primary-color); text-decoration: none; margin-left: 5px;">字库产品</a>
+                    </div>
+                </div>
+            `;
+            addSystemMessage(instructionsHtml);
+            scrollToBottom();
+        }
+        
+        function showLoading() {
+            // 搜索按钮的加载状态 (使用 SVG spinner)
+            DOM.searchBtn.innerHTML = '<svg class="icon loading-spinner" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="animation: spin 1.5s linear infinite;"><path d="M448 256c0-106-86-192-192-192V32C375.7 32 480 136.3 480 264c0 13.25-10.75 24-24 24s-24-10.75-24-24C432 153.8 342.2 64 232 64v48c-106 0-192 86-192 192s86 192 192 192c47.94 0 91.22-17.75 125.7-47.5c18.5-16 45.19-14.5 61.19 4s14.5 45.19-4 61.19C340.3 499.7 299.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c13.25 0 24 10.75 24 24S269.3 48 256 48z"/></svg>';
+            DOM.searchBtn.disabled = true;
+            DOM.characterInput.disabled = true;
+        }
+
+        function hideLoading() {
+            // 恢复搜索按钮的搜索状态 (使用 SVG search)
+            DOM.searchBtn.innerHTML = '<svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 458.6c12.5 12.5 12.5 32.75 0 45.25s-32.75 12.5-45.25 0L330.7 376c-34.46 25.12-76.81 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c88.37 0 160-71.63 160-160S296.3 32 208 32S48 103.6 48 192S119.6 352 208 352z"/></svg>';
+            DOM.searchBtn.disabled = false;
+            DOM.characterInput.disabled = false;
+        }
+
+        async function searchCharacters(isFromUrl = false) {
+            
+            const inputChar = DOM.characterInput.value.trim();
+
+            if (inputChar.length !== 1 || !/^[\u4e00-\u9fa5]$/.test(inputChar)) {
+                 if (!isFromUrl) {
+                    addUserMessage(inputChar);
+                    const errorHtml = `
+                        <div class="no-results" style="text-align: center; color: var(--light-text); font-size: 1.0rem; line-height: 1.8; padding: 20px 0;">
+                            ${inputChar.length > 1 ? '请输入**单个汉字**进行查询。' : (inputChar.length === 0 ? '请输入一个汉字进行查询。' : '请输入**有效的汉字**。')}
+                        </div>
+                    `;
+                    addSystemMessage(errorHtml);
+                }
+                DOM.characterInput.value = '';
+                DOM.characterInput.focus();
+                return;
+            }
+
+            if (!isFromUrl) {
+                addUserMessage(inputChar);
+            }
+            
+            DOM.characterInput.value = '';
+            showLoading();
+
+            addLoadingMessage();
+            await new Promise(resolve => setTimeout(resolve, 800)); // 模拟查询耗时
+
+            const relatedCharsSet = wordMap.get(inputChar) || new Set();
+            const relatedChars = Array.from(relatedCharsSet).filter(char => char !== inputChar);
+            
+            let finalContentHtml = '';
+
+            // 硬编码每页字数
+            const pageSize = 500; 
+
+            if (relatedChars.length === 0) {
+                finalContentHtml = `
+                    <div class="no-results" style="text-align: center; color: var(--light-text); font-size: 1.0rem; line-height: 1.8; padding: 20px 0;">
+                        抱歉，未找到在自定义字组中以“<strong style="color: var(--primary-color);">${inputChar}</strong>”开头的关联字。<br>
+                        建议尝试查询“<strong style="color: var(--accent-color);">字</strong>”、“<strong style="color: var(--accent-color);">设</strong>”、“<strong style="color: var(--accent-color);">计</strong>”等常用字，或返回<a href="https://www.zizao.top" class="no-results-suggestion" style="display: inline-block; margin-top: 10px; color: var(--primary-color); text-decoration: none; font-weight: bold;">字造首页</a>查看更多工具。
+                    </div>
+                `;
+            } else {
+                const cardsHtml = relatedChars.map(char => {
+                    const firstPosition = typeof indexGroup !== 'undefined' ? indexGroup.indexOf(char) + 1 : -1;
+                    const totalPosition = firstPosition > 0 ? firstPosition : '未知';
+                    // 使用硬编码的 pageSize
+                    const pagePosition = firstPosition > 0 ? `${Math.floor((firstPosition - 1) / pageSize) + 1}/${(firstPosition - 1) % pageSize + 1}` : '未知';
+                    
+                    return `
+                        <div class="card" data-char="${char}">
+                            <button class="card-definition" title="查看释义">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                            <div class="card-character">${char}</div>
+                            <div class="card-positions-wrapper" title="总序/页码">
+                                <div class="card-position-total">${totalPosition}</div>
+                                <div class="card-position-page">${pagePosition}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                finalContentHtml = `
+                    <header class="results-header">
+                        <h2 class="results-title">
+                            <i class="fas fa-link"></i>
+                             “${inputChar}”的关联字
+                        </h2>
+                        <div class="results-count">${relatedChars.length}个结果</div>
+                    </header>
+                    <div class="cards-container">${cardsHtml}</div>
+                `;
+            }
+            
+            removeOrReplaceLoadingMessage(finalContentHtml);
+            
+            updateUrl(inputChar);
+            
+            hideLoading();
+            DOM.characterInput.focus(); 
+        }
+
+        function updateUrl(char) {
+            const newUrl = new URL(window.location.href);
+            if (char && char.length === 1 && /^[\u4e00-\u9fa5]$/.test(char)) {
+                newUrl.searchParams.set('char', char);
+            } else {
+                newUrl.searchParams.delete('char');
+            }
+            window.history.pushState({ path: newUrl.href }, '', newUrl.href);
+        }
+
+        function copyToClipboard(text) {
+            if (copyTimeout) {
+                clearTimeout(copyTimeout);
+            }
+            
+            DOM.copyNotification.classList.remove('show');
+
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    DOM.copyNotification.classList.add('show');
+                    
+                    copyTimeout = setTimeout(() => {
+                        DOM.copyNotification.classList.remove('show');
+                        copyTimeout = null;
+                    }, 1500); 
+                })
+                .catch(err => {
+                    console.error('无法复制文本: ', err);
+                    alert('复制失败，请手动复制。');
+                });
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            
+            // 切换 Font Awesome 图标类
+            if (isDark) {
+                DOM.darkModeIcon.classList.remove('fa-sun');
+                DOM.darkModeIcon.classList.add('fa-moon');
+            } else {
+                DOM.darkModeIcon.classList.remove('fa-moon');
+                DOM.darkModeIcon.classList.add('fa-sun');
+            }
+        }
+        
+        function clearChat() {
+            if (confirm('确定要清空所有搜索记录吗？')) {
+                DOM.chatContainer.innerHTML = '';
+                renderDefaultInstructions();
+                updateUrl('');
+                DOM.characterInput.focus();
+            }
+        }
+
+        // --- 事件监听器 ---
+
+        // 监听卡片点击 (复制和释义)
+        DOM.chatContainer.addEventListener('click', (event) => {
+            const target = event.target;
+            const card = target.closest('.card');
+            if (card) {
+                const char = card.dataset.char;
+                // 检查是否点击了释义按钮
+                if (target.closest('.card-definition')) {
+                    event.stopPropagation();
+                    window.open(definitionBaseUrl.replace('%s', char), '_blank');
+                } else {
+                    copyToClipboard(char);
+                }
+            }
+        });
+
+        // 搜索事件
+        DOM.searchBtn.addEventListener('click', () => searchCharacters());
+        DOM.characterInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') searchCharacters();
+        });
+        
+        // 深色模式切换按钮
+        DOM.darkModeBtn.addEventListener('click', toggleDarkMode);
+        
+        // 清空聊天按钮
+        DOM.clearChatBtn.addEventListener('click', clearChat);
+
+
+        // --- 初始化 ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            preprocessData();
+            
+            // 恢复深色模式并设置 Font Awesome 图标
+            const isDark = localStorage.getItem('darkMode') === 'true';
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                DOM.darkModeIcon.classList.remove('fa-sun');
+                DOM.darkModeIcon.classList.add('fa-moon');
+            } else {
+                DOM.darkModeIcon.classList.remove('fa-moon');
+                DOM.darkModeIcon.classList.add('fa-sun');
+            }
+
+            renderDefaultInstructions();
+
+            // 处理 URL 参数中的查询
+            const urlChar = new URLSearchParams(window.location.search).get('char');
+            if (urlChar && urlChar.length === 1 && /^[\u4e00-\u9fa5]$/.test(urlChar)) {
+                DOM.characterInput.value = urlChar; 
+                searchCharacters(true);
+            } else {
+                DOM.characterInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>
