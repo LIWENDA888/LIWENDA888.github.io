@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汉字拼音转换工具</title>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@latest/dist/index.min.js"></script>
+    <style>
+        /* CSS 变量定义 - 方便统一管理颜色、字体等 */
+        :root {
+            --primary-color: #FF7D00; /* 主色调 */
+            --primary-light: #FFE8D1; /* 主色调的浅色变体 */
+            --text-color: #333;       /* 主要文本颜色 */
+            --light-bg: #F9F9F9;      /* 页面背景浅灰色 */
+            --white: #FFFFFF;         /* 白色 */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 通用阴影 */
+            --border-color: #ddd;     /* 边框颜色 */
+            --background-light-grey: #f8f8f8; /* 浅灰色背景，用于输出框 */
+            --font-main: 'PingFang SC', 'Microsoft YaHei', sans-serif; /* 主要字体 */
+        }
+
+        /* 全局重置和基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* 边框和内边距包含在元素的总宽度和高度内 */
+            font-family: var(--font-main); /* 应用主要字体 */
+        }
+
+        /* 根元素和主体布局 */
+        html, body {
+            height: 100%; /* 确保html和body占据整个视口高度 */
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth; /* 启用平滑滚动效果 */
+        }
+
+        body {
+            display: flex; /* 启用Flexbox布局 */
+            flex-direction: column; /* 子元素垂直堆叠 */
+            min-height: 100vh; /* 确保body至少占满整个视口高度 */
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6; /* 更好的阅读体验 */
+            /* 移除body的padding和居中，让main来控制 */
+        }
+
+        /* 主要内容区域 - 统一管理居中和最大宽度 */
+        main {
+            display: flex; /* Flexbox布局 */
+            flex-direction: column; /* 子元素垂直堆叠 */
+            align-items: center; /* 子元素水平居中对齐 */
+            width: 100%; /* 占据可用宽度 */
+            max-width: 1200px; /* 限制整个页面的内容最大宽度 */
+            margin: 30px auto; /* 上下30px外边距，左右自动居中 */
+            padding: 0 20px; /* 左右内边距，防止内容紧贴屏幕边缘 */
+            flex-grow: 1; /* 允许main占据剩余垂直空间，将footer（如果存在）推到底部 */
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 1px; /* 增加一点字间距，提升美观度 */
+            text-align: center; /* 居中标题 */
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5; /* 确保副标题行高合适 */
+            text-align: center; /* 居中副标题 */
+            margin-bottom: 20px; /* ***修改此处：减少副标题与转换器之间的间距*** */
+        }
+
+        /* 转换器容器样式 */
+        .converter-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px; /* 增加内边距 */
+            width: 100%; /* 确保在 main 内部占据可用宽度 */
+            max-width: 1200px; /* ***修改此处：增加转换器本身的最大宽度到1200px*** */
+            margin-bottom: 20px; /* 确保与页面底部有一定距离 */
+        }
+
+        /* 输入/输出文本框区域布局 */
+        .converter-wrapper {
+            display: flex;
+            gap: 20px; /* 左右文本框之间的间距 */
+        }
+
+        .input-box, .output-box {
+            flex: 1; /* 使两个文本框占据相同的宽度 */
+        }
+
+        .box-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical; /* 允许用户垂直调整大小 */
+            transition: border 0.3s, box-shadow 0.3s; /* 平滑过渡效果 */
+            line-height: 1.6; /* 文本区域内部行高，提高可读性 */
+        }
+
+        textarea:focus {
+            outline: none; /* 移除默认焦点轮廓 */
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light); /* 聚焦时显示更明显的阴影 */
+        }
+
+        .output-text {
+            background-color: var(--background-light-grey);
+            cursor: default; /* 输出框默认不可编辑，鼠标样式为默认 */
+        }
+
+        /* 控制行：复选框和按钮的布局 */
+        .controls-row {
+            display: flex;
+            justify-content: center; /* 居中显示复选框和按钮组 */
+            align-items: center; /* 垂直居中对齐 */
+            gap: 30px; /* 复选框组和按钮组之间的间距 */
+            margin-top: 25px; /* 增加与上方文本区域的间距 */
+            flex-wrap: wrap; /* 允许在小屏幕上换行 */
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* 复选框和标签之间的间距 */
+            font-size: 1rem;
+            color: var(--text-color);
+            white-space: nowrap; /* 防止标签文本在小屏幕上换行 */
+        }
+
+        /* 自定义复选框样式 */
+        #toggle-tone {
+            width: 20px; /* 宽度 */
+            height: 20px; /* 高度 */
+            cursor: pointer;
+            appearance: none; /* 移除浏览器默认样式 */
+            background-color: var(--white);
+            border: 2px solid var(--border-color); /* 更粗的边框 */
+            border-radius: 5px; /* 略微圆角 */
+            position: relative;
+            outline: none;
+            transition: all 0.2s ease-in-out; /* 平滑过渡 */
+            flex-shrink: 0; /* 防止复选框在小屏幕上被挤压 */
+        }
+
+        #toggle-tone:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        #toggle-tone:checked::after {
+            content: '✔'; /* 勾号 Unicode 字符 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 精确居中 */
+            color: white;
+            font-size: 15px; /* 勾号大小 */
+            line-height: 1;
+        }
+
+        #toggle-tone:focus {
+            box-shadow: 0 0 0 3px var(--primary-light); /* 聚焦时的阴影效果 */
+        }
+
+        /* 按钮样式 */
+        .buttons {
+            display: flex;
+            justify-content: center; /* 在其父容器中居中 */
+            gap: 15px; /* 按钮之间的间距 */
+            margin-top: 0; /* 由 .controls-row 统一管理顶部间距 */
+        }
+
+        button {
+            padding: 10px 22px; /* 调整按钮内边距，使点击区域更大 */
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 平滑过渡效果 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 按钮轻微阴影 */
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #E67100; /* 更深的橙色 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 提升阴影效果 */
+            transform: translateY(-1px); /* 轻微上浮效果 */
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0; /* 更柔和的悬停背景 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* 提升阴影效果 */
+            transform: translateY(-1px); /* 轻微上浮效果 */
+        }
+
+        /* 禁用按钮样式 */
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* 媒体查询 - 响应式调整 (小屏幕设备) */
+        @media (max-width: 768px) {
+            main {
+                margin: 20px auto; /* 手机端上下外边距可以略小 */
+                padding: 0 15px; /* 手机端左右内边距 */
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                margin-bottom: 15px; /* 手机端副标题间距 */
+            }
+
+            .converter-wrapper {
+                flex-direction: column; /* 文本框垂直堆叠 */
+            }
+
+            /* 在小屏幕上，控制行元素垂直堆叠 */
+            .controls-row {
+                flex-direction: column;
+                gap: 15px; /* 调整小屏幕下的间距 */
+            }
+            /* 调整复选框和按钮在小屏幕上的显示顺序 */
+            .option-group {
+                order: 1; /* 复选框组显示在按钮组上方 */
+            }
+            .buttons {
+                order: 2; /* 按钮组显示在下方 */
+                width: 100%; /* 按钮组在小屏幕上占据整行宽度 */
+                flex-direction: column; /* 按钮内部垂直堆叠 */
+            }
+            .buttons button {
+                width: 100%; /* 单个按钮占据其父容器（buttons）的100%宽度 */
+            }
+
+            .converter-container {
+                padding: 20px; /* 手机端转换器内边距可以略小 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            textarea {
+                min-height: 200px; /* 手机端 textarea 可以更矮，节省空间 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <main> <!-- 将所有主要内容（标题、副标题、转换器）放入main中 -->
+        <h1>汉字拼音转换工具</h1>
+        <p class="subtitle">将汉字转换为带音调或不带音调的拼音</p>
+
+        <div class="converter-container">
+            <div class="converter-wrapper">
+                <div class="input-box">
+                    <div class="box-title">输入汉字</div>
+                    <textarea id="hanzi-input" placeholder="请输入要转换为拼音的汉字..."></textarea>
+                </div>
+                <div class="output-box">
+                    <div class="box-title">拼音结果</div>
+                    <textarea id="pinyin-output" class="output-text" placeholder="拼音结果将显示在这里..." readonly></textarea>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="option-group">
+                    <input type="checkbox" id="toggle-tone"> <!-- 默认不选中（不带音调） -->
+                    <label for="toggle-tone">带音调</label>
+                </div>
+                <div class="buttons">
+                    <button class="btn-primary" id="convert-to-pinyin">转换为拼音</button>
+                    <button class="btn-primary" id="copy-pinyin-result">复制结果</button>
+                    <button class="btn-secondary" id="convert-to-uppercase">转换为大写</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 获取元素引用
+        const hanziInput = document.getElementById('hanzi-input');
+        const pinyinOutput = document.getElementById('pinyin-output');
+        const toggleToneCheckbox = document.getElementById('toggle-tone');
+        const convertToPinyinBtn = document.getElementById('convert-to-pinyin');
+        const convertToUppercaseBtn = document.getElementById('convert-to-uppercase');
+        const copyPinyinBtn = document.getElementById('copy-pinyin-result'); // 获取复制按钮
+
+        // --- 辅助函数：更新“转换为大写”按钮的状态 ---
+        function updateUppercaseButtonState() {
+            // 如果“带音调”复选框被选中，则禁用“转换为大写”按钮
+            if (toggleToneCheckbox.checked) {
+                convertToUppercaseBtn.disabled = true;
+                convertToUppercaseBtn.title = '带音调拼音无法转换为大写'; // 提供禁用提示
+            } else {
+                convertToUppercaseBtn.disabled = false;
+                convertToUppercaseBtn.title = ''; // 清除提示
+            }
+        }
+
+        // --- 事件监听器 ---
+
+        // 汉字转拼音功能
+        convertToPinyinBtn.addEventListener('click', () => {
+            const hanzi = hanziInput.value.trim();
+            if (!hanzi) {
+                alert('请输入要转换的汉字');
+                return;
+            }
+
+            const toneType = toggleToneCheckbox.checked ? 'symbol' : 'none';
+
+            try {
+                // 增加健壮性检查，确保 pinyinPro 库已加载
+                if (typeof pinyinPro === 'undefined' || !pinyinPro.pinyin) {
+                    console.error("pinyin-pro library not loaded or not properly initialized.");
+                    alert("拼音转换库未加载，请检查网络连接或稍后重试。");
+                    return;
+                }
+
+                let pinyin = pinyinPro.pinyin(hanzi, {
+                    toneType: toneType,
+                    type: 'string'
+                });
+
+                pinyinOutput.value = pinyin;
+                updateUppercaseButtonState(); // 转换后更新大写按钮状态
+            } catch (error) {
+                alert('转换出错: ' + error.message);
+                console.error(error);
+            }
+        });
+
+        // 转换为大写功能
+        convertToUppercaseBtn.addEventListener('click', () => {
+            if (pinyinOutput.value) {
+                pinyinOutput.value = pinyinOutput.value.toUpperCase();
+            } else {
+                alert('请先进行拼音转换。');
+            }
+        });
+
+        // 复制结果功能
+        copyPinyinBtn.addEventListener('click', () => {
+            if (pinyinOutput.value) {
+                navigator.clipboard.writeText(pinyinOutput.value)
+                    .then(() => {
+                        console.log('拼音结果已复制到剪贴板！'); // 移除弹窗，改为控制台输出
+                    })
+                    .catch(err => {
+                        console.error('复制失败:', err);
+                        alert('复制失败，请手动复制。'); // 复制失败仍保留弹窗提示
+                    });
+            } else {
+                alert('没有可复制的拼音结果。');
+            }
+        });
+
+        // 监听“带音调”复选框的变化，以更新“转换为大写”按钮的状态
+        toggleToneCheckbox.addEventListener('change', updateUppercaseButtonState);
+
+        // 页面加载时，初始化“转换为大写”按钮的状态
+        document.addEventListener('DOMContentLoaded', updateUppercaseButtonState);
+    </script>
+</body>
+</html>
