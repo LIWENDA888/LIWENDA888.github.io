@@ -22,6 +22,10 @@
             --primary-color: #FF8C19;
             --sub-text-color: #6c7a89;
             --text-color: #1a2a40;
+            /* 从 1.html 引入的颜色变量，用于粒子效果 */
+            --particle-primary: #FF7F00; 
+            --particle-secondary: #FF4500;
+            --particle-tertiary: #FFD700;
         }
 
         /* 全局样式 */
@@ -271,7 +275,7 @@
         .footer {
             background: #f8fafc;
             color: #1a2a40;
-            padding: 80px 5% 40px;
+            padding: 80px 5% 20px;
             font-size: 1rem;
             box-shadow: none;
             display: flex;
@@ -284,7 +288,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 0px; 
+            width: 100%;
         }
 
         .contact-social-section {
@@ -309,8 +314,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 50px; /* 图标尺寸 */
-            height: 50px;
+            width: 60px; /* 图标尺寸 (已增大) */
+            height: 60px; /* 图标尺寸 (已增大) */
             border-radius: 50%; /* 圆形图标 */
             background-color: #f0f4f8; /* 背景色 */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -384,10 +389,46 @@
             font-weight: 500;
         }
         
+        /* 友情推荐样式 (用于控制大间距) */
+        .friendship-links-section {
+            margin-top: 50px; /* 大间距：社交图标底部到友情推荐顶部的间距 */
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .friendship-links-section h3 {
+            font-size: 0.95rem; 
+            color: var(--sub-text-color); 
+            margin-bottom: 15px;
+            font-weight: 500; 
+        }
+
+        .links-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; 
+            gap: 12px 20px; 
+        }
+
+        .links-group a {
+            color: #999; 
+            text-decoration: none;
+            font-size: 0.9rem; 
+            transition: color 0.3s;
+        }
+
+        .links-group a:hover {
+            color: var(--text-color); /* **已修改：与版权信息链接悬停样式统一** */
+            text-decoration: underline;
+        }
+
+        /* 版权信息部分 (控制紧凑对称间距) */
         .copyright-section {
             text-align: center;
-            padding-top: 30px;
-            margin-top: 30px;
+            padding-top: 20px; /* 紧凑对称：分割线到版权文字顶部的间距 */
+            margin-top: 20px;  /* 紧凑对称：友情推荐底部到分割线的间距 */
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             width: 100%;
         }
@@ -408,6 +449,27 @@
             text-decoration: underline;
         }
         
+        /* 鼠标跟随粒子效果样式 - 从 1.html 导入并修改 z-index */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999; 
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--particle-tertiary); 
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
         /* 响应式调整 */
         @media (max-width: 992px) {
             .hero-section { height: 600px; }
@@ -445,7 +507,11 @@
             .card-container { grid-template-columns: 1fr; gap: 30px; }
             .card { min-height: 400px; }
             .card-content { padding: 30px; }
-            .footer { padding-top: 40px; padding-bottom: 20px; }
+            .footer { padding-top: 40px; padding-bottom: 20px; } 
+            
+            /* 手机端间距调整 */
+            .friendship-links-section { margin-top: 35px; } /* 社交图标和友情推荐顶部的大间距 */
+            .copyright-section { margin-top: 20px; padding-top: 20px; } /* 紧凑对称间距 */
         }
 
         @media (max-width: 576px) {
@@ -459,6 +525,9 @@
     </style>
 </head>
 <body>
+    
+    <div id="particles"></div>
+
     <nav class="navbar">
         <div class="nav-container">
             <a href="https://www.zizao.top" class="logo">
@@ -485,30 +554,30 @@
     <div class="main-content">
         <div class="container">
             <div class="card-container">
-                <a href="https://www.zizao.top/fonts" class="card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-bg" style="background-image: url('https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg');"></div>
+                <a href="" class="card" target="_blank" rel="noopener noreferrer">
+                    <div class="card-bg" style="background-image: url('1.jpg');"></div>
                     <div class="card-content">
-                        <h3>字库产品</h3>
+                        <h3>字库产品(暂未上线)</h3>
                         <p>以字体探索美学心新感知，持续开发有价值的字体是，探索可变技术在中文字库领域的更多可能性</p>
-                        <span class="card-action-text">了解详情</span>
+                        <span class="card-action-text">了解更多</span>
                     </div>
                 </a>
 
                 <a href="https://www.zizao.top/hao" class="card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-bg" style="background-image: url('https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg');"></div>
+                    <div class="card-bg" style="background-image: url('2.jpg');"></div>
                     <div class="card-content">
                         <h3>设计导航</h3>
-                        <p>以字体为核的综合设计导航，整理囊括国内外优质好站。设计师必备的灵感百宝库</p>
-                        <span class="card-action-text">了解详情</span>
+                        <p>以字体为主要核心的综合设计导航，整理囊括国内外优质好站，定期维护整理。设计师必备的灵感百宝库</p>
+                        <span class="card-action-text">开始使用</span>
                     </div>
                 </a>
 
-                <a href="https://www.zizao.top/tools" class="card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-bg" style="background-image: url('https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/JLkB/750X360/1.jpg');"></div>
+                <a href="https://www.zizao.top/tools/chaoyin" class="card" target="_blank" rel="noopener noreferrer">
+                    <div class="card-bg" style="background-image: url('123.gif');"></div>
                     <div class="card-content">
-                        <h3>设计百宝库</h3>
-                        <p>“让每个想法，轻松成字”是我们的终极目标。从点滴起，做字体设计师必备的工具“百宝库”</p>
-                        <span class="card-action-text">了解详情</span>
+                        <h3>超引SuperX</h3>
+                        <p>独家整理的免费形近字查询神器，对话式的便捷丝滑体验，推荐字体设计师等职业使用</p>
+                        <span class="card-action-text">开始使用</span>
                     </div>
                 </a>
             </div>
@@ -560,6 +629,18 @@
                     </a>
                 </div>
             </div>
+
+            <div class="friendship-links-section">
+                <h3>工具推荐：</h3>
+                <div class="links-group">
+                    <a href="https://www.zizao.top/tools/pinyin" target="_blank" rel="noopener noreferrer">汉字转拼音</a>
+                    <a href="https://www.zizao.top/tools/txt" target="_blank" rel="noopener noreferrer"> 在线TXT编辑器</a>
+                    <a href="https://www.zizao.top/tools/quchong" target="_blank" rel="noopener noreferrer">去重字符</a>
+                    <a href="https://www.zizao.top/tools/shufa" target="_blank" rel="noopener noreferrer">搜书法风格</a>
+                    <a href="https://www.zizao.top/tools/duibi" target="_blank" rel="noopener noreferrer">文本差异对比</a>
+                </div>
+            </div>
+            
         </div>
 
         <div class="copyright-section">
@@ -569,5 +650,75 @@
             </p>
         </div>
     </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            let lastTime = 0;
+            const throttleTime = 10; // 性能优化：限制为每 10 毫秒生成一个粒子
+
+            document.addEventListener('mousemove', function(e) {
+                // 性能优化：节流逻辑
+                const currentTime = new Date().getTime();
+                if (currentTime - lastTime > throttleTime) {
+                    createParticle(e.clientX, e.clientY);
+                    lastTime = currentTime;
+                }
+            });
+            
+            function createParticle(x, y) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                
+                // 随机大小和颜色
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 调整粒子颜色为新的橙色系 (使用导入的颜色变量)
+                const colors = ['var(--particle-primary)', 'var(--particle-secondary)', 'var(--particle-tertiary)'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                
+                particlesContainer.appendChild(particle);
+                
+                // 动画粒子
+                animateParticle(particle);
+            }
+            
+            function animateParticle(particle) {
+                let posX = parseFloat(particle.style.left);
+                let posY = parseFloat(particle.style.top);
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 3 + 2;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                
+                let opacity = 0.7;
+                const fade = setInterval(() => {
+                    opacity -= 0.02;
+                    particle.style.opacity = opacity;
+                    
+                    if (opacity <= 0) {
+                        clearInterval(fade);
+                        particle.remove();
+                    }
+                }, 50);
+                
+                const move = setInterval(() => {
+                    posX += vx;
+                    posY += vy;
+                    particle.style.left = `${posX}px`;
+                    particle.style.top = `${posY}px`;
+                }, 30);
+                
+                setTimeout(() => {
+                    clearInterval(move);
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 </html>
