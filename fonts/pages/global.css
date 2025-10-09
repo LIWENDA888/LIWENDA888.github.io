@@ -1,0 +1,237 @@
+/* global.css (更新后：仅包含公共和导航样式) */
+
+/* 基础重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #FFFFFF;
+    color: #222222;
+    line-height: 1.6;
+    /* 页面内容应该从顶部栏下方开始 */
+    padding-top: 61px;
+    
+    /* 页面淡入效果 */
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+a {
+    color: #222222;
+    text-decoration: none;
+    transition: color 0.3s, text-decoration 0.3s; 
+}
+
+/* --- 配色常量 --- */
+:root {
+    --deep-grey: #222222;
+    --light-grey: #CCCCCC;
+    --accent-color: #E0B973; 
+    --hover-deep-color: #a88a56; 
+    /* 悬停背景色常量 */
+    --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+}
+
+/* --- 1. 顶部栏样式 (固定悬浮) --- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: #FFFFFF;
+    
+    box-shadow: none; 
+    border-bottom: 1px solid var(--light-grey); 
+}
+
+/* LOGO 图片容器 */
+.logo {
+    display: flex;
+    align-items: center; 
+}
+
+/* LOGO 图片样式 */
+.logo img {
+    height: 28px; /* 桌面端高度 */
+    max-width: 150px; /* 最大宽度限制 */
+    display: block;
+}
+
+/* ** 导航项样式修改 ** */
+.nav a {
+    margin-left: 25px;
+    font-size: 16px;
+    
+    display: inline-flex; 
+    align-items: center;
+    padding: 5px 10px; 
+    border-radius: 4px;
+    position: relative; 
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* ** 导航项左侧实心小圆点 ** */
+.nav a::before {
+    content: '';
+    display: block;
+    width: 6px; 
+    height: 6px;
+    background-color: var(--deep-grey); 
+    border-radius: 50%;
+    margin-right: 8px; 
+    transition: background-color 0.3s;
+}
+
+/* ** 悬停时的圆角背景和颜色变化 ** */
+.nav a:hover {
+    color: var(--hover-deep-color); 
+    background-color: var(--nav-hover-bg); 
+}
+
+/* ** 悬停时小圆点的颜色变化 ** */
+.nav a:hover::before {
+    background-color: var(--accent-color); 
+}
+
+.menu-toggle {
+    display: none; 
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--deep-grey);
+    padding: 0 10px;
+    z-index: 1001; 
+}
+
+
+/* --- 2. 底部栏样式 --- */
+.footer {
+    background-color: #FFFFFF; 
+    color: #444444;
+    padding: 50px 10%; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 14px;
+    border-top: 1px solid var(--light-grey);
+}
+
+.footer-col {
+    width: 25%;
+    margin-bottom: 20px;
+}
+
+.footer-col h4 {
+    font-size: 16px;
+    color: var(--deep-grey);
+    margin-bottom: 15px;
+}
+
+.footer-col a {
+    display: block;
+    margin-bottom: 5px;
+    color: #444444;
+}
+
+/* 底部栏超链接悬停样式：颜色加深 + 下划线 */
+.footer-col a:hover {
+    color: var(--hover-deep-color); 
+    text-decoration: underline; 
+}
+
+/* 社交链接行内显示优化 */
+.footer-col.social-links a {
+    display: inline;
+    margin-right: 5px;
+}
+
+.copyright {
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* ======================================= */
+/* 响应式设计：移动端优化部分 (公共样式部分) */
+/* ======================================= */
+@media (max-width: 768px) {
+    body {
+        padding-top: 55px; 
+    }
+    .header {
+        padding: 10px 4%; 
+    }
+    
+    .logo img {
+        height: 24px; 
+    }
+
+    .menu-toggle {
+        display: block; 
+    }
+    
+    /* ** 移动端导航栏样式修改：全屏居中显示 ** */
+    .nav {
+        position: fixed; 
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh; 
+        background-color: #FFFFFF; 
+        
+        display: flex;
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        
+        z-index: 1010; 
+        
+        border-top: none; 
+        box-shadow: none; 
+        
+        display: none; /* 默认隐藏 */
+    }
+
+    .nav.open {
+        display: flex; 
+    }
+
+    .nav a {
+        display: flex;
+        justify-content: center; 
+        
+        font-size: 24px; 
+        padding: 20px 30px; 
+        margin: 10px 0; 
+        
+        border-bottom: none; 
+    }
+    
+    /* 配合全屏菜单，增大移动端小圆点样式 */
+    .nav a::before {
+        width: 8px; 
+        height: 8px;
+        margin-right: 12px;
+    }
+
+
+    .footer {
+        padding: 40px 5%; 
+    }
+    .footer-col {
+        width: 45%; 
+    }
+}
