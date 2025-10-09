@@ -45,10 +45,11 @@
             line-height: 1.6;
         }
         
-        /* 顶部导航栏 */
+        /* 顶部导航栏 - 优化后的样式 */
         .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.95); /* 轻微透明度，增加层次感 */
+            backdrop-filter: blur(5px); /* 毛玻璃效果 (现代设计必备) */
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08); /* 调整阴影，更柔和 */
             position: sticky;
             top: 0;
             z-index: 100;
@@ -69,35 +70,44 @@
             display: flex;
             align-items: center;
             text-decoration: none;
+            /* Logo链接填充整个高度，点击区域更大 */
+            height: 100%; 
+            padding: 0; 
         }
 
         .logo-image {
             height: 32px;
             width: auto;
+            transition: transform 0.3s ease;
         }
         
-        /* 合作按钮新样式 */
+        /* 合作按钮新样式 - 线条/透明按钮 */
         .nav-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 8px 20px;
+            padding: 9px 22px; /* 略微调整 padding */
             border-radius: 25px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 0.95rem;
-            border: none;
-            background-color: var(--primary-color);
-            color: white;
-            box-shadow: 0 4px 12px rgba(255, 140, 25, 0.3);
+            
+            /* 关键变化：透明背景，橙色边框 */
+            border: 2px solid var(--primary-color); 
+            background-color: transparent;
+            color: var(--primary-color);
+            
+            /* 移除box-shadow，保持简洁和轻量感 */
             cursor: pointer;
         }
 
         .nav-button:hover {
-            background-color: #e67e00;
-            box-shadow: 0 6px 18px rgba(255, 140, 25, 0.45);
+            /* 悬停时背景填充橙色，文字变白 */
+            background-color: var(--primary-color); 
+            color: white;
             transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(255, 140, 25, 0.3); /* 增加轻微阴影 */
         }
 
         /* 英雄区域（大图） */
@@ -462,8 +472,7 @@
 
         .particle {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            /* 样式保留，大小将在 JS 中动态设置 */
             border-radius: 50%;
             background: var(--particle-tertiary); 
             pointer-events: none;
@@ -533,7 +542,7 @@
             <a href="https://www.zizao.top" class="logo">
                 <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="字造Logo" class="logo-image">
             </a>
-            <a href="#" class="nav-button">合作</a>
+            <a href="#" class="nav-button">合作洽谈</a>
         </div>
     </nav>
     
@@ -677,8 +686,8 @@
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
                 
-                // 随机大小和颜色
-                const size = Math.random() * 10 + 5;
+                // *** 优化点: 调整粒子的随机大小范围，从 2px 到 6px ***
+                const size = Math.random() * 4 + 2; 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 
@@ -701,9 +710,10 @@
                 const vx = Math.cos(angle) * speed;
                 const vy = Math.sin(angle) * speed;
                 
-                let opacity = 0.7;
+                // 保持初始透明度和淡出速率不变，以确保其仍保持精致不抢眼
+                let opacity = 0.4; 
                 const fade = setInterval(() => {
-                    opacity -= 0.02;
+                    opacity -= 0.015; 
                     particle.style.opacity = opacity;
                     
                     if (opacity <= 0) {
