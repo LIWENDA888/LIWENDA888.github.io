@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -6,9 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>您的字库品牌 - 首页</title>
 
-    <link rel="stylesheet" href="https://www.zizao.top/fonts/pages/global.css">
-    
     <style>
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #222222;
+            line-height: 1.6;
+            padding-top: 61px;
+            
+            /* 页面淡入效果 */
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        a {
+            color: #222222;
+            text-decoration: none;
+            transition: color 0.3s, text-decoration 0.3s; 
+        }
+
+        /* --- 配色常量 --- */
+        :root {
+            --deep-grey: #222222;
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --hover-deep-color: #a88a56; 
+            /* 新增悬停背景色常量 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); /* 主色调的淡背景 */
+        }
+
+        /* --- 1. 顶部栏样式 (固定悬浮) --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: #FFFFFF;
+            
+            /* 顶部栏：移除阴影，恢复底部边框 */
+            box-shadow: none; 
+            border-bottom: 1px solid var(--light-grey); 
+        }
+
+        /* LOGO 图片容器 */
+        .logo {
+            display: flex;
+            align-items: center; 
+        }
+
+        /* LOGO 图片样式 */
+        .logo img {
+            height: 28px; /* 桌面端高度 */
+            max-width: 150px; /* 最大宽度限制 */
+            display: block;
+        }
+
+        /* ** 导航项样式修改 ** */
+        .nav a {
+            margin-left: 25px;
+            font-size: 16px;
+            
+            /* 新增：让链接变为块级/行内块级元素，以便设置内边距和背景 */
+            display: inline-flex; 
+            align-items: center;
+            padding: 5px 10px; /* 增大点击/悬停区域 */
+            border-radius: 4px;
+            position: relative; /* 为小圆点定位做准备 */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        /* ** 新增：导航项左侧实心小圆点 ** */
+        .nav a::before {
+            content: '';
+            display: block;
+            width: 6px; 
+            height: 6px;
+            background-color: var(--deep-grey); /* 默认颜色 */
+            border-radius: 50%;
+            margin-right: 8px; /* 小圆点和文字的间隔 */
+            transition: background-color 0.3s;
+        }
+        
+        /* ** 新增：悬停时的圆角背景和颜色变化 ** */
+        .nav a:hover {
+            color: var(--hover-deep-color); /* 字体颜色加深 */
+            background-color: var(--nav-hover-bg); /* 圆角背景显示 */
+        }
+        
+        /* ** 悬停时小圆点的颜色变化 ** */
+        .nav a:hover::before {
+            background-color: var(--accent-color); /* 小圆点变为强调色 */
+        }
+        
+        .menu-toggle {
+            display: none; 
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--deep-grey);
+            padding: 0 10px;
+            z-index: 1001; 
+        }
+
+
         /* --- 主内容区容器 (80% 宽度优化) --- */
         .container {
             width: 80%;
@@ -44,17 +157,17 @@
         
         /* "已上线" 和 "款字体" 的样式 */
         .font-count span {
-            font-size: 36px; 
+            font-size: 36px; /* 增大文本大小，使其与数字的比例更协调 */
             line-height: 1; 
         }
         
         /* 动态数字（6）的样式 - 增大 */
         .dynamic-number {
-            font-size: 180px; 
+            font-size: 180px; /* 修改点 1: 进一步增大数字 */
             font-weight: 900; 
             color: var(--accent-color); 
             display: inline-block;
-            margin: 0 30px; 
+            margin: 0 30px; /* 增大数字与前后文字的间隔 */
             line-height: 1; 
         }
 
@@ -127,8 +240,122 @@
             text-overflow: ellipsis; 
         }
         
-        /* 响应式设计：移动端优化部分 */
+        /* --- 4. 底部栏样式 --- */
+        .footer {
+            /* 底部栏保持白色背景 */
+            background-color: #FFFFFF; 
+            color: #444444;
+            padding: 50px 10%; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-size: 14px;
+            border-top: 1px solid var(--light-grey);
+        }
+
+        .footer-col {
+            width: 25%;
+            margin-bottom: 20px;
+        }
+
+        .footer-col h4 {
+            font-size: 16px;
+            color: var(--deep-grey);
+            margin-bottom: 15px;
+        }
+
+        .footer-col a {
+            display: block;
+            margin-bottom: 5px;
+            color: #444444;
+        }
+
+        /* 底部栏超链接悬停样式：颜色加深 + 下划线 */
+        .footer-col a:hover {
+            color: var(--hover-deep-color); 
+            text-decoration: underline; 
+        }
+        
+        /* 社交链接行内显示优化 */
+        .footer-col.social-links a {
+            display: inline;
+            margin-right: 5px;
+        }
+
+        .copyright {
+            width: 100%;
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
         @media (max-width: 768px) {
+            body {
+                padding-top: 55px; 
+            }
+            .header {
+                padding: 10px 4%; 
+            }
+            
+            .logo img {
+                height: 24px; 
+            }
+
+            .menu-toggle {
+                display: block; 
+            }
+            
+            /* ** 移动端导航栏样式修改：全屏居中显示 ** */
+            .nav {
+                position: fixed; /* 占据整个视窗 */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh; /* 全屏高度 */
+                background-color: #FFFFFF; /* 背景色覆盖 */
+                
+                /* 居中设置 */
+                display: flex;
+                flex-direction: column; 
+                justify-content: center; /* 垂直居中 */
+                align-items: center; /* 水平居中 */
+                
+                z-index: 1010; /* 确保覆盖所有内容，包括 header */
+                
+                border-top: none; /* 移除边框 */
+                box-shadow: none; /* 移除阴影 */
+                
+                display: none; /* 默认隐藏 */
+            }
+
+            .nav.open {
+                display: flex; /* 菜单打开时显示 */
+            }
+
+            .nav a {
+                /* 移动端改为独占一行 */
+                display: flex;
+                justify-content: center; /* 居中对齐 */
+                
+                /* 调整样式以适应大气全屏效果 */
+                font-size: 24px; /* 增大字号 */
+                padding: 20px 30px; /* 增大悬停区域和间距 */
+                margin: 10px 0; /* 增加选项之间的垂直间距 */
+                
+                border-bottom: none; /* 移除选项间的横线 */
+            }
+            
+            /* 配合全屏菜单，增大移动端小圆点样式 */
+            .nav a::before {
+                width: 8px; 
+                height: 8px;
+                margin-right: 12px;
+            }
+            /* ------------------------------------ */
+
+
             .container {
                 width: 95%; 
             }
@@ -142,10 +369,10 @@
 
             /* 移动端 字数显示区 调整 */
             .font-count span {
-                font-size: 24px; 
+                font-size: 24px; /* 移动端文字稍大 */
             }
             .dynamic-number {
-                font-size: 100px; 
+                font-size: 100px; /* 移动端数字大小 */
                 margin: 0 15px;
             }
             
@@ -154,12 +381,30 @@
                 font-size: 22px; 
                 margin-bottom: 15px;
             }
+            
+            .footer {
+                padding: 40px 5%; 
+            }
+            .footer-col {
+                width: 45%; 
+            }
         }
     </style>
 </head>
 <body>
-    
-    <div id="header-placeholder"></div>
+
+    <header class="header">
+        <div class="logo">
+            <img src="logo-placeholder.png" alt="品牌 LOGO" id="headerLogo">
+        </div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <nav class="nav" id="mainNav">
+            <a href="#" class="nav-item">全部字体</a>
+            <a href="#" class="nav-item">关于品牌</a>
+            <a href="#" class="nav-item">授权购买</a>
+            <a href="#" class="nav-item">联系我们</a>
+        </nav>
+    </header>
 
     <main class="container">
         
@@ -218,43 +463,40 @@
                 </div>
                 <div class="font-name">行楷 · 雅致</div>
             </a>
-        </section>
+            
+            </section>
 
     </main>
 
-    <div id="footer-placeholder"></div>
+    <footer class="footer">
+        <div class="footer-col">
+            <h4>关于品牌</h4>
+            <p>我们致力于为您提供高品质、授权清晰的精品字库。</p>
+        </div>
+        <div class="footer-col">
+            <h4>快速链接</h4>
+            <a href="#" target="_blank">授权条款</a>
+            <a href="#" target="_blank">常见问题</a>
+            <a href="#" target="_blank">隐私政策</a>
+        </div>
+        <div class="footer-col social-links">
+            <h4>关注我们</h4>
+            <a href="#" target="_blank">微信</a> | <a href="#" target="_blank">微博</a> | <a href="#" target="_blank">Behance</a>
+        </div>
+        <p class="copyright">© 2025 您的字库品牌. All rights reserved.</p>
+    </footer>
     
     <script>
-        // --- 公共部分加载函数 ---
-        async function loadHTML(url, targetId) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(\`Failed to fetch \${url}: \${response.statusText}\`);
-                }
-                const html = await response.text();
-                document.getElementById(targetId).innerHTML = html;
-            } catch (error) {
-                console.error("加载组件失败:", error);
-            }
-        }
-        
-        // --- 绑定事件和动画逻辑 ---
-        document.addEventListener('DOMContentLoaded', async function() {
-            // 1. 加载 header 和 footer (必须放在最前面)
-            await loadHTML('https://www.zizao.top/fonts/pages/header.html', 'header-placeholder');
-            await loadHTML('https://www.zizao.top/fonts/pages/footer.html', 'footer-placeholder');
-            
+        document.addEventListener('DOMContentLoaded', function() {
             // 【页面加载完成后淡入】
             document.body.style.opacity = '1';
-
-            // 必须在 header 加载完成后获取元素
+            
             const menuToggle = document.getElementById('menuToggle');
             const mainNav = document.getElementById('mainNav');
             const animatedFontCount = document.getElementById('animatedFontCount');
             const fontCards = document.querySelectorAll('.font-showcase .font-card');
             
-            // --- 移动端菜单逻辑 (必须在获取到 menuToggle 和 mainNav 之后执行) ---
+            // --- 移动端菜单逻辑 ---
             if (menuToggle && mainNav) {
                 
                 function closeMenu() {
@@ -270,7 +512,7 @@
                         menuToggle.innerHTML = '✕'; 
                         document.body.style.overflow = 'hidden'; // 隐藏滚动条
                     } else {
-                        closeMenu(); 
+                        closeMenu(); // 使用统一的关闭函数
                     }
                 }
                 menuToggle.addEventListener('click', toggleMenu);
@@ -285,8 +527,9 @@
                     });
                 });
                 
-                // 2. 点击非选项区域（即导航栏背景）时关闭菜单
+                // 2. 新增：点击非选项区域（即导航栏背景）时关闭菜单
                 mainNav.addEventListener('click', function(event) {
+                    // 检查点击事件是否发生在导航栏容器上，而不是容器内的链接（a标签）上
                     if (event.target === mainNav && mainNav.classList.contains('open')) {
                         closeMenu();
                     }
@@ -319,4 +562,4 @@
     </script>
 
 </body>
-</html>pages
+</html>
