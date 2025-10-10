@@ -3,737 +3,659 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自在造字 - 心自在，字造万物</title>
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
-    <meta name="author" content="字造">
-    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
-    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBbDMDErs/20250803/9BXx/1108X308/logo.png">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #FF8C19;
-            --sub-text-color: #6c7a89;
-            --text-color: #1a2a40;
-            /* 从 1.html 引入的颜色变量，用于粒子效果 */
-            --particle-primary: #FF7F00; 
-            --particle-secondary: #FF4500;
-            --particle-tertiary: #FFD700;
-        }
+    <title>您的字库品牌 - 首页</title>
 
-        /* 全局样式 */
+    <style>
+        /* 基础重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* 🚀 关键优化：当侧边栏打开时，在 HTML 根元素上禁用滚动 */
+        html.menu-open {
+            overflow: hidden;
         }
 
         body {
-            background: #f8fafc;
-            color: #1e293b;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #222222;
             line-height: 1.6;
-        }
-        
-        /* 顶部导航栏 - 优化后的样式 */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95); /* 轻微透明度，增加层次感 */
-            backdrop-filter: blur(5px); /* 毛玻璃效果 (现代设计必备) */
-            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08); /* 调整阴影，更柔和 */
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            width: 100%;
+            padding-top: 61px;
+            
+            /* 页面淡入效果 */
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            transition: padding-top 0.3s ease; 
         }
 
-        .nav-container {
-            max-width: 1800px;
-            margin: 0 auto;
+        a {
+            color: #222222;
+            text-decoration: none;
+            transition: color 0.3s, text-decoration 0.3s; 
+        }
+
+        /* --- 配色常量 --- */
+        :root {
+            --deep-grey: #222222;
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --hover-deep-color: #a88a56; 
+            /* 新增悬停背景色常量 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            /* 新增侧边栏背景色 */
+            --sidebar-bg: #FFFFFF; 
+            --hero-text-color: #FFFFFF; /* 英雄区文字颜色 */
+            --hero-slogan-color: #FFFFFF; /* 英雄区标语颜色 */
+            --hero-bg-url: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp');
+        }
+
+        /* --- 1. 顶部栏样式 (固定悬浮) --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 70px;
-            padding: 0 5%;
+            padding: 20px 5%;
+            background-color: #FFFFFF;
+            
+            box-shadow: none; 
+            border-bottom: 1px solid var(--light-grey); 
         }
 
+        /* LOGO 图片容器 */
         .logo {
             display: flex;
-            align-items: center;
-            text-decoration: none;
-            /* Logo链接填充整个高度，点击区域更大 */
-            height: 100%; 
-            padding: 0; 
+            align-items: center; 
         }
 
-        .logo-image {
-            height: 32px;
-            width: auto;
-            transition: transform 0.3s ease;
-        }
-        
-        /* 合作按钮新样式 - 线条/透明按钮 */
-        .nav-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 9px 22px; /* 略微调整 padding */
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            
-            /* 关键变化：透明背景，橙色边框 */
-            border: 2px solid var(--primary-color); 
-            background-color: transparent;
-            color: var(--primary-color);
-            
-            /* 移除box-shadow，保持简洁和轻量感 */
-            cursor: pointer;
-        }
-
-        .nav-button:hover {
-            /* 悬停时背景填充橙色，文字变白 */
-            background-color: var(--primary-color); 
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(255, 140, 25, 0.3); /* 增加轻微阴影 */
-        }
-
-        /* 英雄区域（大图） */
-        .hero-section {
-            position: relative;
-            height: 700px;
-            padding: 0 5%;
-        }
-
-        .hero-section .hero-image-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        
-        .hero-section .hero-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            color: white;
-            max-width: 700px;
-            text-align: left;
-            margin-left: 15%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            font-weight: bold;
-        }
-
-        .hero-content p {
-            font-size: 1.4rem;
-            margin-bottom: 30px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .hero-button {
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 1rem;
-            border: 2px solid transparent;
-        }
-
-        .hero-button-primary {
-            background-color: #FF8C19;
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 140, 25, 0.4);
-        }
-
-        .hero-button-primary:hover {
-            background-color: #e67e00;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 140, 25, 0.6);
-        }
-
-        .hero-button-secondary {
-            background-color: transparent;
-            color: white;
-            border-color: white;
-        }
-
-        .hero-button-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* 主要内容区域 */
-        .main-content {
-            flex: 1;
-            padding-top: 40px;
-            padding-bottom: 40px;
-            padding-left: 5%;
-            padding-right: 5%;
-        }
-
-        .container {
-            max-width: 2000px;
-            margin: 0 auto;
-        }
-
-        /* 三卡片布局 */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 0;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 25px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            overflow: hidden;
-            position: relative;
-            min-height: 500px;
-            transition: none;
-            text-decoration: none;
-            display: flex;
-            align-items: flex-start;
-            cursor: pointer;
-        }
-
-        .card-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: none;
-            filter: brightness(0.65);
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 2;
-            color: white;
-            padding: 40px;
-            text-align: left;
-            width: 100%;
-        }
-
-        .card-content h3 {
-            font-size: 1.6rem;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .card-content p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            margin-bottom: 8px;
-            font-weight: normal;
-        }
-
-        .card-action-text {
-            display: inline-block;
-            font-size: 0.9rem;
-            color: white;
-            font-weight: 700;
-            text-decoration: none;
-            transition: text-decoration 0.3s;
-        }
-
-        a.card:hover .card-action-text {
-            text-decoration: underline;
-        }
-
-        /* 底部栏新布局样式 */
-        .footer {
-            background: #f8fafc;
-            color: #1a2a40;
-            padding: 80px 5% 20px;
-            font-size: 1rem;
-            box-shadow: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 0px; 
-            width: 100%;
-        }
-
-        .contact-social-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        
-        /* 新的社交图标容器样式 */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 24px; /* 增加图标之间的间距 */
-            flex-wrap: wrap;
-        }
-
-        /* 图标按钮基础样式 */
-        .social-button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60px; /* 图标尺寸 (已增大) */
-            height: 60px; /* 图标尺寸 (已增大) */
-            border-radius: 50%; /* 圆形图标 */
-            background-color: #f0f4f8; /* 背景色 */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .social-button:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px); /* 轻微上浮 */
-        }
-        
-        /* 图标图片样式 */
-        .social-icon, .qr-code-icon {
-            width: 60%; /* 图标图片缩小 */
-            height: 60%;
-            object-fit: contain; /* 保持图片比例 */
-            z-index: 2; /* 确保图标在背景之上 */
-            transition: transform 0.3s ease;
-        }
-
-        /* 悬停时图标放大 */
-        .social-button:hover .social-icon,
-        .social-button:hover .qr-code-icon {
-            transform: scale(1.1);
-        }
-        
-        /* 二维码容器和弹窗 */
-        .qr-code-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .qr-code-popup {
-            position: absolute;
-            bottom: calc(100% + 15px); /* 增加弹窗与图标的距离 */
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-        }
-
-        .qr-code-container:hover .qr-code-popup {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0); /* 悬停时回到正常位置 */
-        }
-        
-        .qr-code-popup img {
-            width: 120px;
-            height: 120px;
+        /* LOGO 图片样式 */
+        .logo img {
+            height: 28px; 
+            max-width: 150px; 
             display: block;
         }
 
-        /* 弹窗中的文本样式 */
-        .qr-code-popup p {
-            font-size: 0.85rem;
-            color: var(--text-color);
-            margin-top: 10px;
-            font-weight: 500;
+        /* ** 导航项样式 (桌面端) ** */
+        .nav a {
+            margin-left: 15px; 
+            font-size: 16px;
+            display: inline-flex; 
+            align-items: center;
+            padding: 5px 10px; 
+            border-radius: 4px;
+            position: relative; 
+            transition: background-color 0.3s, color 0.3s;
         }
         
-        /* 友情推荐样式 (用于控制大间距) */
-        .friendship-links-section {
-            margin-top: 50px; /* 大间距：社交图标底部到友情推荐顶部的间距 */
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .friendship-links-section h3 {
-            font-size: 0.95rem; 
-            color: var(--sub-text-color); 
-            margin-bottom: 15px;
-            font-weight: 500; 
-        }
-
-        .links-group {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap; 
-            gap: 12px 20px; 
-        }
-
-        .links-group a {
-            color: #999; 
-            text-decoration: none;
-            font-size: 0.9rem; 
-            transition: color 0.3s;
-        }
-
-        .links-group a:hover {
-            color: var(--text-color); /* **已修改：与版权信息链接悬停样式统一** */
-            text-decoration: underline;
-        }
-
-        /* 版权信息部分 (控制紧凑对称间距) */
-        .copyright-section {
-            text-align: center;
-            padding-top: 20px; /* 紧凑对称：分割线到版权文字顶部的间距 */
-            margin-top: 20px;  /* 紧凑对称：友情推荐底部到分割线的间距 */
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            width: 100%;
-        }
-
-        .copyright-section p {
-            color: var(--sub-text-color);
-            font-size: 0.9rem;
-        }
-
-        .copyright-section a {
-            color: var(--sub-text-color);
-            text-decoration: none;
-            transition: color 0.3s ease, text-decoration 0.3s ease;
-        }
-
-        .copyright-section a:hover {
-            color: var(--text-color);
-            text-decoration: underline;
+        .nav a::before {
+            content: '';
+            display: block;
+            width: 6px; 
+            height: 6px;
+            background-color: var(--deep-grey); 
+            border-radius: 50%;
+            margin-right: 8px; 
+            transition: background-color 0.3s;
         }
         
-        /* 鼠标跟随粒子效果样式 - 从 1.html 导入并修改 z-index */
-        #particles {
+        .nav a:hover {
+            color: var(--hover-deep-color); 
+            background-color: var(--nav-hover-bg); 
+        }
+        
+        .nav a:hover::before {
+            background-color: var(--accent-color); 
+        }
+        
+        .menu-toggle {
+            display: none; 
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--deep-grey);
+            padding: 0 10px;
+            z-index: 1001; 
+        }
+
+        /* 侧边栏遮罩层 */
+        .backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 9999; 
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 990; 
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
         }
 
-        .particle {
-            position: absolute;
-            /* 样式保留，大小将在 JS 中动态设置 */
-            border-radius: 50%;
-            background: var(--particle-tertiary); 
-            pointer-events: none;
-            opacity: 0.7;
+        .backdrop.open {
+            opacity: 1;
+            visibility: visible;
         }
 
-        /* 响应式调整 */
-        @media (max-width: 992px) {
-            .hero-section { height: 600px; }
-            .hero-content { padding-left: 10%; margin-left: 10%; }
-            .hero-content h1 { font-size: 2.8rem; }
-            .hero-content p { font-size: 1.3rem; }
-            .main-content { padding: 40px 5%; padding-bottom: 80px; }
-            .card-container { grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 0; }
-            .card { min-height: 450px; }
-            .card-content h3 { font-size: 1.8rem; }
-            .card-content p { font-size: 1.1rem; }
+
+        /* --- 主内容区容器 (80% 宽度优化) --- */
+        .container {
+            width: 80%;
+            max-width: 1600px;
+            margin: 0 auto; 
+            padding: 0; 
         }
 
-        @media (max-width: 768px) {
-            .nav-container { padding-left: 20px; padding-right: 20px; }
-            .hero-section { position: static; height: auto; padding: 0; }
-            .hero-section .hero-image-container { position: static; width: 100%; height: auto; }
-            .hero-section .hero-image-container img { width: 100%; height: auto; }
-            .hero-content {
-                position: static;
-                width: 100%;
-                max-width: none;
-                color: #1a2a40;
-                text-align: left;
-                margin: 0;
-                padding: 0 5%;
-                margin-top: 20px;
-            }
-            .hero-content h1 { font-size: 2.2rem; margin-bottom: 12px; }
-            .hero-content p { font-size: 1.2rem; margin-bottom: 24px; color: var(--sub-text-color); }
-            .hero-buttons { justify-content: flex-start; }
-            .hero-button { font-size: 1rem; }
-            .hero-button-secondary { color: #1a2a40; border-color: #1a2a40; }
-            .main-content { padding-top: 30px; padding-bottom: 30px; padding-left: 5%; padding-right: 5%; }
-            .card-container { grid-template-columns: 1fr; gap: 30px; }
-            .card { min-height: 400px; }
-            .card-content { padding: 30px; }
-            .footer { padding-top: 40px; padding-bottom: 20px; } 
+        /* --- 2. 动态数据显示区域样式 (英雄区) --- */
+        .hero-section {
+            width: 100vw; 
+            margin-left: calc(50% - 50vw); 
             
-            /* 手机端间距调整 */
-            .friendship-links-section { margin-top: 35px; } /* 社交图标和友情推荐顶部的大间距 */
-            .copyright-section { margin-top: 20px; padding-top: 20px; } /* 紧凑对称间距 */
+            background-image: var(--hero-bg-url);
+            background-size: cover;
+            background-position: center;
+            background-color: #000000; 
+            
+            height: 400px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            
+            padding: 0;
+        }
+        
+        /* 主标语（Slogan） */
+        .slogan {
+            font-size: 32px; 
+            font-weight: 700;
+            color: var(--hero-slogan-color); 
+            letter-spacing: 2px;
+            margin-bottom: 30px; 
+        }
+        
+        /* 字数信息容器 */
+        .font-count {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px; 
+            color: var(--hero-text-color); 
+            font-weight: 500;
+        }
+        
+        /* "已上线" 和 "款字体" 的样式 */
+        .font-count span {
+            font-size: 36px; 
+            line-height: 1; 
+            color: var(--hero-text-color);
+        }
+        
+        /* 动态数字（6）的样式 - 增大 */
+        .dynamic-number {
+            font-size: 180px; 
+            font-weight: 900; 
+            color: var(--accent-color); 
+            display: inline-block;
+            margin: 0 30px; 
+            line-height: 1; 
         }
 
-        @media (max-width: 576px) {
-            .hero-section { height: auto; }
-            .hero-content h1 { font-size: 1.8rem; }
-            .hero-content p { font-size: 1.1rem; }
-            .hero-button { padding: 10px 24px; }
-            .footer { padding-top: 30px; }
-            .main-content { padding-bottom: 40px; }
+        /* 移除分隔线 */
+        .divider {
+            display: none;
+        }
+
+        /* --- 3. 字体网格展示区及标签区样式 --- */
+        
+        /* 字体展示区外部容器 */
+        .font-showcase-wrapper {
+            padding-top: 60px; /* 顶部间距 */
+            padding-bottom: 80px; /* 底部间距 */
+        }
+
+        /* 分类标签区域 */
+        .category-tabs {
+            display: flex;
+            gap: 15px; /* 标签间距 */
+            margin-bottom: 30px; /* 标签和卡片区域的间距 */
+            border-bottom: 1px solid var(--light-grey);
+            padding-bottom: 15px;
+        }
+
+        /* 分类标签按钮 */
+        .category-tab {
+            background: none;
+            border: none;
+            padding: 8px 15px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666666;
+            cursor: pointer;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .category-tab:hover {
+            color: var(--deep-grey);
+        }
+
+        /* 激活状态 */
+        .category-tab.active {
+            color: var(--deep-grey); 
+            font-weight: 700;
+        }
+
+        /* 激活状态的下划线 */
+        .category-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -15px; 
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 1.5px;
+        }
+        
+        /* 字体网格容器 */
+        .font-showcase {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 30px;
+            padding: 0; 
+        }
+
+        .font-card {
+            display: block;
+            border: 1px solid transparent; 
+            transition: transform 0.3s ease; 
+        }
+
+        /* 悬停时整个卡片微微浮动 */
+        .font-card:hover {
+            transform: translateY(-2px); 
+        }
+
+        /* 封面容器 (4:3 比例) */
+        .font-cover {
+            width: 100%;
+            padding-top: 75%; 
+            position: relative; 
+            cursor: pointer;
+            
+            background-color: #f7f7f7; 
+            border-radius: 4px; 
+            overflow: hidden; 
+        }
+        
+        /* 使用伪元素来承载背景图，以便在悬停时放大 */
+        .font-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: inherit; 
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease; 
+            border-radius: 4px; 
+        }
+        
+        /* 鼠标悬停时的图片放大效果 */
+        .font-card:hover .font-cover::before {
+            transform: scale(1.1); 
+        }
+
+        .font-name {
+            padding: 15px 0 10px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--deep-grey);
+            
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        
+        /* --- 4. 底部栏样式 --- */
+        .footer {
+            background-color: #FFFFFF; 
+            color: #444444;
+            padding: 20px 10%; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            font-size: 14px;
+            border-top: 1px solid var(--light-grey);
+        }
+
+        .copyright {
+            width: 100%;
+            text-align: center;
+            margin: 0; 
+            padding: 0; 
+            border-top: none; 
+        }
+
+
+        /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 55px; 
+            }
+            .header {
+                padding: 10px 4%; 
+            }
+            
+            /* 侧边栏导航样式 */
+            .nav {
+                /* 默认隐藏，从右侧滑入 */
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%; 
+                max-width: 300px; 
+                background-color: var(--sidebar-bg);
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                transform: translateX(100%); 
+                transition: transform 0.3s ease-out;
+                
+                /* 导航项垂直堆叠 */
+                display: flex;
+                flex-direction: column;
+                padding: 70px 20px 20px; 
+                overflow-y: auto; /* 允许侧边栏内容滚动 */
+            }
+
+            .nav.open {
+                transform: translateX(0); /* 显示导航栏 */
+            }
+
+            /* 导航项样式调整 */
+            .nav a {
+                margin: 10px 0; 
+                padding: 12px 10px;
+                font-size: 18px;
+                width: 100%;
+                display: flex; 
+                align-items: center;
+                border-radius: 4px;
+            }
+            
+            .nav a::before {
+                margin-right: 12px;
+            }
+
+            /* 汉堡菜单按钮显示 */
+            .menu-toggle {
+                display: block; 
+            }
+
+
+            .container {
+                width: 95%; 
+            }
+            
+            /* 移动端 英雄区调整 */
+            .hero-section {
+                height: 250px; 
+                width: 100vw; 
+                margin-left: calc(50% - 50vw);
+                padding-top: 20px; 
+            }
+
+            /* 移动端字体展示区 */
+            .font-showcase-wrapper {
+                padding-top: 40px; 
+                padding-bottom: 60px;
+            }
+            
+            .category-tabs {
+                gap: 10px;
+                margin-bottom: 20px;
+                /* 确保标签在小屏幕上可以水平滚动 */
+                overflow-x: auto; 
+                white-space: nowrap;
+                padding-bottom: 10px;
+            }
+            
+            .category-tab {
+                font-size: 14px;
+                padding: 6px 12px;
+                flex-shrink: 0; /* 防止标签被挤压 */
+            }
+
+            .category-tab.active::after {
+                bottom: -10px; 
+            }
+
+            .font-showcase {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                padding-top: 0;
+            }
+
+            /* 移动端 字数显示区 调整 */
+            .font-count span {
+                font-size: 24px; 
+            }
+            .dynamic-number {
+                font-size: 100px; 
+                margin: 0 15px;
+            }
+            
+            /* 移动端 Slogan 样式 */
+            .slogan {
+                font-size: 22px; 
+                margin-bottom: 15px;
+            }
+            
+            /* 移动端底部栏调整 */
+            .footer {
+                padding: 15px 5%; 
+            }
         }
     </style>
 </head>
 <body>
-    
-    <div id="particles"></div>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="https://www.zizao.top" class="logo">
-                <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="字造Logo" class="logo-image">
-            </a>
-            <a href="#" class="nav-button">合作洽谈</a>
+    <header class="header">
+        <div class="logo">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="品牌 LOGO" id="headerLogo">
         </div>
-    </nav>
-    
-    <div class="hero-section">
-        <div class="hero-image-container">
-            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="英雄图片">
-        </div>
-        <div class="hero-content">
-            <h1>字造起点黑VF</h1>
-            <p>我们第一款双轴可变字体，第一款免费商用字体即将上线<br>敬请期待！</p>
-            <div class="hero-buttons">
-                <a href="https://www.zizao.top/beta" class="hero-button hero-button-primary" target="_blank" rel="noopener noreferrer">下载字体</a>
-                <a href="https://www.zizao.top/beta" class="hero-button hero-button-secondary" target="_blank" rel="noopener noreferrer">了解更多</a>
-            </div>
-        </div>
-    </div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="backdrop" id="menuBackdrop"></div>
+        <nav class="nav" id="mainNav">
+            <a href="#" class="nav-item">首页</a>
+            <a href="#" class="nav-item">产品</a>
+            <a href="#" class="nav-item">授权</a>
+            <a href="#" class="nav-item">计划</a>
+            <a href="#" class="nav-item">联系</a>
+            <a href="#" class="nav-item">关于</a>
+            <a href="#" class="nav-item">测试长项目1</a>
+            <a href="#" class="nav-item">测试长项目2</a>
+            <a href="#" class="nav-item">测试长项目3</a>
+        </nav>
+    </header>
 
-    <div class="main-content">
-        <div class="container">
-            <div class="card-container">
-                <a href="" class="card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-bg" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');"></div>
-                    <div class="card-content">
-                        <h3>字库产品(暂未上线)</h3>
-                        <p>以字体探索美学心新感知，持续开发有价值的字体是，探索可变技术在中文字库领域的更多可能性</p>
-                        <span class="card-action-text">了解更多</span>
-                    </div>
-                </a>
-
-                <a href="https://www.zizao.top/hao" class="card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-bg" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/tKbr/930X710/index2.jpg/webp');"></div>
-                    <div class="card-content">
-                        <h3>设计导航</h3>
-                        <p>以字体为主要核心的综合设计导航，整理囊括国内外优质好站，定期维护整理。设计师必备的灵感百宝库</p>
-                        <span class="card-action-text">开始使用</span>
-                    </div>
-                </a>
-
-                <a href="https://www.zizao.top/tools/chaoyin" class="card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-bg" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp');"></div>
-                    <div class="card-content">
-                        <h3>超引SuperX</h3>
-                        <p>独家整理的免费形近字查询神器，对话式的便捷丝滑体验，推荐字体设计师等职业使用</p>
-                        <span class="card-action-text">开始使用</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="contact-social-section">
-                <div class="social-links">
-                    <div class="qr-code-container">
-                        <div class="social-button wechat-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp/webp" alt="微信好友图标" class="qr-code-icon">
-                        </div>
-                        <div class="qr-code-popup">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp" alt="微信好友二维码">
-                            <p>扫码加微信</p>
-                        </div>
-                    </div>
-                    <div class="qr-code-container">
-                        <div class="social-button wechat-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/epGu/400X400/wx.webp/webp" alt="微信公众号图标" class="qr-code-icon">
-                        </div>
-                        <div class="qr-code-popup">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp" alt="微信公众号二维码">
-                            <p>关注微信公众号</p>
-                        </div>
-                    </div>
-                    
-                    <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" rel="noopener noreferrer">
-                        <div class="social-button douyin-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/2Vtm/100X100/dy.webp" alt="抖音主页" class="social-icon">
-                        </div>
-                    </a>
-                    <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" rel="noopener noreferrer">
-                        <div class="social-button xiaohongshu-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Ayt2/101X100/xhs.webp" alt="小红书主页" class="social-icon">
-                        </div>
-                    </a>
-                    <a href="https://www.zcool.com.cn/u/15462186" target="_blank" rel="noopener noreferrer">
-                        <div class="social-button zcool-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/mOb4/101X100/zk.webp" alt="站酷主页" class="social-icon">
-                        </div>
-                    </a>
-                    <a href="https://space.bilibili.com/339715446" target="_blank" rel="noopener noreferrer">
-                        <div class="social-button bilibili-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/msSh/101X100/b.webp" alt="bilibili主页" class="social-icon">
-                        </div>
-                    </a>
-                    <a href="https://weibo.com/u/7931697572" target="_blank" rel="noopener noreferrer">
-                        <div class="social-button bilibili-button">
-                            <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Z51u/101X100/wb.webp/webp" alt="微博主页" class="social-icon">
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="friendship-links-section">
-                <h3>工具推荐：</h3>
-                <div class="links-group">
-                    <a href="https://www.zizao.top/tools/pinyin" target="_blank" rel="noopener noreferrer">汉字转拼音</a>
-                    <a href="https://www.zizao.top/tools/txt" target="_blank" rel="noopener noreferrer"> 在线TXT编辑器</a>
-                    <a href="https://www.zizao.top/tools/quchong" target="_blank" rel="noopener noreferrer">去重字符</a>
-                    <a href="https://www.zizao.top/tools/shufa" target="_blank" rel="noopener noreferrer">搜书法风格</a>
-                    <a href="https://www.zizao.top/tools/duibi" target="_blank" rel="noopener noreferrer">文本差异对比</a>
-                </div>
+    <main class="container">
+        
+        <section class="hero-section">
+            <p class="slogan">书写可能，定义未来</p>
+            
+            <div class="font-count">
+                <span>已上线</span>
+                <span class="dynamic-number" id="animatedFontCount">0</span> 
+                <span>款字体</span>
             </div>
             
-        </div>
+        </section>
+        
+        <section class="font-showcase-wrapper">
+            <div class="category-tabs" id="categoryTabs">
+                </div>
+            
+            <section class="font-showcase" id="fontShowcase">
+                </section>
+        </section>
 
-        <div class="copyright-section">
-            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利.
-                <a href="#" target="_blank" rel="noopener noreferrer">隐私政策</a> |
-                <a href="#" target="_blank" rel="noopener noreferrer">服务条款</a>
-            </p>
-        </div>
+    </main>
+
+    <footer class="footer">
+        <p class="copyright">© 2025 您的字库品牌. All rights reserved.</p>
     </footer>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const particlesContainer = document.getElementById('particles');
-            let lastTime = 0;
-            const throttleTime = 10; // 性能优化：限制为每 10 毫秒生成一个粒子
+        // 字体数据结构 (保持不变)
+        const fontData = [
+            { name: '宋体 · 沉静', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-1.html', tags: ['宋体', '正文', '免费商用'] },
+            { name: '黑体 · 现代', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-2.html', tags: ['黑体', '标题'] },
+            { name: '手写 · 灵动', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-3.html', tags: ['手写', '卡通', '免费商用'] },
+            { name: '圆体 · 可爱', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-4.html', tags: ['圆体', '卡通'] },
+            { name: '草书 · 狂放', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-5.html', tags: ['书法'] },
+            { name: '行楷 · 雅致', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-6.html', tags: ['书法', '免费商用'] },
+            { name: '新字体 · 简约', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-7.html', tags: ['黑体', '标题', '免费商用'] },
+        ];
+        const categories = ['全部', '免费商用', '卡通']; 
 
-            document.addEventListener('mousemove', function(e) {
-                // 性能优化：节流逻辑
-                const currentTime = new Date().getTime();
-                if (currentTime - lastTime > throttleTime) {
-                    createParticle(e.clientX, e.clientY);
-                    lastTime = currentTime;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 【页面加载完成后淡入】
+            document.body.style.opacity = '1';
+            
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            const animatedFontCount = document.getElementById('animatedFontCount');
+            
+            const categoryTabsElement = document.getElementById('categoryTabs');
+            const fontShowcaseElement = document.getElementById('fontShowcase');
+            let currentCategory = '全部'; 
+            const totalFontCount = fontData.length; 
+            
+            // 🚀 优化点：获取 HTML 根元素
+            const html = document.documentElement; 
+            
+            // --- 移动端菜单逻辑 (已优化) ---
+            if (menuToggle && mainNav && menuBackdrop) {
+                
+                function closeMenu() {
+                    mainNav.classList.remove('open');
+                    menuBackdrop.classList.remove('open'); 
+                    menuToggle.innerHTML = '☰'; 
+                    // 🚀 关键：在 HTML 根元素上恢复滚动
+                    html.classList.remove('menu-open'); 
                 }
-            });
-            
-            function createParticle(x, y) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
                 
-                // *** 优化点: 调整粒子的随机大小范围，从 2px 到 6px ***
-                const size = Math.random() * 4 + 2; 
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // 调整粒子颜色为新的橙色系 (使用导入的颜色变量)
-                const colors = ['var(--particle-primary)', 'var(--particle-secondary)', 'var(--particle-tertiary)'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.background = color;
-                
-                particlesContainer.appendChild(particle);
-                
-                // 动画粒子
-                animateParticle(particle);
-            }
-            
-            function animateParticle(particle) {
-                let posX = parseFloat(particle.style.left);
-                let posY = parseFloat(particle.style.top);
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 3 + 2;
-                const vx = Math.cos(angle) * speed;
-                const vy = Math.sin(angle) * speed;
-                
-                // 保持初始透明度和淡出速率不变，以确保其仍保持精致不抢眼
-                let opacity = 0.4; 
-                const fade = setInterval(() => {
-                    opacity -= 0.015; 
-                    particle.style.opacity = opacity;
+                function toggleMenu() {
+                    const isOpen = mainNav.classList.toggle('open');
+                    menuBackdrop.classList.toggle('open'); 
+                    // 🚀 关键：在 HTML 根元素上禁用滚动
+                    html.classList.toggle('menu-open'); 
                     
-                    if (opacity <= 0) {
-                        clearInterval(fade);
-                        particle.remove();
+                    if (isOpen) {
+                        menuToggle.innerHTML = '✕'; 
+                    } else {
+                        closeMenu(); 
                     }
-                }, 50);
+                }
                 
-                const move = setInterval(() => {
-                    posX += vx;
-                    posY += vy;
-                    particle.style.left = `${posX}px`;
-                    particle.style.top = `${posY}px`;
-                }, 30);
+                // 绑定事件
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); // 点击遮罩关闭菜单
                 
-                setTimeout(() => {
-                    clearInterval(move);
-                }, 1000);
+                // 导航项点击后关闭菜单
+                const navItems = mainNav.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (mainNav.classList.contains('open')) {
+                            setTimeout(closeMenu, 100); 
+                        }
+                    });
+                });
             }
+
+            // --- 渲染字体卡片函数 (保持不变) ---
+            function renderFonts(category) {
+                const filteredFonts = category === '全部'
+                    ? fontData
+                    : fontData.filter(font => font.tags.includes(category));
+
+                const fontHtml = filteredFonts.map(font => `
+                    <a href="${font.detailUrl}" target="_blank" class="font-card">
+                        <div class="font-cover" style="background-image: url('${font.coverUrl}');">
+                        </div>
+                        <div class="font-name">${font.name}</div>
+                    </a>
+                `).join('');
+
+                fontShowcaseElement.innerHTML = fontHtml;
+            }
+
+            // --- 渲染分类标签函数 (保持不变) ---
+            function renderTabs() {
+                const tabsHtml = categories.map(cat => `
+                    <button class="category-tab ${cat === currentCategory ? 'active' : ''}" data-category="${cat}">
+                        ${cat}
+                    </button>
+                `).join('');
+                
+                categoryTabsElement.innerHTML = tabsHtml;
+
+                // 绑定点击事件
+                categoryTabsElement.querySelectorAll('.category-tab').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const newCategory = this.dataset.category;
+                        if (newCategory !== currentCategory) {
+                            currentCategory = newCategory;
+                            renderTabs(); 
+                            renderFonts(currentCategory); 
+                        }
+                    });
+                });
+            }
+
+            // --- 数字滚动动画逻辑 (保持不变) ---
+            if (animatedFontCount) {
+                const duration = 1000; 
+                const startTime = performance.now(); 
+
+                function animateNumber(currentTime) {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1); 
+                    
+                    const currentValue = Math.floor(progress * totalFontCount);
+                    animatedFontCount.textContent = currentValue;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateNumber); 
+                    } else {
+                        animatedFontCount.textContent = totalFontCount; 
+                    }
+                }
+                
+                requestAnimationFrame(animateNumber);
+            }
+
+            // --- 页面初始化 (保持不变) ---
+            renderTabs();
+            renderFonts(currentCategory); 
         });
     </script>
+
 </body>
 </html>
