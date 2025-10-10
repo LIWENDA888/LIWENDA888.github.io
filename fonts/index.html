@@ -39,6 +39,8 @@
             --hover-deep-color: #a88a56; 
             /* 新增悬停背景色常量 */
             --nav-hover-bg: rgba(224, 185, 115, 0.1); /* 主色调的淡背景 */
+            /* 新增侧边栏背景色 */
+            --sidebar-bg: #FFFFFF; 
         }
 
         /* --- 1. 顶部栏样式 (固定悬浮) --- */
@@ -245,50 +247,30 @@
             /* 底部栏保持白色背景 */
             background-color: #FFFFFF; 
             color: #444444;
-            padding: 50px 10%; 
+            /* 调整内边距，仅保留版权信息时，上下留白可以适当减少 */
+            padding: 20px 10%; 
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: center; /* 版权信息居中 */
             font-size: 14px;
             border-top: 1px solid var(--light-grey);
         }
 
+        /* ** 移除所有 footer-col 样式，因为它将被删除 ** */
         .footer-col {
-            width: 25%;
-            margin-bottom: 20px;
-        }
-
-        .footer-col h4 {
-            font-size: 16px;
-            color: var(--deep-grey);
-            margin-bottom: 15px;
-        }
-
-        .footer-col a {
-            display: block;
-            margin-bottom: 5px;
-            color: #444444;
-        }
-
-        /* 底部栏超链接悬停样式：颜色加深 + 下划线 */
-        .footer-col a:hover {
-            color: var(--hover-deep-color); 
-            text-decoration: underline; 
-        }
-        
-        /* 社交链接行内显示优化 */
-        .footer-col.social-links a {
-            display: inline;
-            margin-right: 5px;
+            /* width: 25%; */
+            /* margin-bottom: 20px; */
+            display: none; /* 强制隐藏，以防 HTML 结构遗留 */
         }
 
         .copyright {
             width: 100%;
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
+            margin: 0; /* 移除不必要的边距 */
+            padding: 0; /* 移除不必要的内边距 */
+            border-top: none; /* 移除版权信息上方的边框 */
         }
+
 
         /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
         @media (max-width: 768px) {
@@ -307,51 +289,68 @@
                 display: block; 
             }
             
-            /* ** 移动端导航栏样式修改：全屏居中显示 ** */
-            .nav {
-                position: fixed; /* 占据整个视窗 */
+            /* ** 新增：遮罩层样式 ** */
+            .backdrop {
+                position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 100vh; /* 全屏高度 */
-                background-color: #FFFFFF; /* 背景色覆盖 */
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.4); /* 半透明黑色 */
+                z-index: 1020; /* 在菜单之下 */
+                display: none; 
+                transition: opacity 0.3s ease;
+                opacity: 0;
+            }
+
+            .backdrop.open {
+                display: block;
+                opacity: 1;
+            }
+
+            /* ** 移动端侧滑菜单样式修改 ** */
+            .nav {
+                position: fixed; 
+                top: 0;
+                right: 0; /* 从右侧开始 */
+                width: 250px; /* 菜单宽度 */
+                height: 100vh; 
+                background-color: var(--sidebar-bg); /* 使用白色背景 */
                 
-                /* 居中设置 */
                 display: flex;
                 flex-direction: column; 
-                justify-content: center; /* 垂直居中 */
-                align-items: center; /* 水平居中 */
+                padding: 70px 0 20px 0; /* 顶部留空避开 header */
                 
-                z-index: 1010; /* 确保覆盖所有内容，包括 header */
+                z-index: 1030; /* 确保在遮罩层和 header 之上 */
                 
-                border-top: none; /* 移除边框 */
-                box-shadow: none; /* 移除阴影 */
-                
-                display: none; /* 默认隐藏 */
+                /* 默认隐藏在右侧之外 */
+                transform: translateX(100%); 
+                transition: transform 0.3s ease-out; /* 滑动动画 */
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
             }
 
             .nav.open {
-                display: flex; /* 菜单打开时显示 */
+                transform: translateX(0); /* 菜单打开时滑入 */
             }
 
             .nav a {
                 /* 移动端改为独占一行 */
                 display: flex;
-                justify-content: center; /* 居中对齐 */
+                justify-content: flex-start; /* 左对齐 */
                 
-                /* 调整样式以适应大气全屏效果 */
-                font-size: 24px; /* 增大字号 */
-                padding: 20px 30px; /* 增大悬停区域和间距 */
-                margin: 10px 0; /* 增加选项之间的垂直间距 */
+                /* 调整样式以适应侧边栏效果 */
+                font-size: 16px; /* 侧边栏字号适中 */
+                padding: 12px 20px; /* 调整悬停区域和内边距 */
+                margin: 0; /* 移除垂直边距 */
                 
-                border-bottom: none; /* 移除选项间的横线 */
+                border-radius: 0; /* 移除圆角 */
             }
             
-            /* 配合全屏菜单，增大移动端小圆点样式 */
+            /* 配合侧边栏，保留小圆点样式 */
             .nav a::before {
-                width: 8px; 
-                height: 8px;
-                margin-right: 12px;
+                width: 6px; 
+                height: 6px;
+                margin-right: 10px;
             }
             /* ------------------------------------ */
 
@@ -382,11 +381,16 @@
                 margin-bottom: 15px;
             }
             
+            /* 移动端底部栏调整 */
             .footer {
-                padding: 40px 5%; 
+                padding: 15px 5%; /* 减少内边距 */
+                justify-content: center;
             }
+            
+            /* 底部栏列不再需要 */
             .footer-col {
-                width: 45%; 
+                width: 100%;
+                display: none;
             }
         }
     </style>
@@ -395,9 +399,10 @@
 
     <header class="header">
         <div class="logo">
-            <img src="logo-placeholder.png" alt="品牌 LOGO" id="headerLogo">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="品牌 LOGO" id="headerLogo">
         </div>
         <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="backdrop" id="menuBackdrop"></div>
         <nav class="nav" id="mainNav">
             <a href="#" class="nav-item">全部字体</a>
             <a href="#" class="nav-item">关于品牌</a>
@@ -423,43 +428,43 @@
 
         <section class="font-showcase">
             <a href="font-detail-1.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-1.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">宋体 · 沉静</div>
             </a>
 
             <a href="font-detail-2.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-2.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">黑体 · 现代</div>
             </a>
             
             <a href="font-detail-3.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-3.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">手写 · 灵动</div>
             </a>
             
             <a href="font-detail-4.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-4.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">圆体 · 可爱</div>
             </a>
             
             <a href="font-detail-5.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-5.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">草书 · 狂放</div>
             </a>
             
             <a href="font-detail-6.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-6.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">行楷 · 雅致</div>
             </a>
 
             <a href="font-detail-6.html" target="_blank" class="font-card">
-                <div class="font-cover" style="background-image: url('placeholder-6.jpg');">
+                <div class="font-cover" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');">
                 </div>
                 <div class="font-name">行楷 · 雅致</div>
             </a>
@@ -469,20 +474,6 @@
     </main>
 
     <footer class="footer">
-        <div class="footer-col">
-            <h4>关于品牌</h4>
-            <p>我们致力于为您提供高品质、授权清晰的精品字库。</p>
-        </div>
-        <div class="footer-col">
-            <h4>快速链接</h4>
-            <a href="#" target="_blank">授权条款</a>
-            <a href="#" target="_blank">常见问题</a>
-            <a href="#" target="_blank">隐私政策</a>
-        </div>
-        <div class="footer-col social-links">
-            <h4>关注我们</h4>
-            <a href="#" target="_blank">微信</a> | <a href="#" target="_blank">微博</a> | <a href="#" target="_blank">Behance</a>
-        </div>
         <p class="copyright">© 2025 您的字库品牌. All rights reserved.</p>
     </footer>
     
@@ -493,20 +484,23 @@
             
             const menuToggle = document.getElementById('menuToggle');
             const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); // 新增
             const animatedFontCount = document.getElementById('animatedFontCount');
             const fontCards = document.querySelectorAll('.font-showcase .font-card');
             
             // --- 移动端菜单逻辑 ---
-            if (menuToggle && mainNav) {
+            if (menuToggle && mainNav && menuBackdrop) {
                 
                 function closeMenu() {
                     mainNav.classList.remove('open');
+                    menuBackdrop.classList.remove('open'); // 关闭遮罩
                     menuToggle.innerHTML = '☰';
                     document.body.style.overflow = 'auto'; // 恢复滚动条
                 }
                 
                 function toggleMenu() {
                     const isOpen = mainNav.classList.toggle('open');
+                    menuBackdrop.classList.toggle('open'); // 切换遮罩状态
                     
                     if (isOpen) {
                         menuToggle.innerHTML = '✕'; 
@@ -527,13 +521,8 @@
                     });
                 });
                 
-                // 2. 新增：点击非选项区域（即导航栏背景）时关闭菜单
-                mainNav.addEventListener('click', function(event) {
-                    // 检查点击事件是否发生在导航栏容器上，而不是容器内的链接（a标签）上
-                    if (event.target === mainNav && mainNav.classList.contains('open')) {
-                        closeMenu();
-                    }
-                });
+                // 2. 新增：点击遮罩层时关闭菜单
+                menuBackdrop.addEventListener('click', closeMenu);
             }
 
             // --- 数字滚动动画逻辑 (保持不变) ---
