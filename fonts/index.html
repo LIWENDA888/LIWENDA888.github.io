@@ -1,9 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>您的字库品牌 - 首页</title>
+    <title>字库产品 - 自在造字</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
+    <meta name="author" content="字造">
+    <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBbDMDErs/20250803/9BXx/1108X308/logo.png">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
 
     <style>
         /* 基础重置 */
@@ -11,6 +21,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        /* 🚀 关键优化：当侧边栏打开时，在 HTML 根元素上禁用滚动 */
+        html.menu-open {
+            overflow: hidden;
         }
 
         body {
@@ -23,6 +38,7 @@
             /* 页面淡入效果 */
             opacity: 0;
             transition: opacity 0.5s ease-in;
+            transition: padding-top 0.3s ease; 
         }
 
         a {
@@ -77,7 +93,7 @@
             display: block;
         }
 
-        /* ** 导航项样式 ** */
+        /* ** 导航项样式 (桌面端) ** */
         .nav a {
             margin-left: 15px; 
             font-size: 16px;
@@ -118,6 +134,25 @@
             color: var(--deep-grey);
             padding: 0 10px;
             z-index: 1001; 
+        }
+
+        /* 侧边栏遮罩层 */
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 990; 
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .backdrop.open {
+            opacity: 1;
+            visibility: visible;
         }
 
 
@@ -185,7 +220,7 @@
             line-height: 1; 
         }
 
-        /* 🚀 移除分隔线 */
+        /* 移除分隔线 */
         .divider {
             display: none;
         }
@@ -334,9 +369,53 @@
             .header {
                 padding: 10px 4%; 
             }
-            .nav a {
-                /* ... 侧边栏样式保持不变 */
+            
+            /* 侧边栏导航样式 */
+            .nav {
+                /* 默认隐藏，从右侧滑入 */
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%; 
+                max-width: 300px; 
+                background-color: var(--sidebar-bg);
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                transform: translateX(100%); 
+                transition: transform 0.3s ease-out;
+                
+                /* 导航项垂直堆叠 */
+                display: flex;
+                flex-direction: column;
+                padding: 70px 20px 20px; 
+                overflow-y: auto; /* 允许侧边栏内容滚动 */
             }
+
+            .nav.open {
+                transform: translateX(0); /* 显示导航栏 */
+            }
+
+            /* 导航项样式调整 */
+            .nav a {
+                margin: 10px 0; 
+                padding: 12px 10px;
+                font-size: 18px;
+                width: 100%;
+                display: flex; 
+                align-items: center;
+                border-radius: 4px;
+            }
+            
+            .nav a::before {
+                margin-right: 12px;
+            }
+
+            /* 汉堡菜单按钮显示 */
+            .menu-toggle {
+                display: block; 
+            }
+
 
             .container {
                 width: 95%; 
@@ -347,6 +426,7 @@
                 height: 250px; 
                 width: 100vw; 
                 margin-left: calc(50% - 50vw);
+                padding-top: 20px; 
             }
 
             /* 移动端字体展示区 */
@@ -371,7 +451,7 @@
             }
 
             .category-tab.active::after {
-                bottom: -10px; /* 适应移动端 padding-bottom: 10px */
+                bottom: -10px; 
             }
 
             .font-showcase {
@@ -423,7 +503,7 @@
     <main class="container">
         
         <section class="hero-section">
-            <p class="slogan">书写可能，定义未来</p>
+            <p class="slogan">心自在，造万物</p>
             
             <div class="font-count">
                 <span>已上线</span>
@@ -448,7 +528,7 @@
     </footer>
     
     <script>
-        // 🚀 新增：字体数据结构
+        // 字体数据结构 (保持不变)
         const fontData = [
             { name: '宋体 · 沉静', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-1.html', tags: ['宋体', '正文', '免费商用'] },
             { name: '黑体 · 现代', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-2.html', tags: ['黑体', '标题'] },
@@ -458,7 +538,7 @@
             { name: '行楷 · 雅致', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-6.html', tags: ['书法', '免费商用'] },
             { name: '新字体 · 简约', coverUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp', detailUrl: 'font-detail-7.html', tags: ['黑体', '标题', '免费商用'] },
         ];
-        const categories = ['全部', '免费商用', '卡通']; // 定义分类标签
+        const categories = ['全部', '免费商用', '卡通']; 
 
         document.addEventListener('DOMContentLoaded', function() {
             // 【页面加载完成后淡入】
@@ -469,55 +549,59 @@
             const menuBackdrop = document.getElementById('menuBackdrop'); 
             const animatedFontCount = document.getElementById('animatedFontCount');
             
-            // 🚀 新增：分类标签和卡片容器
             const categoryTabsElement = document.getElementById('categoryTabs');
             const fontShowcaseElement = document.getElementById('fontShowcase');
-            let currentCategory = '全部'; // 默认激活分类
-            const totalFontCount = fontData.length; // 总字体数
+            let currentCategory = '全部'; 
+            const totalFontCount = fontData.length; 
             
-            // --- 移动端菜单逻辑 (保持不变) ---
+            // 🚀 优化点：获取 HTML 根元素
+            const html = document.documentElement; 
+            
+            // --- 移动端菜单逻辑 (已优化) ---
             if (menuToggle && mainNav && menuBackdrop) {
                 
                 function closeMenu() {
                     mainNav.classList.remove('open');
                     menuBackdrop.classList.remove('open'); 
-                    menuToggle.innerHTML = '☰';
-                    document.body.style.overflow = 'auto'; 
+                    menuToggle.innerHTML = '☰'; 
+                    // 🚀 关键：在 HTML 根元素上恢复滚动
+                    html.classList.remove('menu-open'); 
                 }
                 
                 function toggleMenu() {
                     const isOpen = mainNav.classList.toggle('open');
                     menuBackdrop.classList.toggle('open'); 
+                    // 🚀 关键：在 HTML 根元素上禁用滚动
+                    html.classList.toggle('menu-open'); 
                     
                     if (isOpen) {
                         menuToggle.innerHTML = '✕'; 
-                        document.body.style.overflow = 'hidden'; 
                     } else {
                         closeMenu(); 
                     }
                 }
-                menuToggle.addEventListener('click', toggleMenu);
                 
+                // 绑定事件
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); // 点击遮罩关闭菜单
+                
+                // 导航项点击后关闭菜单
                 const navItems = mainNav.querySelectorAll('.nav-item');
                 navItems.forEach(item => {
                     item.addEventListener('click', function() {
                         if (mainNav.classList.contains('open')) {
-                            closeMenu(); 
+                            setTimeout(closeMenu, 100); 
                         }
                     });
                 });
-                
-                menuBackdrop.addEventListener('click', closeMenu);
             }
 
-            // --- 🚀 新增：渲染字体卡片函数 ---
+            // --- 渲染字体卡片函数 (保持不变) ---
             function renderFonts(category) {
-                // 过滤逻辑
                 const filteredFonts = category === '全部'
                     ? fontData
                     : fontData.filter(font => font.tags.includes(category));
 
-                // 生成 HTML
                 const fontHtml = filteredFonts.map(font => `
                     <a href="${font.detailUrl}" target="_blank" class="font-card">
                         <div class="font-cover" style="background-image: url('${font.coverUrl}');">
@@ -529,7 +613,7 @@
                 fontShowcaseElement.innerHTML = fontHtml;
             }
 
-            // --- 🚀 新增：渲染分类标签函数 ---
+            // --- 渲染分类标签函数 (保持不变) ---
             function renderTabs() {
                 const tabsHtml = categories.map(cat => `
                     <button class="category-tab ${cat === currentCategory ? 'active' : ''}" data-category="${cat}">
@@ -545,14 +629,14 @@
                         const newCategory = this.dataset.category;
                         if (newCategory !== currentCategory) {
                             currentCategory = newCategory;
-                            renderTabs(); // 重新渲染标签以更新激活状态
-                            renderFonts(currentCategory); // 渲染过滤后的字体
+                            renderTabs(); 
+                            renderFonts(currentCategory); 
                         }
                     });
                 });
             }
 
-            // --- 数字滚动动画逻辑 (使用 fontData.length) ---
+            // --- 数字滚动动画逻辑 (保持不变) ---
             if (animatedFontCount) {
                 const duration = 1000; 
                 const startTime = performance.now(); 
@@ -574,9 +658,9 @@
                 requestAnimationFrame(animateNumber);
             }
 
-            // --- 页面初始化 ---
+            // --- 页面初始化 (保持不变) ---
             renderTabs();
-            renderFonts(currentCategory); // 默认渲染 '全部' 字体
+            renderFonts(currentCategory); 
         });
     </script>
 
