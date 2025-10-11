@@ -140,12 +140,21 @@
             z-index: 0;
         }
 
+        /* 为 <picture> 标签中的 <img>/source 添加样式，使其铺满容器 */
         .hero-section .hero-image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover; /* 图片正常居中裁剪 */
             object-position: center;
         }
+        
+        /* 确保 <picture> 本身也能铺满容器 */
+        .hero-section .hero-image-container picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
 
         .hero-content {
             position: relative; /* 内容相对定位，在图片上方 */
@@ -606,7 +615,11 @@
 
     <div class="hero-section">
         <div class="hero-image-container">
-            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="英雄图片">
+            <picture>
+                <source media="(max-width: 992px)" srcset="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp">
+                
+                <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="英雄图片">
+            </picture>
         </div>
         <div class="hero-content">
             <h1>字造起点黑VF</h1>
