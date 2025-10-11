@@ -17,7 +17,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* =========================================================================
+           CSS 变量定义
+           ========================================================================= */
         :root {
             --primary-color: #FF8C19;
             --sub-text-color: #6c7a89;
@@ -28,7 +32,9 @@
             --particle-tertiary: #FFD700;
         }
 
-        /* 全局样式 */
+        /* =========================================================================
+           全局/基础样式
+           ========================================================================= */
         * {
             margin: 0;
             padding: 0;
@@ -45,14 +51,12 @@
             line-height: 1.6;
         }
 
-        /* -------------------------------------------
-           1. 桌面端顶部导航栏 (默认: 透明, 绝对定位)
-           ------------------------------------------- */
+        /* =========================================================================
+           1. 顶部导航栏 (Navbar)
+           ========================================================================= */
         .navbar {
             background: transparent; 
-            box-shadow: none; 
-            backdrop-filter: none; 
-            position: absolute; /* 桌面端：绝对定位，覆盖在英雄图上 */
+            position: absolute; /* 绝对定位，覆盖在英雄图上 */
             top: 0;
             left: 0;
             z-index: 100;
@@ -75,27 +79,23 @@
             text-decoration: none;
             height: 100%; 
             padding: 0; 
-            transition: transform 0.3s ease; /* 确保 Logo 区域有过渡效果 */
+            transition: none; /* 移除 logo 自身的动画 */
         }
 
         .logo-image {
             height: 32px;
             width: auto;
-            /* 桌面端默认在黑色背景上，加白色滤镜 */
-            filter: brightness(0) invert(1); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 更平滑的动画曲线 */
+            filter: none !important; 
+            transition: none; /* 移除 logo 图片的动画 */
         }
         
-        /* 关键修改：Logo 悬浮样式 - “微光”效果 */
+        /* 确保 logo 悬停时没有动画效果 */
         .logo:hover .logo-image {
-            /* 移除形变，只保留微光效果 */
             transform: none; 
-            /* 调整为更柔和的白色光芒：无位移，中等模糊，更高的不透明度 */
-            filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.7)); 
+            filter: none !important; 
         }
 
-
-        /* 合作按钮基础样式 - 桌面端默认：适应黑色背景的白色边框/文字 */
+        /* 合作按钮基础样式 - 适应暗色背景的白色边框/文字 */
         .nav-button {
             display: inline-flex;
             align-items: center;
@@ -106,16 +106,14 @@
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 0.95rem;
-            border: none;
-            cursor: pointer;
-            
             border: 2px solid white; 
             background-color: transparent;
             color: white;
             box-shadow: none; 
+            cursor: pointer;
         }
 
-        /* 合作按钮悬浮样式 - 桌面端：无填充色，白色光晕阴影 */
+        /* 合作按钮悬浮样式 */
         .nav-button:hover {
             background-color: transparent; 
             color: white; 
@@ -124,17 +122,17 @@
             box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); 
         }
 
-        /* -------------------------------------------
-           2. 英雄区域（大图）
-           ------------------------------------------- */
+        /* =========================================================================
+           2. 英雄区域 (Hero Section) - 桌面端 (默认: 叠加效果)
+           ========================================================================= */
         .hero-section {
             position: relative;
-            height: 700px;
+            height: 700px; /* 桌面端高度 */
             padding: 0 5%;
         }
 
         .hero-section .hero-image-container {
-            position: absolute;
+            position: absolute; /* 图片绝对定位，铺满 hero-section */
             top: 0;
             left: 0;
             width: 100%;
@@ -145,12 +143,12 @@
         .hero-section .hero-image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* 图片正常居中裁剪 */
             object-position: center;
         }
 
         .hero-content {
-            position: relative;
+            position: relative; /* 内容相对定位，在图片上方 */
             z-index: 1;
             color: white;
             max-width: 700px;
@@ -159,7 +157,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; /* 垂直居中内容 */
         }
 
         .hero-content h1 {
@@ -204,7 +202,7 @@
 
         .hero-button-secondary {
             background-color: transparent;
-            color: white;
+            color: white; /* 桌面端：白色文字/边框 */
             border-color: white;
         }
 
@@ -213,9 +211,9 @@
             transform: translateY(-2px);
         }
 
-        /* -------------------------------------------
-           3. 主要内容区域与卡片
-           ------------------------------------------- */
+        /* =========================================================================
+           3. 主要内容区域与卡片 (Main Content)
+           ========================================================================= */
         .main-content {
             flex: 1;
             padding-top: 0; 
@@ -241,12 +239,15 @@
             border-radius: 25px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
             overflow: hidden;
+            
+            /* **关键：使用 padding-bottom 锁定 930:710 (1.31:1) 比例** */
             position: relative;
-            min-height: 500px;
+            padding-bottom: 76.34%; /* (710 / 930) * 100% ≈ 76.34% */
+            height: 0; 
+            display: block; 
+            
             transition: none; 
             text-decoration: none;
-            display: flex;
-            align-items: flex-start;
             cursor: pointer;
         }
 
@@ -263,12 +264,17 @@
         }
 
         .card-content {
-            position: relative;
+            /* 关键：调整为绝对定位，铺满由 padding-bottom 撑开的卡片区域 */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
             z-index: 2;
             color: white;
             padding: 40px;
             text-align: left;
-            width: 100%;
         }
 
         .card-content h3 {
@@ -297,24 +303,21 @@
         a.card:hover .card-action-text {
             text-decoration: underline;
         }
-
-        /* -------------------------------------------
-           4. 底部栏样式
-           ------------------------------------------- */
+        
+        /* =========================================================================
+           4. 底部栏样式 (Footer)
+           ========================================================================= */
         .footer {
             background: #f8fafc;
             color: #1a2a40;
             padding: 80px 5% 20px;
             font-size: 1rem;
-            box-shadow: none;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
         
-        /* ... (底部和社交图标样式与上一个版本一致，此处省略以保持简洁) ... */
-
         .contact-social-section {
             display: flex;
             flex-wrap: wrap;
@@ -406,6 +409,7 @@
             font-weight: 500;
         }
 
+        /* 友情链接和版权信息 */
         .friendship-links-section {
             margin-top: 50px; 
             width: 100%;
@@ -464,7 +468,9 @@
             text-decoration: underline;
         }
         
-        /* 鼠标跟随粒子效果样式 */
+        /* =========================================================================
+           5. 鼠标跟随粒子效果样式
+           ========================================================================= */
         #particles {
             position: fixed;
             top: 0;
@@ -485,88 +491,102 @@
             opacity: 0.7;
         }
 
-        /* -------------------------------------------
-           5. 响应式调整 (手机端)
-           ------------------------------------------- */
+        /* =========================================================================
+           6. 响应式调整 - 关键断点 (<= 992px 时切换为流式布局)
+           ========================================================================= */
         @media (max-width: 992px) {
-            .hero-section { height: 600px; }
-            .hero-content { padding-left: 10%; margin-left: 10%; }
-            .hero-content h1 { font-size: 2.8rem; }
-            .hero-content p { font-size: 1.3rem; }
-            .main-content { padding: 40px 5%; padding-bottom: 80px; }
-            .card-container { grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 40px; }
-            .card { min-height: 450px; }
-            .card-content h3 { font-size: 1.8rem; }
-            .card-content p { font-size: 1.1rem; }
-        }
-
-        @media (max-width: 768px) {
+            /* 导航栏：保持白色元素，在暗图上悬浮 */
             .nav-container { padding-left: 20px; padding-right: 20px; }
+            .nav-button:hover { transform: none; box-shadow: none; }
             
-            /* 关键修改：手机端导航栏变为静态/透明，与内容流一起 */
-            .navbar {
-                position: static; 
-                background: transparent; 
-                box-shadow: none; 
-                backdrop-filter: none; 
+            /* **英雄区域：文字内容切换为在图片下方显示 (流式布局)** */
+            .hero-section { 
+                position: relative; 
+                height: auto; 
+                padding: 0; 
             }
-            /* 关键修改：手机端 Logo 不再需要白色滤镜，并且移除所有悬停效果 */
-            .logo-image { filter: none !important; transform: none !important; }
-            .logo:hover .logo-image { transform: none !important; filter: none !important; }
-            .logo { width: auto; } 
+            
+            /* 图片容器：改为相对定位，占据空间 */
+            .hero-section .hero-image-container { 
+                position: relative; 
+                width: 100%; 
+                height: 450px; /* 平板端/小窗口的图片高度 */
+            }
 
-            /* 关键修改：手机端按钮颜色改为深色，以确保在浅色背景上可见 */
-            .nav-button {
-                border: 2px solid var(--text-color); /* 深色边框 */
-                background-color: transparent;
-                color: var(--text-color); /* 深色文字 */
-                box-shadow: none; 
-            }
-            .nav-button:hover {
-                /* 手机端按钮悬浮时可以填充主题色，增强点击反馈 */
-                background-color: var(--primary-color); 
-                color: white;
-                border-color: var(--primary-color);
-                transform: translateY(-1px);
-                box-shadow: 0 4px 10px rgba(255, 140, 25, 0.3); 
-            }
-            
-            /* 英雄区域变为静态，排在导航栏后面 */
-            .hero-section { position: static; height: auto; padding: 0; }
-            .hero-section .hero-image-container { position: static; width: 100%; height: auto; }
-            .hero-section .hero-image-container img { width: 100%; height: auto; }
+            /* 内容：流在图片下方，切换为深色文字 */
             .hero-content {
-                position: static;
+                position: relative; 
                 width: 100%;
                 max-width: none;
-                color: #1a2a40; /* 英雄区域文字在手机端为深色 */
-                text-align: left;
-                margin: 0;
-                padding: 0 5%;
-                margin-top: 20px;
+                height: auto; 
+                display: block; 
+                margin: 0 auto;
+                padding: 40px 5%; 
+                color: var(--text-color); 
+                text-align: center; 
             }
-            .hero-content h1 { font-size: 2.2rem; margin-bottom: 12px; }
-            .hero-content p { font-size: 1.2rem; margin-bottom: 24px; color: var(--sub-text-color); }
-            .hero-buttons { justify-content: flex-start; }
-            .hero-button { font-size: 1rem; }
-            .hero-button-secondary { color: #1a2a40; border-color: #1a2a40; }
+
+            .hero-content h1 { font-size: 2.8rem; margin-bottom: 12px; }
+            .hero-content p { 
+                font-size: 1.3rem; 
+                margin-bottom: 24px; 
+                color: var(--sub-text-color); 
+            }
+            .hero-buttons { 
+                justify-content: center; 
+                gap: 20px; 
+            }
             
+            /* 按钮颜色调整，适应浅色背景 */
+            .hero-button-secondary { 
+                color: var(--text-color); 
+                border-color: var(--sub-text-color); 
+                background-color: transparent; 
+            }
+            .hero-button-secondary:hover { 
+                background-color: rgba(0, 0, 0, 0.05); 
+                transform: translateY(-2px);
+            }
+
+            /* 卡片布局调整为两列 (卡片比例由 76.34% 保持) */
+            .main-content { padding: 40px 5%; padding-bottom: 80px; }
+            .card-container { grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 40px; }
+        }
+
+        /* =========================================================================
+           7. 响应式调整 - 手机端 (<= 768px)
+           ========================================================================= */
+        @media (max-width: 768px) {
+            /* 进一步调整图片高度和文字大小 */
+            .hero-section .hero-image-container { height: 400px; } 
+            .hero-content { padding: 30px 5%; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1.2rem; }
+
+            /* 卡片布局调整为一列 (卡片比例由 76.34% 保持) */
             .main-content { padding-top: 30px; padding-bottom: 30px; padding-left: 5%; padding-right: 5%; }
             .card-container { grid-template-columns: 1fr; gap: 30px; margin-top: 30px; }
-            .card { min-height: 400px; }
+            
             .card-content { padding: 30px; }
-            .footer { padding-top: 40px; padding-bottom: 20px; } 
+            
+            /* **优化：缩小卡片内部文本，防止在窄屏固定高度下溢出** */
+            .card-content h3 {
+                font-size: 1.4rem; 
+            }
 
+            .card-content p {
+                font-size: 1rem;
+            }
+            
             .friendship-links-section { margin-top: 35px; } 
             .copyright-section { margin-top: 20px; padding-top: 20px; } 
         }
 
+        /* 极小屏幕优化 (<= 576px) */
         @media (max-width: 576px) {
-            .hero-section { height: auto; }
+            .hero-section .hero-image-container { height: 350px; } 
             .hero-content h1 { font-size: 1.8rem; }
             .hero-content p { font-size: 1.1rem; }
-            .hero-button { padding: 10px 24px; }
-            .footer { padding-top: 30px; }
             .main-content { padding-bottom: 40px; }
         }
     </style>
@@ -711,6 +731,7 @@
 
             document.addEventListener('mousemove', function(e) {
                 const currentTime = new Date().getTime();
+                // 限制粒子生成频率
                 if (currentTime - lastTime > throttleTime) {
                     createParticle(e.clientX, e.clientY);
                     lastTime = currentTime;
@@ -745,23 +766,28 @@
                 const vy = Math.sin(angle) * speed;
 
                 let opacity = 0.4; 
-                const fade = setInterval(() => {
-                    opacity -= 0.015; 
-                    particle.style.opacity = opacity;
-
-                    if (opacity <= 0) {
-                        clearInterval(fade);
-                        particle.remove();
-                    }
-                }, 50);
-
+                
+                // 粒子移动
                 const move = setInterval(() => {
                     posX += vx;
                     posY += vy;
                     particle.style.left = `${posX}px`;
                     particle.style.top = `${posY}px`;
                 }, 30);
+                
+                // 粒子淡出
+                const fade = setInterval(() => {
+                    opacity -= 0.015; 
+                    particle.style.opacity = opacity;
 
+                    if (opacity <= 0) {
+                        clearInterval(fade);
+                        clearInterval(move); // 确保移动也停止
+                        particle.remove();
+                    }
+                }, 50);
+
+                // 强制停止移动（防止内存泄漏），作为保险
                 setTimeout(() => {
                     clearInterval(move);
                 }, 1000);
