@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字库产品 - 自在造字</title>
+    <title>字库产品 - 自在造字（字造ZIZAO）</title>
     <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
     <meta name="author" content="字造">
@@ -23,17 +22,12 @@
             box-sizing: border-box;
         }
         
-        /* 🚀 关键优化：当侧边栏打开时，在 HTML 根元素上禁用滚动 */
-        html.menu-open {
-            overflow: hidden;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #FFFFFF;
             color: #222222;
             line-height: 1.6;
-            padding-top: 61px;
+            padding-top: 61px; /* 桌面端默认 Header 高度 */
             
             /* 页面淡入效果 */
             opacity: 0;
@@ -53,12 +47,10 @@
             --light-grey: #CCCCCC;
             --accent-color: #E0B973; 
             --hover-deep-color: #a88a56; 
-            /* 新增悬停背景色常量 */
             --nav-hover-bg: rgba(224, 185, 115, 0.1); 
-            /* 新增侧边栏背景色 */
             --sidebar-bg: #FFFFFF; 
-            --hero-text-color: #FFFFFF; /* 英雄区文字颜色 */
-            --hero-slogan-color: #FFFFFF; /* 英雄区标语颜色 */
+            --hero-text-color: #FFFFFF; 
+            --hero-slogan-color: #FFFFFF; 
             --hero-bg-url: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp');
         }
 
@@ -99,30 +91,52 @@
             font-size: 16px;
             display: inline-flex; 
             align-items: center;
-            padding: 5px 10px; 
+            /* 调整 padding 以便为底部线留出空间 */
+            padding: 5px 10px 10px 10px; 
             border-radius: 4px;
             position: relative; 
-            transition: background-color 0.3s, color 0.3s;
+            transition: color 0.3s; 
         }
         
+        /* 移除原有的点装饰 */
         .nav a::before {
+            content: none;
+            display: none;
+        }
+
+        /* 🚀 优化 2：动画下划线的基础样式 - 短、粗、居中 */
+        .nav a::after {
             content: '';
-            display: block;
-            width: 6px; 
-            height: 6px;
-            background-color: var(--deep-grey); 
-            border-radius: 50%;
-            margin-right: 8px; 
-            transition: background-color 0.3s;
-        }
-        
-        .nav a:hover {
-            color: var(--hover-deep-color); 
-            background-color: var(--nav-hover-bg); 
-        }
-        
-        .nav a:hover::before {
+            position: absolute;
+            bottom: 0;
+            left: 50%; /* 从中心开始定位 */
+            width: 50%; /* 缩短到链接宽度的 50% */
+            height: 3px; /* 增加下划线厚度 */
             background-color: var(--accent-color); 
+            /* 默认隐藏 (scaleX(0)) 并使用 translateX(-50%) 确保 50% 宽度的线居中 */
+            transform: translateX(-50%) scaleX(0); 
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* 悬停效果 */
+        .nav a:hover {
+            color: var(--deep-grey); 
+            background-color: transparent; 
+        }
+        
+        /* 🚀 优化 3：悬停效果 - 居中展开 */
+        .nav a:hover::after {
+            transform: translateX(-50%) scaleX(1); /* 展开至 50% 的实际宽度 */
+        }
+        
+        /* 🚀 优化 4：突出显示当前激活页面 */
+        .nav a.active {
+            color: var(--deep-grey);
+            font-weight: 600;
+        }
+
+        .nav a.active::after {
+            transform: translateX(-50%) scaleX(1); /* 激活状态下始终显示 50% 宽度的线 */
         }
         
         .menu-toggle {
@@ -143,7 +157,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.5); 
             z-index: 990; 
             opacity: 0;
             visibility: hidden;
@@ -251,7 +265,6 @@
             font-weight: 500;
             color: #666666;
             cursor: pointer;
-            transition: color 0.2s;
             position: relative;
         }
 
@@ -363,40 +376,54 @@
 
         /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
         @media (max-width: 768px) {
+            
+            /* Header 高度精确修正为 48px */
             body {
-                padding-top: 55px; 
+                padding-top: 48px; 
             }
             .header {
                 padding: 10px 4%; 
             }
             
-            /* 侧边栏导航样式 */
+            /* 侧边栏导航样式 (右侧滑入) */
             .nav {
-                /* 默认隐藏，从右侧滑入 */
                 position: fixed;
-                top: 0;
-                right: 0;
-                height: 100vh;
+                top: 48px; 
+                right: 0; 
+                left: auto;
                 width: 70%; 
                 max-width: 300px; 
+                height: calc(100vh - 48px); 
+
                 background-color: var(--sidebar-bg);
-                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                transform: translateX(100%); 
-                transition: transform 0.3s ease-out;
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); 
+                z-index: 1001; 
                 
-                /* 导航项垂直堆叠 */
+                transform: translateX(100%); 
+                opacity: 0; 
+                visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+                
                 display: flex;
                 flex-direction: column;
-                padding: 70px 20px 20px; 
-                overflow-y: auto; /* 允许侧边栏内容滚动 */
+                
+                padding: 20px; 
+                overflow-y: auto; 
             }
 
             .nav.open {
-                transform: translateX(0); /* 显示导航栏 */
+                transform: translateX(0); 
+                opacity: 1;
+                visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
             }
 
-            /* 导航项样式调整 */
+            /* 汉堡菜单按钮显示 */
+            .menu-toggle {
+                display: block; 
+            }
+            
+            /* 移动端导航项样式调整 (覆盖桌面端样式) */
             .nav a {
                 margin: 10px 0; 
                 padding: 12px 10px;
@@ -405,62 +432,51 @@
                 display: flex; 
                 align-items: center;
                 border-radius: 4px;
+                position: relative; 
+                overflow: hidden; 
+            }
+
+            /* 移动端：关闭所有 ::after/::before 样式，避免干扰 */
+            .nav a::after {
+                content: none;
             }
             
-            .nav a::before {
-                margin-right: 12px;
+            /* 移动端激活状态使用背景高亮代替下划线 */
+            .nav a.active {
+                 background-color: var(--nav-hover-bg); 
             }
-
-            /* 汉堡菜单按钮显示 */
-            .menu-toggle {
-                display: block; 
-            }
-
-
+            
+            /* 移动端容器和字体调整保持不变 */
             .container {
                 width: 95%; 
             }
-            
-            /* 移动端 英雄区调整 */
             .hero-section {
                 height: 250px; 
-                width: 100vw; 
-                margin-left: calc(50% - 50vw);
-                padding-top: 20px; 
             }
-
-            /* 移动端字体展示区 */
             .font-showcase-wrapper {
                 padding-top: 40px; 
                 padding-bottom: 60px;
             }
-            
             .category-tabs {
                 gap: 10px;
                 margin-bottom: 20px;
-                /* 确保标签在小屏幕上可以水平滚动 */
                 overflow-x: auto; 
                 white-space: nowrap;
                 padding-bottom: 10px;
             }
-            
             .category-tab {
                 font-size: 14px;
                 padding: 6px 12px;
-                flex-shrink: 0; /* 防止标签被挤压 */
+                flex-shrink: 0; 
             }
-
             .category-tab.active::after {
                 bottom: -10px; 
             }
-
             .font-showcase {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
                 padding-top: 0;
             }
-
-            /* 移动端 字数显示区 调整 */
             .font-count span {
                 font-size: 24px; 
             }
@@ -468,14 +484,10 @@
                 font-size: 100px; 
                 margin: 0 15px;
             }
-            
-            /* 移动端 Slogan 样式 */
             .slogan {
                 font-size: 22px; 
                 margin-bottom: 15px;
             }
-            
-            /* 移动端底部栏调整 */
             .footer {
                 padding: 15px 5%; 
             }
@@ -488,15 +500,14 @@
         <div class="logo">
             <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="品牌 LOGO" id="headerLogo">
         </div>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+        <button class="menu-toggle" id="menuToggle">☰</button> 
         <div class="backdrop" id="menuBackdrop"></div>
         <nav class="nav" id="mainNav">
-            <a href="#" class="nav-item">首页</a>
-            <a href="#" class="nav-item">产品</a>
-            <a href="#" class="nav-item">授权</a>
-            <a href="#" class="nav-item">计划</a>
-            <a href="#" class="nav-item">联系</a>
-            <a href="#" class="nav-item">关于</a>
+            <a href="https://www.zizao.top" class="nav-item">首页</a>
+            <a href="https://www.zizao.top/fonts" class="nav-item active">产品</a>
+            <a href="https://www.zizao.top/fonts/auth" class="nav-item">授权</a>
+            <a href="https://www.zizao.top/fonts/beta" class="nav-item">计划</a>
+            <a href="https://www.zizao.top/fonts/about" class="nav-item">联系</a>
         </nav>
     </header>
 
@@ -554,29 +565,21 @@
             let currentCategory = '全部'; 
             const totalFontCount = fontData.length; 
             
-            // 🚀 优化点：获取 HTML 根元素
             const html = document.documentElement; 
             
-            // --- 移动端菜单逻辑 (已优化) ---
+            // --- 移动端菜单逻辑 (不切换图标) ---
             if (menuToggle && mainNav && menuBackdrop) {
                 
                 function closeMenu() {
                     mainNav.classList.remove('open');
                     menuBackdrop.classList.remove('open'); 
-                    menuToggle.innerHTML = '☰'; 
-                    // 🚀 关键：在 HTML 根元素上恢复滚动
-                    html.classList.remove('menu-open'); 
                 }
                 
                 function toggleMenu() {
                     const isOpen = mainNav.classList.toggle('open');
                     menuBackdrop.classList.toggle('open'); 
-                    // 🚀 关键：在 HTML 根元素上禁用滚动
-                    html.classList.toggle('menu-open'); 
                     
-                    if (isOpen) {
-                        menuToggle.innerHTML = '✕'; 
-                    } else {
+                    if (!isOpen) {
                         closeMenu(); 
                     }
                 }
@@ -590,6 +593,7 @@
                 navItems.forEach(item => {
                     item.addEventListener('click', function() {
                         if (mainNav.classList.contains('open')) {
+                            // 延时关闭，以便点击效果能显示
                             setTimeout(closeMenu, 100); 
                         }
                     });

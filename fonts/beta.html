@@ -3,852 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字库产品开发计划 - 字造Type</title>
+    <title>字库产品开发计划 - 自在造字（字造ZIZAO）</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+    
     <style>
+        /* =================================================================
+           1. 基础与工具样式
+           ================================================================= */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #FF6B00;
-            --primary-light: #FF8C42;
-            --primary-dark: #E55D00;
-            --dark: #222222;
-            --darker: #1A1A1A;
-            --light: #FFFFFF;
-            --gray: #F8F8F8;
-            --light-gray: #F0F0F0;
-            --text: #333333;
-            --text-light: #777777;
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-sizing: border-box; 
         }
         
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--light);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding: 0;
-            min-height: 100vh;
-            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: var(--dark);
+            line-height: 1.8; 
+            padding-top: 61px; /* <--- 保持桌面端默认 Header 高度 */
+            padding-bottom: 50px; 
+            transition: padding-top 0.3s ease;
+        }
+
+        a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s, text-decoration 0.3s; 
+        }
+
+        /* --- 配色常量 --- */
+        :root {
+            --deep-grey: #222222;
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; /* 品牌主色 (金色/棕褐色) */
+            --highlight-color: #E0B973; 
+            --primary-dark: #a88a56; 
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); /* <--- 新增，用于移动端激活状态 */
+            --sidebar-bg: #FFFFFF; 
+            
+            --dark: #222222;
+            --gray-bg: #F8F8F8; 
+            --light-border: #E5E5E5; 
+            --text-main: #333333; 
+            
+            /* 状态颜色 */
+            --status-completed: #16A34A;
+            --status-progress: #E0B973;
+            --status-planned: #6B7280;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 10% 20%, rgba(255, 107, 0, 0.03) 0%, rgba(255, 255, 255, 0) 30%),
-                        radial-gradient(circle at 90% 80%, rgba(255, 107, 0, 0.03) 0%, rgba(255, 255, 255, 0) 30%);
-            z-index: -1;
-            pointer-events: none;
+        /* =================================================================
+           2. 顶部导航栏 (已更新为与 index.html 一致)
+           ================================================================= */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            box-shadow: none; border-bottom: 1px solid var(--light-grey); 
         }
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 28px; max-width: 150px; display: block; }
+
+        /* ** 导航项样式 (桌面端) ** */
+        .nav a { 
+            margin-left: 15px; font-size: 16px; display: inline-flex; align-items: center; 
+            padding: 5px 10px 10px 10px; /* 调整 padding 以便为底部线留出空间 */
+            border-radius: 4px; position: relative; transition: color 0.3s; 
+        }
+        
+        .nav a::after { 
+            content: ''; position: absolute; bottom: 0; left: 50%; 
+            width: 50%; /* 缩短到链接宽度的 50% */
+            height: 3px; /* 增加下划线厚度 */
+            background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); /* 默认隐藏并居中 */
+            transition: transform 0.3s ease-out;
+        }
+        
+        .nav a:hover { 
+            color: var(--deep-grey); background-color: transparent; 
+        }
+        
+        .nav a:hover::after { 
+            transform: translateX(-50%) scaleX(1); /* 悬停展开 */
+        }
+        
+        .nav a.active { 
+            color: var(--deep-grey); font-weight: 600; 
+        }
+        .nav a.active::after { 
+            transform: translateX(-50%) scaleX(1); /* 激活状态下始终显示 */
+        }
+        
+        .menu-toggle { 
+            display: none; background: none; border: none; font-size: 24px; cursor: pointer; 
+            color: var(--deep-grey); padding: 0 10px; z-index: 1001; 
+        }
+        
+        .backdrop { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; 
+        }
+        .backdrop.open { opacity: 1; visibility: visible; }
+
+
+        /* =================================================================
+           3. beta.html 内容通用样式
+           ================================================================= */
         
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
+            width: 90%; max-width: 1200px; margin: 0 auto; padding: 50px 0; text-align: center;
         }
         
-        /* 标题区域 */
-        .hero {
-            padding: 80px 0 60px;
-            position: relative;
-            text-align: center;
-        }
+        /* 头部宣传区 (已移除) */
+        .hero-section { padding: 0; margin-bottom: 0; }
+        .hero-section h1, .hero-section p, .cta-button { display: none; } 
         
-        .hero h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            color: var(--darker);
-            margin-bottom: 20px;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            background: linear-gradient(to right, var(--darker), var(--primary-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-        
-        .hero p {
-            font-size: 1.25rem;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            color: var(--text-light);
-            font-weight: 400;
-        }
-        
-        .hero-line {
-            height: 4px;
-            width: 100px;
-            background: var(--primary);
-            margin: 40px auto;
-            border-radius: 2px;
-        }
-        
-        /* 字体项目区域 */
-        .projects-section {
-            padding: 40px 0 80px;
-        }
-        
+        /* 统一的 section 标题样式 */
         .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--darker);
-            display: inline-block;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        
-        .section-title::before,
-        .section-title::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--light-gray), var(--light-gray), transparent);
-        }
-        
-        .section-title::before {
-            left: 0;
-            right: 50%;
-            margin-right: 20px;
+            font-size: 38px; font-weight: 700; color: var(--dark); margin-bottom: 30px;
+            position: relative; 
+            padding-top: 50px; 
+            padding-bottom: 10px;
         }
         
         .section-title::after {
-            left: 50%;
-            right: 0;
-            margin-left: 20px;
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 4px; background-color: var(--highlight-color); border-radius: 2px;
         }
-        
-        /* 字体卡片 */
-        .project-card {
-            background: var(--light);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 50px;
-            position: relative;
-            transition: var(--transition);
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--light-gray);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.08);
-            border-color: rgba(255, 107, 0, 0.15);
-        }
-        
-        .card-header {
-            padding: 35px 40px 25px;
-            position: relative;
-        }
-        
-        .card-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 40px;
-            right: 40px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--light-gray), transparent);
-        }
-        
-        .card-header h3 {
-            font-size: 1.9rem;
-            color: var(--darker);
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-        
-        .card-header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            line-height: 1.5;
-        }
-        
-        .card-content {
-            padding: 35px 40px;
-        }
-        
-        .weights-container {
-            margin-bottom: 30px;
-        }
-        
-        .weight-title {
-            font-size: 1.25rem;
-            margin-bottom: 25px;
-            color: var(--darker);
-            display: flex;
-            align-items: center;
-            font-weight: 600;
-        }
-        
-        .weight-title i {
-            margin-right: 12px;
-            color: var(--primary);
-            background: rgba(255, 107, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .weight-grid {
+
+        /* ------------------- 核心项目路线图 (左右布局) ------------------- */
+        .rich-plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 18px;
+            grid-template-columns: 1fr; 
+            gap: 0; /* 移除 grid gap，依靠 border-bottom 分隔 */
+            margin-top: 30px;
+            text-align: left;
         }
         
-        .weight-item {
-            background: var(--gray);
-            padding: 18px;
-            border-radius: 12px;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid var(--light-gray);
-            position: relative;
+        .rich-plan-card {
+            display: flex; 
+            
+            /* 移除所有边框、圆角、阴影和动效 */
+            border: none;
+            border-radius: 0;
             overflow: hidden;
-            z-index: 1;
+            box-shadow: none;
+            
+            /* 添加分割线样式 */
+            border-bottom: 1px solid var(--light-border); /* 分隔线 */
+            padding: 30px 0; /* 在卡片上下留出空间 */
+            margin: 0;
+            
+            /* 确保内容立即显示 */
+            opacity: 1; 
+            transform: translateY(0);
         }
         
-        .weight-item::before {
-            content: '';
+        /* 移除悬浮动效 */
+        .rich-plan-card:hover {
+            transform: none; 
+            box-shadow: none;
+        }
+
+        /* 移除最后一个卡片底部的分割线和边距 */
+        .rich-plan-grid > .rich-plan-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .plan-visual {
+            width: 60%; /* 左侧图占 60% */
+            min-width: 300px; 
+            height: auto; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--gray-bg);
+            padding: 30px;
+            position: relative;
+            /* 保持内部垂直分割线 */
+            border-right: 1px solid var(--light-border);
+        }
+
+        .plan-visual img.visual-icon {
+            width: 120px; 
+            height: 120px;
+            object-fit: contain;
+            content: url('https://via.placeholder.com/120x120?text=VISUAL'); 
+        }
+        
+        .visual-badge {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: -1;
-        }
-        
-        .weight-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(255, 107, 0, 0.15);
-            border-color: rgba(255, 107, 0, 0.3);
-        }
-        
-        .weight-item:hover::before {
-            opacity: 1;
-        }
-        
-        .weight-item:hover .weight-name {
-            color: var(--light);
-        }
-        
-        .weight-item:hover .weight-status {
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--light);
-        }
-        
-        .weight-name {
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--darker);
-            transition: var(--transition);
-            font-size: 1.1rem;
-        }
-        
-        .weight-status {
-            font-size: 0.9rem;
+            top: 15px;
+            right: 15px;
             padding: 5px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            transition: var(--transition);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            z-index: 10;
         }
         
-        .status-planning {
-            background: rgba(255, 107, 0, 0.1);
-            color: var(--primary-dark);
-        }
+        .visual-badge.status-completed { background-color: var(--status-completed); }
+        .visual-badge.status-progress { background-color: var(--status-progress); color: var(--dark); } 
+        .visual-badge.status-planned { background-color: var(--status-planned); }
         
-        .status-in-progress {
-            background: rgba(0, 133, 230, 0.1);
-            color: #0085E6;
+        .plan-content {
+            width: 40%; /* 右侧文字占 40% */
+            padding: 30px;
         }
-        
-        .status-completed {
-            background: rgba(0, 166, 81, 0.1);
-            color: #00A651;
-        }
-        
-        /* 进度条 */
-        .progress-container {
-            margin-top: 40px;
-        }
-        
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-weight: 500;
-            color: var(--darker);
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: var(--light-gray);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            border-radius: 4px;
-            transition: width 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: progressShine 2s infinite;
-        }
-        
-        /* 时间轴 */
-        .timeline-container {
-            margin-top: 60px;
-            position: relative;
-        }
-        
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, var(--light-gray), var(--light-gray), transparent);
-            left: 50%;
-            margin-left: -1px;
-        }
-        
-        .timeline-item {
-            padding: 0 0 50px 0;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-        
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-            padding-right: 50px;
-            text-align: right;
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-            padding-left: 50px;
-        }
-        
-        .timeline-content {
-            padding: 25px 30px;
-            background: var(--light);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--light-gray);
-            position: relative;
-            transition: var(--transition);
-        }
-        
-        .timeline-item:hover .timeline-content {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
-            border-color: rgba(255, 107, 0, 0.15);
-            transform: translateX(5px);
-        }
-        
-        .timeline-item:nth-child(even):hover .timeline-content {
-            transform: translateX(-5px);
-        }
-        
-        .timeline-date {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .timeline-dot {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: var(--light);
-            border: 3px solid var(--primary);
-            border-radius: 50%;
-            top: 10px;
-            right: -8px;
-            z-index: 1;
-            transition: var(--transition);
-        }
-        
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -8px;
-        }
-        
-        .timeline-item:hover .timeline-dot {
-            transform: scale(1.2);
-            background: var(--primary);
-        }
-        
-        /* 未来计划 */
-        .future-plans {
-            padding: 80px 0 100px;
-        }
-        
-        .plan-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .plan-card {
-            background: var(--light);
-            border-radius: 16px;
-            padding: 35px 30px;
-            transition: var(--transition);
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--light-gray);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-        
-        .plan-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .plan-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.06);
-            border-color: rgba(255, 107, 0, 0.15);
-        }
-        
-        .plan-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: var(--darker);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-        }
-        
-        .plan-card h3 i {
-            margin-right: 15px;
-            color: var(--primary);
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 107, 0, 0.1);
-        }
-        
-        .plan-card ul {
-            padding-left: 10px;
-        }
-        
-        .plan-card ul li {
+
+        .plan-content h3 {
+            font-size: 24px;
             margin-bottom: 15px;
-            position: relative;
-            padding-left: 25px;
-            color: var(--text-light);
+            font-weight: 700;
+            border-bottom: 2px solid var(--light-border);
+            padding-bottom: 10px;
+        }
+
+        .plan-content p {
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 20px;
             line-height: 1.6;
         }
         
-        .plan-card ul li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 10px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--primary);
+        .plan-meta-list { list-style: none; padding: 0; margin-bottom: 20px; }
+
+        .plan-meta-list li {
+            display: flex; 
+            align-items: center; /* 垂直居中图标和文字 */
+            padding: 8px 0;
+            font-size: 15px; color: #555;
         }
         
-        /* 动画 */
-        @keyframes progressShine {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
+        /* 统一列表图标为小圆点并修复对齐 */
+        .plan-meta-list i {
+            color: var(--highlight-color); 
+            margin-right: 10px; 
+            margin-top: 0; 
+            min-width: 15px;
+            font-size: 8px; 
         }
         
-        /* 响应式设计 */
-        @media (max-width: 900px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
+        .card-link {
+            color: var(--highlight-color); font-weight: 600; display: inline-block;
+            margin-top: 10px; transition: color 0.3s;
+        }
+        
+        .card-link:hover { text-decoration: underline; color: var(--primary-dark); }
+
+        /* ------------------- 底部 (Footer) ------------------- */
+        .footer {
+            background-color: #FFFFFF; color: #444444; padding: 20px 10%; 
+            display: flex; flex-wrap: wrap; 
+            justify-content: center; 
+            align-items: center;
+            font-size: 14px;
+            border-top: 1px solid var(--light-grey);
+            text-align: center; 
+        }
+
+        .copyright { width: 100%; text-align: center; margin: 0; padding: 0; border-top: none; }
+        
+        /* ------------------- 响应式设计 ------------------- */
+        @media (max-width: 992px) {
             
-            .container {
-                padding: 0 30px;
-            }
+            .section-title { padding-top: 30px; } 
+
+            /* 移动端：Rich Cards 变回垂直堆叠 */
+            .rich-plan-card { flex-direction: column; padding: 20px 0; } 
             
-            .card-header,
-            .card-content {
-                padding: 30px;
+            .plan-visual {
+                width: 100%; 
+                min-width: auto;
+                height: 200px;
+                border-right: none;
+                /* 移除移动端的内部分割线，因为卡片已经垂直堆叠 */
+                border-bottom: none; 
+            }
+
+            .plan-content { width: 100%; padding-top: 0; } 
+            
+            .section-title { font-size: 30px; }
+            
+            /* 移动端，为保证视觉效果，在卡片内容和分割线之间增加一个空隙 */
+            .rich-plan-card {
+                 border-bottom: 1px solid var(--light-border);
+                 margin-bottom: 20px;
+            }
+
+            .rich-plan-grid > .rich-plan-card:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
             }
         }
         
         @media (max-width: 768px) {
-            .hero {
-                padding: 60px 0 40px;
+            
+            /* 移动端 Header 调整 (与 index.html 保持一致) */
+            body {
+                padding-top: 48px; 
+            }
+            .header {
+                padding: 10px 4%; 
             }
             
-            .hero h1 {
-                font-size: 2.5rem;
+            /* 侧边栏导航样式 (右侧滑入) */
+            .nav {
+                position: fixed;
+                top: 48px; 
+                right: 0; 
+                left: auto;
+                width: 70%; 
+                max-width: 300px; 
+                height: calc(100vh - 48px); 
+
+                background-color: var(--sidebar-bg);
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); 
+                z-index: 1001; 
+                
+                transform: translateX(100%); 
+                opacity: 0; 
+                visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+                
+                display: flex;
+                flex-direction: column;
+                
+                padding: 20px; 
+                overflow-y: auto; 
+            }
+
+            .nav.open {
+                transform: translateX(0); 
+                opacity: 1;
+                visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+
+            /* 汉堡菜单按钮显示 */
+            .menu-toggle {
+                display: block; 
             }
             
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .timeline::before {
-                left: 30px;
-            }
-            
-            .timeline-item {
+            /* 移动端导航项样式调整 (覆盖桌面端样式) */
+            .nav a {
+                margin: 10px 0; 
+                padding: 12px 10px;
+                font-size: 18px;
                 width: 100%;
-                padding-left: 70px;
-                padding-right: 20px;
-                left: 0 !important;
-                text-align: left !important;
+                display: flex; 
+                align-items: center;
+                border-radius: 4px;
+                position: relative; 
+                overflow: hidden; 
+            }
+
+            /* 移动端：关闭所有 ::after 样式，避免干扰 */
+            .nav a::after {
+                content: none;
             }
             
-            .timeline-item:nth-child(even) .timeline-dot {
-                left: 20px;
+            /* 移动端激活状态使用背景高亮代替下划线 */
+            .nav a.active {
+                 background-color: var(--nav-hover-bg); 
             }
-            
-            .timeline-dot {
-                left: 20px !important;
-            }
-            
-            .plan-cards {
-                grid-template-columns: 1fr;
-            }
+            /* 移动端卡片样式 (保持不变) */
+            .plan-visual { height: 160px; }
+            .plan-visual img.visual-icon { width: 80px; height: 80px; }
+            .plan-content { padding: 20px; }
+            .plan-content h3 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
-    <!-- 标题区域 -->
-    <section class="hero">
-        <div class="container">
-            <h1>字库产品开发计划 - 字造Type</h1>
-            <p>作为字库设计师，我致力于创造美观实用的中文字体。此页面将实时更新字体开发计划，包括当前项目进度、未来计划及开发方向。</p>
-            <div class="hero-line"></div>
+
+    <header class="header">
+        <div class="logo">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="品牌 LOGO" id="headerLogo">
         </div>
-    </section>
+        <button class="menu-toggle" id="menuToggle">☰</button> 
+        <div class="backdrop" id="menuBackdrop"></div>
+        <nav class="nav" id="mainNav">
+            <a href="https://www.zizao.top" class="nav-item">首页</a>
+            <a href="https://www.zizao.top/fonts" class="nav-item">产品</a>
+            <a href="https://www.zizao.top/fonts/auth" class="nav-item">授权</a>
+            <a href="https://www.zizao.top/fonts/beta" class="nav-item active">计划</a>
+            <a href="https://www.zizao.top/fonts/about" class="nav-item">联系</a>
+        </nav>
+    </header>
 
-    <!-- 字体项目 -->
-    <section class="projects-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>当前开发项目</h2>
-            </div>
+    <main class="container">
+        
+        <section class="hero-section">
+            </section>
 
-            <!-- 项目卡片 1 -->
-            <div class="project-card">
-                <div class="card-header">
-                    <h3>字造起点黑</h3>
-                    <p>现代宋体与古典美学的完美融合，适合书籍排版与高端印刷</p>
-                </div>
-                <div class="card-content">
-                    <div class="weights-container">
-                        <div class="weight-title">
-                            <i class="fas fa-weight-hanging"></i>
-                            <span>字重开发计划</span>
-                        </div>
-                        <div class="weight-grid">
-                            <div class="weight-item">
-                                <div class="weight-name">Light</div>
-                                <span class="weight-status status-completed">已完成</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Regular</div>
-                                <span class="weight-status status-in-progress">开发中</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Medium</div>
-                                <span class="weight-status status-planning">计划中</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Bold</div>
-                                <span class="weight-status status-planning">计划中</span>
-                            </div>
-                        </div>
+        <section id="plans-rich">
+            <h2 class="section-title">字库产品开发计划</h2>
+            <div class="rich-plan-grid">
+                
+                <div class="rich-plan-card">
+                    <div class="plan-visual" style="background-color: #F8F4EF;">
+                        <img src="https://via.placeholder.com/120x120?text=宋体" alt="宋体沉静图标" class="visual-icon">
+                        <span class="visual-badge status-completed">已发布</span>
                     </div>
-
-                    <div class="progress-container">
-                        <div class="progress-info">
-                            <span>项目进度</span>
-                            <span>35%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 35%"></div>
-                        </div>
+                    <div class="plan-content">
+                        <h3>宋体 · 沉静</h3>
+                        <p>首款商业授权字体。字形端庄，融入现代美学。提供 5 个字重和完整的 GB2312 字符集，适用于高品质印刷和数字阅读。</p>
+                        <ul class="plan-meta-list">
+                            <li><i class="fas fa-circle"></i> V1.0 稳定版发布</li>
+                            <li><i class="fas fa-circle"></i> V1.1 Light/Bold 字重优化</li>
+                            <li><i class="fas fa-circle"></i> 个人商用免费授权</li>
+                        </ul>
+                        <a href="qidianhei.html" class="card-link">查看详情 <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-            </div>
-
-            <!-- 项目卡片 2 -->
-            <div class="project-card">
-                <div class="card-header">
-                    <h3>几何无衬线体</h3>
-                    <p>基于几何结构的现代无衬线字体，适合UI设计与品牌标识</p>
-                </div>
-                <div class="card-content">
-                    <div class="weights-container">
-                        <div class="weight-title">
-                            <i class="fas fa-weight-hanging"></i>
-                            <span>字重开发计划</span>
-                        </div>
-                        <div class="weight-grid">
-                            <div class="weight-item">
-                                <div class="weight-name">Thin</div>
-                                <span class="weight-status status-completed">已完成</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Light</div>
-                                <span class="weight-status status-completed">已完成</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Regular</div>
-                                <span class="weight-status status-in-progress">开发中</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Medium</div>
-                                <span class="weight-status status-planning">计划中</span>
-                            </div>
-                            <div class="weight-item">
-                                <div class="weight-name">Bold</div>
-                                <span class="weight-status status-planning">计划中</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="progress-container">
-                        <div class="progress-info">
-                            <span>项目进度</span>
-                            <span>45%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 45%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 时间轴 -->
-    <section class="projects-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>开发时间表</h2>
-            </div>
-
-            <div class="timeline-container">
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2023年10月</div>
-                            <p>墨韵雅宋体 Light 版本发布</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2023年12月</div>
-                            <p>几何无衬线体 Thin 和 Light 版本发布</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2024年3月</div>
-                            <p>墨韵雅宋体 Regular 版本发布</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2024年6月</div>
-                            <p>几何无衬线体 Regular 版本发布</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2024年9月</div>
-                            <p>墨韵雅宋体 Medium 版本开发完成</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2024年12月</div>
-                            <p>几何无衬线体 Medium 版本开发完成</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 未来计划 -->
-    <section class="future-plans">
-        <div class="container">
-            <div class="section-title">
-                <h2>未来开发方向</h2>
-            </div>
-
-            <div class="plan-cards">
-                <div class="plan-card">
-                    <h3><i class="fas fa-paint-brush"></i> 创意字体</h3>
-                    <ul>
-                        <li>手写风格字体：自然流畅的笔触，模拟真实书写体验</li>
-                        <li>复古风格字体：融合民国时期与80年代字体美学</li>
-                        <li>像素艺术字体：专为游戏和数字艺术设计的像素风格</li>
-                        <li>书法变体字体：传统书法艺术的数字化呈现</li>
-                    </ul>
                 </div>
                 
-                <div class="plan-card">
-                    <h3><i class="fas fa-language"></i> 多语言支持</h3>
-                    <ul>
-                        <li>扩展现有字体家族，加入繁体中文支持</li>
-                        <li>开发中日韩统一表意文字（CJK Unified Ideographs）</li>
-                        <li>增加西文字符的完整支持，包括扩展拉丁字符</li>
-                        <li>支持东南亚语言字符集</li>
-                    </ul>
+                <div class="rich-plan-card">
+                    <div class="plan-visual" style="background-color: #EDEDED;">
+                        <img src="https://via.placeholder.com/120x120?text=黑体" alt="极简黑图标" class="visual-icon">
+                        <span class="visual-badge status-progress">开发中</span>
+                    </div>
+                    <div class="plan-content">
+                        <h3>字造 · 极简黑</h3>
+                        <p>下一代黑体项目。目标是设计一款去装饰化、中宫舒适、适用于屏幕显示的通用黑体，预计提供 9 个字重。</p>
+                        <ul class="plan-meta-list">
+                            <li><i class="fas fa-circle"></i> 基础字形设计 (60%)</li>
+                            <li><i class="fas fa-circle"></i> 预计 2026 Q3 发布 Beta</li>
+                            <li><i class="fas fa-circle"></i> 计划启动众筹和早期体验</li>
+                        </ul>
+                        <a href="#" class="card-link">关注进度 <i class="fas fa-arrow-right"></i></a>
+                    </div>
                 </div>
                 
-                <div class="plan-card">
-                    <h3><i class="fas fa-magic"></i> 技术优化</h3>
-                    <ul>
-                        <li>优化字体Hinting技术，提升小字号显示效果</li>
-                        <li>开发可变字体（Variable Fonts）版本</li>
-                        <li>增强OpenType特性，如连字、替代字等</li>
-                        <li>提升字体在Retina屏幕上的渲染效果</li>
-                    </ul>
+                <div class="rich-plan-card">
+                    <div class="plan-visual" style="background-color: #F0F5F8;">
+                        <img src="https://via.placeholder.com/120x120?text=工具" alt="工具箱图标" class="visual-icon">
+                        <span class="visual-badge status-planned">规划中</span>
+                    </div>
+                    <div class="plan-content">
+                        <h3>字造 · 工具箱 V2.0</h3>
+                        <p>为设计师和开发者打造的一站式字体管理和处理工具。集成授权、试用、在线转换和预览功能，提高效率。</p>
+                        <ul class="plan-meta-list">
+                            <li><i class="fas fa-circle"></i> 授权 API 接口设计</li>
+                            <li><i class="fas fa-circle"></i> 在线字体转换器</li>
+                            <li><i class="fas fa-circle"></i> 社区反馈与功能投票平台</li>
+                        </ul>
+                        <a href="#" class="card-link">了解工具 <i class="fas fa-arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
+    </main>
+
+    <footer class="footer">
+        <p class="copyright">© 2025 您的字库品牌. All rights reserved.</p>
+    </footer>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 进度条动画
-            const progressBars = document.querySelectorAll('.progress-fill');
-            progressBars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 500);
-            });
+            // --- 移动端菜单逻辑 (已更新为与 index.html 一致) ---
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
             
-            // 卡片动画
-            const cards = document.querySelectorAll('.project-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 300 + index * 200);
-            });
-            
-            // 滚动动画
-            function checkVisibility() {
-                const timelineItems = document.querySelectorAll('.timeline-item');
-                const planCards = document.querySelectorAll('.plan-card');
+            if (menuToggle && mainNav && menuBackdrop) {
                 
-                timelineItems.forEach((item, index) => {
-                    const rect = item.getBoundingClientRect();
-                    if (rect.top < window.innerHeight * 0.85) {
-                        setTimeout(() => {
-                            item.classList.add('visible');
-                        }, index * 150);
-                    }
-                });
+                function closeMenu() {
+                    mainNav.classList.remove('open');
+                    menuBackdrop.classList.remove('open'); 
+                }
                 
-                planCards.forEach((card, index) => {
-                    const rect = card.getBoundingClientRect();
-                    if (rect.top < window.innerHeight * 0.85) {
-                        setTimeout(() => {
-                            card.classList.add('visible');
-                        }, index * 150);
+                function toggleMenu() {
+                    const isOpen = mainNav.classList.toggle('open');
+                    menuBackdrop.classList.toggle('open'); 
+                    
+                    if (!isOpen) {
+                        closeMenu(); 
                     }
+                }
+                
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); // 点击遮罩关闭菜单
+                
+                const navItems = mainNav.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (mainNav.classList.contains('open')) {
+                            // 延时关闭，以便点击效果能显示
+                            setTimeout(closeMenu, 100); 
+                        }
+                    });
                 });
             }
-            
-            // 初始检查
-            checkVisibility();
-            
-            // 滚动时检查
-            window.addEventListener('scroll', checkVisibility);
-            
-            // 微妙的鼠标跟随效果
-            document.addEventListener('mousemove', (e) => {
-                const x = e.clientX / window.innerWidth;
-                const y = e.clientY / window.innerHeight;
-                
-                document.documentElement.style.setProperty('--mouse-x', x);
-                document.documentElement.style.setProperty('--mouse-y', y);
-            });
         });
     </script>
 </body>

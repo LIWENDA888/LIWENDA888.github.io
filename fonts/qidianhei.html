@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宋体 · 沉静 - 字体详情页</title>
+    <title>字造起点黑 - 自在造字（字造ZIZAO）</title>
     <meta name="description" content="宋体·沉静 字体产品详情，了解其设计理念、字重信息和授权方式。">
     <meta name="keywords" content="宋体, 沉静, 字库, 字体设计, 授权, 字重">
     <meta name="author" content="字造">
@@ -15,37 +15,37 @@
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
 
     <style>
-        /* 基础重置 */
+        /* =================================================================
+           1. 基础与工具样式
+           ================================================================= */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box; 
         }
         
-        html.menu-open {
-            overflow: hidden;
-        }
-
+        /* 移除 body 的 overflow:hidden 避免移动端菜单影响滚动 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #FFFFFF;
             color: var(--deep-grey);
             line-height: 1.8; 
-            padding-top: 61px;
+            padding-top: 61px; /* 桌面端默认 Header 高度 */
+            padding-bottom: 50px; 
             
+            /* 用于 JS 淡入的初始状态 */
             opacity: 0;
             transition: opacity 0.5s ease-in;
-            transition: padding-top 0.3s ease; 
-            padding-bottom: 50px; 
+            transition: padding-top 0.3s ease;
         }
 
         a {
-            color: var(--deep-grey);
+            color: #222222;
             text-decoration: none;
             transition: color 0.3s, text-decoration 0.3s; 
         }
 
-        /* --- 配色常量 --- */
+        /* --- 配色常量 (与 index.html 保持一致) --- */
         :root {
             --deep-grey: #222222;
             --light-grey: #CCCCCC;
@@ -53,60 +53,96 @@
             --hover-deep-color: #a88a56; 
             --nav-hover-bg: rgba(224, 185, 115, 0.1); 
             --sidebar-bg: #FFFFFF; 
-            --hero-bg-url: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp');
+            --hero-text-color: #FFFFFF; /* 详情页无 Hero Text，但保持定义 */
+            --hero-slogan-color: #FFFFFF; /* 详情页无 Hero Text，但保持定义 */
+            --hero-bg-url: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'); /* 详情页不用，但保持定义 */
         }
-
-        /* --- 1. 顶部栏样式 (保持不变) --- */
+        
+        /* =================================================================
+           2. 顶部导航栏 (Header) - 保持与 index.html 完全一致
+           ================================================================= */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
+            
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 5%;
             background-color: #FFFFFF;
+            
             box-shadow: none; 
             border-bottom: 1px solid var(--light-grey); 
         }
 
+        /* LOGO 图片容器 */
+        .logo {
+            display: flex;
+            align-items: center; 
+        }
+
+        /* LOGO 图片样式 */
         .logo img {
             height: 28px; 
             max-width: 150px; 
             display: block;
         }
 
+        /* ** 导航项样式 (桌面端) ** */
         .nav a {
             margin-left: 15px; 
             font-size: 16px;
             display: inline-flex; 
             align-items: center;
-            padding: 5px 10px; 
+            /* 调整 padding 以便为底部线留出空间 */
+            padding: 5px 10px 10px 10px; 
             border-radius: 4px;
             position: relative; 
-            transition: background-color 0.3s, color 0.3s;
+            transition: color 0.3s; 
         }
         
+        /* 移除原有的点装饰 */
         .nav a::before {
+            content: none;
+            display: none;
+        }
+
+        /* 🚀 优化 2：动画下划线的基础样式 - 短、粗、居中 */
+        .nav a::after {
             content: '';
-            display: block;
-            width: 6px; 
-            height: 6px;
-            background-color: var(--deep-grey); 
-            border-radius: 50%;
-            margin-right: 8px; 
-            transition: background-color 0.3s;
-        }
-        
-        .nav a:hover {
-            color: var(--hover-deep-color); 
-            background-color: var(--nav-hover-bg); 
-        }
-        
-        .nav a:hover::before {
+            position: absolute;
+            bottom: 0;
+            left: 50%; /* 从中心开始定位 */
+            width: 50%; /* 缩短到链接宽度的 50% */
+            height: 3px; /* 增加下划线厚度 */
             background-color: var(--accent-color); 
+            /* 默认隐藏 (scaleX(0)) 并使用 translateX(-50%) 确保 50% 宽度的线居中 */
+            transform: translateX(-50%) scaleX(0); 
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* 悬停效果 */
+        .nav a:hover {
+            color: var(--deep-grey); 
+            background-color: transparent; 
+        }
+        
+        /* 🚀 优化 3：悬停效果 - 居中展开 */
+        .nav a:hover::after {
+            transform: translateX(-50%) scaleX(1); /* 展开至 50% 的实际宽度 */
+        }
+        
+        /* 🚀 优化 4：突出显示当前激活页面 */
+        .nav a.active {
+            color: var(--deep-grey);
+            font-weight: 600;
+        }
+
+        .nav a.active::after {
+            transform: translateX(-50%) scaleX(1); /* 激活状态下始终显示 50% 宽度的线 */
         }
         
         .menu-toggle {
@@ -120,13 +156,14 @@
             z-index: 1001; 
         }
 
+        /* 侧边栏遮罩层 */
         .backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.5); 
             z-index: 990; 
             opacity: 0;
             visibility: hidden;
@@ -138,40 +175,37 @@
             visibility: visible;
         }
 
-        /* --- 2. 字体详情布局 --- */
-        
+
+        /* =================================================================
+           3. 顶部大图 (Hero Section) - 保持 qidianhei.html 的原有样式
+           ================================================================= */
         .font-hero-section {
             width: 100vw; 
             margin-left: calc(50% - 50vw); 
-            background-image: var(--hero-bg-url);
             background-size: cover;
             background-position: center;
             background-color: #000000; 
             height: 350px; 
             display: flex;
-            flex-direction: column;
             justify-content: center; 
             align-items: center; 
-            text-align: center; 
-            color: white; 
-            padding: 0 5%;
+            position: relative; 
         }
         
-        .font-hero-section .font-main-title {
-            font-size: 72px; 
-            font-weight: 900;
-            margin-bottom: 10px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); 
-        }
-
-        .font-hero-section .font-slogan {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 300;
-            letter-spacing: 1px;
+        .font-hero-section > img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1; 
+            opacity: 1; 
         }
         
+        /* =================================================================
+           4. 主体内容布局 (Container and Columns) - 保持 qidianhei.html 的原有样式
+           ================================================================= */
         .container {
             width: 90%; 
             max-width: 1200px;
@@ -179,129 +213,61 @@
             padding: 0; 
         }
         
-        /* 核心内容区域 (两栏容器) */
         .content-area {
             padding: 50px 0; 
             margin-bottom: 30px;
             border-bottom: 1px solid var(--light-grey);
         }
         
-        /* 🚀 两栏布局容器 */
         .content-layout {
             display: flex;
-            gap: 50px; /* 栏间距 */
+            gap: 50px; 
             padding: 0;
         }
 
-        /* 🚀 修正：主要内容栏（设计、授权等） */
         .main-content-column {
-            flex: 2; /* 占据 2/3 宽度 (左栏宽) */
+            flex: 2; 
             min-width: 0;
         }
         
-        /* 🚀 修正：信息侧边栏（规格、下载） */
         .info-sidebar {
-            flex: 1; /* 占据 1/3 宽度 (右栏窄) */
+            flex: 1; 
             min-width: 250px; 
         }
 
-        /* ------------------------------------- */
-        /* 规格列表优化（适应侧边栏） - 右侧栏的网格保留背景色和边框 */
-        /* ------------------------------------- */
+        /* =================================================================
+           5. 按钮样式 (Button Styles) - 保持 qidianhei.html 的原有样式
+           ================================================================= */
 
-        .font-specs-band {
-            padding: 0; 
-            border-bottom: none; 
-            margin-bottom: 20px; /* 调整为 20px，用于堆叠多个卡片 */
-            border: 1px solid #E5E5E5; 
-            border-radius: 6px;
-            padding: 15px 20px;
-        }
-        
-        /* 🌟 新增：卡片内部标题样式 */
-        .font-specs-band h3 {
-            font-size: 18px; 
-            font-weight: 700;
-            color: var(--deep-grey);
-            margin-top: 0; 
-            margin-bottom: 15px; 
-            padding-bottom: 10px;
-            border-bottom: 1px solid #E5E5E5; 
-        }
-
-        .font-meta-list.detailed-specs {
-            display: flex;
-            flex-direction: column; 
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            gap: 10px;
-        }
-        
-        .font-meta-list.detailed-specs li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            border-left: none;
-            border-bottom: 1px dotted #D0D0D0; 
-            padding: 10px 0;
-        }
-        
-        .font-meta-list.detailed-specs li:last-child {
-            border-bottom: none;
-        }
-
-        .font-meta-list.detailed-specs .meta-label {
-            display: inline;
-            color: #888888;
-            font-weight: 500;
-            margin-right: 10px;
-            font-size: 15px;
-        }
-
-        .font-meta-list.detailed-specs .meta-value {
-            display: inline;
-            color: var(--deep-grey);
+        /* 统一的按钮基础样式：确保高度和布局一致 */
+        .cta-button {
+            width: 100%;
+            padding: 14px 40px; 
+            border-radius: 9999px; 
+            font-size: 16px;
             font-weight: 600;
-            font-size: 15px;
-            text-align: right;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box; 
+            line-height: 1.2; /* 明确 line-height 避免浏览器默认差异 */
         }
-
-        /* ------------------------------------- */
-        /* 按钮样式与布局 */
-        /* ------------------------------------- */
         
         /* 按钮容器：在侧边栏内垂直堆叠 */
         .button-group {
             display: flex;
             flex-direction: column; 
             gap: 15px; 
-            margin-top: 30px; /* 确保与上方的卡片有足够间距 */
+            margin-bottom: 30px; 
         }
 
-        /* 主要下载按钮 (实色填充) */
-        .download-dropdown {
-            position: relative;
-            z-index: 10;
-            flex-grow: 1; 
-            max-width: 100%; 
-        }
-        
+        /* 1. 主要下载按钮 (实色填充) */
         .download-btn {
-            width: 100%;
-            padding: 14px 40px; 
             background-color: var(--deep-grey); 
             color: white; 
             border: 1px solid var(--deep-grey); 
-            border-radius: 9999px; 
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .download-btn:hover {
@@ -309,45 +275,35 @@
             border-color: #444444; 
         }
         
-        /* 次要链接按钮 (描边样式) */
+        /* 2. 次要链接按钮 (描边样式) */
         .license-detail-link {
-            display: inline-flex; 
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1; 
-            max-width: 100%; 
-            
-            margin-top: 0; 
-            margin-bottom: 0; 
-            
-            padding: 14px 40px; 
             background-color: transparent; 
             color: var(--deep-grey);
             border: 1px solid var(--deep-grey); 
-            border-radius: 9999px; 
-            font-weight: 600;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-            text-shadow: none; 
         }
 
-        /* 针对“授权条款”区域的独立按钮，间距统一为 20px */
-        .standalone-link {
-            display: inline-flex;
-            max-width: 280px; 
-            margin-top: 20px; 
-            margin-bottom: 20px; 
-        }
-        
         .license-detail-link:hover {
             background-color: var(--deep-grey);
             color: white;
         }
+        
+        /* 针对“授权条款”区域的独立按钮 */
+        .standalone-link {
+            max-width: 280px; 
+            margin-top: 20px; 
+            margin-bottom: 20px; 
+        }
 
-        /* 下载下拉菜单 */
+        /* 下载下拉菜单容器 */
+        .download-dropdown {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 下载下拉菜单内容 */
         .dropdown-content {
             position: absolute;
             top: 100%; 
-            right: auto; 
             left: 0; 
             width: 100%;
             margin-top: 5px; 
@@ -379,24 +335,71 @@
             background-color: var(--nav-hover-bg);
         }
         
-        /* ------------------------------------- */
-        /* 主体内容样式 */
-        /* ------------------------------------- */
+        /* =================================================================
+           6. 规格列表与内容 (Specs and Content) - 保持 qidianhei.html 的原有样式
+           ================================================================= */
+           
+        /* 侧边栏卡片样式 */
+        .font-specs-band {
+            border: 1px solid #E5E5E5; 
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 20px; 
+        }
+        
+        .font-specs-band h3 {
+            font-size: 18px; 
+            font-weight: 700;
+            color: var(--deep-grey);
+            margin-bottom: 15px; 
+            padding-bottom: 10px;
+            border-bottom: 1px solid #E5E5E5; 
+        }
 
+        /* 通用列表样式 (Sidebar uses .detailed-specs) */
+        .font-meta-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column; 
+            gap: 10px;
+        }
+        
+        /* 侧边栏列表项目样式 */
+        .font-meta-list.detailed-specs li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dotted #D0D0D0; 
+        }
+        
+        .font-meta-list.detailed-specs li:last-child {
+            border-bottom: none;
+        }
+
+        .font-meta-list .meta-label {
+            color: #888888;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .font-meta-list .meta-value {
+            color: var(--deep-grey);
+            font-weight: 600;
+            font-size: 15px;
+            text-align: right;
+        }
+        
+        /* 主内容区域文本样式 */
         .design-section {
-            /* 🚀 优化：减少垂直间距，让内容更紧凑 */
             margin-bottom: 40px; 
         }
         
-        .design-section:last-child {
-            margin-bottom: 0; 
-        }
-
         .design-section h2 {
             font-size: 32px; 
             font-weight: 700;
-            border-left: none; 
-            padding-left: 0; 
             margin-bottom: 30px; 
             letter-spacing: 1px; 
             color: var(--deep-grey);
@@ -410,47 +413,44 @@
             text-align: left; 
         }
         
-        /* 授权条款列表结构 - 卡片效果（左侧栏网格：移除浅灰色背景和边框） */
+        /* 🚀 修复和优化：主内容区授权条款列表样式，实现左对齐/右对齐和分割线 */
         .design-section .font-meta-list {
-            display: flex;
-            flex-direction: column;
-            padding: 0; /* 移除内边距 */
-            border: none; /* 移除边框 */
-            border-radius: 0; /* 移除圆角 */
+            padding: 0; 
             margin-bottom: 30px !important; 
-            background-color: transparent; /* 移除背景色 */
-            list-style: none; 
+            background-color: transparent; 
         }
-
+        
         .design-section .font-meta-list li {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
             font-size: 16px;
-            border-bottom: 1px dotted #D0D0D0; 
-            margin-bottom: 0 !important;
+            border-bottom: 1px dotted #D0D0D0; /* 分割线 */
         }
 
         .design-section .font-meta-list li:last-child {
-            border-bottom: none;
+            border-bottom: none; /* 移除最后一个项目的分割线 */
         }
 
         .design-section .font-meta-list .meta-label {
             font-weight: 600;
             color: var(--deep-grey);
-            flex-basis: 50%; 
+            flex-basis: 50%; /* 分配宽度 */
+            text-align: left;
         }
 
         .design-section .font-meta-list .meta-value {
             font-weight: 500;
             color: #555555;
-            text-align: right;
-            flex-basis: 50%; 
+            text-align: right; /* 右对齐 */
+            flex-basis: 50%; /* 分配宽度 */
         }
+
         
-        
-        /* --- 3. 底部栏样式 (保持不变) --- */
+        /* =================================================================
+           7. 底部 (Footer) - 保持与 index.html 完全一致
+           ================================================================= */
         .full-width-image {
             width: 100vw; 
             margin-left: calc(50% - 50vw); 
@@ -472,34 +472,34 @@
             border-top: 1px solid var(--light-grey);
         }
 
+        .copyright {
+            width: 100%;
+            text-align: center;
+            margin: 0; 
+            padding: 0; 
+            border-top: none; 
+        }
 
-        /* 响应式设计：移动端优化 */
+
+        /* =================================================================
+           8. 响应式设计 (Media Queries) - 融合 qidianhei 详情页和 index 首页的样式
+           ================================================================= */
         @media (max-width: 1024px) {
             
-            /* 🚀 移动端和中等屏幕：改为单栏堆叠 */
+            /* qidianhei 详情页的布局调整 */
             .content-layout {
                 flex-direction: column;
                 gap: 30px;
             }
             
-            /* 🚀 修正：将 info-sidebar 移动到堆叠顺序的首位，确保 CTA 和 Specs 在移动端优先展示 */
             .info-sidebar {
                 order: -1; 
                 min-width: unset;
             }
             
-            /* 恢复规格列表的水平紧凑布局 */
             .font-specs-band {
-                /* 在移动端保留边框和背景，但移除垂直内边距，使其更紧凑 */
                 padding: 15px 20px; 
-                border: 1px solid #E5E5E5;
                 margin-bottom: 20px;
-            }
-            
-            /* 移动端卡片内部标题样式 */
-            .font-specs-band h3 {
-                padding-bottom: 10px;
-                margin-bottom: 15px; 
             }
 
             .font-meta-list.detailed-specs {
@@ -509,52 +509,91 @@
                 gap: 10px;
             }
             .font-meta-list.detailed-specs li {
-                width: 48%; /* 保持双列 */
+                width: 48%; 
                 padding: 5px 0;
                 border-bottom: none;
             }
-            .font-meta-list.detailed-specs .meta-value {
-                text-align: right;
-            }
-
-            /* 移动端按钮堆叠，占据全宽 */
-            .button-group {
-                flex-direction: column;
-                gap: 15px; 
-            }
             
-            .download-dropdown,
-            .license-detail-link {
-                max-width: 100%;
-            }
-
-            /* 移动端按钮组内移除所有顶部间距，依赖 gap */
-            .license-detail-link,
-            .standalone-link {
-                margin-top: 0; 
+            .info-sidebar .font-specs-band:last-of-type {
                 margin-bottom: 0;
             }
-            
-            /* 授权条款列表：移动端保持无背景无边框，但恢复间距 */
-             .design-section .font-meta-list {
-                padding: 15px 0;
-                border: none;
-                background-color: transparent;
-             }
-             
-             /* 确保最后一个卡片下方没有多余的边距 */
-             .info-sidebar .font-specs-band:last-of-type {
-                margin-bottom: 0;
-             }
         }
         
         @media (max-width: 768px) {
+            
+            /* index.html 移动端头部样式 */
+            /* Header 高度精确修正为 48px */
             body {
-                padding-bottom: 50px; 
+                padding-top: 48px; 
+            }
+            .header {
+                padding: 10px 4%; 
             }
             
+            /* 侧边栏导航样式 (右侧滑入) */
+            .nav {
+                position: fixed;
+                top: 48px; 
+                right: 0; 
+                left: auto;
+                width: 70%; 
+                max-width: 300px; 
+                height: calc(100vh - 48px); 
+
+                background-color: var(--sidebar-bg);
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); 
+                z-index: 1001; 
+                
+                transform: translateX(100%); 
+                opacity: 0; 
+                visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+                
+                display: flex;
+                flex-direction: column;
+                
+                padding: 20px; 
+                overflow-y: auto; 
+            }
+
+            .nav.open {
+                transform: translateX(0); 
+                opacity: 1;
+                visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+
+            /* 汉堡菜单按钮显示 */
+            .menu-toggle {
+                display: block; 
+            }
+            
+            /* 移动端导航项样式调整 (覆盖桌面端样式) */
+            .nav a {
+                margin: 10px 0; 
+                padding: 12px 10px;
+                font-size: 18px;
+                width: 100%;
+                display: flex; 
+                align-items: center;
+                border-radius: 4px;
+                position: relative; 
+                overflow: hidden; 
+            }
+
+            /* 移动端：关闭所有 ::after/::before 样式，避免干扰 */
+            .nav a::after {
+                content: none;
+            }
+            
+            /* 移动端激活状态使用背景高亮代替下划线 */
+            .nav a.active {
+                 background-color: var(--nav-hover-bg); 
+            }
+            
+            /* qidianhei 详情页的布局调整 */
             .font-meta-list.detailed-specs li {
-                width: 100%; /* 小屏幕上改为单列，更易阅读 */
+                width: 100%; 
                 border-bottom: 1px dotted #D0D0D0;
                 justify-content: space-between;
             }
@@ -565,10 +604,9 @@
             .design-section h2 {
                 font-size: 26px;
             }
-            
-            .design-section p {
-                line-height: 1.8;
-                font-size: 16px;
+
+            .footer {
+                padding: 15px 5%; 
             }
         }
     </style>
@@ -579,21 +617,19 @@
         <div class="logo">
             <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="品牌 LOGO" id="headerLogo">
         </div>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+        <button class="menu-toggle" id="menuToggle">☰</button> 
         <div class="backdrop" id="menuBackdrop"></div>
         <nav class="nav" id="mainNav">
-            <a href="#" class="nav-item">首页</a>
-            <a href="#" class="nav-item">产品</a>
-            <a href="#" class="nav-item">授权</a>
-            <a href="#" class="nav-item">计划</a>
-            <a href="#" class="nav-item">联系</a>
-            <a href="#" class="nav-item">关于</a>
+            <a href="https://www.zizao.top" class="nav-item">首页</a>
+            <a href="https://www.zizao.top/fonts" class="nav-item active">产品</a>
+            <a href="https://www.zizao.top/fonts/auth" class="nav-item">授权</a>
+            <a href="https://www.zizao.top/fonts/beta" class="nav-item">计划</a>
+            <a href="https://www.zizao.top/fonts/about" class="nav-item">联系</a>
         </nav>
     </header>
     
     <section class="font-hero-section">
-        <h1 class="font-main-title">宋体 · 沉静</h1>
-        <p class="font-slogan">古典与现代的完美融合，为您的内容带来宁静的力量。</p>
+        <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="字体详情背景图">
     </section>
 
     <main class="container">
@@ -605,13 +641,12 @@
                 <div class="main-content-column">
                     
                     <section class="design-section">
-                        <h2>设计理念</h2>
+                        <h2>字造起点黑</h2>
                         <p>“宋体 · 沉静”是一款立足于传统宋体结构，融入现代设计美学的新宋体。它保留了宋体端庄、秀丽的特点，同时通过优化横竖笔画的粗细对比和出脚的锐利度，使其在屏幕和印刷品上都能保持优秀的阅读性和视觉平衡。</p>
                         <p>我们希望它能为您的品牌或内容带来一种静谧而高级的质感，无论用于正文还是标题，都能完美胜任。</p>
                     </section>
 
                     <section class="design-section">
-                        <h2>授权条款</h2>
                         <ul class="font-meta-list">
                             <li>
                                 <span class="meta-label">个人与教育：</span>
@@ -630,22 +665,33 @@
                                 <span class="meta-value">支持</span>
                             </li>
                         </ul>
-                        <a href="license.html" target="_blank" class="license-detail-link standalone-link">查看详细授权条款 ></a>
+                        <a href="license.html" target="_blank" class="cta-button license-detail-link standalone-link">查看详细授权条款 ></a>
                     </section>
                     
                 </div>
                 
                 <div class="info-sidebar">
                     
+                    <div class="button-group">
+                        <div class="download-dropdown" id="downloadDropdownInline">
+                            <button class="cta-button download-btn" aria-expanded="false" aria-controls="downloadMenuInline">
+                                免费试用/下载
+                            </button>
+                            <div class="dropdown-content" id="downloadMenuInline">
+                                <a href="trial_font_ttf.zip" download>TTF (Windows/Mac)</a>
+                                <a href="trial_font_otf.zip" download>OTF (设计师专用)</a>
+                                <a href="trial_font_web.zip" download>WOFF2 (Web 试用)</a>
+                            </div>
+                        </div>
+                        
+                        <a href="font-immersive-trial.html" target="_blank" class="cta-button license-detail-link">沉浸式在线试用 ></a>
+                    </div>
+                    
                     <div class="font-specs-band">
                         <ul class="font-meta-list detailed-specs">
                             <li>
                                 <span class="meta-label">字重数量</span>
                                 <span class="meta-value">5 个 (细体至特粗)</span>
-                            </li>
-                            <li>
-                                <span class="meta-label">字符集</span>
-                                <span class="meta-value">GB2312 基础字库</span>
                             </li>
                             <li>
                                 <span class="meta-label">设计师</span>
@@ -663,43 +709,20 @@
                     </div>
 
                     <div class="font-specs-band">
-                        <h3>技术细节与兼容性</h3>
                         <ul class="font-meta-list detailed-specs">
                             <li>
-                                <span class="meta-label">文件大小</span>
-                                <span class="meta-value">约 15 MB / 字重</span>
+                                <span class="meta-label">字符集</span>
+                                <span class="meta-value">GB2312 基础字库</span>
                             </li>
                             <li>
                                 <span class="meta-label">文件格式</span>
                                 <span class="meta-value">OTF/TTF/WOFF2</span>
                             </li>
                             <li>
-                                <span class="meta-label">支持语言</span>
-                                <span class="meta-value">简体中文 (GB2312)</span>
-                            </li>
-                            <li>
                                 <span class="meta-label">兼容系统</span>
                                 <span class="meta-value">Win / macOS / Linux</span>
                             </li>
-                            <li>
-                                <span class="meta-label">WebFont支持</span>
-                                <span class="meta-value">支持 (WOFF2)</span>
-                            </li>
                         </ul>
-                    </div>
-                    <div class="button-group">
-                        <div class="download-dropdown" id="downloadDropdownInline">
-                            <button class="download-btn" aria-expanded="false" aria-controls="downloadMenuInline">
-                                免费试用/下载
-                            </button>
-                            <div class="dropdown-content" id="downloadMenuInline">
-                                <a href="trial_font_ttf.zip" download>TTF (Windows/Mac)</a>
-                                <a href="trial_font_otf.zip" download>OTF (设计师专用)</a>
-                                <a href="trial_font_web.zip" download>WOFF2 (Web 试用)</a>
-                            </div>
-                        </div>
-                        
-                        <a href="font-immersive-trial.html" target="_blank" class="license-detail-link">沉浸式在线试用 ></a>
                     </div>
                     
                 </div>
@@ -710,7 +733,7 @@
         
     </main>
     
-    <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_Oyv7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="字体应用示例大图" class="full-width-image">
+    <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="字体应用示例大图" class="full-width-image">
 
     <footer class="footer">
         <p class="copyright">© 2025 您的字库品牌. All rights reserved.</p>
@@ -718,10 +741,10 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 【页面加载完成后淡入】
+            // 【性能优化：页面加载完成后淡入】
             document.body.style.opacity = '1';
             
-            // --- 移动端菜单逻辑 (保持不变) ---
+            // --- 移动端菜单逻辑 (从 index.html 复制) ---
             const menuToggle = document.getElementById('menuToggle');
             const mainNav = document.getElementById('mainNav');
             const menuBackdrop = document.getElementById('menuBackdrop'); 
@@ -732,36 +755,35 @@
                 function closeMenu() {
                     mainNav.classList.remove('open');
                     menuBackdrop.classList.remove('open'); 
-                    menuToggle.innerHTML = '☰'; 
-                    html.classList.remove('menu-open'); 
+                    // 详情页的 JS 原本有更改图标的逻辑，这里删除，以保持和首页一致
                 }
                 
                 function toggleMenu() {
                     const isOpen = mainNav.classList.toggle('open');
                     menuBackdrop.classList.toggle('open'); 
-                    html.classList.toggle('menu-open'); 
                     
-                    if (isOpen) {
-                        menuToggle.innerHTML = '✕'; 
-                    } else {
+                    if (!isOpen) {
                         closeMenu(); 
                     }
                 }
                 
+                // 绑定事件
                 menuToggle.addEventListener('click', toggleMenu);
-                menuBackdrop.addEventListener('click', closeMenu); 
+                menuBackdrop.addEventListener('click', closeMenu); // 点击遮罩关闭菜单
                 
+                // 导航项点击后关闭菜单
                 const navItems = mainNav.querySelectorAll('.nav-item');
                 navItems.forEach(item => {
                     item.addEventListener('click', function() {
                         if (mainNav.classList.contains('open')) {
+                            // 延时关闭，以便点击效果能显示
                             setTimeout(closeMenu, 100); 
                         }
                     });
                 });
             }
             
-            // --- 下载按钮下拉菜单逻辑 (内联的下载按钮) ---
+            // --- 下载按钮下拉菜单逻辑 (保持不变) ---
             const downloadDropdown = document.getElementById('downloadDropdownInline'); 
             
             if(downloadDropdown) {
