@@ -532,7 +532,8 @@
                 margin: 0 auto;
                 padding: 40px 5%; 
                 color: var(--text-color); 
-                text-align: center; 
+                /* 关键修改：将居中对齐改为左对齐 */
+                text-align: left; 
             }
 
             .hero-content h1 { font-size: 2.8rem; margin-bottom: 12px; }
@@ -542,7 +543,8 @@
                 color: var(--sub-text-color); 
             }
             .hero-buttons { 
-                justify-content: center; 
+                /* 关键修改：将按钮组居中对齐改为左对齐 */
+                justify-content: flex-start; 
                 gap: 20px; 
             }
             
