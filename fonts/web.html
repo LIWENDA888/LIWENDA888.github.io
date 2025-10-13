@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字体效果在线预览 - 底部单 Dock 栏（自适应最终优化版）</title>
+    <style>
+        /* 基础重置和变量定义 */
+        :root {
+            --bg-color: #f7f7f7; 
+            --text-color: #1a1a1a;
+            --dock-bg: rgba(255, 255, 255, 0.85); 
+            --dock-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); 
+            --primary-color: #007bff;
+            --border-color: #e0e0e0;
+            --card-bg-color: #ffffff;
+            --dock-height: 140px; 
+            --global-font-size: 14px; 
+        }
+
+        /* 深色模式 */
+        .dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --dock-bg: rgba(42, 42, 42, 0.85);
+            --dock-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            --border-color: #333333;
+            --card-bg-color: #2a2a2a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: var(--global-font-size); 
+            scroll-behavior: smooth; 
+        }
+
+        /* ----------------------- 底部主 Dock 栏 样式 ----------------------- */
+        .main-dock {
+            position: fixed;
+            bottom: 20px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            max-width: 1000px; 
+            width: 95%; 
+            height: var(--dock-height);
+            border-radius: 16px; 
+            box-shadow: var(--dock-shadow); 
+            background-color: var(--dock-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px; 
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); 
+        }
+        
+        /* 桌面/平板布局：允许换行，依靠浏览器自动压缩 */
+        .dock-main-row {
+            display: flex;
+            justify-content: flex-start; 
+            align-items: center;
+            /* 关键优化 1: 减小元素间距，增强压缩能力 */
+            gap: 15px; 
+            padding-bottom: 8px; 
+            border-bottom: 1px dashed var(--border-color); 
+            margin-bottom: 8px; 
+            flex-wrap: wrap; 
+        }
+
+        .header-logo img {
+            height: 28px; 
+            width: auto; 
+            vertical-align: middle; 
+            flex-shrink: 0; 
+        }
+        
+        /* ** 自适应优化 2: 搜索输入框使用 flex-basis 替代 width，并降低 min-width ** */
+        .search-container {
+            position: relative;
+            flex-basis: 200px; /* 期望的基准宽度 */
+            flex-shrink: 1; /* 允许收缩 */
+            min-width: 140px; /* 略微降低最小宽度，给滑块更多空间 */
+        }
+
+        /* ** 自适应优化 3: 滑块组 min-width 降低，内部间距收紧 ** */
+        .global-sliders {
+            display: flex;
+            gap: 10px; /* 降低滑块间的间距 */
+            flex-wrap: nowrap; 
+            flex-grow: 1; 
+            min-width: 260px; /* 略微降低最小宽度 */
+        }
+
+        .slider-control {
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+            font-size: var(--global-font-size); 
+            flex-shrink: 1; 
+            min-width: 110px; /* 降低单个控制器的最小宽度 */
+        }
+        .slider-control span:first-child {
+            white-space: nowrap;
+            min-width: 28px; /* 略微收紧文本宽度 */
+        }
+
+        /* 搜索输入框和滑块（保持不变） */
+        .search-input {
+            width: 100%; 
+            padding: 7px 30px 7px 10px; 
+            border: 1px solid var(--border-color);
+            border-radius: 8px; 
+            box-sizing: border-box;
+            font-size: 14px; 
+            background-color: transparent; 
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit; 
+        }
+        
+        .clear-search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.6;
+            transition: color 0.2s, opacity: 0.2s;
+            display: none; 
+        }
+        .clear-search-btn.visible {
+            display: block; 
+        }
+
+        input[type="range"] {
+            width: 100px; 
+            -webkit-appearance: none;
+            height: 5px; 
+            background: var(--border-color);
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb, 
+        input[type="range"]::-moz-range-thumb {
+            width: 14px; 
+            height: 14px; 
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+        }
+
+        /* 深色模式切换按钮：桌面端右侧靠边优化 */
+        .dark-mode-toggle {
+            cursor: pointer;
+            width: 28px; 
+            height: 28px; 
+            display: flex; 
+            justify-content: center;
+            align-items: center; 
+            line-height: 1; 
+            border: 1px solid var(--text-color);
+            border-radius: 50%; 
+            font-size: 13px; 
+            user-select: none;
+            flex-shrink: 0;
+            /* 关键：将其推到最右侧 */
+            margin-left: auto; 
+            transition: color 0.3s, border-color 0.3s;
+        }
+        
+        /* 底部文本框 */
+        .text-input {
+            flex-grow: 1; 
+            width: 100%;
+            min-height: 40px; 
+            padding: 8px 10px; 
+            border: 1px solid var(--border-color);
+            border-radius: 8px; 
+            box-sizing: border-box;
+            font-size: 15px; 
+            background-color: transparent; 
+            color: var(--text-color);
+            resize: none;
+            outline: none;
+            font-family: inherit; 
+            margin-top: 0; 
+        }
+
+        /* 主体内容 padding 调整 */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px 30px calc(var(--dock-height) + 50px); 
+            overflow-y: auto;
+        }
+        
+        /* (字体卡片样式，保持不变) */
+        .font-preview-card {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px 10px; 
+            border-bottom: 1px dashed var(--border-color);
+            flex-wrap: wrap;
+            gap: 10px; 
+        }
+
+        .font-info {
+            display: flex; 
+            align-items: center;
+            gap: 10px; 
+        }
+
+        .font-name {
+            font-size: 18px; 
+            font-weight: 600;
+        }
+
+        .font-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+            font-size: var(--global-font-size); 
+            flex-wrap: wrap;
+            margin-left: auto; 
+        }
+
+        .font-sliders {
+            display: flex;
+            gap: 12px; 
+            flex-wrap: wrap;
+        }
+        .font-sliders input[type="range"] {
+             width: 80px; 
+        }
+
+        .action-button {
+            background: none;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 6px 12px; 
+            border-radius: 999px; 
+            cursor: pointer;
+            font-size: 14px; 
+            text-decoration: none;
+            transition: color 0.3s, border-color 0.3s;
+            white-space: nowrap; 
+        }
+        .action-button.info-btn {
+            padding: 3px 10px; 
+            font-size: 13px;
+        }
+        
+        .font-preview-area {
+            min-height: 150px; 
+            width: 100%;
+            padding: 30px 25px; 
+            line-height: 1.4; 
+            word-break: break-word;
+            box-sizing: border-box;
+            white-space: normal;
+        }
+        
+        .font-preview-text {
+            outline: none;
+            cursor: text;
+        }
+
+
+        /* ===================== 手机端优化（小于 768px） - 必须保留 ===================== */
+        @media (max-width: 768px) {
+            
+            :root {
+                --dock-height: 120px; 
+                --global-font-size: 13px; 
+            }
+
+            .main-content {
+                padding: 15px 15px calc(var(--dock-height) + 30px); 
+            }
+
+            .main-dock {
+                bottom: 10px; 
+                padding: 10px 15px; 
+                border-radius: 12px;
+                width: 98%;
+                height: var(--dock-height);
+            }
+            
+            .header-logo img {
+                height: 22px; 
+            }
+            
+            /* 手机端: 移除自动外边距，靠左排列 */
+            .dark-mode-toggle {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+                margin-left: unset;
+                order: 2; 
+            }
+            
+            /* ** 手机端优化：隐藏搜索框 ** */
+            .search-container {
+                display: none; 
+            }
+
+            /* 手机端：第一行布局调整 */
+            .dock-main-row {
+                flex-wrap: nowrap; 
+                padding-bottom: 6px; 
+                margin-bottom: 6px;
+                gap: 15px; 
+                justify-content: flex-start;
+            }
+            
+            .global-sliders {
+                order: 3; 
+                flex-grow: 1; 
+                min-width: unset; 
+                gap: 10px; 
+                flex-wrap: nowrap; 
+                width: 100%;
+            }
+            
+            .header-logo {
+                order: 1;
+            }
+            
+            .slider-control {
+                min-width: unset; 
+                font-size: 12px;
+                gap: 5px;
+                flex-shrink: 1;
+            }
+            
+            .slider-control input[type="range"] {
+                width: 40px; 
+                height: 3px; 
+            }
+            
+            .text-input {
+                 font-size: 13px;
+                 min-height: 30px; 
+                 padding: 6px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content" id="font-previews-container">
+        </div>
+
+    <div class="main-dock">
+        <div class="dock-main-row">
+            <div class="header-logo" style="order: 1;">
+                <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="Logo">
+            </div>
+            
+            <div class="search-container" style="order: 2;">
+                <input type="text" class="search-input" id="font-search-input" placeholder="输入字体名，搜索多款空格隔开...">
+                <button class="clear-search-btn" id="clear-search-btn">×</button>
+            </div>
+            
+            <div class="global-sliders" style="order: 3;">
+                <div class="slider-control">
+                    <span>字号</span>
+                    <input type="range" id="global-font-size-slider" min="16" max="96" value="48">
+                    <span id="global-font-size-value">48px</span>
+                </div>
+                <div class="slider-control">
+                    <span>间距</span>
+                    <input type="range" id="global-letter-spacing-slider" min="-2" max="5" step="0.1" value="0">
+                    <span id="global-letter-spacing-value">0px</span>
+                </div>
+            </div>
+
+            <div class="dark-mode-toggle" id="dark-mode-toggle" style="order: 4;"></div> 
+        </div>
+        
+        <textarea class="text-input" id="global-text-input" placeholder="请在这里输入预览文本，所有字体预览将同步显示..."></textarea>
+    </div>
+
+    <script>
+        // ******************************************************
+        // !!! 字体数据集中维护：使用 localFontPath 存储完整路径 !!!
+        // ******************************************************
+        const fontData = [
+            { 
+                id: 'font1', 
+                name: '思源黑体 (Source Han Sans)', 
+                fontFamily: 'SourceHanSansVariable', // CSS font-family name
+                defaultWeight: 400, 
+                defaultWidth: 100, 
+                minWeight: 100, 
+                maxWeight: 900, 
+                minWidth: 75, 
+                maxWidth: 100, 
+                infoUrl: 'https://www.adobe.com/products/source-han.html', 
+                downloadUrl: 'https://github.com/adobe-fonts/source-han-sans/releases', 
+                buyUrl: '',
+                localFontPath: 'https://example.com/assets/fonts/SourceHanSansVariable.ttf' // 示例路径，请替换
+            },
+            { 
+                id: 'font2', 
+                name: '站酷快乐体 (ZCOOL KuaiLe)', 
+                fontFamily: 'ZCOOLKuaiLe', 
+                defaultWeight: 400, 
+                defaultWidth: 100, 
+                minWeight: 400, 
+                maxWeight: 400, 
+                minWidth: 100, 
+                maxWidth: 100, 
+                infoUrl: 'http://www.zcool.com.cn/special/zcoolkuaile/index.html', 
+                downloadUrl: 'https://zcool.com.cn/special/zcoolkuaile/download.html', 
+                buyUrl: '',
+                localFontPath: '/Users/YourName/Desktop/project/fonts/ZCOOLKuaiLe-Regular.ttf' // 示例路径，请替换
+            },
+            { 
+                id: 'font3', 
+                name: '霞鹜文楷 (LXGW WenKai)', 
+                fontFamily: 'LXGWWenKai', 
+                defaultWeight: 400, 
+                defaultWidth: 100, 
+                minWeight: 300, 
+                maxWeight: 700, 
+                minWidth: 100, 
+                maxWidth: 100, 
+                infoUrl: 'https://github.com/lxgw/LxgwWenKai', 
+                downloadUrl: 'https://github.com/lxgw/LxgwWenKai/releases', 
+                buyUrl: 'https://example.com/buy/lxgwwenkai',
+                localFontPath: '/resources/LXGWWenKai-L-Variable.woff2' // 示例路径，请替换
+            },
+            { 
+                id: 'font4', 
+                name: '阿里巴巴普惠体 (Alibaba PuHuiTi)', 
+                fontFamily: 'AlibabaPuHuiTi', 
+                defaultWeight: 400, 
+                defaultWidth: 100, 
+                minWeight: 300, 
+                maxWeight: 800, 
+                minWidth: 100, 
+                maxWidth: 100, 
+                infoUrl: 'https://fonts.alibabadesign.com/', 
+                downloadUrl: 'https://fonts.alibabadesign.com/download', 
+                buyUrl: '',
+                localFontPath: '/resources/Alibaba-PuHuiTi-Regular.ttf' // 示例路径，请替换
+            },
+        ];
+
+        // 默认文本
+        const defaultText = "汉字之美，方寸之间见天地。Beautiful Chinese Characters.";
+        
+        // 存储键名，用于持久化设置
+        const STORAGE_KEYS = {
+            MODE: 'darkMode',
+            TEXT: 'previewText',
+            FONT_SIZE: 'globalFontSize',
+            SPACING: 'globalSpacing'
+        };
+
+
+        // 获取DOM元素
+        const globalFontSizeSlider = document.getElementById('global-font-size-slider');
+        const globalFontSizeValue = document.getElementById('global-font-size-value');
+        const globalLetterSpacingSlider = document.getElementById('global-letter-spacing-slider');
+        const globalLetterSpacingValue = document.getElementById('global-letter-spacing-value');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const globalTextInput = document.getElementById('global-text-input');
+        const previewsContainer = document.getElementById('font-previews-container');
+        
+        // 新增搜索相关元素 (桌面端仍需保留)
+        const fontSearchInput = document.getElementById('font-search-input');
+        const clearSearchBtn = document.getElementById('clear-search-btn');
+
+
+        // --- New Function: Load and Save Settings ---
+        /** 从 localStorage 加载设置，并检查系统深色模式偏好 */
+        function loadSettings() {
+            // Load Dark Mode
+            const savedMode = localStorage.getItem(STORAGE_KEYS.MODE);
+            if (savedMode === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else if (savedMode === null) {
+                // 如果没有保存的设置，则检查系统偏好
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.body.classList.add('dark-mode');
+                }
+            }
+            
+            // Load Text Input
+            const savedText = localStorage.getItem(STORAGE_KEYS.TEXT);
+            globalTextInput.value = savedText || defaultText;
+            
+            // Load Font Size
+            const savedFontSize = localStorage.getItem(STORAGE_KEYS.FONT_SIZE);
+            if (savedFontSize) {
+                globalFontSizeSlider.value = savedFontSize;
+            }
+            
+            // Load Letter Spacing
+            const savedSpacing = localStorage.getItem(STORAGE_KEYS.SPACING);
+            if (savedSpacing) {
+                globalLetterSpacingSlider.value = savedSpacing;
+            }
+        }
+
+        /** 将设置保存到 localStorage */
+        function saveSetting(key, value) {
+            localStorage.setItem(key, value);
+        }
+
+        // 动态注入 @font-face 规则 (保持不变)
+        function injectLocalFontFaces() {
+            const fontStyle = document.createElement('style');
+            let css = '';
+            
+            fontData.forEach(font => {
+                if (font.localFontPath) {
+                    const fontPath = font.localFontPath;
+                    
+                    // 自动判断字体类型（根据文件扩展名）
+                    let format = 'truetype';
+                    if (fontPath.endsWith('.woff2')) {
+                        format = 'woff2';
+                    } else if (fontPath.endsWith('.otf')) {
+                        format = 'opentype';
+                    } else if (fontPath.endsWith('.ttf')) {
+                        format = 'truetype';
+                    }
+                    
+                    // 构造 @font-face 规则
+                    css += `
+                        @font-face {
+                            font-family: '${font.fontFamily}';
+                            src: url('${fontPath}') format('${format}');
+                            font-weight: ${font.minWeight} ${font.maxWeight};
+                            font-stretch: ${font.minWidth}% ${font.maxWidth}%;
+                            font-display: swap; 
+                        }
+                    `;
+                }
+            });
+
+            fontStyle.textContent = css;
+            document.head.appendChild(fontStyle);
+        }
+
+        // --- 1. 字体预览卡片生成函数 (保持不变) ---
+        function createFontPreviewCard(font) {
+            const card = document.createElement('div');
+            card.className = 'font-preview-card';
+            card.setAttribute('data-font-id', font.id);
+            // 存储小写和去除了括号的名称，便于搜索
+            const searchableName = font.name.toLowerCase().replace(/\s*\(.*?\)\s*/g, ''); 
+            card.setAttribute('data-font-name', searchableName); 
+
+            const supportsWeight = font.minWeight !== font.maxWeight;
+            const supportsWidth = font.minWidth !== font.maxWidth;
+            
+            const showBuyButton = font.buyUrl && font.buyUrl !== '';
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="font-info">
+                        <div class="font-name">${font.name}</div>
+                        <a href="${font.infoUrl || '#'}" class="action-button info-btn" target="_blank">了解更多</a>
+                    </div>
+                    <div class="font-controls">
+                        <div class="font-sliders">
+                            ${supportsWeight ? `
+                                <div class="slider-control">
+                                    <span>字重:</span>
+                                    <input type="range" class="font-weight-slider" data-font-id="${font.id}" min="${font.minWeight}" max="${font.maxWeight}" step="100" value="${font.defaultWeight}">
+                                    <span class="font-weight-value">${font.defaultWeight}</span>
+                                </div>` : ''}
+                            ${supportsWidth ? `
+                                <div class="slider-control">
+                                    <span>宽度:</span>
+                                    <input type="range" class="font-width-slider" data-font-id="${font.id}" min="${font.minWidth}" max="${font.maxWidth}" step="1" value="${font.defaultWidth}">
+                                    <span class="font-width-value">${font.defaultWidth}</span>
+                                </div>` : ''}
+                        </div>
+                        <a href="${font.downloadUrl || '#'}" class="action-button download-btn" target="_blank">下载</a>
+                        ${showBuyButton ? 
+                            `<a href="${font.buyUrl}" class="action-button buy-btn" target="_blank">购买</a>` : ''
+                        }
+                    </div>
+                </div>
+                <div class="font-preview-area">
+                    <div 
+                        class="font-preview-text" 
+                        data-font-id="${font.id}" 
+                        style="
+                            font-family: ${font.fontFamily}; 
+                            font-weight: ${font.defaultWeight}; 
+                            font-stretch: ${font.defaultWidth}%; 
+                        "
+                        contenteditable="true"
+                    >${globalTextInput.value || defaultText}</div>
+                </div>
+            `;
+            
+            // 绑定事件监听器
+            const weightSlider = card.querySelector('.font-weight-slider');
+            const widthSlider = card.querySelector('.font-width-slider');
+            const previewText = card.querySelector('.font-preview-text');
+
+            if (weightSlider) {
+                weightSlider.addEventListener('input', (e) => {
+                    const weight = e.target.value;
+                    previewText.style.fontWeight = weight;
+                    card.querySelector('.font-weight-value').textContent = weight;
+                });
+            }
+
+            if (widthSlider) {
+                widthSlider.addEventListener('input', (e) => {
+                    const width = e.target.value;
+                    previewText.style.fontStretch = `${width}%`;
+                    card.querySelector('.font-width-value').textContent = width;
+                });
+            }
+
+            previewText.addEventListener('input', (e) => {
+                // 可选：将卡片内修改同步到全局输入框
+                // globalTextInput.value = e.target.textContent;
+                // updateAllFontPreviews(e.target.textContent);
+            });
+
+            return card;
+        }
+
+        function initializeFontPreviews() {
+            previewsContainer.innerHTML = '';
+            fontData.forEach(font => {
+                previewsContainer.appendChild(createFontPreviewCard(font));
+            });
+        }
+        
+        // --- 2. 搜索/过滤功能实现 (保留，仅在桌面端可见和使用) ---
+        
+        function filterFontPreviews(query) {
+            // 将查询转换为小写并按空格分割成关键词数组
+            const keywords = query.toLowerCase().split(/\s+/).filter(k => k.length > 0); 
+            
+            // 控制清空按钮的显示
+            if (query.length > 0) {
+                clearSearchBtn.classList.add('visible');
+            } else {
+                clearSearchBtn.classList.remove('visible');
+            }
+            
+            document.querySelectorAll('.font-preview-card').forEach(card => {
+                const fontName = card.getAttribute('data-font-name');
+                let isMatch = false;
+
+                if (keywords.length === 0) {
+                    isMatch = true; // 无关键词时显示所有
+                } else {
+                    // 逻辑：匹配任一关键词 (OR 关系)
+                    isMatch = keywords.some(keyword => fontName.includes(keyword));
+                }
+
+                if (isMatch) {
+                    card.style.display = ''; // 显示卡片
+                } else {
+                    card.style.display = 'none'; // 隐藏卡片
+                }
+            });
+        }
+
+
+        // --- 3. 底部 Dock 栏控制事件 ---
+
+        globalFontSizeSlider.addEventListener('input', (e) => {
+            const fontSize = e.target.value + 'px';
+            globalFontSizeValue.textContent = e.target.value + 'px';
+
+            document.querySelectorAll('.font-preview-text').forEach(preview => {
+                preview.style.fontSize = fontSize;
+            });
+            saveSetting(STORAGE_KEYS.FONT_SIZE, e.target.value); // 保存状态
+        });
+
+        globalLetterSpacingSlider.addEventListener('input', (e) => {
+            const spacing = e.target.value + 'px';
+            globalLetterSpacingValue.textContent = spacing;
+
+            document.querySelectorAll('.font-preview-text').forEach(preview => {
+                preview.style.letterSpacing = spacing;
+            });
+            saveSetting(STORAGE_KEYS.SPACING, e.target.value); // 保存状态
+        });
+
+        function updateDarkModeToggleText(isDark) {
+            darkModeToggle.textContent = isDark ? '黑' : '白'; 
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            updateDarkModeToggleText(isDark);
+            saveSetting(STORAGE_KEYS.MODE, isDark ? 'dark' : 'light'); // 保存状态
+        });
+
+        // 搜索输入事件 (保留，仅在桌面端有效)
+        if (fontSearchInput) {
+            fontSearchInput.addEventListener('input', (e) => {
+                filterFontPreviews(e.target.value);
+            });
+        }
+
+        // 清空按钮事件 (保留，仅在桌面端有效)
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', () => {
+                fontSearchInput.value = ''; // 清空搜索框
+                filterFontPreviews(''); // 显示所有字体并隐藏清空按钮
+                fontSearchInput.focus(); // 聚焦搜索框
+            });
+        }
+        
+        // --- 4. 文本输入控制事件 ---
+
+        function updateAllFontPreviews(newText) {
+             document.querySelectorAll('.font-preview-text').forEach(preview => {
+                // 移除 contenteditable 带来的额外 DOM 节点，只保留文本
+                preview.textContent = newText;
+            });
+        }
+
+        globalTextInput.addEventListener('input', (e) => {
+            updateAllFontPreviews(e.target.value);
+            saveSetting(STORAGE_KEYS.TEXT, e.target.value); // 保存状态
+        });
+
+
+        // --- 5. 页面加载完成后执行初始化 ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 0. LOAD SETTINGS FIRST
+            loadSettings();
+
+            // 1. 注入本地字体文件定义
+            injectLocalFontFaces();
+
+            // 2. 设置初始值显示 (并应用加载的样式)
+            const initialFontSize = globalFontSizeSlider.value + 'px';
+            globalFontSizeValue.textContent = initialFontSize;
+            const initialSpacing = globalLetterSpacingSlider.value + 'px';
+            globalLetterSpacingValue.textContent = initialSpacing;
+
+            // 3. 初始化深色模式按钮文本
+            updateDarkModeToggleText(document.body.classList.contains('dark-mode'));
+            
+            // 4. 初始创建所有卡片
+            initializeFontPreviews(); 
+            
+            // 5. 应用加载的全局样式到所有新创建的卡片
+            document.querySelectorAll('.font-preview-text').forEach(preview => {
+                preview.style.fontSize = initialFontSize;
+                preview.style.letterSpacing = initialSpacing;
+            });
+            
+            // 6. 确保在页面加载时清空按钮是隐藏的（因为搜索框初始为空）
+            if (fontSearchInput) {
+                filterFontPreviews(fontSearchInput.value); 
+            }
+        });
+    </script>
+
+</body>
+</html>
