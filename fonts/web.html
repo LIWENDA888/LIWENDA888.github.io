@@ -464,8 +464,8 @@
             },
             { 
                 id: 'font4', 
-                name: '阿里巴巴普惠体 (Alibaba PuHuiTi)', 
-                fontFamily: 'AlibabaPuHuiTi', 
+                name: '阿里巴巴方圆体 (Alibaba FangYuanTi)', 
+                fontFamily: 'AlibabaFangYuanTiVF', 
                 defaultWeight: 400, 
                 defaultWidth: 100, 
                 minWeight: 300, 
@@ -475,7 +475,8 @@
                 infoUrl: 'https://fonts.alibabadesign.com/', 
                 downloadUrl: 'https://fonts.alibabadesign.com/download', 
                 buyUrl: '',
-                localFontPath: '/resources/Alibaba-PuHuiTi-Regular.ttf' // 示例路径，请替换
+                // ** 根据用户要求更新字体路径 **
+                localFontPath: 'https://cdn.jsdelivr.net/gh/LIWENDA888/LIWENDA888.github.io@main/fonts/ziku/AlimamaFangYuanTiVF-VF.woff' 
             },
         ];
 
@@ -558,6 +559,8 @@
                         format = 'opentype';
                     } else if (fontPath.endsWith('.ttf')) {
                         format = 'truetype';
+                    } else if (fontPath.endsWith('.woff')) { // ** 新增对 .woff 的支持 **
+                         format = 'woff';
                     }
                     
                     // 构造 @font-face 规则
@@ -577,7 +580,7 @@
             document.head.appendChild(fontStyle);
         }
 
-        // --- 1. 字体预览卡片生成函数 (保持不变) ---
+        // --- 1. 字体预览卡片生成函数 (调整字重滑块的 step) ---
         function createFontPreviewCard(font) {
             const card = document.createElement('div');
             card.className = 'font-preview-card';
@@ -602,7 +605,7 @@
                             ${supportsWeight ? `
                                 <div class="slider-control">
                                     <span>字重:</span>
-                                    <input type="range" class="font-weight-slider" data-font-id="${font.id}" min="${font.minWeight}" max="${font.maxWeight}" step="100" value="${font.defaultWeight}">
+                                    <input type="range" class="font-weight-slider" data-font-id="${font.id}" min="${font.minWeight}" max="${font.maxWeight}" step="1" value="${font.defaultWeight}">
                                     <span class="font-weight-value">${font.defaultWeight}</span>
                                 </div>` : ''}
                             ${supportsWidth ? `
