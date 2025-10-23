@@ -428,11 +428,17 @@
             background: none;
             border: none;
             color: var(--primary-color);
-            width: var(--input-height); 
+            /* 修正：取消固定宽度，让内容决定宽度，并增加 padding 确保可点击区域 */
+            width: auto; 
+            padding: 0 20px; 
             height: 100%;
             cursor: pointer;
             font-size: 1.4rem;
             transition: color var(--transition-speed) ease;
+            /* 确保在输入框内部居中对齐 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .search-btn:hover {
             color: var(--accent-color);
@@ -490,8 +496,9 @@
                 width: calc(100% - 30px); 
                 padding: 15px 0 15px; 
             }
+            /* 修正：在移动端减少输入区域的左右内边距，使其更贴近屏幕边缘 */
             .input-group-wrapper {
-                padding: 0 15px;
+                padding: 0 10px; /* 原为 15px，改为 10px 或更少 */
             }
              .copy-notification.show {
                 bottom: calc(var(--input-height) + 30px);
@@ -510,6 +517,10 @@
              .card-character { font-size: 2.3rem; }
             .copyright-info {
                 font-size: 0.7rem;
+            }
+            /* 修正：在小屏幕上再次减少 padding */
+            .input-group-wrapper {
+                padding: 0 8px; 
             }
         }
     </style>
