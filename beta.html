@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>字造起点黑组件化2026：双轴可变黑体项目完整指南 (精美版)</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 30px;
+            background-color: #f7f9fc; /* 浅背景 */
+            color: #333;
+        }
+
+        /* 标题和头部 */
+        .header {
+            background-color: #0056b3; /* 深蓝色头部 */
+            color: white;
+            padding: 25px 30px;
+            margin: -30px -30px 30px -30px;
+            border-bottom: 5px solid #00aaff; /* 科技蓝高亮 */
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        .header p {
+            margin-top: 5px;
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        /* 表格/卡片容器 */
+        table {
+            width: 100%;
+            border-collapse: separate; /* 启用圆角和边距 */
+            border-spacing: 0 15px; /* 卡片之间的间距 */
+        }
+
+        /* 阶段标题 (卡片头部) */
+        .stage-title {
+            background-color: #e6f7ff; /* 浅蓝背景 */
+            color: #0056b3;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2em;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 表格内容 (卡片主体) */
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+            vertical-align: top;
+            background-color: white;
+        }
+
+        th {
+            background-color: #f2f7ff; /* 列头背景 */
+            color: #333;
+            font-weight: 600;
+        }
+
+        td:first-child {
+            background-color: #fcfcfc;
+            font-weight: bold;
+            width: 5%;
+            text-align: center;
+        }
+
+        /* 底部圆角 */
+        tr:last-child td:first-child { border-bottom-left-radius: 8px; }
+        tr:last-child td:last-child { border-bottom-right-radius: 8px; }
+
+
+        /* 重点提示样式 */
+        .action {
+            color: #d9534f; /* 红色：操作 */
+            font-weight: bold;
+        }
+        .key-point {
+            color: #008000; /* 绿色：关键技术要求 */
+            font-weight: bold;
+            font-style: italic;
+        }
+        .tool {
+            color: #00aaff; /* 蓝色：工具/快捷键 */
+            font-weight: bold;
+        }
+        .warning {
+            color: #ff9900; /* 橙色：重要提醒 */
+            font-weight: bold;
+            background-color: #fffbe6;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .icon-tip { font-size: 1.2em; margin-right: 5px; }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>字造起点黑组件化2026</h1>
+    <p>双轴可变黑体项目完整指南 | 结构与风格分离的最佳实践</p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="4" class="stage-title">阶段一：宏观规划与环境搭建 <span class="icon-tip">🛠️</span> (结构骨架)</th>
+        </tr>
+        <tr>
+            <th style="width: 5%;">步骤</th>
+            <th style="width: 15%;">任务名称</th>
+            <th style="width: 30%;">核心操作 (<span class="tool">工具/快捷键</span>)</th>
+            <th style="width: 50%;">关键技术要求与检查项</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>**结构规划**</td>
+            <td>1. 确定 <span class="action">两级组件划分</span>（一级笔画，二级结构）。<br> 2. 识别并命名<span class="action">上下文差异笔画</span>（如 uni-横-内/底）。<br> 3. 确定二级组件的**依赖和组装顺序**。</td>
+            <td><span class="key-point">✅ 兼容性目标：</span>未来的风格切换只需替换**一级组件**（风格核心）。二级组件的定位和结构保持风格中立。</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>**环境搭建**</td>
+            <td>1. 在 <span class="tool">Glyphs</span> 中新建模板组件并 <span class="action">复制重命名</span>所有一级组件。<br> 2. <span class="action">统一设置字宽</span>（如 $800$）和 $8$ 个母版。<br> 3. 创建 <span class="tool">字形指导线</span>，设置居中对齐的“设计约束框”。</td>
+            <td><span class="warning">⚠️ 定位规则：</span>所有 $8$ 个母版的**字宽必须一致**。组件的**几何中心**必须对齐到 $x=400, y=0$ (基线)。</td>
+        </tr>
+    </tbody>
+
+    <thead>
+        <tr>
+            <th colspan="4" class="stage-title">阶段二：轮廓制作与兼容性修复 <span class="icon-tip">💡</span> (风格核心)</th>
+        </tr>
+        <tr>
+            <th style="width: 5%;">步骤</th>
+            <th style="width: 15%;">任务名称</th>
+            <th style="width: 30%;">核心操作 (<span class="tool">工具/快捷键</span>)</th>
+            <th style="width: 50%;">关键技术要求与检查项</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>3</td>
+            <td>**轮廓生成**</td>
+            <td>1. 在 <span class="tool">AI</span> 中绘制 $4$ 个细体母版对应的<span class="action">中轴线</span>。<br> 2. <span class="action">导入</span> Glyphs，并使用 <span class="tool">轮廓偏移</span>（$\text{Cmd}+\text{Opt}+\text{O}$）生成 $8$ 个母版的封闭轮廓。</td>
+            <td><span class="key-point">✅ 兼容性基础：</span> $4$ 条中轴线轮廓在 AI 中必须保证**节点数和顺序的完美一致**。避免 AI 轮廓污染，导出前需清理。</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>**强制修复**</td>
+            <td>1. 对 $8$ 个母版轮廓进行 <span class="action">手动节点匹配</span>：确保**节点数量、顺序、路径方向和起点**完全一致。<br> 2. <span class="action">放置平滑节点</span>：在所有曲线的极值点上放置平滑节点 ($\text{Cmd}+\text{Opt}+\text{Click}$)。</td>
+            <td><span class="key-point">✅ 检查：</span>使用 <span class="tool">闪电图标</span> 检查，确保所有一级组件 $8$ 个母版之间**无任何兼容性报错**。插值预览必须平滑，无跳动。</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>**风格微调**</td>
+            <td>1. <span class="action">圆角优化</span>：根据需要对 $8$ 个母版的圆角进行精细调整。<br> 2. <span class="action">对齐修正</span>：再次确认轮廓的**几何中轴线**严格对齐到 $x=400, y=0$。</td>
+            <td><span class="warning">⚠️ 居中要求：</span>任何轮廓的微调都不能打破**中轴线的居中对齐**，否则会导致重量轴插值不稳定。</td>
+        </tr>
+    </tbody>
+
+    <thead>
+        <tr>
+            <th colspan="4" class="stage-title">阶段三：组装、定位与最终输出 <span class="icon-tip">📐</span> (应用与验证)</th>
+        </tr>
+        <tr>
+            <th style="width: 5%;">步骤</th>
+            <th style="width: 15%;">任务名称</th>
+            <th style="width: 30%;">核心操作 (<span class="tool">工具/快捷键</span>)</th>
+            <th style="width: 50%;">关键技术要求与检查项</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>6</td>
+            <td>**二级组件组装**</td>
+            <td>1. 使用 <span class="tool">组件引用</span>（$\text{Cmd}+\text{Shift}+\text{C}$）组装二级结构。<br> 2. **核心工作：** 在 $Bold$ 母版中，<span class="action">调整 $x, y$ 坐标，拉宽内部间距</span>，防止笔画交叠糊掉。</td>
+            <td><span class="key-point">✅ 结构优化：</span>利用二级组件（如 `struct-口`），**统一**所有字形中**内白空间**和笔画间距。</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>**主字形组装**</td>
+            <td>通过引用已完成的一级和二级组件，组装最终的成品汉字。<span class="action">调整组件在字面框中的最终定位和布局</span>。</td>
+            <td><span class="warning">⚠️ 重量分配：</span>在 Bold 母版中，检查字形中轴线附近和边缘的笔画粗细，确保视觉重量分布均匀。</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>**导出与测试**</td>
+            <td>1. 导出 <span class="tool">Variable Font</span> 文件（OTF 或 TTF）。<br> 2. 在 <span class="tool">Illustrator/InDesign</span> 等外部软件中测试**轴的拖动效果**和**实际排版效果**。</td>
+            <td><span class="key-point">✅ 最终验证：</span>确认所有轴拖动时，字形无跳动、无扭曲，且 $Narrow \leftrightarrow Wide$ 比例变化正常。</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
