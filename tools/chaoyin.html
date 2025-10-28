@@ -4,21 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>超引-形近字符查询神器 - 自在造字</title>
-    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。">
     <meta name="keywords" content="字造, 字库, 字体设计, 设计导航，设计工具">
     <meta name="author" content="字造">
     <meta property="og:title" content="字造 - 专注分享字体领域优质内容">
-    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。了解更多关于字造的信息。">
-    <meta property="og:image" content="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/9BXx/1108X308/logo.png">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
+    <meta property="og:description" content="字造工具箱，提供优质的字库产品和设计资源。">
     <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* 主题颜色 */
+            /* 主题颜色 - 默认浅色模式 */
             --primary-color: #FF7A00; 
             --accent-color: #FF5722;
             --text-color: #1A1A1A;
@@ -30,10 +27,9 @@
             --card-bg: #FFFFFF;
             --border-color: #E0E0E0;
             --user-bubble-bg: #E8E8E8;
-            --ai-bubble-bg: rgba(255, 255, 255, 0.95); 
+            --ai-bubble-bg: rgba(255, 255, 255, 0.75); 
             
             /* 间距和尺寸 */
-            --header-height: 60px; 
             --input-height: 50px; 
             --max-content-width: 900px;
             
@@ -45,40 +41,30 @@
             --border-radius-large: 16px; 
             --border-radius-small: 10px; 
             --border-radius-card: 12px; 
+            
+            /* 底部栏高度和间距计算 */
+            --footer-total-padding: 30px; 
+            --floating-card-total-height: calc(var(--input-height) + var(--footer-total-padding)); 
+            --copyright-area-height: 35px; /* 底部简洁版权信息高度 */
+            --total-footer-height: calc(var(--floating-card-total-height) + 15px + var(--copyright-area-height)); 
+
+            /* --- 新增/合并：顶部导航和通用样式变量 --- */
+            --deep-grey: #222222;
+            --light-grey: #CCCCCC;
+            --accent-nav-color: #E0B973; /* 区分导航栏的强调色 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --sub-text-color: #6c7a89;
+            --nav-text-color: #1a2a40; /* 导航栏文本色 */
+            /* --- 新增/合并：顶部导航和通用样式变量 --- */
         }
 
-        /* 浅绿色护眼模式 */
-        .eye-care-mode {
-            --bg-color: #E6F3E6; 
-            --body-bg: #F0FFF0; 
-            --card-bg: rgba(255, 255, 255, 0.9); 
-            --border-color: #D3EAD3;
-            --user-bubble-bg: #DCE8DC;
-            --ai-bubble-bg: rgba(255, 255, 255, 0.9);
-            --text-color: #2F4F4F; 
-        }
-
-        /* 深色模式 */
-        .dark-mode {
-            --primary-color: #FF9800;
-            --accent-color: #E64A19;
-            --text-color: #E0E0E0;
-            --light-text: #A0A0A0;
-            --bg-color: #1F1F1F;
-            --body-bg: #000000;
-            --card-bg: #282828;
-            --border-color: #404040;
-            --soft-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.4), 0 2px 8px -2px rgba(0, 0, 0, 0.2);
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            --user-bubble-bg: #3A3A3A;
-            --ai-bubble-bg: rgba(40, 40, 40, 0.95); 
-        }
+        /* 移除 .eye-care-mode 和 .dark-mode 的 CSS 块 */
         
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: all var(--transition-speed) ease; 
         }
         
         body {
@@ -87,63 +73,212 @@
             display: flex;
             flex-direction: column;
             color: var(--text-color);
-            font-family: "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            /* --- 修复：更改为与 fonts.html 统一的通用字体栈 --- */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             line-height: 1.6;
             overflow-x: hidden;
-            padding-top: calc(var(--header-height) + 30px); 
-            padding-bottom: calc(var(--input-height) + 90px); 
+            /* 调整 body padding-top 以适应固定导航栏 */
+            padding-top: calc(61px + 30px); /* 导航栏高度 + 原有的顶部间距 */
+            /* 调整 body padding-bottom 以适应浮动输入框和简洁固定底部栏 */
+            padding-bottom: calc(var(--total-footer-height) + 20px); 
         }
+        
+        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
 
-        /* SVG 图标基础样式 */
-        .icon {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            vertical-align: -0.125em;
-            fill: currentColor;
-        }
-
-        /* 1. 顶部导航栏/Header - 应用更大的圆角 */
+        /* 顶部栏样式 (从 fonts.html 复制) */
         .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            border-bottom: 1px solid var(--light-grey); 
+        }
+
+        .logo { display: block; } 
+        .logo img { height: 28px; max-width: 150px; display: block; }
+
+        .nav { display: flex; align-items: center; }
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        
+        .nav-item-dropdown > a {
+            font-size: 16px; display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+        }
+        
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-nav-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        
+        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        
+        .nav-item-dropdown:hover .dropdown-menu {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        
+        .dropdown-menu a {
+            display: block; padding: 8px 15px; font-size: 15px;
+            white-space: nowrap; border-radius: 4px; margin: 0 8px;
+        }
+
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .backdrop.open { opacity: 1; visibility: visible; }
+        
+        /* 底部栏样式 (简洁固定版) */
+        .simple-footer {
+            /* 关键修改：改为 fixed 定位 */
             position: fixed; 
-            top: 20px; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%;
+            padding: 10px 20px; 
+            text-align: center;
+            background: transparent; 
+            z-index: 50; /* 位于浮动输入框下方 */
+            font-size: 0.85rem;
+            color: var(--light-text);
+            line-height: 1.5;
+        }
+        
+        .simple-footer a {
+            color: var(--light-text);
+        }
+        
+        .simple-footer a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+
+        /* 浮动输入框相关的样式 */
+        .input-footer {
+            position: fixed;
+            /* 定位在 fixed footer 的上方，保持 15px 间距 */
+            bottom: calc(var(--copyright-area-height) + 15px); 
             left: 50%;
             transform: translateX(-50%);
             width: calc(100% - 40px); 
             max-width: var(--max-content-width);
-            height: var(--header-height);
             background-color: var(--ai-bubble-bg);
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            padding: 15px 0 15px; 
             border-radius: var(--floating-radius); 
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 25px; 
             box-shadow: var(--soft-shadow); 
+            z-index: 100; /* 确保在 footer 上方 */
             border: 1px solid var(--border-color); 
         }
+
+        .input-group-wrapper {
+            width: 100%;
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            padding: 0 25px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
         
-        /* 移动端调整顶部栏样式 */
-        @media (max-width: 900px) {
-            .header {
-                top: 15px; 
-                width: calc(100% - 30px); 
-                height: 50px; 
-                padding: 0 15px;
-            }
-            body {
-                padding-top: calc(50px + 25px); 
-            }
+        .footer-main-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px; 
         }
         
         .header-logo img {
             height: 30px;
             vertical-align: middle;
-            margin-right: 10px;
+        }
+        
+        .input-group-container {
+            flex-grow: 1; 
+            min-width: 0; 
+            height: var(--input-height);
+            display: flex;
+            align-items: center;
         }
 
+        .input-group {
+            width: 100%;
+            height: 100%;
+            border-radius: var(--floating-radius); 
+            border: 2px solid var(--border-color); 
+            display: flex;
+            align-items: center;
+            background: var(--card-bg); 
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .input-group:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.18); 
+        }
+        
+        #character-input {
+            flex-grow: 1;
+            border: none;
+            padding: 0 15px; 
+            font-size: 1.5rem;
+            outline: none;
+            background: transparent;
+            color: var(--text-color);
+            font-weight: normal;
+            min-width: 50px; 
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            padding: 0 15px; 
+            height: 100%;
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: color var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; 
+        }
+        .search-btn:hover {
+            color: var(--accent-color);
+        }
+        
+        .search-btn svg.icon {
+            width: 1.2em; 
+            height: 1.2em;
+            fill: currentColor; 
+            display: block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0; 
+        }
+        
         .action-button {
             background: none;
             border: none;
@@ -159,8 +294,8 @@
             color: var(--primary-color);
             background-color: var(--bg-color);
         }
-
-        /* 2. 主内容区/消息流 */
+        
+        /* 主内容区/消息流 */
         .chat-container {
             flex-grow: 1;
             width: 100%;
@@ -175,21 +310,11 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s forwards;
-            scroll-margin-top: calc(var(--header-height) + 30px); 
+            scroll-margin-top: calc(61px + 30px); /* 调整滚动锚点 */
         }
         
-        .message-bubble:last-of-type {
-            border-bottom: none;
-        }
+        .message-bubble:last-of-type { border-bottom: none; }
         
-        /* 优化：对加载完成的消息进行动画延迟，保证顺序 */
-        .message-bubble:nth-child(1) { animation-delay: 0.0s; }
-        .message-bubble:nth-child(2) { animation-delay: 0.1s; }
-        .message-bubble:nth-child(3) { animation-delay: 0.2s; }
-        .message-bubble:nth-child(4) { animation-delay: 0.3s; }
-        .message-bubble:nth-child(5) { animation-delay: 0.4s; }
-
-
         .message-content-wrapper {
             max-width: var(--max-content-width);
             margin: 0 auto;
@@ -228,7 +353,6 @@
             border-radius: var(--border-radius-small); 
         }
         
-        /* 系统消息气泡 - 卡片式设计 */
         .system-bubble .bubble-content {
             background-color: var(--card-bg); 
             box-shadow: var(--card-shadow); 
@@ -237,7 +361,6 @@
             border: 1px solid var(--border-color); 
         }
 
-        /* 结果展示样式 */
         .results-header {
             margin-bottom: 25px; 
             padding-bottom: 10px;
@@ -264,7 +387,6 @@
             font-size: 0.9rem;
         }
         
-        /* 卡片容器 */
         .cards-container {
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(92px, 92px)); 
@@ -336,123 +458,8 @@
             transform: scale(1.1);
             color: var(--primary-color);
         }
-
-        /* 默认提示/使用说明样式 */
-        .instructions-content strong {
-            color: var(--primary-color);
-        }
-
-        /* AI 正在思考气泡样式 */
-        .loading-bubble {
-            background-color: var(--user-bubble-bg);
-            color: var(--text-color);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 20px;
-            font-size: 1.05rem;
-        }
         
-        .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            margin: 0 2px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            opacity: 0;
-            animation: dotFade 1.5s infinite ease-in-out;
-        }
-        
-        .dot:nth-child(1) { animation-delay: 0s; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        /* 3. 底部搜索输入框 - 应用更大的圆角并调整间距 */
-        .input-footer {
-            position: fixed;
-            bottom: 20px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px); 
-            max-width: var(--max-content-width);
-            background-color: var(--ai-bubble-bg);
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
-            padding: 15px 0 20px; 
-            border-radius: var(--floating-radius); 
-            box-shadow: var(--soft-shadow); 
-            z-index: 100;
-            border: 1px solid var(--border-color); 
-        }
-
-        .input-group-wrapper {
-            width: 100%;
-            max-width: var(--max-content-width);
-            margin: 0 auto;
-            padding: 0 25px;
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .input-group {
-            width: 100%;
-            height: var(--input-height);
-            border-radius: var(--floating-radius); 
-            border: 2px solid var(--border-color); 
-            display: flex;
-            align-items: center;
-            background: var(--card-bg); 
-            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .input-group:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.18); 
-        }
-        
-        #character-input {
-            flex-grow: 1;
-            border: none;
-            padding: 0 20px;
-            font-size: 1.5rem;
-            outline: none;
-            background: transparent;
-            color: var(--text-color);
-            font-weight: normal;
-        }
-        
-        .search-btn {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            /* 修正：取消固定宽度，让内容决定宽度，并增加 padding 确保可点击区域 */
-            width: auto; 
-            padding: 0 20px; 
-            height: 100%;
-            cursor: pointer;
-            font-size: 1.4rem;
-            transition: color var(--transition-speed) ease;
-            /* 确保在输入框内部居中对齐 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .search-btn:hover {
-            color: var(--accent-color);
-        }
-
-        /* 版权信息样式 */
-        .copyright-info {
-            margin-top: 8px; 
-            font-size: 0.75rem;
-            color: var(--light-text);
-            text-align: center;
-        }
-
-        /* 4. 复制通知 */
+        /* 复制通知 */
         .copy-notification {
             position: fixed;
             bottom: -50px; 
@@ -469,11 +476,12 @@
         }
         
         .copy-notification.show {
-            bottom: calc(var(--input-height) + 50px);
+            /* 调整通知栏位置，使其显示在浮动输入框上方 */
+            bottom: calc(var(--total-footer-height) + 10px + var(--copyright-area-height)); 
             opacity: 1;
         }
 
-        /* 5. 动画和响应式 */
+        /* 动画和响应式 */
         @keyframes fadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
@@ -481,32 +489,90 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        @keyframes dotFade {
-            0%, 80%, 100% { opacity: 0; }
-            40% { opacity: 1; }
-        }
 
-
-        @media (max-width: 900px) {
+        /* ---------------------------------------------------- */
+        /* 修复：将移动端断点统一为 768px (与 fonts.html 一致) */
+        /* ---------------------------------------------------- */
+        @media (max-width: 768px) {
+            
+            /* 移动端变量调整 */
+            --copyright-area-height: 30px; 
+            --total-footer-height: calc(var(--floating-card-total-height) + 10px + var(--copyright-area-height)); 
+            
+            body { 
+                padding-top: calc(48px + 25px); /* 移动端导航栏高度 + 原有的顶部间距 */
+                padding-bottom: calc(var(--total-footer-height) + 10px); 
+            }
+            
             .message-bubble {
                 padding: 20px 15px;
             }
             .input-footer {
-                bottom: 10px; 
+                bottom: calc(var(--copyright-area-height) + 10px); 
                 width: calc(100% - 30px); 
-                padding: 15px 0 15px; 
+                padding: 10px 0 10px; 
             }
-            /* 修正：在移动端减少输入区域的左右内边距，使其更贴近屏幕边缘 */
             .input-group-wrapper {
-                padding: 0 10px; /* 原为 15px，改为 10px 或更少 */
+                padding: 0 8px; 
             }
-             .copy-notification.show {
-                bottom: calc(var(--input-height) + 30px);
+            .search-btn {
+                padding: 0 10px;
+            }
+            #character-input {
+                padding: 0 10px;
+                font-size: 1.3rem; 
+            }
+            
+             /* 移动端导航栏样式 (从 fonts.html 复制) */
+            .header { padding: 10px 4%; }
+            .menu-toggle { display: block; }
+            
+            .nav {
+                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
+                max-width: none; height: calc(100vh - 48px);
+                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
+                overflow-y: auto; 
+                transform: translateY(-100%); opacity: 0; visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+            }
+
+            .nav.open {
+                transform: translateY(0); opacity: 1; visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+            
+            .backdrop { top: 48px; height: calc(100vh - 48px); }
+
+            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
+            .nav-item-dropdown:last-child { border-bottom: none; }
+
+            .nav-item-dropdown > a {
+                padding: 15px 10px; font-size: 18px; width: 100%;
+                display: flex; justify-content: space-between; 
+            }
+            
+            .nav-item-dropdown > a::after { content: none; } 
+            
+            .nav .nav-item-dropdown .dropdown-menu {
+                display: none; 
+                position: static; 
+                opacity: 1;
+                transform: none;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            
+            .nav .nav-item-dropdown.open .dropdown-menu {
+                display: block !important; 
+            }
+            
+            .dropdown-menu a {
+                padding: 10px 10px; font-size: 16px; margin: 3px 0;
             }
         }
         
         @media (max-width: 576px) {
-            /* 移动端卡片宽度修正 */
             .cards-container { 
                 grid-template-columns: repeat(auto-fill, minmax(75px, 75px)); 
                 gap: 12px; 
@@ -515,58 +581,65 @@
                  height: 110px; 
             }
              .card-character { font-size: 2.3rem; }
-            .copyright-info {
-                font-size: 0.7rem;
+            .header-logo img {
+                height: 25px; 
             }
-            /* 修正：在小屏幕上再次减少 padding */
-            .input-group-wrapper {
-                padding: 0 8px; 
+            .action-button {
+                font-size: 1.1rem; 
+                padding: 6px; 
+            }
+            
+            .simple-footer {
+                 font-size: 0.8rem;
+                 padding: 8px 15px; 
             }
         }
     </style>
 </head>
 <body>
     
-    <header class="header">
-        <div class="header-logo">
-            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251004/LU5q/538X150/1.png/webp" alt="字造Logo">
-        </div>
-        <div class="header-actions">
-            <button class="action-button" id="clear-chat-btn" aria-label="清空聊天记录" title="清空聊天记录">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-            <button class="action-button" id="dark-mode-btn" aria-label="切换主题" title="切换主题">
-                <i class="fas fa-sun" id="dark-mode-icon"></i>
-            </button>
-        </div>
+    <header class="header" id="headerContainer">
     </header>
 
-    <main class="chat-container" id="chat-container">
-    </main>
+    <main class="chat-container" id="chat-container"></main>
 
-    <footer class="input-footer">
+    <div class="input-footer">
         <div class="input-group-wrapper">
             
-            <div class="input-group">
-                <input type="text" id="character-input" maxlength="1" placeholder="输入一个汉字查询形近字" autocomplete="off" aria-label="输入汉字进行查询">
-                <button id="search-btn" class="search-btn" aria-label="搜索">
-                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 458.6c12.5 12.5 12.5 32.75 0 45.25s-32.75 12.5-45.25 0L330.7 376c-34.46 25.12-76.81 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c88.37 0 160-71.63 160-160S296.3 32 208 32S48 103.6 48 192S119.6 352 208 352z"/></svg>
-                </button>
-            </div>
-            
-            <div class="copyright-info">
-                © 2025 自在造字Zizao.top. 版权所有.
+            <div class="footer-main-row">
+                 
+                 <div class="header-logo">
+                    <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251004/LU5q/538X150/1.png/webp" alt="字造Logo">
+                </div>
+
+                <div class="input-group-container">
+                    <div class="input-group">
+                        <input type="text" id="character-input" maxlength="1" placeholder="输入一个汉字查询形近字" autocomplete="off" aria-label="输入汉字进行查询">
+                        <button id="search-btn" class="search-btn" aria-label="搜索">
+                            <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 458.6c12.5 12.5 12.5 32.75 0 45.25s-32.75 12.5-45.25 0L330.7 376c-34.46 25.12-76.81 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c88.37 0 160-71.63 160-160S296.3 32 208 32S48 103.6 48 192S119.6 352 208 352z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button" id="clear-chat-btn" aria-label="清空聊天记录" title="清空聊天记录">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    </div>
             </div>
             
         </div>
+    </div>
+    
+    <footer id="footerContainer">
     </footer>
     
     <div class="copy-notification" id="copy-notification">已复制到剪贴板</div>
 
+<script src="common.js"></script>
 <script src="data.js"></script>
     
 <script>
-    // 定义本地头像图片路径
     const USER_AVATAR_URL = "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251004/11ox/300X300/2.png/webp"; 
     const SYSTEM_AVATAR_URL = "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251004/hafo/1250X1250/1.png/webp";
     
@@ -575,24 +648,143 @@
         searchBtn: document.getElementById('search-btn'),
         chatContainer: document.getElementById('chat-container'),
         copyNotification: document.getElementById('copy-notification'),
-        darkModeBtn: document.getElementById('dark-mode-btn'), 
-        darkModeIcon: document.getElementById('dark-mode-icon'), 
-        clearChatBtn: document.getElementById('clear-chat-btn')
+        clearChatBtn: document.getElementById('clear-chat-btn'),
+        headerContainer: document.getElementById('headerContainer'), 
+        footerContainer: document.getElementById('footerContainer')  
     };
     
     const definitionBaseUrl = "https://www.zdic.net/hans/%s";
+    const CHAT_HISTORY_KEY = 'chatHistory';
+
     let copyTimeout = null; 
     let currentLoadingMessageId = null; 
-    
-    // 主题状态管理
-    const THEME_KEY = 'appTheme';
-    let currentTheme = 'light-default'; 
-    const THEME_CYCLE = ['light-default', 'light-eye-care', 'dark'];
-    
-    // 聊天记录存储键
-    const CHAT_HISTORY_KEY = 'chatHistory';
-    
     let wordMap = new Map();
+    
+    // --- 渲染顶部导航栏函数 (从 fonts.html 复制) ---
+    function renderHeader() {
+        if (!DOM.headerContainer || typeof navData === 'undefined' || typeof siteConfig === 'undefined') return;
+
+        let navHtml = navData.map(item => {
+            const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+            // 默认 navData 中的链接都从新标签页打开，除非明确设置为 false 或不需要
+            const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+            let subMenuHtml = '';
+            if (item.subMenu) {
+                const subLinks = item.subMenu.map(sub => {
+                    const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                    return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                }).join('');
+                subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
+            }
+
+            return `
+                <div class="nav-item-dropdown">
+                    <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                    ${subMenuHtml}
+                </div>
+            `;
+        }).join('');
+
+        DOM.headerContainer.innerHTML = `
+            <a href="${siteConfig.homeUrl}" class="logo">
+                <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
+            </a>
+            <button class="menu-toggle" id="menuToggle">☰</button> 
+            <div class="backdrop" id="menuBackdrop"></div>
+            <nav class="nav" id="mainNav">
+                ${navHtml}
+            </nav>
+        `;
+    }
+
+    // --- 渲染底部版权信息函数 (简洁固定版，包含链接) ---
+    function renderFooter() {
+        if (!DOM.footerContainer || typeof footerLinks === 'undefined' || typeof siteConfig === 'undefined') return;
+
+        const linkHtml = footerLinks.map(link => `
+            <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+        `).join('<span style="margin: 0 8px;">|</span>'); // 使用 | 作为分隔符
+
+        // 使用简洁固定样式类
+        DOM.footerContainer.className = 'simple-footer'; 
+        DOM.footerContainer.innerHTML = `
+            <div class="footer-content">
+                <span class="copyright-text">${siteConfig.copyrightText}</span> 
+                <span style="margin: 0 10px;">•</span>
+                <span class="footer-links">${linkHtml}</span>
+            </div>
+        `;
+    }
+    
+    // --- 绑定导航栏事件函数 (从 fonts.html 复制) ---
+    function bindHeaderEvents() {
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        const menuBackdrop = document.getElementById('menuBackdrop'); 
+        
+        if (!menuToggle || !mainNav || !menuBackdrop) return;
+        
+        const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
+
+        function closeMenu() {
+            mainNav.classList.remove('open');
+            menuBackdrop.classList.remove('open'); 
+            document.body.style.overflow = '';
+            dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+        }
+        
+        function toggleMenu() {
+            const isOpen = mainNav.classList.toggle('open');
+            menuBackdrop.classList.toggle('open'); 
+            
+            if (window.innerWidth <= 768) { // 修复：使用正确的移动端断点
+                document.body.style.overflow = isOpen ? 'hidden' : ''; 
+            }
+            
+            if (!isOpen) { 
+                closeMenu(); 
+            }
+        }
+        
+        menuToggle.addEventListener('click', toggleMenu);
+        menuBackdrop.addEventListener('click', closeMenu); 
+        
+        mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+            if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                item.addEventListener('click', () => {
+                    if (mainNav.classList.contains('open')) {
+                        setTimeout(closeMenu, 100); 
+                    }
+                });
+            }
+        });
+        
+        dropdownItems.forEach(item => {
+            const navLink = item.querySelector('.nav-item.has-dropdown');
+            if (navLink) {
+                navLink.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) { // 修复：使用正确的移动端断点
+                        e.preventDefault(); 
+                        const wasOpen = item.classList.contains('open');
+                        dropdownItems.forEach(d => d.classList.remove('open')); 
+                        if (!wasOpen) {
+                            item.classList.add('open'); 
+                        }
+                    }
+                });
+            }
+        });
+        
+        // 监听窗口大小变化，如果从移动端变为桌面端，则关闭菜单并移除 overflow: hidden
+        window.addEventListener('resize', () => {
+             if (window.innerWidth > 768 && mainNav.classList.contains('open')) { // 修复：使用正确的移动端断点
+                closeMenu();
+             }
+        });
+    }
+
     function preprocessData() {
         if (typeof customWordGroups !== 'undefined') {
             customWordGroups.forEach(wordGroup => {
@@ -610,7 +802,6 @@
         }
     }
     
-    // 确保滚动到页面最底部
     function scrollToBottom() {
         setTimeout(() => {
             window.scrollTo({
@@ -620,8 +811,6 @@
         }, 100);
     }
     
-    // --- 聊天记录存储与加载函数 ---
-
     function loadChatHistory() {
         try {
             const history = localStorage.getItem(CHAT_HISTORY_KEY);
@@ -640,33 +829,6 @@
         }
     }
     
-    /**
-     * 将消息添加到 DOM 并保存到历史记录
-     * @param {string} type - 'user' 或 'system'
-     * @param {string} contentHtml - 消息的 HTML 内容
-     * @param {boolean} isTransient - 是否为临时消息 (如 Loading)
-     * @param {string} [id] - 消息 ID
-     */
-    function addMessageToDOMAndHistory(type, contentHtml, id = null, isTransient = false) {
-        const messageElement = createMessage(type, contentHtml, id, isTransient);
-        DOM.chatContainer.appendChild(messageElement);
-        
-        // 只有非临时消息才保存到历史记录
-        if (!isTransient) {
-            const history = loadChatHistory();
-            // 如果不是替换加载消息，且不是说明消息，则添加到历史记录
-            if (!messageElement.classList.contains('loading-msg') && id !== 'msg-instructions') {
-                history.push({ type, contentHtml, id: messageElement.id });
-                saveChatHistory(history);
-            }
-        }
-        
-        return messageElement;
-    }
-    
-    /**
-     * 创建消息气泡的通用函数 (仅创建 DOM 元素)
-     */
     function createMessage(type, contentHtml, id = null, isTransient = false) {
         const messageElement = document.createElement('div');
         const msgId = id || 'msg-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);
@@ -690,6 +852,21 @@
         return messageElement;
     }
 
+    function addMessageToDOMAndHistory(type, contentHtml, id = null, isTransient = false) {
+        const messageElement = createMessage(type, contentHtml, id, isTransient);
+        DOM.chatContainer.appendChild(messageElement);
+        
+        if (!isTransient) {
+            const history = loadChatHistory();
+            if (!messageElement.classList.contains('loading-msg') && id !== 'msg-instructions') {
+                history.push({ type, contentHtml, id: messageElement.id });
+                saveChatHistory(history);
+            }
+        }
+        
+        return messageElement;
+    }
+    
     function addUserMessage(char) {
         const content = `查询汉字：<strong style="font-size: 1.2em;">${char}</strong>`;
         addMessageToDOMAndHistory('user', content);
@@ -720,12 +897,9 @@
             const historyIndex = history.findIndex(msg => msg.id === currentLoadingMessageId);
             
             if (contentHtml) {
-                // 替换内容
                 loadingMsg.classList.remove('loading-msg');
-                // 使用 createMessage 生成结构，确保 innerHTML 被正确替换
                 loadingMsg.innerHTML = createMessage('system', contentHtml).innerHTML; 
                 
-                // 更新历史记录
                 if (historyIndex !== -1) {
                     history.splice(historyIndex, 1, { 
                         type: 'system', 
@@ -740,18 +914,14 @@
                     });
                 }
                 saveChatHistory(history);
-
             } else {
-                // 移除消息
                 loadingMsg.remove();
-                // 从历史记录中移除
                 if (historyIndex !== -1) {
                     history.splice(historyIndex, 1);
                     saveChatHistory(history);
                 }
             }
         } else if (contentHtml) {
-            // 如果加载消息不存在，但有内容，则直接作为系统消息添加
             addSystemMessage(contentHtml);
         }
         currentLoadingMessageId = null;
@@ -762,9 +932,6 @@
         addMessageToDOMAndHistory('system', contentHtml);
     }
 
-    /**
-     * 渲染默认的使用说明 - 确保它是第一个元素
-     */
     function renderDefaultInstructions() {
         const instructionsHtml = `
             <div class="instructions-content" style="padding: 0;">
@@ -787,26 +954,19 @@
                 </div>
             </div>
         `;
-        // 1. 检查是否已存在，防止重复添加
         if (document.getElementById('msg-instructions')) return; 
 
-        // 2. 创建消息元素
         const msgElement = createMessage('system', instructionsHtml, 'msg-instructions', false);
         msgElement.classList.add('instructions-msg'); 
-        
-        // 3. 附加到容器中
         DOM.chatContainer.appendChild(msgElement);
     }
 
-    // 从历史记录渲染消息到 DOM
     function renderChatHistory() {
         const history = loadChatHistory();
-        DOM.chatContainer.innerHTML = ''; // 清空所有内容
+        DOM.chatContainer.innerHTML = ''; 
         
-        // 1. 始终渲染使用说明作为第一个元素
         renderDefaultInstructions();
 
-        // 2. 渲染历史记录（历史记录会追加到说明之后）
         if (history.length > 0) {
             history.forEach(msg => {
                 const messageElement = createMessage(msg.type, msg.contentHtml, msg.id, false);
@@ -818,14 +978,12 @@
     }
     
     function showLoading() {
-        // 使用 Font Awesome 搜索图标替换为加载中的 spinner 动画
         DOM.searchBtn.innerHTML = '<svg class="icon loading-spinner" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="animation: spin 1.5s linear infinite;"><path d="M448 256c0-106-86-192-192-192V32C375.7 32 480 136.3 480 264c0 13.25-10.75-24-24 24s-24-10.75-24-24C432 153.8 342.2 64 232 64v48c-106 0-192 86-192 192s86 192 192 192c47.94 0 91.22-17.75 125.7-47.5c18.5-16 45.19-14.5 61.19 4s14.5 45.19-4 61.19C340.3 499.7 299.1 512 256 512C114.6 512 0 397.4 0 256S114.6 0 256 0c13.25 0 24 10.75 24 24S269.3 48 256 48z"/></svg>';
         DOM.searchBtn.disabled = true;
         DOM.characterInput.disabled = true;
     }
 
     function hideLoading() {
-        // 恢复 Font Awesome 搜索图标
         DOM.searchBtn.innerHTML = '<svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 458.6c12.5 12.5 12.5 32.75 0 45.25s-32.75 12.5-45.25 0L330.7 376c-34.46 25.12-76.81 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c88.37 0 160-71.63 160-160S296.3 32 208 32S48 103.6 48 192S119.6 352 208 352z"/></svg>';
         DOM.searchBtn.disabled = false;
         DOM.characterInput.disabled = false;
@@ -839,11 +997,7 @@
         if (inputChar.length !== 1 || !/^[\u4e00-\u9fa5]$/.test(inputChar)) {
              if (!isFromUrl && inputChar.length > 0) {
                 addUserMessage(inputChar);
-                const errorHtml = `
-                    <div class="no-results" style="text-align: center; color: var(--light-text); font-size: 1.0rem; line-height: 1.8; padding: 20px 0;">
-                        ${inputChar.length > 1 ? '请输入**单个汉字**进行查询。' : '请输入**有效的汉字**。'}
-                    </div>
-                `;
+                const errorHtml = `<div class="no-results" style="text-align: center; color: var(--light-text); font-size: 1.0rem; line-height: 1.8; padding: 20px 0;">${inputChar.length > 1 ? '请输入**单个汉字**进行查询。' : '请输入**有效的汉字**。'}</div>`;
                 addSystemMessage(errorHtml);
             }
             DOM.characterInput.value = '';
@@ -859,14 +1013,12 @@
         showLoading();
 
         addLoadingMessage();
-        // 模拟网络延迟 500ms
         await new Promise(resolve => setTimeout(resolve, 500)); 
 
         const relatedCharsSet = wordMap.get(inputChar) || new Set();
         relatedCharsSet.delete(inputChar);
         let relatedChars = Array.from(relatedCharsSet);
         
-        // 将查询字作为第一个元素添加
         if (wordMap.has(inputChar)) {
             relatedChars.unshift(inputChar);
         }
@@ -883,10 +1035,8 @@
             `;
         } else {
             const cardsHtml = relatedChars.map((char) => {
-                // 假设 indexGroup 包含所有字的顺序索引
                 const firstPosition = typeof indexGroup !== 'undefined' ? indexGroup.indexOf(char) + 1 : -1;
                 const totalPosition = firstPosition > 0 ? firstPosition : '';
-                // 计算页码 (每页 500 个字)
                 const pagePosition = firstPosition > 0 ? `${Math.floor((firstPosition - 1) / pageSize) + 1}/${(firstPosition - 1) % pageSize + 1}` : '';
                 
                 return `
@@ -955,52 +1105,10 @@
             });
     }
     
-    // 主题切换函数 - 逻辑加强
-    function applyTheme(theme) {
-        currentTheme = theme;
-        const bodyClassList = document.body.classList;
-        
-        // 移除所有主题相关的 class
-        bodyClassList.remove('dark-mode', 'eye-care-mode');
-        
-        let nextThemeIndex = (THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length;
-        let nextTheme = THEME_CYCLE[nextThemeIndex];
-        let nextIconClass = '';
-        let nextTitle = '';
-
-        if (theme === 'dark') {
-            bodyClassList.add('dark-mode');
-            nextIconClass = 'fa-sun'; // 下一个状态是 默认浅色
-            nextTitle = '切换到默认浅色模式';
-        } else if (theme === 'light-eye-care') {
-            bodyClassList.add('eye-care-mode');
-            nextIconClass = 'fa-moon'; // 下一个状态是 深色
-            nextTitle = '切换到深色模式';
-        } else { // light-default
-            nextIconClass = 'fa-leaf'; // 下一个状态是 浅绿色护眼
-            nextTitle = '切换到浅绿色护眼模式';
-        }
-
-        // 更新按钮图标和提示
-        DOM.darkModeIcon.className = 'fas ' + nextIconClass;
-        DOM.darkModeBtn.setAttribute('title', nextTitle);
-        DOM.darkModeBtn.setAttribute('aria-label', nextTitle);
-        
-        localStorage.setItem(THEME_KEY, theme);
-    }
-
-    function toggleTheme() {
-        const currentIndex = THEME_CYCLE.indexOf(currentTheme);
-        const nextIndex = (currentIndex + 1) % THEME_CYCLE.length;
-        const nextTheme = THEME_CYCLE[nextIndex];
-        applyTheme(nextTheme);
-    }
-    
     function clearChat() {
         if (confirm('确定要清空所有搜索记录吗？')) {
             DOM.chatContainer.innerHTML = '';
-            localStorage.removeItem(CHAT_HISTORY_KEY); // 清空本地存储
-            // 清空后重新渲染说明
+            localStorage.removeItem(CHAT_HISTORY_KEY); 
             renderDefaultInstructions();
             updateUrl('');
             DOM.characterInput.focus();
@@ -1009,52 +1117,43 @@
 
     // --- 事件监听器 ---
 
-    // 使用事件委托处理卡片点击 (复制和释义)
     DOM.chatContainer.addEventListener('click', (event) => {
         const target = event.target;
         const card = target.closest('.card');
         if (card) {
             const char = card.dataset.char;
-            // 检查是否点击了释义按钮（fa-info-circle 或其父级 button）
             if (target.closest('.card-definition')) {
                 event.stopPropagation();
                 window.open(definitionBaseUrl.replace('%s', char), '_blank');
             } else {
-                // 点击卡片主体部分，执行复制
                 copyToClipboard(char);
             }
         }
     });
 
-    // 搜索事件
     DOM.searchBtn.addEventListener('click', () => searchCharacters());
     DOM.characterInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') searchCharacters();
     });
     
-    // 主题模式切换按钮
-    DOM.darkModeBtn.addEventListener('click', toggleTheme);
-    
-    // 清空聊天按钮
     DOM.clearChatBtn.addEventListener('click', clearChat);
 
 
     // --- 初始化 ---
 
     document.addEventListener('DOMContentLoaded', () => {
+        
+        // 1. 动态渲染公共模块
+        renderHeader();
+        renderFooter();
+        bindHeaderEvents(); // 绑定顶部栏事件
+        
         preprocessData();
         
-        // 恢复主题
-        const savedTheme = localStorage.getItem(THEME_KEY) || 'light-default';
-        applyTheme(savedTheme);
-
-        // 初始化时加载聊天历史 (现在保证说明消息始终是第一个元素)
         renderChatHistory();
 
-        // 处理 URL 参数中的查询
         const urlChar = new URLSearchParams(window.location.search).get('char');
         if (urlChar && urlChar.length === 1 && /^[\u4e00-\u9fa5]$/.test(urlChar)) {
-            // 如果 URL 中有参数，检查历史记录是否包含该字的查询记录
             const history = loadChatHistory();
             const alreadySearched = history.some(msg => msg.type === 'user' && msg.contentHtml.includes(`>${urlChar}<`));
 
