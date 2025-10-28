@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================================================
@@ -26,11 +26,17 @@
             --primary-color: #FF8C19;
             --sub-text-color: #6c7a89;
             --text-color: #1a2a40;
-            /* 粒子效果颜色变量 */
-            --particle-primary: #FF7F00; 
-            --particle-secondary: #FF4500;
-            --particle-tertiary: #FFD700;
+            
+            /* === 统一的 Header/Footer 颜色变量 (来自 fonts.html) === */
+            --deep-grey: #222222;
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --hero-text-color: #FFFFFF; 
         }
+        
+        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
 
         /* =========================================================================
            全局/基础样式
@@ -49,179 +55,127 @@
             flex-direction: column;
             min-height: 100vh;
             line-height: 1.6;
+            
+            /* 统一：为固定导航栏增加顶部填充 (桌面端默认值) */
+            padding-top: 61px;
+            
+            opacity: 0;
+            transition: opacity 0.5s;
         }
 
         /* =========================================================================
-           1. 顶部导航栏 (Navbar)
+           1. 顶部导航栏 (Header) 
            ========================================================================= */
-        .navbar {
-            background: transparent; 
-            position: absolute; /* 绝对定位，覆盖在英雄图上 */
-            top: 0;
-            left: 0;
-            z-index: 100;
-            width: 100%;
-        }
-
-        .nav-container {
-            max-width: 1800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-            padding: 0 5%;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            height: 100%; 
-            padding: 0; 
-            transition: none; /* 移除 logo 自身的动画 */
-        }
-
-        .logo-image {
-            height: 32px;
-            width: auto;
-            filter: none !important; 
-            transition: none; /* 移除 logo 图片的动画 */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF; 
+            border-bottom: 1px solid var(--light-grey); 
+            height: auto; 
         }
         
-        /* 确保 logo 悬停时没有动画效果 */
-        .logo:hover .logo-image {
-            transform: none; 
-            filter: none !important; 
+        .logo { display: block; height: auto; } 
+        .logo img { height: 28px; width: auto; display: block; filter: none !important; }
+
+        /* 导航菜单 - 桌面端 */
+        .nav { display: flex; align-items: center; }
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        
+        .nav-item-dropdown > a {
+            font-size: 16px; 
+            font-weight: 500; 
+            display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+            color: var(--deep-grey); 
+        }
+        
+        /* 桌面端下划线动画 */
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        
+        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        
+        /* 桌面端二级菜单 */
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        
+        .nav-item-dropdown:hover .dropdown-menu {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        
+        .dropdown-menu a {
+            display: block; padding: 8px 15px; font-size: 15px;
+            white-space: nowrap; border-radius: 4px; margin: 0 8px;
         }
 
-        /* 合作按钮基础样式 - 适应暗色背景的白色边框/文字 */
-        .nav-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 9px 22px; 
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            border: 2px solid white; 
-            background-color: transparent;
-            color: white;
-            box-shadow: none; 
-            cursor: pointer;
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+        
+        /* 侧边栏遮罩层 */
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
         }
 
-        /* 合作按钮悬浮样式 */
-        .nav-button:hover {
-            background-color: transparent; 
-            color: white; 
-            border-color: white; 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); 
-        }
-
+        .backdrop.open { opacity: 1; visibility: visible; }
+        
         /* =========================================================================
-           2. 英雄区域 (Hero Section) - 桌面端 (默认: 叠加效果)
+           2. 英雄区域 (Hero Section) - 桌面端样式
            ========================================================================= */
         .hero-section {
             position: relative;
-            height: 700px; /* 桌面端高度 */
+            height: 700px; /* 桌面端固定高度 */
             padding: 0 5%;
-        }
-
-        .hero-section .hero-image-container {
-            position: absolute; /* 图片绝对定位，铺满 hero-section */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        /* 为 <picture> 标签中的 <img>/source 添加样式，使其铺满容器 */
-        .hero-section .hero-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* 图片正常居中裁剪 */
-            object-position: center;
+            padding-top: 0; 
         }
         
-        /* 确保 <picture> 本身也能铺满容器 */
-        .hero-section .hero-image-container picture {
-            display: block;
-            width: 100%;
-            height: 100%;
+        .hero-section .hero-image-container {
+            position: absolute; /* 桌面端绝对定位，作为背景 */
+            top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
         }
 
-
+        .hero-section .hero-image-container picture { display: block; width: 100%; height: 100%; }
+        .hero-section .hero-image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        
         .hero-content {
-            position: relative; /* 内容相对定位，在图片上方 */
+            position: relative; 
             z-index: 1;
-            color: white;
+            color: white; /* 桌面端白色文字 */
             max-width: 700px;
             text-align: left;
             margin-left: 15%;
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 垂直居中内容 */
+            justify-content: center; /* 桌面端垂直居中 */
         }
 
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            font-weight: bold;
-        }
+        .hero-content h1 { font-size: 3rem; margin-bottom: 16px; font-weight: bold; }
+        .hero-content p { font-size: 1.4rem; margin-bottom: 30px; color: rgba(255, 255, 255, 0.9); }
+        .hero-buttons { display: flex; gap: 20px; }
+        .hero-button { display: inline-block; padding: 10px 24px; border-radius: 10px; font-weight: 600; text-decoration: none; transition: all 0.3s; font-size: 1rem; border: 2px solid transparent; }
+        .hero-button-primary { background-color: #FF8C19; color: white; box-shadow: 0 4px 15px rgba(255, 140, 25, 0.4); }
+        .hero-button-primary:hover { background-color: #e67e00; transform: translateY(-2px); box-shadow: 6px 20px rgba(255, 140, 25, 0.6); }
+        .hero-button-secondary { background-color: transparent; color: white; border-color: white; }
+        .hero-button-secondary:hover { background-color: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
 
-        .hero-content p {
-            font-size: 1.4rem;
-            margin-bottom: 30px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .hero-button {
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 1rem;
-            border: 2px solid transparent;
-        }
-
-        .hero-button-primary {
-            background-color: #FF8C19;
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 140, 25, 0.4);
-        }
-
-        .hero-button-primary:hover {
-            background-color: #e67e00;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 140, 25, 0.6);
-        }
-
-        .hero-button-secondary {
-            background-color: transparent;
-            color: white; /* 桌面端：白色文字/边框 */
-            border-color: white;
-        }
-
-        .hero-button-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
 
         /* =========================================================================
-           3. 主要内容区域与卡片 (Main Content)
+           3. 主要内容区域与卡片 (Main Content) 
            ========================================================================= */
         .main-content {
             flex: 1;
@@ -231,95 +185,45 @@
             padding-right: 5%;
         }
 
-        .container {
-            max-width: 2000px;
-            margin: 0 auto;
-        }
-
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 40px; 
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 25px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            overflow: hidden;
-            
-            /* **关键：使用 padding-bottom 锁定 930:710 (1.31:1) 比例** */
-            position: relative;
-            padding-bottom: 76.34%; /* (710 / 930) * 100% ≈ 76.34% */
-            height: 0; 
-            display: block; 
-            
-            transition: none; 
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .card-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: none;
-            filter: brightness(0.65);
-        }
-
-        .card-content {
-            /* 关键：调整为绝对定位，铺满由 padding-bottom 撑开的卡片区域 */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-            z-index: 2;
-            color: white;
-            padding: 40px;
-            text-align: left;
-        }
-
-        .card-content h3 {
-            font-size: 1.6rem;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .card-content p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            margin-bottom: 8px;
-            font-weight: normal;
-        }
-
-        .card-action-text {
-            display: inline-block;
-            font-size: 0.9rem;
-            color: white;
-            font-weight: 700;
-            text-decoration: none;
-            transition: text-decoration 0.3s;
-        }
-
-        a.card:hover .card-action-text {
-            text-decoration: underline;
+        .container { max-width: 2000px; margin: 0 auto; }
+        .card-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 40px; }
+        .card { position: relative; padding-bottom: 76.34%; height: 0; display: block; transition: none; text-decoration: none; cursor: pointer; background-color: white; border-radius: 25px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); overflow: hidden; }
+        .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; transition: none; filter: brightness(0.65); }
+        .card-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; color: white; padding: 40px; text-align: left; }
+        
+        /* 卡片文字响应式缩放 */
+        .card-content h3 { 
+            font-size: clamp(1.2rem, 1.8vw, 1.6rem); 
+            margin-bottom: 5px; 
+            font-weight: 700; 
         }
         
+        .card-content p { 
+            font-size: clamp(1.0rem, 1.25vw, 1.1rem); 
+            color: rgba(255, 255, 255, 0.9); 
+            line-height: 1.6; 
+            margin-bottom: 8px; 
+            font-weight: normal; 
+        }
+        
+        .card-action-text { 
+            display: inline-block; 
+            font-size: clamp(0.8rem, 1.02vw, 0.9rem); 
+            color: white; 
+            font-weight: 700; 
+            text-decoration: none; 
+            transition: text-decoration 0.3s; 
+        }
+        
+        a.card:hover .card-action-text { text-decoration: underline; }
+
         /* =========================================================================
-           4. 底部栏样式 (Footer)
+           4. 社交图标 (Social Icons) 
            ========================================================================= */
-        .footer {
+        .social-links-section {
             background: #f8fafc;
             color: #1a2a40;
-            padding: 80px 5% 20px;
+            padding: 80px 5% 40px; 
             font-size: 1rem;
             display: flex;
             flex-direction: column;
@@ -334,286 +238,172 @@
             align-items: flex-start;
             gap: 20px;
         }
-
-        .social-links {
+        
+        .social-links { 
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 24px; 
             flex-wrap: wrap;
         }
+        
+        .social-button { display: flex; justify-content: center; align-items: center; width: 60px; height: 60px; border-radius: 50%; background-color: #f0f4f8; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; cursor: pointer; }
+        .social-button:hover { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); transform: translateY(-2px); }
+        .social-icon, .qr-code-icon { width: 60%; height: 60%; object-fit: contain; z-index: 2; transition: transform 0.3s ease; }
+        .social-button:hover .social-icon, .social-button:hover .qr-code-icon { transform: scale(1.1); }
+        .qr-code-container { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .qr-code-popup { position: absolute; bottom: calc(100% + 15px); left: 50%; transform: translateX(-50%) translateY(10px); padding: 15px; background: white; border-radius: 12px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15); z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; }
+        .qr-code-container:hover .qr-code-popup { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .qr-code-popup img { width: 120px; height: 120px; display: block; }
+        .qr-code-popup p { font-size: 0.85rem; color: var(--text-color); margin-top: 10px; font-weight: 500; }
 
-        .social-button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            background-color: #f0f4f8; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .social-button:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px); 
-        }
-
-        .social-icon, .qr-code-icon {
-            width: 60%; 
-            height: 60%;
-            object-fit: contain; 
-            z-index: 2; 
-            transition: transform 0.3s ease;
-        }
-
-        .social-button:hover .social-icon,
-        .social-button:hover .qr-code-icon {
-            transform: scale(1.1);
-        }
-
-        .qr-code-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .qr-code-popup {
-            position: absolute;
-            bottom: calc(100% + 15px); 
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-        }
-
-        .qr-code-container:hover .qr-code-popup {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0); 
-        }
-
-        .qr-code-popup img {
-            width: 120px;
-            height: 120px;
-            display: block;
-        }
-
-        .qr-code-popup p {
-            font-size: 0.85rem;
-            color: var(--text-color);
-            margin-top: 10px;
-            font-weight: 500;
-        }
-
-        /* 友情链接和版权信息 */
-        .friendship-links-section {
-            margin-top: 50px; 
+        
+        /* =========================================================================
+           5. 动态版权底部栏 (Dynamic Footer) 
+           ========================================================================= */
+        .dynamic-copyright-footer {
+            background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
+            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
             width: 100%;
-            max-width: 800px;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .friendship-links-section h3 {
-            font-size: 0.95rem; 
-            color: var(--sub-text-color); 
-            margin-bottom: 15px;
-            font-weight: 500; 
-        }
-
-        .links-group {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap; 
-            gap: 12px 20px; 
-        }
-
-        .links-group a {
-            color: #999; 
-            text-decoration: none;
-            font-size: 0.9rem; 
-            transition: color 0.3s;
-        }
-
-        .links-group a:hover {
-            color: var(--text-color); 
-            text-decoration: underline;
         }
 
         .copyright-section {
             text-align: center;
-            padding-top: 20px; 
-            margin-top: 20px;  
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
             width: 100%;
-        }
-
-        .copyright-section p {
-            color: var(--sub-text-color);
-            font-size: 0.9rem;
-        }
-
-        .copyright-section a {
-            color: var(--sub-text-color);
-            text-decoration: none;
-            transition: color 0.3s ease, text-decoration 0.3s ease;
-        }
-
-        .copyright-section a:hover {
-            color: var(--text-color);
-            text-decoration: underline;
         }
         
-        /* =========================================================================
-           5. 鼠标跟随粒子效果样式
-           ========================================================================= */
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999; 
-        }
+        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
+        .copyright-section a { color: var(--sub-text-color); text-decoration: none; transition: color 0.3s ease, text-decoration 0.3s ease; }
+        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
 
-        .particle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--particle-tertiary); 
-            pointer-events: none;
-            opacity: 0.7;
-        }
 
         /* =========================================================================
-           6. 响应式调整 - 关键断点 (<= 992px 时切换为流式布局)
+           6. 响应式调整 (Mobile) 
            ========================================================================= */
-        @media (max-width: 992px) {
-            /* 导航栏：保持白色元素，在暗图上悬浮 */
-            .nav-container { padding-left: 20px; padding-right: 20px; }
-            .nav-button:hover { transform: none; box-shadow: none; }
+        
+        @media (max-width: 768px) {
+            /* 确保 body padding 与 Header 高度一致 */
+            body {
+                padding-top: 48px; 
+            }
             
-            /* **英雄区域：文字内容切换为在图片下方显示 (流式布局)** */
+            /* 导航菜单 - 移动端优化 */
+            /* 修正：删除显式 height: 48px; 使其与 fonts.html 保持一致，依赖 padding + content 计算高度 */
+            .header { padding: 10px 4%; } 
+            .logo img { height: 28px; }
+            .menu-toggle { display: block; }
+            
+            .nav {
+                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
+                max-width: none; height: calc(100vh - 48px);
+                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
+                overflow-y: auto; 
+                transform: translateY(-100%); opacity: 0; visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+            }
+
+            .nav.open {
+                transform: translateY(0); opacity: 1; visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+            
+            .backdrop { top: 48px; height: calc(100vh - 48px); }
+
+            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
+            .nav-item-dropdown:last-child { border-bottom: none; }
+
+            .nav-item-dropdown > a {
+                padding: 15px 10px; font-size: 18px; width: 100%;
+                display: flex; justify-content: space-between; 
+            }
+            
+            .nav-item-dropdown > a::after { content: none; } 
+            
+            .nav .nav-item-dropdown .dropdown-menu {
+                display: none; position: static; opacity: 1; transform: none; border: none !important; box-shadow: none !important;
+            }
+            
+            .nav .nav-item-dropdown.open .dropdown-menu { display: block !important; }
+            
+            .dropdown-menu a { padding: 10px 10px; font-size: 16px; margin: 3px 0; }
+            
+            /* 英雄区结构调整 - 移动端流式布局 */
             .hero-section { 
+                padding-top: 0; 
+                height: auto; 
+                padding-left: 0; 
+                padding-right: 0;
+            }
+            
+            /* 图像容器恢复正常流 */
+            .hero-section .hero-image-container {
                 position: relative; 
                 height: auto; 
-                padding: 0; 
             }
             
-            /* 图片容器：改为相对定位，占据空间 */
-            .hero-section .hero-image-container { 
-                position: relative; 
-                width: 100%; 
-                height: 450px; /* 平板端/小窗口的图片高度 */
+            .hero-section .hero-image-container img {
+                height: auto; 
+                object-fit: contain;
             }
-
-            /* 内容：流在图片下方，切换为深色文字 */
+            
+            /* 内容区域左对齐，并确保颜色/背景正确 */
             .hero-content {
                 position: relative; 
-                width: 100%;
-                max-width: none;
-                height: auto; 
-                display: block; 
-                margin: 0 auto;
-                padding: 40px 5%; 
+                z-index: 2;
                 color: var(--text-color); 
-                /* 关键修改：将居中对齐改为左对齐 */
+                margin-left: 0; 
+                max-width: 100%; 
+                height: auto;
+                display: block; 
                 text-align: left; 
+                padding: 40px 5%; 
+                background-color: #FFFFFF; /* 白色背景 */
             }
 
-            .hero-content h1 { font-size: 2.8rem; margin-bottom: 12px; }
-            .hero-content p { 
-                font-size: 1.3rem; 
-                margin-bottom: 24px; 
-                color: var(--sub-text-color); 
-            }
-            .hero-buttons { 
-                /* 关键修改：将按钮组居中对齐改为左对齐 */
-                justify-content: flex-start; 
-                gap: 20px; 
+            .hero-content h1 { 
+                font-size: 2rem; 
+                margin-bottom: 10px;
+                color: var(--text-color); 
             }
             
-            /* 按钮颜色调整，适应浅色背景 */
-            .hero-button-secondary { 
+            .hero-content p { 
+                color: var(--sub-text-color); 
+                font-size: 1.1rem; 
+                margin-bottom: 25px; 
+            }
+
+            .hero-buttons { 
+                justify-content: flex-start; /* 按钮靠左对齐 */
+            }
+            
+            /* 确保次要按钮在白色背景下可见 */
+            .hero-content .hero-button-secondary {
                 color: var(--text-color); 
                 border-color: var(--sub-text-color); 
-                background-color: transparent; 
-            }
-            .hero-button-secondary:hover { 
-                background-color: rgba(0, 0, 0, 0.05); 
-                transform: translateY(-2px);
             }
 
-            /* 卡片布局调整为两列 (卡片比例由 76.34% 保持) */
-            .main-content { padding: 40px 5%; padding-bottom: 80px; }
-            .card-container { grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 40px; }
-        }
-
-        /* =========================================================================
-           7. 响应式调整 - 手机端 (<= 768px)
-           ========================================================================= */
-        @media (max-width: 768px) {
-            /* 进一步调整图片高度和文字大小 */
-            .hero-section .hero-image-container { height: 400px; } 
-            .hero-content { padding: 30px 5%; }
-            .hero-content h1 { font-size: 2.2rem; }
-            .hero-content p { font-size: 1.2rem; }
-
-            /* 卡片布局调整为一列 (卡片比例由 76.34% 保持) */
-            .main-content { padding-top: 30px; padding-bottom: 30px; padding-left: 5%; padding-right: 5%; }
+            .hero-content .hero-button-secondary:hover {
+                background-color: var(--nav-hover-bg); 
+            }
+            
+            /* 卡片区适应 */
+            .social-links-section { padding: 40px 5% 30px; }
             .card-container { grid-template-columns: 1fr; gap: 30px; margin-top: 30px; }
             
-            .card-content { padding: 30px; }
-            
-            /* **优化：缩小卡片内部文本，防止在窄屏固定高度下溢出** */
-            .card-content h3 {
-                font-size: 1.4rem; 
+            /* 手机端按钮样式调整 */
+            .nav-button {
+                display: block; 
+                width: 100%;
+                margin: 10px 0 0 0;
             }
-
-            .card-content p {
-                font-size: 1rem;
-            }
-            
-            .friendship-links-section { margin-top: 35px; } 
-            .copyright-section { margin-top: 20px; padding-top: 20px; } 
-        }
-
-        /* 极小屏幕优化 (<= 576px) */
-        @media (max-width: 576px) {
-            .hero-section .hero-image-container { height: 350px; } 
-            .hero-content h1 { font-size: 1.8rem; }
-            .hero-content p { font-size: 1.1rem; }
-            .main-content { padding-bottom: 40px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="particles"></div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="https://www.zizao.top" class="logo">
-                <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp" alt="字造Logo" class="logo-image">
-            </a>
-            <a href="#" class="nav-button">合作洽谈</a>
-        </div>
-    </nav>
+    <header class="header" id="headerContainer">
+        </header>
 
     <div class="hero-section">
         <div class="hero-image-container">
@@ -665,8 +455,8 @@
             </div>
         </div>
     </div>
-
-    <footer class="footer">
+    
+    <section class="social-links-section">
         <div class="footer-content">
             <div class="contact-social-section">
                 <div class="social-links">
@@ -716,97 +506,143 @@
                     </a>
                 </div>
             </div>
-
-            <div class="friendship-links-section">
-                <h3>工具推荐：</h3>
-                <div class="links-group">
-                    <a href="https://www.zizao.top/tools/pinyin" target="_blank" rel="noopener noreferrer">汉字转拼音</a>
-                    <a href="https://www.zizao.top/tools/txt" target="_blank" rel="noopener noreferrer"> 在线TXT编辑器</a>
-                    <a href="https://www.zizao.top/tools/quchong" target="_blank" rel="noopener noreferrer">去重字符</a>
-                    <a href="https://www.zizao.top/tools/shufa" target="_blank" rel="noopener noreferrer">搜书法风格</a>
-                    <a href="https://www.zizao.top/tools/duibi" target="_blank" rel="noopener noreferrer">文本差异对比</a>
-                </div>
             </div>
+    </section>
 
-        </div>
-
-        <div class="copyright-section">
-            <p>&copy; 2025 ZIZAO.TOP. 保留所有权利.
-                <a href="#" target="_blank" rel="noopener noreferrer">隐私政策</a> |
-                <a href="#" target="_blank" rel="noopener noreferrer">服务条款</a>
-            </p>
-        </div>
+    <footer class="dynamic-copyright-footer" id="footerContainer">
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const particlesContainer = document.getElementById('particles');
-            let lastTime = 0;
-            const throttleTime = 10; 
+    <script src="https://www.zizao.top/pages/common.js"></script> 
 
-            document.addEventListener('mousemove', function(e) {
-                const currentTime = new Date().getTime();
-                // 限制粒子生成频率
-                if (currentTime - lastTime > throttleTime) {
-                    createParticle(e.clientX, e.clientY);
-                    lastTime = currentTime;
+    <script>
+        
+        // ----------------------------------------------------
+        // 公共模块渲染函数 (统一自 fonts.html)
+        // ----------------------------------------------------
+        function renderHeader() {
+            const headerContainer = document.getElementById('headerContainer');
+            if (!headerContainer) return;
+            
+            // 使用外部 common.js 中的 navData
+            let navHtml = navData.map(item => {
+                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                let subMenuHtml = '';
+                if (item.subMenu) {
+                    const subLinks = item.subMenu.map(sub => {
+                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                    }).join('');
+                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
+                }
+
+                return `
+                    <div class="nav-item-dropdown">
+                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                        ${subMenuHtml}
+                    </div>
+                `;
+            }).join('');
+            
+            // 注意: 此处不再添加 "合作洽谈" 按钮
+
+            // 使用外部 common.js 中的 siteConfig
+            headerContainer.innerHTML = `
+                <a href="${siteConfig.homeUrl}" class="logo">
+                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo" class="logo-image">
+                </a>
+                <button class="menu-toggle" id="menuToggle">☰</button> 
+                <div class="backdrop" id="menuBackdrop"></div>
+                <nav class="nav" id="mainNav">
+                    ${navHtml}
+                </nav>
+            `;
+        }
+
+        function renderFooter() {
+            const footerContainer = document.getElementById('footerContainer');
+            if (!footerContainer) return;
+
+            // 使用外部 common.js 中的 footerLinks
+            const linkHtml = footerLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+            `).join(' | ');
+
+            // 使用外部 common.js 中的 siteConfig
+            footerContainer.innerHTML = `
+                <div class="copyright-section">
+                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
+                </div>
+            `;
+        }
+        
+        // ----------------------------------------------------
+        // 页面初始化与事件绑定 (统一自 fonts.html)
+        // ----------------------------------------------------
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. 动态渲染公共模块
+            renderHeader();
+            renderFooter();
+            
+            // 2. 导航事件绑定逻辑
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            const dropdownItems = mainNav ? mainNav.querySelectorAll('.nav-item-dropdown') : [];
+
+            function closeMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                mainNav.classList.remove('open');
+                menuBackdrop.classList.remove('open'); 
+                document.body.style.overflow = '';
+                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+            
+            function toggleMenu() {
+                const isOpen = mainNav.classList.toggle('open');
+                menuBackdrop.classList.toggle('open'); 
+                
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
+                }
+            }
+            
+            if (menuToggle && mainNav && menuBackdrop) {
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); 
+                
+                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                        item.addEventListener('click', () => {
+                            if (mainNav.classList.contains('open')) {
+                                setTimeout(closeMenu, 100); 
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // 移动端二级菜单展开/收起逻辑
+            dropdownItems.forEach(item => {
+                const navLink = item.querySelector('.nav-item.has-dropdown');
+                if (navLink) {
+                    navLink.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault(); 
+                            const wasOpen = item.classList.contains('open');
+                            dropdownItems.forEach(d => d.classList.remove('open')); 
+                            if (!wasOpen) {
+                                item.classList.add('open'); 
+                            }
+                        }
+                    });
                 }
             });
-
-            function createParticle(x, y) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
-
-                const size = Math.random() * 4 + 2; 
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-
-                const colors = ['var(--particle-primary)', 'var(--particle-secondary)', 'var(--particle-tertiary)'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.background = color;
-
-                particlesContainer.appendChild(particle);
-
-                animateParticle(particle);
-            }
-
-            function animateParticle(particle) {
-                let posX = parseFloat(particle.style.left);
-                let posY = parseFloat(particle.style.top);
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 3 + 2;
-                const vx = Math.cos(angle) * speed;
-                const vy = Math.sin(angle) * speed;
-
-                let opacity = 0.4; 
-                
-                // 粒子移动
-                const move = setInterval(() => {
-                    posX += vx;
-                    posY += vy;
-                    particle.style.left = `${posX}px`;
-                    particle.style.top = `${posY}px`;
-                }, 30);
-                
-                // 粒子淡出
-                const fade = setInterval(() => {
-                    opacity -= 0.015; 
-                    particle.style.opacity = opacity;
-
-                    if (opacity <= 0) {
-                        clearInterval(fade);
-                        clearInterval(move); // 确保移动也停止
-                        particle.remove();
-                    }
-                }, 50);
-
-                // 强制停止移动（防止内存泄漏），作为保险
-                setTimeout(() => {
-                    clearInterval(move);
-                }, 1000);
-            }
+            
+            // 3. 页面内容渲染完成后显示页面
+            document.body.style.opacity = '1';
         });
     </script>
 </body>
