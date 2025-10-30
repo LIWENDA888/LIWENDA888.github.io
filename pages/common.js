@@ -10,9 +10,9 @@ const navData = [
     
     { label: '授权', url: 'https://www.zizao.top/fonts/auth', openInNewTab: false },
 
-    { label: '设计导航', url: 'https://www.zizao.top/hao', openInNewTab: false },
+    { label: '导航', url: 'https://www.zizao.top/hao', openInNewTab: true },
 
-    { label: '设计资源', url: 'https://www.zizao.top/bao', openInNewTab: false },
+    { label: '资源', url: 'https://www.zizao.top/bao', openInNewTab: false },
 
     { label: '工具', url: '#', hasDropdown: true, subMenu: [
         { label: '字造超引', url: 'https://www.zizao.top/tools/chaoyin', openInNewTab: true },
