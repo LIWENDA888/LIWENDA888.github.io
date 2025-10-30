@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百宝库 - 自在造字（字造ZIZAO）</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --deep-grey: #222222; 
+            --light-grey: #CCCCCC;
+            --accent-color: #FF8C19; 
+            --active-color: var(--accent-color); 
+            --nav-hover-bg: rgba(255, 140, 25, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --sub-text-color: #6c7a89;
+            --text-color: #1a2a40;
+            --btn-solid-bg: var(--accent-color); 
+            --btn-solid-text: #FFFFFF; 
+            --btn-outline-border: var(--accent-color); 
+            --btn-outline-text: var(--accent-color); 
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #FFFFFF; 
+            color: var(--deep-grey);
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-image: none; 
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+        }
+
+        main {
+            flex-grow: 1; 
+            padding-top: 61px; 
+        }
+
+        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
+
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            border-bottom: 1px solid var(--light-grey); 
+        }
+        .logo img { height: 28px; max-width: 150px; display: block; }
+
+        .nav { display: flex; align-items: center; }
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        .nav-item-dropdown > a {
+            font-size: 16px; display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+        }
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .nav-item-dropdown:hover .dropdown-menu { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
+        .dropdown-menu a { display: block; padding: 8px 15px; font-size: 15px; white-space: nowrap; border-radius: 4px; margin: 0 8px; }
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+        }
+        .backdrop.open { opacity: 1; visibility: visible; }
+        
+        .container { width: 90%; max-width: 1400px; margin: 0 auto; }
+
+        .hero-search-section {
+            width: 100%;
+            height: 400px; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF; 
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp');
+            background-size: cover;
+            background-position: center 30%; 
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2); 
+            z-index: 2;
+        }
+
+        .search-content {
+            position: relative;
+            z-index: 3;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .search-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center; 
+            width: 100%;
+            background-color: #FFFFFF;
+            border-radius: 999px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 25px; 
+        }
+
+        #fontSearchInput {
+            flex-grow: 1;
+            border: none;
+            padding: 15px 25px; 
+            font-size: 18px;
+            outline: none;
+            color: var(--deep-grey);
+            border-radius: 0; 
+        }
+        
+        #clearSearchButton {
+            background: none;
+            border: none;
+            color: var(--sub-text-color);
+            padding: 0;
+            cursor: pointer;
+            margin: 0 10px 0 0; 
+            z-index: 10;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            width: 30px; 
+            height: 100%; 
+            transition: color 0.2s;
+            flex-shrink: 0; 
+        }
+        
+        #clearSearchButton:hover {
+            color: var(--deep-grey); 
+        }
+        
+        #clearSearchButton .clear-icon {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+        }
+
+        #searchButton {
+            background-color: var(--accent-color);
+            color: var(--btn-solid-text); 
+            border: none;
+            padding: 10px 20px; 
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 999px; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            margin: 5px; 
+            flex-shrink: 0;
+        }
+
+        #searchButton:hover {
+            background-color: #E67E16; 
+        }
+
+        #searchButton .search-icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--btn-solid-text); 
+        }
+
+        .hot-searches {
+            margin-top: 0; 
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center; 
+        }
+
+        .hot-tag {
+            color: #FFFFFF; 
+            background-color: rgba(255, 255, 255, 0.2); 
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.5); 
+            user-select: none; 
+        }
+
+        .hot-tag:hover {
+            background-color: rgba(255, 255, 255, 0.4); 
+            border-color: #FFFFFF;
+        }
+        .font-showcase-section {
+            padding: 30px 0 80px; 
+            min-height: 400px; 
+        }
+
+        #fontShowcase { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+        }
+
+        .font-card {
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+            background-color: #FFFFFF;
+            border: 1px solid #EEEEEE;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .font-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-category-tag {
+            position: absolute;
+            top: 15px; 
+            right: 15px;
+            padding: 4px 10px;
+            font-size: 12px;
+            color: var(--sub-text-color); 
+            border: 1px solid var(--light-grey); 
+            background-color: #FFFFFF; 
+            border-radius: 999px; 
+            pointer-events: none; 
+        }
+
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-body h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--deep-grey);
+        }
+
+        .card-body p {
+            font-size: 14px;
+            color: var(--sub-text-color);
+            margin-bottom: 20px;
+            flex-grow: 1;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; 
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .card-actions a {
+            display: inline-block;
+            padding: 10px 25px; 
+            border-radius: 999px; 
+            font-size: 14px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s; 
+            white-space: nowrap;
+        }
+        
+        .btn-download {
+            background-color: var(--btn-solid-bg); 
+            color: var(--btn-solid-text); 
+            border: 1px solid var(--btn-solid-bg);
+        }
+
+        .btn-download:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-detail {
+            background-color: #FFFFFF; 
+            color: var(--btn-outline-text); 
+            border: 1px solid var(--btn-outline-border); 
+        }
+
+        .btn-detail:hover {
+            background-color: rgba(255, 140, 25, 0.05); 
+            color: var(--btn-outline-text); 
+            border-color: #E67E16; 
+        }
+
+        #searchResultInfo {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--sub-text-color);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .footer {
+            background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
+            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
+        }
+        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
+        .copyright-section a { color: var(--sub-text-color); }
+        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            
+            main { padding-top: 48px; }
+            .header { padding: 10px 4%; }
+            .menu-toggle { display: block; }
+            .container { width: 95%; }
+
+            .nav {
+                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
+                max-width: none; height: calc(100vh - 48px);
+                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
+                overflow-y: auto; 
+                transform: translateY(-100%); opacity: 0; visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+            }
+            .nav.open {
+                transform: translateY(0); opacity: 1; visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+            .backdrop { top: 48px; height: calc(100vh - 48px); }
+            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
+            .nav-item-dropdown:last-child { border-bottom: none; }
+            .nav-item-dropdown > a { padding: 15px 10px; font-size: 18px; width: 100%; display: flex; justify-content: space-between; }
+            .nav-item-dropdown > a::after { content: none; } 
+            .nav .nav-item-dropdown .dropdown-menu { display: none; position: static; opacity: 1; transform: none; border: none !important; box-shadow: none !important; }
+            .nav .nav-item-dropdown.open .dropdown-menu { display: block !important; }
+            .dropdown-menu a { padding: 10px 10px; font-size: 16px; margin: 3px 0; }
+            
+            .hero-search-section {
+                height: 300px;
+                margin-bottom: 30px;
+            }
+            .search-content {
+                width: 90%;
+            }
+            .search-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 20px; 
+            }
+            .search-box {
+                margin-bottom: 20px; 
+            }
+            #fontSearchInput {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+            
+            #searchButton {
+                padding: 8px 15px;
+            }
+            #searchButton .search-icon {
+                width: 20px;
+                height: 20px;
+            }
+             #clearSearchButton {
+                margin: 0 5px 0 0; 
+                width: 25px;
+            }
+            #clearSearchButton .clear-icon {
+                width: 16px;
+                height: 16px;
+            }
+            .hot-searches {
+                margin-top: 0;
+            }
+            .hot-tag {
+                font-size: 12px;
+                padding: 6px 12px; 
+            }
+            
+            .font-showcase-section {
+                padding: 20px 0 50px; 
+            }
+            #fontShowcase { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 15px; 
+            }
+            .card-category-tag {
+                top: 10px; 
+                right: 10px;
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+            .card-body {
+                padding: 15px;
+            }
+            .card-body h3 {
+                font-size: 16px;
+            }
+            .card-body p {
+                font-size: 12px;
+                margin-bottom: 15px;
+                -webkit-line-clamp: 2; 
+            }
+            .card-actions {
+                gap: 10px;
+            }
+            .card-actions a {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="headerContainer">
+    </header>
+
+    <main>
+        
+        <section class="hero-search-section">
+            <div class="hero-background"></div>
+            <div class="hero-overlay"></div>
+            <div class="search-content">
+                <h1>百宝库-即搜即用</h1>
+                <div class="search-box">
+                    <input type="text" id="fontSearchInput" placeholder="请输入关键词...">
+                    
+                    <button id="clearSearchButton" aria-label="清空搜索" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="clear-icon">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    
+                    <button id="searchButton" aria-label="搜索">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="hot-searches" id="hotSearchesContainer">
+                    </div>
+            </div>
+        </section>
+
+        <div class="container font-showcase-section">
+             <div id="searchResultInfo"></div> <section class="font-showcase" id="fontShowcase"></section>
+        </div>
+
+    </main>
+
+    <footer id="footerContainer">
+    </footer>
+    
+    <script src="https://www.zizao.top/pages/common.js"></script>
+    
+    <script>
+        
+        function renderHeader() {
+            const headerContainer = document.getElementById('headerContainer');
+            if (!headerContainer) return;
+
+            let navHtml = navData.map(item => {
+                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                let subMenuHtml = '';
+                if (item.subMenu) {
+                    const subLinks = item.subMenu.map(sub => {
+                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                    }).join('');
+                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
+                }
+
+                return `
+                    <div class="nav-item-dropdown">
+                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                        ${subMenuHtml}
+                    </div>
+                `;
+            }).join('');
+
+            headerContainer.innerHTML = `
+                <a href="${siteConfig.homeUrl}" class="logo">
+                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
+                </a>
+                <button class="menu-toggle" id="menuToggle">☰</button> 
+                <div class="backdrop" id="menuBackdrop"></div>
+                <nav class="nav" id="mainNav">
+                    ${navHtml}
+                </nav>
+            `;
+        }
+
+        function renderFooter() {
+            const footerContainer = document.getElementById('footerContainer');
+            if (!footerContainer) return;
+
+            const linkHtml = footerLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+            `).join(' | ');
+
+            footerContainer.className = 'footer';
+            footerContainer.innerHTML = `
+                <div class="copyright-section">
+                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
+                </div>
+            `;
+        }
+
+        const HOT_SEARCH_TERMS = ['免费商用', '黑体', '宋体', '手写体', '楷体'];
+
+        const fontData = [
+            { id: 1, name: '字造起点黑', desc: '一款专为正文排版设计的高品质无衬线黑体，即将上线，敬请期待。', detailUrl: 'https://www.zizao.top/fonts/qidiansans', downloadUrl: '#', tags: ['黑体', '正文', '即将上线'], category: '黑体' },
+            { id: 2, name: '自在造字·在线体验', desc: '体验我们所有字体的在线预览和试用服务，包括免费商用字体。', detailUrl: 'https://www.zizao.top/fonts/web', downloadUrl: 'https://www.zizao.top/download/webfont', tags: ['在线', '免费商用', '体验'], category: '在线' },
+            { id: 3, name: 'Adobe 仿宋 Pro', desc: '基于经典仿宋体改进，结构严谨，适用于书籍和传统媒体的排版。', detailUrl: '#', downloadUrl: '#', tags: ['仿宋', '书籍', 'Adobe'], category: '仿宋' },
+            { id: 4, name: '华文黑体 W5', desc: '中等字重，广泛应用于各种设计场景，拥有良好的屏幕显示效果。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', '通用', '华文'], category: '黑体' },
+            { id: 5, name: '思源宋体', desc: '由 Adobe 和 Google 合作开发的开源字体，支持四种东亚语言。', detailUrl: 'https://www.google.com/get/notosans/', downloadUrl: 'https://www.google.com/get/notosans/', tags: ['宋体', '开源', 'Google', 'Adobe', '免费商用'], category: '宋体' },
+            { id: 6, name: '方正兰亭黑 Pro', desc: '现代感十足的黑体，在广告和品牌设计中非常受欢迎。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', '品牌', '方正'], category: '黑体' },
+            { id: 7, name: '汉仪旗黑', desc: '笔画清晰，设计简洁，是企业和电商网站的常用选择。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', '电商', '汉仪'], category: '黑体' },
+            { id: 8, name: '衬线体经典系列', desc: '一套复古风格的衬线字体，适合标题和海报设计。', detailUrl: '#', downloadUrl: '#', tags: ['衬线体', '标题', '复古'], category: '衬线体' },
+            { id: 9, name: '手写风格创意体', desc: '模拟真实手写效果的字体，适用于创意和个性化设计。', detailUrl: '#', downloadUrl: '#', tags: ['手写体', '创意'], category: '手写体' },
+            { id: 10, name: '未来科技 Display', desc: '带有科技感的显示字体，常用于科幻主题或游戏界面。', detailUrl: '#', downloadUrl: '#', tags: ['显示体', '科技', '游戏'], category: '显示体' },
+            { id: 11, name: 'Adobe 楷体 Std', desc: '一款标准的楷书字体，适合传统文化相关的排版。', detailUrl: '#', downloadUrl: '#', tags: ['楷体', '传统', 'Adobe'], category: '楷体' },
+            { id: 12, name: '思源黑体', desc: '开源字体，免费商用，是网页和应用开发的理想选择。', detailUrl: 'https://www.google.com/get/notosans/', downloadUrl: 'https://www.google.com/get/notosans/', tags: ['黑体', '开源', 'Google', '免费商用'], category: '黑体' },
+            { id: 13, name: '方正隶书', desc: '具有古典美感的隶书字体，常用于标题和艺术字设计。', detailUrl: '#', downloadUrl: '#', tags: ['隶书', '古典', '方正'], category: '隶书' },
+            { id: 14, name: '微软雅黑', desc: 'Windows 平台下的官方中文字体，拥有极高的普及度。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', 'Windows', '微软'], category: '黑体' },
+        ];
+
+        const DISPLAY_LIMIT = 12; 
+
+        const fontShowcaseElement = document.getElementById('fontShowcase');
+        const searchInput = document.getElementById('fontSearchInput');
+        const searchButton = document.getElementById('searchButton');
+        const clearSearchButton = document.getElementById('clearSearchButton'); 
+        const searchInfo = document.getElementById('searchResultInfo');
+        const hotSearchesContainer = document.getElementById('hotSearchesContainer');
+        
+        function renderFonts(fonts) {
+            const isSearching = searchInput.value.trim() !== '';
+
+            if (fonts.length === 0 && isSearching) {
+                fontShowcaseElement.innerHTML = '';
+                searchInfo.innerHTML = `抱歉，没有找到关于“${searchInput.value}”的资源。`;
+                return;
+            }
+            
+            const fontsToDisplay = isSearching ? fonts : fonts.slice(0, DISPLAY_LIMIT);
+            const displayCount = fontsToDisplay.length;
+
+            if (!isSearching) {
+                searchInfo.innerHTML = `为您推荐热门的 ${displayCount} 个资源`;
+            } else {
+                searchInfo.innerHTML = `找到 ${displayCount} 个匹配结果`;
+            }
+
+            fontShowcaseElement.innerHTML = fontsToDisplay.map(font => {
+                const detailLink = font.detailUrl || '#';
+                const downloadLink = font.downloadUrl || '#'; 
+                
+                const downloadText = '下载'; 
+                const downloadClass = 'btn-download'; 
+                const detailClass = 'btn-detail';
+                
+                const downloadTarget = (downloadLink === '#') ? '_self' : '_blank';
+                const detailTarget = (detailLink === '#') ? '_self' : '_blank';
+                
+                const categoryTag = font.category || (font.tags && font.tags.length > 0 ? font.tags[0] : '其他');
+
+                return `
+                    <div class="font-card">
+                        <span class="card-category-tag">${categoryTag}</span> 
+                        <div class="card-body">
+                            <h3>${font.name}</h3>
+                            <p>${font.desc}</p>
+                            <div class="card-actions">
+                                <a href="${downloadLink}" 
+                                   target="${downloadTarget}" 
+                                   class="${downloadClass}"
+                                   rel="noopener noreferrer" 
+                                >
+                                    ${downloadText} 
+                                </a>
+                                <a href="${detailLink}" 
+                                   target="${detailTarget}" 
+                                   class="${detailClass}"
+                                   rel="noopener noreferrer" 
+                                >
+                                    详情
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderHotSearches() {
+            if (!hotSearchesContainer) return;
+
+            hotSearchesContainer.innerHTML = HOT_SEARCH_TERMS.map(term => `
+                <span class="hot-tag" data-query="${term}">${term}</span>
+            `).join('');
+
+            hotSearchesContainer.querySelectorAll('.hot-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const query = this.dataset.query;
+                    searchInput.value = query;
+                    handleSearch();
+                });
+            });
+        }
+        
+        function toggleClearButton() {
+            if (searchInput.value.trim() !== '') {
+                clearSearchButton.style.display = 'flex'; 
+            } else {
+                clearSearchButton.style.display = 'none'; 
+            }
+        }
+        
+        function clearSearch() {
+            searchInput.value = ''; 
+            toggleClearButton();    
+            handleSearch();         
+        }
+
+
+        function performSearch(query) {
+            const trimmedQuery = query.trim().toLowerCase();
+            
+            if (trimmedQuery === '') {
+                renderFonts(fontData);
+            } else {
+                const filteredFonts = fontData.filter(font => {
+                    const matchesName = font.name.toLowerCase().includes(trimmedQuery);
+                    const matchesTags = font.tags.some(tag => tag.toLowerCase().includes(trimmedQuery));
+                    return matchesName || matchesTags;
+                });
+                renderFonts(filteredFonts);
+            }
+        }
+
+        function handleSearch() {
+            const query = searchInput.value;
+            
+            const url = new URL(window.location.href);
+            if (query) {
+                url.searchParams.set('q', query);
+            } else {
+                url.searchParams.delete('q');
+            }
+            window.history.pushState({}, '', url);
+            
+            toggleClearButton();
+
+            performSearch(query);
+        }
+
+        function loadFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q') || '';
+            
+            searchInput.value = query;
+
+            performSearch(query);
+            
+            toggleClearButton(); 
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            renderHeader();
+            renderFooter();
+            
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
+
+            function closeMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                mainNav.classList.remove('open');
+                menuBackdrop.classList.remove('open'); 
+                document.body.style.overflow = '';
+                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+            
+            function toggleMenu() {
+                const isOpen = mainNav.classList.toggle('open');
+                menuBackdrop.classList.toggle('open'); 
+                
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
+                }
+                
+                if (!isOpen) { 
+                    closeMenu(); 
+                }
+            }
+            
+            if (menuToggle && mainNav && menuBackdrop) {
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); 
+                
+                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                        item.addEventListener('click', () => {
+                            if (mainNav.classList.contains('open')) {
+                                setTimeout(closeMenu, 100); 
+                            }
+                        });
+                    }
+                });
+            }
+            
+            dropdownItems.forEach(item => {
+                const navLink = item.querySelector('.nav-item.has-dropdown');
+                if (navLink) {
+                    navLink.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault(); 
+                            const wasOpen = item.classList.contains('open');
+                            dropdownItems.forEach(d => d.classList.remove('open')); 
+                            if (!wasOpen) {
+                                item.classList.add('open'); 
+                            }
+                        }
+                    });
+                }
+            });
+
+            searchButton.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+            
+            searchInput.addEventListener('input', toggleClearButton);
+            clearSearchButton.addEventListener('click', clearSearch);
+
+            renderHotSearches();
+            
+            loadFromURL(); 
+            
+            document.body.style.opacity = '1';
+        });
+    </script>
+
+</body>
+</html>
