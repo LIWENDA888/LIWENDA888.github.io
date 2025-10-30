@@ -6,9 +6,9 @@
 const navData = [
     { label: '首页', url: 'https://www.zizao.top', openInNewTab: false },
 
-    { label: '字体产品', url: 'https://www.zizao.top/fonts', openInNewTab: false },
+    { label: '产品', url: 'https://www.zizao.top/fonts', openInNewTab: false },
     
-    { label: '字体授权', url: 'https://www.zizao.top/fonts/auth', openInNewTab: false },
+    { label: '授权', url: 'https://www.zizao.top/fonts/auth', openInNewTab: false },
 
     { label: '设计导航', url: 'https://www.zizao.top/hao', openInNewTab: false },
 
@@ -23,7 +23,7 @@ const navData = [
         { label: '文本去重', url: 'https://www.zizao.top/tools/quchong', openInNewTab: true }
     ]},
 
-    { label: '关于我们', url: 'https://www.zizao.top/fonts/about', openInNewTab: false }
+    { label: '关于', url: 'https://www.zizao.top/fonts/about', openInNewTab: false }
 ];
 
 const footerLinks = [
