@@ -23,6 +23,8 @@
             --btn-solid-text: #FFFFFF; 
             --btn-outline-border: var(--accent-color); 
             --btn-outline-text: var(--accent-color); 
+            /* 新增一个用于卡片悬浮背景的微弱橙色 */
+            --light-accent-bg: rgba(255, 140, 25, 0.03);
         }
 
         body {
@@ -253,12 +255,14 @@
             border: 1px solid #EEEEEE;
             border-radius: 8px;
             overflow: hidden;
-            transition: box-shadow 0.3s, transform 0.3s;
+            transition: box-shadow 0.3s, background-color 0.3s; 
         }
 
         .font-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            /* **修改阴影：减小阴影尺寸和透明度，使其更淡** */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            /* 保持微弱的橙色渐变背景 */
+            background-image: linear-gradient(to bottom right, #FFFFFF 0%, var(--light-accent-bg) 100%);
         }
         
         .card-category-tag {
@@ -308,7 +312,7 @@
 
         .card-actions a {
             display: inline-block;
-            padding: 10px 25px; 
+            padding: 5px 25px; 
             border-radius: 999px; 
             font-size: 14px;
             text-align: center;
@@ -445,6 +449,13 @@
             .font-card {
                 max-width: 100%;
                 margin: 0 auto;
+                background-image: none; /* 移动端不应用渐变背景，以保持简洁 */
+                transition: box-shadow 0.3s;
+            }
+            
+            .font-card:hover {
+                 background-image: none; /* 移动端悬浮时不使用渐变背景 */
+                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 移动端也使用更淡的阴影 */
             }
 
             .card-category-tag {
@@ -464,18 +475,18 @@
                 margin-bottom: 20px;
                 -webkit-line-clamp: 3; 
             }
-            /* 优化：按钮改为并排，稍微宽一点 */
+            /* 优化：按钮改为并排，稍微宽一点，并且缩小尺寸和间距 */
             .card-actions {
                 display: flex;
-                flex-direction: row; /* 确保并排 */
+                flex-direction: row; 
                 justify-content: space-between; 
-                gap: 10px; /* 按钮间距 */
+                gap: 8px; 
                 margin-top: 15px;
             }
             .card-actions a {
-                padding: 12px 15px; /* 增加内边距，使按钮更高更宽 */
-                font-size: 15px;
-                width: calc(50% - 5px); /* 确保两个按钮加上 10px 的 gap 刚好在父容器内 */
+                padding: 5px 10px; 
+                font-size: 14px; 
+                width: calc(50% - 4px); 
                 text-align: center; 
             }
             
