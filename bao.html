@@ -437,36 +437,50 @@
             .font-showcase-section {
                 padding: 20px 0 50px; 
             }
+            /* 优化：手机端改为一列卡片 */
             #fontShowcase { 
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 15px; 
+                grid-template-columns: 1fr; 
+                gap: 20px; 
             }
+            .font-card {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
             .card-category-tag {
-                top: 10px; 
-                right: 10px;
-                font-size: 10px;
-                padding: 3px 8px;
+                top: 15px; 
+                right: 15px;
+                font-size: 12px;
+                padding: 4px 10px;
             }
             .card-body {
-                padding: 15px;
+                padding: 20px; 
             }
             .card-body h3 {
-                font-size: 16px;
+                font-size: 18px;
             }
             .card-body p {
-                font-size: 12px;
-                margin-bottom: 15px;
-                -webkit-line-clamp: 2; 
+                font-size: 14px;
+                margin-bottom: 20px;
+                -webkit-line-clamp: 3; 
             }
+            /* 优化：按钮改为并排，稍微宽一点 */
             .card-actions {
-                gap: 10px;
+                display: flex;
+                flex-direction: row; /* 确保并排 */
+                justify-content: space-between; 
+                gap: 10px; /* 按钮间距 */
+                margin-top: 15px;
             }
             .card-actions a {
-                padding: 8px 10px;
-                font-size: 12px;
+                padding: 12px 15px; /* 增加内边距，使按钮更高更宽 */
+                font-size: 15px;
+                width: calc(50% - 5px); /* 确保两个按钮加上 10px 的 gap 刚好在父容器内 */
+                text-align: center; 
             }
+            
             .disclaimer-text {
-                font-size: 0.75rem; /* 移动端更小一点 */
+                font-size: 0.85rem; 
             }
         }
     </style>
@@ -517,6 +531,8 @@
     </footer>
     
     <script src="https://www.zizao.top/pages/common.js"></script>
+    
+    <script src="https://www.zizao.top/pages/bao-data.js"></script>
     
     <script>
         
@@ -575,22 +591,8 @@
 
         const HOT_SEARCH_TERMS = ['免费商用', '黑体', '宋体', '手写体', '楷体'];
 
-        const fontData = [
-            { id: 1, name: '字造起点黑', desc: '一款专为正文排版设计的高品质无衬线黑体，即将上线，敬请期待。', detailUrl: 'https://www.zizao.top/fonts/qidiansans', downloadUrl: '#', tags: ['黑体', '正文', '即将上线'], category: '黑体' },
-            { id: 2, name: '自在造字·在线体验', desc: '体验我们所有字体的在线预览和试用服务，包括免费商用字体。', detailUrl: 'https://www.zizao.top/fonts/web', downloadUrl: 'https://www.zizao.top/download/webfont', tags: ['在线', '免费商用', '体验'], category: '在线' },
-            { id: 3, name: 'Adobe 仿宋 Pro', desc: '基于经典仿宋体改进，结构严谨，适用于书籍和传统媒体的排版。', detailUrl: '#', downloadUrl: '#', tags: ['仿宋', '书籍', 'Adobe'], category: '仿宋' },
-            { id: 4, name: '华文黑体 W5', desc: '中等字重，广泛应用于各种设计场景，拥有良好的屏幕显示效果。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', '通用', '华文'], category: '黑体' },
-            { id: 5, name: '思源宋体', desc: '由 Adobe 和 Google 合作开发的开源字体，支持四种东亚语言。', detailUrl: 'https://www.google.com/get/notosans/', downloadUrl: 'https://www.google.com/get/notosans/', tags: ['宋体', '开源', 'Google', 'Adobe', '免费商用'], category: '宋体' },
-            { id: 6, name: '方正兰亭黑 Pro', desc: '现代感十足的黑体，在广告和品牌设计中非常受欢迎。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', '品牌', '方正'], category: '黑体' },
-            { id: 7, name: '汉仪旗黑', desc: '笔画清晰，设计简洁，是企业和电商网站的常用选择。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', '电商', '汉仪'], category: '黑体' },
-            { id: 8, name: '衬线体经典系列', desc: '一套复古风格的衬线字体，适合标题和海报设计。', detailUrl: '#', downloadUrl: '#', tags: ['衬线体', '标题', '复古'], category: '衬线体' },
-            { id: 9, name: '手写风格创意体', desc: '模拟真实手写效果的字体，适用于创意和个性化设计。', detailUrl: '#', downloadUrl: '#', tags: ['手写体', '创意'], category: '手写体' },
-            { id: 10, name: '未来科技 Display', desc: '带有科技感的显示字体，常用于科幻主题或游戏界面。', detailUrl: '#', downloadUrl: '#', tags: ['显示体', '科技', '游戏'], category: '显示体' },
-            { id: 11, name: 'Adobe 楷体 Std', desc: '一款标准的楷书字体，适合传统文化相关的排版。', detailUrl: '#', downloadUrl: '#', tags: ['楷体', '传统', 'Adobe'], category: '楷体' },
-            { id: 12, name: '思源黑体', desc: '开源字体，免费商用，是网页和应用开发的理想选择。', detailUrl: 'https://www.google.com/get/notosans/', downloadUrl: 'https://www.google.com/get/notosans/', tags: ['黑体', '开源', 'Google', '免费商用'], category: '黑体' },
-            { id: 13, name: '方正隶书', desc: '具有古典美感的隶书字体，常用于标题和艺术字设计。', detailUrl: '#', downloadUrl: '#', tags: ['隶书', '古典', '方正'], category: '隶书' },
-            { id: 14, name: '微软雅黑', desc: 'Windows 平台下的官方中文字体，拥有极高的普及度。', detailUrl: '#', downloadUrl: '#', tags: ['黑体', 'Windows', '微软'], category: '黑体' },
-        ];
+        // fontData 数组已移至 font-data.js 文件
+        // HTML 文件中的代码从这里开始继续使用全局的 fontData 变量
 
         const DISPLAY_LIMIT = 12; 
 
@@ -611,6 +613,13 @@
         `;
 
         function renderFonts(fonts) {
+            // 确保 fontData 已经加载
+            if (typeof fontData === 'undefined' || fontData.length === 0) {
+                 console.error('fontData 未加载或为空，请检查 font-data.js 文件。');
+                 fontShowcaseElement.innerHTML = `<p style="text-align:center; color:red;">资源数据加载失败。</p>`;
+                 return;
+            }
+            
             const isSearching = searchInput.value.trim() !== '';
             
             if (disclaimerContainer) {
@@ -710,6 +719,12 @@
 
 
         function performSearch(query) {
+             // 确保 fontData 已经加载
+            if (typeof fontData === 'undefined') {
+                 renderFonts([]); // 如果未加载，则渲染空数组
+                 return;
+            }
+
             const trimmedQuery = query.trim().toLowerCase();
             
             if (trimmedQuery === '') {
