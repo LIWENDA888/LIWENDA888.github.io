@@ -347,6 +347,14 @@
             margin-bottom: 30px;
         }
         
+        /* 特别声明样式 - 现在只负责文字样式，位置由外部 div 控制 */
+        .disclaimer-text {
+            font-size: 0.9rem; 
+            color: var(--sub-text-color);
+            opacity: 0.7; /* 降低透明度 */
+            line-height: 1.4;
+        }
+        
         .footer {
             background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
             display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
@@ -457,6 +465,9 @@
                 padding: 8px 10px;
                 font-size: 12px;
             }
+            .disclaimer-text {
+                font-size: 0.75rem; /* 移动端更小一点 */
+            }
         }
     </style>
 </head>
@@ -495,7 +506,9 @@
         </section>
 
         <div class="container font-showcase-section">
-             <div id="searchResultInfo"></div> <section class="font-showcase" id="fontShowcase"></section>
+             <div id="searchResultInfo"></div> 
+             <section class="font-showcase" id="fontShowcase"></section>
+             <div id="disclaimerContainer"></div>
         </div>
 
     </main>
@@ -587,24 +600,42 @@
         const clearSearchButton = document.getElementById('clearSearchButton'); 
         const searchInfo = document.getElementById('searchResultInfo');
         const hotSearchesContainer = document.getElementById('hotSearchesContainer');
+        const disclaimerContainer = document.getElementById('disclaimerContainer'); // 声明文字容器
         
+        const DISCLAIMER_HTML = `
+            <div style="text-align: center; padding: 20px 0;">
+                <p class="disclaimer-text">
+                    特别声明：本页面资源多数来源网络，仅供学习交流。请下载后于24小时内删除。若产生版权纠纷，与本站无关。若侵犯到您的权益，请联系管理员！
+                </p>
+            </div>
+        `;
+
         function renderFonts(fonts) {
             const isSearching = searchInput.value.trim() !== '';
+            
+            if (disclaimerContainer) {
+                disclaimerContainer.innerHTML = DISCLAIMER_HTML;
+            }
 
             if (fonts.length === 0 && isSearching) {
                 fontShowcaseElement.innerHTML = '';
-                searchInfo.innerHTML = `抱歉，没有找到关于“${searchInput.value}”的资源。`;
+                searchInfo.innerHTML = `抱歉，没有找到关于“${searchInput.value}”的资源。`; // 仅显示搜索结果信息
                 return;
             }
             
-            const fontsToDisplay = isSearching ? fonts : fonts.slice(0, DISPLAY_LIMIT);
+            const fontsToDisplay = isSearching ? fonts : fontData.slice(0, DISPLAY_LIMIT); 
             const displayCount = fontsToDisplay.length;
+            let mainInfo = '';
 
             if (!isSearching) {
-                searchInfo.innerHTML = `为您推荐热门的 ${displayCount} 个资源`;
+                mainInfo = `为您推荐热门的 ${displayCount} 个资源`;
             } else {
-                searchInfo.innerHTML = `找到 ${displayCount} 个匹配结果`;
+                mainInfo = `找到 ${displayCount} 个匹配结果`;
             }
+
+            // 仅显示主信息内容，不包含声明文字
+            searchInfo.innerHTML = mainInfo;
+
 
             fontShowcaseElement.innerHTML = fontsToDisplay.map(font => {
                 const detailLink = font.detailUrl || '#';
