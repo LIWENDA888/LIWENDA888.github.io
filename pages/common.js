@@ -15,12 +15,11 @@ const navData = [
     { label: '资源', url: 'https://www.zizao.top/bao', openInNewTab: false },
 
     { label: '工具', url: '#', hasDropdown: true, subMenu: [
-        { label: '形近字查询', url: 'https://www.zizao.top/tools/chaoyin', openInNewTab: true },
-        { label: '搜书法风格', url: 'https://www.zizao.top/tools/shufa', openInNewTab: true },
-        { label: '汉字转拼音', url: 'https://www.zizao.top/tools/pinyin', openInNewTab: true },
-        { label: '文本编辑', url: 'https://www.zizao.top/tools/txt', openInNewTab: true },
-        { label: '文本对比', url: 'https://www.zizao.top/tools/duibi', openInNewTab: true },
-        { label: '文本去重', url: 'https://www.zizao.top/tools/quchong', openInNewTab: true }
+        { label: '形近字查询', url: 'https://www.zizao.top/tools/chaoyin', openInNewTab: false },
+        { label: '搜书法风格', url: 'https://www.zizao.top/tools/shufa', openInNewTab: false },
+        { label: '在线TXT文本编辑', url: 'https://www.zizao.top/tools/txt', openInNewTab: false },
+        { label: '汉字转拼音', url: 'https://www.zizao.top/tools/pinyin', openInNewTab: false },
+        { label: '文本差异对比', url: 'https://www.zizao.top/tools/duibi', openInNewTab: false }
     ]},
 
     { label: '关于', url: 'https://www.zizao.top/fonts/about', openInNewTab: false }
