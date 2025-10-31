@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>木头Motou的作品 - 自在造字（字造ZIZAO）</title>
+    <meta name="description" content="字造产品展示，提供优质的字库产品和设计资源。">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+
+    <style>
+        /* 基础样式和变量 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --deep-grey: #222222; /* 主深色 */
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --active-color: #222222; /* 激活状态颜色设为深灰/黑 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --sub-text-color: #6c7a89;
+            --text-color: #1a2a40;
+        }
+
+        /* 核心修改 1: 确保 body 至少占据整个视口，并设置为 flex 容器 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #FFFFFF; /* 背景色改为纯白色 */
+            color: var(--deep-grey);
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-image: none; 
+            
+            /* 粘性页脚关键样式 */
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+        }
+
+        /* 核心修改 2: 确保主内容区域占据剩余所有空间 */
+        main {
+            flex-grow: 1; /* 让 main 元素占据所有可用空间 */
+            padding-top: 61px; /* 将原 body 上的顶部间距转移到 main 上 */
+        }
+
+        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
+
+        /* 顶部栏 (保持不变) */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            border-bottom: 1px solid var(--light-grey); 
+        }
+        .logo { display: block; } 
+        .logo img { height: 28px; max-width: 150px; display: block; }
+        .nav { display: flex; align-items: center; }
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        .nav-item-dropdown > a {
+            font-size: 16px; display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+        }
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .nav-item-dropdown:hover .dropdown-menu {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: block; padding: 8px 15px; font-size: 15px;
+            white-space: nowrap; border-radius: 4px; margin: 0 8px;
+        }
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+        }
+        .backdrop.open { opacity: 1; visibility: visible; }
+
+        /* 内容区和底部 */
+        .container { width: 90%; max-width: 1400px; margin: 0 auto; }
+
+        /* 作品展示区域主容器 */
+        .work-showcase-wrapper { 
+            padding: 60px 0 80px; 
+        }
+        
+        /* 头部区域样式：设置高度和垂直居中 */
+        .work-header {
+            min-height: 500px; /* 设置最小高度为 600px */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 垂直居中 */
+            align-items: center;
+            
+            text-align: center;
+            margin-bottom: 40px; /* 标题区块与图片区块之间的间距 */
+        }
+
+        .work-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--deep-grey);
+            margin-bottom: 10px;
+        }
+
+        .work-header p {
+            font-size: 18px;
+            color: var(--sub-text-color);
+            margin-bottom: 30px; /* 增大描述和按钮的间距 */
+            max-width: 800px; /* 限制描述文字宽度，美化排版 */
+        }
+
+        /* 药丸状按钮样式，调整宽度 */
+        .work-header .more-link {
+            font-size: 15px; 
+            font-weight: 600;
+            
+            background-color: var(--deep-grey); 
+            color: #FFFFFF; 
+            border: 2px solid var(--deep-grey); 
+            
+            padding: 10px 40px; 
+            border-radius: 50px; 
+            
+            display: inline-block;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+        }
+
+        .work-header .more-link:hover {
+            background-color: #444444; 
+            color: #FFFFFF;
+            border-color: #444444; 
+        }
+        
+        /* === 新增样式: 分类筛选按钮区 === */
+        .category-buttons-container {
+            display: flex;
+            justify-content: center; /* 居中对齐 */
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 15px; /* 按钮间距 */
+            margin-bottom: 50px; /* 分类按钮和作品网格之间的间距 */
+        }
+
+        .category-button {
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--light-grey);
+            background-color: #FFFFFF;
+            color: var(--deep-grey);
+            border-radius: 20px; /* 药丸形状 */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        
+        .category-button:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .category-button.active {
+            background-color: var(--deep-grey);
+            color: #FFFFFF;
+            border-color: var(--deep-grey);
+        }
+        /* === 新增样式 END === */
+
+        /* 网格布局 (图片间距保持 45px) */
+        .work-showcase { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 45px; 
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 作品卡片样式 (保持不变) */
+        .work-card { 
+            display: block; 
+            overflow: hidden; 
+            border-radius: 6px; 
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            background-color: #f8f8f8; 
+        }
+
+        /* 悬浮放大效果 (保持不变) */
+        .work-card:hover {
+            transform: scale(1.03); 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            z-index: 10; 
+        }
+
+        .work-image { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            aspect-ratio: 4 / 3; 
+            object-fit: cover; 
+            transition: transform 0.3s ease;
+        }
+
+        /* --- 全屏图片查看器样式 --- (保持不变) */
+        .lightbox {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); 
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer; 
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            pointer-events: none; 
+            transform: scale(0.8);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .lightbox.open .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-content img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            border-radius: 8px;
+        }
+        /* --- 全屏图片查看器样式 END --- */
+
+
+        .footer {
+            background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
+            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
+        }
+
+        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
+        .copyright-section a { color: var(--sub-text-color); }
+        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
+
+        /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
+        @media (max-width: 768px) {
+            
+            .container { width: 95%; }
+            .work-showcase-wrapper { padding: 30px 0 40px; } 
+            
+            /* 移动端头部高度缩减 */
+            .work-header { 
+                min-height: 350px; 
+                margin-bottom: 30px; 
+            }
+            
+            .work-header h1 { font-size: 28px; }
+            .work-header p { font-size: 16px; margin-bottom: 20px; }
+
+            /* 移动端按钮样式 */
+            .work-header .more-link {
+                padding: 8px 30px; 
+            }
+
+            .work-showcase { 
+                /* 移动端调整网格 */
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+                gap: 25px; 
+            }
+            
+            .category-buttons-container {
+                gap: 10px; 
+                margin-bottom: 30px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="headerContainer">
+    </header>
+
+    <main class="container">
+        
+        <section class="work-showcase-wrapper">
+            
+            <div class="work-header">
+                <h1>我的精选作品集</h1>
+                <p>这里展示了我在设计、字体和艺术创作领域的最新成果，欢迎点击图片查看细节。</p>
+                <a href="https://www.zizao.top/pages/works-archive" target="_blank" rel="noopener noreferrer" class="more-link">
+                    查看所有作品档案 &raquo;
+                </a>
+            </div>
+            
+            <div class="category-buttons-container" id="categoryButtons">
+                </div>
+            
+            <ul class="work-showcase" id="workShowcase">
+                </ul>
+        </section>
+
+    </main>
+
+    <footer id="footerContainer">
+    </footer>
+    
+    <div class="lightbox" id="imageLightbox">
+        <div class="lightbox-content">
+            </div>
+    </div>
+    
+    <script src="https://www.zizao.top/pages/common.js"></script>
+    
+    <script src="work-data.js"></script>
+    
+    <script>
+        
+        // --- 头部和底部渲染函数（保持不变） ---
+        function renderHeader() {
+            const headerContainer = document.getElementById('headerContainer');
+            if (!headerContainer) return;
+
+            let navHtml = navData.map(item => {
+                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                let subMenuHtml = '';
+                if (item.subMenu) {
+                    const subLinks = item.subMenu.map(sub => {
+                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                    }).join('');
+                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
+                }
+
+                return `
+                    <div class="nav-item-dropdown">
+                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                        ${subMenuHtml}
+                    </div>
+                `;
+            }).join('');
+
+            headerContainer.innerHTML = `
+                <a href="${siteConfig.homeUrl}" class="logo">
+                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
+                </a>
+                <button class="menu-toggle" id="menuToggle">☰</button> 
+                <div class="backdrop" id="menuBackdrop"></div>
+                <nav class="nav" id="mainNav">
+                    ${navHtml}
+                </nav>
+            `;
+        }
+
+        function renderFooter() {
+            const footerContainer = document.getElementById('footerContainer');
+            if (!footerContainer) return;
+
+            const linkHtml = footerLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+            `).join(' | ');
+
+            footerContainer.className = 'footer';
+            footerContainer.innerHTML = `
+                <div class="copyright-section">
+                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
+                </div>
+            `;
+        }
+
+        // ----------------------------------------------------
+        // II. Lightbox 控制函数 (移入)
+        // ----------------------------------------------------
+        function openLightbox(imageUrl) {
+            const lightbox = document.getElementById('imageLightbox');
+            const content = lightbox.querySelector('.lightbox-content');
+            
+            content.innerHTML = `<img src="${imageUrl}" alt="放大图片">`;
+            
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            lightbox.classList.remove('open');
+            document.body.style.overflow = ''; 
+            
+            setTimeout(() => {
+                lightbox.querySelector('.lightbox-content').innerHTML = '';
+            }, 300); 
+        }
+
+        // ----------------------------------------------------
+        // III. 作品渲染与分类筛选逻辑 (移入)
+        // ----------------------------------------------------
+        // 注意：workData 和 workCategories 在 work-data.js 中定义并已加载。
+
+        // 渲染分类按钮
+        function renderCategoryButtons() {
+            const container = document.getElementById('categoryButtons');
+            if (!container) return;
+
+            // 确保 workCategories 已加载
+            if (typeof workCategories === 'undefined') {
+                console.error('workCategories is not defined. Check work-data.js.');
+                return;
+            }
+
+            const buttonsHtml = workCategories.map(cat => `
+                <button class="category-button" data-category="${cat.key}">${cat.label}</button>
+            `).join('');
+
+            container.innerHTML = buttonsHtml;
+
+            // 绑定点击事件
+            container.querySelectorAll('.category-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    
+                    // 更新按钮激活状态
+                    container.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // 筛选并渲染作品
+                    renderWorks(category);
+                });
+            });
+            
+            // 默认激活“所有作品”按钮
+            const allButton = container.querySelector('[data-category="all"]');
+            if (allButton) {
+                allButton.classList.add('active');
+            }
+        }
+
+
+        // 渲染作品列表
+        function renderWorks(filterCategory = 'all') {
+            const workShowcaseElement = document.getElementById('workShowcase');
+            if (!workShowcaseElement) return;
+            
+            // 确保 workData 已加载
+            if (typeof workData === 'undefined') {
+                workShowcaseElement.innerHTML = '<li>作品数据加载失败，请检查 work-data.js</li>';
+                return;
+            }
+
+            // 筛选数据
+            const filteredWorks = workData.filter(work => 
+                filterCategory === 'all' || work.categoryKey === filterCategory
+            );
+            
+            // 生成作品卡片 HTML
+            workShowcaseElement.innerHTML = filteredWorks.map(work => `
+                <li class="work-card" data-image-url="${work.imageUrl}">
+                    <img src="${work.imageUrl}" alt="${work.name}" class="work-image">
+                </li>
+            `).join('');
+
+            // 绑定点击事件：打开 Lightbox
+            workShowcaseElement.querySelectorAll('.work-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const imageUrl = this.dataset.imageUrl;
+                    openLightbox(imageUrl);
+                });
+            });
+        }
+
+
+        // ----------------------------------------------------
+        // IV. 初始化与事件绑定 (完善)
+        // ----------------------------------------------------
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. 动态渲染公共模块
+            renderHeader();
+            renderFooter();
+            
+            // 2. 导航事件绑定逻辑 (保持不变)
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
+
+            function closeMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                mainNav.classList.remove('open');
+                menuBackdrop.classList.remove('open'); 
+                document.body.style.overflow = '';
+                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+            
+            function toggleMenu() {
+                const isOpen = mainNav.classList.toggle('open');
+                menuBackdrop.classList.toggle('open'); 
+                
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
+                }
+                
+                if (!isOpen) { 
+                    closeMenu(); 
+                }
+            }
+            
+            if (menuToggle && mainNav && menuBackdrop) {
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); 
+                
+                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                        item.addEventListener('click', () => {
+                            if (mainNav.classList.contains('open')) {
+                                setTimeout(closeMenu, 100); 
+                            }
+                        });
+                    }
+                });
+            }
+            
+            dropdownItems.forEach(item => {
+                const navLink = item.querySelector('.nav-item.has-dropdown');
+                if (navLink) {
+                    navLink.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault(); 
+                            const wasOpen = item.classList.contains('open');
+                            dropdownItems.forEach(d => d.classList.remove('open')); 
+                            if (!wasOpen) {
+                                item.classList.add('open'); 
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // 3. 绑定 Lightbox 关闭事件
+            const lightboxElement = document.getElementById('imageLightbox');
+            if (lightboxElement) {
+                lightboxElement.addEventListener('click', function(e) {
+                    // 只有点击 Lightbox 本身（即遮罩区域）时才关闭
+                    if (e.target === this) { 
+                        closeLightbox();
+                    }
+                });
+            }
+            
+            // 4. 渲染分类按钮和作品（默认显示所有）
+            // 延迟执行以确保 work-data.js 已加载 (虽然浏览器通常会按顺序加载)
+            setTimeout(() => {
+                renderCategoryButtons();
+                renderWorks('all');
+            }, 50); 
+            
+            document.body.style.opacity = '1';
+        });
+    </script>
+
+</body>
+</html>
