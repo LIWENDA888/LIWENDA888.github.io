@@ -3,96 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>汉字拼音转换工具</title>
+    <title>汉字拼音转换工具 - 自在造字（字造ZIZAO）</title>
+    <meta name="description" content="汉字拼音转换工具，保留顶部和底部导航。">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@latest/dist/index.min.js"></script>
+
     <style>
-        /* CSS 变量定义 - 方便统一管理颜色、字体等 */
+        /* ======================================================= */
+        /* I. index.html 的原始样式 (保留的头部和底部样式) */
+        /* ======================================================= */
+        /* 基础样式和变量 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
+            --deep-grey: #222222; /* 主深色 */
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --active-color: #222222; /* 激活状态颜色设为深灰/黑 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --sub-text-color: #6c7a89;
+            --text-color: #1a2a40;
+            
+            /* 新增/覆盖 pinyin.html 的变量，确保拼音工具样式正确 */
             --primary-color: #FF7D00; /* 主色调 */
             --primary-light: #FFE8D1; /* 主色调的浅色变体 */
-            --text-color: #333;       /* 主要文本颜色 */
-            --light-bg: #F9F9F9;      /* 页面背景浅灰色 */
+            --light-bg: #F9F9F9;      /* 浅灰色背景，用于输入输出框背景 */
             --white: #FFFFFF;         /* 白色 */
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 通用阴影 */
             --border-color: #ddd;     /* 边框颜色 */
-            --background-light-grey: #f8f8f8; /* 浅灰色背景，用于输出框 */
-            --font-main: 'PingFang SC', 'Microsoft YaHei', sans-serif; /* 主要字体 */
+            --background-light-grey: #f8f8f8; /* 浅灰色背景，用于输出框（保留） */
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 统一字体 */
+            --converter-border: 1px solid var(--border-color); /* 转换器描边样式 */
         }
 
-        /* 全局重置和基础样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box; /* 边框和内边距包含在元素的总宽度和高度内 */
-            font-family: var(--font-main); /* 应用主要字体 */
-        }
-
-        /* 根元素和主体布局 */
-        html, body {
-            height: 100%; /* 确保html和body占据整个视口高度 */
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth; /* 启用平滑滚动效果 */
-        }
-
+        /* 核心修改 1: 确保 body 至少占据整个视口，并设置为 flex 容器 */
         body {
-            display: flex; /* 启用Flexbox布局 */
-            flex-direction: column; /* 子元素垂直堆叠 */
-            min-height: 100vh; /* 确保body至少占满整个视口高度 */
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            line-height: 1.6; /* 更好的阅读体验 */
-            /* 移除body的padding和居中，让main来控制 */
+            font-family: var(--font-main); /* 使用 index.html 的字体 */
+            background-color: #FFFFFF; 
+            color: var(--deep-grey);
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-image: none; 
+            
+            /* 粘性页脚关键样式 */
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: flex-start;
+            align-items: stretch;
         }
 
-        /* 主要内容区域 - 统一管理居中和最大宽度 */
+        /* 核心修改 2: 确保主内容区域占据剩余所有空间并实现垂直居中 */
         main {
-            display: flex; /* Flexbox布局 */
-            flex-direction: column; /* 子元素垂直堆叠 */
-            align-items: center; /* 子元素水平居中对齐 */
-            width: 100%; /* 占据可用宽度 */
-            max-width: 1200px; /* 限制整个页面的内容最大宽度 */
-            margin: 30px auto; /* 上下30px外边距，左右自动居中 */
-            padding: 0 20px; /* 左右内边距，防止内容紧贴屏幕边缘 */
-            flex-grow: 1; /* 允许main占据剩余垂直空间，将footer（如果存在）推到底部 */
+            flex-grow: 1; /* 让 main 元素占据所有可用空间 */
+            /* padding-top: 61px; <--- 移除此行以实现垂直居中 */
+            
+            /* 新增样式：让 main 居中其内部的内容（pinyin.html 的内容） */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 水平居中内容 */
+            justify-content: center; /* <--- NEW: 垂直居中内容 */
+            padding-left: 20px; /* 左右边距 */
+            padding-right: 20px;
         }
+
+        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
+
+        /* 顶部栏 */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            border-bottom: 1px solid var(--light-grey); 
+        }
+
+        .logo { display: block; } 
+        .logo img { height: 28px; max-width: 150px; display: block; }
+
+        /* 导航菜单 - 桌面端 */
+        .nav { display: flex; align-items: center; }
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        .nav-item-dropdown > a {
+            font-size: 16px; display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+        }
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        
+        /* 桌面端二级菜单 */
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .nav-item-dropdown:hover .dropdown-menu {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-menu a {
+            display: block; padding: 8px 15px; font-size: 15px;
+            white-space: nowrap; border-radius: 4px; margin: 0 8px;
+        }
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+
+        /* 侧边栏遮罩层 */
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+        }
+        .backdrop.open { opacity: 1; visibility: visible; }
+        
+        /* 底部栏 */
+        .footer {
+            background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
+            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
+        }
+
+        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
+        .copyright-section a { color: var(--sub-text-color); }
+        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
+
+        /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
+        @media (max-width: 768px) {
+            
+            main {
+                /* padding-top: 48px; <-- 移除此行以实现垂直居中 */
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .header { padding: 10px 4%; }
+            .menu-toggle { display: block; }
+            
+            /* 菜单主体：全屏下拉折叠菜单 */
+            .nav {
+                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
+                max-width: none; height: calc(100vh - 48px);
+                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
+                overflow-y: auto; 
+                transform: translateY(-100%); opacity: 0; visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+            }
+
+            .nav.open {
+                transform: translateY(0); opacity: 1; visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+            
+            .backdrop { top: 48px; height: calc(100vh - 48px); }
+
+            /* 移动端菜单项样式 */
+            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
+            .nav-item-dropdown:last-child { border-bottom: none; }
+
+            .nav-item-dropdown > a {
+                padding: 15px 10px; font-size: 18px; width: 100%;
+                display: flex; justify-content: space-between; 
+            }
+            
+            .nav-item-dropdown > a::after { content: none; } 
+            
+            /* 移动端二级菜单核心修复 */
+            .nav .nav-item-dropdown .dropdown-menu {
+                display: none; 
+                position: static; 
+                opacity: 1;
+                transform: none;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            
+            .nav .nav-item-dropdown.open .dropdown-menu {
+                display: block !important; 
+            }
+            
+            .dropdown-menu a {
+                padding: 10px 10px; font-size: 16px; margin: 3px 0;
+            }
+        }
+
+        /* ======================================================= */
+        /* II. pinyin.html 的核心样式 (用于新的主体内容) */
+        /* ======================================================= */
 
         h1 {
             font-size: 2.2rem;
             color: var(--primary-color);
-            margin-bottom: 10px;
+            /* NEW: 增加顶部外边距以避开固定头部 */
+            margin-top: 80px; 
+            margin-bottom: 20px;
             font-weight: 600;
-            letter-spacing: 1px; /* 增加一点字间距，提升美观度 */
-            text-align: center; /* 居中标题 */
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.5; /* 确保副标题行高合适 */
-            text-align: center; /* 居中副标题 */
-            margin-bottom: 20px; /* ***修改此处：减少副标题与转换器之间的间距*** */
+            letter-spacing: 1px; 
+            text-align: center; 
+            /* 移除原 padding-top: 20px; */
         }
 
         /* 转换器容器样式 */
         .converter-container {
-            background-color: var(--white);
+            background-color: var(--white); /* 保持白色背景 */
+            border: var(--converter-border); /* 保持描边 */
             border-radius: 12px;
             box-shadow: var(--shadow);
-            padding: 30px; /* 增加内边距 */
-            width: 100%; /* 确保在 main 内部占据可用宽度 */
-            max-width: 1200px; /* ***修改此处：增加转换器本身的最大宽度到1200px*** */
-            margin-bottom: 20px; /* 确保与页面底部有一定距离 */
+            padding: 30px; 
+            width: 100%; 
+            max-width: 1200px; 
+            margin-bottom: 30px; /* 增加底部间距，与 footer 分离 */
         }
 
         /* 输入/输出文本框区域布局 */
         .converter-wrapper {
             display: flex;
-            gap: 20px; /* 左右文本框之间的间距 */
+            gap: 20px; 
         }
 
         .input-box, .output-box {
-            flex: 1; /* 使两个文本框占据相同的宽度 */
+            flex: 1; 
         }
 
         .box-title {
@@ -109,54 +250,54 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 1rem;
-            resize: vertical; /* 允许用户垂直调整大小 */
-            transition: border 0.3s, box-shadow 0.3s; /* 平滑过渡效果 */
-            line-height: 1.6; /* 文本区域内部行高，提高可读性 */
+            resize: vertical; 
+            transition: border 0.3s, box-shadow 0.3s; 
+            line-height: 1.6; 
         }
 
         textarea:focus {
-            outline: none; /* 移除默认焦点轮廓 */
+            outline: none; 
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px var(--primary-light); /* 聚焦时显示更明显的阴影 */
+            box-shadow: 0 0 0 3px var(--primary-light); 
         }
 
         .output-text {
-            background-color: var(--background-light-grey);
-            cursor: default; /* 输出框默认不可编辑，鼠标样式为默认 */
+            background-color: var(--background-light-grey); 
+            cursor: default; 
         }
 
         /* 控制行：复选框和按钮的布局 */
         .controls-row {
             display: flex;
-            justify-content: center; /* 居中显示复选框和按钮组 */
-            align-items: center; /* 垂直居中对齐 */
-            gap: 30px; /* 复选框组和按钮组之间的间距 */
-            margin-top: 25px; /* 增加与上方文本区域的间距 */
-            flex-wrap: wrap; /* 允许在小屏幕上换行 */
+            justify-content: center; 
+            align-items: center; 
+            gap: 30px; 
+            margin-top: 25px; 
+            flex-wrap: wrap; 
         }
 
         .option-group {
             display: flex;
             align-items: center;
-            gap: 10px; /* 复选框和标签之间的间距 */
+            gap: 10px; 
             font-size: 1rem;
-            color: var(--text-color);
-            white-space: nowrap; /* 防止标签文本在小屏幕上换行 */
+            color: var(--deep-grey); /* 统一颜色 */
+            white-space: nowrap; 
         }
 
         /* 自定义复选框样式 */
         #toggle-tone {
-            width: 20px; /* 宽度 */
-            height: 20px; /* 高度 */
+            width: 20px; 
+            height: 20px; 
             cursor: pointer;
-            appearance: none; /* 移除浏览器默认样式 */
+            appearance: none; 
             background-color: var(--white);
-            border: 2px solid var(--border-color); /* 更粗的边框 */
-            border-radius: 5px; /* 略微圆角 */
+            border: 2px solid var(--border-color); 
+            border-radius: 5px; 
             position: relative;
             outline: none;
-            transition: all 0.2s ease-in-out; /* 平滑过渡 */
-            flex-shrink: 0; /* 防止复选框在小屏幕上被挤压 */
+            transition: all 0.2s ease-in-out; 
+            flex-shrink: 0; 
         }
 
         #toggle-tone:checked {
@@ -165,37 +306,37 @@
         }
 
         #toggle-tone:checked::after {
-            content: '✔'; /* 勾号 Unicode 字符 */
+            content: '✔'; 
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* 精确居中 */
+            transform: translate(-50%, -50%); 
             color: white;
-            font-size: 15px; /* 勾号大小 */
+            font-size: 15px; 
             line-height: 1;
         }
 
         #toggle-tone:focus {
-            box-shadow: 0 0 0 3px var(--primary-light); /* 聚焦时的阴影效果 */
+            box-shadow: 0 0 0 3px var(--primary-light); 
         }
 
         /* 按钮样式 */
         .buttons {
             display: flex;
-            justify-content: center; /* 在其父容器中居中 */
-            gap: 15px; /* 按钮之间的间距 */
-            margin-top: 0; /* 由 .controls-row 统一管理顶部间距 */
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 0; 
         }
 
         button {
-            padding: 10px 22px; /* 调整按钮内边距，使点击区域更大 */
+            padding: 10px 22px; 
             border: none;
             border-radius: 6px;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease; /* 平滑过渡效果 */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 按钮轻微阴影 */
+            transition: all 0.3s ease; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
         }
 
         .btn-primary {
@@ -204,21 +345,21 @@
         }
 
         .btn-primary:hover {
-            background-color: #E67100; /* 更深的橙色 */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 提升阴影效果 */
-            transform: translateY(-1px); /* 轻微上浮效果 */
+            background-color: #E67100; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            transform: translateY(-1px); 
         }
 
         .btn-secondary {
             background-color: var(--white);
-            color: var(--text-color);
+            color: var(--deep-grey); /* 统一颜色 */
             border: 1px solid var(--border-color);
         }
 
         .btn-secondary:hover {
-            background-color: #f0f0f0; /* 更柔和的悬停背景 */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* 提升阴影效果 */
-            transform: translateY(-1px); /* 轻微上浮效果 */
+            background-color: #f0f0f0; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08); 
+            transform: translateY(-1px); 
         }
 
         /* 禁用按钮样式 */
@@ -231,43 +372,36 @@
 
         /* 媒体查询 - 响应式调整 (小屏幕设备) */
         @media (max-width: 768px) {
-            main {
-                margin: 20px auto; /* 手机端上下外边距可以略小 */
-                padding: 0 15px; /* 手机端左右内边距 */
-            }
-
             h1 {
                 font-size: 1.8rem;
-            }
-
-            .subtitle {
-                margin-bottom: 15px; /* 手机端副标题间距 */
+                /* 调整移动端的顶部外边距 */
+                margin-top: 60px; 
             }
 
             .converter-wrapper {
-                flex-direction: column; /* 文本框垂直堆叠 */
+                flex-direction: column; 
             }
 
             /* 在小屏幕上，控制行元素垂直堆叠 */
             .controls-row {
                 flex-direction: column;
-                gap: 15px; /* 调整小屏幕下的间距 */
+                gap: 15px; 
             }
             /* 调整复选框和按钮在小屏幕上的显示顺序 */
             .option-group {
-                order: 1; /* 复选框组显示在按钮组上方 */
+                order: 1; 
             }
             .buttons {
-                order: 2; /* 按钮组显示在下方 */
-                width: 100%; /* 按钮组在小屏幕上占据整行宽度 */
-                flex-direction: column; /* 按钮内部垂直堆叠 */
+                order: 2; 
+                width: 100%; 
+                flex-direction: column; 
             }
             .buttons button {
-                width: 100%; /* 单个按钮占据其父容器（buttons）的100%宽度 */
+                width: 100%; 
             }
 
             .converter-container {
-                padding: 20px; /* 手机端转换器内边距可以略小 */
+                padding: 20px; 
             }
         }
 
@@ -275,20 +409,20 @@
             h1 {
                 font-size: 1.6rem;
             }
-            .subtitle {
-                font-size: 0.9rem;
-            }
             textarea {
-                min-height: 200px; /* 手机端 textarea 可以更矮，节省空间 */
+                min-height: 200px; 
             }
         }
     </style>
 </head>
 <body>
-    <main> <!-- 将所有主要内容（标题、副标题、转换器）放入main中 -->
-        <h1>汉字拼音转换工具</h1>
-        <p class="subtitle">将汉字转换为带音调或不带音调的拼音</p>
 
+    <header class="header" id="headerContainer">
+    </header>
+
+    <main>
+        <h1>汉字拼音转换工具</h1>
+        
         <div class="converter-container">
             <div class="converter-wrapper">
                 <div class="input-box">
@@ -303,7 +437,7 @@
 
             <div class="controls-row">
                 <div class="option-group">
-                    <input type="checkbox" id="toggle-tone"> <!-- 默认不选中（不带音调） -->
+                    <input type="checkbox" id="toggle-tone"> 
                     <label for="toggle-tone">带音调</label>
                 </div>
                 <div class="buttons">
@@ -313,92 +447,244 @@
                 </div>
             </div>
         </div>
-    </main>
+        </main>
 
+    <footer id="footerContainer">
+    </footer>
+    
+    <script src="https://www.zizao.top/pages/common.js"></script>
+    
     <script>
-        // 获取元素引用
-        const hanziInput = document.getElementById('hanzi-input');
-        const pinyinOutput = document.getElementById('pinyin-output');
-        const toggleToneCheckbox = document.getElementById('toggle-tone');
-        const convertToPinyinBtn = document.getElementById('convert-to-pinyin');
-        const convertToUppercaseBtn = document.getElementById('convert-to-uppercase');
-        const copyPinyinBtn = document.getElementById('copy-pinyin-result'); // 获取复制按钮
+        
+        // ----------------------------------------------------
+        // I. 公共模块渲染函数 (保留)
+        // ----------------------------------------------------
+        function renderHeader() {
+            const headerContainer = document.getElementById('headerContainer');
+            if (!headerContainer) return;
 
-        // --- 辅助函数：更新“转换为大写”按钮的状态 ---
-        function updateUppercaseButtonState() {
-            // 如果“带音调”复选框被选中，则禁用“转换为大写”按钮
-            if (toggleToneCheckbox.checked) {
-                convertToUppercaseBtn.disabled = true;
-                convertToUppercaseBtn.title = '带音调拼音无法转换为大写'; // 提供禁用提示
-            } else {
-                convertToUppercaseBtn.disabled = false;
-                convertToUppercaseBtn.title = ''; // 清除提示
-            }
-        }
+            let navHtml = navData.map(item => {
+                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
 
-        // --- 事件监听器 ---
-
-        // 汉字转拼音功能
-        convertToPinyinBtn.addEventListener('click', () => {
-            const hanzi = hanziInput.value.trim();
-            if (!hanzi) {
-                alert('请输入要转换的汉字');
-                return;
-            }
-
-            const toneType = toggleToneCheckbox.checked ? 'symbol' : 'none';
-
-            try {
-                // 增加健壮性检查，确保 pinyinPro 库已加载
-                if (typeof pinyinPro === 'undefined' || !pinyinPro.pinyin) {
-                    console.error("pinyin-pro library not loaded or not properly initialized.");
-                    alert("拼音转换库未加载，请检查网络连接或稍后重试。");
-                    return;
+                let subMenuHtml = '';
+                if (item.subMenu) {
+                    const subLinks = item.subMenu.map(sub => {
+                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                    }).join('');
+                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
                 }
 
-                let pinyin = pinyinPro.pinyin(hanzi, {
-                    toneType: toneType,
-                    type: 'string'
+                return `
+                    <div class="nav-item-dropdown">
+                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                        ${subMenuHtml}
+                    </div>
+                `;
+            }).join('');
+
+            headerContainer.innerHTML = `
+                <a href="${siteConfig.homeUrl}" class="logo">
+                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
+                </a>
+                <button class="menu-toggle" id="menuToggle">☰</button> 
+                <div class="backdrop" id="menuBackdrop"></div>
+                <nav class="nav" id="mainNav">
+                    ${navHtml}
+                </nav>
+            `;
+        }
+
+        function renderFooter() {
+            const footerContainer = document.getElementById('footerContainer');
+            if (!footerContainer) return;
+
+            const linkHtml = footerLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+            `).join(' | ');
+
+            footerContainer.className = 'footer';
+            footerContainer.innerHTML = `
+                <div class="copyright-section">
+                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
+                </div>
+            `;
+        }
+
+        // ----------------------------------------------------
+        // II. 初始化与事件绑定 (导航逻辑和拼音工具逻辑)
+        // ----------------------------------------------------
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. 动态渲染公共模块
+            renderHeader();
+            renderFooter();
+            
+            // 2. 导航事件绑定逻辑
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
+
+            function closeMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                mainNav.classList.remove('open');
+                menuBackdrop.classList.remove('open'); 
+                document.body.style.overflow = '';
+                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+            
+            function toggleMenu() {
+                const isOpen = mainNav.classList.toggle('open');
+                menuBackdrop.classList.toggle('open'); 
+                
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
+                }
+                
+                if (!isOpen) { 
+                    closeMenu(); 
+                }
+            }
+            
+            if (menuToggle && mainNav && menuBackdrop) {
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); 
+                
+                // 链接点击后关闭主菜单
+                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                        item.addEventListener('click', () => {
+                            if (mainNav.classList.contains('open')) {
+                                setTimeout(closeMenu, 100); 
+                            }
+                        });
+                    }
                 });
-
-                pinyinOutput.value = pinyin;
-                updateUppercaseButtonState(); // 转换后更新大写按钮状态
-            } catch (error) {
-                alert('转换出错: ' + error.message);
-                console.error(error);
             }
-        });
-
-        // 转换为大写功能
-        convertToUppercaseBtn.addEventListener('click', () => {
-            if (pinyinOutput.value) {
-                pinyinOutput.value = pinyinOutput.value.toUpperCase();
-            } else {
-                alert('请先进行拼音转换。');
-            }
-        });
-
-        // 复制结果功能
-        copyPinyinBtn.addEventListener('click', () => {
-            if (pinyinOutput.value) {
-                navigator.clipboard.writeText(pinyinOutput.value)
-                    .then(() => {
-                        console.log('拼音结果已复制到剪贴板！'); // 移除弹窗，改为控制台输出
-                    })
-                    .catch(err => {
-                        console.error('复制失败:', err);
-                        alert('复制失败，请手动复制。'); // 复制失败仍保留弹窗提示
+            
+            // 移动端二级菜单展开/收起逻辑
+            dropdownItems.forEach(item => {
+                const navLink = item.querySelector('.nav-item.has-dropdown');
+                if (navLink) {
+                    navLink.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault(); 
+                            const wasOpen = item.classList.contains('open');
+                            dropdownItems.forEach(d => d.classList.remove('open')); 
+                            if (!wasOpen) {
+                                item.classList.add('open'); 
+                            }
+                        }
                     });
-            } else {
-                alert('没有可复制的拼音结果。');
+                }
+            });
+
+            // ----------------------------------------------------
+            // 3. pinyin.html 的核心逻辑 (页面独有)
+            // ----------------------------------------------------
+            // 获取元素引用
+            const hanziInput = document.getElementById('hanzi-input');
+            const pinyinOutput = document.getElementById('pinyin-output');
+            const toggleToneCheckbox = document.getElementById('toggle-tone');
+            const convertToPinyinBtn = document.getElementById('convert-to-pinyin');
+            const convertToUppercaseBtn = document.getElementById('convert-to-uppercase');
+            const copyPinyinBtn = document.getElementById('copy-pinyin-result'); 
+
+            // --- 辅助函数：更新“转换为大写”按钮的状态 ---
+            function updateUppercaseButtonState() {
+                // 如果“带音调”复选框被选中，则禁用“转换为大写”按钮
+                if (toggleToneCheckbox.checked) {
+                    convertToUppercaseBtn.disabled = true;
+                    convertToUppercaseBtn.title = '带音调拼音无法转换为大写'; 
+                } else {
+                    convertToUppercaseBtn.disabled = false;
+                    convertToUppercaseBtn.title = ''; 
+                }
             }
+
+            // --- 事件监听器 ---
+
+            // 汉字转拼音功能
+            if (convertToPinyinBtn) {
+                convertToPinyinBtn.addEventListener('click', () => {
+                    const hanzi = hanziInput.value.trim();
+                    if (!hanzi) {
+                        alert('请输入要转换的汉字');
+                        return;
+                    }
+
+                    const toneType = toggleToneCheckbox.checked ? 'symbol' : 'none';
+
+                    try {
+                        // 增加健壮性检查，确保 pinyinPro 库已加载
+                        if (typeof pinyinPro === 'undefined' || !pinyinPro.pinyin) {
+                            console.error("pinyin-pro library not loaded or not properly initialized.");
+                            alert("拼音转换库未加载，请检查网络连接或稍后重试。");
+                            return;
+                        }
+
+                        let pinyin = pinyinPro.pinyin(hanzi, {
+                            toneType: toneType,
+                            type: 'string'
+                        });
+
+                        pinyinOutput.value = pinyin;
+                        updateUppercaseButtonState(); // 转换后更新大写按钮状态
+                    } catch (error) {
+                        alert('转换出错: ' + error.message);
+                        console.error(error);
+                    }
+                });
+            }
+
+            // 转换为大写功能
+            if (convertToUppercaseBtn) {
+                convertToUppercaseBtn.addEventListener('click', () => {
+                    if (pinyinOutput.value) {
+                        // 检查是否为带音调格式，如果是，则不转换并给出提示
+                        if (toggleToneCheckbox.checked) {
+                            alert('带音调拼音无法转换为大写，请先取消勾选“带音调”选项并重新转换。');
+                            return;
+                        }
+                        pinyinOutput.value = pinyinOutput.value.toUpperCase();
+                    } else {
+                        alert('请先进行拼音转换。');
+                    }
+                });
+            }
+
+            // 复制结果功能
+            if (copyPinyinBtn) {
+                copyPinyinBtn.addEventListener('click', () => {
+                    if (pinyinOutput.value) {
+                        navigator.clipboard.writeText(pinyinOutput.value)
+                            .then(() => {
+                                console.log('拼音结果已复制到剪贴板！'); 
+                            })
+                            .catch(err => {
+                                console.error('复制失败:', err);
+                                alert('复制失败，请手动复制。'); 
+                            });
+                    } else {
+                        alert('没有可复制的拼音结果。');
+                    }
+                });
+            }
+
+            // 监听“带音调”复选框的变化，以更新“转换为大写”按钮的状态
+            if (toggleToneCheckbox) {
+                toggleToneCheckbox.addEventListener('change', updateUppercaseButtonState);
+            }
+
+            // 页面加载时，初始化“转换为大写”按钮的状态
+            updateUppercaseButtonState();
+            
+            document.body.style.opacity = '1';
         });
-
-        // 监听“带音调”复选框的变化，以更新“转换为大写”按钮的状态
-        toggleToneCheckbox.addEventListener('change', updateUppercaseButtonState);
-
-        // 页面加载时，初始化“转换为大写”按钮的状态
-        document.addEventListener('DOMContentLoaded', updateUppercaseButtonState);
     </script>
+
 </body>
 </html>

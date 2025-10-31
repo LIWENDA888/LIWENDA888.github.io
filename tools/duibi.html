@@ -3,43 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文本字符差异对比工具</title>
+    <title>文本字符差异对比工具 - 字造ZIZAO</title>
+    <meta name="description" content="文本字符差异对比工具，用于比较两个文本之间的独特字符差异。">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+
     <style>
+        /* ========================================================= */
+        /* I. index.html 的基础样式和变量 */
+        /* ========================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
-            --primary-color: #FF7F00;
-            --secondary-color: #E66F00;
-            --accent-color: #FFA500;
-            --light-color: #FFFFFF;
-            --dark-color: #333333;
-            --success-color: #4CAF50;
-            --danger-color: #F44336;
-            --info-color: #17A2B8;
-            --clear-color: #6C757D;
-            --clear-hover-color: #5A6268;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --deep-grey: #222222; /* 主深色 */
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --active-color: #222222; /* 激活状态颜色设为深灰/黑 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --sub-text-color: #6c7a89;
+            --text-color: #1a2a40;
+            
+            /* duibi.html 变量，防止冲突，这里保留在根变量中，并用 duibi 前缀区分 */
+            --duibi-primary-color: #FF7F00; /* 核心橙色 */
+            --duibi-secondary-color: #E66F00;
+            --duibi-accent-color: #FFA500;
+            --duibi-light-color: #FFFFFF;
+            --duibi-dark-color: #333333;
+            --duibi-success-color: #4CAF50;
+            --duibi-danger-color: #F44336;
+            --duibi-info-color: #17A2B8;
+            /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+            /* 清空按钮颜色优化：改为灰色 */
+            --duibi-clear-color: #B0B0B0; /* 中性灰色 */
+            --duibi-clear-hover-color: #9E9E9E; /* 略深的灰色 */
+            /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+            --duibi-border-radius: 8px;
+            --duibi-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --duibi-transition: all 0.3s ease;
         }
 
+        /* 核心修改: 确保 body 至少占据整个视口，并设置为 flex 容器 */
         body {
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #F8F8F8;
-            color: var(--dark-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #FFFFFF; /* 背景色改为纯白色 */
+            color: var(--deep-grey);
             line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.5s;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column; 
         }
 
-        h1 {
+        /* 核心修改: 确保主内容区域占据剩余所有空间 */
+        main {
+            flex-grow: 1; /* 让 main 元素占据所有可用空间 */
+            padding-top: 61px; /* 顶部间距，避开 fixed header */
+            
+            /* 居中优化：将内容容器设置为 Flex 布局，实现内容垂直居中 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
+            /* 确保 main 至少有足够的高度来居中内容，减去 header/footer 的高度 */
+            min-height: calc(100vh - 120px); 
+        }
+        
+        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
+
+        /* 顶部栏 */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            border-bottom: 1px solid var(--light-grey); 
+            height: 80px; /* 固定的头部高度 */
+        }
+
+        /* 确保 logo 链接可以正常显示图片 */
+        .logo { display: block; } 
+        .logo img { height: 28px; max-width: 150px; display: block; }
+
+        /* 导航菜单 - 桌面端 */
+        .nav { display: flex; align-items: center; }
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        .nav-item-dropdown > a {
+            font-size: 16px; display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+        }
+        
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        
+        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        
+        /* 桌面端二级菜单 */
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        
+        .nav-item-dropdown:hover .dropdown-menu {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        
+        .dropdown-menu a {
+            display: block; padding: 8px 15px; font-size: 15px;
+            white-space: nowrap; border-radius: 4px; margin: 0 8px;
+        }
+
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+
+        /* 侧边栏遮罩层 */
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .backdrop.open { opacity: 1; visibility: visible; }
+
+        /* 内容区和底部 */
+        /* 核心修改：将宽度和居中移到这里，但保留 main 的 flex 居中 */
+        .container { 
+            width: 90%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px 0; 
+            /* 移除原有的 margin: 0 auto; 以配合 main 的居中 */
+        } 
+        
+        /* Footer Styles */
+        .footer {
+            background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
+            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
+        }
+
+        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
+        .copyright-section a { color: var(--sub-text-color); }
+        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
+
+        /* 响应式设计：移动端优化部分 (屏幕宽度小于等于 768px) */
+        @media (max-width: 768px) {
+            
+            main { 
+                padding-top: 48px; 
+                min-height: calc(100vh - 90px); /* 适应移动端头部高度 */
+            }
+            .header { padding: 10px 4%; height: 48px; }
+            .menu-toggle { display: block; }
+            
+            /* 菜单主体：全屏下拉折叠菜单 */
+            .nav {
+                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
+                max-width: none; height: calc(100vh - 48px);
+                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
+                overflow-y: auto; 
+                transform: translateY(-100%); opacity: 0; visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+            }
+
+            .nav.open {
+                transform: translateY(0); opacity: 1; visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+            
+            .backdrop { top: 48px; height: calc(100vh - 48px); }
+
+            /* 移动端菜单项样式 */
+            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
+            .nav-item-dropdown:last-child { border-bottom: none; }
+
+            .nav-item-dropdown > a {
+                padding: 15px 10px; font-size: 18px; width: 100%;
+                display: flex; justify-content: space-between; 
+            }
+            
+            .nav-item-dropdown > a::after { content: none; } 
+            
+            /* 移动端二级菜单核心修复 */
+            .nav .nav-item-dropdown .dropdown-menu {
+                display: none; 
+                position: static; 
+                opacity: 1;
+                transform: none;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            
+            .nav .nav-item-dropdown.open .dropdown-menu {
+                display: block !important; 
+            }
+            
+            .dropdown-menu a {
+                padding: 10px 10px; font-size: 16px; margin: 3px 0;
+            }
+        }
+        
+        /* ========================================================= */
+        /* II. duibi.html 的主体内容样式（根据原 duibi.html 调整） */
+        /* ========================================================= */
+        
+        h1.duibi-title {
             text-align: center;
-            color: var(--primary-color);
+            color: var(--duibi-primary-color);
             margin-bottom: 30px;
             font-weight: 600;
             letter-spacing: 1px;
+            font-size: 28px; /* 调整标题大小以适应主体内容 */
+            padding-top: 10px;
         }
 
-        .container {
+        /* 核心修改：将 .container 里的内容包装在一个 div 中，方便控制居中后的宽度 */
+        .main-content-wrapper {
+            width: 100%; 
+            max-width: 1200px;
+            padding: 0 5%;
+        }
+
+        .duibi-container {
             display: flex;
             gap: 24px;
             margin-top: 20px;
@@ -55,7 +250,7 @@
             display: flex;
             align-items: center;
             font-weight: 500;
-            color: var(--dark-color);
+            color: var(--duibi-dark-color);
         }
 
         .text-box .label-group {
@@ -70,13 +265,13 @@
             margin-right: 8px;
             width: 18px;
             height: 18px;
-            color: var(--primary-color);
+            color: var(--duibi-primary-color);
         }
 
         .text-counter {
             text-align: right;
             font-size: 14px;
-            color: var(--dark-color);
+            color: var(--duibi-dark-color);
             margin-top: 5px;
             font-weight: 600;
         }
@@ -86,24 +281,24 @@
             height: 300px;
             padding: 16px;
             border: 2px solid #E0E0E0;
-            border-radius: var(--border-radius);
+            border-radius: var(--duibi-border-radius);
             resize: none;
             font-size: 15px;
             line-height: 1.6;
-            transition: var(--transition);
-            background-color: var(--light-color);
-            color: var(--dark-color);
+            transition: var(--duibi-transition);
+            background-color: var(--duibi-light-color);
+            color: var(--duibi-dark-color);
             box-sizing: border-box;
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--accent-color);
+            border-color: var(--duibi-accent-color);
             box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2);
         }
 
         #text1 {
-            border-color: var(--primary-color);
+            border-color: var(--duibi-primary-color);
         }
 
         #text2 {
@@ -117,69 +312,87 @@
             gap: 16px;
         }
 
-        button {
-            padding: 12px 28px;
-            background-color: var(--primary-color);
-            color: var(--light-color);
+        /* 优化对比按钮样式 */
+        button.compare-btn-style {
+            padding: 14px 32px; /* 增大内边距 */
+            background-color: var(--duibi-primary-color);
+            color: var(--duibi-light-color);
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 10px; /* 更大的圆角 */
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: var(--transition);
+            font-size: 17px; /* 略微增大字体 */
+            font-weight: 600; /* 加粗字体 */
+            transition: var(--duibi-transition);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 10px rgba(255, 127, 0, 0.3); /* 增加阴影 */
         }
 
-        button:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--box-shadow);
+        button.compare-btn-style:hover {
+            background-color: var(--duibi-secondary-color);
+            transform: translateY(-3px); /* 略微抬升 */
+            box-shadow: 0 6px 15px rgba(255, 127, 0, 0.4);
         }
 
-        button:active {
+        button.compare-btn-style:active {
             transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(255, 127, 0, 0.3);
         }
-
+        
+        /* 优化清空按钮样式 */
         .clear-btn {
-            background-color: var(--clear-color);
-            padding: 6px 12px;
+            /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+            /* 样式优化：背景改为灰色，内容垂直居中 */
+            background-color: var(--duibi-clear-color); /* 灰色背景 */
+            color: var(--duibi-light-color); /* 确保文字是白色 */
+            padding: 8px 16px; /* 增大内边距 */
             font-size: 14px;
-            border-radius: 5px;
-            height: fit-content;
-            box-shadow: none;
+            border-radius: 8px; /* 统一圆角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-left: auto;
             white-space: nowrap;
+            
+            /* Flexbox 居中 */
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center;
+            gap: 4px; /* 图标和文字间距 */
+            border: none; /* 移除默认边框 */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            height: 34px; /* 设置一个合适的固定高度 */
+            /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
         }
 
         .clear-btn:hover {
-            background-color: var(--clear-hover-color);
-            transform: none;
-            box-shadow: none;
+            background-color: var(--duibi-clear-hover-color);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
         }
 
         .clear-btn:active {
             transform: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .clear-btn svg {
-            color: var(--light-color);
+            color: var(--duibi-light-color);
         }
 
         .result-section {
             margin-top: 20px;
             padding: 20px;
-            background-color: var(--light-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+            background-color: var(--duibi-light-color);
+            border-radius: var(--duibi-border-radius);
+            box-shadow: var(--duibi-box-shadow);
             margin-bottom: 20px;
         }
 
         .result-section h3 {
             margin-top: 0;
-            color: var(--dark-color);
+            color: var(--duibi-dark-color);
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -188,14 +401,14 @@
         }
 
         .result-section h3 svg {
-            color: var(--primary-color);
+            color: var(--duibi-primary-color);
         }
 
         #diff1-section h3 svg {
-            color: var(--danger-color);
+            color: var(--duibi-danger-color);
         }
         #diff2-section h3 svg {
-            color: var(--info-color);
+            color: var(--duibi-info-color);
         }
 
         .chars-list {
@@ -211,26 +424,26 @@
             border-radius: 20px;
             font-family: monospace;
             font-size: 14px;
-            color: var(--primary-color);
+            color: var(--duibi-primary-color);
             border: 1px solid #FFCC80;
         }
 
         .char-item.diff1 {
             background-color: #FFEBEE;
-            color: var(--danger-color);
+            color: var(--duibi-danger-color);
             border-color: #FFCDD2;
         }
 
         .char-item.diff2 {
             background-color: #E0F2F7;
-            color: var(--info-color);
+            color: var(--duibi-info-color);
             border-color: #B2EBF2;
         }
 
         .char-info {
             margin-top: 10px;
             font-size: 14px;
-            color: var(--dark-color);
+            color: var(--duibi-dark-color);
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
             margin-bottom: 10px;
@@ -240,12 +453,12 @@
             text-align: center;
             font-size: 16px;
             padding: 20px;
-            color: var(--dark-color);
+            color: var(--duibi-dark-color);
             font-weight: 500;
         }
 
         @media (max-width: 768px) {
-            .container {
+            .duibi-container {
                 flex-direction: column;
             }
             .text-box .label-group {
@@ -261,88 +474,233 @@
     </style>
 </head>
 <body>
-    <h1>🔍 文本字符差异对比工具</h1>
 
-    <div class="container">
-        <div class="text-box">
-            <div class="label-group">
-                <label for="text1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+    <header class="header" id="headerContainer">
+        </header>
+
+    <main class="container">
+        
+        <div class="main-content-wrapper">
+
+            <h1 class="duibi-title">文本字符差异对比工具</h1>
+
+            <div class="duibi-container">
+                <div class="text-box">
+                    <div class="label-group">
+                        <label for="text1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            文本1
+                        </label>
+                        <button id="clear-text1-btn" class="clear-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            清空
+                        </button>
+                    </div>
+                    <textarea id="text1" placeholder="请输入第一个文本..."></textarea>
+                    <div class="text-counter">字符数量: <span id="count1">0</span></div>
+                </div>
+
+                <div class="text-box">
+                    <div class="label-group">
+                        <label for="text2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            文本2
+                        </label>
+                        <button id="clear-text2-btn" class="clear-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            清空
+                        </button>
+                    </div>
+                    <textarea id="text2" placeholder="请输入第二个文本..."></textarea>
+                    <div class="text-counter">字符数量: <span id="count2">0</span></div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="compare-btn" class="compare-btn-style">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                     </svg>
-                    文本1
-                </label>
-                <button id="clear-text1-btn" class="clear-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    清空
+                    对比差异
                 </button>
             </div>
-            <textarea id="text1" placeholder="请输入第一个文本..."></textarea>
-            <div class="text-counter">字符数量: <span id="count1">0</span></div>
-        </div>
 
-        <div class="text-box">
-            <div class="label-group">
-                <label for="text2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <div id="diff1-section" class="result-section" style="display: none;">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    文本2
-                </label>
-                <button id="clear-text2-btn" class="clear-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    清空
-                </button>
+                    文本1有但文本2没有的字符
+                </h3>
+                <div class="char-info" id="char-info-diff1"></div>
+                <div class="chars-list" id="chars-list-diff1"></div>
             </div>
-            <textarea id="text2" placeholder="请输入第二个文本..."></textarea>
-            <div class="text-counter">字符数量: <span id="count2">0</span></div>
-        </div>
-    </div>
 
-    <div class="buttons">
-        <button id="compare-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="18" height="18">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-            </svg>
-            对比差异
-        </button>
-    </div>
+            <div id="diff2-section" class="result-section" style="display: none;">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    文本2有但文本1没有的字符
+                </h3>
+                <div class="char-info" id="char-info-diff2"></div>
+                <div class="chars-list" id="chars-list-diff2"></div>
+            </div>
 
-    <!-- 文本1有但文本2没有的字符 -->
-    <div id="diff1-section" class="result-section" style="display: none;">
-        <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            文本1有但文本2没有的字符
-        </h3>
-        <div class="char-info" id="char-info-diff1"></div>
-        <div class="chars-list" id="chars-list-diff1"></div>
-    </div>
+            <div id="no-diff-section" class="result-section" style="display: none;">
+                <p id="no-diff-message">🎉 两个文本的字符完全相同，没有差异字符。</p>
+            </div>
 
-    <!-- 文本2有但文本1没有的字符 -->
-    <div id="diff2-section" class="result-section" style="display: none;">
-        <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            文本2有但文本1没有的字符
-        </h3>
-        <div class="char-info" id="char-info-diff2"></div>
-        <div class="chars-list" id="chars-list-diff2"></div>
-    </div>
+        </div> </main>
 
-    <!-- 相同字符消息 -->
-    <div id="no-diff-section" class="result-section" style="display: none;">
-        <p id="no-diff-message">🎉 两个文本的字符完全相同，没有差异字符。</p>
-    </div>
-
+    <footer id="footerContainer">
+        </footer>
+    
+    <script src="https://www.zizao.top/pages/common.js"></script>
+    
     <script>
+        
+        // =========================================================
+        // I. index.html 的公共模块渲染逻辑 (不变)
+        // =========================================================
+        function renderHeader() {
+            const headerContainer = document.getElementById('headerContainer');
+            if (!headerContainer) return;
+
+            let navHtml = navData.map(item => {
+                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+                
+                // 检查是否在新标签页打开，并生成对应属性
+                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                let subMenuHtml = '';
+                if (item.subMenu) {
+                    const subLinks = item.subMenu.map(sub => {
+                        // 检查二级菜单是否在新标签页打开
+                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                    }).join('');
+                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
+                }
+
+                return `
+                    <div class="nav-item-dropdown">
+                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                        ${subMenuHtml}
+                    </div>
+                `;
+            }).join('');
+
+            headerContainer.innerHTML = `
+                <a href="${siteConfig.homeUrl}" class="logo">
+                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
+                </a>
+                <button class="menu-toggle" id="menuToggle">☰</button> 
+                <div class="backdrop" id="menuBackdrop"></div>
+                <nav class="nav" id="mainNav">
+                    ${navHtml}
+                </nav>
+            `;
+        }
+
+        function renderFooter() {
+            const footerContainer = document.getElementById('footerContainer');
+            if (!footerContainer) return;
+
+            // 保持底部链接在新窗口打开，这是比较常见的做法
+            const linkHtml = footerLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+            `).join(' | ');
+
+            footerContainer.className = 'footer';
+            footerContainer.innerHTML = `
+                <div class="copyright-section">
+                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
+                </div>
+            `;
+        }
+
+        // ----------------------------------------------------
+        // II. duibi.html 的逻辑 (整合到新文件的 DOMContentLoaded 事件中)
+        // ----------------------------------------------------
+        
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. 动态渲染公共模块
+            renderHeader();
+            renderFooter();
+            
+            // 2. 导航事件绑定逻辑 (保持不变)
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
+
+            function closeMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                mainNav.classList.remove('open');
+                menuBackdrop.classList.remove('open'); 
+                document.body.style.overflow = '';
+                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+            
+            function toggleMenu() {
+                const isOpen = mainNav.classList.toggle('open');
+                menuBackdrop.classList.toggle('open'); 
+                
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
+                }
+                
+                if (!isOpen) { 
+                    closeMenu(); 
+                }
+            }
+            
+            if (menuToggle && mainNav && menuBackdrop) {
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); 
+                
+                // 链接点击后关闭主菜单
+                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+                    // 只有非下拉且非子菜单的链接才执行关闭逻辑，或者子菜单链接
+                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                        item.addEventListener('click', () => {
+                            if (mainNav.classList.contains('open')) {
+                                setTimeout(closeMenu, 100); 
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // 移动端二级菜单展开/收起逻辑
+            dropdownItems.forEach(item => {
+                const navLink = item.querySelector('.nav-item.has-dropdown');
+                if (navLink) {
+                    navLink.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault(); 
+                            const wasOpen = item.classList.contains('open');
+                            dropdownItems.forEach(d => d.classList.remove('open')); 
+                            if (!wasOpen) {
+                                item.classList.add('open'); 
+                            }
+                        }
+                    });
+                }
+            });
+
+            // 3. duibi.html 的逻辑 (核心功能)
             const text1 = document.getElementById('text1');
             const text2 = document.getElementById('text2');
             const compareBtn = document.getElementById('compare-btn');
@@ -365,6 +723,7 @@
             const LOCAL_STORAGE_KEY_TEXT2 = 'diffToolText2';
 
             function countNonWhitespace(text) {
+                // 忽略所有空白字符（空格、换行、制表符等）
                 return text.replace(/\s/g, '').length;
             }
 
@@ -385,6 +744,12 @@
             text1.addEventListener('input', () => updateCountsAndSave(text1, count1El, LOCAL_STORAGE_KEY_TEXT1));
             text2.addEventListener('input', () => updateCountsAndSave(text2, count2El, LOCAL_STORAGE_KEY_TEXT2));
 
+            function hideAllResults() {
+                diff1Section.style.display = 'none';
+                diff2Section.style.display = 'none';
+                noDiffSection.style.display = 'none';
+            }
+            
             clearText1Btn.addEventListener('click', function() {
                 text1.value = '';
                 updateCountsAndSave(text1, count1El, LOCAL_STORAGE_KEY_TEXT1);
@@ -397,25 +762,19 @@
                 hideAllResults();
             });
 
-            function hideAllResults() {
-                diff1Section.style.display = 'none';
-                diff2Section.style.display = 'none';
-                noDiffSection.style.display = 'none';
-            }
-
             function findUniqueChars(textA, textB) {
                 const charsA = new Set();
                 const charsB = new Set();
                 const uniqueChars = new Set();
 
                 for (const char of textA) {
-                    if (!/\s/.test(char)) {
+                    if (!/\s/.test(char)) { // 忽略空白字符
                         charsA.add(char);
                     }
                 }
 
                 for (const char of textB) {
-                    if (!/\s/.test(char)) {
+                    if (!/\s/.test(char)) { // 忽略空白字符
                         charsB.add(char);
                     }
                 }
@@ -439,6 +798,7 @@
                 chars.forEach(char => {
                     const charItem = document.createElement('div');
                     charItem.className = `char-item ${className}`;
+                    // 特殊字符显示处理
                     if (char === ' ') {
                         charItem.textContent = '[空格]';
                     } else if (char === '\n') {
@@ -463,6 +823,7 @@
                     return;
                 }
 
+                // 移除空白字符后进行比较，得到唯一的差异字符
                 const uniqueChars1to2 = findUniqueChars(txt1, txt2);
                 const uniqueChars2to1 = findUniqueChars(txt2, txt1);
 
@@ -475,7 +836,7 @@
                     hasDifferences = true;
                 } else {
                     diff1Section.style.display = 'block';
-                    charInfoDiff1.textContent = '文本1中的所有字符在文本2中都存在。';
+                    charInfoDiff1.textContent = '文本1中的所有非空白字符在文本2中都存在。';
                     charsListDiff1.innerHTML = '';
                     charsListDiff1.style.display = 'none';
                 }
@@ -487,7 +848,7 @@
                     hasDifferences = true;
                 } else {
                     diff2Section.style.display = 'block';
-                    charInfoDiff2.textContent = '文本2中的所有字符在文本1中都存在。';
+                    charInfoDiff2.textContent = '文本2中的所有非空白字符在文本1中都存在。';
                     charsListDiff2.innerHTML = '';
                     charsListDiff2.style.display = 'none';
                 }
@@ -497,7 +858,11 @@
                     noDiffSection.style.display = 'block';
                 }
             });
+            
+            // 4. 显示页面内容
+            document.body.style.opacity = '1';
         });
     </script>
+
 </body>
 </html>
