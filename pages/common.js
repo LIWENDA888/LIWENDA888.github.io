@@ -22,16 +22,21 @@ const navData = [
         { label: '文本差异对比', url: 'https://www.zizao.top/tools/duibi', openInNewTab: false }
     ]},
 
-    { label: '关于', url: 'https://www.zizao.top/fonts/about', openInNewTab: false }
+    { label: '关于', url: '#', hasDropdown: true, subMenu: [
+        { label: '关于我们', url: 'https://www.zizao.top/us.html#about', openInNewTab: false },
+        { label: '版权声明', url: 'https://www.zizao.top/us.html#copyright', openInNewTab: false },
+        { label: '建议反馈', url: 'https://www.zizao.top/us.html#feedback', openInNewTab: false },
+        { label: '联系我们', url: 'https://www.zizao.top/us.html#contact', openInNewTab: false }
+    ]},
 ];
 
 const footerLinks = [
-    { label: '隐私政策', url: '#' },
-    { label: '服务条款', url: '#' }
+    { label: '版权声明', url: 'https://www.zizao.top/us.html#copyright' },
+    { label: '联系我们', url: 'https://www.zizao.top/us.html#contact' }
 ];
 
 const siteConfig = {
     homeUrl: 'https://www.zizao.top',
-    logoUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/FhEy/249X79/logo.png/webp',
+    logoUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp',
     copyrightText: '© 2025 ZIZAO.TOP. 保留所有权利.'
 };
