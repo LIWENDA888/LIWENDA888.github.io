@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>极简嵌入式搜索页面 - 可维护版</title>
+    <title>搜书法风格 - 自在造字(ZIZAO)</title>
+    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
+    <meta name="author" content="自在造字">
+    <meta property="og:title" content="搜书法风格 - 自在造字(ZIZAO)">
+    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
     
     <style>
         /* 1. 基础布局和全屏设置 */
@@ -430,8 +437,9 @@
         const HIDE_TOP_PARAM = "hide_top_px";
 
         const URL_CONFIGS = [
-            { id: 'A', name: "超音工具", base: "https://www.zizao.top/tools/chaoyin?char=", queryParam: "char", hideValue: "50" },
-            { id: 'B', name: "宝藏搜索", base: "https://www.zizao.top/bao?q=", queryParam: "q", hideValue: "0" }
+            { id: 'A', name: "湖南字根书法", base: "https://zgzd.wantuyun.cn/dictionary/search?word=", queryParam: "char", hideValue: "750" },
+            { id: 'B', name: "梅花书检", base: "https://www.mhsj.top/index/index/index.html?querytype=1&keyword=", queryParam: "q", hideValue: "720" },
+            { id: 'C', name: "好查书法", base: "https://shufa.hao86.com/", queryParam: "hao", hideValue: "420" }
         ];
         
         let currentUrlConfig = URL_CONFIGS[0]; 
