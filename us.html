@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 自在造字（字造ZIZAO）</title>
+    <meta name="description" content="关于我们、版权声明、建议反馈、联系我们等信息。">
+    <link rel="icon" href="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/gOQi/ico.ico" type="zizaoicon">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+    <style>
+        /* 基础样式和变量 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* NOTE: index_副本.html 原始变量 */
+        :root {
+            --deep-grey: #222222; /* 主深色 */
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; /* 主色调：米金色 */
+            --accent-light: #F7E4C4; /* 主色调浅色 */
+            --sub-text-color: #555555; /* 略浅的文字颜色 */
+            --text-color: #1a2a40;
+            
+            /* NOTE: about.html 变量补充/覆盖 */
+            --active-color: #222222; /* 激活状态颜色设为深灰/黑 */
+            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
+            --sidebar-bg: #FFFFFF; 
+            --primary-bg: #FFFFFF; /* <<-- 调整：将背景色改为白色 */
+            --secondary-bg: #FFFFFF;
+        }
+
+        /* NOTE: body 样式从 about.html 移植，以支持粘性页脚和渐显 */
+        body {
+            font-family: 'Poppins', 'Noto Sans SC', system-ui, -apple-system, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--primary-bg); /* 使用新的白色背景色 */
+            color: var(--deep-grey); /* 使用 index.html 的主深色 */
+            line-height: 1.75; 
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column; 
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* ---------------------------------------------------- */
+        /* 主体间距调整 (上次修改保留) */
+        /* ---------------------------------------------------- */
+        main {
+            flex-grow: 1;
+            padding-top: 100px; 
+            padding-bottom: 50px;
+        }
+        /* ---------------------------------------------------- */
+
+        a { 
+            color: var(--deep-grey); 
+            text-decoration: none; 
+            transition: color 0.3s; 
+        }
+        
+        /* ---------------------------------------------------- */
+        /* 关键修改：移除所有链接悬停时的默认下划线（包括黑色的细线） */
+        a:hover { 
+            text-decoration: none; /* 移除默认下划线 */
+            color: var(--accent-color); 
+        }
+        /* ---------------------------------------------------- */
+
+        .container { 
+            width: 90%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+        
+        /* ---------------------------------------------------- */
+        /* 关于我们页面主体布局样式 (index_副本.html 原始样式) */
+        /* ---------------------------------------------------- */
+        .about-page-wrapper {
+            padding: 0; 
+            display: flex;
+            gap: 50px; 
+        }
+        
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 220px; 
+            flex-shrink: 0;
+            padding-top: 20px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            padding: 12px 18px;
+            margin-bottom: 8px; 
+            color: var(--deep-grey);
+            font-size: 16px;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: var(--accent-light); 
+            text-decoration: none;
+        }
+        
+        /* 激活状态 */
+        .sidebar-nav a.active {
+            color: #FFFFFF;
+            background-color: var(--accent-color);
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(224, 185, 115, 0.4); 
+        }
+        
+        /* 右侧内容区 */
+        .content-area {
+            flex-grow: 1;
+            padding: 20px 0;
+            min-height: 500px; 
+        }
+        
+        .content-area h1 {
+            font-size: 32px; 
+            color: var(--deep-grey);
+            margin-bottom: 35px;
+            padding-bottom: 15px;
+            position: relative; 
+        }
+
+        /* 标题下划线优化：使用伪元素实现渐变下划线 */
+        .content-area h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-color), var(--accent-light) 70%, transparent);
+        }
+
+        /* 正文文字大小和颜色优化 */
+        .content-area p, .content-area ul {
+            margin-bottom: 25px; 
+            color: var(--sub-text-color);
+            font-size: 17px; 
+            line-height: 1.7; 
+        }
+
+        .content-area ul {
+            padding-left: 25px;
+            list-style-type: disc;
+        }
+
+        /* 图片样式 */
+        .content-image {
+            margin: 30px 0 40px; 
+            overflow: hidden;
+            border-radius: 10px; 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+        }
+
+        .content-image img {
+            width: 100%; 
+            height: auto; 
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 隐藏未激活的内容块 */
+        .content-block {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .content-block.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ---------------------------------------------------- */
+        
+        /* ------------------------------------------- */
+        /* II. 移植自 about.html 的顶部栏和底部栏样式 */
+        /* ------------------------------------------- */
+        
+        /* 顶部栏 */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #FFFFFF;
+            border-bottom: 1px solid var(--light-grey); 
+        }
+
+        /* 确保 logo 链接可以正常显示图片 */
+        .logo { display: block; } 
+        .logo img { height: 28px; max-width: 150px; display: block; }
+
+        /* 导航菜单 - 桌面端 */
+        .nav { display: flex; align-items: center; }
+        
+        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
+        
+        .nav-item-dropdown > a {
+            font-size: 16px; display: inline-flex; align-items: center;
+            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
+            color: var(--deep-grey); 
+        }
+        
+        /* 桌面端下划线动画 (仅悬停时生效) */
+        .nav-item-dropdown > a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            width: 50%; height: 3px; background-color: var(--accent-color); 
+            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
+        }
+        
+        /* 导航菜单链接悬停时不改变颜色，因为 a:hover 已经设置了颜色 */
+        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
+        
+        /* 导航菜单链接悬停时触发橙色下划线动画 */
+        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
+        
+        /* 桌面端二级菜单 */
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            min-width: 150px; background-color: #FFFFFF;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
+            z-index: 100; display: none; opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        
+        .nav-item-dropdown:hover .dropdown-menu {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        
+        .dropdown-menu a {
+            display: block; padding: 8px 15px; font-size: 15px;
+            white-space: nowrap; border-radius: 4px; margin: 0 8px;
+            color: var(--deep-grey); 
+        }
+
+        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
+
+        .menu-toggle {
+            display: none; background: none; border: none; font-size: 24px;
+            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
+        }
+
+        /* 侧边栏遮罩层 */
+        .backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .backdrop.open { opacity: 1; visibility: visible; }
+        
+        /* 底部栏样式 - 版权信息部分 (about.html 底部) */
+        .footer-common { 
+            background: var(--primary-bg); /* 使用新的白色背景色 */
+            color: var(--text-color); padding: 30px 5%; 
+            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
+        }
+
+        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
+        .copyright-section a { color: var(--sub-text-color); }
+        .copyright-section a:hover { color: var(--deep-grey); text-decoration: underline; }
+
+
+        /* ---------------------------------------------------- */
+        /* III. 移植 about.html 的响应式设计 */
+        /* ---------------------------------------------------- */
+        @media (max-width: 768px) {
+            
+            /* index_副本.html 原始样式调整 */
+            main { padding-top: 70px; padding-bottom: 25px; } /* 适应移动端顶部间距 */
+            
+            .container { width: 95%; }
+            
+            /* 移动端 关于我们 布局调整 */
+            .about-page-wrapper {
+                flex-direction: column;
+                gap: 0; 
+            }
+            
+            .sidebar {
+                width: 100%; 
+                padding-top: 0;
+                overflow-x: auto;
+                white-space: nowrap;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            
+            .sidebar-nav {
+                display: flex;
+            }
+            
+            .sidebar-nav a {
+                flex-shrink: 0;
+                padding: 8px 15px;
+                margin-right: 10px;
+                margin-bottom: 0;
+                border: 1px solid #eee;
+                background-color: #F9F9F9;
+            }
+            
+            .sidebar-nav a.active {
+                background-color: var(--accent-color);
+                color: #FFFFFF;
+                border-color: var(--accent-color);
+                box-shadow: none;
+            }
+
+            .content-area {
+                padding: 0 10px; 
+            }
+
+            .content-area h1 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+            }
+            
+            .content-area h1::after {
+                height: 2px;
+            }
+
+            .content-area p, .content-area ul {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            
+            /* about.html 移植的移动端导航样式 */
+            .header { padding: 10px 4%; }
+            .logo img { height: 24px; } /* 移动端 logo 稍小 */
+            .menu-toggle { display: block; }
+            
+            /* 菜单主体：全屏下拉折叠菜单 */
+            .nav {
+                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
+                max-width: none; height: calc(100vh - 48px);
+                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
+                overflow-y: auto; 
+                transform: translateY(-100%); opacity: 0; visibility: hidden;
+                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
+            }
+
+            .nav.open {
+                transform: translateY(0); opacity: 1; visibility: visible;
+                transition: transform 0.3s ease-out, opacity 0.3s; 
+            }
+            
+            .backdrop { top: 48px; height: calc(100vh - 48px); }
+
+            /* 移动端菜单项样式 */
+            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
+            .nav-item-dropdown:last-child { border-bottom: none; }
+
+            .nav-item-dropdown > a {
+                padding: 15px 10px; font-size: 18px; width: 100%;
+                display: flex; justify-content: space-between; 
+            }
+            
+            .nav-item-dropdown > a::after { content: none; } 
+            
+            /* 移动端二级菜单核心修复 */
+            .nav .nav-item-dropdown .dropdown-menu {
+                display: none; 
+                position: static; 
+                opacity: 1;
+                transform: none;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            
+            .nav .nav-item-dropdown.open .dropdown-menu {
+                display: block !important; 
+            }
+            
+            .dropdown-menu a {
+                padding: 10px 10px; font-size: 16px; margin: 3px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="headerContainer">
+    </header>
+
+    <main class="container">
+        
+        <section class="about-page-wrapper">
+            
+            <aside class="sidebar">
+                <nav class="sidebar-nav" id="sidebarNav">
+                    </nav>
+            </aside>
+
+            <article class="content-area" id="contentArea">
+                </article>
+
+        </section>
+
+    </main>
+    
+    <footer id="footerContainer">
+    </footer>
+
+    <script src="https://www.zizao.top/pages/common.js"></script>
+    
+    <script>
+        // ----------------------------------------------------
+        // I. 配置数据 (已修改为支持独立图片)
+        // ----------------------------------------------------
+        
+        // 占位符：用于标记图片在内容文本中的插入位置
+        const IMAGE_PLACEHOLDER = '[[IMAGE_HERE]]'; 
+
+        // 辅助函数：根据 URL 生成图片 HTML
+        function generateImageHtml(url) {
+            if (!url) return '';
+            // 使用通用的 alt 文本
+            const altText = '页面配图'; 
+            return `<div class="content-image"><img src="${url}" alt="${altText}"></div>`;
+        }
+
+        const aboutSections = [
+            { 
+                id: 'about', 
+                label: '关于我们', 
+                title: '关于自在造字 (Zizao)',
+                // ⬇️ 为每个模块设置独立的图片 URL
+                imageUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp', 
+                content: `
+                    <p>自在造字致力于推动中文排版和字体设计的创新。我们相信，优秀的字体不仅是文字的载体，更是文化和情感的表达。</p>
+                    <p>自创立以来，我们一直秉持“以人为本，字造未来”的理念，结合传统工艺和现代技术，为设计师、开发者和普通用户提供高质量、多样化的字库产品，助力您的项目拥有独一无二的视觉体验。</p>
+                    <p>我们的使命是让每一个创意都拥有最合适的文字表达方式。</p>
+                    ${IMAGE_PLACEHOLDER} 
+                `
+            },
+            { 
+                id: 'copyright', 
+                label: '版权声明', 
+                title: '字库产品使用授权与版权',
+                imageUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp', 
+                content: `
+                    ${IMAGE_PLACEHOLDER} 
+                    <p>本网站提供的所有字库产品（包括但不限于字体文件、设计稿、相关文档等）的知识产权和著作权均归自在造字（或其授权方）所有，受中华人民共和国法律和国际版权条约保护。</p>
+                    <p><strong>重要提示：：</strong></p>
+                    <ul>
+                        <li><strong>免费商用字体：：</strong> 仅限在特定的、已明确告知的范围和方式内免费使用，超出范围需另行授权。</li>
+                        <li><strong>付费字体：：</strong> 需购买相应的商业授权后方可用于商业用途，未经授权不得用于任何商业目的。</li>
+                        <li>任何未经书面授权的复制、修改、二次发布或商业用途均属侵权行为。</li>
+                    </ul>
+                    <p>请严格遵守授权协议，如对版权有任何疑问，请随时<a href="mailto:support@zizao.com" target="_blank" rel="noopener noreferrer">联系我们</a>。</p>
+                `
+            },
+            { 
+                id: 'feedback', 
+                label: '建议反馈', 
+                title: '建议与反馈中心',
+                imageUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp', 
+                content: `
+                    <p>我们非常重视您的宝贵意见和建议。您的每一条反馈都是我们改进的动力。无论是产品缺陷报告、功能改进建议，还是合作洽谈，我们都期待您的声音。</p>
+                    <p>您可以通过以下方式向我们反馈：</p>
+                    <ul>
+                        <li><strong>电子邮件：：</strong> <a href="mailto:feedback@zizao.com" target="_blank" rel="noopener noreferrer">feedback@zizao.com</a> （推荐）</li>
+                        <li><strong>在线表格：：</strong> <a href="javascript:void(0);" target="_blank" rel="noopener noreferrer">点击这里提交</a> （*此处可替换为实际表单链接*）</li>
+                        <li><strong>客服热线：：</strong> 400-XXXX-XXXX</li>
+                    </ul>
+                    <p>我们的团队将尽快处理您的反馈，并与您取得联系。感谢您对自在造字的<a href="/support" target="_blank" rel="noopener noreferrer">支持</a>！</p>
+                    ${IMAGE_PLACEHOLDER} 
+                `
+            },
+            { 
+                id: 'contact', 
+                label: '联系我们', 
+                title: '获取支持与合作咨询',
+                imageUrl: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp', 
+                content: `
+                    <p>如果您需要<a href="/tech-support" target="_blank" rel="noopener noreferrer">技术支持</a>、<a href="/business" target="_blank" rel="noopener noreferrer">商业合作</a>或<a href="/media" target="_blank" rel="noopener noreferrer">媒体采访</a>，请通过以下方式联系我们：</p>
+                    <p><strong>联系方式：：</strong></p>
+                    <ul>
+                        <li><strong>市场合作：：</strong> <a href="mailto:cooperation@zizao.com" target="_blank" rel="noopener noreferrer">cooperation@zizao.com</a></li>
+                        <li><strong>技术支持：：</strong> <a href="mailto:support@zizao.com" target="_blank" rel="noopener noreferrer">support@zizao.com</a></li>
+                        <li><strong>办公地址：：</strong> 深圳市南山区科技园 XXX 大厦 XXX 室 （仅限预约访问）</li>
+                        <li><strong>官方微信公众号：：</strong> 搜索“<a href="/wechat" target="_blank" rel="noopener noreferrer">自在造字</a>”（获取最新动态）</li>
+                    </ul>
+                    ${IMAGE_PLACEHOLDER} 
+                    <p>我们期待与您建立联系！</p>
+                `
+            }
+        ];
+
+        // ----------------------------------------------------
+        // II. 侧边栏和内容渲染逻辑 (已修改为处理独立图片)
+        // ----------------------------------------------------
+        
+        function renderSidebar() {
+            const sidebarNav = document.getElementById('sidebarNav');
+            if (!sidebarNav) return;
+            
+            // 渲染左侧导航栏链接
+            sidebarNav.innerHTML = aboutSections.map(section => `
+                <a href="#${section.id}" data-section="${section.id}">${section.label}</a>
+            `).join('');
+            
+            // 渲染所有内容块到右侧区域
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = aboutSections.map(section => {
+                // 1. 动态生成图片 HTML
+                const imageHtml = generateImageHtml(section.imageUrl);
+                
+                // 2. 将内容中的占位符替换为实际的图片 HTML
+                const processedContent = section.content.replace(IMAGE_PLACEHOLDER, imageHtml);
+
+                return `
+                    <div class="content-block" id="block-${section.id}">
+                        <h1>${section.title}</h1>
+                        ${processedContent}
+                    </div>
+                `;
+            }).join('');
+
+            // 监听侧边栏点击事件
+            sidebarNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    // 切换内容展示
+                    setActiveSection(sectionId);
+                    // 更新地址栏 URL
+                    history.pushState(null, '', `#${sectionId}`);
+                });
+            });
+            
+            // 初始显示内容
+            const initialSection = window.location.hash.substring(1) || aboutSections[0].id;
+            setActiveSection(initialSection);
+        }
+        
+        function setActiveSection(sectionId) {
+            // 确保 sectionId 在配置中
+            const validSection = aboutSections.find(s => s.id === sectionId);
+            const targetId = validSection ? sectionId : aboutSections[0].id;
+
+            // 1. 切换左侧导航栏的激活状态
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                if (link.getAttribute('data-section') === targetId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // 2. 切换右侧内容块的显示状态
+            document.querySelectorAll('.content-block').forEach(block => {
+                if (block.id === `block-${targetId}`) {
+                    block.classList.add('active');
+                    // 确保页面滚动到顶部
+                    // NOTE: 这里调整为滚动到整个窗口顶部，更符合用户预期
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    block.classList.remove('active');
+                }
+            });
+
+            // 3. 更新页面标题以匹配内容
+            if (validSection) {
+                document.title = `${validSection.label} - 自在造字`;
+            }
+        }
+
+        // 监听浏览器前进/后退按钮 (处理 URL hash 变化)
+        window.addEventListener('hashchange', function() {
+            const sectionId = window.location.hash.substring(1) || aboutSections[0].id;
+            setActiveSection(sectionId);
+        });
+
+
+        // ----------------------------------------------------
+        // III. 移植自 about.html 的头部和底部渲染逻辑
+        // ----------------------------------------------------
+        
+        function renderHeader() {
+            // 依赖 common.js 中的 siteConfig 和 navData
+            const headerContainer = document.getElementById('headerContainer');
+            // 确保 navData 和 siteConfig 存在，如果 common.js 加载失败，此处可能为空
+            if (!headerContainer || typeof navData === 'undefined' || typeof siteConfig === 'undefined') return;
+
+            let navHtml = navData.map(item => {
+                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
+                
+                // 检查是否在新标签页打开，并生成对应属性
+                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                let subMenuHtml = '';
+                if (item.subMenu) {
+                    const subLinks = item.subMenu.map(sub => {
+                        // 检查二级菜单是否在新标签页打开
+                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+
+                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
+                    }).join('');
+                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
+                }
+
+                return `
+                    <div class="nav-item-dropdown">
+                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
+                        ${subMenuHtml}
+                    </div>
+                `;
+            }).join('');
+
+            headerContainer.innerHTML = `
+                <a href="${siteConfig.homeUrl}" class="logo">
+                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
+                </a>
+                <button class="menu-toggle" id="menuToggle">☰</button> 
+                <div class="backdrop" id="menuBackdrop"></div>
+                <nav class="nav" id="mainNav">
+                    ${navHtml}
+                </nav>
+            `;
+        }
+
+        function renderFooter() {
+            // 依赖 common.js 中的 siteConfig 和 footerLinks
+            const footerContainer = document.getElementById('footerContainer');
+             // 确保 footerLinks 和 siteConfig 存在
+            if (!footerContainer || typeof footerLinks === 'undefined' || typeof siteConfig === 'undefined') return;
+
+            // 保持底部链接在新窗口打开
+            const linkHtml = footerLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
+            `).join(' | ');
+
+            footerContainer.className = 'footer-common'; 
+            footerContainer.innerHTML = `
+                <div class="copyright-section">
+                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
+                </div>
+            `;
+        }
+        
+        // ----------------------------------------------------
+        // IV. 初始化和事件绑定 (移植自 about.html)
+        // ----------------------------------------------------
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. 动态渲染公共模块
+            renderHeader();
+            renderFooter();
+            
+            // 2. 导航事件绑定逻辑
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuBackdrop = document.getElementById('menuBackdrop'); 
+            // 确保 mainNav 存在后再查询子元素
+            const dropdownItems = mainNav ? mainNav.querySelectorAll('.nav-item-dropdown') : [];
+
+            function closeMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                mainNav.classList.remove('open');
+                menuBackdrop.classList.remove('open'); 
+                document.body.style.overflow = '';
+                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+            }
+            
+            function toggleMenu() {
+                if (!mainNav || !menuBackdrop) return;
+                
+                const isOpen = mainNav.classList.toggle('open');
+                menuBackdrop.classList.toggle('open'); 
+                
+                // 移动端才禁用滚动
+                if (window.innerWidth <= 768) {
+                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
+                }
+                
+                // 确保在关闭时执行 closeMenu 来清理状态
+                if (!isOpen) { 
+                    closeMenu(); 
+                }
+            }
+            
+            if (menuToggle && mainNav && menuBackdrop) {
+                menuToggle.addEventListener('click', toggleMenu);
+                menuBackdrop.addEventListener('click', closeMenu); 
+                
+                // 链接点击后关闭主菜单
+                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
+                    // 只有非下拉的父链接和所有子菜单链接才在点击后关闭菜单
+                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
+                        item.addEventListener('click', () => {
+                            // 延时是为了让链接跳转先发生
+                            if (mainNav.classList.contains('open')) {
+                                setTimeout(closeMenu, 100); 
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // 移动端二级菜单展开/收起逻辑
+            dropdownItems.forEach(item => {
+                const navLink = item.querySelector('.nav-item.has-dropdown');
+                if (navLink) {
+                    navLink.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault(); 
+                            const wasOpen = item.classList.contains('open');
+                            // 关闭所有其他已打开的下拉菜单
+                            dropdownItems.forEach(d => d.classList.remove('open')); 
+                            if (!wasOpen) {
+                                // 展开当前点击的菜单
+                                item.classList.add('open'); 
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // 3. 渲染 index_副本.html 原始主体内容
+            renderSidebar();
+            
+            // 4. 页面内容显示
+            document.body.style.opacity = '1';
+        });
+    </script>
+
+</body>
+</html>
