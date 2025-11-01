@@ -363,6 +363,7 @@
             { category: 'J', subcategory: 'J2', title: '网盘超能搜', description: '聚合多个网盘搜索，常用都可搜', link: 'https://www.chaonengsou.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { "category": "J", "subcategory": "J2", "title": "网盘搜索", "description": "支持常用4大网盘-聚合网盘搜索引擎", "link": "https://search.chongbuluo.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
 
+            { category: 'J', subcategory: 'J3', title: 'Aconvert', description: '【推荐】支持转换各类格式文件，包括PNG转ICO', link: 'https://www.aconvert.com/cn/icon/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'AC文件转换', description: '【推荐】支持的类型全-使用方便', link: 'https://www.aconvert.com/cn', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'Convertio', description: '在线转换任何格式的视频文件', link: 'https://convertio.co/zh/video-converter', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'Ilovepdf', description: '支持多种格式之间进行互转', link: 'https://www.ilovepdf.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
@@ -375,8 +376,8 @@
             { category: 'J', subcategory: 'J4', title: '二维码生成', description: '任何内容都可以生成二维码', link: 'https://www.qrcode-monkey.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J4', title: '网址变短', description: '可以让任何网址变短的神器', link: 'https://www.shorturl.at', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J4', title: '卡通头像生成', description: '在线设计卡通头像并下载"', link: 'https://personas.draftbit.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
-            { category: 'J', subcategory: 'J4', title: '聊天截图生成', description: '线上生成微信支付宝截图', link: 'http://www.12tool.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' }
-            { "category": "J", "subcategory": "J4", "title": "文件传输", "description": "临时传送助手-端对端无需担心隐私泄露", "link": "https://wormhole.app/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { category: 'J', subcategory: 'J4', title: '聊天截图生成', description: '线上生成微信支付宝截图', link: 'http://www.12tool.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
+            { "category": "J", "subcategory": "J4", "title": "文件传输", "description": "临时传送助手-端对端无需担心隐私泄露", "link": "https://wormhole.app/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" }
         ];
 
 
