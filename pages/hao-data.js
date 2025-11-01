@@ -1,27 +1,17 @@
         const allCardsData = [
-            { category: 'A', subcategory: 'A1', title: 'AskManyAI', description: '来自全球的超多AI工具集合站，体验甚至超过原平台', link: 'https://www.dazi.co/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
-            { "category": "A", "subcategory": "A1", "title": "Github", "description": "全世界最大的开源社区，在这里可以找到几乎所有的开源项目", "link": "https://github.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "SearXNG", "description": "Google的绝佳替代，最强大的元搜索引擎", "link": "https://searx.bndkt.io", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { "category": "A", "subcategory": "A1", "title": "花瓣", "description": "收集设计灵感，保存有用的素材", "link": "https://huaban.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { "category": "A", "subcategory": "A1", "title": "站酷", "description": "中国人气设计师互动平台", "link": "https://www.zcool.com.cn", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { "category": "A", "subcategory": "A1", "title": "优设", "description": "人气设计师交流学习平台", "link": "https://www.uisdc.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { "category": "A", "subcategory": "A1", "title": "Pinterest", "description": "全球最大的创意灵感图片采集站", "link": "https://www.pinterest.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { "category": "A", "subcategory": "A1", "title": "Dribbble", "description": "面向设计师的社交网络平台", "link": "https://dribbble.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { "category": "A", "subcategory": "A1", "title": "Behance", "description": "Adobe旗下的设计师交流平台", "link": "https://behance.net/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { "category": "A", "subcategory": "A1", "title": "YouTube", "description": "全球最大的学习分享平台", "link": "https://www.youtube.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "优设", "description": "人气设计师交流学习平台", "link": "https://www.uisdc.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "万能视频下载", "description": "复制链接，下载任何地方的视频", "link": "https://snapany.com/zh", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "网盘搜索", "description": "支持常用4大网盘-聚合网盘搜索引擎", "link": "https://search.chongbuluo.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "文件传输", "description": "临时传送助手-端对端无需担心隐私泄露", "link": "https://wormhole.app/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "VR看世界", "description": "坐在家里就能看到来自全世界的景色", "link": "https://www.airpano.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "免费资源社区", "description": "来自湾湾的免费资源分享网站", "link": "https://free.com.tw/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-            { "category": "A", "subcategory": "A1", "title": "图像处理工具集", "description": "在线处理PDF-GIF-抠图-压缩等的图片工具", "link": "https://docsmall.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
-
+            
             { category: 'A', subcategory: 'A2', title: '抖音短视频', description: '字节跳动旗下，用短视频记录分享多彩生活', link: 'https://www.douyin.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'A', subcategory: 'A2', title: '哔哩哔哩', description: '年轻人潮流文化娱乐社区，有多元视频', link: 'https://www.bilibili.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'A', subcategory: 'A2', title: '腾讯视频', description: '腾讯旗下，提供海量影视综，畅享多元视听', link: 'https://v.qq.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'A', subcategory: 'A2', title: '优酷', description: '阿里运营，集影视综艺等的综合视频台，为好作品而发力', link: 'https://www.youku.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'A', subcategory: 'A2', title: '爱奇艺', description: '提供丰富剧集、综艺等，满足多样观剧欲的视频平台', link: 'https://www.iqiyi.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
-            { category: 'A', subcategory: 'A2', title: '金牌影院', description: '剧集丰富、集爱优腾所有视频资源为一身，强烈推荐', link: 'https://www.hskjjglo.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             
             { category: 'A', subcategory: 'A3', title: '小红书', description: '年轻人生活分享平台，涵盖多元生活方式', link: 'https://www.xiaohongshu.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'A', subcategory: 'A3', title: '新浪微博', description: '多媒体即时分享，热点与互动传播平台', link: 'https://weibo.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
@@ -30,9 +20,12 @@
             { category: 'A', subcategory: 'A3', title: '豆瓣', description: '以书影音为基，延展多元兴趣交流社区', link: 'https://www.douban.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'A', subcategory: 'A3', title: '开源中国', description: '聚焦开源技术，开发者交流协作平台', link: 'https://www.oschina.net/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
 
-            { category: 'A', subcategory: 'A4', title: '', description: '', link: '', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
-
-            { category: 'A', subcategory: 'A5', title: 'Tetr.io', description: '多人联机俄罗斯方块，吃鸡版本的特趣思', link: 'https://tetr.io', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
+            { category: 'A', subcategory: 'A4', title: 'Tetr.io', description: '多人联机俄罗斯方块，吃鸡版本的特趣思', link: 'https://tetr.io', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
+            { category: 'A', subcategory: 'A4', title: 'Mikutap', description: '一定开声音，然后点击任意键或者屏幕，非常Happy！', link: 'https://aidn.jp/mikutap/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
+            { category: 'A', subcategory: 'A4', title: 'ZType', description: '把战机和练习打字完美融合，配上BGM很有感觉', link: 'https://zty.pe', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
+            { category: 'A', subcategory: 'A4', title: 'BS', description: '在线飙车小游戏，四个方向键控制小车，很有难度', link: 'https://bruno-simon.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
+            { category: "A", subcategory: "A4", "title": "指尖上 | 全球全景360VR", description: "全球知名旅游景点的VR全景和详细介绍,宅家看世界", "link": "https://www.zhijianshang.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
+            { category: "A", subcategory: "A4", "title": "VR看世界", description: "坐在家里就能看到来自全世界的景色", "link": "https://www.airpano.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
 
             { category: 'B', subcategory: 'B1', title: '以观书法', description: '类别详细风格多，页面UI比较简约，很推荐', link: 'https://web.ygsf.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
             { category: 'B', subcategory: 'B1', title: '字根书法字典', description: '动画很丝滑，湖南字根研究中心推出的web端书法工具', link: 'https://zgzd.wantuyun.cn/dictionary/search', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg'},
@@ -113,6 +106,8 @@
 
             {"category":"D","subcategory":"D1","title":"Deekseek","description":"全球领先的国产推理性“AI助手”","link":"https://chat.deepseek.com/","icon":"https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg"},
             {"category":"D","subcategory":"D1","title":"腾讯元宝","description":"腾讯混元大模型，并有Deekseek R1加持，对微信超强兼容功能强大","link":"https://yuanbao.tencent.com/chat/naQivTmsDa","icon":"https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg"},
+            { category: 'D', subcategory: 'D1', title: 'AskManyAI', description: '来自全球的超多AI工具集合站，体验甚至超过原平台', link: 'https://www.dazi.co/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
+            { category: 'D', subcategory: 'D1', title: '问小白AI', description: '如果经常受到DeepSeek服务器繁忙，可以试试这个', link: 'https://www.wenxiaobai.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             {"category":"D","subcategory":"D1","title":"ChatGPT","description":"OpenAI的研发的知名AI聊天助手","link":"https://chatgpt.com/","icon":"https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg"},
             {"category":"D","subcategory":"D1","title":"Gemini Flash","description":"谷歌研发的人工智能对话模型","link":"https://gemini.google.com/app","icon":"https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg"},
             {"category":"D","subcategory":"D1","title":"Kimi Chat","description":"智能聊天+超长文本处理","link":"https://kimi.moonshot.cn/","icon":"https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg"},
@@ -355,6 +350,7 @@
             { category: 'I', subcategory: 'I1', title: '千本设计书籍', description: '搜集来自全球的知名设计书籍-设计师必备推荐', link: 'https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
 
             { category: 'J', subcategory: 'J1', title: '脚本之家', description: '提供互联网全方位在线工具无套路分享', link: 'https://www.jb51.net/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
+            { "category": "J", "subcategory": "J1", "title": "免费资源社区", "description": "来自湾湾的免费资源分享网站", "link": "https://free.com.tw/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
             { category: 'J', subcategory: 'J1', title: 'Fosshub', description: '来自全球免费好用的软件', link: 'https://www.fosshub.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J1', title: 'LookAE', description: '各类需要的设计资源，这里可能全都有', link: 'https://www.lookae.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J1', title: 'Google Fonts', description: '海量免费字体资源', link: 'https://fonts.google.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
@@ -365,12 +361,14 @@
             { category: 'J', subcategory: 'J2', title: 'SearXNG', description: '全世界最强大的元搜索引擎', link: 'https://searx.org', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J2', title: '虫部落 · 快搜', description: '聚合了全球所有的搜索工具', link: 'https://search.chongbuluo.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J2', title: '网盘超能搜', description: '聚合多个网盘搜索，常用都可搜', link: 'https://www.chaonengsou.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
+            { "category": "J", "subcategory": "J2", "title": "网盘搜索", "description": "支持常用4大网盘-聚合网盘搜索引擎", "link": "https://search.chongbuluo.com/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
 
             { category: 'J', subcategory: 'J3', title: 'AC文件转换', description: '【推荐】支持的类型全-使用方便', link: 'https://www.aconvert.com/cn', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'Convertio', description: '在线转换任何格式的视频文件', link: 'https://convertio.co/zh/video-converter', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'Ilovepdf', description: '支持多种格式之间进行互转', link: 'https://www.ilovepdf.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'Alltoall', description: '支持多达200多种格式在线转换', link: 'http://www.alltoall.net', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J3', title: 'Pdfconvertonline', description: '网站支持各类文件之间进行互转', link: 'https://www.pdfconvertonline.com/cn/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
+            { "category": "J", "subcategory": "J3", "title": "图像处理工具集", "description": "在线处理PDF-GIF-抠图-压缩等的图片工具", "link": "https://docsmall.com", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
 
             { category: 'J', subcategory: 'J4', title: '文本生成二维码', description: '仅支持文本生成二维码', link: 'https://swiftqr.tanpok.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J4', title: 'SMS', description: '虚拟国外手机号码短信验证', link: 'https://sms-activate.io/cn?%2Fcn=', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
@@ -378,5 +376,10 @@
             { category: 'J', subcategory: 'J4', title: '网址变短', description: '可以让任何网址变短的神器', link: 'https://www.shorturl.at', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J4', title: '卡通头像生成', description: '在线设计卡通头像并下载"', link: 'https://personas.draftbit.com', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' },
             { category: 'J', subcategory: 'J4', title: '聊天截图生成', description: '线上生成微信支付宝截图', link: 'http://www.12tool.com/', icon: 'https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg' }
-
+            { "category": "J", "subcategory": "J4", "title": "文件传输", "description": "临时传送助手-端对端无需担心隐私泄露", "link": "https://wormhole.app/", "icon": "https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250803/5j2Y/1.svg" },
         ];
+
+
+            
+            
+            
