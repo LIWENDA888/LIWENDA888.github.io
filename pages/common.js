@@ -6,7 +6,7 @@
 const navData = [
     { label: '首页', url: 'https://www.zizao.top', openInNewTab: false },
 
-    { label: '产品', url: 'https://www.zizao.top/fonts', openInNewTab: false },
+    { label: '字库', url: 'https://www.zizao.top/fonts', openInNewTab: false },
     
     { label: '导航', url: 'https://www.zizao.top/hao', openInNewTab: true },
 
