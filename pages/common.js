@@ -8,8 +8,6 @@ const navData = [
 
     { label: '产品', url: 'https://www.zizao.top/fonts', openInNewTab: false },
     
-    { label: '授权', url: 'https://www.zizao.top/fonts/auth', openInNewTab: false },
-
     { label: '导航', url: 'https://www.zizao.top/hao', openInNewTab: true },
 
     { label: '资源', url: 'https://www.zizao.top/bao', openInNewTab: false },
