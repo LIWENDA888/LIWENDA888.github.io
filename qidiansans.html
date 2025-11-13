@@ -130,7 +130,7 @@
         }
 
         /* =================================================================
-           qidiansans.html 附加样式
+           qidiansans.html 附加样式 (已进行间距优化和排版细节优化)
            ================================================================= */
         
         :root {
@@ -139,7 +139,7 @@
             --accent-color: #E0B973; 
             --hover-deep-color: #a88a56; 
             --nav-hover-bg: rgba(224, 185, 115, 0.1); 
-            --sub-text-color: #6c7a89;
+            --sub-text-color: #6c7a89; /* 辅助文本颜色 */
             --text-color: #1a2a40;
             --sidebar-bg: #FFFFFF; /* 新增变量，用于移动端导航背景 */
         }
@@ -194,9 +194,9 @@
         
         /* --- 字体核心信息与操作区 --- */
         
-        /* 1. 头部区域 (已优化间距) */
+        /* 1. 头部区域 (间距优化：减少上下留白) */
         .font-detail-header {
-            padding: 60px 0; /* 优化：增加顶部和底部留白 */
+            padding: 40px 0 20px; 
         }
         
         /* 标题和按钮容器 (左右布局) */
@@ -204,7 +204,7 @@
             display: flex;
             justify-content: space-between; 
             align-items: center; 
-            margin-bottom: 30px; 
+            margin-bottom: 20px; 
         }
 
         .font-header-and-buttons h1 {
@@ -232,13 +232,13 @@
             margin-bottom: 0; 
         }
         
-        /* 2. 两栏内容区域 (已优化间距) */
+        /* 2. 两栏内容区域 (间距优化：减少上下留白和列间距) */
         .font-two-column-layout {
             display: flex;
             flex-direction: row; 
-            gap: 60px; 
-            padding-top: 60px; /* 优化：增加顶部留白 */
-            padding-bottom: 60px; /* 优化：增加底部留白 */
+            gap: 40px; 
+            padding-top: 30px; 
+            padding-bottom: 30px; 
         }
         
         /* 设计理念文本内容样式 (左栏) */
@@ -248,9 +248,9 @@
         .design-text-content p {
             font-size: 17px; 
             color: #333333; 
-            margin-bottom: 25px; 
-            line-height: 2.0; 
-            text-align: left; 
+            margin-bottom: 20px; 
+            line-height: 1.9; /* 优化：行高略微收缩，提高阅读块的凝聚力 */
+            text-align: justify; /* 优化：两端对齐，使文本边缘更整齐 */
         }
         .design-text-content p:first-of-type strong { 
             font-weight: 700;
@@ -263,28 +263,41 @@
         .download-btn:hover { background-color: #444444; border-color: #444444; }
         .license-detail-link { background-color: transparent; color: var(--deep-grey); border: 1px solid var(--deep-grey); width: 220px; }
         .license-detail-link:hover { background-color: var(--deep-grey); color: white; }
-        /* 移除原有的 .download-dropdown 和 .dropdown-content 样式，因为它们被模态框替换 */
+        
         .font-specs-band { flex: 1; border: 1px solid #E5E5E5; border-radius: 6px; padding: 20px 25px; margin: 0; flex-shrink: 0; }
-        .font-specs-band h3 { font-size: 24px; font-weight: 700; color: var(--deep-grey); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #E5E5E5; }
-        .font-meta-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
-        .font-meta-list.detailed-specs li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dotted #D0D0D0; }
-        .font-meta-list.detailed-specs li:last-child { border-bottom: none; }
-        .font-meta-list .meta-label { color: #888888; font-weight: 500; font-size: 15px; }
-        .font-meta-list .meta-value { color: var(--deep-grey); font-weight: 600; font-size: 15px; text-align: right; }
-
-        /* --- 授权条款链接 (底部独立区块) --- */
-        .standalone-link-block { 
-            max-width: 1200px; 
-            width: 90%; 
-            margin: 50px auto; 
-            text-align: center; 
+        .font-specs-band h3 { 
+            font-size: 24px; 
+            font-weight: 700; 
+            color: var(--deep-grey); 
+            margin-bottom: 15px; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #E5E5E5; 
         }
-        .standalone-link-block .cta-button { 
-            width: 300px; 
-            display: inline-flex; 
+        .font-meta-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+
+        /* 规格列表排版优化 */
+        .font-meta-list.detailed-specs li { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 0; 
+            border-bottom: 1px solid #F0F0F0; 
+        }
+        .font-meta-list.detailed-specs li:last-child { border-bottom: none; }
+        .font-meta-list .meta-label { 
+            color: var(--sub-text-color); 
+            font-weight: 400; 
+            font-size: 15px; 
+        }
+        .font-meta-list .meta-value { 
+            color: var(--deep-grey); 
+            font-weight: 600; 
+            font-size: 16px; 
+            text-align: right; 
         }
         
-        /* --- 全宽图片 --- */
+
+        /* --- 全宽图片 (保持不变) --- */
         .full-width-image {
             width: 100%; 
             max-width: 100%; 
@@ -295,11 +308,11 @@
             vertical-align: middle; 
         }
         
-        /* 新增：图片展示容器样式 */
+        /* 新增：图片展示容器样式 (间距优化：减少上下边距) */
         .image-showcase-container {
             width: 90%; 
             max-width: 1200px; 
-            margin: 50px auto; 
+            margin: 30px auto; 
             display: block; 
             overflow: hidden; 
             border-radius: 12px; 
@@ -316,7 +329,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* 全屏遮罩 */
+            background-color: rgba(0, 0, 0, 0.5); /* 全屏遮罩 */
             z-index: 2000;
             display: flex;
             justify-content: center;
@@ -410,7 +423,7 @@
         }
         
         /* =================================================================
-           qidiansans.html 响应式设计 (Media Queries) - 保持不变
+           qidiansans.html 响应式设计 (Media Queries) - 优化移动端间距
            ================================================================= */
         @media (max-width: 1024px) {
             
@@ -434,10 +447,10 @@
                 width: 48%; 
             }
             
-            /* 两栏内容在平板上改为垂直堆叠 (保持不变) */
+            /* 两栏内容在平板上改为垂直堆叠 (间距优化) */
             .font-two-column-layout {
                 flex-direction: column;
-                gap: 40px; 
+                gap: 30px; 
             }
             .design-text-content, .font-specs-band {
                 flex: auto;
@@ -446,7 +459,7 @@
 
             /* 详细规格列表在平板上改为两列 (保持不变) */
             .font-specs-band ul { flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
-            .font-specs-band li { width: 48%; padding: 5px 0; border-bottom: 1px dotted #D0D0D0 !important; }
+            .font-specs-band li { width: 48%; padding: 5px 0; border-bottom: 1px solid #F0F0F0 !important; } 
             .font-specs-band li:nth-child(2n) { border-bottom: none !important; } 
             .font-specs-band li:last-child { border-bottom: none !important; }
         }
@@ -457,16 +470,28 @@
                 height: 400px; 
             }
             
-            /* --- 手机端图片容器全宽 --- */
+            /* --- 手机端图片容器全宽 (间距优化) --- */
             .image-showcase-container {
                 width: 100vw; 
                 margin-left: calc(50% - 50vw); 
                 margin-right: calc(50% - 50vw);
                 border-radius: 0; 
+                margin: 20px auto; 
             }
             /* -------------------------- */
             
             .font-header-and-buttons h1 { font-size: 32px; }
+
+            /* 头部区域间距优化 */
+            .font-detail-header {
+                padding: 30px 0 15px; 
+            }
+            
+            /* 两栏内容区域间距优化 */
+            .font-two-column-layout {
+                padding-top: 20px; 
+                padding-bottom: 20px; 
+            }
             
             /* 移动端按钮组再次改为垂直堆叠 (保持不变) */
             .action-group.horizontal-actions {
@@ -482,10 +507,10 @@
             
             /* 详细规格列表在移动端改为单列 (保持不变) */
             .font-specs-band ul { flex-direction: column; }
-            .font-specs-band li { width: 100%; border-bottom: 1px dotted #D0D0D0 !important; }
+            .font-specs-band li { width: 100%; border-bottom: 1px solid #F0F0F0 !important; } 
             .font-specs-band li:last-child { border-bottom: none !important; }
             
-            .standalone-link-block .cta-button { width: 100%; }
+            /* 原 .standalone-link-block 样式已移除 */
             
             .download-dropdown { width: 100%; }
             
@@ -496,7 +521,7 @@
         }
         
         /* =================================================================
-           qidiansans.html 滑杆、缩放、拖动和切换按钮相关样式 (优化区域)
+           qidiansans.html 滑杆、缩放、拖动和切换按钮相关样式 (保持不变)
            ================================================================= */
         
         .zoom-controls {
@@ -505,16 +530,16 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 20; 
-            background-color: rgba(34, 34, 34, 0.6); /* 优化: 略微提高透明度 */
+            background-color: rgba(34, 34, 34, 0.6); 
             border-radius: 20px;
-            padding: 6px 15px; /* 优化: 略微减小内边距 */
+            padding: 6px 15px; 
             display: flex; 
             align-items: center;
             width: auto; 
             max-width: 90%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: opacity 0.3s;
-            gap: 10px; /* 优化: 减小间距 */
+            gap: 10px; 
         }
 
         .zoom-controls:hover {
@@ -523,26 +548,26 @@
 
         /* 优化：黑白切换按钮样式 */
         .toggle-button {
-            background: transparent; /* 保持透明 */
-            border: none; /* 移除边框 */
-            color: white; /* 确保文字可见 */
+            background: transparent; 
+            border: none; 
+            color: white; 
             cursor: pointer;
             font-size: 16px;
             font-weight: 500;
-            width: 30px; /* 略微减小宽度 */
-            height: 30px; /* 略微减小高度 */
+            width: 30px; 
+            height: 30px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 0;
             flex-shrink: 0;
-            transition: color 0.2s ease-out; /* 优化: 只过渡颜色 */
+            transition: color 0.2s ease-out; 
         }
 
         .toggle-button:hover {
-            background-color: transparent; /* 优化: 移除悬停背景 */
-            color: var(--accent-color); /* 优化: 悬停时改为主题色 */
+            background-color: transparent; 
+            color: var(--accent-color); 
         }
         
         .slider-group {
@@ -554,10 +579,10 @@
         /* 优化：滑块两侧 +/- 符号样式 */
         .zoom-controls span {
             color: white;
-            font-size: 14px; /* 优化: 略微减小字号 */
+            font-size: 14px; 
             font-weight: 500;
-            margin: 0 5px; /* 优化: 减小间距 */
-            width: auto; /* 自动宽度 */
+            margin: 0 5px; 
+            width: auto; 
             text-align: center;
         }
         
@@ -573,7 +598,6 @@
             cursor: pointer;
             flex-grow: 1;
         }
-        /* ... 其他滑块样式保持不变 ... */
         .zoom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -690,9 +714,6 @@
             <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/tKbr/930X710/index2.jpg/webp" alt="字体应用示例大图" class="full-width-image">
         </div>
 
-        <div class="standalone-link-block">
-            <a href="license.html" target="_blank" class="cta-button license-detail-link">查看完整授权条款 ></a>
-        </div>
         </div>
     
     <footer class="footer" id="footer">
@@ -843,7 +864,7 @@
             setupDownloadModal();
 
             // =======================================================
-            // 4. qidiansans.html 的 图片缩放、拖动和切换逻辑 (保留逻辑)
+            // 4. qidiansans.html 的 图片缩放、拖动和切换逻辑 (保持不变)
             // =======================================================
             const zoomSlider = document.getElementById('zoomSlider');
             const heroSection = document.getElementById('heroSection');
