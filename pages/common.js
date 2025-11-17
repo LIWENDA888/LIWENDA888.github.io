@@ -5,43 +5,39 @@
 const APP_DATA = {
     navData: {
         // Logo HTML 
-        logoHtml: '<a href="#" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp" alt="Logo"></a>',
+        logoHtml: '<a href="https://www.zizao.top" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp" alt="Logo"></a>',
         
         // 导航菜单项
         menuItems: [
             { name: '首页', link: '#', dropdown: null },
             { 
                 name: '字体产品', 
-                link: '#', 
                 dropdown: [
-                    { name: '字造起点黑', link: '#' },
+                    { name: '字造起点黑', link: 'https://www.zizao.top/fonts/qidiansans' },
                     // 分隔符和查看全部
-                    { name: '查看全部产品', link: '#', separator: true } 
+                    { name: '查看全部产品', link: 'https://www.zizao.top/fonts', separator: true } 
                 ]
             },
+            { name: '字体授权', link: 'https://www.zizao.top/license', dropdown: null },
+            { name: '定制服务', link: 'https://www.zizao.top/custom-font', dropdown: null },
             { 
-                name: '字体授权', 
-                link: '#', 
+                name: '关于我们', 
+                link: 'https://www.zizao.top/us', 
                 dropdown: [
-                    { name: '画廊展示', link: '#' },
-                    { name: '设计师访谈', link: '#', separator: true }
+                    { name: '授权问题', link: 'https://www.zizao.top/us' },
+                    { name: '版权声明', link: 'https://www.zizao.top/us' },
+                    { name: '建议反馈', link: 'https://www.zizao.top/us' },
+                    { name: '联系我们', link: 'https://www.zizao.top/us' },
+                    // 分隔符和查看全部
+                    { name: '关于我们', link: 'https://www.zizao.top/us', separator: true } 
                 ]
             },
-            { 
-                name: '定制服务', 
-                link: '#', 
-                dropdown: [
-                    { name: '画廊展示', link: '#' },
-                    { name: '设计师访谈', link: '#', separator: true }
-                ]
-            },
-            { name: '关于我们', link: '#', dropdown: null },
         ],
         
         // 右侧操作按钮
         actionButton: {
             text: '获取字体授权',
-            link: '#',
+            link: 'https://zzfonts.taobao.com',
             target: '_blank', 
             rel: 'noopener noreferrer'
         }
