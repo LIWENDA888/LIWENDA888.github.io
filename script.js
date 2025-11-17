@@ -9,20 +9,26 @@ const APP_DATA = {
         
         // 导航菜单项
         menuItems: [
-            { name: '自在首页', link: '#', dropdown: null },
+            { name: '首页', link: '#', dropdown: null },
             { 
-                name: '产品系列', 
+                name: '字体产品', 
                 link: '#', 
                 dropdown: [
-                    { name: '智能家居系统', link: '#' },
-                    { name: '极简灯光美学', link: '#' },
-                    { name: '声控交互终端', link: '#' },
+                    { name: '字造起点黑', link: '#' },
                     // 分隔符和查看全部
                     { name: '查看全部产品', link: '#', separator: true } 
                 ]
             },
             { 
-                name: '设计灵感', 
+                name: '字体授权', 
+                link: '#', 
+                dropdown: [
+                    { name: '画廊展示', link: '#' },
+                    { name: '设计师访谈', link: '#', separator: true }
+                ]
+            },
+            { 
+                name: '定制服务', 
                 link: '#', 
                 dropdown: [
                     { name: '画廊展示', link: '#' },
@@ -34,7 +40,7 @@ const APP_DATA = {
         
         // 右侧操作按钮
         actionButton: {
-            text: '设计导航',
+            text: '获取字体授权',
             link: '#',
             target: '_blank', 
             rel: 'noopener noreferrer'
