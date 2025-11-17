@@ -9,7 +9,7 @@ const APP_DATA = {
         
         // 导航菜单项
         menuItems: [
-            { name: '首页', link: '#', dropdown: null },
+            { name: '首页', link: 'https://www.zizao.top', dropdown: null },
             { 
                 name: '字体产品', 
                 dropdown: [
