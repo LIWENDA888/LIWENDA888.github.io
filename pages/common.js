@@ -22,7 +22,6 @@ const APP_DATA = {
             { name: '定制服务', link: 'https://www.zizao.top/custom-font', dropdown: null },
             { 
                 name: '关于我们', 
-                link: 'https://www.zizao.top/us', 
                 dropdown: [
                     { name: '授权问题', link: 'https://www.zizao.top/us' },
                     { name: '版权声明', link: 'https://www.zizao.top/us' },
