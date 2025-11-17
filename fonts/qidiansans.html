@@ -11,12 +11,135 @@
     <meta property="og:url" content="https://www.zizao.top">
     <meta property="og:type" content="website">
     <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
-
+    
     <style>
+        /* --- 1.html 原始 CSS 样式部分 --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+            height: auto; 
+            min-height: 100vh;
+        }
+
+        /* --- 导航栏容器样式 --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px; 
+            z-index: 1000;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+        }
+        .navbar-logo { display: flex; align-items: center; text-decoration: none; }
+        .navbar-logo img { height: 30px; width: auto; display: block; }
+        
+        /* 汉堡菜单按钮 */
+        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
+        .menu-toggle-icon { display: block; width: 25px; height: 2px; background-color: #1a1a1a; position: relative; transition: all 0.3s ease; }
+        .menu-toggle-icon::before, .menu-toggle-icon::after { content: ''; position: absolute; width: 100%; height: 2px; background-color: #1a1a1a; transition: all 0.3s ease; }
+        .menu-toggle-icon::before { top: -8px; }
+        .menu-toggle-icon::after { top: 8px; }
+        
+        /* 导航菜单 */
+        .navbar-menu { display: flex; list-style: none; gap: 50px; height: 100%; align-items: center; }
+        .menu-item { position: relative; height: 100%; display: flex; align-items: center; cursor: pointer; }
+        .menu-link { text-decoration: none; color: #1a1a1a; font-size: 15px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.3s ease; position: relative; }
+        .menu-item:hover .menu-link { color: #444444; }
+        .menu-link::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: #1a1a1a; transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 2px; }
+        .menu-item:hover .menu-link::after { width: 20px; }
+        
+        /* 下拉菜单 */
+        .dropdown { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) translateY(20px);background-color: rgba(255, 255, 255, 0.98);backdrop-filter: blur(10px);min-width: 220px; padding: 20px 0; border-radius: 4px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .menu-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown li { list-style: none; }
+        .dropdown-link { display: block; padding: 12px 30px; text-decoration: none; color: #666; font-size: 14px; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
+        .dropdown-link:hover { color: #000; background-color: #fff; padding-left: 35px; }
+        .dropdown-link::after { content: '→'; font-size: 12px; color: #1a1a1a; opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; }
+        .dropdown-link:hover::after { opacity: 1; transform: translateX(0); }
+        
+        /* 导航栏右侧操作按钮 */
+        .navbar-actions { display: flex; align-items: center; }
+        .btn-primary {
+            padding: 8px 28px; background-color: #1a1a1a; color: #fff; text-decoration: none;
+            font-size: 14px; font-weight: 600; border-radius: 50px; border: 1px solid #1a1a1a;
+            display: flex; align-items: center; gap: 0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+        .btn-primary:hover {
+            background-color: #333333; border-color: #333333; color: #fff; transform: translateY(-1px); 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+        }
+
+        /* --- 主体内容样式 --- */
+        .main-content { 
+            padding-top: 80px; /* 1.html 导航栏高度 */
+            width: 100%; 
+            overflow: hidden; 
+        }
+        
+        /* 简单的 Footer */
+        .footer { 
+            padding: 40px 60px; 
+            text-align: center; 
+            color: #888; 
+            font-size: 14px; 
+            border-top: 1px solid rgba(0, 0, 0, 0.05); 
+            width: 100%; 
+            background-color: #fff; 
+            margin-top: 0; 
+        }
+        
+        /* ==================================== */
+        /* --- 手机端响应式优化 (@media) --- */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            
+            /* --- 导航栏手机端样式 --- */
+            .navbar { height: 60px; padding: 0 30px; }
+            .navbar-actions { display: none; }
+            .menu-toggle { display: block; order: 3; }
+            .navbar-menu { 
+                position: absolute; top: 60px; left: 0; width: 100%; height: auto;
+                max-height: calc(100vh - 60px); flex-direction: column; background-color: #fff;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 20px 0; gap: 0; overflow-y: auto;
+                transform: translateY(-100%); visibility: hidden; opacity: 0; transition: all 0.4s ease-out;
+            }
+            .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
+            .menu-item { width: 100%; height: auto; align-items: flex-start; padding: 10px 20px; }
+            .menu-link { width: 100%; padding: 10px 0; font-size: 16px; font-weight: 600; }
+            .menu-link::after { display: none; }
+            .dropdown { 
+                position: static; transform: none; width: 100%; min-width: auto; padding: 0; 
+                margin-top: 10px; box-shadow: none; background-color: #f7f7f7; opacity: 1; 
+                visibility: visible; display: none; border-radius: 0;
+            }
+            .menu-item:hover .dropdown { display: block; }
+            .dropdown-link { padding: 10px 40px; font-size: 15px; color: #333; }
+
+            /* --- 瀑布流卡片优化 (保持不变) --- */
+            .main-content { padding-top: 60px; }
+            .masonry-grid { column-count: 1; column-gap: 0; padding: 0 20px 40px; }
+        }
+
         /* =================================================================
-           1. 基础与工具样式
+           qidiansans.html 附加样式 (已进行间距优化和排版细节优化)
            ================================================================= */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
             --deep-grey: #222222; /* 主深色 */
@@ -24,96 +147,31 @@
             --accent-color: #E0B973; 
             --hover-deep-color: #a88a56; 
             --nav-hover-bg: rgba(224, 185, 115, 0.1); 
-            --sub-text-color: #6c7a89;
+            --sub-text-color: #6c7a89; /* 辅助文本颜色 */
             --text-color: #1a2a40;
             --sidebar-bg: #FFFFFF; /* 新增变量，用于移动端导航背景 */
         }
 
+        /* 覆盖/补充 body 样式以支持 qidiansans 的内容流 */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #FFFFFF; 
-            color: var(--deep-grey);
             line-height: 1.8;
-            min-height: 100vh; 
             display: flex;
             flex-direction: column; 
             opacity: 0;
             transition: opacity 0.5s ease-in;
-            /* 禁用全局滚动条以避免滑杆操作时的影响 */
             overflow-x: hidden; 
         }
 
-        main {
+        /* qidiansans 的主要内容区域容器 */
+        main.container {
             flex-grow: 1; 
-            /* 减去顶部栏高度后留出的空间 */
-            padding-top: 61px; 
+            padding-top: 60px; 
             padding-bottom: 50px; 
         }
         
         a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
         
-        /* =================================================================
-           2. 顶部导航栏 (Header) 和 底部栏 (Footer) 样式
-           ================================================================= */
-        .header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; /* 桌面端 padding */
-            background-color: #FFFFFF;
-            border-bottom: 1px solid var(--light-grey); 
-        }
-
-        .logo { display: block; } 
-        .logo img { height: 28px; max-width: 150px; display: block; }
-        
-        /* 导航菜单 - 桌面端 */
-        .nav { 
-            display: flex; 
-            align-items: center; 
-            transition: none; /* 桌面端无过渡 */
-            transform: none; /* 桌面端无位移 */
-        }
-        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
-        .nav-item-dropdown > a {
-            font-size: 16px; display: inline-flex; align-items: center;
-            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
-        }
-        .nav-item-dropdown > a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%;
-            width: 50%; height: 3px; background-color: var(--accent-color); 
-            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
-        }
-        .nav-item-dropdown > a:hover::after, .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
-        .dropdown-menu {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
-            min-width: 150px; background-color: #FFFFFF;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
-            z-index: 100; display: none; opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .nav-item-dropdown:hover .dropdown-menu { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
-        .dropdown-menu a { display: block; padding: 8px 15px; font-size: 15px; white-space: nowrap; border-radius: 4px; margin: 0 8px; }
-        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
-        .menu-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; }
-        .backdrop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
-            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-        }
-        .backdrop.open { opacity: 1; visibility: visible; }
-        
-        .footer {
-            background: #FFFFFF; color: var(--text-color); padding: 30px 5%; 
-            display: flex; justify-content: center; border-top: 1px solid var(--light-grey); 
-        }
-
-        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
-        .copyright-section a { color: var(--sub-text-color); }
-        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
-
-        /* =================================================================
-           3. 详情页布局 (英雄区/描述区优化)
-           ================================================================= */
+        /* --- 详情页布局 (英雄区/描述区优化) --- */
         
         .container {
             width: 90%; 
@@ -144,9 +202,9 @@
         
         /* --- 字体核心信息与操作区 --- */
         
-        /* 1. 头部区域 (已优化间距) */
+        /* 1. 头部区域 (间距优化：减少上下留白) */
         .font-detail-header {
-            padding: 60px 0; /* 优化：增加顶部和底部留白 */
+            padding: 40px 0 20px; 
         }
         
         /* 标题和按钮容器 (左右布局) */
@@ -154,7 +212,7 @@
             display: flex;
             justify-content: space-between; 
             align-items: center; 
-            margin-bottom: 30px; 
+            margin-bottom: 20px; 
         }
 
         .font-header-and-buttons h1 {
@@ -182,13 +240,13 @@
             margin-bottom: 0; 
         }
         
-        /* 2. 两栏内容区域 (已优化间距) */
+        /* 2. 两栏内容区域 (间距优化：减少上下留白和列间距) */
         .font-two-column-layout {
             display: flex;
             flex-direction: row; 
-            gap: 60px; 
-            padding-top: 60px; /* 优化：增加顶部留白 */
-            padding-bottom: 60px; /* 优化：增加底部留白 */
+            gap: 40px; 
+            padding-top: 30px; 
+            padding-bottom: 30px; 
         }
         
         /* 设计理念文本内容样式 (左栏) */
@@ -198,9 +256,9 @@
         .design-text-content p {
             font-size: 17px; 
             color: #333333; 
-            margin-bottom: 25px; 
-            line-height: 2.0; 
-            text-align: left; 
+            margin-bottom: 20px; 
+            line-height: 1.9; /* 优化：行高略微收缩，提高阅读块的凝聚力 */
+            text-align: justify; /* 优化：两端对齐，使文本边缘更整齐 */
         }
         .design-text-content p:first-of-type strong { 
             font-weight: 700;
@@ -213,55 +271,167 @@
         .download-btn:hover { background-color: #444444; border-color: #444444; }
         .license-detail-link { background-color: transparent; color: var(--deep-grey); border: 1px solid var(--deep-grey); width: 220px; }
         .license-detail-link:hover { background-color: var(--deep-grey); color: white; }
-        .download-dropdown { position: relative; z-index: 10; width: 220px; }
-        .dropdown-content { position: absolute; top: 100%; left: 0; width: 100%; margin-top: 8px; background-color: #FFFFFF; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05); border-radius: 8px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(-5px); transition: opacity 0.2s, visibility 0.2s, transform 0.2s; }
-        .download-dropdown.active .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); }
-        .dropdown-content a { padding: 12px 18px; display: block; font-size: 15px; color: var(--deep-grey); transition: background-color 0.2s, color 0.2s; white-space: nowrap;}
-        .dropdown-content a:hover { background-color: #F8F8F8; color: var(--deep-grey); }
+        
         .font-specs-band { flex: 1; border: 1px solid #E5E5E5; border-radius: 6px; padding: 20px 25px; margin: 0; flex-shrink: 0; }
-        .font-specs-band h3 { font-size: 24px; font-weight: 700; color: var(--deep-grey); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #E5E5E5; }
-        .font-meta-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
-        .font-meta-list.detailed-specs li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dotted #D0D0D0; }
-        .font-meta-list.detailed-specs li:last-child { border-bottom: none; }
-        .font-meta-list .meta-label { color: #888888; font-weight: 500; font-size: 15px; }
-        .font-meta-list .meta-value { color: var(--deep-grey); font-weight: 600; font-size: 15px; text-align: right; }
-
-        /* --- 授权条款链接 (底部独立区块) --- */
-        .standalone-link-block { 
-            max-width: 1200px; 
-            width: 90%; 
-            margin: 50px auto; /* 优化：统一上下边距为 50px，确保与上方图片容器的间距一致 */
-            text-align: center; 
+        .font-specs-band h3 { 
+            font-size: 24px; 
+            font-weight: 700; 
+            color: var(--deep-grey); 
+            margin-bottom: 15px; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #E5E5E5; 
         }
-        .standalone-link-block .cta-button { 
-            width: 300px; 
-            display: inline-flex; 
+        .font-meta-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+
+        /* 规格列表排版优化 */
+        .font-meta-list.detailed-specs li { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 0; 
+            border-bottom: 1px solid #F0F0F0; 
+        }
+        .font-meta-list.detailed-specs li:last-child { border-bottom: none; }
+        .font-meta-list .meta-label { 
+            color: var(--sub-text-color); 
+            font-weight: 400; 
+            font-size: 15px; 
+        }
+        .font-meta-list .meta-value { 
+            color: var(--deep-grey); 
+            font-weight: 600; 
+            font-size: 16px; 
+            text-align: right; 
         }
         
-        /* --- 全宽图片 优化：桌面端与内容同宽，手机端全宽 --- */
+
+        /* --- 全宽图片 (保持不变) --- */
         .full-width-image {
-            width: 100%; /* 确保图片填满父容器 */
-            max-width: 100%; /* 确保图片填满父容器 */
-            margin: 0; /* 移除图片自带的外边距 */
+            width: 100%; 
+            max-width: 100%; 
+            margin: 0; 
             height: auto; 
             display: block; 
             object-fit: cover; 
-            vertical-align: middle; /* 移除图片底部可能存在的间隙 */
+            vertical-align: middle; 
         }
         
-        /* 新增：图片展示容器样式 */
+        /* 新增：图片展示容器样式 (间距优化：减少上下边距) */
         .image-showcase-container {
-            width: 90%; /* 继承 .container 的宽度 (90%) */
-            max-width: 1200px; /* 继承 .container 的最大宽度 */
-            margin: 50px auto; /* 居中，并设置上下边距 */
-            display: block; /* 保证独占一行 */
-            overflow: hidden; /* 裁剪子元素的圆角 */
-            border-radius: 12px; /* 添加圆角 */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 可选：添加轻微阴影 */
+            width: 90%; 
+            max-width: 1200px; 
+            margin: 30px auto; 
+            display: block; 
+            overflow: hidden; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        }
+        
+        /* =================================================================
+           模态框 (弹窗) 样式 - 保持不变
+           ================================================================= */
+        
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 全屏遮罩 */
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
         }
 
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #FFFFFF;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px; /* 限制弹窗最大宽度 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-backdrop.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #AAAAAA;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .close-btn:hover {
+            color: var(--deep-grey);
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--deep-grey);
+            margin-bottom: 10px;
+        }
+
+        /* 版权提示样式 */
+        .copyright-tip {
+            font-size: 15px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .copyright-tip strong {
+            color: #D9534F; /* 醒目红色 */
+            font-weight: 600;
+        }
+
+        /* CTA 按钮组样式 */
+        .modal-cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* 模态框内的下载链接样式 (复用 .cta-button, 但修改部分样式) */
+        .modal-download-link {
+            width: 100%;
+            padding: 12px 20px; 
+            border-radius: 8px; /* 稍小的圆角 */
+            font-size: 15px;
+            font-weight: 600;
+            background-color: #F7F7F7;
+            color: var(--deep-grey);
+            border: 1px solid #E0E0E0;
+            text-align: center;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .modal-download-link:hover {
+            background-color: #EEEEEE;
+            border-color: var(--deep-grey);
+        }
+        
         /* =================================================================
-           4. 响应式设计 (Media Queries)
+           qidiansans.html 响应式设计 (Media Queries) - 优化移动端间距
            ================================================================= */
         @media (max-width: 1024px) {
             
@@ -285,10 +455,10 @@
                 width: 48%; 
             }
             
-            /* 两栏内容在平板上改为垂直堆叠 (保持不变) */
+            /* 两栏内容在平板上改为垂直堆叠 (间距优化) */
             .font-two-column-layout {
                 flex-direction: column;
-                gap: 40px; 
+                gap: 30px; 
             }
             .design-text-content, .font-specs-band {
                 flex: auto;
@@ -297,105 +467,39 @@
 
             /* 详细规格列表在平板上改为两列 (保持不变) */
             .font-specs-band ul { flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
-            .font-specs-band li { width: 48%; padding: 5px 0; border-bottom: 1px dotted #D0D0D0 !important; }
+            .font-specs-band li { width: 48%; padding: 5px 0; border-bottom: 1px solid #F0F0F0 !important; } 
             .font-specs-band li:nth-child(2n) { border-bottom: none !important; } 
             .font-specs-band li:last-child { border-bottom: none !important; }
         }
 
         @media (max-width: 768px) {
             
-            main { padding-top: 48px; } /* 匹配移动端顶部栏高度 */
-
             .font-hero-section {
                 height: 400px; 
             }
             
-            /* ------------------------------------------- */
-            /* === 移动端顶部栏样式 (与 work_副本.html 保持一致) === */
-            /* ------------------------------------------- */
-            .header { 
-                padding: 10px 4%; /* 移动端头部栏更薄 */
-            }
-            
-            .logo img { height: 24px; } /* 移动端 logo 稍小 */
-            
-            .menu-toggle { 
-                display: block; /* 显示汉堡包菜单按钮 */
-            }
-            
-            /* 菜单主体：全屏下拉折叠菜单 */
-            .nav {
-                position: fixed; top: 44px; right: 0; left: 0; width: 100%; 
-                max-width: none; height: calc(100vh - 44px); /* 44px = 移动端头部栏高度 */
-                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
-                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
-                overflow-y: auto; 
-                /* 默认隐藏在顶部 */
-                transform: translateY(-100%); opacity: 0; visibility: hidden;
-                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
-            }
-
-            .nav.open {
-                transform: translateY(0); opacity: 1; visibility: visible;
-                transition: transform 0.3s ease-out, opacity 0.3s; 
-            }
-            
-            /* 侧边栏遮罩层 */
-            .backdrop { 
-                top: 44px; /* 从顶部栏下方开始 */
-                height: calc(100vh - 44px); 
-            }
-            
-            /* 移动端菜单项样式 */
-            .nav-item-dropdown { 
-                margin: 0; 
-                width: 100%; 
-                border-bottom: 1px solid #eeeeee; 
-            }
-            .nav-item-dropdown:last-child { border-bottom: none; }
-
-            .nav-item-dropdown > a {
-                padding: 15px 10px; font-size: 18px; width: 100%;
-                display: flex; justify-content: space-between; 
-            }
-            
-            .nav-item-dropdown > a::after { content: none; } /* 移除悬停底线 */
-            
-            /* 移动端二级菜单 (垂直展开) */
-            .nav .nav-item-dropdown .dropdown-menu {
-                /* 重置桌面端定位和过渡 */
-                display: none; 
-                position: static; 
-                opacity: 1;
-                transform: none;
-                box-shadow: none !important;
-                border-radius: 0;
-                padding: 5px 0 10px 10px;
-                background-color: #FAFAFA;
-                transition: none; 
-            }
-            
-            .nav .nav-item-dropdown.open .dropdown-menu {
-                display: block !important; 
-            }
-            
-            .dropdown-menu a {
-                padding: 8px 15px 8px 10px;
-                font-size: 16px;
-                margin: 3px 0;
-            }
-            /* === 移动端顶部栏样式结束 === */
-
-            /* --- 手机端图片容器全宽 --- */
+            /* --- 手机端图片容器全宽 (间距优化) --- */
             .image-showcase-container {
                 width: 100vw; 
                 margin-left: calc(50% - 50vw); 
                 margin-right: calc(50% - 50vw);
-                border-radius: 0; /* 手机端通常取消全宽元素的圆角，如果不需要圆角请保留 */
+                border-radius: 0; 
+                margin: 20px auto; 
             }
             /* -------------------------- */
             
             .font-header-and-buttons h1 { font-size: 32px; }
+
+            /* 头部区域间距优化 */
+            .font-detail-header {
+                padding: 30px 0 15px; 
+            }
+            
+            /* 两栏内容区域间距优化 */
+            .font-two-column-layout {
+                padding-top: 20px; 
+                padding-bottom: 20px; 
+            }
             
             /* 移动端按钮组再次改为垂直堆叠 (保持不变) */
             .action-group.horizontal-actions {
@@ -411,16 +515,21 @@
             
             /* 详细规格列表在移动端改为单列 (保持不变) */
             .font-specs-band ul { flex-direction: column; }
-            .font-specs-band li { width: 100%; border-bottom: 1px dotted #D0D0D0 !important; }
+            .font-specs-band li { width: 100%; border-bottom: 1px solid #F0F0F0 !important; } 
             .font-specs-band li:last-child { border-bottom: none !important; }
             
-            .standalone-link-block .cta-button { width: 100%; }
+            /* 原 .standalone-link-block 样式已移除 */
             
             .download-dropdown { width: 100%; }
+            
+            .modal-content {
+                max-width: 90%;
+                padding: 25px 20px;
+            }
         }
         
         /* =================================================================
-           5. 滑杆、缩放、拖动和切换按钮相关样式
+           qidiansans.html 滑杆、缩放、拖动和切换按钮相关样式 (保持不变)
            ================================================================= */
         
         .zoom-controls {
@@ -429,43 +538,44 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 20; 
-            background-color: rgba(34, 34, 34, 0.7); 
+            background-color: rgba(34, 34, 34, 0.6); 
             border-radius: 20px;
-            padding: 8px 20px;
+            padding: 6px 15px; 
             display: flex; 
             align-items: center;
             width: auto; 
             max-width: 90%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: opacity 0.3s;
-            gap: 15px; 
+            gap: 10px; 
         }
 
         .zoom-controls:hover {
              opacity: 1;
         }
 
-        /* 新增/修改：黑白切换按钮样式 */
+        /* 优化：黑白切换按钮样式 */
         .toggle-button {
-            background: transparent; /* 移除背景 */
-            border: none; /* 移除边框 */
-            color: white; /* 确保文字可见 */
+            background: transparent; 
+            border: none; 
+            color: white; 
             cursor: pointer;
             font-size: 16px;
             font-weight: 500;
-            width: 32px; /* 固定宽度，方便形成圆形 */
-            height: 32px; /* 固定高度，方便形成圆形 */
-            border-radius: 50%; /* 形成圆形 */
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 0;
             flex-shrink: 0;
-            transition: background-color 0.2s ease-out; /* 平滑过渡 */
+            transition: color 0.2s ease-out; 
         }
 
         .toggle-button:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* 悬浮时添加白色透明圆形背景 */
+            background-color: transparent; 
+            color: var(--accent-color); 
         }
         
         .slider-group {
@@ -474,12 +584,13 @@
             width: 250px; 
         }
 
+        /* 优化：滑块两侧 +/- 符号样式 */
         .zoom-controls span {
             color: white;
-            font-size: 16px;
+            font-size: 14px; 
             font-weight: 500;
-            margin: 0 10px;
-            width: 20px;
+            margin: 0 5px; 
+            width: auto; 
             text-align: center;
         }
         
@@ -495,8 +606,6 @@
             cursor: pointer;
             flex-grow: 1;
         }
-
-        /* 滑块样式 (Chrome/Safari) */
         .zoom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -514,7 +623,6 @@
             cursor: grabbing;
         }
 
-        /* 滑块样式 (Firefox) */
         .zoom-slider::-moz-range-thumb {
             width: 16px;
             height: 16px;
@@ -526,269 +634,246 @@
             transition: background 0.2s, box-shadow 0.2s;
         }
     </style>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <header class="header" id="headerContainer">
-    </header>
-    
-    <section class="font-hero-section" id="heroSection">
-        <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" 
-             alt="字体详情背景图 - 桌面版"
-             class="hero-img desktop-img"
-             id="heroImageDesktop">
+    <nav class="navbar" id="navbar">
+    </nav>
 
-        <div class="zoom-controls">
-            <div class="slider-group">
-                <span>-</span>
-                <input type="range" min="100" max="300" value="100" class="zoom-slider" id="zoomSlider">
-                <span>+</span>
+    <div class="main-content">
+        <section class="font-hero-section" id="heroSection">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" 
+                 alt="字体详情背景图 - 桌面版"
+                 class="hero-img desktop-img"
+                 id="heroImageDesktop">
+
+            <div class="zoom-controls">
+                <div class="slider-group">
+                    <span>-</span>
+                    <input type="range" min="100" max="300" value="100" class="zoom-slider" id="zoomSlider">
+                    <span>+</span>
+                </div>
+                <button class="toggle-button" id="toggleImageButton">白</button>
             </div>
-            <button class="toggle-button" id="toggleImageButton">白</button>
-        </div>
-             
-    </section>
+                 
+        </section>
 
-    <main class="container">
-        
-        <section class="font-detail-header">
-            <div class="font-header-and-buttons">
-                <h1>字造起点黑</h1>
-                
-                <div class="action-group horizontal-actions">
-                    <div class="download-dropdown" id="downloadDropdownInline">
-                        <button class="cta-button download-btn" aria-expanded="false" aria-controls="downloadMenuInline">
+        <main class="container">
+            
+            <section class="font-detail-header">
+                <div class="font-header-and-buttons">
+                    <h1>字造起点黑</h1>
+                    
+                    <div class="action-group horizontal-actions">
+                        <button class="cta-button download-btn" id="showDownloadModalBtn">
                             免费试用/下载
                         </button>
-                        <div class="dropdown-content" id="downloadMenuInline">
-                            <a href="trial_font_ttf.zip" download>TTF (Windows/Mac)</a>
-                            <a href="trial_font_otf.zip" download>OTF (设计师专用)</a>
-                            <a href="trial_font_web.zip" download>WOFF2 (Web 试用)</a>
-                        </div>
+                        
+                        <a href="font-immersive-trial.html" target="_blank" class="cta-button license-detail-link">沉浸式在线试用 ></a>
                     </div>
-                    
-                    <a href="font-immersive-trial.html" target="_blank" class="cta-button license-detail-link">沉浸式在线试用 ></a>
                 </div>
-            </div>
-            
-            <div class="header-separator"></div>
-        </section>
+                
+                <div class="header-separator"></div>
+            </section>
 
-        <section class="font-two-column-layout">
+            <section class="font-two-column-layout">
+                
+                <div class="design-text-content">
+                    <p><strong>“宋体 · 沉静”是一款立足于传统宋体结构，融入现代设计美学的新宋体。</strong> </p>
+                         
+                    <p>它保留了宋体端庄、秀丽的特点，同时通过优化横竖笔画的粗细对比和出脚的锐利度。</p>
+                    <p>使其在屏幕和印刷品上都能保持优秀的阅读性和视觉平衡。</p>
+                    <p>我们希望它能为您的品牌或内容带来一种静谧而高级的质感，无论用于正文还是标题，都能完美胜任。</p>
+                    <p>如果用作海报等场景，会是一个不错的选择。</p>
+                </div>
+                
+                <div class="font-specs-band">
+                    <ul class="font-meta-list detailed-specs">
+                        <li>
+                            <span class="meta-label">字重数量</span>
+                            <span class="meta-value">5 个 (细体至特粗)</span>
+                        </li>
+                        <li>
+                            <span class="meta-label">版权类型</span>
+                            <span class="meta-value" style="color: green;">个人/教育免费商用</span>
+                        </li>
+                        <li>
+                            <span class="meta-label">发布日期</span>
+                            <span class="meta-value">2025年10月</span>
+                        </li>
+                        <li>
+                            <span class="meta-label">设计师</span>
+                            <span class="meta-value">自在造字团队</span>
+                        </li>
+                        <li>
+                            <span class="meta-label">字符集</span>
+                            <span class="meta-value">GB2312 基础字库</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
             
-            <div class="design-text-content">
-                <p><strong>“宋体 · 沉静”是一款立足于传统宋体结构，融入现代设计美学的新宋体。</strong> </p>
-                     
-                <p>它保留了宋体端庄、秀丽的特点，同时通过优化横竖笔画的粗细对比和出脚的锐利度。</p>
-                <p>使其在屏幕和印刷品上都能保持优秀的阅读性和视觉平衡。</p>
-                <p>我们希望它能为您的品牌或内容带来一种静谧而高级的质感，无论用于正文还是标题，都能完美胜任。</p>
-                <p>如果用作海报等场景，会是一个不错的选择。</p>
-            </div>
-            
-            <div class="font-specs-band">
-                <ul class="font-meta-list detailed-specs">
-                    <li>
-                        <span class="meta-label">字重数量</span>
-                        <span class="meta-value">5 个 (细体至特粗)</span>
-                    </li>
-                    <li>
-                        <span class="meta-label">版权类型</span>
-                        <span class="meta-value" style="color: green;">个人/教育免费商用</span>
-                    </li>
-                    <li>
-                        <span class="meta-label">发布日期</span>
-                        <span class="meta-value">2025年10月</span>
-                    </li>
-                    <li>
-                        <span class="meta-label">设计师</span>
-                        <span class="meta-value">自在造字团队</span>
-                    </li>
-                    <li>
-                        <span class="meta-label">字符集</span>
-                        <span class="meta-value">GB2312 基础字库</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
+        </main>
         
-    </main>
+        <div class="image-showcase-container">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" alt="字体应用示例大图" class="full-width-image">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp" alt="字体应用示例大图" class="full-width-image">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/tKbr/930X710/index2.jpg/webp" alt="字体应用示例大图" class="full-width-image">
+        </div>
+
+        </div>
     
-    <div class="image-showcase-container">
-        <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" alt="字体应用示例大图" class="full-width-image">
-        <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp" alt="字体应用示例大图" class="full-width-image">
-        <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/tKbr/930X710/index2.jpg/webp" alt="字体应用示例大图" class="full-width-image">
-    </div>
-
-    <div class="standalone-link-block">
-        <a href="license.html" target="_blank" class="cta-button license-detail-link">查看完整授权条款 ></a>
-    </div>
-
-    <footer id="footerContainer">
+    <footer class="footer" id="footer">
     </footer>
-    
+
+    <div id="downloadModal" class="modal-backdrop">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModalBtn" aria-label="关闭弹窗">&times;</button>
+            <div class="modal-header">
+                <h2>字体下载</h2>
+            </div>
+            
+            <p class="copyright-tip">
+                请<strong>尊重版权</strong>！此字体为
+                <br>
+                <strong>个人/教育用途免费商用</strong>
+            </p>
+
+            <div class="modal-cta-group">
+                <a href="trial_font_ttf.zip" download class="modal-download-link" data-close-modal>TTF 格式 (Windows/Mac)</a>
+                <a href="trial_font_otf.zip" download class="modal-download-link" data-close-modal>OTF 格式 (专业设计)</a>
+                <a href="trial_font_web.zip" download class="modal-download-link" data-close-modal>WOFF2 格式 (Web 试用)</a>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.zizao.top/pages/common.js"></script>
 
     <script>
-        // 假设 navData, siteConfig, footerLinks 等变量在 common.js 或其他地方已定义
-        
-        // --- 修改后的 renderHeader() 函数 ---
-        function renderHeader() {
-            const headerContainer = document.getElementById('headerContainer');
-            // 确保 navData 和 siteConfig 存在
-            if (!headerContainer || typeof navData === 'undefined' || typeof siteConfig === 'undefined') return;
-
-            let navHtml = navData.map(item => {
-                const isActive = ''; 
-                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
-                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-
-                let subMenuHtml = '';
-                if (item.subMenu) {
-                    const subLinks = item.subMenu.map(sub => {
-                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
-                    }).join('');
-                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
-                }
-
-                return `
-                    <div class="nav-item-dropdown">
-                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}${isActive}"${targetAttr}>${item.label}</a>
-                        ${subMenuHtml}
-                    </div>
-                `;
-            }).join('');
-
-            headerContainer.innerHTML = `
-                <a href="${siteConfig.homeUrl}" class="logo">
-                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
-                </a>
-                <button class="menu-toggle" id="menuToggle">☰</button> 
-                <div class="backdrop" id="menuBackdrop"></div>
-                <nav class="nav" id="mainNav">
-                    ${navHtml}
-                </nav>
-            `;
-        }
-        // -------------------------------------
-
-
-        function renderFooter() {
-            const footerContainer = document.getElementById('footerContainer');
-            if (!footerContainer || typeof footerLinks === 'undefined' || typeof siteConfig === 'undefined') return;
-
-            const linkHtml = footerLinks.map(link => `
-                <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
-            `).join(' | ');
-
-            footerContainer.className = 'footer';
-            footerContainer.innerHTML = `
-                <div class="copyright-section">
-                    <p>${siteConfig.copyrightText} ${linkHtml}</p>
-                </div>
-            `;
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // 1. 动态渲染公共模块
-            renderHeader();
-            renderFooter();
-            
-            // 2. 导航事件绑定逻辑 (已根据 work_副本.html 调整)
-            const menuToggle = document.getElementById('menuToggle');
-            const mainNav = document.getElementById('mainNav');
-            const menuBackdrop = document.getElementById('menuBackdrop'); 
-            const dropdownItems = mainNav ? mainNav.querySelectorAll('.nav-item-dropdown') : []; 
-
-            function closeMenu() {
-                if (!mainNav || !menuBackdrop) return;
-                mainNav.classList.remove('open');
-                menuBackdrop.classList.remove('open'); 
-                document.body.style.overflow = '';
-                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
+        // --- 1.html 原始 JS 渲染函数：导航栏 ---
+        function renderNavbar() {
+            // 确保 APP_DATA 可用 (此数据预期由 script.js 或其他地方提供)
+            if (typeof APP_DATA === 'undefined' || !APP_DATA.navData) {
+                console.error("APP_DATA (来自 script.js) 未加载.");
+                return;
             }
-            
-            function toggleMenu() {
-                if (!mainNav || !menuBackdrop) return;
+            const data = APP_DATA.navData;
+            const navbar = document.querySelector('#navbar');
+            if (!navbar) return;
+
+            let html = data.logoHtml;
+            html += `<button class="menu-toggle">
+                        <span class="menu-toggle-icon"></span>
+                    </button>`;
+
+            let menuHtml = '<ul class="navbar-menu">';
+            data.menuItems.forEach(item => {
+                let dropdownHtml = '';
                 
-                const isOpen = mainNav.classList.toggle('open');
-                menuBackdrop.classList.toggle('open'); 
-                
-                // 移动端才禁用滚动
-                if (window.innerWidth <= 768) {
-                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
-                }
-                
-                // 确保在关闭时执行 closeMenu 来清理状态
-                if (!isOpen) { 
-                    closeMenu(); 
-                }
-            }
-            
-            if (menuToggle && mainNav && menuBackdrop) {
-                menuToggle.addEventListener('click', toggleMenu);
-                menuBackdrop.addEventListener('click', closeMenu); 
-                
-                // 链接点击后关闭主菜单
-                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
-                    // 只有非下拉的父链接和所有子菜单链接才在点击后关闭菜单
-                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
-                        item.addEventListener('click', () => {
-                            // 延时是为了让链接跳转先发生
-                            if (mainNav.classList.contains('open')) {
-                                setTimeout(closeMenu, 100); 
-                            }
-                        });
-                    }
-                });
-            }
-            
-            // 移动端二级菜单展开/收起逻辑
-            dropdownItems.forEach(item => {
-                const navLink = item.querySelector('.nav-item.has-dropdown');
-                if (navLink) {
-                    navLink.addEventListener('click', function(e) {
-                        if (window.innerWidth <= 768) {
-                            e.preventDefault(); 
-                            const wasOpen = item.classList.contains('open');
-                            // 关闭所有其他已打开的下拉菜单
-                            dropdownItems.forEach(d => d.classList.remove('open')); 
-                            if (!wasOpen) {
-                                // 展开当前点击的菜单
-                                item.classList.add('open'); 
-                            }
-                        }
+                if (item.dropdown) {
+                    dropdownHtml = '<ul class="dropdown">';
+                    item.dropdown.forEach(ddItem => {
+                        let separator = ddItem.separator ? '<li style="border-top: 1px solid #f0f0f0; margin: 5px 20px;"></li>' : '';
+                        dropdownHtml += separator;
+                        dropdownHtml += `<li><a href="${ddItem.link}" class="dropdown-link">${ddItem.name}</a></li>`;
                     });
+                    dropdownHtml += '</ul>';
+                }
+
+                const linkContent = item.dropdown 
+                                    ? `<span class="menu-link">${item.name}</span>` 
+                                    : `<a href="${item.link}" class="menu-link">${item.name}</a>`;
+                
+                menuHtml += `<li class="menu-item">
+                                ${linkContent}
+                                ${dropdownHtml}
+                            </li>`;
+            });
+            menuHtml += '</ul>';
+            html += menuHtml;
+
+            const btn = data.actionButton;
+            html += `<div class="navbar-actions">
+                        <a href="${btn.link}" class="btn-primary" target="${btn.target}" rel="${btn.rel}">
+                            <span>${btn.text}</span>
+                        </a>
+                    </div>`;
+
+            navbar.innerHTML = html;
+        }
+
+        // --- 1.html 原始 JS 渲染函数：底部栏 ---
+        function renderFooter() {
+             if (typeof APP_DATA === 'undefined' || !APP_DATA.footerData) return;
+            const footer = document.querySelector('#footer');
+            if (footer) {
+                footer.innerHTML = APP_DATA.footerData.copyright;
+            }
+        }
+
+        // --- 新增 JS 模态框逻辑 ---
+        function setupDownloadModal() {
+            const modal = document.getElementById('downloadModal');
+            const showBtn = document.getElementById('showDownloadModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            // const modalContent = document.querySelector('.modal-content'); // 实际未使用
+
+            if (!modal || !showBtn || !closeBtn) return;
+
+            // 显示模态框
+            showBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                // 阻止页面滚动
+                document.body.style.overflow = 'hidden'; 
+            });
+
+            // 隐藏模态框
+            const hideModal = () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // 恢复页面滚动
+            };
+
+            // 点击关闭按钮关闭
+            closeBtn.addEventListener('click', hideModal);
+
+            // 点击遮罩层关闭，但排除点击弹窗内容本身
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    hideModal();
                 }
             });
 
-            // 3. 下载按钮下拉菜单逻辑 (保持不变)
-            const downloadDropdown = document.getElementById('downloadDropdownInline'); 
-            if(downloadDropdown) {
-                const downloadBtn = downloadDropdown.querySelector('.cta-button');
-                downloadBtn.addEventListener('click', function(event) {
-                    event.stopPropagation(); 
-                    const isExpanded = downloadDropdown.classList.toggle('active');
-                    downloadBtn.setAttribute('aria-expanded', isExpanded);
+            // 点击下载链接也关闭模态框
+            document.querySelectorAll('[data-close-modal]').forEach(link => {
+                link.addEventListener('click', () => {
+                    setTimeout(hideModal, 100); // 稍作延迟确保下载动作开始
                 });
-                document.addEventListener('click', function(event) {
-                    if (downloadDropdown.classList.contains('active') && !downloadDropdown.contains(event.target)) {
-                        downloadDropdown.classList.remove('active');
-                        downloadBtn.setAttribute('aria-expanded', 'false');
-                    }
-                });
-                downloadDropdown.querySelectorAll('.dropdown-content a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        setTimeout(() => {
-                            downloadDropdown.classList.remove('active');
-                            downloadBtn.setAttribute('aria-expanded', 'false');
-                        }, 100); 
-                    });
+            });
+        }
+
+        // --- 核心执行逻辑 (1.html 原始逻辑 + qidiansans.html 新增逻辑) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 渲染导航栏和底部栏内容 (保留 1.html 逻辑)
+            renderNavbar();
+            renderFooter();
+
+            // 2. 绑定移动端菜单切换逻辑 (保留 1.html 逻辑)
+            const menuToggle = document.querySelector('.menu-toggle');
+            const menu = document.querySelector('.navbar-menu');
+
+            if (menuToggle && menu) {
+                menuToggle.addEventListener('click', () => {
+                    menu.classList.toggle('active');
                 });
             }
-            
-            // 4. 图片缩放、拖动和切换逻辑 (保持不变)
+
+            // 3. 模态框逻辑初始化 (替换了之前的下载下拉菜单逻辑)
+            setupDownloadModal();
+
+            // =======================================================
+            // 4. qidiansans.html 的 图片缩放、拖动和切换逻辑 (保持不变)
+            // =======================================================
             const zoomSlider = document.getElementById('zoomSlider');
             const heroSection = document.getElementById('heroSection');
             const toggleButton = document.getElementById('toggleImageButton');
@@ -813,8 +898,6 @@
                 });
 
                 // --- 拖动逻辑 ---
-                
-                // 鼠标按下/触摸开始
                 allHeroImages.forEach(img => {
                     img.addEventListener('mousedown', startDrag);
                     img.addEventListener('touchstart', startDrag);
@@ -829,7 +912,7 @@
                     const event = e.touches ? e.touches[0] : e;
                     startX = event.clientX - currentTranslateX;
                     startY = event.clientY - currentTranslateY;
-                    isDragging = true; // 确保在事件内部设置
+                    isDragging = true; 
 
                     document.addEventListener('mousemove', drag);
                     document.addEventListener('mouseup', stopDrag);
@@ -837,7 +920,6 @@
                     document.addEventListener('touchend', stopDrag);
                 }
                 
-                // 鼠标移动/触摸移动
                 function drag(e) {
                     if (!isDragging) return;
                     e.preventDefault();
@@ -860,7 +942,6 @@
                     applyTransform();
                 }
 
-                // 鼠标抬起/触摸结束
                 function stopDrag() {
                     isDragging = false;
                     allHeroImages.forEach(img => img.classList.remove('dragging')); 
@@ -871,7 +952,6 @@
                     document.removeEventListener('touchend', stopDrag);
                 }
                 
-                // 应用缩放和拖动变换
                 function applyTransform() {
                     const transformStyle = `scale(${scale}) translate(${currentTranslateX / scale}px, ${currentTranslateY / scale}px)`;
                     
@@ -913,11 +993,10 @@
                     applyTransform();
                 });
             }
-
-            // 5. 页面淡入 (保持不变)
+            
+            // 5. 页面淡入 (保留逻辑)
             document.body.style.opacity = '1';
         });
     </script>
-
 </body>
 </html>
