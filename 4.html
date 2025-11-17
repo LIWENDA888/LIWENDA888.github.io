@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定制字体服务方案</title>
+    <style>
+        /* --- CSS 样式部分 (继承自授权页面，确保深灰/黑主题) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+        }
+
+        html, body {
+            height: 100%;
+            min-height: 100vh;
+        }
+
+        body {
+            background-color: #ffffff; 
+            color: #1a1a1a;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- 导航栏样式 (保留) --- */
+        .navbar {
+            position: sticky; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px; 
+            z-index: 1000;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+        }
+        
+        .main-content { 
+            flex-grow: 1; 
+            padding-top: 60px; 
+            padding-bottom: 80px; 
+            width: 100%; 
+            display: flex; 
+            justify-content: center;
+        }
+
+        /* --- 导航栏内部元素 (完整恢复) --- */
+        .navbar-logo { display: flex; align-items: center; text-decoration: none; }
+        .navbar-logo img { height: 30px; width: auto; display: block; }
+        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
+        .menu-toggle-icon { display: block; width: 25px; height: 2px; background-color: #1a1a1a; position: relative; transition: all 0.3s ease; }
+        .menu-toggle-icon::before, .menu-toggle-icon::after { content: ''; position: absolute; width: 100%; height: 2px; background-color: #1a1a1a; transition: all 0.3s ease; }
+        .menu-toggle-icon::before { top: -8px; }
+        .menu-toggle-icon::after { top: 8px; }
+        .navbar-menu { display: flex; list-style: none; gap: 50px; height: 100%; align-items: center; }
+        .menu-item { position: relative; height: 100%; display: flex; align-items: center; cursor: pointer; }
+        .menu-link { text-decoration: none; color: #1a1a1a; font-size: 15px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.3s ease; position: relative; }
+        .menu-item:hover .menu-link { color: #444444; }
+        .menu-link::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: #1a1a1a; transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 2px; }
+        .menu-item:hover .menu-link::after { width: 20px; }
+        .dropdown { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background-color: rgba(255, 255, 255, 0.98);backdrop-filter: blur(10px); min-width: 220px; padding: 20px 0; border-radius: 4px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .menu-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown li { list-style: none; }
+        .dropdown-link { display: block; padding: 12px 30px; text-decoration: none; color: #666; font-size: 14px; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
+        .dropdown-link:hover { color: #000; background-color: #fff; padding-left: 35px; }
+        .dropdown-link::after { content: '→'; font-size: 12px; color: #1a1a1a; opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; }
+        .dropdown-link:hover::after { opacity: 1; transform: translateX(0); }
+        .navbar-actions { display: flex; align-items: center; }
+        .btn-primary {
+            padding: 8px 28px; background-color: #1a1a1a; color: #fff; text-decoration: none;
+            font-size: 14px; font-weight: 600; border-radius: 50px; border: 1px solid #1a1a1a;
+            display: flex; align-items: center; gap: 0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+        .btn-primary:hover {
+            background-color: #333333; border-color: #333333; color: #fff; transform: translateY(-1px); 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+        }
+        
+        /* --- 定制页面专属样式 --- */
+
+        .custom-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 30px; 
+            margin: 0 auto; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .custom-header {
+            text-align: center;
+            margin-bottom: 0; 
+            padding-bottom: 40px; 
+            max-width: 800px;
+        }
+        .custom-header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+        .custom-header p {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* 垂直分割线样式 (保留) - 增加间距 */
+        .section-separator {
+            width: 100%;
+            height: 1px;
+            background-color: #eeeeee;
+            max-width: 900px; 
+            margin: 60px auto; 
+        }
+
+        /* --- 卡片式对比布局 (Custom Layout) --- */
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background-color: #f7f7f7;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        
+        /* 突出显示 */
+        .plan-card.highlight {
+            background-color: #f0f0f0;
+            border-color: #dddddd;
+        }
+
+        .plan-card h3 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .plan-card .subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #cccccc;
+        }
+
+        .plan-card .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+        }
+        .plan-card .price span {
+            font-size: 18px;
+            font-weight: 400;
+            color: #888;
+        }
+
+        .plan-features {
+            list-style: none;
+            text-align: left;
+            flex-grow: 1; 
+            margin-bottom: 30px;
+        }
+
+        .plan-features li {
+            font-size: 15px;
+            color: #333;
+            padding: 10px 0;
+            border-bottom: 1px dotted #dddddd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        /* 勾选图标 (使用深色调) */
+        .plan-features li::before {
+            content: '✓';
+            font-size: 16px;
+            color: #444; 
+            font-weight: 700;
+        }
+
+        .plan-card .btn-contact {
+            padding: 10px 20px; 
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            background-color: #1a1a1a;
+            color: #fff;
+            border: 2px solid #1a1a1a;
+            margin-top: auto; 
+        }
+        .plan-card .btn-contact:hover {
+            background-color: #333333;
+            border-color: #333333;
+            transform: translateY(-1px);
+        }
+
+        /* --- 流程和FAQ (沿用授权页面的简洁样式) --- */
+        .section-process, .section-faq {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto; 
+            padding: 0 20px;
+        }
+        
+        .section-process h2, .section-faq h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* 定制流程步骤 */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .step-item {
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fcfcfc;
+            border: 1px solid #eee;
+        }
+        .step-item .icon {
+            font-size: 30px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .step-item h4 {
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+        .step-item p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* FAQ 样式 (确保功能完整) */
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .faq-question {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            font-size: 15px;
+            color: #666;
+            padding-top: 10px;
+            line-height: 1.7;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out; 
+            padding-bottom: 0; /* 确保默认折叠时不占用空间 */
+        }
+
+        .faq-question span {
+            font-size: 20px;
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+        .faq-item.open .faq-question span {
+            transform: rotate(45deg);
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px; /* 足够大的值来展示内容 */
+            padding-bottom: 10px; 
+        }
+        
+        /* --- Footer (保留) --- */
+        .footer { 
+            flex-shrink: 0; 
+            padding: 40px 60px; 
+            text-align: center; 
+            color: #888; 
+            font-size: 14px; 
+            border-top: 1px solid rgba(0, 0, 0, 0.05); 
+            width: 100%; 
+            background-color: #fff; 
+        }
+
+        /* --- 响应式 --- */
+        @media (max-width: 992px) {
+            .pricing-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .process-steps {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar { height: 60px; padding: 0 20px; }
+            .section-separator { margin: 40px auto; }
+            .custom-header h1 { font-size: 36px; }
+            .process-steps {
+                grid-template-columns: 1fr; 
+            }
+        }
+
+    </style>
+    </head>
+<body>
+
+    <div class="page-wrapper">
+        
+        <nav class="navbar" id="navbar">
+            </nav>
+
+        <div class="main-content">
+            <div class="custom-container">
+                
+                <header class="custom-header">
+                    <h1>企业级定制字体服务</h1>
+                    <p>从品牌优化到全球字库定制，我们提供端到端的专业服务，为您的品牌打造独一无二的声音和视觉识别。</p>
+                </header>
+                
+                <div class="section-separator"></div>
+
+                <div class="pricing-grid">
+                    
+                    <div class="plan-card">
+                        <h3>基础优化版</h3>
+                        <p class="subtitle">提升现有字体品质与表现</p>
+                        <div class="price">¥29,999 <span>起</span></div>
+                        
+                        <ul class="plan-features">
+                            <li>基于客户现有字体</li>
+                            <li>优化字符集：GB2312 (约6,700字)</li>
+                            <li>微调字形结构和曲线</li>
+                            <li>提供 1 轮主要设计校对</li>
+                            <li>适合初创品牌或内部优化</li>
+                        </ul>
+                        <a href="#contact-basic" class="btn-contact" target="_blank">联系咨询详情</a>
+                    </div>
+
+                    <div class="plan-card highlight">
+                        <h3>高级定制版</h3>
+                        <p class="subtitle">全新的字体设计与全面的字库开发</p>
+                        <div class="price">¥99,999 <span>起</span></div>
+                        
+                        <ul class="plan-features">
+                            <li>**全新原创设计**</li>
+                            <li>优化字符集：GB18030 (约27,500字)</li>
+                            <li>包含数字、标点、特殊符号设计</li>
+                            <li>提供 3 轮主要设计校对</li>
+                            <li>适合大型商业项目和品牌升级</li>
+                        </ul>
+                        <a href="#contact-advanced" class="btn-contact" target="_blank">联系咨询详情</a>
+                    </div>
+
+                    <div class="plan-card">
+                        <h3>企业独家定制</h3>
+                        <p class="subtitle">全球品牌战略与全套字库解决方案</p>
+                        <div class="price">面议<span></span></div>
+                        
+                        <ul class="plan-features">
+                            <li>**完整知识产权转让**</li>
+                            <li>支持多语言 (中/英/日/韩等)</li>
+                            <li>无限制设计和技术支持</li>
+                            <li>专人项目管理与交付</li>
+                            <li>适合全球化企业集团</li>
+                        </ul>
+                        <a href="#contact-enterprise" class="btn-contact" target="_blank">联系咨询详情</a>
+                    </div>
+                </div>
+
+                <div class="section-separator"></div>
+
+                <section class="section-process">
+                    <h2>我们的定制流程</h2>
+                    <div class="process-steps">
+                        <div class="step-item">
+                            <div class="icon">①</div>
+                            <h4>需求分析与立项</h4>
+                            <p>深入了解品牌定位、语境和设计目标。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="icon">②</div>
+                            <h4>设计草稿与校对</h4>
+                            <p>核心样稿制作，与客户进行多轮调整和确认。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="icon">③</div>
+                            <h4>字库开发与优化</h4>
+                            <p>完成字库制作、代码优化和多平台测试。</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="icon">④</div>
+                            <h4>最终交付与授权</h4>
+                            <p>交付完整字体文件和知识产权文件。</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="section-separator"></div>
+
+                <section class="section-faq">
+                    <h2>常见问题 (FAQ)</h2>
+                    <div class="faq-item">
+                        <div class="faq-question">定制一套字体需要多长时间？<span>+</span></div>
+                        <div class="faq-answer">
+                            <p>这取决于定制的复杂度和字符集大小。基础优化版通常需要 1-2 个月；高级定制版可能需要 3-6 个月。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">定制字体的版权归谁所有？<span>+</span></div>
+                        <div class="faq-answer">
+                            <p>我们提供两种授权模式：**高级定制版**通常是独家使用权；**企业独家定制版**包含字体的完整知识产权（IP）转让给客户。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">定制字体可以嵌入到 App 或网站中使用吗？<span>+</span></div>
+                        <div class="faq-answer">
+                            <p>是的，所有定制字体都包含 Web Font 和 App 嵌入许可，我们会提供相应格式的文件和技术支持。</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+        
+        <footer class="footer" id="footer">
+            </footer>
+
+    </div> 
+    
+    <script src="script.js"></script> 
+
+    <script>
+        // --- 保留原文件中的导航栏和页脚渲染逻辑 ---
+        
+        // 确保 APP_DATA 存在，以防外部 script.js 加载失败
+        if (typeof APP_DATA === 'undefined') {
+            window.APP_DATA = {
+                navData: { logoHtml: '<a href="#" class="navbar-logo"><img src="logo.svg" alt="Logo"></a>', menuItems: [], actionButton: null },
+                footerData: { copyright: '© 2025 Font Library. All rights reserved.' }
+            };
+        }
+
+        // 渲染函数：导航栏 (依赖外部 APP_DATA)
+        function renderNavbar() {
+            if (typeof APP_DATA === 'undefined' || !APP_DATA.navData) return;
+            const data = APP_DATA.navData;
+            const navbar = document.querySelector('#navbar');
+            if (!navbar) return;
+
+            let html = data.logoHtml;
+            html += `<button class="menu-toggle"><span class="menu-toggle-icon"></span></button>`;
+
+            let menuHtml = '<ul class="navbar-menu">';
+            data.menuItems.forEach(item => {
+                let dropdownHtml = '';
+                if (item.dropdown && item.dropdown.length > 0) {
+                    dropdownHtml = '<ul class="dropdown">';
+                    item.dropdown.forEach(ddItem => {
+                        const isSeparator = ddItem.separator ? ' style="border-top: 1px solid #f5f5f5; padding-top: 8px; margin-top: 8px;"' : '';
+                        dropdownHtml += `<li${isSeparator}><a href="${ddItem.link}" class="dropdown-link">${ddItem.name}</a></li>`;
+                    });
+                    dropdownHtml += '</ul>';
+                }
+                
+                const linkContent = `<a href="${item.link}" class="menu-link">${item.name}</a>`;
+                menuHtml += `<li class="menu-item">${linkContent}${dropdownHtml}</li>`;
+            });
+            menuHtml += '</ul>';
+            
+            html += menuHtml;
+
+            if (data.actionButton) {
+                const targetAttr = data.actionButton.target ? `target="${data.actionButton.target}"` : '';
+                const relAttr = data.actionButton.rel ? `rel="${data.actionButton.rel}"` : '';
+                html += `<div class="navbar-actions"><a href="${data.actionButton.link}" class="btn-primary" ${targetAttr} ${relAttr}><span>${data.actionButton.text}</span></a></div>`;
+            }
+            
+            navbar.innerHTML = html;
+        }
+
+        // 渲染函数：底部 (依赖外部 APP_DATA)
+        function renderFooter() {
+             if (typeof APP_DATA === 'undefined' || !APP_DATA.footerData) return;
+            const footer = document.querySelector('#footer');
+            if (footer) footer.innerHTML = APP_DATA.footerData.copyright;
+        }
+        
+        // 页面的初始化逻辑 (包含 FAQ 展开/折叠功能)
+        function initPage() {
+            // FAQ 折叠/展开逻辑
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', (e) => {
+                    const parentItem = e.currentTarget.closest('.faq-item');
+                    const answer = parentItem.querySelector('.faq-answer');
+                    
+                    // 切换 open 类
+                    parentItem.classList.toggle('open');
+                    
+                    // 控制 max-height 实现动画
+                    if (parentItem.classList.contains('open')) {
+                        // 展开：设置一个足够大的高度
+                        answer.style.maxHeight = answer.scrollHeight + 20 + 'px'; 
+                        answer.style.paddingBottom = '10px';
+                    } else {
+                        // 折叠
+                        answer.style.maxHeight = '0';
+                        answer.style.paddingBottom = '0';
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNavbar();
+            renderFooter();
+
+            // 移动端菜单切换逻辑 (保留)
+            const menuToggle = document.querySelector('.menu-toggle');
+            const menu = document.querySelector('.navbar-menu');
+            if (menuToggle && menu) {
+                menuToggle.addEventListener('click', () => {
+                    menu.classList.toggle('active');
+                });
+            }
+            
+            initPage(); // 调用初始化函数
+        });
+    </script>
+</body>
+</html>
