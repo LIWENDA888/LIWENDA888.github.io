@@ -129,7 +129,7 @@
             line-height: 1.6;
         }
 
-        /* 授权对比表格 */
+        /* 授权对比表格 (保持原样) */
         .comparison-table-wrapper {
             width: 100%;
             overflow-x: auto; 
@@ -238,7 +238,7 @@
         /* 授权说明和FAQ */
         .section-note, .section-faq {
             width: 100%;
-            max-width: 900px;
+            max-width: 900px; /* 与表格对齐 */
             margin: 0 auto; /* 依赖分隔线控制间距 */
             padding: 0 20px;
         }
@@ -251,13 +251,58 @@
             text-align: center;
         }
 
+        /* --- 修改后的样式：重要授权说明 (横向描边卡片) --- */
+        .section-note-content { /* 新增一个容器包裹卡片，以便将标题留在外面 */
+            /* 启用 Flex 布局实现横向排列 */
+            display: flex;
+            gap: 20px; /* 卡片之间的间距 */
+            justify-content: space-between; 
+        }
+
+        /* 为保持标题在上方，我们将 Flex 布局应用到卡片容器上，而不是 section-note 本身 */
+        .section-note {
+             /* 保持原样，只控制宽度和边距 */
+             margin-bottom: 60px; /* 增加底部间距 */
+             padding: 0;
+             max-width: 900px;
+        }
+        
         .note-item {
-            background: #f8f8f8;
-            border-left: 5px solid #1a1a1a; 
+            /* 移除背景色和左边线 */
+            background: #fff; 
+            border-left: none; 
+            
+            /* 添加描边 */
+            border: 1px solid #ddd;
+            
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            
+            /* 设置 flex-basis 实现均分，flex-grow 确保填充空间 */
+            flex: 1 1 30%; 
+            margin-bottom: 0; /* 移除垂直堆叠时的间距 */
+            
+            /* 移除悬浮效果 */
+            transition: border-color 0.3s ease; 
         }
+        
+        .note-item:hover {
+            /* 移除悬浮效果 */
+            border-color: #ddd; 
+            box-shadow: none; 
+        }
+
+        .note-item p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .note-item p strong {
+             color: #1a1a1a; /* 强调文字颜色 */
+             font-weight: 600;
+        }
+        /* --- 结束修改 --- */
         
         /* --- FAQ 样式 (确保完整) --- */
         .faq-item {
@@ -314,6 +359,19 @@
         @media (max-width: 768px) {
             .navbar { height: 60px; padding: 0 20px; }
             .section-separator { margin: 40px auto; } /* 移动端间距略小 */
+            
+            /* 移动端特殊处理：在小屏幕上，说明卡片改回垂直堆叠 */
+            .section-note-content {
+                flex-direction: column;
+                gap: 0;
+            }
+            .note-item {
+                flex: 1 1 100%;
+                margin-bottom: 20px; /* 恢复垂直间距 */
+            }
+            .note-item:last-child {
+                margin-bottom: 0;
+            }
             /* ... 其他响应式样式保持不变 ... */
         }
 
@@ -407,16 +465,19 @@
 
                 <section class="section-note">
                     <h2>重要授权说明</h2>
-                    <div class="note-item">
-                        <p><strong>个人非商业用途：</strong> 仅限于个人学习、研究和欣赏，不可用于任何形式的营利性活动，包括但不限于发布带有广告的社交媒体内容。</p>
+                    
+                    <div class="section-note-content">
+                        <div class="note-item">
+                            <p><strong>个人非商业用途：</strong> 仅限于个人学习、研究和欣赏，不可用于任何形式的营利性活动，包括但不限于发布带有广告的社交媒体内容。</p>
+                        </div>
+                        <div class="note-item">
+                            <p><strong>商业用途：</strong> 凡涉及以营利为目的的活动，如品牌设计、商业广告、付费 App 界面等，均需购买**专业商业版**或更高版本授权。</p>
+                        </div>
+                        <div class="note-item">
+                            <p><strong>授权时限：</strong> 所有授权版本均为**永久授权**（基于购买时的条款）。</p>
+                        </div>
                     </div>
-                    <div class="note-item">
-                        <p><strong>商业用途：</strong> 凡涉及以营利为目的的活动，如品牌设计、商业广告、付费 App 界面等，均需购买**专业商业版**或更高版本授权。</p>
-                    </div>
-                    <div class="note-item">
-                        <p><strong>授权时限：</strong> 所有授权版本均为**永久授权**（基于购买时的条款）。</p>
-                    </div>
-                </section>
+                    </section>
                 
                 <div class="section-separator"></div>
 
