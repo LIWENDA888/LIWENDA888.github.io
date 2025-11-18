@@ -427,16 +427,8 @@
                         <input type="text" id="font-search-input" placeholder="输入字体名称进行搜索...">
                     </div>
                     
-                    <ul class="sidebar-menu">
-                        <li class="category-item" data-category="category">
-                            <div class="category-header open">字体分类<span class="collapse-icon">▼</span></div>
-                            <ul class="subcategory-list" style="max-height: 500px;">
-                                <li><a href="#sans_serif" class="subcategory-link" data-hash="sans_serif">黑体 / Sans <span class="count-badge" id="count-sans_serif">0</span></a></li>
-                                <li><a href="#serif" class="subcategory-link" data-hash="serif">宋体 / Serif <span class="count-badge" id="count-serif">0</span></a></li>
-                                <li><a href="#display" class="subcategory-link" data-hash="display">创意 / Display <span class="count-badge" id="count-display">0</span></a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div id="sidebar-filters">
+                        </div>
                 </aside>
 
                 <main class="content-area" id="content-area">
@@ -465,38 +457,20 @@
     </div> 
     
     <script src="https://www.zizao.top/pages/common.js"></script> 
+    
+    <script src="https://www.zizao.top/pages/data.js"></script>
 
     <script>
-        // --- 1. 数据映射和常量 (统一筛选映射表) ---
-        const FILTER_MAP = {
-            // 字体分类 (Category) 标题
-            'sans_serif': '黑体 / Sans-serif',
-            'serif': '宋体 / Serif',
-            'display': '创意 / Display',
-        };
-        
-        const CARDS_PER_PAGE = 12; // 每页显示 12 张卡片
+        // --- 1. 状态管理 ---
+        // 🚨 注意：SIDEBAR_CONFIG, CARDS_PER_PAGE, FONT_DATA 现已在 data.js 中定义
         let State = {
             currentPage: 1,
-            currentFilter: 'sans_serif', // 当前激活的分类
+            currentFilterHash: 'sans_serif', // 当前激活的筛选hash
+            currentFilterId: 'category', // 当前激活的筛选维度ID (category, license, language)
             searchQuery: '' // 当前搜索词
         };
         
-        // --- 2. 字体数据源 ---
-        const DEFAULT_COVER = "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp";
-
-        const FONT_DATA = [
-            { id: 1, name: "自在起点黑 VF", author: "FontStudio", category: "sans_serif", style: "modern", tags: ["商用", "极简"], weight: "2025年8月7日", cover: DEFAULT_COVER },
-            { id: 2, name: "经典宋体 Std", author: "TypeFoundry", category: "serif", style: "retro", tags: ["书籍", "正文"], weight: "4 Styles", cover: DEFAULT_COVER },
-            { id: 3, name: "流光手写体", author: "HandWriter", category: "display", style: "retro", tags: ["手写", "艺术"], weight: "1 Style", cover: DEFAULT_COVER },
-            { id: 4, name: "赛博朋克 2077", author: "GlitchType", category: "display", style: "tech", tags: ["标题", "科技"], weight: "2 Styles", cover: DEFAULT_COVER },
-            { id: 5, name: "柔和黑体 Soft", author: "FontStudio", category: "sans_serif", style: "modern", tags: ["UI设计", "圆润"], weight: "8 Styles", cover: DEFAULT_COVER },
-            { id: 6, name: "报刊明朝体", author: "NewsType", category: "serif", style: "modern", tags: ["印刷", "报纸"], weight: "3 Styles", cover: DEFAULT_COVER },
-            { id: 7, name: "像素积木", author: "8BitMaster", category: "display", style: "tech", tags: ["游戏", "复古"], weight: "1 Style", cover: DEFAULT_COVER },
-            { id: 8, name: "工业黑体", author: "Mechanic", category: "sans_serif", style: "tech", tags: ["重工", "标题"], weight: "Bold Only", cover: DEFAULT_COVER }
-        ];
-
-        // --- 3. 辅助函数：防抖 (Debounce) ---
+        // --- 2. 辅助函数：防抖 (Debounce) ---
         function debounce(func, delay) {
             let timeout;
             return function(...args) {
@@ -505,7 +479,7 @@
             };
         }
 
-        // --- 4. 渲染函数：导航栏 ---
+        // --- 3. 渲染函数：导航栏 (Unchanged) ---
         function renderNavbar() {
             if (typeof APP_DATA === 'undefined' || !APP_DATA.navData) return;
             const data = APP_DATA.navData;
@@ -538,14 +512,48 @@
         }
 
 
-        // --- 5. 渲染函数：底部 ---
+        // --- 4. 渲染函数：底部 (Unchanged) ---
         function renderFooter() {
              if (typeof APP_DATA === 'undefined' || !APP_DATA.footerData) return;
             const footer = document.querySelector('#footer');
             if (footer) footer.innerHTML = APP_DATA.footerData.copyright;
         }
+        
+        // --- 5. 渲染侧边栏结构 (基于 SIDEBAR_CONFIG 动态生成) ---
+        function renderSidebar() {
+            const sidebarContainer = document.getElementById('sidebar-filters');
+            if (!sidebarContainer) return;
 
-        // --- 6. 渲染分页控件 ---
+            let html = '<ul class="sidebar-menu">';
+            
+            SIDEBAR_CONFIG.forEach(group => {
+                const groupTitleId = `group-${group.id}`;
+                
+                // 使用原有的 category-item 和 category-header 样式
+                html += `
+                    <li class="category-item" data-category="${group.id}">
+                        <div class="category-header open" id="${groupTitleId}">${group.title}<span class="collapse-icon">▼</span></div>
+                        <ul class="subcategory-list" data-group-id="${group.id}" style="max-height: 500px;">
+                `;
+
+                group.options.forEach(option => {
+                    // count-ID 用于计数，hash 用于链接和激活状态
+                    html += `
+                        <li><a href="#${option.hash}" class="subcategory-link" data-hash="${option.hash}" data-filter-id="${group.id}">
+                            ${option.title} <span class="count-badge" id="count-${option.hash}">0</span>
+                        </a></li>
+                    `;
+                });
+                
+                html += '</ul></li>';
+            });
+
+            html += '</ul>';
+            sidebarContainer.innerHTML = html;
+        }
+
+
+        // --- 6. 渲染分页控件 (Unchanged) ---
         function renderPagination(totalPages, currentPage) {
             const container = document.getElementById('pagination-container');
             if (totalPages <= 1) {
@@ -588,7 +596,7 @@
                     const newPage = parseInt(e.currentTarget.getAttribute('data-page'));
                     
                     // 调用核心渲染函数，使用当前的状态进行分页
-                    renderGrid(State.currentFilter, newPage, State.searchQuery);
+                    renderGrid(State.currentFilterHash, newPage, State.searchQuery);
                     
                     // 滚动到卡片顶部
                     document.getElementById('grid-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -596,8 +604,14 @@
             });
         }
         
-        // --- 7. 核心逻辑：卡片网格渲染 ---
-        function renderGrid(filter, page = 1, searchQuery = '') {
+        // --- 7. 核心逻辑：卡片网格渲染 (更新筛选逻辑) ---
+        function renderGrid(filterHash, page = 1, searchQuery = '') {
+            // 🚨 检查 FONT_DATA 是否已加载
+            if (typeof FONT_DATA === 'undefined') {
+                 console.error("FONT_DATA is not defined. Please ensure data.js is loaded correctly.");
+                 return;
+            }
+            
             const gridContainer = document.getElementById('font-grid-container');
             const titleEl = document.getElementById('grid-title');
             const descEl = document.getElementById('grid-desc');
@@ -608,6 +622,11 @@
             let filteredData = [];
             let pageTitle = '';
             
+            // 查找所有筛选选项的扁平化列表
+            const allFilterOptions = SIDEBAR_CONFIG.flatMap(group => 
+                group.options.map(option => ({...option, groupId: group.id}))
+            );
+
             // 1. 数据过滤逻辑
             if (searchQuery) {
                 // 搜索模式
@@ -622,22 +641,35 @@
                 
                 // 更新 State
                 State.searchQuery = searchQuery;
-                State.currentFilter = ''; // 清除分类状态
+                State.currentFilterHash = ''; // 清除分类状态
+                State.currentFilterId = '';
             } else {
                 // 分类筛选模式
                 State.searchQuery = '';
                 
-                const effectiveFilter = (filter && FILTER_MAP[filter]) ? filter : 'sans_serif';
+                // 查找当前激活的分类配置
+                let filterConfig = allFilterOptions.find(option => option.hash === filterHash);
                 
-                filteredData = FONT_DATA.filter(item => item.category === effectiveFilter);
+                if (!filterConfig) {
+                    // 如果hash无效，默认使用第一个分类
+                    filterConfig = allFilterOptions[0] || { hash: 'sans_serif', title: '黑体 / Sans', groupId: 'category' };
+                }
                 
-                pageTitle = FILTER_MAP[effectiveFilter] || "字体库";
+                const effectiveFilterHash = filterConfig.hash;
+                
+                // 🎯 关键：根据 group.id (即字段名) 进行通用筛选
+                filteredData = FONT_DATA.filter(item => item[filterConfig.groupId] === effectiveFilterHash);
                 
                 // 更新 State
-                if (State.currentFilter !== effectiveFilter) {
-                    State.currentPage = 1; // 切换分类时重置页码
+                if (State.currentFilterHash !== effectiveFilterHash) {
+                    State.currentPage = 1; // 切换筛选条件时重置页码
                 }
-                State.currentFilter = effectiveFilter;
+                State.currentFilterHash = effectiveFilterHash;
+                State.currentFilterId = filterConfig.groupId;
+                
+                // 组合标题 (例如：字体分类: 黑体 / Sans)
+                const groupTitle = SIDEBAR_CONFIG.find(g => g.id === filterConfig.groupId)?.title;
+                pageTitle = `${groupTitle}: ${filterConfig.title}`;
             }
 
             // 2. 更新状态 (currentPage 需要在筛选后确保有效)
@@ -663,7 +695,7 @@
             searchInput.value = State.searchQuery;
 
 
-            // 5. 生成卡片 HTML 
+            // 5. 生成卡片 HTML (Unchanged)
             if (paginatedData.length === 0) {
                 gridContainer.innerHTML = `<div class="empty-state">暂无相关字体数据</div>`;
                 gridContainer.style.display = 'block'; 
@@ -696,29 +728,33 @@
             // 7. 更新左侧菜单的激活状态 (搜索模式下取消所有高亮)
             document.querySelectorAll('.subcategory-link').forEach(link => {
                 link.classList.remove('active');
-                if (!State.searchQuery && link.getAttribute('data-hash') === State.currentFilter) {
+                if (!State.searchQuery && link.getAttribute('data-hash') === State.currentFilterHash) {
                     link.classList.add('active');
-                    // 自动展开/设置高度的逻辑保持不变
-                    const parentHeader = link.closest('.category-item')?.querySelector('.category-header');
-                    if (parentHeader && !parentHeader.classList.contains('open')) {
-                        const parentList = link.closest('.subcategory-list');
-                        if (parentList) {
-                            parentHeader.classList.add('open');
-                            parentList.style.maxHeight = parentList.scrollHeight + 'px'; 
-                        }
-                    }
                 }
             });
         }
 
-        // --- 8. 辅助功能：更新侧边栏计数 ---
+        // --- 8. 辅助功能：更新侧边栏计数 (通用化) ---
         function updateSidebarCounts() {
-            document.getElementById('count-sans_serif').innerText = FONT_DATA.filter(i => i.category === 'sans_serif').length;
-            document.getElementById('count-serif').innerText = FONT_DATA.filter(i => i.category === 'serif').length;
-            document.getElementById('count-display').innerText = FONT_DATA.filter(i => i.category === 'display').length;
+            // 🚨 检查 FONT_DATA 是否已加载
+            if (typeof FONT_DATA === 'undefined') {
+                 console.error("FONT_DATA is not defined. Cannot update counts.");
+                 return;
+            }
+            
+            SIDEBAR_CONFIG.forEach(group => {
+                group.options.forEach(option => {
+                    // 🎯 关键：根据 group.id 和 option.hash 进行动态计数
+                    const count = FONT_DATA.filter(i => i[group.id] === option.hash).length;
+                    const countElement = document.getElementById(`count-${option.hash}`);
+                    if (countElement) {
+                        countElement.innerText = count;
+                    }
+                });
+            });
         }
         
-        // --- 9. 核心功能：处理 Hash 变化 ---
+        // --- 9. 核心功能：处理 Hash 变化 (Unchanged) ---
         function handleHashChange(hash) {
             let filter = '';
             let search = '';
@@ -735,12 +771,16 @@
 
         // --- 10. 页面初始化与事件绑定 ---
         function initPage() {
-            // 侧边栏折叠菜单点击事件
+            // 🎯 新增：先渲染侧边栏结构
+            renderSidebar(); 
+            
+            // 侧边栏折叠菜单点击事件 (保留，因为使用了相同的类名)
             document.querySelectorAll('.category-header').forEach(header => {
                 header.addEventListener('click', (e) => {
                     const list = e.currentTarget.nextElementSibling;
                     e.currentTarget.classList.toggle('open');
                     if (e.currentTarget.classList.contains('open')) {
+                        // 确保展开时计算正确的 max-height
                         list.style.maxHeight = list.scrollHeight + 'px';
                     } else {
                         list.style.maxHeight = '0';
@@ -763,8 +803,8 @@
                     // 如果有搜索词，设置 hash 为 search=query
                     newHash = `search=${encodeURIComponent(query)}`;
                 } else {
-                    // 如果搜索框被清空，则切换回当前激活的分类
-                    newHash = State.currentFilter || 'sans_serif';
+                    // 如果搜索框被清空，则切换回当前激活的筛选 hash
+                    newHash = State.currentFilterHash || 'sans_serif';
                 }
                 window.location.hash = newHash;
             }, 300)); // 300ms 防抖，优化性能
@@ -772,6 +812,15 @@
             // 初始渲染
             updateSidebarCounts();
             const initialHash = window.location.hash.slice(1);
+            
+            // 确保初始时所有列表展开 (因为 CSS 默认 max-height: 0)
+            document.querySelectorAll('.subcategory-list').forEach(list => {
+                // 延迟执行以确保所有元素都已渲染，以便正确计算 scrollHeight
+                setTimeout(() => {
+                    list.style.maxHeight = list.scrollHeight + 'px';
+                }, 0);
+            });
+            
             handleHashChange(initialHash || 'sans_serif'); // 初始时调用一次，使用默认分类
         }
 
