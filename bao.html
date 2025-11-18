@@ -256,13 +256,15 @@
             line-height: 1.2;
         }
 
-        .font-author {
+        .font-author { /* 这个样式虽然保留，但不再有内容输出 */
             font-size: 13px;
             color: #888;
             margin-bottom: 0;
         }
 
+        /* --- 修改后的样式：调整卡片底部和规格显示 --- */
         .card-footer {
+            /* 保持右侧按钮和规格在右边 */
             flex-shrink: 0; 
             margin-top: 0;
             display: flex;
@@ -275,11 +277,19 @@
         }
 
         .font-specs {
+            /* 移到 card-info 内部，不再是 card-footer 的一部分 */
+            /* 保持原字体大小和颜色 */
             font-size: 13px; 
             color: #666; 
-            display: flex;
-            gap: 10px;
+            display: block; /* 确保它在 font-name 下方独占一行 */
+            margin-top: 4px; /* 在 font-name 下方添加间距 */
+            margin-bottom: 0; /* 移除不必要的底部间距 */
         }
+        
+        /* 关键修改：调整 renderGrid 生成的 HTML 结构，
+           确保 font-specs 被放置在 card-info 内，并修改 card-info 内部的布局 */
+        
+        /* 现有 card-info 已经是一个 block 元素，且 flex-shrink: 1，无需额外修改其布局 */
 
         .btn-view {
             font-size: 14px;
@@ -462,11 +472,12 @@
 
     <script>
         // --- 1. 状态管理 ---
-        // 🚨 注意：SIDEBAR_CONFIG, CARDS_PER_PAGE, FONT_DATA 现已在 data.js 中定义
+        // 🚨 注意：SIDEBAR_CONFIG, CARDS_PER_PAGE, FONT_DATA 现已在 bao-data.js 中定义
         let State = {
             currentPage: 1,
-            currentFilterHash: 'sans_serif', // 当前激活的筛选hash
-            currentFilterId: 'category', // 当前激活的筛选维度ID (category, license, language)
+            // 初始值需要从 SIDEBAR_CONFIG 中确定，由于用户新分类，默认改为 'adobe'
+            currentFilterHash: 'adobe', // 当前激活的筛选hash
+            currentFilterId: 'app', // 当前激活的筛选维度ID (category, license, language)
             searchQuery: '' // 当前搜索词
         };
         
@@ -606,12 +617,6 @@
         
         // --- 7. 核心逻辑：卡片网格渲染 (更新筛选逻辑) ---
         function renderGrid(filterHash, page = 1, searchQuery = '') {
-            // 🚨 检查 FONT_DATA 是否已加载
-            if (typeof FONT_DATA === 'undefined') {
-                 console.error("FONT_DATA is not defined. Please ensure data.js is loaded correctly.");
-                 return;
-            }
-            
             const gridContainer = document.getElementById('font-grid-container');
             const titleEl = document.getElementById('grid-title');
             const descEl = document.getElementById('grid-desc');
@@ -652,12 +657,13 @@
                 
                 if (!filterConfig) {
                     // 如果hash无效，默认使用第一个分类
-                    filterConfig = allFilterOptions[0] || { hash: 'sans_serif', title: '黑体 / Sans', groupId: 'category' };
+                    filterConfig = allFilterOptions[0] || { hash: 'adobe', title: 'Adobe全家桶', groupId: 'app' };
                 }
                 
                 const effectiveFilterHash = filterConfig.hash;
                 
                 // 🎯 关键：根据 group.id (即字段名) 进行通用筛选
+                // 检查 item[filterConfig.groupId] 是否存在且等于 effectiveFilterHash
                 filteredData = FONT_DATA.filter(item => item[filterConfig.groupId] === effectiveFilterHash);
                 
                 // 更新 State
@@ -667,9 +673,12 @@
                 State.currentFilterHash = effectiveFilterHash;
                 State.currentFilterId = filterConfig.groupId;
                 
-                // 组合标题 (例如：字体分类: 黑体 / Sans)
+                // 组合标题 (例如：软件工具: Adobe全家桶)
                 const groupTitle = SIDEBAR_CONFIG.find(g => g.id === filterConfig.groupId)?.title;
-                pageTitle = `${groupTitle}: ${filterConfig.title}`;
+                
+                // ⬇️ 🎯 关键修改: 简化标题显示，只显示筛选选项的 title
+                // pageTitle = `${groupTitle}: ${filterConfig.title}`; // 原代码
+                pageTitle = filterConfig.title; // 修改后的代码
             }
 
             // 2. 更新状态 (currentPage 需要在筛选后确保有效)
@@ -683,7 +692,7 @@
             const paginatedData = filteredData.slice(startIndex, endIndex);
 
             // 3. 设置标题和描述
-            let pageDesc = `共找到 ${totalCards} 款字体`;
+            let pageDesc = `共找到 ${totalCards} 款资源`; 
             if (totalPages > 1) {
                  pageDesc += ` (当前第 ${currentPage} / ${totalPages} 页)`;
             }
@@ -695,26 +704,26 @@
             searchInput.value = State.searchQuery;
 
 
-            // 5. 生成卡片 HTML (Unchanged)
+            // 5. 生成卡片 HTML (重要更新: 使用 link 字段，移除 author)
             if (paginatedData.length === 0) {
-                gridContainer.innerHTML = `<div class="empty-state">暂无相关字体数据</div>`;
+                gridContainer.innerHTML = `<div class="empty-state">暂无相关资源</div>`;
                 gridContainer.style.display = 'block'; 
             } else {
                 gridContainer.style.display = 'grid';
                 let cardsHtml = '';
                 
                 paginatedData.forEach(font => {
-                    const detailLink = `#font-detail-${font.id}`; 
+                    // 🎯 变更: 使用 font.link 作为实际链接，如果不存在则退回到 #
+                    const detailLink = font.link || '#'; 
                     
+                    // 结构调整：将 font-specs 移到 font-name 下方的 div.card-info 内
                     cardsHtml += `
                         <a href="${detailLink}" target="_blank" class="font-card">
-                            <div>
+                            <div class="card-info">
                                 <div class="font-name">${font.name}</div>
-                                <div class="font-author">${font.author}</div> 
-                            </div>
+                                <div class="font-specs">${font.weight}</div> </div>
                             <div class="card-footer">
-                                <div class="font-specs">${font.weight}</div>
-                                <span class="btn-view">查看</span>
+                                <span class="btn-view">下载</span>
                             </div>
                         </a>
                     `;
@@ -736,12 +745,6 @@
 
         // --- 8. 辅助功能：更新侧边栏计数 (通用化) ---
         function updateSidebarCounts() {
-            // 🚨 检查 FONT_DATA 是否已加载
-            if (typeof FONT_DATA === 'undefined') {
-                 console.error("FONT_DATA is not defined. Cannot update counts.");
-                 return;
-            }
-            
             SIDEBAR_CONFIG.forEach(group => {
                 group.options.forEach(option => {
                     // 🎯 关键：根据 group.id 和 option.hash 进行动态计数
@@ -804,7 +807,7 @@
                     newHash = `search=${encodeURIComponent(query)}`;
                 } else {
                     // 如果搜索框被清空，则切换回当前激活的筛选 hash
-                    newHash = State.currentFilterHash || 'sans_serif';
+                    newHash = State.currentFilterHash || 'adobe'; // 默认改为 'adobe'
                 }
                 window.location.hash = newHash;
             }, 300)); // 300ms 防抖，优化性能
@@ -815,13 +818,11 @@
             
             // 确保初始时所有列表展开 (因为 CSS 默认 max-height: 0)
             document.querySelectorAll('.subcategory-list').forEach(list => {
-                // 延迟执行以确保所有元素都已渲染，以便正确计算 scrollHeight
-                setTimeout(() => {
-                    list.style.maxHeight = list.scrollHeight + 'px';
-                }, 0);
+                list.style.maxHeight = list.scrollHeight + 'px';
             });
             
-            handleHashChange(initialHash || 'sans_serif'); // 初始时调用一次，使用默认分类
+            // 初始时调用一次，使用默认分类 'adobe'
+            handleHashChange(initialHash || 'adobe'); 
         }
 
         document.addEventListener('DOMContentLoaded', () => {
