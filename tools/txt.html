@@ -41,9 +41,10 @@
             flex-direction: column; 
         }
 
+        /* 移除顶部导航栏后，调整 main 区域从页面顶部开始 */
         main {
             flex-grow: 1; 
-            padding-top: 61px;
+            padding-top: 0; /* 移除 Header 占用的空间 */
             padding-left: 0; 
             padding-right: 0;
             width: 100%;
@@ -52,64 +53,8 @@
 
         a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
 
-        .header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; background-color: #FFFFFF;
-            border-bottom: 1px solid var(--light-grey); 
-        }
-
-        .nav { display: flex; align-items: center; }
-        .logo { display: block; } 
-        .logo img { height: 28px; max-width: 150px; display: block; }
-
-        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
-        
-        .nav-item-dropdown > a {
-            font-size: 16px; display: inline-flex; align-items: center;
-            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
-        }
-        
-        .nav-item-dropdown > a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%;
-            width: 50%; height: 3px; background-color: var(--accent-color); 
-            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
-        }
-        
-        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
-        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
-        
-        .dropdown-menu {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
-            min-width: 150px; background-color: #FFFFFF;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
-            z-index: 100; display: none; opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        
-        .nav-item-dropdown:hover .dropdown-menu {
-            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
-        }
-        
-        .dropdown-menu a {
-            display: block; padding: 8px 15px; font-size: 15px;
-            white-space: nowrap; border-radius: 4px; margin: 0 8px;
-        }
-
-        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
-
-        .menu-toggle {
-            display: none; background: none; border: none; font-size: 24px;
-            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
-        }
-
-        .backdrop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
-            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-        }
-
-        .backdrop.open { opacity: 1; visibility: visible; }
+        /* 移除 Header/Nav/Toggle 的所有样式 */
+        /* .header, .nav, .logo, .nav-item-dropdown, .dropdown-menu, .menu-toggle, .backdrop 相关的样式已全部移除 */
         
         .footer {
             display: none !important;
@@ -121,55 +66,10 @@
 
         @media (max-width: 768px) {
             main {
-                padding-top: 48px; 
+                padding-top: 0; /* 移除移动端 Header 占用的空间 */
             }
             
-            .header { padding: 10px 4%; }
-            .menu-toggle { display: block; }
-            
-            .nav {
-                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
-                max-width: none; height: calc(100vh - 48px);
-                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
-                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
-                overflow-y: auto; 
-                transform: translateY(-100%); opacity: 0; visibility: hidden;
-                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
-            }
-
-            .nav.open {
-                transform: translateY(0); opacity: 1; visibility: visible;
-                transition: transform 0.3s ease-out, opacity 0.3s; 
-            }
-            
-            .backdrop { top: 48px; height: calc(100vh - 48px); }
-
-            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
-            .nav-item-dropdown:last-child { border-bottom: none; }
-
-            .nav-item-dropdown > a {
-                padding: 15px 10px; font-size: 18px; width: 100%;
-                display: flex; justify-content: space-between; 
-            }
-            
-            .nav-item-dropdown > a::after { content: none; } 
-            
-            .nav .nav-item-dropdown .dropdown-menu {
-                display: none; 
-                position: static; 
-                opacity: 1;
-                transform: none;
-                border: none !important;
-                box-shadow: none !important;
-            }
-            
-            .nav .nav-item-dropdown.open .dropdown-menu {
-                display: block !important; 
-            }
-            
-            .dropdown-menu a {
-                padding: 10px 10px; font-size: 16px; margin: 3px 0;
-            }
+            /* 移除移动端 Header/Nav 的所有样式 */
         }
         
         html, body {
@@ -435,9 +335,6 @@
 </head>
 <body class="theme-orange">
 
-    <header class="header" id="headerContainer">
-    </header>
-
     <main> <div class="editor-wrapper">
             <div class="editor-container">
                 <div id="editor" contenteditable="true">在这里输入您的文本。</div>
@@ -506,43 +403,8 @@
     <script src="https://www.zizao.top/pages/common.js"></script>
     
     <script>
-        function renderHeader() {
-            const headerContainer = document.getElementById('headerContainer');
-            if (!headerContainer) return;
-
-            let navHtml = navData.map(item => {
-                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
-                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-
-                let subMenuHtml = '';
-                if (item.subMenu) {
-                    const subLinks = item.subMenu.map(sub => {
-                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
-                    }).join('');
-                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
-                }
-
-                return `
-                    <div class="nav-item-dropdown">
-                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
-                        ${subMenuHtml}
-                    </div>
-                `;
-            }).join('');
-
-            headerContainer.innerHTML = `
-                <a href="${siteConfig.homeUrl}" class="logo">
-                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
-                </a>
-                <button class="menu-toggle" id="menuToggle">☰</button> 
-                <div class="backdrop" id="menuBackdrop"></div>
-                <nav class="nav" id="mainNav">
-                    ${navHtml}
-                </nav>
-            `;
-        }
-
+        // 移除 renderHeader() 函数
+        
         const editor = document.getElementById('editor');
         const fontSizeSlider = document.getElementById('fontSize');
         const fontSizeValue = document.getElementById('fontSizeValue');
@@ -859,70 +721,11 @@
             }
         }
         
-        function setupNavEvents() {
-            const menuToggle = document.getElementById('menuToggle');
-            const mainNav = document.getElementById('mainNav');
-            const menuBackdrop = document.getElementById('menuBackdrop'); 
-            const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
-
-            function closeMenu() {
-                if (!mainNav || !menuBackdrop) return;
-                mainNav.classList.remove('open');
-                menuBackdrop.classList.remove('open'); 
-                document.body.style.overflow = '';
-                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
-            }
-            
-            function toggleMenu() {
-                const isOpen = mainNav.classList.toggle('open');
-                menuBackdrop.classList.toggle('open'); 
-                
-                if (window.innerWidth <= 768) {
-                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
-                }
-                
-                if (!isOpen) { 
-                    closeMenu(); 
-                }
-            }
-            
-            if (menuToggle && mainNav && menuBackdrop) {
-                menuToggle.addEventListener('click', toggleMenu);
-                menuBackdrop.addEventListener('click', closeMenu); 
-                
-                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
-                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
-                        item.addEventListener('click', () => {
-                            if (mainNav.classList.contains('open')) {
-                                setTimeout(closeMenu, 100); 
-                            }
-                        });
-                    }
-                });
-            }
-            
-            dropdownItems.forEach(item => {
-                const navLink = item.querySelector('.nav-item.has-dropdown');
-                if (navLink) {
-                    navLink.addEventListener('click', function(e) {
-                        if (window.innerWidth <= 768) {
-                            e.preventDefault(); 
-                            const wasOpen = item.classList.contains('open');
-                            dropdownItems.forEach(d => d.classList.remove('open')); 
-                            if (!wasOpen) {
-                                item.classList.add('open'); 
-                            }
-                        }
-                    });
-                }
-            });
-        }
+        // 移除 setupNavEvents() 函数
         
         document.addEventListener('DOMContentLoaded', function() {
             
-            renderHeader();
-            
-            setupNavEvents();
+            // 移除了 Header/Nav 相关的初始化调用
             
             setupDarkModeToggle();
             setupTextModes();

@@ -78,74 +78,17 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             line-height: 1.6;
             overflow-x: hidden;
-            /* 调整 body padding-top 以适应固定导航栏 */
-            padding-top: calc(61px + 30px); /* 导航栏高度 + 原有的顶部间距 */
+            /* 调整 body padding-top 以适应内容从顶部开始 */
+            padding-top: 30px; 
             /* 调整 body padding-bottom 以适应浮动输入框和简洁固定底部栏 */
             padding-bottom: calc(var(--total-footer-height) + 20px); 
         }
         
         a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
 
-        /* 顶部栏样式 (从 fonts.html 复制) */
-        .header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; background-color: #FFFFFF;
-            border-bottom: 1px solid var(--light-grey); 
-        }
+        /* 顶部栏样式 (已移除，仅保留变量和结构引用) */
+        /* .header, .logo, .nav, .menu-toggle, .backdrop 相关的 CSS 块已移除 */
 
-        .logo { display: block; } 
-        .logo img { height: 28px; max-width: 150px; display: block; }
-
-        .nav { display: flex; align-items: center; }
-        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
-        
-        .nav-item-dropdown > a {
-            font-size: 16px; display: inline-flex; align-items: center;
-            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
-        }
-        
-        .nav-item-dropdown > a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%;
-            width: 50%; height: 3px; background-color: var(--accent-nav-color); 
-            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
-        }
-        
-        .nav-item-dropdown > a:hover { color: var(--deep-grey); }
-        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
-        
-        .dropdown-menu {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
-            min-width: 150px; background-color: #FFFFFF;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
-            z-index: 100; display: none; opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        
-        .nav-item-dropdown:hover .dropdown-menu {
-            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
-        }
-        
-        .dropdown-menu a {
-            display: block; padding: 8px 15px; font-size: 15px;
-            white-space: nowrap; border-radius: 4px; margin: 0 8px;
-        }
-
-        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
-
-        .menu-toggle {
-            display: none; background: none; border: none; font-size: 24px;
-            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
-        }
-
-        .backdrop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
-            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-        }
-
-        .backdrop.open { opacity: 1; visibility: visible; }
-        
         /* 底部栏样式 (简洁固定版) */
         .simple-footer {
             /* 关键修改：改为 fixed 定位 */
@@ -311,7 +254,7 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.5s forwards;
-            scroll-margin-top: calc(61px + 30px); /* 调整滚动锚点 */
+            scroll-margin-top: 30px; /* 调整滚动锚点 */
         }
         
         .message-bubble:last-of-type { border-bottom: none; }
@@ -501,7 +444,7 @@
             --total-footer-height: calc(var(--floating-card-total-height) + 10px + var(--copyright-area-height)); 
             
             body { 
-                padding-top: calc(48px + 25px); /* 移动端导航栏高度 + 原有的顶部间距 */
+                padding-top: 25px; /* 移除顶部导航栏高度的补偿 */
                 padding-bottom: calc(var(--total-footer-height) + 10px); 
             }
             
@@ -524,53 +467,7 @@
                 font-size: 1.3rem; 
             }
             
-             /* 移动端导航栏样式 (从 fonts.html 复制) */
-            .header { padding: 10px 4%; }
-            .menu-toggle { display: block; }
-            
-            .nav {
-                position: fixed; top: 48px; right: 0; left: 0; width: 100%; 
-                max-width: none; height: calc(100vh - 48px);
-                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
-                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
-                overflow-y: auto; 
-                transform: translateY(-100%); opacity: 0; visibility: hidden;
-                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
-            }
-
-            .nav.open {
-                transform: translateY(0); opacity: 1; visibility: visible;
-                transition: transform 0.3s ease-out, opacity 0.3s; 
-            }
-            
-            .backdrop { top: 48px; height: calc(100vh - 48px); }
-
-            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
-            .nav-item-dropdown:last-child { border-bottom: none; }
-
-            .nav-item-dropdown > a {
-                padding: 15px 10px; font-size: 18px; width: 100%;
-                display: flex; justify-content: space-between; 
-            }
-            
-            .nav-item-dropdown > a::after { content: none; } 
-            
-            .nav .nav-item-dropdown .dropdown-menu {
-                display: none; 
-                position: static; 
-                opacity: 1;
-                transform: none;
-                border: none !important;
-                box-shadow: none !important;
-            }
-            
-            .nav .nav-item-dropdown.open .dropdown-menu {
-                display: block !important; 
-            }
-            
-            .dropdown-menu a {
-                padding: 10px 10px; font-size: 16px; margin: 3px 0;
-            }
+             /* 移动端导航栏样式 (已移除) */
         }
         
         @media (max-width: 576px) {
@@ -599,9 +496,6 @@
 </head>
 <body>
     
-    <header class="header" id="headerContainer">
-    </header>
-
     <main class="chat-container" id="chat-container"></main>
 
     <div class="input-footer">
@@ -637,20 +531,29 @@
     
     <div class="copy-notification" id="copy-notification">已复制到剪贴板</div>
 
-<script src="https://www.zizao.top/pages/common.js"></script>
 <script src="https://www.zizao.top/pages/cy-data.js"></script>
     
 <script>
     const USER_AVATAR_URL = "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251004/11ox/300X300/2.png/webp"; 
     const SYSTEM_AVATAR_URL = "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251004/hafo/1250X1250/1.png/webp";
     
+    // 模拟 siteConfig 和 footerLinks 的缺失数据，以使 footer 渲染函数能被移除或修改
+    const siteConfig = {
+        homeUrl: "#", 
+        logoUrl: "", 
+        copyrightText: "本页面由自在独家整理，仅供个人学习使用" // 修改后的版权信息
+    };
+    const footerLinks = [
+        { label: "自在造字", url: "https://www.zizao.top", openInNewTab: true } 
+    ];
+
     const DOM = {
         characterInput: document.getElementById('character-input'),
         searchBtn: document.getElementById('search-btn'),
         chatContainer: document.getElementById('chat-container'),
         copyNotification: document.getElementById('copy-notification'),
         clearChatBtn: document.getElementById('clear-chat-btn'),
-        headerContainer: document.getElementById('headerContainer'), 
+        // headerContainer: document.getElementById('headerContainer'), // 移除
         footerContainer: document.getElementById('footerContainer')  
     };
     
@@ -661,131 +564,27 @@
     let currentLoadingMessageId = null; 
     let wordMap = new Map();
     
-    // --- 渲染顶部导航栏函数 (从 fonts.html 复制) ---
-    function renderHeader() {
-        if (!DOM.headerContainer || typeof navData === 'undefined' || typeof siteConfig === 'undefined') return;
+    // --- 渲染顶部导航栏函数 (已移除) ---
+    /* function renderHeader() { ... } */
+    // --- 绑定导航栏事件函数 (已移除) ---
+    /* function bindHeaderEvents() { ... } */
 
-        let navHtml = navData.map(item => {
-            const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
-            // 默认 navData 中的链接都从新标签页打开，除非明确设置为 false 或不需要
-            const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
 
-            let subMenuHtml = '';
-            if (item.subMenu) {
-                const subLinks = item.subMenu.map(sub => {
-                    const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-
-                    return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
-                }).join('');
-                subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
-            }
-
-            return `
-                <div class="nav-item-dropdown">
-                    <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
-                    ${subMenuHtml}
-                </div>
-            `;
-        }).join('');
-
-        DOM.headerContainer.innerHTML = `
-            <a href="${siteConfig.homeUrl}" class="logo">
-                <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
-            </a>
-            <button class="menu-toggle" id="menuToggle">☰</button> 
-            <div class="backdrop" id="menuBackdrop"></div>
-            <nav class="nav" id="mainNav">
-                ${navHtml}
-            </nav>
-        `;
-    }
-
-    // --- 渲染底部版权信息函数 (简洁固定版，包含链接) ---
+    // --- 渲染底部版权信息函数 (简洁固定版，修改为固定内容) ---
     function renderFooter() {
-        if (!DOM.footerContainer || typeof footerLinks === 'undefined' || typeof siteConfig === 'undefined') return;
+        if (!DOM.footerContainer || typeof siteConfig === 'undefined') return;
 
-        const linkHtml = footerLinks.map(link => `
-            <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>
-        `).join('<span style="margin: 0 8px;">|</span>'); // 使用 | 作为分隔符
+        // 修改为固定的文字要求
+        const copyrightHtml = `<span class="copyright-text">${siteConfig.copyrightText}</span>`;
 
-        // 使用简洁固定样式类
         DOM.footerContainer.className = 'simple-footer'; 
         DOM.footerContainer.innerHTML = `
             <div class="footer-content">
-                <span class="copyright-text">${siteConfig.copyrightText}</span> 
-                <span style="margin: 0 10px;">•</span>
-                <span class="footer-links">${linkHtml}</span>
+                ${copyrightHtml}
             </div>
         `;
     }
     
-    // --- 绑定导航栏事件函数 (从 fonts.html 复制) ---
-    function bindHeaderEvents() {
-        const menuToggle = document.getElementById('menuToggle');
-        const mainNav = document.getElementById('mainNav');
-        const menuBackdrop = document.getElementById('menuBackdrop'); 
-        
-        if (!menuToggle || !mainNav || !menuBackdrop) return;
-        
-        const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
-
-        function closeMenu() {
-            mainNav.classList.remove('open');
-            menuBackdrop.classList.remove('open'); 
-            document.body.style.overflow = '';
-            dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
-        }
-        
-        function toggleMenu() {
-            const isOpen = mainNav.classList.toggle('open');
-            menuBackdrop.classList.toggle('open'); 
-            
-            if (window.innerWidth <= 768) { // 修复：使用正确的移动端断点
-                document.body.style.overflow = isOpen ? 'hidden' : ''; 
-            }
-            
-            if (!isOpen) { 
-                closeMenu(); 
-            }
-        }
-        
-        menuToggle.addEventListener('click', toggleMenu);
-        menuBackdrop.addEventListener('click', closeMenu); 
-        
-        mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
-            if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
-                item.addEventListener('click', () => {
-                    if (mainNav.classList.contains('open')) {
-                        setTimeout(closeMenu, 100); 
-                    }
-                });
-            }
-        });
-        
-        dropdownItems.forEach(item => {
-            const navLink = item.querySelector('.nav-item.has-dropdown');
-            if (navLink) {
-                navLink.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) { // 修复：使用正确的移动端断点
-                        e.preventDefault(); 
-                        const wasOpen = item.classList.contains('open');
-                        dropdownItems.forEach(d => d.classList.remove('open')); 
-                        if (!wasOpen) {
-                            item.classList.add('open'); 
-                        }
-                    }
-                });
-            }
-        });
-        
-        // 监听窗口大小变化，如果从移动端变为桌面端，则关闭菜单并移除 overflow: hidden
-        window.addEventListener('resize', () => {
-             if (window.innerWidth > 768 && mainNav.classList.contains('open')) { // 修复：使用正确的移动端断点
-                closeMenu();
-             }
-        });
-    }
-
     function preprocessData() {
         if (typeof customWordGroups !== 'undefined') {
             customWordGroups.forEach(wordGroup => {
@@ -799,7 +598,7 @@
                 }
             });
         } else {
-            console.error("数据加载失败。请检查 data.js 文件是否正确引入。");
+            console.error("数据加载失败。请检查 cy-data.js 文件是否正确引入。");
         }
     }
     
@@ -1145,9 +944,9 @@
     document.addEventListener('DOMContentLoaded', () => {
         
         // 1. 动态渲染公共模块
-        renderHeader();
-        renderFooter();
-        bindHeaderEvents(); // 绑定顶部栏事件
+        // renderHeader(); // 已移除
+        renderFooter(); // 渲染底部简洁版权信息
+        // bindHeaderEvents(); // 已移除
         
         preprocessData();
         

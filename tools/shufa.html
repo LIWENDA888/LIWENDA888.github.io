@@ -31,92 +31,20 @@
             --nav-hover-bg: rgba(255, 140, 25, 0.1); 
             --sidebar-bg: #FFFFFF; 
             
-            /* 新增 CSS 变量用于存储 Header 高度，初始设置为安全值 */
-            --header-height: 69px; 
+            /* Header 被移除，将高度设为 0，用于调整依赖元素 */
+            --header-height: 0px; 
         }
         
         a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
 
-        /* 顶部 Header 样式 - 与 fonts.html 保持一致 */
-        .header {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; 
-            background-color: #FFFFFF;
-            border-bottom: 1px solid var(--light-grey); 
-            height: auto; 
-            box-sizing: border-box;
-        }
-        .logo img { height: 28px; max-width: 150px; display: block; }
-
-        .nav { display: flex; align-items: center; }
-        .nav-item-dropdown { position: relative; list-style: none; margin-left: 15px; }
-        .nav-item-dropdown > a {
-            font-size: 16px; display: inline-flex; align-items: center;
-            padding: 5px 10px 10px 10px; border-radius: 4px; position: relative;
-        }
-        .nav-item-dropdown > a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%;
-            width: 50%; height: 3px; background-color: var(--accent-color); 
-            transform: translateX(-50%) scaleX(0); transition: transform 0.3s ease-out;
-        }
-        .nav-item-dropdown:hover > a::after { transform: translateX(-50%) scaleX(1); }
-        .dropdown-menu {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); 
-            min-width: 150px; background-color: #FFFFFF;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); border-radius: 6px; padding: 8px 0; 
-            z-index: 100; display: none; opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .nav-item-dropdown:hover .dropdown-menu { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
-        .dropdown-menu a { display: block; padding: 8px 15px; font-size: 15px; white-space: nowrap; border-radius: 4px; margin: 0 8px; }
-        .dropdown-menu a:hover { background-color: var(--nav-hover-bg); }
-        .menu-toggle {
-            display: none; background: none; border: none; font-size: 24px;
-            cursor: pointer; color: var(--deep-grey); padding: 0 10px; z-index: 999; 
-        }
-        .backdrop {
-            position: fixed; top: var(--header-height); left: 0; width: 100%; 
-            height: calc(100vh - var(--header-height)); /* 使用变量 */
-            background-color: rgba(0, 0, 0, 0.5); z-index: 990; 
-            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-        }
-        .backdrop.open { opacity: 1; visibility: visible; }
+        /* 移除顶部 Header 样式 */
         
-        /* 移动端菜单样式 */
-        @media (max-width: 768px) {
-            .header { padding: 10px 4%; height: auto; } 
-            .menu-toggle { display: block; }
-
-            .nav {
-                /* 使用变量 */
-                position: fixed; top: var(--header-height); right: 0; left: 0; width: 100%; 
-                max-width: none; height: calc(100vh - var(--header-height)); 
-                background-color: var(--sidebar-bg); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
-                z-index: 999; display: flex; flex-direction: column; padding: 20px 4%; 
-                overflow-y: auto; 
-                transform: translateY(-100%); opacity: 0; visibility: hidden;
-                transition: transform 0.3s ease-out, opacity 0.3s, visibility 0s 0.3s;
-            }
-            .nav.open {
-                transform: translateY(0); opacity: 1; visibility: visible;
-                transition: transform 0.3s ease-out, opacity 0.3s; 
-            }
-            /* 修正：backdrop 的规则已在非媒体查询中修正，使用 var(--header-height) */
-            
-            .nav-item-dropdown { margin: 0; width: 100%; border-bottom: 1px solid #eeeeee; }
-            .nav-item-dropdown:last-child { border-bottom: none; }
-            .nav-item-dropdown > a { padding: 15px 10px; font-size: 18px; width: 100%; display: flex; justify-content: space-between; }
-            .nav-item-dropdown > a::after { content: none; } 
-            .nav .nav-item-dropdown .dropdown-menu { display: none; position: static; opacity: 1; transform: none; border: none !important; box-shadow: none !important; }
-            .nav .nav-item-dropdown.open .dropdown-menu { display: block !important; }
-            .dropdown-menu a { padding: 10px 10px; font-size: 16px; margin: 3px 0; }
-        }
+        /* 移除移动端菜单样式 */
         
-        /* 2. 嵌入式搜索结果区域 - 使用变量避开 Header */
+        /* 2. 嵌入式搜索结果区域 - 调整至全屏 */
         #iframeContainer {
             position: absolute;
-            top: var(--header-height); /* 使用变量 */
+            top: 0; /* 调整为 0 */
             left: 0;
             right: 0;
             bottom: 0; 
@@ -138,9 +66,10 @@
             width: 100%;
             position: absolute;
             left: 0;
+            /* 保持相对定位，但 top 和 height 需根据 hideValue 动态计算 */
         }
         
-        /* 4. 底部搜索栏样式 */
+        /* 4. 底部搜索栏样式 - 保留并保持不变 */
         #searchBar {
             position: fixed;
             bottom: 45px; 
@@ -295,13 +224,13 @@
             font-weight: bold;
         }
         
-        /* 7. 初始图片容器 - 使用变量避开 Header */
+        /* 7. 初始图片容器 - 调整至全屏 */
         #initialImageContainer {
             position: absolute;
-            top: var(--header-height); /* 使用变量 */
+            top: 0; /* 调整为 0 */
             left: 0;
             width: 100%;
-            height: calc(100% - var(--header-height)); /* 使用变量 */
+            height: 100%; /* 调整为 100% */
             overflow: hidden; 
             transition: transform 0.8s ease-out, opacity 0.5s ease-out; 
             display: flex;
@@ -323,7 +252,7 @@
             pointer-events: none; 
         }
         
-        /* 8. 底部小字声明样式 */
+        /* 8. 底部小字声明样式 - 保留并保持不变 */
         #footerNote {
             position: fixed;
             bottom: 15px; 
@@ -336,14 +265,10 @@
             pointer-events: none; 
         }
         
-        /* 9. 移除所有硬编码 top/height 的媒体查询，统一使用 JS 动态计算后的 CSS 变量 */
     </style>
 </head>
 <body>
 
-    <header class="header" id="headerContainer">
-    </header>
-    
     <div id="initialImageContainer">
         <img id="initialImage" src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" alt="默认背景图">
     </div>
@@ -378,62 +303,9 @@
     
     <script>
         
-        // --- Header 渲染函数 (从 fonts.html 迁移) ---
-        function renderHeader() {
-            if (typeof navData === 'undefined' || typeof siteConfig === 'undefined') {
-                console.error('navData 或 siteConfig 未加载，请检查 common.js 引入是否成功。');
-                return;
-            }
-            
-            const headerContainer = document.getElementById('headerContainer');
-            if (!headerContainer) return;
-
-            let navHtml = navData.map(item => {
-                const isDropdown = item.hasDropdown ? 'has-dropdown' : '';
-                const targetAttr = item.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-
-                let subMenuHtml = '';
-                if (item.subMenu) {
-                    const subLinks = item.subMenu.map(sub => {
-                        const subTargetAttr = sub.openInNewTab ? ' target="_blank" rel="noopener noreferrer"' : '';
-                        return `<a href="${sub.url}" class="nav-item-sub"${subTargetAttr}>${sub.label}</a>`;
-                    }).join('');
-                    subMenuHtml = `<div class="dropdown-menu">${subLinks}</div>`;
-                }
-
-                return `
-                    <div class="nav-item-dropdown">
-                        <a href="${item.url || '#'}" class="nav-item ${isDropdown}"${targetAttr}>${item.label}</a>
-                        ${subMenuHtml}
-                    </div>
-                `;
-            }).join('');
-
-            headerContainer.innerHTML = `
-                <a href="${siteConfig.homeUrl}" class="logo">
-                    <img src="${siteConfig.logoUrl}" alt="品牌 LOGO" id="headerLogo">
-                </a>
-                <button class="menu-toggle" id="menuToggle">☰</button> 
-                <div class="backdrop" id="menuBackdrop"></div>
-                <nav class="nav" id="mainNav">
-                    ${navHtml}
-                </nav>
-            `;
-        }
+        // --- 移除 Header 渲染和布局调整函数 ---
         
-        // 【新增函数】动态计算并设置 Header 高度
-        function adjustLayoutByHeaderHeight() {
-            const headerContainer = document.getElementById('headerContainer');
-            if (headerContainer) {
-                // 获取 Header 的实际渲染高度，包括 border
-                const headerHeight = headerContainer.offsetHeight; 
-                
-                // 将高度设置为 CSS 变量，供所有相关元素使用
-                document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-            }
-        }
-        
-        // --- 原始 1.html 的搜索逻辑和配置 ---
+        // --- 原始 1.html 的搜索逻辑和配置 - 保持不变 ---
         const HIDE_TOP_PARAM = "hide_top_px";
 
         const URL_CONFIGS = [
@@ -453,7 +325,7 @@
         let searchIframe = null; 
 
         /**
-         * 功能：创建或更新 iframe 并设置 CSS 偏移来实现隐藏。
+         * 功能：创建或更新 iframe 并设置 CSS 偏移来实现隐藏。- 保持不变
          */
         function setupIframe() {
              if (!searchIframe) {
@@ -475,7 +347,7 @@
         }
 
         /**
-         * 功能：执行搜索并更新 iframe。
+         * 功能：执行搜索并更新 iframe。- 保持不变
          */
         function performSearch() {
             const searchText = searchInput.value.trim();
@@ -501,7 +373,7 @@
         }
 
         /**
-         * 功能：切换下拉菜单的显示/隐藏。
+         * 功能：切换下拉菜单的显示/隐藏。- 保持不变
          */
         function toggleDropdown() {
             // 切换 display 属性
@@ -516,7 +388,7 @@
         }
         
         /**
-         * 功能：根据用户点击切换目标网址。
+         * 功能：根据用户点击切换目标网址。- 保持不变
          * @param {string} id - 目标配置的 ID
          */
         function switchTarget(id) {
@@ -539,7 +411,7 @@
         }
 
         /**
-         * 功能：更新按钮上的文字和选项的激活状态。
+         * 功能：更新按钮上的文字和选项的激活状态。- 保持不变
          */
         function updateUI() {
             toggleButton.textContent = currentUrlConfig.name;
@@ -553,7 +425,7 @@
         }
 
         /**
-         * 功能：动态创建下拉菜单选项。
+         * 功能：动态创建下拉菜单选项。- 保持不变
          */
         function createDropdownItems() {
             dropdownContent.innerHTML = '';
@@ -570,82 +442,14 @@
             });
         }
         
-        // --- Header 交互逻辑 (从 fonts.html 迁移) ---
-        function setupHeaderInteractions() {
-            const menuToggle = document.getElementById('menuToggle');
-            const mainNav = document.getElementById('mainNav');
-            const menuBackdrop = document.getElementById('menuBackdrop'); 
-            const dropdownItems = mainNav.querySelectorAll('.nav-item-dropdown');
-
-            function closeMenu() {
-                if (!mainNav || !menuBackdrop) return;
-                mainNav.classList.remove('open');
-                menuBackdrop.classList.remove('open'); 
-                document.body.style.overflow = '';
-                dropdownItems.forEach(dropdown => dropdown.classList.remove('open'));
-            }
-            
-            function toggleMenu() {
-                const isOpen = mainNav.classList.toggle('open');
-                menuBackdrop.classList.toggle('open'); 
-                
-                if (window.innerWidth <= 768) {
-                    document.body.style.overflow = isOpen ? 'hidden' : ''; 
-                }
-                
-                if (!isOpen) { 
-                    closeMenu(); 
-                }
-            }
-            
-            if (menuToggle && mainNav && menuBackdrop) {
-                menuToggle.addEventListener('click', toggleMenu);
-                menuBackdrop.addEventListener('click', closeMenu); 
-                
-                mainNav.querySelectorAll('.nav-item, .nav-item-sub').forEach(item => {
-                    if (!item.classList.contains('has-dropdown') || item.classList.contains('nav-item-sub')) {
-                        item.addEventListener('click', () => {
-                            if (mainNav.classList.contains('open')) {
-                                setTimeout(closeMenu, 100); 
-                            }
-                        });
-                    }
-                });
-            }
-            
-            dropdownItems.forEach(item => {
-                const navLink = item.querySelector('.nav-item.has-dropdown');
-                if (navLink) {
-                    navLink.addEventListener('click', function(e) {
-                        if (window.innerWidth <= 768) {
-                            e.preventDefault(); 
-                            const wasOpen = item.classList.contains('open');
-                            dropdownItems.forEach(d => d.classList.remove('open')); 
-                            if (!wasOpen) {
-                                item.classList.add('open'); 
-                            }
-                        }
-                    });
-                }
-            });
-        }
+        // --- 移除 Header 交互逻辑 ---
 
 
         // --- 初始化加载 ---
         document.addEventListener('DOMContentLoaded', () => {
-             // 1. 渲染 Header 
-             renderHeader();
+             // 移除 Header 相关的初始化和事件监听
              
-             // 2. 动态计算 Header 高度并应用
-             adjustLayoutByHeaderHeight();
-             
-             // 3. 监听窗口大小变化和方向改变，重新计算高度
-             window.addEventListener('resize', adjustLayoutByHeaderHeight);
-             
-             // 4. 设置 Header 交互
-             setupHeaderInteractions(); 
-             
-             // 5. 原始 1.html 的初始化逻辑
+             // 原始 1.html 的初始化逻辑
              createDropdownItems();
              updateUI();
              setupIframe(); 
@@ -657,22 +461,7 @@
                     dropdownContent.style.display = 'none';
                 }
                 
-                const mainNav = document.getElementById('mainNav');
-                const menuBackdrop = document.getElementById('menuBackdrop');
-                const menuToggle = document.getElementById('menuToggle');
-                
-                // 确保点击的不是 Header 菜单容器或切换按钮
-                if (mainNav && menuBackdrop && menuToggle && 
-                    !event.target.closest('#mainNav') && !event.target.closest('#menuToggle') && 
-                    mainNav.classList.contains('open')) {
-                    
-                    mainNav.classList.remove('open');
-                    menuBackdrop.classList.remove('open'); 
-                    document.body.style.overflow = '';
-                    
-                    // 关闭移动端下拉菜单
-                    mainNav.querySelectorAll('.nav-item-dropdown').forEach(d => d.classList.remove('open'));
-                }
+                // 移除与 Header 菜单相关的关闭逻辑
              }
         });
     </script>
