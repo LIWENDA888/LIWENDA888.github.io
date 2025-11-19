@@ -357,7 +357,33 @@
 
         /* --- 响应式 --- */
         @media (max-width: 768px) {
-            .navbar { height: 60px; padding: 0 20px; }
+            .navbar { height: 60px; padding: 0 30px; } /* 调整导航栏高度和内边距 */
+            .navbar-actions { display: none; } /* 隐藏移动端按钮 */
+            .menu-toggle { display: block; order: 3; } /* 显示菜单切换按钮 */
+
+            /* 移动端菜单样式 */
+            .navbar-menu { 
+                position: absolute; top: 60px; left: 0; width: 100%; height: auto;
+                max-height: calc(100vh - 60px); flex-direction: column; background-color: #fff;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 20px 0; gap: 0; overflow-y: auto;
+                /* 初始隐藏状态 */
+                transform: translateY(-100%); visibility: hidden; opacity: 0; transition: all 0.4s ease-out;
+            }
+            /* 激活状态 */
+            .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
+            .menu-item { width: 100%; height: auto; align-items: flex-start; padding: 10px 20px; }
+            .menu-link { width: 100%; padding: 10px 0; font-size: 16px; font-weight: 600; }
+            .menu-link::after { display: none; }
+            
+            /* 移动端下拉菜单样式 */
+            .dropdown { 
+                position: static; transform: none; width: 100%; min-width: auto; padding: 0; 
+                margin-top: 10px; box-shadow: none; background-color: #f7f7f7; opacity: 1; 
+                visibility: visible; display: none; border-radius: 0;
+            }
+            .menu-item:hover .dropdown { display: block; }
+            .dropdown-link { padding: 10px 40px; font-size: 15px; color: #333; }
+
             .section-separator { margin: 40px auto; } /* 移动端间距略小 */
             
             /* 移动端特殊处理：在小屏幕上，说明卡片改回垂直堆叠 */
@@ -471,7 +497,7 @@
                             <p><strong>个人非商业用途：</strong> 仅限于个人学习、研究和欣赏，不可用于任何形式的营利性活动，包括但不限于发布带有广告的社交媒体内容。</p>
                         </div>
                         <div class="note-item">
-                            <p><strong>商业用途：</strong> 凡涉及以营利为目的的活动，如品牌设计、商业广告、付费 App 界面等，均需购买**专业商业版**或更高版本授权。</p>
+                            <p><strong>商业用途：：</strong> 凡涉及以营利为目的的活动，如品牌设计、商业广告、付费 App 界面等，均需购买**专业商业版**或更高版本授权。</p>
                         </div>
                         <div class="note-item">
                             <p><strong>授权时限：</strong> 所有授权版本均为**永久授权**（基于购买时的条款）。</p>
@@ -519,7 +545,19 @@
         // 确保 APP_DATA 存在，以防外部 script.js 加载失败
         if (typeof APP_DATA === 'undefined') {
             window.APP_DATA = {
-                navData: { logoHtml: '<a href="#" class="navbar-logo"><img src="logo.svg" alt="Logo"></a>', menuItems: [], actionButton: null },
+                navData: { 
+                    logoHtml: '<a href="#" class="navbar-logo"><img src="logo.svg" alt="Logo"></a>', 
+                    menuItems: [
+                        { name: "首页", link: "#home" },
+                        { name: "字体", link: "#fonts" },
+                        { name: "授权", link: "#license", dropdown: [
+                            { name: "商业授权", link: "#commercial" },
+                            { name: "企业授权", link: "#enterprise" }
+                        ]},
+                        { name: "关于我们", link: "#about" }
+                    ], 
+                    actionButton: { text: "立即下载", link: "#download", target: "_blank", rel: "noopener" } 
+                },
                 footerData: { copyright: '© 2025 Font Library. All rights reserved.' }
             };
         }
@@ -540,13 +578,18 @@
                 if (item.dropdown && item.dropdown.length > 0) {
                     dropdownHtml = '<ul class="dropdown">';
                     item.dropdown.forEach(ddItem => {
+                        // 移除原代码中的分隔线逻辑，因为它在移动端会样式异常
                         const isSeparator = ddItem.separator ? ' style="border-top: 1px solid #f5f5f5; padding-top: 8px; margin-top: 8px;"' : '';
                         dropdownHtml += `<li${isSeparator}><a href="${ddItem.link}" class="dropdown-link">${ddItem.name}</a></li>`;
                     });
                     dropdownHtml += '</ul>';
                 }
                 
-                const linkContent = `<a href="${item.link}" class="menu-link">${item.name}</a>`;
+                // 兼容移动端点击展开下拉菜单（如果存在下拉菜单，链接用 span 包裹）
+                const linkContent = item.dropdown && item.dropdown.length > 0
+                                    ? `<span class="menu-link">${item.name}</span>`
+                                    : `<a href="${item.link}" class="menu-link">${item.name}</a>`;
+                
                 menuHtml += `<li class="menu-item">${linkContent}${dropdownHtml}</li>`;
             });
             menuHtml += '</ul>';

@@ -344,7 +344,34 @@
             }
         }
         @media (max-width: 768px) {
-            .navbar { height: 60px; padding: 0 20px; }
+            .navbar { height: 60px; padding: 0 30px; } /* 调整导航栏高度和内边距 */
+            .navbar-actions { display: none; } /* 隐藏移动端按钮 */
+            .menu-toggle { display: block; order: 3; } /* 显示菜单切换按钮 */
+
+            /* 移动端菜单样式 */
+            .navbar-menu { 
+                position: absolute; top: 60px; left: 0; width: 100%; height: auto;
+                max-height: calc(100vh - 60px); flex-direction: column; background-color: #fff;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 20px 0; gap: 0; overflow-y: auto;
+                /* 初始隐藏状态 */
+                transform: translateY(-100%); visibility: hidden; opacity: 0; transition: all 0.4s ease-out;
+            }
+            /* 激活状态 */
+            .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
+            .menu-item { width: 100%; height: auto; align-items: flex-start; padding: 10px 20px; }
+            .menu-link { width: 100%; padding: 10px 0; font-size: 16px; font-weight: 600; }
+            .menu-link::after { display: none; }
+            
+            /* 移动端下拉菜单样式 */
+            .dropdown { 
+                position: static; transform: none; width: 100%; min-width: auto; padding: 0; 
+                margin-top: 10px; box-shadow: none; background-color: #f7f7f7; opacity: 1; 
+                visibility: visible; display: none; border-radius: 0;
+            }
+            .menu-item:hover .dropdown { display: block; }
+            .dropdown-link { padding: 10px 40px; font-size: 15px; color: #333; }
+
+            /* 以下是原 custom-font.html 中针对 768px 的其他样式 */
             .section-separator { margin: 40px auto; }
             .custom-header h1 { font-size: 36px; }
             .process-steps {
@@ -514,7 +541,11 @@
                     dropdownHtml += '</ul>';
                 }
                 
-                const linkContent = `<a href="${item.link}" class="menu-link">${item.name}</a>`;
+                // 修复：如果存在下拉菜单，使用 <span> 包裹以便在移动端通过 JS/CSS 展开，而不是直接跳转
+                const linkContent = item.dropdown && item.dropdown.length > 0
+                                    ? `<span class="menu-link">${item.name}</span>`
+                                    : `<a href="${item.link}" class="menu-link">${item.name}</a>`;
+                
                 menuHtml += `<li class="menu-item">${linkContent}${dropdownHtml}</li>`;
             });
             menuHtml += '</ul>';
