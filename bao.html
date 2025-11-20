@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>素材库 - 自在造字(ZIZAO)</title>
-    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
+    <title>设计百宝库 - 自在造字(ZIZAO)</title>
+    <meta name="description" content="AI 提示词画廊，分享精选 AI 图片作品及提示词">
     <meta name="author" content="自在造字">
-    <meta property="og:title" content="素材库 - 自在造字(ZIZAO)">
-    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="AI 提示词画廊 - 自在造字(ZIZAO)">
     <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
     
     <style>
@@ -26,13 +23,11 @@
             min-height: 100vh;
         }
 
-        /* 主体背景色改为白色 */
         body {
             background-color: #ffffff; 
             color: #1a1a1a;
         }
 
-        /* 页面包裹器 */
         .page-wrapper {
             display: flex;
             flex-direction: column;
@@ -65,7 +60,7 @@
             justify-content: center;
         }
 
-        /* 导航栏内部元素 */
+        /* 导航栏内部元素 (略...) */
         .navbar-logo { display: flex; align-items: center; text-decoration: none; }
         .navbar-logo img { height: 30px; width: auto; display: block; }
         .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
@@ -98,44 +93,41 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
         }
 
-        /* --- 布局容器 --- */
+        /* --- 布局容器 (最大宽度已增加到 1800px) --- */
         .doc-container {
             width: 100%;
-            max-width: 1600px; 
+            max-width: 1800px; /* 增加最大宽度到 1800px */
             margin: 0 auto 40px; 
             padding: 0 30px; 
             display: flex;
             gap: 30px; 
         }
 
-        /* --- 侧边栏 Sidebar --- */
+        /* --- 侧边栏 Sidebar (固定样式) --- */
         .sidebar {
             width: 300px; 
             flex-shrink: 0; 
             position: sticky; 
-            top: 120px; 
+            top: 120px;       
             max-height: calc(100vh - 160px); 
             overflow-y: auto; 
             background-color: transparent; 
             box-shadow: none; 
             border: 1px solid rgba(0, 0, 0, 0.08); 
             border-radius: 12px; 
-            padding: 10px 0; 
+            padding: 0; 
         }
-        /* 隐藏侧边栏的滚动条 */
         .sidebar::-webkit-scrollbar { width: 0; }
         .sidebar { -ms-overflow-style: none; scrollbar-width: none; }
-
-
+        
         /* 侧边栏菜单样式 */
-        .sidebar-menu { list-style: none; padding: 0 10px; }
+        .sidebar-menu { list-style: none; padding: 10px 10px; }
         .category-item { margin-bottom: 2px; }
         .category-header { 
             padding: 12px 15px; font-weight: 700; color: #1a1a1a; cursor: pointer; 
             transition: all 0.2s ease; font-size: 16px; border-radius: 8px; margin-top: 10px; 
             display: flex; justify-content: space-between; align-items: center; 
         }
-        /* 侧边栏主标题 Hover 优化 */
         .category-header:hover { 
             background-color: rgba(0,0,0,0.03); 
             transform: translateX(2px); 
@@ -159,41 +151,11 @@
         .subcategory-link:hover { color: #1a1a1a; background-color: rgba(0,0,0,0.02); } 
         .subcategory-link.active { color: #1a1a1a; font-weight: 600; background-color: rgba(0,0,0,0.05); } 
         .count-badge { font-size: 12px; background: rgba(0,0,0,0.04); color: #666; padding: 2px 8px; border-radius: 10px; font-weight: normal; } 
-        
-        /* --- 搜索框样式调整 --- */
-        .search-container {
-            width: 100%;
-            /* 增加左右内边距，使其与 .sidebar-menu 对齐 */
-            padding: 0 10px; 
-            margin-bottom: 0;
-        }
 
-        #font-search-input {
-            width: 100%;
-            padding: 12px 20px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            outline: none;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            -webkit-appearance: none; 
-            /* 增加底外边距，以分隔搜索框和下面的分类菜单 */
-            margin-bottom: 10px; 
-        }
-
-        #font-search-input:focus {
-            border-color: #1a1a1a;
-            box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
-        }
         /* --- 右侧内容区域 --- */
         .content-area {
             flex-grow: 1;
-            background-color: transparent; 
             padding: 0; 
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
             display: flex;
             flex-direction: column;
         }
@@ -207,107 +169,153 @@
         .grid-header h2 { font-size: 24px; color: #1a1a1a; font-weight: 700; }
         .grid-header p { font-size: 14px; color: #666; margin-top: 5px; }
 
-        .font-grid {
+        /* AI 作品网格 */
+        .ai-prompt-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            gap: 15px; 
+            /* 保持最小宽度 290px，以便在更宽的容器内稳定显示 4 列 */
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); 
+            gap: 25px;
             width: 100%;
         }
 
-        /* --- 字体卡片组件 (应用浅渐变背景) --- */
+        /* --- AI Prompt Card 样式 (保持不变) --- */
         .font-card {
-            /* 基础背景色 */
-            background: #ffffff; 
-            /* 浅渐变效果 */
-            background-image: linear-gradient(180deg, #ffffff, #fcfcfc); 
-            
-            border-radius: 10px; 
-            border: 1px solid rgba(0,0,0,0.08); 
-            transition: all 0.3s ease;
-            cursor: pointer;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03); 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            cursor: default; 
             text-decoration: none; 
             color: inherit; 
-            padding: 15px 20px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 80px; 
-            overflow: hidden; 
         }
 
         .font-card:hover {
-            transform: none; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* 稍微增强阴影 */
-            border-color: rgba(0,0,0,0.15); 
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.06); 
+            border-color: rgba(0,0,0,0);
+        }
+
+        .card-cover {
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 比例 */
+            background-color: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-cover img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
         
-        .card-info {
-            padding: 0;
-            display: block; 
-            flex-shrink: 1; 
+        .font-card:hover .card-cover img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .font-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 4px; 
-            line-height: 1.2;
+        .prompt-editor {
+            margin-top: 5px;
         }
-
-        .font-author { /* 这个样式虽然保留，但不再有内容输出 */
+        
+        .prompt-text {
+            width: 100%;
+            min-height: 70px; 
+            padding: 8px;
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px;
+            resize: vertical; 
             font-size: 13px;
-            color: #888;
-            margin-bottom: 0;
+            color: #333;
+            line-height: 1.5;
+            background-color: #f9f9f9;
+            transition: all 0.2s;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        /* --- 修改后的样式：调整卡片底部和规格显示 --- */
-        .card-footer {
-            /* 保持右侧按钮和规格在右边 */
-            flex-shrink: 0; 
-            margin-top: 0;
+        .prompt-text:focus {
+            background-color: #fff;
+            border-color: #aaa;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .editor-actions {
+            margin-top: 10px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
-            border-top: none; 
-            padding-top: 0;
-            gap: 20px;
-            margin-left: 20px;
         }
 
-        .font-specs {
-            /* 移到 card-info 内部，不再是 card-footer 的一部分 */
-            /* 保持原字体大小和颜色 */
-            font-size: 13px; 
-            color: #666; 
-            display: block; /* 确保它在 font-name 下方独占一行 */
-            margin-top: 4px; /* 在 font-name 下方添加间距 */
-            margin-bottom: 0; /* 移除不必要的底部间距 */
+        .prompt-info {
+            font-size: 12px;
+            color: #999;
         }
-        
-        /* 关键修改：调整 renderGrid 生成的 HTML 结构，
-           确保 font-specs 被放置在 card-info 内，并修改 card-info 内部的布局 */
-        
-        /* 现有 card-info 已经是一个 block 元素，且 flex-shrink: 1，无需额外修改其布局 */
 
-        .btn-view {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-            text-decoration: none; 
+        .btn-copy {
+            background-color: transparent; 
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 4px;
-            white-space: nowrap; 
+            justify-content: center;
+            box-shadow: none;
         }
-        .btn-view::after {
-            content: '→';
-            font-size: 14px;
-            transition: transform 0.2s;
+        .btn-copy:hover {
+            background-color: rgba(0,0,0,0.05); 
+            transform: translateY(-1px);
         }
-        .font-card:hover .btn-view::after {
-            transform: translateX(3px);
+        
+        .btn-copy svg {
+            width: 18px;
+            height: 18px;
+            fill: #1a1a1a; 
+            transition: fill 0.3s;
         }
+
+        .btn-copy:hover svg {
+            fill: #333;
+        }
+
+        .copy-success-tooltip {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            background-color: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(10px);
+            z-index: 10;
+            white-space: nowrap;
+        }
+        .copy-success-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
 
         .empty-state {
             width: 100%;
@@ -319,7 +327,98 @@
             border-radius: 12px;
         }
 
-        /* --- 分页样式 --- */
+        /* --- 软件/工具的网格容器 --- */
+        .software-grid {
+            display: grid;
+            /* 至少两列，最大四列 */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 15px; /* 网格间距 */
+            width: 100%;
+        }
+
+        /* --- 软件/工具卡片样式 (简洁列表项, 独立卡片) --- */
+        .software-card {
+            background: #fff;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(0,0,0,0.08); /* 独立卡片边框 */
+            border-radius: 10px;
+        }
+
+        .software-card:hover {
+            background-color: #fcfcfc;
+            /* 悬浮时加深边框颜色，但不变色 */
+            border-color: rgba(0,0,0,0.15); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        
+        .software-card-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            flex-grow: 1;
+            margin-right: 15px;
+            /* 新增：设置最小高度，确保内容区域稳定 */
+            min-height: 40px; 
+        }
+
+        /* 标题样式调整：加粗且稍微大一号 */
+        .software-card-content h3 {
+            font-size: 17px; 
+            font-weight: 700; /* 加粗 */
+            color: #1a1a1a;
+            margin: 0;
+            /* 强制单行，解决高度不一致的根本问题 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .software-card-content p {
+            font-size: 12px;
+            color: #777;
+            margin-top: 4px;
+            /* 强制单行，解决高度不一致的根本问题 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .software-card-action {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #1a1a1a; 
+            font-weight: 500;
+        }
+
+        .software-card-action .download-text {
+             font-weight: 600;
+             transition: color 0.3s ease;
+             /* 确保悬停时不变色 */
+        }
+        
+        .software-card-action .arrow {
+            font-size: 16px;
+            color: #999;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .software-card:hover .arrow {
+            transform: translateX(5px);
+            /* 确保悬停时不改颜色 */
+            color: #999; 
+        }
+
+        /* --- 分页样式 (略...) --- */
         .pagination-container {
             margin-top: 30px;
             margin-bottom: 20px;
@@ -370,7 +469,7 @@
         .page-link.nav-arrow.next::before { content: '>'; } 
 
 
-        /* --- Footer --- */
+        /* --- Footer (略...) --- */
         .footer { 
             flex-shrink: 0; 
             padding: 40px 60px; 
@@ -416,7 +515,14 @@
             .subcategory-list { margin-bottom: 10px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px; background: #fff; }
 
             .content-area { padding: 0; }
-            .font-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 15px; }
+            /* 手机端 AI 作品卡片只显示一列 */
+            .ai-prompt-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 20px; }
+            
+            /* 手机端软件卡片也只显示一列 */
+            .software-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 15px; }
+            
+            .software-card { padding: 15px 15px; }
+            .software-card:hover { transform: none; }
         }
 
     </style>
@@ -432,26 +538,43 @@
             <div class="doc-container">
                 
                 <aside class="sidebar" id="sidebar">
-                    <div class="search-container">
-                        <input type="text" id="font-search-input" placeholder="输入关键词搜索...">
-                    </div>
-                    
-                    <div id="sidebar-filters">
-                        </div>
+                    <ul class="sidebar-menu">
+                        <li class="category-item" data-category="ai_content">
+                            <div class="category-header open">AI提示词<span class="collapse-icon">▼</span></div>
+                            <ul class="subcategory-list" style="max-height: 500px;">
+                                <li><a href="#image" class="subcategory-link" data-hash="image">图片 / Image <span class="count-badge" id="count-image">0</span></a></li>
+                                <li><a href="#logo" class="subcategory-link" data-hash="logo">标志 / Logo <span class="count-badge" id="count-logo">0</span></a></li>
+                                <li><a href="#texture" class="subcategory-link" data-hash="texture">纹理 / Texture <span class="count-badge" id="count-texture">0</span></a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="category-item" data-category="software_tools">
+                            <div class="category-header open">软件工具<span class="collapse-icon">▼</span></div>
+                            <ul class="subcategory-list" style="max-height: 500px;">
+                                <li><a href="#adobe" class="subcategory-link" data-hash="adobe">Adobe全家桶 <span class="count-badge" id="count-adobe">0</span></a></li>
+                                <li><a href="#design" class="subcategory-link" data-hash="design">设计软件 <span class="count-badge" id="count-design">0</span></a></li>
+                                <li><a href="#windows" class="subcategory-link" data-hash="windows">Windows软件 <span class="count-badge" id="count-windows">0</span></a></li>
+                                <li><a href="#mac" class="subcategory-link" data-hash="mac">Mac软件 <span class="count-badge" id="count-mac">0</span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </aside>
 
                 <main class="content-area" id="content-area">
-                    
                     <div class="grid-header">
                         <div>
-                            <h2 id="grid-title">黑体 / Sans-serif</h2>
-                            <p id="grid-desc">浏览我们精心挑选的字体库</p>
+                            <h2 id="grid-title">图片 / Image</h2>
+                            <p id="grid-desc">浏览我们精选的 AI 提示词作品</p>
                         </div>
                     </div>
                     
-                    <div class="font-grid" id="font-grid-container">
+                    <div class="ai-prompt-grid" id="ai-prompt-grid-container" style="display: grid;">
                         </div>
-                    
+                        
+                    <div class="software-grid" id="software-grid-container" style="display: none;">
+                        </div>
+
                     <div class="pagination-container" id="pagination-container">
                         
                     </div>
@@ -466,30 +589,92 @@
     </div> 
     
     <script src="https://www.zizao.top/pages/common.js"></script> 
-    
-    <script src="https://www.zizao.top/pages/bao-data.js"></script>
 
     <script>
-        // --- 1. 状态管理 ---
-        // 🚨 注意：SIDEBAR_CONFIG, CARDS_PER_PAGE, FONT_DATA 现已在 bao-data.js 中定义
-        let State = {
-            currentPage: 1,
-            // 初始值需要从 SIDEBAR_CONFIG 中确定，由于用户新分类，默认改为 'adobe'
-            currentFilterHash: 'adobe', // 当前激活的筛选hash
-            currentFilterId: 'app', // 当前激活的筛选维度ID (category, license, language)
-            searchQuery: '' // 当前搜索词
+        // --- 1. 数据映射和常量 ---
+        const FILTER_MAP = {
+            'image': '图片 / Image',
+            'logo': '标志 / Logo',
+            'texture': '纹理 / Texture',
+            'adobe': 'Adobe全家桶',
+            'design': '设计软件',
+            'windows': 'Windows软件',
+            'mac': 'Mac软件'
         };
         
-        // --- 2. 辅助函数：防抖 (Debounce) ---
-        function debounce(func, delay) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), delay);
-            };
+        const CARDS_PER_PAGE = 12; 
+        let State = {
+            currentPage: 1,
+            // 默认选中第一个分类：image
+            currentFilter: 'image' 
+        };
+        
+        // 全局变量，用于存储加载后的数据
+        window.ALL_PROMPT_DATA = [];
+        
+        // 定义一组用于演示的封面图片 URL
+        const COVER_IMAGES = [
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image1.jpg/webp", // 赛博
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image2.jpg/webp", // 水彩
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image3.jpg/webp", // 复古
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image4.jpg/webp", // 霓虹
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image5.jpg/webp", // UI
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image6.jpg/webp", // 油画
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image7.jpg/webp", // 像素
+            "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/image8.jpg/webp"  // 城市
+        ];
+        
+        // 标记哪些分类属于 AI 作品，哪些属于软件工具
+        const AI_CATEGORIES = ['image', 'logo', 'texture'];
+        const SOFTWARE_CATEGORIES = ['adobe', 'design', 'windows', 'mac'];
+        const ALL_CATEGORIES = [...AI_CATEGORIES, ...SOFTWARE_CATEGORIES];
+
+
+        // --- 2. 模拟异步加载数据 (数据分离实现) ---
+        async function loadPromptData() {
+            const FONT_DATA_MOCK = [
+                // AI 作品数据 (使用原有的 category)
+                { id: 1, name: "赛博黑客之夜", category: "image", tags: ["Midjourney V6", "16:9"], param: "--ar 16:9", cover: COVER_IMAGES[0], 
+                  promptText: "Cyberpunk neon city street, futuristic helmet, highly detailed, octane render, 8k, cinematic lighting, a masterpiece." },
+                { id: 2, name: "水彩极简 Logo", category: "logo", tags: ["DALL-E 3", "Minimal", "现代简约"], param: "by Artist: Peter Mohrbacher", cover: COVER_IMAGES[1], 
+                  promptText: "A minimalist water splash logo for a tech company, light blue and white color scheme, watercolor texture, clean background." },
+                { id: 3, name: "复古手绘花纹", category: "texture", tags: ["Stable Diffusion", "Seamless", "复古艺术"], param: "by Artist: Greg Rutkowski", cover: COVER_IMAGES[2], 
+                  promptText: "Seamless floral pattern, rococo style, hand drawn in pencil and ink, vintage paper texture, highly detailed background texture." },
+                { id: 4, name: "霓虹几何体", category: "image", tags: ["Midjourney V6", "3:4", "赛博朋克"], param: "--style raw", cover: COVER_IMAGES[3], 
+                  promptText: "A complex geometric structure glowing with purple and cyan neon lights, dark industrial environment, cinematic volumetric lighting." },
+                { id: 5, name: "极简 UI 界面", category: "image", tags: ["Clean", "UI/UX", "现代简约"], param: "Style: Clean", cover: COVER_IMAGES[4], 
+                  promptText: "A clean, minimalist mobile app interface for weather tracking, frosted glass effect, soft shadows, iOS style." },
+                { id: 6, name: "油画纹理", category: "texture", tags: ["Oil Painting", "Texture", "复古艺术"], param: "Oil paint on canvas", cover: COVER_IMAGES[5], 
+                  promptText: "Macro shot of thick impasto oil paint texture, vibrant yellow and deep blue blend, detailed canvas weave, high resolution." },
+                { id: 7, name: "像素块图标", category: "logo", tags: ["8-Bit", "Game Asset", "赛博朋克"], param: "8-bit resolution", cover: COVER_IMAGES[6], 
+                  promptText: "Pixel art blocky icon of a rocket ship, 16x16 grid, bright colors, clean outlines, isometric view, game asset." },
+                { id: 8, name: "重工业城市", category: "image", tags: ["Bold", "Industrial", "赛博朋克"], param: "Dramatic lighting", cover: COVER_IMAGES[7], 
+                  promptText: "Brutalism industrial city skyline at dusk, heavy shadows, fog, smoke stacks, red and grey color palette, high contrast." },
+                
+                // 新增软件工具数据 (使用 category: "software" 标记，subCategory 用于筛选)
+                { id: 101, name: "Adobe Photoshop 2024", category: "software", subCategory: "adobe", desc: "世界领先的图像处理软件，包含AI功能。", downloadLink: "https://example.com/ps" },
+                { id: 102, name: "Adobe Illustrator 2024", category: "software", subCategory: "adobe", desc: "矢量图形编辑和设计工具，适用于Logo和插画。", downloadLink: "https://example.com/ai" },
+                { id: 103, name: "Adobe Premiere Pro 2024", category: "software", subCategory: "adobe", desc: "专业视频编辑软件，高效完成后期制作。", downloadLink: "https://example.com/pr" },
+                { id: 104, name: "Figma 桌面版", category: "software", subCategory: "design", desc: "强大的界面设计和协作工具，设计师必备。", downloadLink: "https://example.com/figma" },
+                { id: 105, name: "Blender 3D", category: "software", subCategory: "design", desc: "免费开源的 3D 创作套件。", downloadLink: "https://example.com/blender" },
+                { id: 106, name: "Affinity Designer 2", category: "software", subCategory: "design", desc: "专业且性价比高的矢量图形软件。", downloadLink: "https://example.com/designer" },
+                { id: 107, name: "Bandizip Pro", category: "software", subCategory: "windows", desc: "功能强大的文件压缩和解压工具。", downloadLink: "https://example.com/bandizip" },
+                { id: 108, name: "IDM 下载器", category: "software", subCategory: "windows", desc: "最快的 Windows 多线程下载管理工具。", downloadLink: "https://example.com/idm" },
+                { id: 109, name: "Microsoft PowerToys", category: "software", subCategory: "windows", desc: "微软官方出品的系统实用小工具集。", downloadLink: "https://example.com/powertoys" },
+                { id: 110, name: "Alfred 5", category: "software", subCategory: "mac", desc: "Mac 上的效率神器，快速启动和工作流。", downloadLink: "https://example.com/alfred" },
+                { id: 111, name: "iTerm2", category: "software", subCategory: "mac", desc: "macOS 终端模拟器的替代品。", downloadLink: "https://example.com/iterm2" },
+                { id: 112, name: "CleanMyMac X", category: "software", subCategory: "mac", desc: "Mac系统清理和优化必备工具。", downloadLink: "https://example.com/cleanmymac" }
+            ];
+            
+            // 模拟网络延迟
+            await new Promise(resolve => setTimeout(resolve, 300)); 
+
+            window.ALL_PROMPT_DATA = FONT_DATA_MOCK;
+            return FONT_DATA_MOCK;
         }
 
-        // --- 3. 渲染函数：导航栏 (Unchanged) ---
+
+        // --- 3. 渲染函数：导航栏/底部/分页 (保持不变) ---
         function renderNavbar() {
             if (typeof APP_DATA === 'undefined' || !APP_DATA.navData) return;
             const data = APP_DATA.navData;
@@ -521,63 +706,22 @@
             navbar.innerHTML = html;
         }
 
-
-        // --- 4. 渲染函数：底部 (Unchanged) ---
         function renderFooter() {
              if (typeof APP_DATA === 'undefined' || !APP_DATA.footerData) return;
             const footer = document.querySelector('#footer');
             if (footer) footer.innerHTML = APP_DATA.footerData.copyright;
         }
-        
-        // --- 5. 渲染侧边栏结构 (基于 SIDEBAR_CONFIG 动态生成) ---
-        function renderSidebar() {
-            const sidebarContainer = document.getElementById('sidebar-filters');
-            if (!sidebarContainer) return;
 
-            let html = '<ul class="sidebar-menu">';
-            
-            SIDEBAR_CONFIG.forEach(group => {
-                const groupTitleId = `group-${group.id}`;
-                
-                // 使用原有的 category-item 和 category-header 样式
-                html += `
-                    <li class="category-item" data-category="${group.id}">
-                        <div class="category-header open" id="${groupTitleId}">${group.title}<span class="collapse-icon">▼</span></div>
-                        <ul class="subcategory-list" data-group-id="${group.id}" style="max-height: 500px;">
-                `;
-
-                group.options.forEach(option => {
-                    // count-ID 用于计数，hash 用于链接和激活状态
-                    html += `
-                        <li><a href="#${option.hash}" class="subcategory-link" data-hash="${option.hash}" data-filter-id="${group.id}">
-                            ${option.title} <span class="count-badge" id="count-${option.hash}">0</span>
-                        </a></li>
-                    `;
-                });
-                
-                html += '</ul></li>';
-            });
-
-            html += '</ul>';
-            sidebarContainer.innerHTML = html;
-        }
-
-
-        // --- 6. 渲染分页控件 (Unchanged) ---
-        function renderPagination(totalPages, currentPage) {
+        function renderPagination(totalPages, currentPage, filterHash) {
             const container = document.getElementById('pagination-container');
             if (totalPages <= 1) {
                 container.innerHTML = '';
                 return;
             }
-
             let html = '';
-            
-            // 上一页
             const prevDisabled = currentPage === 1 ? 'disabled' : '';
-            html += `<a href="#" class="page-link nav-arrow prev ${prevDisabled}" data-page="${currentPage - 1}"></a>`; 
+            html += `<a href="#" class="page-link nav-arrow prev ${prevDisabled}" data-page="${currentPage - 1}" data-filter="${filterHash}"></a>`;
 
-            // 页码 
             const maxPageLinks = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxPageLinks / 2));
             let endPage = Math.min(totalPages, startPage + maxPageLinks - 1);
@@ -588,201 +732,233 @@
 
             for (let i = startPage; i <= endPage; i++) {
                 const active = i === currentPage ? 'active' : '';
-                html += `<a href="#" class="page-link ${active}" data-page="${i}">${i}</a>`;
+                html += `<a href="#" class="page-link ${active}" data-page="${i}" data-filter="${filterHash}">${i}</a>`;
             }
 
-            // 下一页
             const nextDisabled = currentPage === totalPages ? 'disabled' : '';
-            html += `<a href="#" class="page-link nav-arrow next ${nextDisabled}" data-page="${currentPage + 1}"></a>`;
+            html += `<a href="#" class="page-link nav-arrow next ${nextDisabled}" data-page="${currentPage + 1}" data-filter="${filterHash}"></a>`;
 
             container.innerHTML = html;
 
-            // 绑定点击事件
             container.querySelectorAll('.page-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     if (e.currentTarget.classList.contains('disabled')) return;
-                    
                     const newPage = parseInt(e.currentTarget.getAttribute('data-page'));
+                    const hash = e.currentTarget.getAttribute('data-filter');
                     
-                    // 调用核心渲染函数，使用当前的状态进行分页
-                    renderGrid(State.currentFilterHash, newPage, State.searchQuery);
-                    
-                    // 滚动到卡片顶部
+                    renderGrid(hash, newPage);
                     document.getElementById('grid-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
         }
         
-        // --- 7. 核心逻辑：卡片网格渲染 (更新筛选逻辑) ---
-        function renderGrid(filterHash, page = 1, searchQuery = '') {
-            const gridContainer = document.getElementById('font-grid-container');
+        // --- 4. 核心逻辑：卡片网格渲染 (支持 AI 作品和软件列表) ---
+        function renderGrid(filterHash, page = 1) {
+            const aiGridContainer = document.getElementById('ai-prompt-grid-container'); // AI 作品网格
+            const softwareGridContainer = document.getElementById('software-grid-container'); // 软件网格
             const titleEl = document.getElementById('grid-title');
             const descEl = document.getElementById('grid-desc');
-            const searchInput = document.getElementById('font-search-input');
             
-            if (!gridContainer || !titleEl || !descEl || !searchInput) return;
+            if (!aiGridContainer || !softwareGridContainer || !window.ALL_PROMPT_DATA) return;
 
-            let filteredData = [];
-            let pageTitle = '';
+            const filter = filterHash || State.currentFilter; // 使用默认或当前过滤器
+            let filteredData = window.ALL_PROMPT_DATA;
             
-            // 查找所有筛选选项的扁平化列表
-            const allFilterOptions = SIDEBAR_CONFIG.flatMap(group => 
-                group.options.map(option => ({...option, groupId: group.id}))
-            );
-
-            // 1. 数据过滤逻辑
-            if (searchQuery) {
-                // 搜索模式
-                searchQuery = decodeURIComponent(searchQuery).trim();
-                
-                // Case-insensitive search on font name
-                filteredData = FONT_DATA.filter(item => 
-                    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-                
-                pageTitle = `搜索结果: "${searchQuery}"`;
-                
-                // 更新 State
-                State.searchQuery = searchQuery;
-                State.currentFilterHash = ''; // 清除分类状态
-                State.currentFilterId = '';
+            // 1. **筛选逻辑**：按 subCategory 筛选
+            if (ALL_CATEGORIES.includes(filter)) {
+                if (AI_CATEGORIES.includes(filter)) {
+                    filteredData = filteredData.filter(item => item.category === filter);
+                } else if (SOFTWARE_CATEGORIES.includes(filter)) {
+                    // 软件工具分类，category 固定为 'software'，subCategory 对应筛选
+                    filteredData = filteredData.filter(item => item.category === 'software' && item.subCategory === filter);
+                }
             } else {
-                // 分类筛选模式
-                State.searchQuery = '';
-                
-                // 查找当前激活的分类配置
-                let filterConfig = allFilterOptions.find(option => option.hash === filterHash);
-                
-                if (!filterConfig) {
-                    // 如果hash无效，默认使用第一个分类
-                    filterConfig = allFilterOptions[0] || { hash: 'adobe', title: 'Adobe全家桶', groupId: 'app' };
-                }
-                
-                const effectiveFilterHash = filterConfig.hash;
-                
-                // 🎯 关键：根据 group.id (即字段名) 进行通用筛选
-                // 检查 item[filterConfig.groupId] 是否存在且等于 effectiveFilterHash
-                filteredData = FONT_DATA.filter(item => item[filterConfig.groupId] === effectiveFilterHash);
-                
-                // 更新 State
-                if (State.currentFilterHash !== effectiveFilterHash) {
-                    State.currentPage = 1; // 切换筛选条件时重置页码
-                }
-                State.currentFilterHash = effectiveFilterHash;
-                State.currentFilterId = filterConfig.groupId;
-                
-                // 组合标题 (例如：软件工具: Adobe全家桶)
-                const groupTitle = SIDEBAR_CONFIG.find(g => g.id === filterConfig.groupId)?.title;
-                
-                // ⬇️ 🎯 关键修改: 简化标题显示，只显示筛选选项的 title
-                // pageTitle = `${groupTitle}: ${filterConfig.title}`; // 原代码
-                pageTitle = filterConfig.title; // 修改后的代码
+                // 如果 hash 乱了，默认回到第一个分类
+                window.location.hash = '#' + AI_CATEGORIES[0];
+                return;
             }
+            
+            // 2. 更新状态和分页计算
+            if (State.currentFilter !== filter) {
+                State.currentPage = 1; // 切换分类时重置页码
+            }
+            State.currentFilter = filter;
 
-            // 2. 更新状态 (currentPage 需要在筛选后确保有效)
             const totalCards = filteredData.length;
             const totalPages = Math.ceil(totalCards / CARDS_PER_PAGE);
-            const currentPage = Math.min(page, totalPages > 0 ? totalPages : 1);
-            State.currentPage = currentPage; 
-            
+            const currentPage = State.currentPage > totalPages && totalPages > 0 ? totalPages : State.currentPage; 
+            State.currentPage = currentPage;
+
             const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
             const endIndex = startIndex + CARDS_PER_PAGE;
             const paginatedData = filteredData.slice(startIndex, endIndex);
 
-            // 3. 设置标题和描述
-            let pageDesc = `共找到 ${totalCards} 款资源`; 
+            // 3. 设置标题、描述和容器显示状态
+            const titleText = FILTER_MAP[filter] || "作品展示";
+            let descText = `该分类下共有 ${totalCards} 款作品/工具`;
             if (totalPages > 1) {
-                 pageDesc += ` (当前第 ${currentPage} / ${totalPages} 页)`;
+                 descText += ` (当前第 ${currentPage} / ${totalPages} 页)`;
             }
 
-            titleEl.innerText = pageTitle;
-            descEl.innerText = pageDesc;
+            titleEl.innerText = titleText;
+            descEl.innerText = descText;
             
-            // 4. 同步搜索框的值
-            searchInput.value = State.searchQuery;
+            // 判断当前分类是 AI 作品还是软件工具
+            const isSoftwareCategory = SOFTWARE_CATEGORIES.includes(filter);
+
+            aiGridContainer.style.display = isSoftwareCategory ? 'none' : 'grid';
+            softwareGridContainer.style.display = isSoftwareCategory ? 'grid' : 'none';
 
 
-            // 5. 生成卡片 HTML (重要更新: 使用 link 字段，移除 author)
+            // 4. 生成卡片 HTML (根据类型选择渲染方式)
             if (paginatedData.length === 0) {
-                gridContainer.innerHTML = `<div class="empty-state">暂无相关资源</div>`;
-                gridContainer.style.display = 'block'; 
-            } else {
-                gridContainer.style.display = 'grid';
-                let cardsHtml = '';
-                
-                paginatedData.forEach(font => {
-                    // 🎯 变更: 使用 font.link 作为实际链接，如果不存在则退回到 #
-                    const detailLink = font.link || '#'; 
-                    
-                    // 结构调整：将 font-specs 移到 font-name 下方的 div.card-info 内
-                    cardsHtml += `
-                        <a href="${detailLink}" target="_blank" class="font-card">
-                            <div class="card-info">
-                                <div class="font-name">${font.name}</div>
-                                <div class="font-specs">${font.weight}</div> </div>
-                            <div class="card-footer">
-                                <span class="btn-view">下载</span>
+                const emptyStateHtml = `<div class="empty-state">根据您的筛选条件，暂无相关数据。</div>`;
+                if (isSoftwareCategory) {
+                    softwareGridContainer.innerHTML = emptyStateHtml;
+                } else {
+                    aiGridContainer.innerHTML = emptyStateHtml;
+                }
+                document.getElementById('pagination-container').innerHTML = ''; // 清空分页
+                return; 
+            }
+            
+            if (isSoftwareCategory) {
+                // --- 软件网格渲染 ---
+                let listHtml = '';
+                paginatedData.forEach(item => {
+                    listHtml += `
+                        <a href="${item.downloadLink}" class="software-card" target="_blank" rel="noopener noreferrer">
+                            <div class="software-card-content">
+                                <h3>${item.name}</h3>
+                                <p>${item.desc}</p>
+                            </div>
+                            <div class="software-card-action">
+                                <span class="download-text">下载</span>
+                                <span class="arrow">→</span>
                             </div>
                         </a>
                     `;
                 });
-                gridContainer.innerHTML = cardsHtml;
+                softwareGridContainer.innerHTML = listHtml;
+                aiGridContainer.innerHTML = '';
+            } else {
+                // --- AI 作品网格渲染 (保持不变) ---
+                let cardsHtml = '';
+                
+                paginatedData.forEach(item => {
+                    const uniqueId = `prompt-${item.id}`;
+                    const tagsHtml = item.tags.map(tag => `<span>${tag}</span>`).join(' / ');
+                    const infoText = `${tagsHtml} ${item.param ? ` | ${item.param}` : ''}`;
+
+                    cardsHtml += `
+                        <div class="font-card">
+                            <div class="card-cover">
+                                <img src="${item.cover}" alt="${item.name}" loading="lazy">
+                            </div>
+                            <div class="card-content">
+                                <div class="prompt-editor">
+                                    <textarea class="prompt-text" rows="3" id="${uniqueId}" placeholder="可实时编辑提示词...">
+${item.promptText}
+                                    </textarea>
+                                    
+                                    <div class="editor-actions">
+                                        <div class="prompt-info">${infoText}</div>
+                                        <button class="btn-copy" data-target="#${uniqueId}" title="复制提示词">
+                                            <svg viewBox="0 0 24 24">
+                                                <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1M15 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V9L15 5M19 21H8V7H14V11H19V21M14 6V10H18L14 6Z" />
+                                            </svg>
+                                            <span class="copy-success-tooltip">复制成功!</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                aiGridContainer.innerHTML = cardsHtml;
+                softwareGridContainer.innerHTML = '';
+                
+                bindCopyEvents();
             }
 
-            // 6. 渲染分页控件
-            renderPagination(totalPages, currentPage);
+            // 5. 渲染分页控件和更新侧边栏状态
+            renderPagination(totalPages, currentPage, filter);
+            updateSidebarActiveLink(filter);
+        }
+        
+        // --- 5. 辅助功能：更新侧边栏计数 (使用全局数据) ---
+        function updateSidebarCounts() {
+            const data = window.ALL_PROMPT_DATA || [];
+            
+            // AI 分类计数
+            document.getElementById('count-image').innerText = data.filter(i => i.category === 'image').length;
+            document.getElementById('count-logo').innerText = data.filter(i => i.category === 'logo').length;
+            document.getElementById('count-texture').innerText = data.filter(i => i.category === 'texture').length;
+            
+            // 软件分类计数
+            document.getElementById('count-adobe').innerText = data.filter(i => i.category === 'software' && i.subCategory === 'adobe').length;
+            document.getElementById('count-design').innerText = data.filter(i => i.category === 'software' && i.subCategory === 'design').length;
+            document.getElementById('count-windows').innerText = data.filter(i => i.category === 'software' && i.subCategory === 'windows').length;
+            document.getElementById('count-mac').innerText = data.filter(i => i.category === 'software' && i.subCategory === 'mac').length;
+        }
 
-            // 7. 更新左侧菜单的激活状态 (搜索模式下取消所有高亮)
+        // --- 6. 辅助功能：更新侧边栏激活状态 ---
+        function updateSidebarActiveLink(filter) {
             document.querySelectorAll('.subcategory-link').forEach(link => {
                 link.classList.remove('active');
-                if (!State.searchQuery && link.getAttribute('data-hash') === State.currentFilterHash) {
+                if (link.getAttribute('data-hash') === filter) {
                     link.classList.add('active');
                 }
             });
         }
 
-        // --- 8. 辅助功能：更新侧边栏计数 (通用化) ---
-        function updateSidebarCounts() {
-            SIDEBAR_CONFIG.forEach(group => {
-                group.options.forEach(option => {
-                    // 🎯 关键：根据 group.id 和 option.hash 进行动态计数
-                    const count = FONT_DATA.filter(i => i[group.id] === option.hash).length;
-                    const countElement = document.getElementById(`count-${option.hash}`);
-                    if (countElement) {
-                        countElement.innerText = count;
+
+        // --- 7. 复制功能 (保持不变) ---
+        function bindCopyEvents() {
+            document.querySelectorAll('.btn-copy').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const targetSelector = e.currentTarget.getAttribute('data-target');
+                    const textarea = document.querySelector(targetSelector);
+                    const tooltip = e.currentTarget.querySelector('.copy-success-tooltip');
+
+                    if (textarea) {
+                        textarea.select();
+                        textarea.setSelectionRange(0, 99999); 
+
+                        navigator.clipboard.writeText(textarea.value.trim())
+                            .then(() => {
+                                if (tooltip) {
+                                    tooltip.classList.add('show');
+                                    setTimeout(() => {
+                                        tooltip.classList.remove('show');
+                                    }, 2000);
+                                }
+                            })
+                            .catch(err => {
+                                console.error('复制失败:', err);
+                            });
                     }
                 });
             });
         }
-        
-        // --- 9. 核心功能：处理 Hash 变化 (Unchanged) ---
-        function handleHashChange(hash) {
-            let filter = '';
-            let search = '';
-            
-            // 默认从 hash 中解析分类，如果检测到搜索格式，则切换为搜索模式
-            if (hash.startsWith('search=')) {
-                search = hash.substring(7); // "search=".length is 7
-                renderGrid(filter, 1, search);
-            } else {
-                filter = hash;
-                renderGrid(filter, 1, search);
-            }
-        }
 
-        // --- 10. 页面初始化与事件绑定 ---
-        function initPage() {
-            // 🎯 新增：先渲染侧边栏结构
-            renderSidebar(); 
-            
-            // 侧边栏折叠菜单点击事件 (保留，因为使用了相同的类名)
+
+        // --- 8. 页面初始化与事件绑定 ---
+        async function initPage() {
+            // 1. 等待数据加载完成
+            const data = await loadPromptData();
+            if (!data || data.length === 0) {
+                console.error("作品数据加载失败或为空。");
+                return;
+            }
+
+            // 2. 侧边栏折叠菜单点击事件
             document.querySelectorAll('.category-header').forEach(header => {
                 header.addEventListener('click', (e) => {
                     const list = e.currentTarget.nextElementSibling;
                     e.currentTarget.classList.toggle('open');
                     if (e.currentTarget.classList.contains('open')) {
-                        // 确保展开时计算正确的 max-height
                         list.style.maxHeight = list.scrollHeight + 'px';
                     } else {
                         list.style.maxHeight = '0';
@@ -790,52 +966,39 @@
                 });
             });
 
-            // 监听 Hash 变化，作为统一入口
+            // 3. 监听 Hash 变化 (用于分类切换)
             window.addEventListener('hashchange', () => {
                 const newHash = window.location.hash.slice(1);
-                handleHashChange(newHash);
+                renderGrid(newHash, 1); 
             });
-            
-            // 绑定搜索框事件
-            const searchInput = document.getElementById('font-search-input');
-            searchInput.addEventListener('input', debounce(() => {
-                const query = searchInput.value.trim();
-                let newHash = '';
-                if (query) {
-                    // 如果有搜索词，设置 hash 为 search=query
-                    newHash = `search=${encodeURIComponent(query)}`;
-                } else {
-                    // 如果搜索框被清空，则切换回当前激活的筛选 hash
-                    newHash = State.currentFilterHash || 'adobe'; // 默认改为 'adobe'
-                }
-                window.location.hash = newHash;
-            }, 300)); // 300ms 防抖，优化性能
 
-            // 初始渲染
+            // 4. 初始渲染
             updateSidebarCounts();
+            
             const initialHash = window.location.hash.slice(1);
-            
-            // 确保初始时所有列表展开 (因为 CSS 默认 max-height: 0)
-            document.querySelectorAll('.subcategory-list').forEach(list => {
-                list.style.maxHeight = list.scrollHeight + 'px';
-            });
-            
-            // 初始时调用一次，使用默认分类 'adobe'
-            handleHashChange(initialHash || 'adobe'); 
+            // 默认展示第一个 AI 作品分类 'image'
+            renderGrid(initialHash || AI_CATEGORIES[0], 1); 
+
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 检查外部 APP_DATA 是否加载，如果没有则定义一个空的以防报错
-            if (typeof APP_DATA === 'undefined') {
+            // 检查外部 APP_DATA
+            if (typeof window.APP_DATA === 'undefined') {
                 window.APP_DATA = {
-                    navData: { logoHtml: '<a href="#" class="navbar-logo"><img src="logo.svg" alt="Logo"></a>', menuItems: [], actionButton: null },
-                    footerData: { copyright: '© 2025 Font Library. All rights reserved.' }
+                    navData: { 
+                        logoHtml: '<a href="#" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp" alt="自在造字 Logo"></a>', 
+                        menuItems: [{ name: "作品画廊", link: "#" }, { name: "关于我们", link: "/about" }], 
+                        actionButton: { text: "开始创作", link: "/create" } 
+                    },
+                    footerData: { 
+                        copyright: '© 2025 Zizao AI Gallery. All rights reserved. | Powered by AI' 
+                    }
                 };
             }
             
             renderNavbar();
             renderFooter();
-
+            
             const menuToggle = document.querySelector('.menu-toggle');
             const menu = document.querySelector('.navbar-menu');
             if (menuToggle && menu) {
