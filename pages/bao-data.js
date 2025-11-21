@@ -1,95 +1,153 @@
-/**
- * data.js
- * 🎯 职责: 集中管理素材库应用中的所有核心数据和配置常量。
- * 维护建议：
- * - 如需添加新的筛选维度（大分类），请更新 SIDEBAR_CONFIG。
- * - 如需修改卡片数据，请更新 FONT_DATA。
- * - 卡片数据中的字段名（例如 'app' 或 'sheji'）必须与 SIDEBAR_CONFIG 中的 'id' 对应。
- */
+// data.js
+// 将数据挂载到 window 对象上，方便 index.html 读取
 
-// --- 1. 数据映射和常量 (统一筛选配置) ---
+window.APP_DATA = {
+    // Banner 配置
+    BANNER_CONFIG: {
+        'ai-prompts': {
+            title: '探索无限灵感',
+            subtitle: '每日更新的高质量 AI 提示词库，激发你的创作潜能。',
+            bgImage: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'
+        },
+        'fonts': {
+            title: '发现完美字型',
+            subtitle: '精选全球设计师的优质字体，为你的设计注入灵魂。',
+            bgImage: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'
+        },
+        'software': {
+            title: '提升工作效率',
+            subtitle: '工欲善其事，必先利其器。设计师必备工具集合。',
+            bgImage: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'
+        }
+    },
 
-/**
- * 侧边栏筛选配置：
- * id: 对应 FONT_DATA 中需要筛选的字段名 (例如 'app', 'sheji')。
- * title: 侧边栏显示的大分类标题。
- * options: 该分类下的具体筛选选项。
- * hash: 用于 URL hash 导航和筛选，也对应 FONT_DATA 中字段的值。
- * title: 侧边栏显示的小分类标题。
- */
-const SIDEBAR_CONFIG = [
-    {
-        id: 'app', 
-        title: '软件工具', 
-        options: [
-            { hash: 'adobe', title: 'Adobe全家桶' },
-            { hash: 'sheji-app', title: '设计软件' },
-            { hash: 'win-app', title: 'windows软件' },
-            { hash: 'mac-app', title: 'mac软件' },
+    // 外部工具链接
+    EXTERNAL_TOOLS: [
+        { name: '一键抠图 (Remove.bg)', url: 'https://www.remove.bg' },
+        { name: '图片压缩 (TinyPNG)', url: 'https://tinypng.com' },
+        { name: '配色生成 (Coolors)', url: 'https://coolors.co' },
+        { name: 'SVG 压缩 (SVGOMG)', url: 'https://jakearchibald.github.io/svgomg/' },
+        { name: '谷歌字体 (Google Fonts)', url: 'https://fonts.google.com' },
+    ],
+
+    // 分类配置
+    CATEGORIES: {
+        'ai-prompts': [
+            { id: 'all', label: '全部' },
+            { id: 'realistic', label: '写实摄影' },
+            { id: 'anime', label: '动漫风格' },
+            { id: '3d', label: '3D 渲染' },
+            { id: 'logo', label: 'Logo 设计' },
+        ],
+        'fonts': [
+            { id: 'all', label: '全部' },
+            { id: 'serif', label: '衬线体' },
+            { id: 'sans-serif', label: '无衬线体' },
+            { id: 'display', label: '艺术体' },
+            { id: 'handwritten', label: '手写体' },
+        ],
+        'software': [
+            { id: 'all', label: '全部' },
+            { id: 'design', label: '图形设计' },
+            { id: 'dev', label: '开发工具' },
+            { id: 'utility', label: '效率工具' },
         ]
     },
-    {
-        id: 'sheji', 
-        title: '设计资源',
-        options: [
-            { hash: 'freefonts', title: '免费商用字体' },
-            { hash: 'shejibooks', title: '设计书籍' },
-            { hash: 'logo', title: 'LOGO样机' },
-            { hash: 'vi', title: 'VI样机' },
-            { hash: 'more', title: '其他资源' },
-        ]
-    }
-];
 
-/**
- * 每页显示卡片数量。
- */
-const CARDS_PER_PAGE = 24; 
+    // AI 提示词数据
+    MOCK_AI_PROMPTS: [
+        {
+            id: '1', category: 'realistic', type: 'ai-prompts',
+            title: '赛博朋克街景', model: 'Midjourney v6',
+            imageUrl: 'https://picsum.photos/id/237/600/400',
+            prompt: 'A futuristic cyberpunk city street at night, neon lights reflecting on wet pavement, towering skyscrapers with holographic advertisements, cinematic lighting, highly detailed, photorealistic 8k.',
+            tags: ['#Cyberpunk', '#Neon', '#Cityscape', '#8k']
+        },
+        {
+            id: '2', category: 'anime', type: 'ai-prompts',
+            title: '魔法森林精灵', model: 'Niji 5',
+            imageUrl: 'https://picsum.photos/id/1003/600/400',
+            prompt: 'Anime style illustration of a magical forest spirit resembling a deer, glowing blue antlers, surrounded by floating light particles, deep forest background, studio ghibli style, vibrant colors.',
+            tags: ['#Anime', '#Fantasy', '#Ghibli', '#Forest']
+        },
+        {
+            id: '3', category: '3d', type: 'ai-prompts',
+            title: '抽象玻璃几何', model: 'Stable Diffusion XL',
+            imageUrl: 'https://picsum.photos/id/106/600/400',
+            prompt: 'Abstract composition of floating glass spheres and cubes, iridescent materials, caustic lighting effects, clean white background, 3D render, blender cycles, octane render.',
+            tags: ['#3D', '#Abstract', '#Glass', '#Clean']
+        },
+        {
+            id: '4', category: 'realistic', type: 'ai-prompts',
+            title: '复古人像摄影', model: 'Midjourney v6',
+            imageUrl: 'https://picsum.photos/id/64/600/400',
+            prompt: 'Portrait of an elderly fisherman with a weathered face, natural lighting, wearing a yellow raincoat, stormy sea background, emotional expression, 35mm film photography style.',
+            tags: ['#Portrait', '#Photography', '#Vintage', '#Film']
+        }
+    ],
 
+    // 字体数据
+    MOCK_FONTS: [
+        {
+            id: 'f1', category: 'sans-serif', type: 'fonts',
+            name: 'Inter Display', author: 'Rasmus Andersson', isPaid: false,
+            description: '专为电脑屏幕精心设计和制作的可变字体系列。',
+            imageUrl: 'https://picsum.photos/id/20/600/300',
+            downloadUrl: '#', format: 'OTF', size: '2.4 MB'
+        },
+        {
+            id: 'f2', category: 'serif', type: 'fonts',
+            name: 'Editorial New', author: 'Pangram Pangram', isPaid: true,
+            description: '一款精准而优雅的窄衬线字体，专为长篇阅读设计。',
+            imageUrl: 'https://picsum.photos/id/24/600/300',
+            downloadUrl: '#', format: 'TTF', size: '1.8 MB'
+        },
+        {
+            id: 'f3', category: 'display', type: 'fonts',
+            name: 'Bebas Neue', author: 'Ryoichi Tsunekawa', isPaid: false,
+            description: 'Bebas Neue 是基于原始 Bebas Neue 免费字体的无衬线字体系列。',
+            imageUrl: 'https://picsum.photos/id/26/600/300',
+            downloadUrl: '#', format: 'OTF', size: '0.5 MB'
+        },
+        {
+            id: 'f4', category: 'handwritten', type: 'fonts',
+            name: 'Signature Pro', author: 'CreativeMarket', isPaid: true,
+            description: '外观自然的签名手写字体，包含大量连字以获得真实感。',
+            imageUrl: 'https://picsum.photos/id/42/600/300',
+            downloadUrl: '#', format: 'WOFF2', size: '1.2 MB'
+        }
+    ],
 
-// --- 2. 字体数据源 ---
-
-const DEFAULT_COVER = "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp";
-
-/**
- * 卡片数据列表。
- * 新增 'link' 字段用于卡片跳转。
- */
-const FONT_DATA = [
-    // 软件工具 -> Adobe全家桶
-    { id: 1, name: "Adobe Photoshop 2025", weight: "2025.10", 
-      app: "adobe", 
-      link: "https://example.com/ps-detail", // 实际跳转链接
-      cover: DEFAULT_COVER 
-    },
-    // 软件工具 -> windows软件
-    { id: 2, name: "Windows 效率工具合集", weight: "2024.08", 
-      app: "win-app", 
-      link: "https://example.com/win-tool-detail",
-      cover: DEFAULT_COVER 
-    },
-    // 设计资源 -> 免费商用字体
-    { id: 3, name: "免费商用中文字体包", weight: "150+ 款", 
-      sheji: "freefonts", 
-      link: "https://example.com/freefonts-detail",
-      cover: DEFAULT_COVER 
-    },
-    // 设计资源 -> 设计书籍
-    { id: 4, name: "设计美学经典书籍", weight: "50本PDF", 
-      sheji: "shejibooks", 
-      link: "https://example.com/books-detail",
-      cover: DEFAULT_COVER 
-    },
-    // 软件工具 -> mac软件
-    { id: 5, name: "Mac OS 必备应用", weight: "2025.01", 
-      app: "mac-app", 
-      link: "https://example.com/mac-app-detail",
-      cover: DEFAULT_COVER 
-    },
-    // 设计资源 -> LOGO样机
-    { id: 6, name: "高端 LOGO 样机合集", weight: "PSD文件", 
-      sheji: "logo", 
-      link: "https://example.com/logo-mockup-detail",
-      cover: DEFAULT_COVER 
-    }
-];
+    // 软件数据
+    MOCK_SOFTWARE: [
+        {
+            id: 's1', category: 'design', type: 'software',
+            title: 'Figma Desktop', version: '116.15.4',
+            description: '协作界面设计工具。在一个地方进行设计、原型制作和收集反馈，性能卓越。',
+            imageUrl: 'https://picsum.photos/id/1/200/200',
+            downloads: [
+                { label: 'macOS (Intel)', url: '#' },
+                { label: 'Windows x64', url: '#' }
+            ]
+        },
+        {
+            id: 's2', category: 'dev', type: 'software',
+            title: 'VS Code', version: '1.85.1',
+            description: '代码编辑，重新定义。免费、开源、跨平台运行。现代编辑器的标杆。',
+            imageUrl: 'https://picsum.photos/id/6/200/200',
+            downloads: [
+                { label: 'Windows x64', url: '#' },
+                { label: 'macOS Universal', url: '#' }
+            ]
+        },
+        {
+            id: 's3', category: 'utility', type: 'software',
+            title: 'Raycast', version: '1.63.0',
+            description: 'Raycast 是一个极速、完全可扩展的启动器。',
+            imageUrl: 'https://picsum.photos/id/96/200/200',
+            downloads: [
+                { label: 'macOS Universal', url: '#' }
+            ]
+        }
+    ]
+};
