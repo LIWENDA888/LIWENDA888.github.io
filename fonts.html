@@ -5,453 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>字库产品 - 自在造字(ZIZAO)</title>
     <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <meta name="author" content="自在造字">
-    <meta property="og:title" content="字库产品 - 自在造字(ZIZAO)">
-    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
+    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico">
     
+    <!-- 引入公共样式 -->
+    <link rel="stylesheet" href="common.css">
+
     <style>
-        /* --- CSS 样式部分 --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-        }
+        /* --- 页面特有样式 --- */
+        body { background-color: #ffffff; }
 
-        html, body {
-            height: 100%;
-            min-height: 100vh;
-        }
-
-        /* 主体背景色改为白色 */
-        body {
-            background-color: #ffffff; 
-            color: #1a1a1a;
-        }
-
-        /* 页面包裹器 */
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* --- 导航栏样式 --- */
-        .navbar {
-            position: sticky; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 60px; 
-            z-index: 1000;
-            transition: all 0.4s ease;
-        }
-        
-        .main-content { 
-            flex-grow: 1; 
-            padding-top: 40px; 
-            width: 100%; 
-            display: flex; 
-            justify-content: center;
-        }
-
-        /* 导航栏内部元素 */
-        .navbar-logo { display: flex; align-items: center; text-decoration: none; }
-        .navbar-logo img { height: 30px; width: auto; display: block; }
-        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
-        .menu-toggle-icon { display: block; width: 25px; height: 2px; background-color: #1a1a1a; position: relative; transition: all 0.3s ease; }
-        .menu-toggle-icon::before, .menu-toggle-icon::after { content: ''; position: absolute; width: 100%; height: 2px; background-color: #1a1a1a; transition: all 0.3s ease; }
-        .menu-toggle-icon::before { top: -8px; }
-        .menu-toggle-icon::after { top: 8px; }
-        .navbar-menu { display: flex; list-style: none; gap: 50px; height: 100%; align-items: center; }
-        .menu-item { position: relative; height: 100%; display: flex; align-items: center; cursor: pointer; }
-        .menu-link { text-decoration: none; color: #1a1a1a; font-size: 15px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.3s ease; position: relative; }
-        .menu-item:hover .menu-link { color: #444444; }
-        .menu-link::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: #1a1a1a; transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 2px; }
-        .menu-item:hover .menu-link::after { width: 20px; }
-        .dropdown { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background-color: rgba(255, 255, 255, 0.98);backdrop-filter: blur(10px); min-width: 220px; padding: 20px 0; border-radius: 4px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .menu-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .dropdown li { list-style: none; }
-        .dropdown-link { display: block; padding: 12px 30px; text-decoration: none; color: #666; font-size: 14px; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
-        .dropdown-link:hover { color: #000; background-color: #fff; padding-left: 35px; }
-        .dropdown-link::after { content: '→'; font-size: 12px; color: #1a1a1a; opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; }
-        .dropdown-link:hover::after { opacity: 1; transform: translateX(0); }
-        .navbar-actions { display: flex; align-items: center; }
-        .btn-primary {
-            padding: 8px 28px; background-color: #1a1a1a; color: #fff; text-decoration: none;
-            font-size: 14px; font-weight: 600; border-radius: 50px; border: 1px solid #1a1a1a;
-            display: flex; align-items: center; gap: 0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-        }
-        .btn-primary:hover {
-            background-color: #333333; border-color: #333333; color: #fff; transform: translateY(-1px); 
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
-        }
-
-        /* --- 布局容器 --- */
         .doc-container {
-            width: 100%;
-            max-width: 1600px; 
-            margin: 0 auto 40px; 
+            width: 100%; max-width: 1600px; 
+            margin: 60px auto 40px; /* 增加顶部间距，避免贴顶 */
             padding: 0 30px; 
-            display: flex;
-            gap: 30px; 
+            display: flex; gap: 30px; 
         }
 
-        /* --- 侧边栏 Sidebar (固定和边框样式) --- */
+        /* 侧边栏 */
         .sidebar {
-            width: 300px; 
-            flex-shrink: 0; 
-            /* 关键点: position: sticky 实现固定 */
-            position: sticky; 
-            top: 120px; 
-            /* 限制高度并允许内部滚动 */
-            max-height: calc(100vh - 160px); 
-            overflow-y: auto; 
-            
-            background-color: transparent; 
-            box-shadow: none; 
-            border: 1px solid rgba(0, 0, 0, 0.08); /* 边框颜色变浅 */
-            
-            border-radius: 12px; 
-            padding: 10px 0; 
+            width: 300px; flex-shrink: 0; position: sticky; top: 120px; 
+            max-height: calc(100vh - 160px); overflow-y: auto; 
+            border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 12px; padding: 10px 0; 
         }
-        /* 隐藏侧边栏的滚动条 */
         .sidebar::-webkit-scrollbar { width: 0; }
-        .sidebar { -ms-overflow-style: none; scrollbar-width: none; }
-
-
-        /* 侧边栏菜单样式 */
         .sidebar-menu { list-style: none; padding: 0 10px; }
-        .category-item { margin-bottom: 2px; }
         .category-header { 
-            padding: 12px 15px; font-weight: 700; color: #1a1a1a; cursor: pointer; 
-            transition: all 0.2s ease; font-size: 16px; border-radius: 8px; margin-top: 10px; 
-            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px 15px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; margin-top: 10px;
         }
-        /* 侧边栏主标题 Hover 优化 */
-        .category-header:hover { 
-            background-color: rgba(0,0,0,0.03); /* 降低透明度 */
-            transform: translateX(2px); /* 轻微动画 */
-        }
-        .category-header span { font-size: 10px; transition: transform 0.3s ease; transform: rotate(-90deg); color: #999; }
+        .category-header:hover { background-color: rgba(0,0,0,0.03); }
+        .category-header span { font-size: 10px; transform: rotate(-90deg); transition: transform 0.3s; }
         .category-header.open span { transform: rotate(0deg); }
-        .subcategory-list { 
-            list-style: none; 
-            overflow: hidden; 
-            max-height: 0; 
-            transition: max-height 0.4s ease-out; 
-            background-color: transparent; 
-            margin: 0 5px 8px 5px; 
-            padding: 0; 
-        }
-        .subcategory-link { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 15px 10px 20px; text-decoration: none; color: #666; font-size: 15px; 
-            transition: all 0.2s ease; border-radius: 6px; 
-        }
-        /* 按钮背景透明度降低 */
-        .subcategory-link:hover { color: #1a1a1a; background-color: rgba(0,0,0,0.02); } /* 优化：更浅的 Hover */
-        .subcategory-link.active { color: #1a1a1a; font-weight: 600; background-color: rgba(0,0,0,0.05); } /* 优化：更浅的 Active */
-        /* 按钮背景透明度降低 */
-        .count-badge { font-size: 12px; background: rgba(0,0,0,0.04); color: #666; padding: 2px 8px; border-radius: 10px; font-weight: normal; } 
+        .subcategory-list { list-style: none; overflow: hidden; max-height: 0; transition: max-height 0.4s ease-out; padding: 0 5px; }
+        .subcategory-link { display: flex; justify-content: space-between; padding: 10px 15px; color: #666; font-size: 15px; border-radius: 6px; }
+        .subcategory-link:hover { color: #1a1a1a; background-color: rgba(0,0,0,0.02); }
+        .subcategory-link.active { color: #1a1a1a; font-weight: 600; background-color: rgba(0,0,0,0.05); }
+        .count-badge { font-size: 12px; background: rgba(0,0,0,0.04); padding: 2px 8px; border-radius: 10px; }
 
-        /* 风格筛选自适应布局 */
-        .subcategory-list.style-grid {
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 5px; 
-            padding: 5px !important;
-        }
+        /* 风格筛选网格 */
+        .subcategory-list.style-grid { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px !important; }
+        .subcategory-list.style-grid .subcategory-link { padding: 8px 12px; width: auto; flex-grow: 0; justify-content: center; }
 
-        .subcategory-list.style-grid li {
-            margin: 0;
-        }
-
-        .subcategory-list.style-grid .subcategory-link {
-            padding: 8px 12px; 
-            text-align: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-grow: 0; 
-            width: auto; 
-        }
-        
-        /* --- 右侧内容区域 --- */
-        .content-area {
-            flex-grow: 1;
-            background-color: transparent; 
-            padding: 0; 
-            border-radius: 0;
-            box-shadow: none;
-            border: none;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .grid-header {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-        .grid-header h2 { font-size: 24px; color: #1a1a1a; font-weight: 700; }
+        /* 内容区 */
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; }
+        .grid-header { margin-bottom: 20px; }
+        .grid-header h2 { font-size: 24px; font-weight: 700; }
         .grid-header p { font-size: 14px; color: #666; margin-top: 5px; }
 
-        .font-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 25px;
-            width: 100%;
-        }
-
-        /* --- 字体卡片组件 --- */
+        .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+        
+        /* 字体卡片 */
         .font-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.03); /* 卡片边框更浅 */
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            text-decoration: none; 
-            color: inherit; 
+            background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.03);
+            transition: all 0.3s; display: flex; flex-direction: column; text-decoration: none; color: inherit;
         }
+        .font-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(0,0,0,0.06); }
+        .card-cover { height: 180px; background: #f0f0f0; overflow: hidden; }
+        .card-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .font-card:hover .card-cover img { transform: scale(1.05); }
+        .card-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
+        .font-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .font-author { font-size: 13px; color: #888; margin-bottom: 15px; }
+        .card-footer { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #f5f5f5; padding-top: 12px; }
+        .font-specs { font-size: 12px; color: #999; }
+        .btn-view { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
 
-        .font-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 18px 40px rgba(0,0,0,0.06); /* 阴影更柔和 */
-            border-color: rgba(0,0,0,0);
-        }
+        /* 分页 */
+        .pagination-container { margin-top: 30px; display: flex; justify-content: center; gap: 8px; }
+        .page-link { padding: 8px 14px; border: 1px solid #ddd; border-radius: 6px; color: #666; font-size: 14px; cursor: pointer; }
+        .page-link.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
 
-        .card-cover {
-            width: 100%;
-            height: 180px;
-            background-color: #f0f0f0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .font-card:hover .card-cover img {
-            transform: scale(1.05);
-        }
-
-        /* 卡片标签圆角拉满 */
-        .card-tag {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(4px);
-            padding: 4px 10px;
-            border-radius: 50px; 
-            font-size: 11px;
-            font-weight: 600;
-            color: #333;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 5; 
-        }
-        
-        .card-info {
-            padding: 18px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .font-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .font-author {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 15px;
-        }
-
-        .card-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #f5f5f5;
-            padding-top: 12px;
-        }
-
-        .font-specs {
-            font-size: 12px;
-            color: #999;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-view {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a1a;
-            text-decoration: none; 
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .btn-view::after {
-            content: '→';
-            font-size: 14px;
-            transition: transform 0.2s;
-        }
-        .font-card:hover .btn-view::after {
-            transform: translateX(3px);
-        }
-
-        .empty-state {
-            width: 100%;
-            padding: 60px;
-            text-align: center;
-            color: #999;
-            background: #fff;
-            border: 1px dashed #ddd;
-            border-radius: 12px;
-        }
-
-        /* --- 分页样式 --- */
-        .pagination-container {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .page-link {
-            padding: 8px 14px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-            background-color: #fff;
-            user-select: none;
-        }
-        
-        .page-link:hover:not(.active):not(.disabled) {
-            border-color: #aaa;
-            color: #1a1a1a;
-        }
-
-        .page-link.active {
-            background-color: #1a1a1a;
-            border-color: #1a1a1a;
-            color: #fff;
-            font-weight: 600;
-            cursor: default;
-        }
-
-        .page-link.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* 分页导航箭头的样式和字符 */
-        .page-link.nav-arrow {
-            font-size: 16px;
-            padding: 8px 12px;
-            font-weight: bold;
-        }
-        .page-link.nav-arrow.prev::before { content: '<'; } 
-        .page-link.nav-arrow.next::before { content: '>'; } 
-
-
-        /* --- Footer --- */
-        .footer { 
-            flex-shrink: 0; 
-            padding: 40px 60px; 
-            text-align: center; 
-            color: #888; 
-            font-size: 14px; 
-            border-top: 1px solid rgba(0, 0, 0, 0.05); 
-            width: 100%; 
-            background-color: #fff; 
-        }
-
-        /* --- 响应式 --- */
-        @media (max-width: 768px) {
-            .navbar { height: 60px; padding: 0 20px; }
-            .navbar-actions { display: none; }
-            .menu-toggle { display: block; order: 3; }
-            
-            .navbar-menu { 
-                position: absolute; top: 60px; left: 0; width: 100%; height: auto;
-                max-height: calc(100vh - 60px); flex-direction: column; background-color: #fff;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 20px 0; gap: 0; overflow-y: auto;
-                transform: translateY(-100%); visibility: hidden; opacity: 0; transition: all 0.4s ease-out;
-            }
-            .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
-            .menu-item { width: 100%; padding: 10px 20px; align-items: flex-start; }
-            .menu-link { width: 100%; padding: 10px 0; font-size: 16px; font-weight: 600; }
-            .dropdown { position: static; transform: none; width: 100%; box-shadow: none; background-color: #f7f7f7; opacity: 1; visibility: visible; display: none; }
-            .menu-item:hover .dropdown { display: block; }
-
-            .main-content { padding-top: 20px; }
-            .doc-container { flex-direction: column; gap: 20px; padding: 0 20px; }
-            
-            .sidebar { 
-                width: 100%; 
-                position: static; 
-                max-height: none; 
-                padding: 0;
-                border: none; 
-                box-shadow: none;
-                background: transparent;
-            }
+        /* 平板及移动端适配 */
+        @media (max-width: 1024px) {
+            .doc-container { flex-direction: column; padding: 0 20px; margin-top: 20px; /* 减少顶部间距 */ }
+            .sidebar { width: 100%; position: static; max-height: none; border: none; padding: 0; }
             .category-header { background: #fff; border: 1px solid #eee; }
-            .subcategory-list { margin-bottom: 10px; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px; background: #fff; }
-
-            .content-area { padding: 0; }
-            .font-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); gap: 20px; }
+            .subcategory-list { background: #fff; border: 1px solid #eee; border-top: none; }
+            
+            /* 强制改为两列布局 */
+            .font-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 15px; 
+            }
+            .card-cover { height: 140px; /* 缩小图片高度 */ }
+            .card-info { padding: 12px; }
+            .font-name { font-size: 16px; }
         }
-
     </style>
-    </head>
+</head>
 <body>
-
     <div class="page-wrapper">
-        
-        <nav class="navbar" id="navbar">
-            </nav>
+        <nav class="navbar" id="navbar"></nav>
 
         <div class="main-content">
             <div class="doc-container">
-                
                 <aside class="sidebar" id="sidebar">
+                    <!-- 新增：搜索卡片 -->
+                    <div class="sidebar-search">
+                        <input type="text" id="sidebarSearch" placeholder="搜索字体名称...">
+                    </div>
+
                     <ul class="sidebar-menu">
-                        <li class="category-item" data-category="category">
-                            <div class="category-header open">字体分类<span class="collapse-icon">▼</span></div>
+                        <li class="category-item">
+                            <div class="category-header open">字体分类<span>▼</span></div>
                             <ul class="subcategory-list" style="max-height: 500px;">
                                 <li><a href="#all" class="subcategory-link" data-hash="all">全部字体 <span class="count-badge" id="count-all">0</span></a></li>
                                 <li><a href="#sans_serif" class="subcategory-link" data-hash="sans_serif">黑体 / Sans <span class="count-badge" id="count-sans_serif">0</span></a></li>
@@ -459,9 +114,8 @@
                                 <li><a href="#display" class="subcategory-link" data-hash="display">创意 / Display <span class="count-badge" id="count-display">0</span></a></li>
                             </ul>
                         </li>
-
-                        <li class="category-item" data-category="style">
-                            <div class="category-header open">风格筛选<span class="collapse-icon">▼</span></div>
+                        <li class="category-item">
+                            <div class="category-header open">风格筛选<span>▼</span></div>
                             <ul class="subcategory-list style-grid" style="max-height: 500px;">
                                 <li><a href="#modern" class="subcategory-link" data-hash="modern">现代简约</a></li>
                                 <li><a href="#retro" class="subcategory-link" data-hash="retro">复古书法</a></li>
@@ -471,334 +125,91 @@
                     </ul>
                 </aside>
 
-                <main class="content-area" id="content-area">
+                <main class="content-area">
                     <div class="grid-header">
-                        <div>
-                            <h2 id="grid-title">全部字体</h2>
-                            <p id="grid-desc">浏览我们精心挑选的字体库</p>
-                        </div>
+                        <div><h2 id="grid-title">全部字体</h2><p id="grid-desc">浏览我们精心挑选的字体库</p></div>
                     </div>
-                    
-                    <div class="font-grid" id="font-grid-container">
-                        </div>
-                    
-                    <div class="pagination-container" id="pagination-container">
-                        
-                    </div>
+                    <div class="font-grid" id="font-grid-container"></div>
+                    <div class="pagination-container" id="pagination-container"></div>
                 </main>
-
             </div>
         </div>
         
-        <footer class="footer" id="footer">
-            </footer>
-
+        <footer class="footer" id="footer"></footer>
     </div> 
     
-    <script src="https://www.zizao.top/pages/common.js"></script> 
-
+    <script src="common.js"></script> 
+    
+    <!-- 字体列表逻辑 -->
     <script>
-        // --- 1. 数据映射和常量 (统一筛选映射表) ---
-        const FILTER_MAP = {
-            'all': '全部字体',
-            // 字体分类 (Category) 标题
-            'sans_serif': '黑体 / Sans-serif',
-            'serif': '宋体 / Serif',
-            'display': '创意 / Display',
-            // 风格筛选 (Style) 标题
-            'modern': '现代简约风格',
-            'retro': '复古书法风格',
-            'tech': '科技未来风格'
-        };
-        
-        const CARDS_PER_PAGE = 12; // 每页显示 12 张卡片
-        let State = {
-            currentPage: 1,
-            currentFilter: 'all' // 统一使用 filter
-        };
-        
-        // --- 2. 字体数据源 (已将 DEFAULT_COVER 变量替换为实际图片地址，方便未来单独维护) ---
+        // 注意：url 请根据实际部署位置调整
         const FONT_DATA = [
-            // category: 字体分类 (Sidebar Menu 1)
-            // style: 风格筛选 (Sidebar Menu 2)
-            { id: 1, name: "自在起点黑 VF", author: "FontStudio", category: "sans_serif", style: "modern", tags: ["商用", "极简"], weight: "2025年8月7日", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 2, name: "经典宋体 Std", author: "TypeFoundry", category: "serif", style: "retro", tags: ["书籍", "正文"], weight: "4 Styles", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 3, name: "流光手写体", author: "HandWriter", category: "display", style: "retro", tags: ["手写", "艺术"], weight: "1 Style", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 4, name: "赛博朋克 2077", author: "GlitchType", category: "display", style: "tech", tags: ["标题", "科技"], weight: "2 Styles", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 5, name: "柔和黑体 Soft", author: "FontStudio", category: "sans_serif", style: "modern", tags: ["UI设计", "圆润"], weight: "8 Styles", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 6, name: "报刊明朝体", author: "NewsType", category: "serif", style: "modern", tags: ["印刷", "报纸"], weight: "3 Styles", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 7, name: "像素积木", author: "8BitMaster", category: "display", style: "tech", tags: ["游戏", "复古"], weight: "1 Style", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" },
-            { id: 8, name: "工业黑体", author: "Mechanic", category: "sans_serif", style: "tech", tags: ["重工", "标题"], weight: "Bold Only", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" }
+            { id: 1, name: "自在起点黑 VF", author: "FontStudio", category: "sans_serif", style: "modern", weight: "2025年8月7日", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp", url: "fonts/qidiansans.html" },
+            { id: 2, name: "经典宋体 Std", author: "TypeFoundry", category: "serif", style: "retro", weight: "4 Styles", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp", url: "#" },
+            { id: 3, name: "流光手写体", author: "HandWriter", category: "display", style: "retro", weight: "1 Style", cover: "https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp", url: "#" },
         ];
-
-        // --- 3. 渲染函数：导航栏 (使用外部 APP_DATA) ---
-        function renderNavbar() {
-            // 依赖外部 script.js 文件中的 APP_DATA 变量
-            if (typeof APP_DATA === 'undefined' || !APP_DATA.navData) return;
-            const data = APP_DATA.navData;
-            const navbar = document.querySelector('#navbar');
-            if (!navbar) return;
-
-            // 1. 渲染 Logo 和菜单切换按钮
-            let html = data.logoHtml;
-            html += `<button class="menu-toggle"><span class="menu-toggle-icon"></span></button>`;
-
-            // 2. 渲染菜单项
-            let menuHtml = '<ul class="navbar-menu">';
-            data.menuItems.forEach(item => {
-                let dropdownHtml = '';
-                if (item.dropdown && item.dropdown.length > 0) {
-                    dropdownHtml = '<ul class="dropdown">';
-                    item.dropdown.forEach(ddItem => {
-                        // 检查是否有分隔符属性
-                        const isSeparator = ddItem.separator ? ' style="border-top: 1px solid #f5f5f5; padding-top: 8px; margin-top: 8px;"' : '';
-                        dropdownHtml += `<li${isSeparator}><a href="${ddItem.link}" class="dropdown-link">${ddItem.name}</a></li>`;
-                    });
-                    dropdownHtml += '</ul>';
-                }
-                
-                // 确保菜单项始终是可点击的链接 (<a> 标签)
-                const linkContent = `<a href="${item.link}" class="menu-link">${item.name}</a>`;
-                
-                menuHtml += `<li class="menu-item">${linkContent}${dropdownHtml}</li>`;
-            });
-            menuHtml += '</ul>';
-            
-            // 将生成的菜单 (menuHtml) 插入到主要 HTML 结构中
-            html += menuHtml;
-
-            // 3. 渲染右侧操作按钮
-            if (data.actionButton) {
-                // 读取 actionButton 上的 target 和 rel 属性
-                const targetAttr = data.actionButton.target ? `target="${data.actionButton.target}"` : '';
-                const relAttr = data.actionButton.rel ? `rel="${data.actionButton.rel}"` : '';
-                html += `<div class="navbar-actions"><a href="${data.actionButton.link}" class="btn-primary" ${targetAttr} ${relAttr}><span>${data.actionButton.text}</span></a></div>`;
-            }
-            
-            // 最终渲染
-            navbar.innerHTML = html;
-        }
-
-
-        // --- 4. 渲染函数：底部 (使用外部 APP_DATA) ---
-        function renderFooter() {
-             // 依赖外部 script.js 文件中的 APP_DATA 变量
-             if (typeof APP_DATA === 'undefined' || !APP_DATA.footerData) return;
-            const footer = document.querySelector('#footer');
-            if (footer) footer.innerHTML = APP_DATA.footerData.copyright;
-        }
-
-        // --- 5. 渲染分页控件 ---
-        function renderPagination(totalPages, currentPage, filterHash) {
-            const container = document.getElementById('pagination-container');
-            if (totalPages <= 1) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            
-            // 上一页
-            const prevDisabled = currentPage === 1 ? 'disabled' : '';
-            html += `<a href="#" class="page-link nav-arrow prev ${prevDisabled}" data-page="${currentPage - 1}" data-filter="${filterHash}"></a>`;
-
-            // 页码 (只显示当前页周围的页码)
-            const maxPageLinks = 5;
-            let startPage = Math.max(1, currentPage - Math.floor(maxPageLinks / 2));
-            let endPage = Math.min(totalPages, startPage + maxPageLinks - 1);
-            
-            if (endPage - startPage + 1 < maxPageLinks) {
-                startPage = Math.max(1, endPage - maxPageLinks + 1);
-            }
-
-            for (let i = startPage; i <= endPage; i++) {
-                const active = i === currentPage ? 'active' : '';
-                html += `<a href="#" class="page-link ${active}" data-page="${i}" data-filter="${filterHash}">${i}</a>`;
-            }
-
-            // 下一页
-            const nextDisabled = currentPage === totalPages ? 'disabled' : '';
-            html += `<a href="#" class="page-link nav-arrow next ${nextDisabled}" data-page="${currentPage + 1}" data-filter="${filterHash}"></a>`;
-
-            container.innerHTML = html;
-
-            // 绑定点击事件
-            container.querySelectorAll('.page-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (e.currentTarget.classList.contains('disabled')) return;
-                    
-                    const newPage = parseInt(e.currentTarget.getAttribute('data-page'));
-                    const hash = e.currentTarget.getAttribute('data-filter');
-                    
-                    // 调用核心渲染函数
-                    renderGrid(hash, newPage);
-                    
-                    // 滚动到卡片顶部
-                    document.getElementById('grid-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        }
+        const FILTER_MAP = { 'all': '全部字体', 'sans_serif': '黑体', 'serif': '宋体', 'display': '创意', 'modern': '现代', 'retro': '复古', 'tech': '科技' };
         
-        // --- 6. 核心逻辑：卡片网格渲染 ---
-        function renderGrid(filterHash, page = 1) {
-            const gridContainer = document.getElementById('font-grid-container');
-            const titleEl = document.getElementById('grid-title');
-            const descEl = document.getElementById('grid-desc');
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        function renderGrid() {
+            const container = document.getElementById('font-grid-container');
+            const title = document.getElementById('grid-title');
+            const desc = document.getElementById('grid-desc');
+
+            let data = currentFilter === 'all' ? FONT_DATA : FONT_DATA.filter(i => i.category === currentFilter || i.style === currentFilter);
             
-            if (!gridContainer) return;
-
-            const filter = filterHash || 'all';
+            if (searchTerm) {
+                data = data.filter(i => i.name.toLowerCase().includes(searchTerm.toLowerCase()));
+                title.innerText = `搜索: "${searchTerm}"`;
+                desc.innerText = `找到 ${data.length} 个结果`;
+            } else {
+                title.innerText = FILTER_MAP[currentFilter] || "搜索结果";
+                desc.innerText = `该分类下共有 ${data.length} 款字体`;
+            }
             
-            // 1. 筛选数据：同时支持 category 筛选和 style 筛选
-            let filteredData = [];
-            if (filter === 'all') {
-                filteredData = FONT_DATA;
-            } else {
-                // 统一筛选逻辑：匹配 category 或 style 字段
-                filteredData = FONT_DATA.filter(item => item.category === filter || item.style === filter);
-            }
+            container.innerHTML = data.length ? data.map(f => `
+                <a href="${f.url}" class="font-card" target="_blank">
+                    <div class="card-cover"><img src="${f.cover}" loading="lazy"></div>
+                    <div class="card-info">
+                        <div class="font-name">${f.name}</div>
+                        <div class="font-author">${f.author}</div>
+                        <div class="card-footer"><div class="font-specs">${f.weight}</div><span class="btn-view">查看</span></div>
+                    </div>
+                </a>`).join('') : '<div style="padding:40px; text-align:center; width:100%; color:#999">暂无匹配字体</div>';
 
-            // 2. 更新状态 (仅在 filter 切换时重置 page)
-            if (State.currentFilter !== filter) {
-                State.currentPage = 1;
-            } else {
-                State.currentPage = page;
-            }
-            State.currentFilter = filter;
-
-            // 3. 计算分页
-            const totalCards = filteredData.length;
-            const totalPages = Math.ceil(totalCards / CARDS_PER_PAGE);
-            const currentPage = State.currentPage;
-
-            const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
-            const endIndex = startIndex + CARDS_PER_PAGE;
-            const paginatedData = filteredData.slice(startIndex, endIndex);
-
-            // 4. 设置标题和描述 (使用统一的 FILTER_MAP)
-            const pageTitle = FILTER_MAP[filter] || "搜索结果";
-            
-            let pageDesc = `该分类下共有 ${totalCards} 款字体`;
-            if (totalPages > 1) {
-                 pageDesc += ` (当前第 ${currentPage} / ${totalPages} 页)`;
-            }
-
-            titleEl.innerText = pageTitle;
-            descEl.innerText = pageDesc;
-
-
-            // 5. 生成卡片 HTML 
-            if (paginatedData.length === 0) {
-                gridContainer.innerHTML = `<div class="empty-state">暂无相关字体数据</div>`;
-                gridContainer.style.display = 'block'; 
-            } else {
-                gridContainer.style.display = 'grid';
-                let cardsHtml = '';
-                
-                paginatedData.forEach(font => {
-                    const detailLink = `#font-detail-${font.id}`; 
-                    
-                    cardsHtml += `
-                        <a href="${detailLink}" target="_blank" class="font-card">
-                            <div class="card-cover">
-                                <img src="${font.cover}" alt="${font.name}" loading="lazy">
-                            </div>
-                            <div class="card-info">
-                                <div class="font-name">${font.name}</div>
-                                <div class="font-author">${font.author}</div> <div class="card-footer">
-                                    <div class="font-specs">${font.weight}</div>
-                                    <span class="btn-view">查看</span>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                });
-                gridContainer.innerHTML = cardsHtml;
-            }
-
-            // 6. 渲染分页控件
-            renderPagination(totalPages, currentPage, filter);
-
-            // 7. 更新左侧菜单的激活状态
-            document.querySelectorAll('.subcategory-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-hash') === filter) {
-                    link.classList.add('active');
-                    const parentHeader = link.closest('.category-item')?.querySelector('.category-header');
-                    if (parentHeader && !parentHeader.classList.contains('open')) {
-                        // 自动展开当前激活项所在的分类
-                        const parentList = link.closest('.subcategory-list');
-                        if (parentList) {
-                            parentHeader.classList.add('open');
-                            // 确保在激活时设置高度
-                            parentList.style.maxHeight = parentList.scrollHeight + 'px'; 
-                        }
-                    }
-                }
+            document.querySelectorAll('.subcategory-link').forEach(l => {
+                l.classList.toggle('active', l.getAttribute('data-hash') === currentFilter);
             });
-        }
-
-        // --- 7. 辅助功能：更新侧边栏计数 ---
-        function updateSidebarCounts() {
-            document.getElementById('count-all').innerText = FONT_DATA.length;
-            document.getElementById('count-sans_serif').innerText = FONT_DATA.filter(i => i.category === 'sans_serif').length;
-            document.getElementById('count-serif').innerText = FONT_DATA.filter(i => i.category === 'serif').length;
-            document.getElementById('count-display').innerText = FONT_DATA.filter(i => i.category === 'display').length;
-        }
-
-        // --- 8. 页面初始化与事件绑定 ---
-        function initPage() {
-            // 折叠菜单点击事件
-            document.querySelectorAll('.category-header').forEach(header => {
-                header.addEventListener('click', (e) => {
-                    const list = e.currentTarget.nextElementSibling;
-                    e.currentTarget.classList.toggle('open');
-                    if (e.currentTarget.classList.contains('open')) {
-                        // 使用 scrollHeight 确保展开完全
-                        list.style.maxHeight = list.scrollHeight + 'px';
-                    } else {
-                        list.style.maxHeight = '0';
-                    }
-                });
-            });
-
-            // 监听 Hash 变化 (只用于切换分类，页码由内部点击控制)
-            window.addEventListener('hashchange', () => {
-                const newHash = window.location.hash.slice(1);
-                // 切换分类时，默认回到第 1 页
-                renderGrid(newHash, 1); 
-            });
-
-            // 初始渲染
-            updateSidebarCounts();
-            const initialHash = window.location.hash.slice(1);
-            // 初始渲染时使用 hash 中的分类，页码默认为 1
-            renderGrid(initialHash || 'all', 1);
-
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 检查外部 APP_DATA 是否加载，如果没有则定义一个空的以防报错
-            if (typeof APP_DATA === 'undefined') {
-                window.APP_DATA = {
-                    navData: { logoHtml: '<a href="#" class="navbar-logo"><img src="logo.svg" alt="Logo"></a>', menuItems: [], actionButton: null },
-                    footerData: { copyright: '© 2025 Font Library. All rights reserved.' }
-                };
-            }
-            
-            renderNavbar();
-            renderFooter();
+            document.getElementById('count-all').innerText = FONT_DATA.length;
+            ['sans_serif', 'serif', 'display'].forEach(c => {
+                document.getElementById(`count-${c}`).innerText = FONT_DATA.filter(i => i.category === c).length;
+            });
 
-            const menuToggle = document.querySelector('.menu-toggle');
-            const menu = document.querySelector('.navbar-menu');
-            if (menuToggle && menu) {
-                menuToggle.addEventListener('click', () => {
-                    menu.classList.toggle('active');
+            const updateFromHash = () => {
+                currentFilter = window.location.hash.slice(1) || 'all';
+                renderGrid();
+            };
+            window.addEventListener('hashchange', updateFromHash);
+            updateFromHash();
+
+            const searchInput = document.getElementById('sidebarSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchTerm = e.target.value.trim();
+                    renderGrid();
                 });
             }
             
-            initPage();
+            document.querySelectorAll('.category-header').forEach(h => h.addEventListener('click', (e) => {
+                const list = e.currentTarget.nextElementSibling;
+                e.currentTarget.classList.toggle('open');
+                list.style.maxHeight = e.currentTarget.classList.contains('open') ? list.scrollHeight + 'px' : '0';
+            }));
         });
     </script>
 </body>

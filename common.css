@@ -1,0 +1,571 @@
+/* --- 全局基础样式 & 重置 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+}
+
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    scroll-behavior: smooth; /* 平滑滚动 */
+}
+
+/* 默认背景色 */
+body {
+    color: #1a1a1a;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* --- 导航栏样式 (Navbar) --- */
+.navbar {
+    position: fixed; /* 固定定位 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px; 
+    z-index: 1000;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* 导航栏隐藏状态 */
+.navbar.navbar-hidden {
+    transform: translateY(-100%);
+}
+
+/* --- 主体内容容器 --- */
+.main-content { 
+    flex-grow: 1; 
+    width: 100%; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: center;
+    /* 适配 fixed 导航栏，预留高度 */
+    padding-top: 80px; 
+    padding-bottom: 40px;
+}
+
+/* 页面顶部间距辅助类 (用于纯文本页面) */
+.content-spacer {
+    margin-top: 60px;
+}
+
+/* --- 文档/侧边栏布局容器 (us.html, fonts.html) --- */
+.doc-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 60px auto 40px; /* 增加顶部margin */
+    padding: 0 30px; 
+    display: flex;
+    gap: 40px;
+    align-items: flex-start; /* 关键：侧边栏和内容顶对齐，高度不强制拉伸 */
+}
+
+/* Logo */
+.navbar-logo { display: flex; align-items: center; text-decoration: none; }
+.navbar-logo img { height: 30px; width: auto; display: block; }
+
+/* 汉堡菜单按钮 (移动端) */
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
+.menu-toggle-icon { display: block; width: 25px; height: 2px; background-color: #1a1a1a; position: relative; transition: all 0.3s ease; }
+.menu-toggle-icon::before, .menu-toggle-icon::after { content: ''; position: absolute; width: 100%; height: 2px; background-color: #1a1a1a; transition: all 0.3s ease; }
+.menu-toggle-icon::before { top: -8px; }
+.menu-toggle-icon::after { top: 8px; }
+
+/* 导航菜单容器 */
+.navbar-menu { display: flex; list-style: none; gap: 50px; height: 100%; align-items: center; }
+.menu-item { position: relative; height: 100%; display: flex; align-items: center; cursor: pointer; }
+.menu-link { text-decoration: none; color: #1a1a1a; font-size: 15px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.3s ease; position: relative; }
+.menu-item:hover .menu-link { color: #444444; }
+
+/* 菜单下划线动画 */
+.menu-link::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: #1a1a1a; transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 2px; }
+.menu-item:hover .menu-link::after { width: 20px; }
+
+/* 下拉菜单 */
+.dropdown { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background-color: rgba(255, 255, 255, 0.98);backdrop-filter: blur(10px); min-width: 220px; padding: 20px 0; border-radius: 4px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+.menu-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.dropdown li { list-style: none; }
+.dropdown-link { display: block; padding: 12px 30px; text-decoration: none; color: #666; font-size: 14px; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
+.dropdown-link:hover { color: #000; background-color: #fff; padding-left: 35px; }
+.dropdown-link::after { content: '→'; font-size: 12px; color: #1a1a1a; opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; }
+.dropdown-link:hover::after { opacity: 1; transform: translateX(0); }
+
+/* 侧边栏搜索框 (fonts.html) */
+.sidebar-search { 
+    padding: 10px 14px; /* 改为 14px 对齐下方选项 */
+    margin-bottom: 10px; 
+}
+.sidebar-search input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: all 0.2s;
+    outline: none;
+}
+.sidebar-search input:focus {
+    border-color: #1a1a1a;
+    background-color: #fff;
+}
+
+
+/* 导航栏右侧按钮 */
+.navbar-actions { display: flex; align-items: center; }
+.btn-primary {
+    padding: 8px 28px; background-color: #1a1a1a; color: #fff; text-decoration: none;
+    font-size: 14px; font-weight: 600; border-radius: 50px; border: 1px solid #1a1a1a;
+    display: flex; align-items: center; gap: 0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+.btn-primary:hover {
+    background-color: #333333; border-color: #333333; color: #fff; transform: translateY(-1px); 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+}
+
+/* --- 底部 (Footer) --- */
+.footer { 
+    flex-shrink: 0; 
+    padding: 40px 60px; 
+    text-align: center; 
+    color: #888; 
+    font-size: 14px; 
+    border-top: 1px solid rgba(0, 0, 0, 0.05); 
+    width: 100%; 
+    background-color: #fff; 
+    margin-top: auto; 
+}
+
+/* --- 悬浮按钮组 (回到顶部 + 客服) --- */
+
+/* 客服挂件跳动动画 */
+@keyframes widget-bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.contact-widget {
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    width: 54px;
+    height: 54px;
+    background-color: #FF8C19; /* 活力橙 */
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 140, 25, 0.4);
+    z-index: 999;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s;
+    animation: widget-bounce 2.5s infinite; /* 默认跳动 */
+}
+
+/* 安静模式：用户下滑后 */
+.contact-widget.quiet {
+    animation: none; /* 停止跳动 */
+    transform: scale(0.9); /* 稍微变小 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    opacity: 0.9;
+}
+
+/* 悬浮时停止动画并平滑过渡 */
+.contact-widget:hover { 
+    transform: scale(1.1) !important; /* 悬浮时放大，覆盖 quiet 状态 */
+    background-color: #ff9d3b; 
+    opacity: 1;
+    animation: none; /* 停止跳动 */
+}
+.contact-widget svg { width: 28px; height: 28px; fill: currentColor; }
+
+/* 客服气泡提示 */
+.contact-tip {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    pointer-events: none;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease;
+}
+.contact-tip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 0 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent #fff;
+}
+
+/* 安静模式下隐藏气泡 */
+.contact-widget.quiet .contact-tip {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) translateX(10px);
+}
+
+/* 回到顶部按钮 - 淡橙色背景 + 深灰色图标 */
+.back-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 43px; /* 对齐中心 */
+    width: 48px;
+    height: 48px;
+    background-color: #FFF5E5; /* 淡橙色背景 */
+    color: #333; /* 深灰色图标 */
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 990;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover { background-color: #ffe0b2; transform: translateY(-2px); }
+.back-to-top svg { width: 24px; height: 24px; fill: currentColor; }
+
+/* 客服弹窗 */
+.contact-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+.contact-modal.active { opacity: 1; visibility: visible; }
+.contact-modal-content {
+    background: #fff; padding: 40px; border-radius: 16px;
+    width: 90%; max-width: 600px;
+    display: flex; gap: 40px; justify-content: center; align-items: center;
+    position: relative; transform: scale(0.95); transition: transform 0.3s;
+}
+.contact-modal.active .contact-modal-content { transform: scale(1); }
+.qr-item { text-align: center; }
+.qr-item img { width: 200px; height: 200px; object-fit: contain; margin-bottom: 15px; background: #f5f5f5; }
+.qr-item p { font-weight: 700; color: #1a1a1a; font-size: 16px; }
+.close-contact-modal {
+    position: absolute; top: 15px; right: 15px;
+    background: none; border: none; font-size: 24px; cursor: pointer; color: #999;
+}
+.close-contact-modal:hover { color: #333; }
+
+
+/* --- 首页：轮播图 (Carousel) --- */
+.hero-carousel {
+    width: 100%;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 60px;
+    background-color: #000;
+    user-select: none;
+}
+
+/* 轮播轨道 */
+.carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* 优化缓动效果 */
+}
+
+/* 轮播滑块 */
+.carousel-slide {
+    flex-shrink: 0;
+    display: block; /* 改为 block 因为现在是 <a> 标签 */
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* 轮播指示器 (Dots) */
+.carousel-dots {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 15px; z-index: 10;
+}
+.dot { 
+    width: 6px; height: 6px; /* 缩小尺寸 */
+    background: rgba(255,255,255,0.5); 
+    border-radius: 50%; cursor: pointer; 
+    transition: all 0.3s; 
+}
+.dot.active { background: #fff; transform: scale(1.5); }
+
+/* 轮播图箭头 (Arrows) - 三级交互优化 */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px; 
+    height: 60px; /* 长方形 */
+    
+    /* 状态1: 默认隐藏 */
+    opacity: 0;
+    
+    /* 状态2: 浮现时样式 */
+    background-color: rgba(255, 255, 255, 0.1); /* 淡白 */
+    backdrop-filter: blur(8px); /* 毛玻璃 */
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.carousel-arrow svg { 
+    width: 20px; height: 20px; 
+    stroke: #fff; stroke-width: 2; fill: none; 
+    transition: stroke 0.3s;
+}
+
+/* 状态2: 鼠标进入轮播图区域，按钮浮现 */
+.hero-carousel:hover .carousel-arrow {
+    opacity: 1;
+}
+
+/* 状态3: 鼠标悬停在按钮上，背景纯白，图标变黑 */
+.carousel-arrow:hover {
+    background-color: #ffffff; /* 纯白 */
+    color: #000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transform: translateY(-50%) scale(1.05);
+}
+.carousel-arrow:hover svg {
+    stroke: #000; /* 图标变黑 */
+}
+
+.carousel-arrow.prev { left: 20px; }
+.carousel-arrow.next { right: 20px; }
+
+
+/* --- 首页：新版网格布局 --- */
+
+/* 1. 工具卡片区域 (每排4个) */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4列 */
+    gap: 20px;
+    width: 100%;
+    max-width: 1600px; /* 加宽 */
+    margin: 0 auto 60px;
+    padding: 0 40px;
+}
+
+.tool-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10; /* 固定比例 */
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f0f0f0;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    display: block; /* 确保链接块状化 */
+}
+
+.tool-card:hover { transform: translateY(-5px); }
+
+.tool-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.tool-card:hover img { transform: scale(1.05); }
+
+/* 极简遮罩：仅底部渐变，左下角对齐 */
+.tool-overlay {
+    position: absolute; 
+    top: auto; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 80px; /* 限制高度 */
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    display: flex; 
+    justify-content: flex-start; /* 左对齐 */
+    align-items: flex-end; /* 内容底部对齐 */
+    padding: 0 0 20px 20px; /* 左侧留白 */
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+.tool-card:hover .tool-overlay { opacity: 1; }
+
+/* 标题样式 */
+.tool-title {
+    color: #fff; 
+    font-size: 16px; 
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transform: translateY(10px); 
+    transition: transform 0.3s ease;
+}
+.tool-card:hover .tool-title { transform: translateY(0); }
+
+
+/* 2. 社交媒体区域 (圆形图标) */
+.social-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px 0 60px;
+}
+
+.social-item {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹跳效果 */
+    display: block;
+}
+
+.social-item:hover { transform: translateY(-10px) scale(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+.social-item img { width: 100%; height: 100%; object-fit: cover; }
+
+
+/* --- 通用辅助类 --- */
+.section-separator {
+    width: 100%; height: 1px; background-color: #eeeeee;
+    max-width: 900px; margin: 60px auto; 
+}
+
+/* --- 移动端响应式全局样式 --- */
+/* 将断点统一为 1024px (适应 iPad Pro 等平板设备) */
+@media (max-width: 1024px) {
+    .navbar { height: 60px; padding: 0 30px; }
+    /* 移动端内容区内边距微调 */
+    .main-content { padding-top: 60px; } 
+    .navbar-actions { display: none; }
+    .menu-toggle { display: block; order: 3; }
+    
+    .navbar-menu { 
+        position: absolute; top: 60px; left: 0; width: 100%; height: auto;
+        max-height: calc(100vh - 60px); flex-direction: column; background-color: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 20px 0; gap: 0; overflow-y: auto;
+        transform: translateY(-100%); visibility: hidden; opacity: 0; transition: all 0.4s ease-out;
+    }
+    .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
+    
+    /* 移动端菜单优化：允许换行，以便显示子菜单 */
+    .menu-item { 
+        width: 100%; height: auto; align-items: flex-start; padding: 0;
+        flex-wrap: wrap; /* 允许子元素换行 */
+        border-bottom: 1px solid #f9f9f9;
+    }
+    
+    .menu-link { 
+        width: 100%; padding: 15px 20px; font-size: 16px; font-weight: 600;
+        display: flex; justify-content: space-between; align-items: center;
+        color: #333;
+    }
+    
+    /* 移除PC端下划线动画 */
+    .menu-link::after { display: none; }
+
+    /* 有下拉菜单的项增加箭头指示 */
+    .menu-item:has(.dropdown) .menu-link::after {
+        content: '›';
+        position: static;
+        transform: rotate(90deg);
+        font-size: 20px;
+        color: #ccc;
+        width: auto; height: auto; background: none; 
+        transition: transform 0.3s;
+    }
+
+    /* 激活状态下箭头旋转 */
+    .menu-item.mobile-active .menu-link::after {
+        transform: rotate(-90deg);
+        color: #1a1a1a;
+    }
+
+    /* 移动端下拉菜单：抽屉式 */
+    .dropdown { 
+        position: static !important; transform: none !important; 
+        width: 100%; min-width: auto; padding: 0; margin: 0 !important; left: 0 !important;
+        box-shadow: none; background-color: #f7f7f7; opacity: 1; 
+        visibility: visible; border-radius: 0;
+        display: none; /* 默认隐藏 */
+        padding-left: 20px; /* 缩进 */
+    }
+    
+    /* 激活时显示 */
+    .menu-item.mobile-active .dropdown { display: block; }
+    
+    .dropdown-link { 
+        padding: 12px 20px; font-size: 14px; color: #666; 
+        border-bottom: 1px solid #eee; 
+    }
+    .dropdown-link:last-child { border-bottom: none; }
+    
+    /* 移除 hover 显示 */
+    .menu-item:hover .dropdown { display: none; }
+    .menu-item.mobile-active:hover .dropdown { display: block; }
+    
+    .section-separator { margin: 40px auto; }
+    .doc-container { flex-direction: column; margin: 40px auto 20px; gap: 20px; } 
+    
+    .contact-widget { bottom: 80px; right: 20px; }
+    .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+    .contact-modal-content { flex-direction: column; gap: 30px; padding: 30px 20px; }
+    .qr-item img { width: 150px; height: 150px; }
+
+    /* 首页移动端适配 */
+    .hero-carousel { height: 300px; margin-bottom: 30px; }
+    .tools-grid { grid-template-columns: repeat(2, 1fr); padding: 0 20px; gap: 15px; } /* 移动端2列 */
+    .social-section { gap: 15px; }
+    .social-item { width: 60px; height: 60px; }
+    .carousel-arrow { display: none; } /* 移动端隐藏箭头，使用滑动 */
+    
+    /* 极小屏幕优化 */
+    @media (max-width: 480px) {
+         .navbar { padding: 0 20px; }
+         .tools-grid { gap: 10px; padding: 0 15px; }
+    }
+}
