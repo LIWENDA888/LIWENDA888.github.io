@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>设计百宝库 - 自在造字(ZIZAO)</title>
-    <meta name="description" content="AI 提示词画廊，分享精选 AI 图片作品及提示词">
+    <meta name="description" content="设计百宝库，分享精选设计师必备AI提示词、字体和软件等资源">
     <meta name="author" content="自在造字">
-    <meta property="og:title" content="AI 提示词画廊 - 自在造字(ZIZAO)">
+    <meta property="og:title" content="设计百宝库 - 自在造字(ZIZAO)">
     <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,7 +16,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script src="bao-data.js"></script>
+    <script src="https://www.zizao.top/pages/bao-data.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -45,29 +46,15 @@
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
-  }
-}
-</script>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased overflow-hidden">
+<body class="bg-slate-50 text-slate-900 antialiased overflow-hidden selection:bg-primary-100 selection:text-primary-700">
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useMemo, useRef, useEffect } = React;
 
-        // 从 window 对象获取外部数据 (来自 data.js)
         const { 
             BANNER_CONFIG, 
-            EXTERNAL_TOOLS, 
             CATEGORIES, 
             MOCK_AI_PROMPTS, 
             MOCK_FONTS, 
@@ -76,7 +63,7 @@
 
         // 如果数据没加载成功，显示提示
         if (!window.APP_DATA) {
-            console.error("错误: 找不到 data.js 数据。请确保 data.js 文件存在并已引入。");
+            console.error("错误: 找不到数据。请刷新页面重试。");
         }
 
         // ==================================================================================
@@ -94,13 +81,13 @@
             Wand2: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H5"/><path d="M21 16h-2"/><path d="M11 3H9"/></svg>,
             Download: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>,
             ExternalLink: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>,
-            FileType: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13v-1h6v1"/><path d="M12 12v6"/><path d="M11 18h2"/></svg>,
-            HardDrive: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/></svg>,
             DownloadCloud: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><polyline points="12 12 12 21"/><polyline points="8 17 12 21 16 17"/></svg>,
             LayoutGrid: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>,
             Calendar: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>,
             Sun: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>,
-            X: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            X: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
+            Search: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+            Smile: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
         };
 
         // ==================================================================================
@@ -161,7 +148,7 @@
             };
 
             return (
-                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 group h-full">
+                <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col shadow-sm hover:shadow-lg transition-all duration-300 group h-full hover:-translate-y-1">
                     <div className="relative h-48 w-full bg-slate-100 overflow-hidden shrink-0">
                         <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
@@ -183,11 +170,6 @@
                             </div>
                             <textarea value={promptText} onChange={(e) => setPromptText(e.target.value)} className="w-full bg-transparent border-none resize-none p-3 text-sm text-slate-600 focus:ring-0 custom-scrollbar leading-relaxed h-[80px]" placeholder="Enter prompt here..." />
                         </div>
-                        {/* 移除标签部分
-                        <div className="mt-auto flex items-center gap-2 overflow-hidden flex-wrap">
-                            {item.tags?.map((tag, idx) => <span key={idx} className="text-[10px] px-2 py-1 rounded-md bg-slate-100 text-slate-500 font-medium hover:bg-primary-50 hover:text-primary-600 transition-colors cursor-default">{tag}</span>)}
-                        </div>
-                        */}
                     </div>
                 </div>
             );
@@ -196,22 +178,25 @@
         const FontCard = ({ item }) => {
             return (
                 <a href={item.downloadUrl} target="_blank" className="block h-full">
-                    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden group hover:border-primary-100 hover:shadow-lg transition-all duration-300 flex flex-col h-full cursor-pointer">
-                        <div className="relative h-40 w-full bg-slate-50 overflow-hidden flex items-center justify-center p-6 shrink-0">
-                            <img src={item.imageUrl} alt={item.name} className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500" />
-                            <div className="absolute inset-0 bg-primary-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2 px-5 py-2.5 bg-white rounded-full font-medium text-primary-600 hover:bg-primary-50 shadow-xl">
-                                    <Icons.Download size={18} /><span>下载字体</span>
+                    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden group hover:border-primary-100 hover:shadow-lg transition-all duration-300 flex flex-col h-full cursor-pointer relative hover:-translate-y-1">
+                        {/* 修改：高度增加到 h-40 (160px)，使其不那么扁 */}
+                        <div className="relative h-40 w-full bg-slate-100 overflow-hidden flex items-center justify-center shrink-0">
+                            <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+                            {/* 遮罩层优化 */}
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2 px-4 py-2 bg-white rounded-full font-medium text-sm text-black hover:bg-slate-100 shadow-xl">
+                                    <Icons.Download size={16} /><span>下载字体</span>
                                 </div>
                             </div>
                         </div>
-                        <div className="p-5 flex-1 flex flex-col">
+                        <div className="p-4 flex-1 flex flex-col">
                             <div className="flex items-center justify-between mb-2">
-                                <div className="flex flex-col"><h3 className="text-lg font-bold text-slate-900 leading-tight">{item.name}</h3><span className="text-xs text-slate-400 mt-0.5">{item.author}</span></div>
-                                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${item.isPaid ? 'bg-amber-100 text-amber-700 border border-amber-200' : 'bg-emerald-100 text-emerald-700 border border-emerald-200'}`}>{item.isPaid ? '付费' : '免费'}</span>
+                                <div className="flex flex-col overflow-hidden mr-2">
+                                    <h3 className="text-base font-bold text-slate-900 leading-tight truncate">{item.name}</h3>
+                                </div>
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider shrink-0 ${item.isPaid ? 'bg-amber-100 text-amber-700 border border-amber-200' : 'bg-emerald-100 text-emerald-700 border border-emerald-200'}`}>{item.isPaid ? '付费' : '免费'}</span>
                             </div>
-                            <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed mb-4 h-10">{item.description}</p>
-                            <div className="mt-auto pt-3">{/* 移除底部的格式、大小和详情链接 */}</div>
+                            <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed h-10">{item.description}</p>
                         </div>
                     </div>
                 </a>
@@ -220,7 +205,7 @@
 
         const SoftwareCard = ({ item }) => {
             return (
-                <div className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row gap-6">
+                <div className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row gap-6 hover:-translate-y-1">
                     <div className="w-full md:w-48 h-48 shrink-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-100 relative group">
                         <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                         <div className="absolute top-2 left-2"><div className="bg-white/90 backdrop-blur rounded-md px-2 py-1 text-xs font-bold text-slate-700 shadow-sm border border-slate-200">v{item.version}</div></div>
@@ -270,21 +255,50 @@
             const [currentView, setCurrentView] = useState('ai-prompts');
             const [activeCategory, setActiveCategory] = useState('all');
             const [enlargedImage, setEnlargedImage] = useState(null);
-            const [isToolsOpen, setIsToolsOpen] = useState(false);
-            const toolsRef = useRef(null);
+            const [searchQuery, setSearchQuery] = useState('');
 
             const today = new Date();
             const dateString = today.toLocaleDateString('zh-CN', { weekday: 'long', month: 'short', day: 'numeric' });
 
-            const handleViewChange = (view) => { setCurrentView(view); setActiveCategory('all'); };
+            // 切换视图时，重置搜索和分类
+            const handleViewChange = (view) => { 
+                setCurrentView(view); 
+                setActiveCategory('all'); 
+                setSearchQuery(''); 
+            };
 
-            useEffect(() => {
-                const handleClickOutside = (event) => { if (toolsRef.current && !toolsRef.current.contains(event.target)) setIsToolsOpen(false); };
-                document.addEventListener('mousedown', handleClickOutside);
-                return () => document.removeEventListener('mousedown', handleClickOutside);
-            }, []);
+            // 点击分类时，重置搜索
+            const handleCategoryClick = (catId) => {
+                setActiveCategory(catId);
+                setSearchQuery('');
+            }
+
+            // 搜索处理：如果有输入，强制跳转到字体页面，并重置分类为all，使下方不亮灯
+            const handleSearch = (e) => {
+                const query = e.target.value;
+                setSearchQuery(query);
+                
+                // 只有当有输入内容时才跳转逻辑
+                if (query.trim() !== '') {
+                    if (currentView !== 'fonts') {
+                        setCurrentView('fonts');
+                    }
+                    setActiveCategory('all'); // 搜索时次级分类不点亮具体某一个，保持在全部
+                }
+            };
 
             const filteredData = useMemo(() => {
+                // 如果有搜索内容，优先执行字体搜索逻辑
+                if (searchQuery.trim() !== '') {
+                    // 无论当前在哪，搜索都只针对 MOCK_FONTS 进行过滤
+                    // 并且由于 handleSearch 已经切换了 currentView 为 'fonts'，这里直接过滤字体数据即可
+                    return MOCK_FONTS.filter(item => 
+                        item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        item.author.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
+
+                // 无搜索内容时的常规逻辑
                 let data = [];
                 // 确保数据存在，防止 crash
                 if (currentView === 'ai-prompts') data = MOCK_AI_PROMPTS || [];
@@ -293,7 +307,7 @@
                 
                 if (activeCategory !== 'all') data = data.filter(item => item.category === activeCategory);
                 return data;
-            }, [currentView, activeCategory, MOCK_AI_PROMPTS, MOCK_FONTS, MOCK_SOFTWARE]);
+            }, [currentView, activeCategory, searchQuery, MOCK_AI_PROMPTS, MOCK_FONTS, MOCK_SOFTWARE]);
 
             const currentCategories = (CATEGORIES && CATEGORIES[currentView]) || [];
             const banner = (BANNER_CONFIG && BANNER_CONFIG[currentView]) || { title: 'Loading...', subtitle: '', bgImage: '' };
@@ -316,19 +330,30 @@
                             <div className="flex items-center gap-4">
                                 <div className="flex flex-col">
                                     <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider"><Icons.Calendar size={12} /><span>{dateString}</span></div>
-                                    <div className="hidden md:flex items-center gap-2 text-slate-800 font-medium mt-0.5"><Icons.Sun size={16} className="text-primary-500" /><span>你好，勤劳的创作者</span></div>
+                                    {/* 图标使用 Smile */}
+                                    <div className="hidden md:flex items-center gap-2 text-slate-800 font-medium mt-0.5"><Icons.Smile size={16} className="text-primary-500" /><span>你好，勤劳的创作者</span></div>
                                 </div>
                             </div>
-                            <div className="relative" ref={toolsRef}>
-                                <button onClick={() => setIsToolsOpen(!isToolsOpen)} className={`p-2 md:p-2.5 rounded-xl border transition-all duration-200 flex items-center gap-2 ${isToolsOpen ? 'bg-primary-50 border-primary-200 text-primary-500' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700 hover:shadow-sm'}`} title="更多工具">
-                                    <Icons.LayoutGrid size={20} /><span className="hidden md:inline text-sm font-medium">更多工具</span>
-                                </button>
-                                {isToolsOpen && (
-                                    <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-100 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                                        <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">更多工具</div>
-                                        <div className="space-y-1">{EXTERNAL_TOOLS && EXTERNAL_TOOLS.map((tool) => (<a key={tool.name} href={tool.url} target="_blank" className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm text-slate-600 hover:bg-slate-50 hover:text-primary-500 transition-colors group"><span>{tool.name}</span><Icons.ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" /></a>))}</div>
+                            
+                            {/* 搜索框区域 */}
+                            <div className="relative w-full max-w-md ml-auto">
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <Icons.Search size={18} className="text-slate-400 group-focus-within:text-primary-500 transition-colors" />
                                     </div>
-                                )}
+                                    <input 
+                                        type="text" 
+                                        value={searchQuery}
+                                        onChange={handleSearch}
+                                        className="block w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl leading-5 bg-slate-50 text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-primary-100 focus:border-primary-500 transition-all duration-200 sm:text-sm shadow-sm hover:shadow-md"
+                                        placeholder="搜索字体卡片标题..." 
+                                    />
+                                    {searchQuery && (
+                                        <button onClick={() => {setSearchQuery(''); setActiveCategory('all');}} className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-slate-400 hover:text-slate-600">
+                                            <Icons.X size={16} />
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </header>
                         <div className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar scroll-smooth">
@@ -337,7 +362,6 @@
                                     className="relative rounded-3xl p-6 md:p-8 mb-8 overflow-hidden shadow-sm bg-cover bg-center group"
                                     style={{ backgroundImage: `url(${banner.bgImage})` }}
                                 >
-                                    {/* 已移除遮罩层 */}
                                     <div className="relative z-10 text-white">
                                         <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2 drop-shadow-md">{banner.title}</h1>
                                         <p className="text-white/90 text-base md:text-lg font-medium max-w-2xl drop-shadow-md">{banner.subtitle}</p>
@@ -345,7 +369,15 @@
                                 </div>
                                 <div className="mb-6 flex items-center justify-between">
                                     <div className="flex items-center gap-2 md:gap-3 overflow-x-auto no-scrollbar mask-linear pb-1">
-                                        {currentCategories.map((cat) => (<button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`whitespace-nowrap px-3 py-1.5 md:px-4 md:py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-200 border ${activeCategory === cat.id ? 'bg-slate-900 border-slate-900 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'}`}>{cat.label}</button>))}
+                                        {currentCategories.map((cat) => (
+                                            <button 
+                                                key={cat.id} 
+                                                onClick={() => handleCategoryClick(cat.id)} 
+                                                className={`whitespace-nowrap px-3 py-1.5 md:px-4 md:py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-200 border ${activeCategory === cat.id ? 'bg-slate-900 border-slate-900 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'}`}
+                                            >
+                                                {cat.label}
+                                            </button>
+                                        ))}
                                     </div>
                                     <span className="text-xs text-slate-400 font-medium shrink-0 ml-2">{filteredData.length} 个资源</span>
                                 </div>
