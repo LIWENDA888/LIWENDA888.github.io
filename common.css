@@ -108,9 +108,11 @@ a { text-decoration: none; color: inherit; }
 .dropdown-link:hover::after { opacity: 1; transform: translateX(0); }
 
 /* 侧边栏搜索框 (fonts.html) */
+/* 优化：调整内边距以严格匹配下方的菜单项宽度 */
 .sidebar-search { 
-    padding: 10px 14px; /* 改为 14px 对齐下方选项 */
-    margin-bottom: 10px; 
+    padding: 0 10px; /* 匹配 sidebar-menu 的 padding */
+    margin-bottom: 15px; 
+    margin-top: 5px;
 }
 .sidebar-search input {
     width: 100%;
@@ -118,13 +120,15 @@ a { text-decoration: none; color: inherit; }
     border: 1px solid #eee;
     border-radius: 8px;
     font-size: 14px;
-    background-color: #f9f9f9;
+    background-color: #fcfcfc;
     transition: all 0.2s;
     outline: none;
+    color: #333;
 }
 .sidebar-search input:focus {
-    border-color: #1a1a1a;
+    border-color: #e0e0e0;
     background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 
 
@@ -297,7 +301,16 @@ a { text-decoration: none; color: inherit; }
     margin-bottom: 60px;
     background-color: #000;
     user-select: none;
+    transition: opacity 0.3s;
 }
+
+/* 轮播图按钮交互优化 (三级深度) */
+/* 1. 默认: 隐藏按钮 */
+.carousel-arrow { opacity: 0; }
+
+/* 2. 鼠标移入轮播区: 按钮浮现 (半透明) */
+.hero-carousel:hover .carousel-arrow { opacity: 1; }
+
 
 /* 轮播轨道 */
 .carousel-track {
@@ -331,7 +344,7 @@ a { text-decoration: none; color: inherit; }
 }
 .dot.active { background: #fff; transform: scale(1.5); }
 
-/* 轮播图箭头 (Arrows) - 三级交互优化 */
+/* 轮播图箭头 (Arrows) - 样式升级 */
 .carousel-arrow {
     position: absolute;
     top: 50%;
@@ -339,10 +352,7 @@ a { text-decoration: none; color: inherit; }
     width: 40px; 
     height: 60px; /* 长方形 */
     
-    /* 状态1: 默认隐藏 */
-    opacity: 0;
-    
-    /* 状态2: 浮现时样式 */
+    /* 状态2样式: 浮现时样式 */
     background-color: rgba(255, 255, 255, 0.1); /* 淡白 */
     backdrop-filter: blur(8px); /* 毛玻璃 */
     color: #fff;
@@ -361,12 +371,7 @@ a { text-decoration: none; color: inherit; }
     transition: stroke 0.3s;
 }
 
-/* 状态2: 鼠标进入轮播图区域，按钮浮现 */
-.hero-carousel:hover .carousel-arrow {
-    opacity: 1;
-}
-
-/* 状态3: 鼠标悬停在按钮上，背景纯白，图标变黑 */
+/* 状态3: 鼠标悬停在按钮上，背景纯白，图标变黑，高亮显示 */
 .carousel-arrow:hover {
     background-color: #ffffff; /* 纯白 */
     color: #000;
@@ -475,12 +480,13 @@ a { text-decoration: none; color: inherit; }
     max-width: 900px; margin: 60px auto; 
 }
 
-/* --- 移动端响应式全局样式 --- */
-/* 将断点统一为 1024px (适应 iPad Pro 等平板设备) */
+/* --- 移动端/平板 响应式全局样式 (<= 1024px) --- */
 @media (max-width: 1024px) {
     .navbar { height: 60px; padding: 0 30px; }
+    
     /* 移动端内容区内边距微调 */
     .main-content { padding-top: 60px; } 
+    
     .navbar-actions { display: none; }
     .menu-toggle { display: block; order: 3; }
     
@@ -492,7 +498,7 @@ a { text-decoration: none; color: inherit; }
     }
     .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
     
-    /* 移动端菜单优化：允许换行，以便显示子菜单 */
+    /* 移动端菜单优化 */
     .menu-item { 
         width: 100%; height: auto; align-items: flex-start; padding: 0;
         flex-wrap: wrap; /* 允许子元素换行 */
@@ -504,8 +510,6 @@ a { text-decoration: none; color: inherit; }
         display: flex; justify-content: space-between; align-items: center;
         color: #333;
     }
-    
-    /* 移除PC端下划线动画 */
     .menu-link::after { display: none; }
 
     /* 有下拉菜单的项增加箭头指示 */
@@ -518,8 +522,6 @@ a { text-decoration: none; color: inherit; }
         width: auto; height: auto; background: none; 
         transition: transform 0.3s;
     }
-
-    /* 激活状态下箭头旋转 */
     .menu-item.mobile-active .menu-link::after {
         transform: rotate(-90deg);
         color: #1a1a1a;
@@ -534,38 +536,50 @@ a { text-decoration: none; color: inherit; }
         display: none; /* 默认隐藏 */
         padding-left: 20px; /* 缩进 */
     }
-    
-    /* 激活时显示 */
     .menu-item.mobile-active .dropdown { display: block; }
-    
-    .dropdown-link { 
-        padding: 12px 20px; font-size: 14px; color: #666; 
-        border-bottom: 1px solid #eee; 
-    }
+    .dropdown-link { padding: 12px 20px; font-size: 14px; color: #666; border-bottom: 1px solid #eee; }
     .dropdown-link:last-child { border-bottom: none; }
-    
-    /* 移除 hover 显示 */
     .menu-item:hover .dropdown { display: none; }
-    .menu-item.mobile-active:hover .dropdown { display: block; }
-    
-    .section-separator { margin: 40px auto; }
-    .doc-container { flex-direction: column; margin: 40px auto 20px; gap: 20px; } 
-    
-    .contact-widget { bottom: 80px; right: 20px; }
-    .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
-    .contact-modal-content { flex-direction: column; gap: 30px; padding: 30px 20px; }
-    .qr-item img { width: 150px; height: 150px; }
 
-    /* 首页移动端适配 */
-    .hero-carousel { height: 300px; margin-bottom: 30px; }
-    .tools-grid { grid-template-columns: repeat(2, 1fr); padding: 0 20px; gap: 15px; } /* 移动端2列 */
-    .social-section { gap: 15px; }
-    .social-item { width: 60px; height: 60px; }
-    .carousel-arrow { display: none; } /* 移动端隐藏箭头，使用滑动 */
+    /* 修复：移动端页面顶部间距统一减少，消除导航栏下的白边 */
+    .doc-container, .auth-container, .custom-container {
+        margin-top: 20px; /* 从 60px 减少到 20px */
+    }
+
+    /* --- 首页 Index Mobile 优化 --- */
     
-    /* 极小屏幕优化 */
-    @media (max-width: 480px) {
-         .navbar { padding: 0 20px; }
-         .tools-grid { gap: 10px; padding: 0 15px; }
+    /* 轮播图高度在移动端减小 */
+    .hero-carousel {
+        height: 400px; /* 或者 50vh */
+        margin-bottom: 40px;
+    }
+    /* 移动端轮播图箭头常驻 (无悬停状态) */
+    .carousel-arrow {
+        opacity: 1 !important; 
+    }
+
+    /* 工具网格：移动端改为 2 列 */
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr); /* 强制 2 列 */
+        padding: 0 20px; /* 减小左右内边距 */
+        margin-bottom: 40px;
+    }
+    
+    /* 移动端工具卡片：默认显示标题遮罩 (因为没有 hover) */
+    .tool-overlay {
+        opacity: 1; 
+        background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%); /* 稍微淡一点 */
+    }
+    .tool-title {
+        transform: translateY(0);
+    }
+    
+    /* 社交图标区域 */
+    .social-section {
+        padding: 0 0 40px;
+        gap: 20px;
+    }
+    .social-item {
+        width: 60px; height: 60px; /* 稍微缩小 */
     }
 }

@@ -51,7 +51,15 @@
         .grid-header h2 { font-size: 24px; font-weight: 700; }
         .grid-header p { font-size: 14px; color: #666; margin-top: 5px; }
 
-        .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+        /* 统一 Grid 逻辑: 最小宽度 260px 
+           这意味着在手机端 (宽度<520px) 会自动变为 1 列，卡片宽大清晰；
+           在平板/桌面会自动增加列数。逻辑统一，不再强制移动端双列。
+        */
+        .font-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            gap: 25px; 
+        }
         
         /* 字体卡片 */
         .font-card {
@@ -63,7 +71,7 @@
         .card-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .font-card:hover .card-cover img { transform: scale(1.05); }
         .card-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
-        .font-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .font-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .font-author { font-size: 13px; color: #888; margin-bottom: 15px; }
         .card-footer { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #f5f5f5; padding-top: 12px; }
         .font-specs { font-size: 12px; color: #999; }
@@ -74,21 +82,18 @@
         .page-link { padding: 8px 14px; border: 1px solid #ddd; border-radius: 6px; color: #666; font-size: 14px; cursor: pointer; }
         .page-link.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
 
-        /* 平板及移动端适配 */
+        /* 平板及移动端统一适配 (< 1024px) */
         @media (max-width: 1024px) {
-            .doc-container { flex-direction: column; padding: 0 20px; margin-top: 20px; /* 减少顶部间距 */ }
+            /* 布局改为垂直堆叠: 侧边栏在上，内容在下 */
+            .doc-container { flex-direction: column; padding: 0 20px; margin-top: 20px; }
+            
+            /* 侧边栏样式重置 */
             .sidebar { width: 100%; position: static; max-height: none; border: none; padding: 0; }
             .category-header { background: #fff; border: 1px solid #eee; }
             .subcategory-list { background: #fff; border: 1px solid #eee; border-top: none; }
             
-            /* 强制改为两列布局 */
-            .font-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 15px; 
-            }
-            .card-cover { height: 140px; /* 缩小图片高度 */ }
-            .card-info { padding: 12px; }
-            .font-name { font-size: 16px; }
+            /* Grid 逻辑不再覆盖，沿用 minmax(260px)，手机端自然显示为 1 列 */
+            .font-grid { gap: 20px; } 
         }
     </style>
 </head>
@@ -99,7 +104,7 @@
         <div class="main-content">
             <div class="doc-container">
                 <aside class="sidebar" id="sidebar">
-                    <!-- 新增：搜索卡片 -->
+                    <!-- 侧边栏搜索 -->
                     <div class="sidebar-search">
                         <input type="text" id="sidebarSearch" placeholder="搜索字体名称...">
                     </div>

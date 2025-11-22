@@ -18,6 +18,13 @@
             padding-top: 80px; 
             display: block; 
         }
+
+        /* 移动端微调：确保内容区紧贴导航栏 */
+        @media (max-width: 1024px) {
+            .main-content {
+                padding-top: 60px !important; 
+            }
+        }
     </style>
 <link rel="stylesheet" href="/index.css">
 </head>
@@ -27,7 +34,7 @@
 
     <div class="main-content">
         
-        <!-- 全屏轮播图 (纯图，无拖拽，点击跳转新标签页) -->
+        <!-- 全屏轮播图 (纯图，点击跳转新标签页) -->
         <div class="hero-carousel">
             <!-- 左右切换按钮 (SVG 图标) -->
             <button class="carousel-arrow prev">
@@ -39,7 +46,7 @@
 
             <div class="carousel-track">
                 <!-- 链接设为 target="_blank" -->
-                <a href="qidiansans.html" target="_blank" class="carousel-slide" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp');"></a>
+                <a href="fonts/qidiansans.html" target="_blank" class="carousel-slide" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp');"></a>
                 <a href="fonts.html" target="_blank" class="carousel-slide" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp');"></a>
                 <a href="custom-font.html" target="_blank" class="carousel-slide" style="background-image: url('https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp');"></a>
             </div>
@@ -47,7 +54,7 @@
             <div class="carousel-dots"></div>
         </div>
 
-        <!-- 1. 设计工具区域 (每排4个，纯图悬停显标题) -->
+        <!-- 1. 设计工具区域 (每排4个，手机端2个) -->
         <div class="tools-grid">
             
             <a href="https://www.zizao.top/hao" target="_blank" class="tool-card">
@@ -87,7 +94,7 @@
 
         </div>
 
-        <!-- 2. 社交媒体区域 (圆形图标，居中跳动) -->
+        <!-- 2. 社交媒体区域 (圆形图标，居中) -->
         <div class="social-section">
              <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" class="social-item">
                 <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251117/IvGF/4167X1000/10.png/webp" alt="抖音">

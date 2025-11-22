@@ -249,7 +249,7 @@ function initContactWidget() {
 
 
 /**
- * 首页轮播图逻辑 (纯点击切换，无拖拽)
+ * 首页轮播图逻辑 (支持点击切换和触摸滑动切换)
  */
 function initHeroCarousel() {
     const track = document.querySelector('.carousel-track');
@@ -306,6 +306,33 @@ function initHeroCarousel() {
         currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
         updatePosition();
     });
+
+    // --- Touch Swipe 逻辑 (仅针对移动端) ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const threshold = 50; // 滑动阈值
+        if (touchEndX < touchStartX - threshold) {
+            // 向左滑 -> 下一张
+            currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+            updatePosition();
+        }
+        if (touchEndX > touchStartX + threshold) {
+            // 向右滑 -> 上一张
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
+            updatePosition();
+        }
+    }
 
     // 窗口大小改变时重置位置
     window.addEventListener('resize', () => {
