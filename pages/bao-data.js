@@ -60,29 +60,25 @@ window.APP_DATA = {
             id: '1', category: 'realistic', type: 'ai-prompts',
             title: '赛博朋克街景', model: 'Midjourney v6',
             imageUrl: 'https://picsum.photos/id/237/600/400',
-            prompt: 'A futuristic cyberpunk city street at night, neon lights reflecting on wet pavement, towering skyscrapers with holographic advertisements, cinematic lighting, highly detailed, photorealistic 8k.',
-            tags: ['#Cyberpunk', '#Neon', '#Cityscape', '#8k']
+            prompt: 'A futuristic cyberpunk city street at night, neon lights reflecting on wet pavement, towering skyscrapers with holographic advertisements, cinematic lighting, highly detailed, photorealistic 8k',
         },
         {
             id: '2', category: 'anime', type: 'ai-prompts',
             title: '魔法森林精灵', model: 'Niji 5',
             imageUrl: 'https://picsum.photos/id/1003/600/400',
-            prompt: 'Anime style illustration of a magical forest spirit resembling a deer, glowing blue antlers, surrounded by floating light particles, deep forest background, studio ghibli style, vibrant colors.',
-            tags: ['#Anime', '#Fantasy', '#Ghibli', '#Forest']
+            prompt: 'Anime style illustration of a magical forest spirit resembling a deer, glowing blue antlers, surrounded by floating light particles, deep forest background, studio ghibli style, vibrant colors',
         },
         {
             id: '3', category: '3d', type: 'ai-prompts',
             title: '抽象玻璃几何', model: 'Stable Diffusion XL',
             imageUrl: 'https://picsum.photos/id/106/600/400',
-            prompt: 'Abstract composition of floating glass spheres and cubes, iridescent materials, caustic lighting effects, clean white background, 3D render, blender cycles, octane render.',
-            tags: ['#3D', '#Abstract', '#Glass', '#Clean']
+            prompt: 'Abstract composition of floating glass spheres and cubes, iridescent materials, caustic lighting effects, clean white background, 3D render, blender cycles, octane render',
         },
         {
             id: '4', category: 'realistic', type: 'ai-prompts',
             title: '复古人像摄影', model: 'Midjourney v6',
             imageUrl: 'https://picsum.photos/id/64/600/400',
-            prompt: 'Portrait of an elderly fisherman with a weathered face, natural lighting, wearing a yellow raincoat, stormy sea background, emotional expression, 35mm film photography style.',
-            tags: ['#Portrait', '#Photography', '#Vintage', '#Film']
+            prompt: 'Portrait of an elderly fisherman with a weathered face, natural lighting, wearing a yellow raincoat, stormy sea background, emotional expression, 35mm film photography style',
         }
     ],
 
@@ -93,28 +89,28 @@ window.APP_DATA = {
             name: 'Inter Display', author: 'Rasmus Andersson', isPaid: false,
             description: '专为电脑屏幕精心设计和制作的可变字体系列。',
             imageUrl: 'https://picsum.photos/id/20/600/300',
-            downloadUrl: '#', format: 'OTF', size: '2.4 MB'
+            downloadUrl: '#',
         },
         {
             id: 'f2', category: 'serif', type: 'fonts',
             name: 'Editorial New', author: 'Pangram Pangram', isPaid: true,
             description: '一款精准而优雅的窄衬线字体，专为长篇阅读设计。',
             imageUrl: 'https://picsum.photos/id/24/600/300',
-            downloadUrl: '#', format: 'TTF', size: '1.8 MB'
+            downloadUrl: '#',
         },
         {
             id: 'f3', category: 'display', type: 'fonts',
             name: 'Bebas Neue', author: 'Ryoichi Tsunekawa', isPaid: false,
             description: 'Bebas Neue 是基于原始 Bebas Neue 免费字体的无衬线字体系列。',
             imageUrl: 'https://picsum.photos/id/26/600/300',
-            downloadUrl: '#', format: 'OTF', size: '0.5 MB'
+            downloadUrl: '#',
         },
         {
             id: 'f4', category: 'handwritten', type: 'fonts',
             name: 'Signature Pro', author: 'CreativeMarket', isPaid: true,
             description: '外观自然的签名手写字体，包含大量连字以获得真实感。',
             imageUrl: 'https://picsum.photos/id/42/600/300',
-            downloadUrl: '#', format: 'WOFF2', size: '1.2 MB'
+            downloadUrl: '#',
         }
     ],
 
