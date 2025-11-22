@@ -1,5 +1,3 @@
-// data.js
-// 将数据挂载到 window 对象上，方便 index.html 读取
 
 window.APP_DATA = {
     // Banner 配置
@@ -21,36 +19,32 @@ window.APP_DATA = {
         }
     },
 
-    // 外部工具链接
-    EXTERNAL_TOOLS: [
-        { name: '一键抠图 (Remove.bg)', url: 'https://www.remove.bg' },
-        { name: '图片压缩 (TinyPNG)', url: 'https://tinypng.com' },
-        { name: '配色生成 (Coolors)', url: 'https://coolors.co' },
-        { name: 'SVG 压缩 (SVGOMG)', url: 'https://jakearchibald.github.io/svgomg/' },
-        { name: '谷歌字体 (Google Fonts)', url: 'https://fonts.google.com' },
-    ],
-
     // 分类配置
     CATEGORIES: {
         'ai-prompts': [
             { id: 'all', label: '全部' },
-            { id: 'realistic', label: '写实摄影' },
-            { id: 'anime', label: '动漫风格' },
-            { id: '3d', label: '3D 渲染' },
-            { id: 'logo', label: 'Logo 设计' },
+            { id: 'realistic', label: '#写实' },
+            { id: 'anime', label: '#二次元' },
+            { id: '3d', label: '#3D艺术' },
         ],
         'fonts': [
             { id: 'all', label: '全部' },
-            { id: 'serif', label: '衬线体' },
-            { id: 'sans-serif', label: '无衬线体' },
-            { id: 'display', label: '艺术体' },
-            { id: 'handwritten', label: '手写体' },
+            { id: 'vf', label: '#可变' },
+            { id: 'sans', label: '#黑体' },
+            { id: 'roundhand', label: '#圆体' },
+            { id: 'title', label: '#标题' },
+            { id: 'song', label: '#宋体' },
+            { id: 'kai', label: '#楷体' },
+            { id: 'cartoon', label: '#卡通' },
+            { id: 'handwriting', label: '#手写' },
+            { id: 'calligraphy', label: '#书法' },
+            { id: 'english', label: '#英文' },
         ],
         'software': [
             { id: 'all', label: '全部' },
-            { id: 'design', label: '图形设计' },
-            { id: 'dev', label: '开发工具' },
-            { id: 'utility', label: '效率工具' },
+            { id: 'design', label: '#设计软件' },
+            { id: 'dev', label: '#开发工具' },
+            { id: 'utility', label: '#效率工具' },
         ]
     },
 
@@ -82,31 +76,31 @@ window.APP_DATA = {
         }
     ],
 
-    // 字体数据
+    // 字体数据 - 已修正 category 对应 CATEGORIES['fonts']
     MOCK_FONTS: [
         {
-            id: 'f1', category: 'sans-serif', type: 'fonts',
+            id: 'f1', category: 'sans', type: 'fonts',
             name: 'Inter Display', author: 'Rasmus Andersson', isPaid: false,
             description: '专为电脑屏幕精心设计和制作的可变字体系列。',
             imageUrl: 'https://picsum.photos/id/20/600/300',
             downloadUrl: '#',
         },
         {
-            id: 'f2', category: 'serif', type: 'fonts',
+            id: 'f2', category: 'title', type: 'fonts',
             name: 'Editorial New', author: 'Pangram Pangram', isPaid: true,
             description: '一款精准而优雅的窄衬线字体，专为长篇阅读设计。',
             imageUrl: 'https://picsum.photos/id/24/600/300',
             downloadUrl: '#',
         },
         {
-            id: 'f3', category: 'display', type: 'fonts',
+            id: 'f3', category: 'title', type: 'fonts',
             name: 'Bebas Neue', author: 'Ryoichi Tsunekawa', isPaid: false,
             description: 'Bebas Neue 是基于原始 Bebas Neue 免费字体的无衬线字体系列。',
             imageUrl: 'https://picsum.photos/id/26/600/300',
             downloadUrl: '#',
         },
         {
-            id: 'f4', category: 'handwritten', type: 'fonts',
+            id: 'f4', category: 'handwriting', type: 'fonts',
             name: 'Signature Pro', author: 'CreativeMarket', isPaid: true,
             description: '外观自然的签名手写字体，包含大量连字以获得真实感。',
             imageUrl: 'https://picsum.photos/id/42/600/300',
