@@ -5,998 +5,297 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>字造起点黑 - 自在造字(ZIZAO)</title>
     <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <meta name="author" content="自在造字">
-    <meta property="og:title" content="字造起点黑 - 自在造字(ZIZAO)">
-    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
+    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico">
     
-    <style>
-        /* --- 1.html 原始 CSS 样式部分 --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-        }
+    <!-- 引入公共样式 (假设此文件在 fonts/ 文件夹下，需要返回上一级) -->
+    <link rel="stylesheet" href="../common.css">
 
+    <style>
+        /* --- 页面特有样式 --- */
         body {
             background-color: #f5f5f5;
-            color: #1a1a1a;
-            height: auto; 
-            min-height: 100vh;
-        }
-
-        /* --- 导航栏容器样式 --- */
-        
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 60px; 
-            z-index: 1000;
-            transition: all 0.4s ease;
-        }
-        .navbar-logo { display: flex; align-items: center; text-decoration: none; }
-        .navbar-logo img { height: 30px; width: auto; display: block; }
-        
-        /* 汉堡菜单按钮 */
-        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1001; }
-        .menu-toggle-icon { display: block; width: 25px; height: 2px; background-color: #1a1a1a; position: relative; transition: all 0.3s ease; }
-        .menu-toggle-icon::before, .menu-toggle-icon::after { content: ''; position: absolute; width: 100%; height: 2px; background-color: #1a1a1a; transition: all 0.3s ease; }
-        .menu-toggle-icon::before { top: -8px; }
-        .menu-toggle-icon::after { top: 8px; }
-        
-        /* 导航菜单 */
-        .navbar-menu { display: flex; list-style: none; gap: 50px; height: 100%; align-items: center; }
-        .menu-item { position: relative; height: 100%; display: flex; align-items: center; cursor: pointer; }
-        .menu-link { text-decoration: none; color: #1a1a1a; font-size: 15px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.3s ease; position: relative; }
-        .menu-item:hover .menu-link { color: #444444; }
-        .menu-link::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: #1a1a1a; transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 2px; }
-        .menu-item:hover .menu-link::after { width: 20px; }
-        
-        /* 下拉菜单 */
-        .dropdown { position: absolute; top: 80px; left: 50%; transform: translateX(-50%) translateY(20px);background-color: rgba(255, 255, 255, 0.98);backdrop-filter: blur(10px);min-width: 220px; padding: 20px 0; border-radius: 4px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .menu-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .dropdown li { list-style: none; }
-        .dropdown-link { display: block; padding: 12px 30px; text-decoration: none; color: #666; font-size: 14px; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
-        .dropdown-link:hover { color: #000; background-color: #fff; padding-left: 35px; }
-        .dropdown-link::after { content: '→'; font-size: 12px; color: #1a1a1a; opacity: 0; transform: translateX(-10px); transition: all 0.3s ease; }
-        .dropdown-link:hover::after { opacity: 1; transform: translateX(0); }
-        
-        /* 导航栏右侧操作按钮 */
-        .navbar-actions { display: flex; align-items: center; }
-        .btn-primary {
-            padding: 8px 28px; background-color: #1a1a1a; color: #fff; text-decoration: none;
-            font-size: 14px; font-weight: 600; border-radius: 50px; border: 1px solid #1a1a1a;
-            display: flex; align-items: center; gap: 0; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-        }
-        .btn-primary:hover {
-            background-color: #333333; border-color: #333333; color: #fff; transform: translateY(-1px); 
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
-        }
-
-        /* --- 主体内容样式 --- */
-        .main-content { 
-            padding-top: 80px; /* 1.html 导航栏高度 */
-            width: 100%; 
-            overflow: hidden; 
-        }
-        
-        /* 简单的 Footer */
-        .footer { 
-            padding: 40px 60px; 
-            text-align: center; 
-            color: #888; 
-            font-size: 14px; 
-            border-top: 1px solid rgba(0, 0, 0, 0.05); 
-            width: 100%; 
-            background-color: #fff; 
-            margin-top: 0; 
-        }
-        
-        /* ==================================== */
-        /* --- 手机端响应式优化 (@media) --- */
-        /* ==================================== */
-        @media (max-width: 768px) {
-            
-            /* --- 导航栏手机端样式 --- */
-            .navbar { height: 60px; padding: 0 30px; }
-            .navbar-actions { display: none; }
-            .menu-toggle { display: block; order: 3; }
-            .navbar-menu { 
-                position: absolute; top: 60px; left: 0; width: 100%; height: auto;
-                max-height: calc(100vh - 60px); flex-direction: column; background-color: #fff;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 20px 0; gap: 0; overflow-y: auto;
-                transform: translateY(-100%); visibility: hidden; opacity: 0; transition: all 0.4s ease-out;
-            }
-            .navbar-menu.active { transform: translateY(0); visibility: visible; opacity: 1; }
-            .menu-item { width: 100%; height: auto; align-items: flex-start; padding: 10px 20px; }
-            .menu-link { width: 100%; padding: 10px 0; font-size: 16px; font-weight: 600; }
-            .menu-link::after { display: none; }
-            .dropdown { 
-                position: static; transform: none; width: 100%; min-width: auto; padding: 0; 
-                margin-top: 10px; box-shadow: none; background-color: #f7f7f7; opacity: 1; 
-                visibility: visible; display: none; border-radius: 0;
-            }
-            .menu-item:hover .dropdown { display: block; }
-            .dropdown-link { padding: 10px 40px; font-size: 15px; color: #333; }
-
-            /* --- 瀑布流卡片优化 (保持不变) --- */
-            .main-content { padding-top: 60px; }
-            .masonry-grid { column-count: 1; column-gap: 0; padding: 0 20px 40px; }
-        }
-
-        /* =================================================================
-           qidiansans.html 附加样式 (已进行间距优化和排版细节优化)
-           ================================================================= */
-        
-        :root {
-            --deep-grey: #222222; /* 主深色 */
-            --light-grey: #CCCCCC;
-            --accent-color: #E0B973; 
-            --hover-deep-color: #a88a56; 
-            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
-            --sub-text-color: #6c7a89; /* 辅助文本颜色 */
-            --text-color: #1a2a40;
-            --sidebar-bg: #FFFFFF; /* 新增变量，用于移动端导航背景 */
-        }
-
-        /* 覆盖/补充 body 样式以支持 qidiansans 的内容流 */
-        body {
-            line-height: 1.8;
-            display: flex;
-            flex-direction: column; 
             opacity: 0;
             transition: opacity 0.5s ease-in;
-            overflow-x: hidden; 
+        }
+        :root {
+            --deep-grey: #222222; 
+            --light-grey: #CCCCCC;
+            --accent-color: #E0B973; 
+            --sub-text-color: #6c7a89;
         }
 
-        /* qidiansans 的主要内容区域容器 */
-        main.container {
-            flex-grow: 1; 
-            padding-top: 60px; 
-            padding-bottom: 50px; 
+        /* 修复：移除 padding-top !important，使用 common.css 的 80px 即可 */
+        .main-content { 
+            padding-bottom: 0; 
+            display: block; 
+            width: 100%; 
         }
         
-        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
         
-        /* --- 详情页布局 (英雄区/描述区优化) --- */
-        
-        .container {
-            width: 90%; 
-            max-width: 1200px;
-            margin: 0 auto; 
-            padding: 0; 
-        }
-        
-        /* --- Hero Section 样式 --- (已优化增高) */
+        /* Hero 区域 */
         .font-hero-section {
             width: 100vw; margin-left: calc(50% - 50vw); 
-            background-size: cover; background-position: center; background-color: #000000; 
-            height: 650px; /* 优化：增加高度 */
+            background-color: #000; height: 650px; 
             display: flex; justify-content: center; align-items: center; 
             position: relative; overflow: hidden; 
         }
-        
         .font-hero-section .hero-img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-            z-index: 1; opacity: 1; display: block;
-            transition: transform 0.1s ease-out, opacity 0.3s; 
-            transform-origin: center center; 
-            cursor: grab; 
+            transition: transform 0.1s ease-out; transform-origin: center center; cursor: grab; 
         }
-        .font-hero-section .hero-img.dragging {
-            cursor: grabbing; 
-        }
+        .font-hero-section .hero-img.dragging { cursor: grabbing; }
         
-        /* --- 字体核心信息与操作区 --- */
+        /* 详情内容 */
+        .font-detail-header { padding: 40px 0 20px; }
+        .font-header-and-buttons { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .font-header-and-buttons h1 { font-size: 48px; font-weight: 700; color: var(--deep-grey); }
         
-        /* 1. 头部区域 (间距优化：减少上下留白) */
-        .font-detail-header {
-            padding: 40px 0 20px; 
-        }
+        /* 按钮组 */
+        .action-group.horizontal-actions { display: flex; gap: 15px; align-items: center; flex-wrap: nowrap; }
+        .header-separator { width: 100%; height: 1px; background-color: var(--light-grey); }
         
-        /* 标题和按钮容器 (左右布局) */
-        .font-header-and-buttons {
-            display: flex;
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 20px; 
-        }
-
-        .font-header-and-buttons h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin: 0; 
-            color: var(--deep-grey);
-            line-height: 1.2;
-            flex-shrink: 1; 
-            min-width: 0; 
-        }
+        /* 双栏布局 */
+        .font-two-column-layout { display: flex; gap: 40px; padding: 30px 0; }
+        .design-text-content { flex: 2; }
+        .design-text-content p { font-size: 17px; color: #333; margin-bottom: 20px; line-height: 1.9; text-align: justify; }
         
-        .action-group.horizontal-actions {
-            display: flex;
-            gap: 15px; 
-            flex-shrink: 0; 
-            width: auto; 
-            align-items: center;
+        /* 按钮 */
+        .cta-button { 
+            white-space: nowrap; padding: 12px 30px; border-radius: 50px; 
+            font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; 
+            border: 1px solid var(--deep-grey); display: inline-flex; 
+            justify-content: center; align-items: center; text-decoration: none;
         }
-
-        .header-separator {
-            width: 100%;
-            height: 1px;
-            background-color: var(--light-grey); 
-            margin-bottom: 0; 
-        }
-        
-        /* 2. 两栏内容区域 (间距优化：减少上下留白和列间距) */
-        .font-two-column-layout {
-            display: flex;
-            flex-direction: row; 
-            gap: 40px; 
-            padding-top: 30px; 
-            padding-bottom: 30px; 
-        }
-        
-        /* 设计理念文本内容样式 (左栏) */
-        .design-text-content {
-            flex: 2; 
-        }
-        .design-text-content p {
-            font-size: 17px; 
-            color: #333333; 
-            margin-bottom: 20px; 
-            line-height: 1.9; /* 优化：行高略微收缩，提高阅读块的凝聚力 */
-            text-align: justify; /* 优化：两端对齐，使文本边缘更整齐 */
-        }
-        .design-text-content p:first-of-type strong { 
-            font-weight: 700;
-            color: var(--deep-grey);
-        }
-        
-        /* --- 按钮/规格样式保持不变 --- */
-        .cta-button { width: 100%; padding: 14px 40px; border-radius: 9999px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background-color 0.3s, border-color 0.3s, color 0.3s; display: flex; justify-content: center; align-items: center; box-sizing: border-box; line-height: 1.2; white-space: nowrap; }
-        .download-btn { background-color: var(--deep-grey); color: white; border: 1px solid var(--deep-grey); width: 100%; }
-        .download-btn:hover { background-color: #444444; border-color: #444444; }
-        .license-detail-link { background-color: transparent; color: var(--deep-grey); border: 1px solid var(--deep-grey); width: 220px; }
+        .download-btn { background-color: var(--deep-grey); color: white; }
+        .download-btn:hover { background-color: #444; border-color: #444; }
+        .license-detail-link { background-color: transparent; color: var(--deep-grey); }
         .license-detail-link:hover { background-color: var(--deep-grey); color: white; }
         
-        .font-specs-band { flex: 1; border: 1px solid #E5E5E5; border-radius: 6px; padding: 20px 25px; margin: 0; flex-shrink: 0; }
-        .font-specs-band h3 { 
-            font-size: 24px; 
-            font-weight: 700; 
-            color: var(--deep-grey); 
-            margin-bottom: 15px; 
-            padding-bottom: 10px; 
-            border-bottom: 1px solid #E5E5E5; 
+        /* 规格列表 */
+        .font-specs-band { 
+            flex: 1; 
+            height: fit-content; 
+            border: 1px solid #E5E5E5; border-radius: 6px; padding: 20px 25px; background: #fff; 
         }
-        .font-meta-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .font-meta-list { list-style: none; }
+        .font-meta-list li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .font-meta-list li:last-child { border-bottom: none; }
+        .font-meta-list .meta-label { color: #888; font-size: 14px; }
+        .font-meta-list .meta-value { color: var(--deep-grey); font-weight: 600; font-size: 14px; }
 
-        /* 规格列表排版优化 */
-        .font-meta-list.detailed-specs li { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 10px 0; 
-            border-bottom: 1px solid #F0F0F0; 
+        /* 图片展示 */
+        .image-showcase-container { width: 90%; max-width: 1200px; margin: 30px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .full-width-image { width: 100%; display: block; }
+
+        /* 模态框 */
+        .modal-backdrop { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center; 
+            opacity: 0; visibility: hidden; transition: all 0.3s; 
         }
-        .font-meta-list.detailed-specs li:last-child { border-bottom: none; }
-        .font-meta-list .meta-label { 
-            color: var(--sub-text-color); 
-            font-weight: 400; 
-            font-size: 15px; 
-        }
-        .font-meta-list .meta-value { 
-            color: var(--deep-grey); 
-            font-weight: 600; 
-            font-size: 16px; 
-            text-align: right; 
-        }
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
         
-
-        /* --- 全宽图片 (保持不变) --- */
-        .full-width-image {
-            width: 100%; 
-            max-width: 100%; 
-            margin: 0; 
-            height: auto; 
-            display: block; 
-            object-fit: cover; 
-            vertical-align: middle; 
+        .modal-content { 
+            background: #FFF; padding: 40px; border-radius: 16px; 
+            width: 90%; max-width: 420px; text-align: center;
+            position: relative; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
+        .modal-backdrop.active .modal-content { transform: scale(1); }
         
-        /* 新增：图片展示容器样式 (间距优化：减少上下边距) */
-        .image-showcase-container {
-            width: 90%; 
-            max-width: 1200px; 
-            margin: 30px auto; 
-            display: block; 
-            overflow: hidden; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        .close-btn { 
+            position: absolute; top: 15px; right: 15px; border: none; background: none; 
+            font-size: 24px; color: #999; cursor: pointer; transition: color 0.2s;
         }
-        
-        /* =================================================================
-           模态框 (弹窗) 样式 - 保持不变
-           ================================================================= */
-        
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* 全屏遮罩 */
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-        }
+        .close-btn:hover { color: #333; }
 
-        .modal-backdrop.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-header h2 { margin-bottom: 10px; font-size: 24px; color: #1a1a1a; }
+        .copyright-tip { margin-bottom: 30px; color: #666; font-size: 14px; line-height: 1.5; }
+        .copyright-tip strong { color: #d32f2f; }
 
-        .modal-content {
-            background-color: #FFFFFF;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px; /* 限制弹窗最大宽度 */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            position: relative;
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
+        .modal-cta-group { display: flex; flex-direction: column; gap: 12px; }
+        .modal-download-link { 
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 15px 20px; 
+            background: #f9f9f9; border-radius: 10px; border: 1px solid #eee; 
+            text-decoration: none; color: #333; font-weight: 600; font-size: 15px;
+            transition: all 0.2s; 
         }
+        .modal-download-link:hover { background: #fff; border-color: #000; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .file-format { color: #999; font-weight: 400; font-size: 13px; }
 
-        .modal-backdrop.active .modal-content {
-            transform: translateY(0);
-        }
+        /* 控制条 */
+        .zoom-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 20; background: rgba(34,34,34,0.6); border-radius: 20px; padding: 6px 15px; display: flex; align-items: center; gap: 10px; }
+        .toggle-button { background: transparent; border: none; color: white; cursor: pointer; width: 30px; height: 30px; }
+        .slider-group { display: flex; align-items: center; width: 250px; }
+        .zoom-slider { -webkit-appearance: none; width: 100%; height: 4px; background: #999; border-radius: 2px; }
+        .zoom-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent-color); border-radius: 50%; border: 2px solid white; cursor: grab; }
 
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #AAAAAA;
-            cursor: pointer;
-            line-height: 1;
-            transition: color 0.2s;
-        }
-        .close-btn:hover {
-            color: var(--deep-grey);
-        }
-
-        .modal-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--deep-grey);
-            margin-bottom: 10px;
-        }
-
-        /* 版权提示样式 */
-        .copyright-tip {
-            font-size: 15px;
-            color: #666;
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #E0E0E0;
-        }
-        .copyright-tip strong {
-            color: #D9534F; /* 醒目红色 */
-            font-weight: 600;
-        }
-
-        /* CTA 按钮组样式 */
-        .modal-cta-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* 模态框内的下载链接样式 (复用 .cta-button, 但修改部分样式) */
-        .modal-download-link {
-            width: 100%;
-            padding: 12px 20px; 
-            border-radius: 8px; /* 稍小的圆角 */
-            font-size: 15px;
-            font-weight: 600;
-            background-color: #F7F7F7;
-            color: var(--deep-grey);
-            border: 1px solid #E0E0E0;
-            text-align: center;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-        .modal-download-link:hover {
-            background-color: #EEEEEE;
-            border-color: var(--deep-grey);
-        }
-        
-        /* =================================================================
-           qidiansans.html 响应式设计 (Media Queries) - 优化移动端间距
-           ================================================================= */
         @media (max-width: 1024px) {
-            
-            /* 标题和按钮改为垂直堆叠 (保持不变) */
-            .font-header-and-buttons {
-                flex-direction: column; 
-                align-items: flex-start; 
-                gap: 20px;
-            }
-
-            .font-header-and-buttons h1 {
-                width: 100%;
-            }
-            
-            .action-group.horizontal-actions {
-                width: 100%; 
-                justify-content: space-between; 
-            }
-            .action-group.horizontal-actions .download-dropdown,
-            .action-group.horizontal-actions .license-detail-link {
-                width: 48%; 
-            }
-            
-            /* 两栏内容在平板上改为垂直堆叠 (间距优化) */
-            .font-two-column-layout {
-                flex-direction: column;
-                gap: 30px; 
-            }
-            .design-text-content, .font-specs-band {
-                flex: auto;
-                width: 100%;
-            }
-
-            /* 详细规格列表在平板上改为两列 (保持不变) */
-            .font-specs-band ul { flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
-            .font-specs-band li { width: 48%; padding: 5px 0; border-bottom: 1px solid #F0F0F0 !important; } 
-            .font-specs-band li:nth-child(2n) { border-bottom: none !important; } 
-            .font-specs-band li:last-child { border-bottom: none !important; }
-        }
-
-        @media (max-width: 768px) {
-            
-            .font-hero-section {
-                height: 400px; 
-            }
-            
-            /* --- 手机端图片容器全宽 (间距优化) --- */
-            .image-showcase-container {
-                width: 100vw; 
-                margin-left: calc(50% - 50vw); 
-                margin-right: calc(50% - 50vw);
-                border-radius: 0; 
-                margin: 20px auto; 
-            }
-            /* -------------------------- */
-            
-            .font-header-and-buttons h1 { font-size: 32px; }
-
-            /* 头部区域间距优化 */
-            .font-detail-header {
-                padding: 30px 0 15px; 
-            }
-            
-            /* 两栏内容区域间距优化 */
-            .font-two-column-layout {
-                padding-top: 20px; 
-                padding-bottom: 20px; 
-            }
-            
-            /* 移动端按钮组再次改为垂直堆叠 (保持不变) */
-            .action-group.horizontal-actions {
-                flex-direction: column; 
-                width: 100%;
-                gap: 10px;
-                align-items: stretch;
-            }
-            .action-group.horizontal-actions .download-dropdown,
-            .action-group.horizontal-actions .license-detail-link {
-                width: 100%; 
-            }
-            
-            /* 详细规格列表在移动端改为单列 (保持不变) */
-            .font-specs-band ul { flex-direction: column; }
-            .font-specs-band li { width: 100%; border-bottom: 1px solid #F0F0F0 !important; } 
-            .font-specs-band li:last-child { border-bottom: none !important; }
-            
-            /* 原 .standalone-link-block 样式已移除 */
-            
-            .download-dropdown { width: 100%; }
-            
-            .modal-content {
-                max-width: 90%;
-                padding: 25px 20px;
-            }
-        }
-        
-        /* =================================================================
-           qidiansans.html 滑杆、缩放、拖动和切换按钮相关样式 (保持不变)
-           ================================================================= */
-        
-        .zoom-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20; 
-            background-color: rgba(34, 34, 34, 0.6); 
-            border-radius: 20px;
-            padding: 6px 15px; 
-            display: flex; 
-            align-items: center;
-            width: auto; 
-            max-width: 90%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: opacity 0.3s;
-            gap: 10px; 
-        }
-
-        .zoom-controls:hover {
-             opacity: 1;
-        }
-
-        /* 优化：黑白切换按钮样式 */
-        .toggle-button {
-            background: transparent; 
-            border: none; 
-            color: white; 
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            width: 30px; 
-            height: 30px; 
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-            flex-shrink: 0;
-            transition: color 0.2s ease-out; 
-        }
-
-        .toggle-button:hover {
-            background-color: transparent; 
-            color: var(--accent-color); 
-        }
-        
-        .slider-group {
-            display: flex;
-            align-items: center;
-            width: 250px; 
-        }
-
-        /* 优化：滑块两侧 +/- 符号样式 */
-        .zoom-controls span {
-            color: white;
-            font-size: 14px; 
-            font-weight: 500;
-            margin: 0 5px; 
-            width: auto; 
-            text-align: center;
-        }
-        
-        .zoom-slider {
-            -webkit-appearance: none; 
-            appearance: none;
-            width: 100%;
-            height: 4px; 
-            background: #999999; 
-            outline: none;
-            opacity: 0.9;
-            transition: opacity .2s;
-            cursor: pointer;
-            flex-grow: 1;
-        }
-        .zoom-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--accent-color); 
-            cursor: grab;
-            border: 2px solid white;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-            transition: background 0.2s, box-shadow 0.2s;
-        }
-
-        .zoom-slider::-webkit-slider-thumb:active {
-            cursor: grabbing;
-        }
-
-        .zoom-slider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            cursor: grab;
-            border: 2px solid white;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-            transition: background 0.2s, box-shadow 0.2s;
+            .font-hero-section { height: 400px; }
+            .font-header-and-buttons { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .action-group.horizontal-actions { width: 100%; flex-direction: column; }
+            .cta-button { width: 100%; }
+            .font-two-column-layout { flex-direction: column; }
+            .image-showcase-container { width: 100vw; margin-left: calc(50% - 50vw); border-radius: 0; }
         }
     </style>
-    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
-    </nav>
+    <nav class="navbar" id="navbar"></nav>
 
     <div class="main-content">
         <section class="font-hero-section" id="heroSection">
             <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp" 
-                 alt="字体详情背景图 - 桌面版"
-                 class="hero-img desktop-img"
-                 id="heroImageDesktop">
-
+                 alt="字体详情背景图" class="hero-img" id="heroImageDesktop">
             <div class="zoom-controls">
                 <div class="slider-group">
-                    <span>-</span>
+                    <span style="color:white; margin-right:5px">-</span>
                     <input type="range" min="100" max="300" value="100" class="zoom-slider" id="zoomSlider">
-                    <span>+</span>
+                    <span style="color:white; margin-left:5px">+</span>
                 </div>
                 <button class="toggle-button" id="toggleImageButton">白</button>
             </div>
-                 
         </section>
 
         <main class="container">
-            
             <section class="font-detail-header">
                 <div class="font-header-and-buttons">
                     <h1>字造起点黑</h1>
-                    
                     <div class="action-group horizontal-actions">
-                        <button class="cta-button download-btn" id="showDownloadModalBtn">
-                            免费试用/下载
-                        </button>
-                        
-                        <a href="font-immersive-trial.html" target="_blank" class="cta-button license-detail-link">沉浸式在线试用 ></a>
+                        <button class="cta-button download-btn" id="showDownloadModalBtn">免费试用/下载</button>
+                        <a href="#" class="cta-button license-detail-link">沉浸式在线试用 ></a>
                     </div>
                 </div>
-                
                 <div class="header-separator"></div>
             </section>
 
             <section class="font-two-column-layout">
-                
                 <div class="design-text-content">
                     <p><strong>“宋体 · 沉静”是一款立足于传统宋体结构，融入现代设计美学的新宋体。</strong> </p>
-                         
                     <p>它保留了宋体端庄、秀丽的特点，同时通过优化横竖笔画的粗细对比和出脚的锐利度。</p>
                     <p>使其在屏幕和印刷品上都能保持优秀的阅读性和视觉平衡。</p>
                     <p>我们希望它能为您的品牌或内容带来一种静谧而高级的质感，无论用于正文还是标题，都能完美胜任。</p>
                     <p>如果用作海报等场景，会是一个不错的选择。</p>
                 </div>
-                
                 <div class="font-specs-band">
                     <ul class="font-meta-list detailed-specs">
-                        <li>
-                            <span class="meta-label">字重数量</span>
-                            <span class="meta-value">5 个 (细体至特粗)</span>
-                        </li>
-                        <li>
-                            <span class="meta-label">版权类型</span>
-                            <span class="meta-value" style="color: green;">个人/教育免费商用</span>
-                        </li>
-                        <li>
-                            <span class="meta-label">发布日期</span>
-                            <span class="meta-value">2025年10月</span>
-                        </li>
-                        <li>
-                            <span class="meta-label">设计师</span>
-                            <span class="meta-value">自在造字团队</span>
-                        </li>
-                        <li>
-                            <span class="meta-label">字符集</span>
-                            <span class="meta-value">GB2312 基础字库</span>
-                        </li>
+                        <li><span class="meta-label">字重数量</span><span class="meta-value">5 个 (细体至特粗)</span></li>
+                        <li><span class="meta-label">版权类型</span><span class="meta-value" style="color: #28a745;">个人/教育免费商用</span></li>
+                        <li><span class="meta-label">发布日期</span><span class="meta-value">2025年10月</span></li>
+                        <li><span class="meta-label">设计师</span><span class="meta-value">自在造字团队</span></li>
+                        <li><span class="meta-label">字符集</span><span class="meta-value">GB2312 基础字库</span></li>
                     </ul>
                 </div>
             </section>
-            
         </main>
         
         <div class="image-showcase-container">
-            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" alt="字体应用示例大图" class="full-width-image">
-            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp" alt="字体应用示例大图" class="full-width-image">
-            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/tKbr/930X710/index2.jpg/webp" alt="字体应用示例大图" class="full-width-image">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp" alt="示例1" class="full-width-image">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/seZE/930X710/index3.jpg/webp" alt="示例2" class="full-width-image">
+            <img src="https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/tKbr/930X710/index2.jpg/webp" alt="示例3" class="full-width-image">
         </div>
-
-        </div>
+    </div>
     
-    <footer class="footer" id="footer">
-    </footer>
+    <footer class="footer" id="footer"></footer>
 
     <div id="downloadModal" class="modal-backdrop">
         <div class="modal-content">
-            <button class="close-btn" id="closeModalBtn" aria-label="关闭弹窗">&times;</button>
+            <button class="close-btn" id="closeModalBtn">&times;</button>
             <div class="modal-header">
-                <h2>字体下载</h2>
+                <h2>下载字体</h2>
             </div>
-            
             <p class="copyright-tip">
-                请<strong>尊重版权</strong>！此字体为
-                <br>
-                <strong>个人/教育用途免费商用</strong>
+                请<strong>尊重版权</strong>！<br>此字体为 <strong>个人/教育用途免费商用</strong>
             </p>
-
             <div class="modal-cta-group">
-                <a href="trial_font_ttf.zip" download class="modal-download-link" data-close-modal>TTF 格式 (Windows/Mac)</a>
-                <a href="trial_font_otf.zip" download class="modal-download-link" data-close-modal>OTF 格式 (专业设计)</a>
-                <a href="trial_font_web.zip" download class="modal-download-link" data-close-modal>WOFF2 格式 (Web 试用)</a>
+                <a href="trial_font_ttf.zip" download class="modal-download-link" data-close-modal>
+                    <span>TTF 格式</span>
+                    <span class="file-format">Win/Mac 通用</span>
+                </a>
+                <a href="trial_font_otf.zip" download class="modal-download-link" data-close-modal>
+                    <span>OTF 格式</span>
+                    <span class="file-format">设计专业版</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <script src="https://www.zizao.top/pages/common.js"></script>
+    <!-- 引入公共脚本 (需要返回上一级) -->
+    <script src="../common.js"></script>
 
     <script>
-        // --- 1.html 原始 JS 渲染函数：导航栏 ---
-        function renderNavbar() {
-            // 确保 APP_DATA 可用 (此数据预期由 script.js 或其他地方提供)
-            if (typeof APP_DATA === 'undefined' || !APP_DATA.navData) {
-                console.error("APP_DATA (来自 script.js) 未加载.");
-                return;
-            }
-            const data = APP_DATA.navData;
-            const navbar = document.querySelector('#navbar');
-            if (!navbar) return;
+        // 模态框逻辑
+        const modal = document.getElementById('downloadModal');
+        const showBtn = document.getElementById('showDownloadModalBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        
+        // 修复：移除了 document.body.style.overflow = 'hidden'; 防止抖动
+        if(showBtn) showBtn.addEventListener('click', () => { modal.classList.add('active'); });
+        const hideModal = () => { modal.classList.remove('active'); };
+        if(closeBtn) closeBtn.addEventListener('click', hideModal);
+        if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) hideModal(); });
+        document.querySelectorAll('[data-close-modal]').forEach(btn => btn.addEventListener('click', () => setTimeout(hideModal, 100)));
 
-            let html = data.logoHtml;
-            html += `<button class="menu-toggle">
-                        <span class="menu-toggle-icon"></span>
-                    </button>`;
-
-            let menuHtml = '<ul class="navbar-menu">';
-            data.menuItems.forEach(item => {
-                let dropdownHtml = '';
-                
-                if (item.dropdown) {
-                    dropdownHtml = '<ul class="dropdown">';
-                    item.dropdown.forEach(ddItem => {
-                        let separator = ddItem.separator ? '<li style="border-top: 1px solid #f0f0f0; margin: 5px 20px;"></li>' : '';
-                        dropdownHtml += separator;
-                        dropdownHtml += `<li><a href="${ddItem.link}" class="dropdown-link">${ddItem.name}</a></li>`;
-                    });
-                    dropdownHtml += '</ul>';
-                }
-
-                const linkContent = item.dropdown 
-                                    ? `<span class="menu-link">${item.name}</span>` 
-                                    : `<a href="${item.link}" class="menu-link">${item.name}</a>`;
-                
-                menuHtml += `<li class="menu-item">
-                                ${linkContent}
-                                ${dropdownHtml}
-                            </li>`;
+        // 图片交互逻辑
+        const zoomSlider = document.getElementById('zoomSlider');
+        const toggleButton = document.getElementById('toggleImageButton');
+        const heroImageDesktop = document.getElementById('heroImageDesktop');
+        let scale = 1.0, isDragging = false, startX, startY, currentTranslateX = 0, currentTranslateY = 0;
+        
+        if (zoomSlider && heroImageDesktop) {
+            zoomSlider.addEventListener('input', function() {
+                scale = this.value / 100;
+                applyTransform();
             });
-            menuHtml += '</ul>';
-            html += menuHtml;
-
-            const btn = data.actionButton;
-            html += `<div class="navbar-actions">
-                        <a href="${btn.link}" class="btn-primary" target="${btn.target}" rel="${btn.rel}">
-                            <span>${btn.text}</span>
-                        </a>
-                    </div>`;
-
-            navbar.innerHTML = html;
-        }
-
-        // --- 1.html 原始 JS 渲染函数：底部栏 ---
-        function renderFooter() {
-             if (typeof APP_DATA === 'undefined' || !APP_DATA.footerData) return;
-            const footer = document.querySelector('#footer');
-            if (footer) {
-                footer.innerHTML = APP_DATA.footerData.copyright;
-            }
-        }
-
-        // --- 新增 JS 模态框逻辑 ---
-        function setupDownloadModal() {
-            const modal = document.getElementById('downloadModal');
-            const showBtn = document.getElementById('showDownloadModalBtn');
-            const closeBtn = document.getElementById('closeModalBtn');
-            // const modalContent = document.querySelector('.modal-content'); // 实际未使用
-
-            if (!modal || !showBtn || !closeBtn) return;
-
-            // 显示模态框
-            showBtn.addEventListener('click', () => {
-                modal.classList.add('active');
-                // 阻止页面滚动
-                document.body.style.overflow = 'hidden'; 
-            });
-
-            // 隐藏模态框
-            const hideModal = () => {
-                modal.classList.remove('active');
-                document.body.style.overflow = ''; // 恢复页面滚动
+            
+            const startDrag = (e) => {
+                if (scale <= 1.0) return;
+                e.preventDefault(); e.currentTarget.classList.add('dragging');
+                const event = e.touches ? e.touches[0] : e;
+                startX = event.clientX - currentTranslateX; startY = event.clientY - currentTranslateY;
+                isDragging = true;
+                document.addEventListener('mousemove', drag); document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchmove', drag); document.addEventListener('touchend', stopDrag);
             };
 
-            // 点击关闭按钮关闭
-            closeBtn.addEventListener('click', hideModal);
+            const drag = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const event = e.touches ? e.touches[0] : e;
+                currentTranslateX = event.clientX - startX; currentTranslateY = event.clientY - startY;
+                applyTransform();
+            };
 
-            // 点击遮罩层关闭，但排除点击弹窗内容本身
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    hideModal();
-                }
-            });
+            const stopDrag = () => {
+                isDragging = false; heroImageDesktop.classList.remove('dragging');
+                document.removeEventListener('mousemove', drag); document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchmove', drag); document.removeEventListener('touchend', stopDrag);
+            };
 
-            // 点击下载链接也关闭模态框
-            document.querySelectorAll('[data-close-modal]').forEach(link => {
-                link.addEventListener('click', () => {
-                    setTimeout(hideModal, 100); // 稍作延迟确保下载动作开始
-                });
+            const applyTransform = () => {
+                heroImageDesktop.style.transform = `scale(${scale}) translate(${currentTranslateX / scale}px, ${currentTranslateY / scale}px)`;
+                heroImageDesktop.style.cursor = scale <= 1.0 ? 'default' : 'grab';
+                if (scale <= 1.0) { currentTranslateX = 0; currentTranslateY = 0; }
+            };
+            
+            heroImageDesktop.addEventListener('mousedown', startDrag);
+            heroImageDesktop.addEventListener('touchstart', startDrag);
+            
+            toggleButton.addEventListener('click', () => {
+                const isWhite = toggleButton.textContent === '白';
+                toggleButton.textContent = isWhite ? '黑' : '白';
+                heroImageDesktop.src = isWhite ? 
+                    'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp' : 
+                    'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp';
+                currentTranslateX = 0; currentTranslateY = 0; applyTransform();
             });
         }
-
-        // --- 核心执行逻辑 (1.html 原始逻辑 + qidiansans.html 新增逻辑) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. 渲染导航栏和底部栏内容 (保留 1.html 逻辑)
-            renderNavbar();
-            renderFooter();
-
-            // 2. 绑定移动端菜单切换逻辑 (保留 1.html 逻辑)
-            const menuToggle = document.querySelector('.menu-toggle');
-            const menu = document.querySelector('.navbar-menu');
-
-            if (menuToggle && menu) {
-                menuToggle.addEventListener('click', () => {
-                    menu.classList.toggle('active');
-                });
-            }
-
-            // 3. 模态框逻辑初始化 (替换了之前的下载下拉菜单逻辑)
-            setupDownloadModal();
-
-            // =======================================================
-            // 4. qidiansans.html 的 图片缩放、拖动和切换逻辑 (保持不变)
-            // =======================================================
-            const zoomSlider = document.getElementById('zoomSlider');
-            const heroSection = document.getElementById('heroSection');
-            const toggleButton = document.getElementById('toggleImageButton');
-            
-            const heroImageDesktop = document.getElementById('heroImageDesktop');
-            const allHeroImages = document.querySelectorAll('.hero-img'); 
-            
-            const defaultImageDesktop = 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'; 
-            const alternateImage = 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/KII0/930X710/index1.jpg/webp'; 
-
-            let isWhiteImage = true; 
-            let scale = 1.0;
-            let isDragging = false;
-            let startX, startY, currentTranslateX = 0, currentTranslateY = 0;
-
-            if (zoomSlider && heroImageDesktop && heroSection && toggleButton) {
-
-                // --- 缩放逻辑 ---
-                zoomSlider.addEventListener('input', function() {
-                    scale = this.value / 100;
-                    applyTransform();
-                });
-
-                // --- 拖动逻辑 ---
-                allHeroImages.forEach(img => {
-                    img.addEventListener('mousedown', startDrag);
-                    img.addEventListener('touchstart', startDrag);
-                });
-                
-                function startDrag(e) {
-                    if (scale <= 1.0) return; 
-
-                    e.preventDefault(); 
-                    e.currentTarget.classList.add('dragging'); 
-
-                    const event = e.touches ? e.touches[0] : e;
-                    startX = event.clientX - currentTranslateX;
-                    startY = event.clientY - currentTranslateY;
-                    isDragging = true; 
-
-                    document.addEventListener('mousemove', drag);
-                    document.addEventListener('mouseup', stopDrag);
-                    document.addEventListener('touchmove', drag);
-                    document.addEventListener('touchend', stopDrag);
-                }
-                
-                function drag(e) {
-                    if (!isDragging) return;
-                    e.preventDefault();
-
-                    const event = e.touches ? e.touches[0] : e;
-                    const clientX = event.clientX;
-                    const clientY = event.clientY;
-
-                    currentTranslateX = clientX - startX;
-                    currentTranslateY = clientY - startY;
-
-                    const imgWidth = heroSection.clientWidth * scale;
-                    const imgHeight = heroSection.clientHeight * scale;
-                    const maxTranslateX = (imgWidth - heroSection.clientWidth) / 2;
-                    const maxTranslateY = (imgHeight - heroSection.clientHeight) / 2;
-
-                    currentTranslateX = Math.max(Math.min(currentTranslateX, maxTranslateX), -maxTranslateX);
-                    currentTranslateY = Math.max(Math.min(currentTranslateY, maxTranslateY), -maxTranslateY);
-
-                    applyTransform();
-                }
-
-                function stopDrag() {
-                    isDragging = false;
-                    allHeroImages.forEach(img => img.classList.remove('dragging')); 
-                    
-                    document.removeEventListener('mousemove', drag);
-                    document.removeEventListener('mouseup', stopDrag);
-                    document.removeEventListener('touchmove', drag);
-                    document.removeEventListener('touchend', stopDrag);
-                }
-                
-                function applyTransform() {
-                    const transformStyle = `scale(${scale}) translate(${currentTranslateX / scale}px, ${currentTranslateY / scale}px)`;
-                    
-                    allHeroImages.forEach(img => {
-                        img.style.transform = transformStyle;
-                        if (scale <= 1.0) {
-                            img.style.cursor = 'default';
-                        } else {
-                            img.style.cursor = 'grab';
-                        }
-                    });
-                    
-                    if (scale <= 1.0) {
-                        currentTranslateX = 0;
-                        currentTranslateY = 0;
-                        allHeroImages.forEach(img => img.style.transform = `scale(1.0) translate(0, 0)`);
-                    }
-                }
-                
-                // --- 图片切换逻辑 ---
-                toggleButton.addEventListener('click', function() {
-                    isWhiteImage = !isWhiteImage;
-                    
-                    if (isWhiteImage) {
-                        toggleButton.textContent = '白';
-                        if (heroImageDesktop) heroImageDesktop.src = defaultImageDesktop;
-                    } else {
-                        toggleButton.textContent = '黑';
-                        if (heroImageDesktop) heroImageDesktop.src = alternateImage;
-                    }
-
-                    applyTransform(); 
-                });
-
-                // 监听窗口尺寸变化
-                window.addEventListener('resize', function() {
-                    currentTranslateX = 0;
-                    currentTranslateY = 0;
-                    applyTransform();
-                });
-            }
-            
-            // 5. 页面淡入 (保留逻辑)
-            document.body.style.opacity = '1';
-        });
+        
+        document.body.style.opacity = '1';
     </script>
 </body>
 </html>
