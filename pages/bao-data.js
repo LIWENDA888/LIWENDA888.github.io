@@ -43,8 +43,9 @@ window.APP_DATA = {
         'software': [
             { id: 'all', label: '全部' },
             { id: 'design', label: '#设计软件' },
-            { id: 'dev', label: '#开发工具' },
-            { id: 'utility', label: '#效率工具' },
+            { id: 'windows', label: '#windows软件' },
+            { id: 'mac', label: '#macos软件' },
+            { id: 'android', label: '#安卓软件' },
         ]
     },
 
@@ -121,7 +122,7 @@ window.APP_DATA = {
             ]
         },
         {
-            id: 's2', category: 'dev', type: 'software',
+            id: 's2', category: 'windows', type: 'software',
             title: 'VS Code', version: '1.85.1',
             description: '代码编辑，重新定义。免费、开源、跨平台运行。现代编辑器的标杆。',
             imageUrl: 'https://picsum.photos/id/6/200/200',
@@ -130,12 +131,23 @@ window.APP_DATA = {
                 { label: 'macOS Universal', url: '#' }
             ]
         },
+        
         {
-            id: 's3', category: 'utility', type: 'software',
+            id: 's3', category: 'mac', type: 'software',
             title: 'Raycast', version: '1.63.0',
             description: 'Raycast 是一个极速、完全可扩展的启动器。',
             imageUrl: 'https://picsum.photos/id/96/200/200',
             downloads: [
+                { label: 'macOS Universal', url: '#' }
+            ]
+        },
+        {
+            id: 's4', category: 'android', type: 'software',
+            title: 'VS Code', version: '1.85.1',
+            description: '代码编辑，重新定义。免费、开源、跨平台运行。现代编辑器的标杆。',
+            imageUrl: 'https://picsum.photos/id/6/200/200',
+            downloads: [
+                { label: 'Windows x64', url: '#' },
                 { label: 'macOS Universal', url: '#' }
             ]
         }
