@@ -582,4 +582,18 @@ a { text-decoration: none; color: inherit; }
     .social-item {
         width: 60px; height: 60px; /* 稍微缩小 */
     }
+
+    /* --- 移动端：客服弹窗优化 (垂直排列 + 适配大小) --- */
+    .contact-modal-content {
+        flex-direction: column;
+        gap: 30px; /* 增加间距 */
+        width: 85%; /* 适配窄屏 */
+        max-width: 320px; /* 防止平板上过宽 */
+        padding: 30px 20px;
+    }
+    .qr-item img {
+        width: 180px; /* 调大尺寸以清晰显示 */
+        height: 180px;
+        margin-bottom: 10px;
+    }
 }

@@ -51,12 +51,13 @@
         .grid-header h2 { font-size: 24px; font-weight: 700; }
         .grid-header p { font-size: 14px; color: #666; margin-top: 5px; }
 
-        /* 统一 Grid 逻辑: 最小宽度 260px 
-           这意味着在手机端 (宽度<520px) 会自动变为 1 列，卡片宽大清晰；
-           在平板/桌面会自动增加列数。逻辑统一，不再强制移动端双列。
-        */
+        /* Font Grid Layout Optimization */
         .font-grid { 
             display: grid; 
+            /* 使用 auto-fill 和 minmax 确保响应式。
+               当容器变宽时，列数增加；变窄时，列数减少。
+               minmax(260px, 1fr) 意味着列宽至少 260px，若空间不足则换行。
+            */
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
             gap: 25px; 
         }
@@ -65,6 +66,13 @@
         .font-card {
             background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.03);
             transition: all 0.3s; display: flex; flex-direction: column; text-decoration: none; color: inherit;
+            
+            /* --- 桌面端优化 --- */
+            /* 限制最大宽度，防止结果很少(如只有1个)时，卡片被 auto-fill 拉伸成巨型横幅。
+               width: 100% 确保在正常列宽内填满。
+            */
+            max-width: 380px; 
+            width: 100%;
         }
         .font-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(0,0,0,0.06); }
         .card-cover { height: 180px; background: #f0f0f0; overflow: hidden; }
@@ -92,8 +100,19 @@
             .category-header { background: #fff; border: 1px solid #eee; }
             .subcategory-list { background: #fff; border: 1px solid #eee; border-top: none; }
             
-            /* Grid 逻辑不再覆盖，沿用 minmax(260px)，手机端自然显示为 1 列 */
+            /* Grid 逻辑调整 */
             .font-grid { gap: 20px; } 
+
+            /* --- 移动端卡片优化 --- */
+            /* 
+               在移动端，取消 max-width 限制。
+               - 如果屏幕很窄 (只能放1列)，Grid 分配给卡片 100% 宽度，卡片就全宽显示。
+               - 如果屏幕稍宽 (能放2列)，Grid 分配给卡片 50% 宽度，卡片就自适应填满这 50%。
+               这样既满足了“单行时满宽”，也满足了“能显示两行时正常显示”。
+            */
+            .font-card {
+                max-width: 100% !important; 
+            }
         }
     </style>
 </head>
