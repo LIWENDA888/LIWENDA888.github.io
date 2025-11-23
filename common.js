@@ -218,12 +218,12 @@ function initContactWidget() {
             <div class="contact-modal-content">
                 <button class="close-contact-modal">&times;</button>
                 <div class="qr-item">
-                    <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251117/Q2Wg/4167X1667/8.png/webp" alt="添加微信">
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp/webp" alt="添加微信">
                     <p>添加微信好友</p>
                 </div>
                 <div class="qr-item">
-                    <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251117/0y1B/4167X1667/9.png/webp" alt="关注公众号">
-                    <p>关注公众号</p>
+                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp/webp" alt="关注公众号">
+                    <p>关注微信公众号</p>
                 </div>
             </div>
         </div>
