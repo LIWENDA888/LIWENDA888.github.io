@@ -1,747 +1,1153 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线TXT文本编辑器 - 自在造字(ZIZAO)</title>
-    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <meta name="author" content="自在造字">
-    <meta property="og:title" content="在线TXT文本编辑器 - 自在造字(ZIZAO)">
-    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --deep-grey: #222222;
-            --light-grey: #CCCCCC;
-            --accent-color: #E0B973; 
-            --active-color: #222222;
-            --nav-hover-bg: rgba(224, 185, 115, 0.1); 
-            --sidebar-bg: #FFFFFF; 
-            --sub-text-color: #6c7a89;
-            --text-color: #1a2a40;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #FFFFFF; 
-            color: var(--deep-grey);
-            line-height: 1.6;
-            opacity: 0;
-            transition: opacity 0.5s;
-            background-image: none; 
-            min-height: 100vh; 
-            display: flex;
-            flex-direction: column; 
-        }
-
-        /* 移除顶部导航栏后，调整 main 区域从页面顶部开始 */
-        main {
-            flex-grow: 1; 
-            padding-top: 0; /* 移除 Header 占用的空间 */
-            padding-left: 0; 
-            padding-right: 0;
-            width: 100%;
-            max-width: none;
-        }
-
-        a { color: var(--deep-grey); text-decoration: none; transition: color 0.3s; }
-
-        /* 移除 Header/Nav/Toggle 的所有样式 */
-        /* .header, .nav, .logo, .nav-item-dropdown, .dropdown-menu, .menu-toggle, .backdrop 相关的样式已全部移除 */
-        
-        .footer {
-            display: none !important;
-        }
-
-        .copyright-section p { color: var(--sub-text-color); font-size: 0.9rem; margin: 0; }
-        .copyright-section a { color: var(--sub-text-color); }
-        .copyright-section a:hover { color: var(--text-color); text-decoration: underline; }
-
-        @media (max-width: 768px) {
-            main {
-                padding-top: 0; /* 移除移动端 Header 占用的空间 */
-            }
-            
-            /* 移除移动端 Header/Nav 的所有样式 */
-        }
-        
-        html, body {
-            height: 100%;
-        }
-        body {
-            background: #FFF3E0; 
-            min-height: 100vh;
-            color: #333;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            overflow: hidden;
-        }
-
-        body.theme-dark {
-            background: #2C2F33;
-            color: #E0E0E0;
-        }
-        body.theme-dark .dock-bar {
-            background-color: rgba(47, 50, 56, 0.7); 
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        body.theme-dark #editor {
-            background-color: rgba(47, 50, 56, 0.95);
-            color: #E0E0E0;
-        }
-        body.theme-dark .btn:not(.active),
-        body.theme-dark .icon-btn:not(.active) {
-            background-color: #3C4045;
-            color: #E0E0E0;
-        }
-        body.theme-dark .btn:not(.active):hover,
-        body.theme-dark .icon-btn:not(.active):hover {
-            background-color: #50545A;
-        }
-        body.theme-dark .char-stats-overlay {
-            background-color: transparent; 
-            color: #B0B0B0;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-        body.theme-dark .char-stats-overlay span {
-            color: #FF9800;
-        }
-        body.theme-dark #findInput {
-            background-color: transparent; 
-            color: #E0E0E0;
-        }
-        body.theme-dark .font-size-group #fontSizeValue {
-            color: #E0E0E0;
-        }
-        body.theme-dark .clear-btn {
-            color: #aaa;
-        }
-        body.theme-dark .clear-btn:hover {
-            color: #E0E0E0;
-        }
-        body.theme-dark .separator {
-            background-color: #555;
-        }
-        body.theme-dark .highlight {
-            background-color: #FF9800; 
-            color: #2C2F33; 
-        }
-
-        .editor-wrapper {
-            position: relative; 
-            width: 100%;
-            height: 100%; 
-            display: flex;
-            flex-direction: column;
-        }
-
-        .editor-container {
-            flex: 1; 
-            display: flex;
-            position: relative;
-            min-height: 0; 
-        }
-
-        #editor {
-            flex: 1;
-            padding: 35px;
-            padding-bottom: 110px; 
-            font-size: 18px; 
-            line-height: 1.7; 
-            letter-spacing: 1px; 
-            overflow-y: auto; 
-            outline: none;
-            border: none;
-            resize: none;
-            background-color: rgba(255, 255, 255, 0.95);
-            text-align: left; 
-            word-wrap: break-word; 
-            height: 100%; 
-        }
-        
-        .dock-bar {
-            position: fixed;
-            bottom: 25px; 
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            padding: 10px 20px; 
-            border-radius: 16px; 
-            background-color: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .control-group { display: flex; align-items: center; gap: 4px; padding: 4px 0; }
-
-        .btn, .icon-btn {
-            border: none;
-            height: 34px; 
-            min-width: 34px; 
-            padding: 0 8px; 
-            border-radius: 6px; 
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            background: #f0f0f0; 
-            color: #555;
-            box-shadow: none;
-        }
-        .btn i, .icon-btn i { font-size: 15px; }
-        .btn.primary, .icon-btn.primary,
-        .btn.active, .icon-btn.active {
-            background: #FF9800; 
-            color: white;
-        }
-        .btn:hover, .icon-btn:hover {
-            background: #e0e0e0;
-            transform: translateY(-1px);
-        }
-        .btn.primary:hover, .icon-btn.primary:hover,
-        .btn.active:hover, .icon-btn.active:hover {
-            background: #E65100;
-            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.4);
-            transform: translateY(-1px);
-        }
-
-        .font-size-group { width: 180px; gap: 5px; }
-        .font-size-group input[type="range"] { flex-grow: 1; }
-        .font-size-group #fontSizeValue {
-            font-size: 12px; min-width: 30px; text-align: center;
-            color: #555; font-weight: bold;
-        }
-
-        .separator {
-            width: 1px; height: 18px; 
-            background-color: #ddd; margin: 0; flex-shrink: 0;
-        }
-
-        .find-control {
-            position: relative; display: flex; align-items: center;
-            border-radius: 6px; background-color: #f0f0f0; padding: 0; overflow: hidden; 
-        }
-
-        #findInput {
-            padding: 0 35px 0 8px; border: none; background: transparent;
-            height: 34px; width: 120px; font-size: 13px; color: #333;
-        }
-        #findInput:focus { outline: none; }
-
-        .clear-btn {
-            position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
-            border: none; background: transparent; color: #999; cursor: pointer;
-            width: 30px; height: 30px; display: none; 
-            align-items: center; justify-content: center; padding: 0;
-            transition: color 0.2s ease; z-index: 10;
-        }
-
-        .find-control .icon-btn {
-            height: 34px; border-radius: 0 6px 6px 0; 
-            padding: 0 8px; min-width: 34px;
-        }
-        
-        .char-stats-overlay {
-            position: fixed;
-            bottom: 35px; 
-            right: 35px;  
-            top: auto; left: auto; 
-            z-index: 999;
-            background-color: transparent; 
-            padding: 0;
-            border-radius: 0;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            font-size: 13px;
-            color: #555;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: row; 
-            gap: 15px; 
-        }
-
-        .char-stats-overlay div { margin-bottom: 0; white-space: nowrap; }
-
-        .char-stats-overlay span {
-            color: #E65100;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        .highlight {
-            background-color: #FFE0B2;
-            padding: 0 3px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        @media (max-width: 850px) {
-            .char-stats-overlay { display: none; }
-
-            .dock-bar {
-                width: max-content; max-width: 95%; 
-                bottom: 15px; flex-wrap: nowrap; 
-                justify-content: center; gap: 8px; 
-                padding: 8px 12px; overflow-x: auto; 
-            }
-
-            .separator { display: none; }
-
-            .btn, .icon-btn {
-                height: 30px; min-width: 30px; 
-                padding: 0 6px; font-size: 12px;
-            }
-            .btn i, .icon-btn i { font-size: 13px; }
-
-            .font-size-group { width: 110px; gap: 3px; }
-
-            .find-control #findInput {
-                width: 80px; height: 30px;
-                padding: 0 30px 0 6px; 
-            }
-            body.theme-dark .find-control #findInput {
-                 background-color: #3C4045;
-            }
-            .clear-btn { right: 30px; width: 25px; height: 25px; }
-            .find-control .icon-btn {
-                 height: 30px; min-width: 30px;
-            }
-            
-             #editor {
-                padding-top: 20px; 
-                padding-bottom: 100px; 
-            }
-        }
-    </style>
-</head>
-<body class="theme-orange">
-
-    <main> <div class="editor-wrapper">
-            <div class="editor-container">
-                <div id="editor" contenteditable="true">在这里输入您的文本。</div>
-            </div>
-
-            <div class="char-stats-overlay">
-                <div>去重: <span id="uniqueCharCount">0</span></div>
-                <div>字数: <span id="totalCharCount">0</span></div>
-                <div>行数: <span id="lineCount">0</span></div>
-            </div>
-
-            <div class="dock-bar">
-                
-                <div class="control-group font-size-group" title="调整字体大小">
-                    <i class="fas fa-text-height"></i>
-                    <input type="range" id="fontSize" min="12" max="60" value="18">
-                    <span id="fontSizeValue">18px</span>
-                </div>
-
-                <div class="separator"></div>
-
-                <div class="control-group text-mode-control">
-                    <button class="icon-btn text-mode-btn" data-mode="loose" title="宽松模式：行高和字间距较大"><i class="fas fa-arrows-alt-v"></i></button>
-                    <button class="icon-btn text-mode-btn" data-mode="compact" title="紧凑模式：行高和字间距较小"><i class="fas fa-compress-alt"></i></button>
-                </div>
-
-                <div class="separator"></div>
-
-                <div class="control-group alignment-control">
-                    <button class="icon-btn align-btn" data-align="center" title="切换居中/左对齐">
-                        <i class="fas fa-align-center"></i>
-                    </button>
-                </div>
-
-                <div class="separator"></div>
-
-                <div class="control-group deduplicate-control">
-                    <button id="deduplicateBtn" class="icon-btn" title="去重字符（会丢失所有格式）">
-                        <i class="fas fa-filter"></i>
-                    </button>
-                </div>
-                
-                <div class="separator"></div>
-
-                <div class="control-group find-control">
-                    <input type="text" id="findInput" placeholder="查找...">
-                    <button id="clearInputBtn" class="clear-btn" title="清除查找内容及高亮"><i class="fas fa-times"></i></button>
-                    <button id="findBtn" class="icon-btn primary" title="查找并高亮"><i class="fas fa-search"></i></button>
-                </div>
-
-                <div class="separator"></div>
-
-                <div class="control-group scroll-buttons">
-                    <button id="scrollTopBtn" class="icon-btn" title="滚动到顶部"><i class="fas fa-arrow-up"></i></button>
-                    <button id="scrollBottomBtn" class="icon-btn" title="滚动到底部"><i class="fas fa-arrow-down"></i></button>
-                </div>
-
-            </div>
-        </div>
-
-    </main>
-
-    <footer id="footerContainer">
-    </footer>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自在文本编辑器 Pro</title>
     
-    <script src="https://www.zizao.top/pages/common.js"></script>
-    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // 移除 renderHeader() 函数
-        
-        const editor = document.getElementById('editor');
-        const fontSizeSlider = document.getElementById('fontSize');
-        const fontSizeValue = document.getElementById('fontSizeValue');
-        const findInput = document.getElementById('findInput');
-        const findBtn = document.getElementById('findBtn');
-        const clearInputBtn = document.getElementById('clearInputBtn'); 
-        const deduplicateBtn = document.getElementById('deduplicateBtn');
-        const scrollTopBtn = document.getElementById('scrollTopBtn');
-        const scrollBottomBtn = document.getElementById('scrollBottomBtn');
-        const uniqueCharCount = document.getElementById('uniqueCharCount');
-        const totalCharCount = document.getElementById('totalCharCount');
-        const lineCount = document.getElementById('lineCount');
-        const alignCenterBtn = document.querySelector('.align-btn[data-align="center"]');
-        const textModeButtons = document.querySelectorAll('.text-mode-btn');
-
-        function initEditorContent() {
-            const savedContent = localStorage.getItem('editorContent');
-            const initialTheme = localStorage.getItem('theme') || 'orange';
-            document.body.className = `theme-${initialTheme}`;
-
-            if (savedContent) {
-                editor.innerHTML = savedContent;
-            } 
-            editor.style.textAlign = localStorage.getItem('textAlign') || 'left';
-            updateCharStats();
-        }
-
-        function updateCharStats() {
-            const text = editor.innerText || editor.textContent;
-            const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
-            totalCharCount.textContent = chineseChars.length;
-            const uniqueChars = new Set(chineseChars);
-            uniqueCharCount.textContent = uniqueChars.size;
-            const trimmedText = text.trim();
-            const lines = trimmedText === '' ? [] : trimmedText.split('\n');
-            lineCount.textContent = lines.length;
-        }
-
-        function setupAutoSave() {
-            let saveTimer;
-
-            editor.addEventListener('input', () => {
-                updateCharStats(); 
-                clearTimeout(saveTimer); 
-
-                saveTimer = setTimeout(() => {
-                    localStorage.setItem('editorContent', editor.innerHTML); 
-                }, 1500);
-            });
-        }
-
-        function setupStyleAdjustments() {
-            const savedFontSize = localStorage.getItem('fontSize');
-            const defaultSize = fontSizeSlider.value;
-            const size = savedFontSize || defaultSize;
-
-            editor.style.fontSize = `${size}px`;
-            fontSizeSlider.value = size;
-            fontSizeValue.textContent = `${size}px`;
-
-            fontSizeSlider.addEventListener('input', () => {
-                const newSize = fontSizeSlider.value;
-                editor.style.fontSize = `${newSize}px`;
-                fontSizeValue.textContent = `${newSize}px`;
-                localStorage.setItem('fontSize', newSize);
-            });
-        }
-
-        function setupWheelZoom() {
-            editor.addEventListener('wheel', (e) => {
-                if (e.altKey) {
-                    e.preventDefault();
-                    const currentSize = parseInt(editor.style.fontSize) || 18;
-                    let newSize = currentSize;
-                    if (e.deltaY < 0) {
-                        newSize = Math.min(60, currentSize + 1);
-                    } else {
-                        newSize = Math.max(12, currentSize - 1);
-                    }
-
-                    if (newSize !== currentSize) {
-                        editor.style.fontSize = `${newSize}px`;
-                        fontSizeSlider.value = newSize;
-                        fontSizeValue.textContent = `${newSize}px`;
-                        localStorage.setItem('fontSize', newSize);
-                    }
-                }
-            }, { passive: false });
-        }
-
-        function setupFindFunctionality() {
-            function clearHighlights() {
-                const highlights = editor.querySelectorAll('.highlight');
-                highlights.forEach(highlight => {
-                    const textNode = document.createTextNode(highlight.textContent);
-                    const parent = highlight.parentNode;
-                    parent.replaceChild(textNode, highlight);
-
-                    if (parent.normalize) {
-                        parent.normalize();
-                    }
-                });
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              slate: {
+                50: '#f8fafc',
+                100: '#f1f5f9',
+                200: '#e2e8f0',
+                300: '#cbd5e1',
+                400: '#94a3b8',
+                500: '#64748b',
+                600: '#475569',
+                700: '#334155',
+                800: '#1e293b',
+                850: '#151e2e',
+                900: '#0f172a',
+                950: '#020617',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+              serif: ['Noto Serif SC', 'serif'],
+              mono: ['Fira Code', 'monospace'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.2s ease-out',
+              'zoom-in': 'zoomIn 0.2s ease-out',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              zoomIn: {
+                '0%': { opacity: '0', transform: 'scale(0.95)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
             }
-
-            function clearInputAndHighlights() {
-                clearHighlights();
-                findInput.value = '';
-                clearInputBtn.style.display = 'none'; 
-                editor.focus();
-            }
-
-            function highlightText(node, searchTerm) {
-                const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const regex = new RegExp(escapedSearchTerm, 'gi');
-
-                const walker = document.createTreeWalker(
-                    node,
-                    NodeFilter.SHOW_TEXT,
-                    null,
-                    false
-                );
-
-                let currentNode;
-                const textNodesToProcess = [];
-
-                while ((currentNode = walker.nextNode())) {
-                    if (!currentNode.parentNode.classList.contains('highlight') &&
-                        currentNode.textContent.trim().length > 0) {
-                        textNodesToProcess.push(currentNode);
-                    }
-                }
-
-                textNodesToProcess.forEach(textNode => {
-                    const text = textNode.textContent;
-                    let match;
-                    let lastIndex = 0;
-                    const fragment = document.createDocumentFragment();
-                    let matchesFound = false;
-                    const parentNode = textNode.parentNode;
-
-                    regex.lastIndex = 0;
-
-                    while ((match = regex.exec(text)) !== null) {
-                        matchesFound = true;
-                        if (match.index > lastIndex) {
-                            fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
-                        }
-                        const span = document.createElement('span');
-                        span.className = 'highlight';
-                        span.textContent = match[0];
-                        fragment.appendChild(span);
-                        lastIndex = regex.lastIndex;
-                    }
-
-                    if (matchesFound) {
-                        if (lastIndex < text.length) {
-                            fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
-                        }
-                        parentNode.replaceChild(fragment, textNode);
-                    }
-                });
-            }
-
-            findInput.addEventListener('input', () => {
-                if (findInput.value.trim() !== '') {
-                    clearInputBtn.style.display = 'flex'; 
-                } else {
-                    clearInputAndHighlights(); 
-                }
-            });
-            
-            findInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    findBtn.click();
-                }
-            });
-
-            clearInputBtn.addEventListener('click', clearInputAndHighlights);
-
-            findBtn.addEventListener('click', () => {
-                const searchTerm = findInput.value.trim();
-                clearHighlights(); 
-
-                if (searchTerm === '') {
-                    editor.focus();
-                    return;
-                }
-
-                highlightText(editor, searchTerm);
-
-                const firstHighlight = editor.querySelector('.highlight');
-                if (firstHighlight) {
-                    firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                editor.focus();
-            });
-        }
-
-        function setupScrollButtons() {
-            scrollTopBtn.addEventListener('click', () => {
-                editor.scrollTop = 0;
-            });
-
-            scrollBottomBtn.addEventListener('click', () => {
-                editor.scrollTop = editor.scrollHeight;
-            });
-        }
-
-        function setupTextAlignment() {
-            const savedAlign = localStorage.getItem('textAlign');
-            if (savedAlign) {
-                editor.style.textAlign = savedAlign;
-                if (savedAlign === 'center') {
-                    alignCenterBtn.classList.add('active');
-                } else {
-                    alignCenterBtn.classList.remove('active');
-                }
-            } else {
-                editor.style.textAlign = 'left';
-                alignCenterBtn.classList.remove('active');
-            }
-
-            alignCenterBtn.addEventListener('click', () => {
-                if (editor.style.textAlign === 'center') {
-                    editor.style.textAlign = 'left';
-                    alignCenterBtn.classList.remove('active');
-                } else {
-                    editor.style.textAlign = 'center';
-                    alignCenterBtn.classList.add('active');
-                }
-                localStorage.setItem('textAlign', editor.style.textAlign);
-            });
-        }
-
-        function setupTextModes() {
-            const initialMode = localStorage.getItem('textMode') || 'loose';
-
-            const activateButton = (mode) => {
-                textModeButtons.forEach(btn => {
-                    if (btn.getAttribute('data-mode') === mode) {
-                        btn.classList.add('active');
-                        if (mode === 'compact') {
-                            editor.style.lineHeight = '1.4';
-                            editor.style.letterSpacing = '0px';
-                        } else {
-                            editor.style.lineHeight = '1.7';
-                            editor.style.letterSpacing = '1px';
-                        }
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-            };
-
-            activateButton(initialMode);
-
-            textModeButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const mode = btn.getAttribute('data-mode');
-                    activateButton(mode);
-                    localStorage.setItem('textMode', mode);
-                });
-            });
-        }
-
-        function setupDeduplicateFunctionality() {
-            deduplicateBtn.addEventListener('click', () => {
-                const currentText = editor.innerText || editor.textContent;
-
-                if (currentText.trim() === '') {
-                    alert('编辑器内容为空，无需去重。');
-                    return;
-                }
-
-                const confirmDeduplicate = confirm('“去重字符”功能将移除所有重复字符，并会丢失编辑器中的所有格式（如标题、列表、加粗等）。您确定要继续吗？');
-                if (!confirmDeduplicate) {
-                    return;
-                }
-
-                let simpleResult = '';
-                const simpleSeen = new Set();
-                for (const char of currentText) {
-                    if (char.trim() === '') {
-                        simpleResult += char; 
-                    } else if (!simpleSeen.has(char)) {
-                        simpleSeen.add(char);
-                        simpleResult += char;
-                    }
-                }
-                
-                editor.textContent = simpleResult;
-                updateCharStats();
-                editor.focus();
-                alert('字符去重完成！所有格式已丢失，请注意。');
-            });
-        }
-
-        function setupPasteAsPlainText() {
-            editor.addEventListener('paste', (event) => {
-                event.preventDefault();
-                const plainText = event.clipboardData.getData('text/plain');
-                document.execCommand('insertText', false, plainText);
-            });
-        }
-
-        function setupDarkModeToggle() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('theme-dark');
-            } else {
-                 document.body.classList.remove('theme-dark');
-                 localStorage.setItem('theme', 'orange');
-            }
-        }
-        
-        // 移除 setupNavEvents() 函数
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // 移除了 Header/Nav 相关的初始化调用
-            
-            setupDarkModeToggle();
-            setupTextModes();
-            initEditorContent();
-            setupAutoSave();
-            setupStyleAdjustments();
-            setupTextAlignment();
-            setupWheelZoom();
-            setupFindFunctionality();
-            setupScrollButtons();
-            setupDeduplicateFunctionality();
-            setupPasteAsPlainText();
-            
-            document.body.style.opacity = '1';
-        });
+          },
+        },
+      }
     </script>
 
-</body>
+    <!-- 2. Styles -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&family=Fira+Code&display=swap');
+      
+      body {
+        font-family: 'Noto Sans SC', 'Inter', sans-serif;
+        overflow: hidden;
+      }
+      
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Custom Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      /* Dark Mode Scrollbar */
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 4px;
+      }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+      }
+
+      /* Light Mode Scrollbar */
+      .light .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .light .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    </style>
+
+    <!-- 3. React & ReactDOM (UMD) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- 4. Babel (Standalone) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 5. Libraries (UMD) -->
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.min.js"></script>
+    <!-- Pinyin Pro -->
+    <script src="https://unpkg.com/pinyin-pro@3.18.3/dist/index.js"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "pinyin-pro": "https://aistudiocdn.com/pinyin-pro@^3.27.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+
+    <!-- MAIN APPLICATION SCRIPT -->
+    <script type="text/babel">
+      // --- GLOBALS DESTUCTURING ---
+      // Instead of imports, we grab from the global window objects
+      const { useState, useEffect, useRef, useMemo, useCallback } = React;
+      const { createPortal } = ReactDOM;
+      const { pinyin } = pinyinPro;
+
+      // Destructure Icons from lucideReact
+      const { 
+        AlignLeft, AlignCenter, AlignRight, 
+        ArrowUpToLine, ArrowDownToLine, 
+        Search, Copy, Eraser, Languages, SplitSquareHorizontal,
+        Minus, Plus, MoveVertical, X, Sun, Moon,
+        Maximize2, Minimize2, FileText, Download, FolderOpen,
+        Home, Check, Loader2, ArrowLeft, ArrowRight, PlusCircle
+      } = lucideReact;
+
+      // --- CONSTANTS & HELPERS ---
+      
+      const PinyinType = {
+        LOWER_TONE: 'Lowercase with Tone',
+        LOWER_NO_TONE: 'Lowercase no Tone',
+        UPPERCASE: 'Uppercase',
+      };
+
+      // Service: Pinyin
+      const convertToPinyinLocal = (text, mode) => {
+        if (!text || !text.trim()) return "";
+        let options = { v: true, nonZh: 'consecutive' };
+        switch (mode) {
+          case PinyinType.LOWER_TONE: options.toneType = 'symbol'; break;
+          case PinyinType.LOWER_NO_TONE: options.toneType = 'none'; break;
+          case PinyinType.UPPERCASE: options.toneType = 'none'; break;
+        }
+        let result = pinyin(text, options);
+        if (mode === PinyinType.UPPERCASE) result = result.toUpperCase();
+        return result;
+      };
+
+      // Service: Diff (Local)
+      const compareTextsLocal = (textA, textB) => {
+        const cleanA = textA.replace(/\s/g, '');
+        const cleanB = textB.replace(/\s/g, '');
+        
+        const setA = new Set(cleanA.split(''));
+        const setB = new Set(cleanB.split(''));
+        
+        // Find Unique
+        const uniqueToLeft = [...setA].filter(x => !setB.has(x)).sort();
+        const uniqueToRight = [...setB].filter(x => !setA.has(x)).sort();
+
+        // Calculate a basic similarity score
+        const intersection = new Set([...setA].filter(x => setB.has(x)));
+        const union = new Set([...setA, ...setB]);
+        
+        let similarityScore = 0;
+        if (union.size > 0) {
+            similarityScore = Math.round((intersection.size / union.size) * 100);
+        } else if (textA === textB) {
+            similarityScore = 100;
+        }
+
+        let summary = "两段文本完全一致。";
+        if (similarityScore < 100) {
+            summary = `文本相似度为 ${similarityScore}%。左侧有 ${uniqueToLeft.length} 个独有字符，右侧有 ${uniqueToRight.length} 个独有字符。`;
+        }
+
+        return {
+          uniqueToLeft,
+          uniqueToRight,
+          similarityScore,
+          summary
+        };
+      };
+
+      // --- COMPONENTS ---
+
+      // Tooltip
+      const Tooltip = ({ content, children, placement = 'top' }) => {
+        const [isVisible, setIsVisible] = useState(false);
+        const [coords, setCoords] = useState({ top: 0, left: 0 });
+        const triggerRef = useRef(null);
+
+        const updatePosition = () => {
+          if (triggerRef.current) {
+            const rect = triggerRef.current.getBoundingClientRect();
+            let top = 0;
+            let left = 0;
+            const gap = 8;
+
+            switch (placement) {
+              case 'top':
+                top = rect.top - gap;
+                left = rect.left + rect.width / 2;
+                break;
+              case 'bottom':
+                top = rect.bottom + gap;
+                left = rect.left + rect.width / 2;
+                break;
+              case 'left':
+                top = rect.top + rect.height / 2;
+                left = rect.left - gap;
+                break;
+              case 'right':
+                top = rect.top + rect.height / 2;
+                left = rect.right + gap;
+                break;
+            }
+            setCoords({ top, left });
+          }
+        };
+
+        useEffect(() => {
+          if (isVisible) {
+            updatePosition();
+            window.addEventListener('scroll', updatePosition);
+            window.addEventListener('resize', updatePosition);
+            return () => {
+              window.removeEventListener('scroll', updatePosition);
+              window.removeEventListener('resize', updatePosition);
+            };
+          }
+        }, [isVisible]);
+
+        return (
+          <React.Fragment>
+            <div 
+              ref={triggerRef}
+              className="inline-flex"
+              onMouseEnter={() => { setIsVisible(true); }}
+              onMouseLeave={() => setIsVisible(false)}
+            >
+              {children}
+            </div>
+            {isVisible && createPortal(
+              <div 
+                className="fixed z-[9999] px-2 py-1 text-xs font-medium text-slate-100 bg-slate-800 dark:bg-slate-700 rounded shadow-lg whitespace-nowrap pointer-events-none animate-in fade-in zoom-in-95 duration-150 border border-slate-700/50"
+                style={{
+                  top: coords.top,
+                  left: coords.left,
+                  transform: placement === 'left' || placement === 'right' 
+                    ? 'translateY(-50%) translateX(' + (placement === 'left' ? '-100%' : '0') + ')'
+                    : 'translateX(-50%) translateY(' + (placement === 'top' ? '-100%' : '0') + ')'
+                }}
+              >
+                {content}
+              </div>,
+              document.body
+            )}
+          </React.Fragment>
+        );
+      };
+
+      // Modal
+      const Modal = ({ isOpen, onClose, title, children, width = 'max-w-xl' }) => {
+        if (!isOpen) return null;
+
+        return (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+            onClick={onClose}
+          >
+            <div 
+              className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl w-full ${width} flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200 transition-colors`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+                <h3 className="text-lg font-semibold text-slate-800 dark:text-white">{title}</h3>
+                <button 
+                  onClick={onClose}
+                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-6 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-900">
+                {children}
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // Dedup View
+      const DedupView = ({ result, onApply }) => {
+        const [copied, setCopied] = useState(false);
+
+        if (!result) return <div className="text-slate-600 dark:text-slate-400">暂无内容可处理。</div>;
+
+        const handleCopy = () => {
+          navigator.clipboard.writeText(result.cleaned);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        };
+
+        return (
+          <div className="space-y-6">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+              <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">已移除字符 ({result.removedCount})</h4>
+              <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto custom-scrollbar">
+                {result.removedChars.length === 0 ? (
+                  <span className="text-slate-400 dark:text-slate-500 italic text-sm">未发现重复字符。</span>
+                ) : (
+                  result.removedChars.map((char, i) => (
+                    <span key={i} className="inline-flex items-center justify-center w-8 h-8 rounded bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 font-mono text-sm">
+                      {char === ' ' ? '空' : char}
+                    </span>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                  <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400">去重预览</h4>
+                   <button 
+                    onClick={handleCopy}
+                    className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
+                  >
+                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                    {copied ? "已复制" : "复制结果"}
+                  </button>
+              </div>
+              <div className="p-3 bg-slate-100 dark:bg-slate-800/50 rounded-lg text-slate-700 dark:text-slate-300 text-sm max-h-40 overflow-y-auto whitespace-pre-wrap font-mono border border-slate-200 dark:border-transparent">
+                  {result.cleaned}
+              </div>
+            </div>
+
+            <button
+              onClick={() => onApply(result.cleaned)}
+              className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-medium transition-colors"
+            >
+              替换编辑器内容
+            </button>
+          </div>
+        );
+      };
+
+      // Pinyin View
+      const PinyinView = ({ currentText }) => {
+        const [loading, setLoading] = useState(false);
+        const [result, setResult] = useState(null);
+        const [mode, setMode] = useState(PinyinType.LOWER_TONE);
+        const [copied, setCopied] = useState(false);
+
+        const handleConvert = async () => {
+          if (!currentText.trim()) return;
+          setLoading(true);
+          await new Promise(r => setTimeout(r, 100)); 
+          const res = convertToPinyinLocal(currentText, mode);
+          setResult(res);
+          setLoading(false);
+        };
+
+        const handleCopy = () => {
+          if (result) {
+              navigator.clipboard.writeText(result);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+          }
+        };
+
+        const modeLabels = {
+          [PinyinType.LOWER_TONE]: '小写带音调 (nǐ hǎo)',
+          [PinyinType.LOWER_NO_TONE]: '小写无音调 (ni hao)',
+          [PinyinType.UPPERCASE]: '大写 (NI HAO)',
+        };
+
+        return (
+          <div className="space-y-6">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-slate-500 dark:text-slate-400">转换模式</label>
+              <div className="flex flex-wrap gap-2">
+                {Object.values(PinyinType).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setMode(t)}
+                    className={`px-3 py-1.5 rounded-md text-sm border transition-all ${
+                      mode === t 
+                      ? 'bg-emerald-600 border-emerald-500 text-white' 
+                      : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-600'
+                    }`}
+                  >
+                    {modeLabels[t]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={handleConvert}
+              disabled={loading || !currentText.trim()}
+              className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+            >
+              {loading && <Loader2 className="animate-spin" size={18} />}
+              {loading ? '转换中...' : '生成拼音'}
+            </button>
+
+            {result && (
+              <div className="animate-in fade-in slide-in-from-bottom-2">
+                  <div className="flex justify-between items-center mb-2">
+                      <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400">结果</h4>
+                      <button 
+                        onClick={handleCopy}
+                        className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
+                      >
+                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                        {copied ? "已复制" : "复制"}
+                      </button>
+                  </div>
+                  <div className="p-4 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-800 dark:text-slate-200 font-mono text-sm leading-relaxed max-h-60 overflow-y-auto custom-scrollbar">
+                      {result}
+                  </div>
+              </div>
+            )}
+          </div>
+        );
+      };
+
+      // Diff View
+      const DiffView = () => {
+          const [leftText, setLeftText] = useState("");
+          const [rightText, setRightText] = useState("");
+          const [loading, setLoading] = useState(false);
+          const [result, setResult] = useState(null);
+
+          const handleCompare = async () => {
+              if (!leftText && !rightText) return;
+              setLoading(true);
+              await new Promise(r => setTimeout(r, 300));
+              const res = compareTextsLocal(leftText, rightText);
+              setResult(res);
+              setLoading(false);
+          };
+
+          return (
+              <div className="flex flex-col h-[70vh]">
+                  <div className="flex flex-1 gap-4 min-h-0 mb-4">
+                      <div className="flex-1 flex flex-col gap-2">
+                          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">原文 / 左侧文本</label>
+                          <textarea 
+                              className="flex-1 w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-sm text-slate-800 dark:text-slate-300 focus:outline-none focus:border-indigo-500 resize-none custom-scrollbar"
+                              placeholder="在此粘贴文本 A..."
+                              value={leftText}
+                              onChange={(e) => setLeftText(e.target.value)}
+                          />
+                      </div>
+                      <div className="flex-1 flex flex-col gap-2">
+                          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">比对 / 右侧文本</label>
+                          <textarea 
+                              className="flex-1 w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-sm text-slate-800 dark:text-slate-300 focus:outline-none focus:border-indigo-500 resize-none custom-scrollbar"
+                              placeholder="在此粘贴文本 B..."
+                              value={rightText}
+                              onChange={(e) => setRightText(e.target.value)}
+                          />
+                      </div>
+                  </div>
+
+                  <div className="flex justify-center mb-6">
+                       <button
+                          onClick={handleCompare}
+                          disabled={loading}
+                          className="px-8 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-full font-medium transition-colors flex items-center gap-2 shadow-lg shadow-indigo-900/20"
+                      >
+                          {loading && <Loader2 className="animate-spin" size={18} />}
+                          {loading ? '正在分析...' : '开始比对'}
+                      </button>
+                  </div>
+
+                  {result && (
+                      <div className="flex-1 bg-slate-100 dark:bg-slate-800/30 rounded-xl border border-slate-200 dark:border-slate-800 p-4 overflow-y-auto custom-scrollbar animate-in slide-in-from-bottom-4">
+                          <div className="flex items-center gap-3 mb-4">
+                              <span className="text-xl font-bold text-slate-800 dark:text-white">差异分析</span>
+                              <span className="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-xs text-slate-600 dark:text-slate-300">字符相似度: {result.similarityScore}%</span>
+                          </div>
+                          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{result.summary}</p>
+                          
+                          <div className="grid grid-cols-2 gap-6">
+                              <div>
+                                   <h5 className="text-xs font-bold text-rose-500 dark:text-rose-400 uppercase mb-2 flex items-center gap-2">
+                                      <ArrowLeft size={14} /> 仅在左侧出现 (A)
+                                   </h5>
+                                   <div className="flex flex-wrap gap-2">
+                                      {result.uniqueToLeft.length > 0 ? result.uniqueToLeft.map((item, i) => (
+                                          <span key={i} className="px-2 py-1 bg-rose-100 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-300 text-xs rounded font-mono">
+                                              {item}
+                                          </span>
+                                      )) : <span className="text-slate-400 dark:text-slate-600 text-xs italic">无。</span>}
+                                   </div>
+                              </div>
+                              <div>
+                                   <h5 className="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase mb-2 flex items-center gap-2">
+                                      仅在右侧出现 (B) <ArrowRight size={14} />
+                                   </h5>
+                                   <div className="flex flex-wrap gap-2">
+                                      {result.uniqueToRight.length > 0 ? result.uniqueToRight.map((item, i) => (
+                                          <span key={i} className="px-2 py-1 bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 text-emerald-600 dark:text-emerald-300 text-xs rounded font-mono">
+                                              {item}
+                                          </span>
+                                      )) : <span className="text-slate-400 dark:text-slate-600 text-xs italic">无。</span>}
+                                   </div>
+                              </div>
+                          </div>
+                      </div>
+                  )}
+              </div>
+          );
+      };
+
+      // --- MAIN APP COMPONENT ---
+
+      function App() {
+        const [documents, setDocuments] = useState(() => {
+          try {
+            const savedDocs = localStorage.getItem('zen_documents');
+            if (savedDocs) return JSON.parse(savedDocs);
+          } catch (e) {}
+          return [{ id: 'doc-' + Date.now(), title: '未命名-1', content: '', updatedAt: Date.now() }];
+        });
+
+        const [activeDocId, setActiveDocId] = useState(() => {
+           return localStorage.getItem('zen_active_doc_id') || documents[0]?.id || '';
+        });
+
+        const [editingDocId, setEditingDocId] = useState(null);
+        const [tempTitle, setTempTitle] = useState("");
+        
+        const [theme, setTheme] = useState('light');
+        const [config, setConfig] = useState({
+          fontSize: 18,
+          alignment: 'left',
+          spacing: 'loose',
+          fontFamily: 'sans',
+          width: 'full',
+        });
+        
+        const [cursorStats, setCursorStats] = useState({ line: 1, col: 1 });
+        const [isSearchOpen, setIsSearchOpen] = useState(false);
+        const [searchTerm, setSearchTerm] = useState("");
+        
+        // Modals
+        const [dedupModalOpen, setDedupModalOpen] = useState(false);
+        const [dedupResult, setDedupResult] = useState(null);
+        const [pinyinModalOpen, setPinyinModalOpen] = useState(false);
+        const [diffModalOpen, setDiffModalOpen] = useState(false);
+
+        const editorRef = useRef(null);
+        const searchInputRef = useRef(null);
+        const fileInputRef = useRef(null);
+        const renameInputRef = useRef(null);
+
+        const activeDoc = useMemo(() => 
+          documents.find(d => d.id === activeDocId) || documents[0], 
+        [documents, activeDocId]);
+
+        const text = activeDoc?.content || '';
+
+        // Effects
+        useEffect(() => {
+          localStorage.setItem('zen_documents', JSON.stringify(documents));
+        }, [documents]);
+
+        useEffect(() => {
+          localStorage.setItem('zen_active_doc_id', activeDocId);
+        }, [activeDocId]);
+        
+        useEffect(() => {
+          const root = document.documentElement;
+          if (theme === 'dark') {
+              root.classList.add('dark');
+              root.classList.remove('light');
+          } else {
+              root.classList.add('light');
+              root.classList.remove('dark');
+          }
+        }, [theme]);
+
+        useEffect(() => {
+          if (editingDocId && renameInputRef.current) {
+            renameInputRef.current.focus();
+            renameInputRef.current.select();
+          }
+        }, [editingDocId]);
+
+        useEffect(() => {
+          const handleKeyDown = (e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+                  e.preventDefault();
+                  setIsSearchOpen(true);
+                  setTimeout(() => searchInputRef.current?.focus(), 100);
+              }
+          };
+          window.addEventListener('keydown', handleKeyDown);
+          return () => window.removeEventListener('keydown', handleKeyDown);
+        }, []);
+
+        // Logic
+        const updateActiveDoc = (newContent) => {
+          setDocuments(prev => prev.map(doc => 
+            doc.id === activeDocId ? { ...doc, content: newContent, updatedAt: Date.now() } : doc
+          ));
+        };
+
+        const createNewDoc = () => {
+          const newDoc = {
+            id: 'doc-' + Date.now(),
+            title: `未命名-${documents.length + 1}`,
+            content: '',
+            updatedAt: Date.now()
+          };
+          setDocuments(prev => [...prev, newDoc]);
+          setActiveDocId(newDoc.id);
+        };
+
+        const closeDoc = (e, id) => {
+          e.stopPropagation();
+          if (documents.length === 1) {
+            updateActiveDoc('');
+            return;
+          }
+          const newDocs = documents.filter(d => d.id !== id);
+          setDocuments(newDocs);
+          if (id === activeDocId) {
+            setActiveDocId(newDocs[newDocs.length - 1].id);
+          }
+        };
+
+        const startRenaming = (doc) => {
+          setEditingDocId(doc.id);
+          setTempTitle(doc.title);
+        };
+
+        const saveRename = () => {
+          if (editingDocId) {
+             const newTitle = tempTitle.trim() || "未命名";
+             setDocuments(prev => prev.map(d => d.id === editingDocId ? { ...d, title: newTitle } : d));
+             setEditingDocId(null);
+          }
+        };
+
+        const handleRenameKeyDown = (e) => {
+          if (e.key === 'Enter') saveRename();
+          if (e.key === 'Escape') setEditingDocId(null);
+        };
+
+        const handleImportFile = (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const content = e.target?.result;
+            const newDoc = {
+              id: 'doc-' + Date.now(),
+              title: file.name.replace(/\.txt$/i, ''),
+              content: content,
+              updatedAt: Date.now()
+            };
+            setDocuments(prev => [...prev, newDoc]);
+            setActiveDocId(newDoc.id);
+          };
+          reader.readAsText(file);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+        };
+
+        const handleExportFile = () => {
+          const blob = new Blob([text], { type: 'text/plain' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${activeDoc.title}.txt`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        };
+
+        const handleCursorMove = (e) => {
+          const textarea = e.currentTarget;
+          const selectionStart = textarea.selectionStart;
+          const value = textarea.value;
+          const valueBeforeCursor = value.substring(0, selectionStart);
+          const line = valueBeforeCursor.split('\n').length;
+          const col = selectionStart - valueBeforeCursor.lastIndexOf('\n');
+          setCursorStats({ line, col });
+        };
+
+        const handleCopy = () => {
+          navigator.clipboard.writeText(text);
+        };
+
+        const scrollToTop = () => {
+          if (editorRef.current) editorRef.current.scrollTop = 0;
+        };
+
+        const scrollToBottom = () => {
+          if (editorRef.current) editorRef.current.scrollTop = editorRef.current.scrollHeight;
+        };
+
+        const handleDedupAnalysis = () => {
+          const uniqueChars = new Set();
+          const removedChars = [];
+          let cleaned = "";
+          for (const char of text) {
+            if (uniqueChars.has(char)) {
+              removedChars.push(char);
+            } else {
+              uniqueChars.add(char);
+              cleaned += char;
+            }
+          }
+          setDedupResult({
+            original: text,
+            cleaned,
+            removedChars,
+            removedCount: removedChars.length
+          });
+          setDedupModalOpen(true);
+        };
+
+        const applyDedup = (cleanedText) => {
+          updateActiveDoc(cleanedText);
+          setDedupModalOpen(false);
+        };
+
+        const handleSearch = (term) => {
+          setSearchTerm(term);
+          if (!term || !editorRef.current) return;
+          const index = text.indexOf(term);
+          if (index !== -1) {
+            editorRef.current.focus();
+            editorRef.current.setSelectionRange(index, index + term.length);
+            const textBefore = text.substring(0, index);
+            const linesBefore = textBefore.split('\n').length;
+            const lineHeight = config.fontSize * (config.spacing === 'loose' ? 1.8 : 1.4);
+            editorRef.current.scrollTop = (linesBefore - 1) * lineHeight;
+            setCursorStats(prev => ({ ...prev, line: linesBefore }));
+          }
+        };
+
+        const lineCount = useMemo(() => text.split('\n').length, [text]);
+        const stats = useMemo(() => {
+          const cleanText = text.replace(/\s/g, ''); 
+          const charCount = cleanText.length;
+          const uniqueCount = new Set(cleanText.split('')).size;
+          const redundantCount = charCount - uniqueCount;
+          return { charCount, redundantCount };
+        }, [text]);
+
+        const getFontFamily = () => {
+          switch (config.fontFamily) {
+            case 'serif': return "'Noto Serif SC', 'serif'";
+            default: return "'Noto Sans SC', 'Inter', sans-serif";
+          }
+        };
+
+        const textAreaStyle = {
+          fontSize: `${config.fontSize}px`,
+          lineHeight: config.spacing === 'loose' ? 1.8 : 1.4,
+          letterSpacing: config.spacing === 'loose' ? '0.05em' : 'normal',
+          fontFamily: getFontFamily(),
+          textAlign: config.alignment,
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
+        };
+
+        return (
+          <div className={`flex flex-col h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 transition-colors duration-300`}>
+            {/* Header */}
+            <header className="flex-none h-20 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md z-30 relative">
+              <div className="flex items-center gap-4 overflow-x-auto no-scrollbar">
+                <Tooltip content="返回首页" placement="bottom">
+                  <a 
+                    href="https://www.zizao.top/" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+                  >
+                    <Home size={20} />
+                  </a>
+                </Tooltip>
+
+                <h1 className="hidden md:flex font-mono font-bold text-emerald-600 dark:text-emerald-500 tracking-tighter text-2xl items-center gap-2 whitespace-nowrap">
+                  <span className="text-slate-800 dark:text-slate-100">自在文本编辑器</span>
+                  <span className="text-sm font-normal px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Pro</span>
+                </h1>
+                <div className="hidden md:block h-8 w-px bg-slate-300 dark:bg-slate-700 mx-3" />
+                
+                <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1.5">
+                   <button 
+                      onClick={() => setConfig(p => ({...p, fontSize: Math.max(12, p.fontSize - 1)}))}
+                      className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                   >
+                     <Minus size={16} />
+                   </button>
+                   <input 
+                      type="number"
+                      value={config.fontSize}
+                      onChange={(e) => {
+                          const val = parseInt(e.target.value);
+                          if (!isNaN(val) && val > 0 && val <= 200) setConfig(p => ({...p, fontSize: val}));
+                      }}
+                      className="w-12 text-center text-sm font-mono text-slate-600 dark:text-slate-300 bg-transparent outline-none appearance-none"
+                   />
+                   <button 
+                      onClick={() => setConfig(p => ({...p, fontSize: Math.min(64, p.fontSize + 1)}))}
+                      className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                   >
+                     <Plus size={16} />
+                   </button>
+                </div>
+
+                <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1.5">
+                   <Tooltip content="紧凑模式" placement="bottom">
+                      <button 
+                        onClick={() => setConfig(p => ({...p, spacing: 'compact'}))}
+                        className={`p-2 rounded-md transition-colors ${config.spacing === 'compact' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+                      >
+                        <MoveVertical size={20} className="scale-75" />
+                      </button>
+                   </Tooltip>
+                   <Tooltip content="宽松模式" placement="bottom">
+                      <button 
+                         onClick={() => setConfig(p => ({...p, spacing: 'loose'}))}
+                         className={`p-2 rounded-md transition-colors ${config.spacing === 'loose' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+                      >
+                         <MoveVertical size={20} />
+                      </button>
+                   </Tooltip>
+                   <div className="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                   <button 
+                     onClick={() => setConfig(p => ({...p, alignment: 'left'}))}
+                     className={`p-2 rounded-md transition-colors ${config.alignment === 'left' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+                   >
+                     <AlignLeft size={20} />
+                   </button>
+                   <button 
+                     onClick={() => setConfig(p => ({...p, alignment: 'center'}))}
+                     className={`p-2 rounded-md transition-colors ${config.alignment === 'center' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+                   >
+                     <AlignCenter size={20} />
+                   </button>
+                   <button 
+                     onClick={() => setConfig(p => ({...p, alignment: 'right'}))}
+                     className={`p-2 rounded-md transition-colors ${config.alignment === 'right' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
+                   >
+                     <AlignRight size={20} />
+                   </button>
+                </div>
+
+                <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1.5">
+                   <Tooltip content="切换为黑体/宋体" placement="bottom">
+                       <button 
+                         onClick={() => setConfig(p => ({...p, fontFamily: p.fontFamily === 'sans' ? 'serif' : 'sans'}))}
+                         className="p-2 px-3 rounded-md text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm transition-all min-w-[48px]"
+                       >
+                         {config.fontFamily === 'sans' ? '黑体' : '宋体'}
+                       </button>
+                   </Tooltip>
+                   <div className="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                   <Tooltip content="宽度切换 (全屏 / 阅读)" placement="bottom">
+                       <button 
+                         onClick={() => setConfig(p => ({...p, width: p.width === 'full' ? 'narrow' : 'full'}))}
+                         className="p-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors"
+                       >
+                          {config.width === 'full' ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+                       </button>
+                   </Tooltip>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <Tooltip content={theme === 'dark' ? "切换亮色模式" : "切换暗色模式"} placement="bottom">
+                  <button
+                      onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+                      className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 transition-colors"
+                  >
+                      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                  </button>
+                </Tooltip>
+
+                <div className={`relative flex items-center transition-all duration-300 ${isSearchOpen ? 'w-72' : 'w-12'}`}>
+                  {isSearchOpen ? (
+                      <div className="relative w-full">
+                          <input 
+                              ref={searchInputRef}
+                              type="text" 
+                              value={searchTerm}
+                              onChange={(e) => handleSearch(e.target.value)}
+                              placeholder="查找..."
+                              className="w-full bg-slate-100 dark:bg-slate-800 text-base text-slate-900 dark:text-white rounded-full pl-5 pr-10 py-2 focus:outline-none border border-slate-200 dark:border-slate-700 focus:border-emerald-500 dark:focus:border-emerald-500"
+                          />
+                          <button 
+                              onClick={() => { setIsSearchOpen(false); setSearchTerm(''); }}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                          >
+                              <X size={16} />
+                          </button>
+                      </div>
+                  ) : (
+                      <Tooltip content="查找字符" placement="bottom">
+                          <button 
+                              onClick={() => setIsSearchOpen(true)}
+                              className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                          >
+                              <Search size={20} />
+                          </button>
+                      </Tooltip>
+                  )}
+                </div>
+                
+                <div className="h-8 w-px bg-slate-300 dark:bg-slate-700 mx-1" />
+
+                <Tooltip content="导出为本地TXT文件" placement="bottom">
+                  <button 
+                    onClick={handleExportFile}
+                    className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                  >
+                    <Download size={20} />
+                  </button>
+                </Tooltip>
+
+                <Tooltip content="复制当前页全部字符" placement="bottom">
+                  <button 
+                    onClick={handleCopy}
+                    className="p-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full transition-colors shadow-lg shadow-emerald-900/20 dark:shadow-emerald-900/40"
+                  >
+                    <Copy size={20} />
+                  </button>
+                </Tooltip>
+              </div>
+            </header>
+
+            {/* Tab Bar */}
+            <div className="flex-none h-12 bg-slate-100/80 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800 flex items-center px-2 overflow-x-auto no-scrollbar z-20">
+              {documents.map((doc) => (
+                 <div 
+                   key={doc.id}
+                   onClick={() => setActiveDocId(doc.id)}
+                   onDoubleClick={() => startRenaming(doc)}
+                   className={`
+                      group relative flex items-center gap-2 px-4 py-3 text-sm font-medium min-w-[140px] max-w-[240px] cursor-pointer border-r border-slate-200 dark:border-slate-800 select-none transition-colors
+                      ${activeDocId === doc.id 
+                          ? 'bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 shadow-sm' 
+                          : 'text-slate-500 dark:text-slate-500 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 hover:text-slate-700 dark:hover:text-slate-400'}
+                   `}
+                 >
+                   <FileText size={16} className={activeDocId === doc.id ? 'text-emerald-500' : 'opacity-50'} />
+                   
+                   {editingDocId === doc.id ? (
+                      <input 
+                        ref={renameInputRef}
+                        type="text"
+                        value={tempTitle}
+                        onChange={(e) => setTempTitle(e.target.value)}
+                        onBlur={saveRename}
+                        onKeyDown={handleRenameKeyDown}
+                        className="w-full bg-white dark:bg-slate-800 border border-emerald-500 rounded px-1 py-0.5 outline-none text-slate-900 dark:text-white"
+                      />
+                   ) : (
+                      <span className="truncate flex-1">{doc.title}</span>
+                   )}
+
+                   <button 
+                      onClick={(e) => closeDoc(e, doc.id)}
+                      className={`p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 ${activeDocId === doc.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`}
+                   >
+                     <X size={14} />
+                   </button>
+                   {activeDocId === doc.id && (
+                      <div className="absolute top-0 left-0 right-0 h-[3px] bg-emerald-500" />
+                   )}
+                 </div>
+              ))}
+
+              <div className="flex items-center ml-3 gap-2">
+                  <Tooltip content="新建文档" placement="right">
+                      <button 
+                          onClick={createNewDoc}
+                          className="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                      >
+                          <Plus size={20} />
+                      </button>
+                  </Tooltip>
+                  <Tooltip content="打开本地 TXT" placement="right">
+                      <button 
+                          onClick={() => fileInputRef.current?.click()}
+                          className="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                      >
+                          <FolderOpen size={20} />
+                      </button>
+                  </Tooltip>
+                  <input 
+                      type="file" 
+                      ref={fileInputRef}
+                      onChange={handleImportFile}
+                      accept=".txt"
+                      className="hidden"
+                  />
+              </div>
+            </div>
+
+            {/* Main Area */}
+            <main className="flex-1 relative overflow-hidden flex flex-col items-center">
+              
+              <div className={`flex-1 w-full h-full flex flex-col ${config.width === 'narrow' ? 'max-w-4xl border-x border-slate-100 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50' : ''} transition-all duration-500`}>
+                <textarea
+                  ref={editorRef}
+                  value={text}
+                  onChange={(e) => { updateActiveDoc(e.target.value); handleCursorMove(e); }}
+                  onClick={handleCursorMove}
+                  onKeyUp={handleCursorMove}
+                  onSelect={handleCursorMove}
+                  placeholder="在此输入文本..."
+                  className="flex-1 w-full h-full bg-transparent resize-none outline-none p-10 md:p-16 custom-scrollbar text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 transition-all duration-300"
+                  style={textAreaStyle}
+                  spellCheck={false}
+                />
+              </div>
+
+              {/* Float Buttons */}
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-5 z-10">
+                 <Tooltip content="去除重复" placement="left">
+                    <button 
+                      onClick={handleDedupAnalysis}
+                      className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:border-rose-500/50 shadow-lg transition-all hover:scale-110"
+                    >
+                      <Eraser size={22} />
+                    </button>
+                 </Tooltip>
+
+                 <Tooltip content="拼音转换" placement="left">
+                    <button 
+                      onClick={() => setPinyinModalOpen(true)}
+                      className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:border-indigo-500/50 shadow-lg transition-all hover:scale-110"
+                    >
+                      <Languages size={22} />
+                    </button>
+                 </Tooltip>
+
+                 <Tooltip content="文本比对 (本地)" placement="left">
+                    <button 
+                      onClick={() => setDiffModalOpen(true)}
+                      className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 hover:border-sky-500/50 shadow-lg transition-all hover:scale-110"
+                    >
+                      <SplitSquareHorizontal size={22} />
+                    </button>
+                 </Tooltip>
+              </div>
+
+              {/* Nav Buttons */}
+              <div className="absolute bottom-8 right-8 flex flex-col gap-3 z-10">
+                  <Tooltip content="回到顶部" placement="left">
+                      <button 
+                          onClick={scrollToTop}
+                          className="p-3 bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg backdrop-blur-sm transition-colors border border-slate-200 dark:border-slate-700 shadow-sm"
+                      >
+                          <ArrowUpToLine size={20} />
+                      </button>
+                  </Tooltip>
+                  <Tooltip content="去到底部" placement="left">
+                      <button 
+                          onClick={scrollToBottom}
+                          className="p-3 bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg backdrop-blur-sm transition-colors border border-slate-200 dark:border-slate-700 shadow-sm"
+                      >
+                          <ArrowDownToLine size={20} />
+                      </button>
+                  </Tooltip>
+              </div>
+
+              {/* Status Bar */}
+              <div className="absolute bottom-6 left-6 md:left-10 flex items-center gap-3 sm:gap-4 text-sm font-mono text-slate-400 dark:text-slate-500 pointer-events-none select-none flex-wrap">
+                  <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-emerald-600 dark:text-emerald-500 font-bold">
+                      当前在第 {cursorStats.line} 行
+                  </span>
+                  <span className="hidden sm:inline-block text-slate-300 dark:text-slate-700">|</span>
+                  <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800">
+                      总行数: {lineCount}
+                  </span>
+                  <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800">
+                      字符数: {stats.charCount}
+                  </span>
+                   <span className="bg-white/50 dark:bg-slate-800/50 px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800">
+                      重复: {stats.redundantCount}
+                  </span>
+              </div>
+            </main>
+
+            {/* Modals */}
+            <Modal 
+              isOpen={dedupModalOpen} 
+              onClose={() => setDedupModalOpen(false)} 
+              title="去重报告"
+            >
+              <DedupView result={dedupResult} onApply={applyDedup} />
+            </Modal>
+
+            <Modal 
+              isOpen={pinyinModalOpen} 
+              onClose={() => setPinyinModalOpen(false)} 
+              title="拼音转换工具"
+            >
+              <PinyinView currentText={text} />
+            </Modal>
+
+            <Modal 
+              isOpen={diffModalOpen} 
+              onClose={() => setDiffModalOpen(false)} 
+              title="字符差异比对 (纯本地)"
+              width="max-w-5xl"
+            >
+              <DiffView />
+            </Modal>
+          </div>
+        );
+      }
+
+      // Mount the app
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
 </html>
