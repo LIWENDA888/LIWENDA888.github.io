@@ -2,25 +2,41 @@
 window.APP_DATA = {
     // Banner 配置
     BANNER_CONFIG: {
+        'recommend': {
+            title: '做您的设计百宝库',
+            subtitle: '精选全网最实用的神兵利器，让设计事半功倍。',
+            // 修改为和其他页面一致的背景图
+            bgImage: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/6tnU/4000X400/1-01.png/webp'
+        },
         'ai-prompts': {
             title: '探索无限灵感',
             subtitle: '每日更新的高质量 AI 提示词库，激发你的创作潜能。',
-            bgImage: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'
+            bgImage: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/Fqnl/4000X230/1-02.png/webp'
         },
         'fonts': {
             title: '发现完美字型',
             subtitle: '精选全球设计师的优质字体，为你的设计注入灵魂。',
-            bgImage: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'
+            bgImage: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/crF7/4000X230/1-03.png/webp'
+        },
+        'design-assets': {
+            title: '优质设计素材',
+            subtitle: '精选高品质样机与素材，为你的作品画龙点睛。',
+            bgImage: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/ZH1r/4000X230/1-04.png/webp'
         },
         'software': {
             title: '提升工作效率',
             subtitle: '工欲善其事，必先利其器。设计师必备工具集合。',
-            bgImage: 'https://tc-new.z.wiki/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251005/h0ur/2500X700/index.jpg/webp'
+            bgImage: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/iENc/4000X230/1-05.png/webp'
         }
+
     },
 
     // 分类配置
     CATEGORIES: {
+        // 推荐页面不需要具体的子分类，但保留 'all' 结构以兼容逻辑
+        'recommend': [
+            { id: 'all', label: '全部' }
+        ],
         'ai-prompts': [
             { id: 'all', label: '全部' },
             { id: 'realistic', label: '#写实' },
@@ -46,8 +62,48 @@ window.APP_DATA = {
             { id: 'windows', label: '#windows软件' },
             { id: 'mac', label: '#macos软件' },
             { id: 'android', label: '#安卓软件' },
+        ],
+        'design-assets': [
+            { id: 'all', label: '全部' },
+            { id: 'logo-mockup', label: '#LOGO样机' },
+            { id: 'vi-mockup', label: '#VI样机' },
+            { id: 'others', label: '#其他' },
         ]
     },
+
+    // 推荐工具数据 (新增加)
+    MOCK_TOOLS: [
+        {
+            id: 't1', category: 'all', type: 'recommend',
+            name: 'Remove.bg', description: '基于 AI 的图片自动去背景工具，精准识别主体，一键透明化。',
+            imageUrl: 'https://picsum.photos/id/48/600/300',
+            url: '#', isFree: true
+        },
+        {
+            id: 't2', category: 'all', type: 'recommend',
+            name: 'Coolors', description: '超快速的配色方案生成器，设计师必备的色彩灵感来源。',
+            imageUrl: 'https://picsum.photos/id/180/600/300',
+            url: '#', isFree: true
+        },
+        {
+            id: 't3', category: 'all', type: 'recommend',
+            name: 'TinyPNG', description: '智能 WebP、PNG 和 JPEG 图片压缩工具，保证画质的同时极大减小体积。',
+            imageUrl: 'https://picsum.photos/id/96/600/300',
+            url: '#', isFree: true
+        },
+        {
+            id: 't4', category: 'all', type: 'recommend',
+            name: 'Midjourney', description: '目前最强大的 AI 绘画生成工具，支持 Discord 交互，出图质量极高。',
+            imageUrl: 'https://picsum.photos/id/250/600/300',
+            url: '#', isFree: false
+        },
+        {
+            id: 't5', category: 'all', type: 'recommend',
+            name: 'Shape.so', description: '拥有 26000+ 图标和插画的可自定义设计资源库。',
+            imageUrl: 'https://picsum.photos/id/160/600/300',
+            url: '#', isFree: false
+        }
+    ],
 
     // AI 提示词数据
     MOCK_AI_PROMPTS: [
@@ -77,7 +133,7 @@ window.APP_DATA = {
         }
     ],
 
-    // 字体数据 - 已修正 category 对应 CATEGORIES['fonts']
+    // 字体数据
     MOCK_FONTS: [
         {
             id: 'f1', category: 'sans', type: 'fonts',
@@ -150,6 +206,38 @@ window.APP_DATA = {
                 { label: 'Windows x64', url: '#' },
                 { label: 'macOS Universal', url: '#' }
             ]
+        }
+    ],
+
+    // 设计素材数据
+    MOCK_ASSETS: [
+        {
+            id: 'a1', category: 'logo-mockup', type: 'design-assets',
+            name: '3D Glass Logo Mockup', author: 'MockupWorld',
+            description: '高质感 3D 玻璃门牌 Logo 样机，智能对象一键替换，适合企业品牌展示。',
+            imageUrl: 'https://picsum.photos/id/201/600/300',
+            downloadUrl: '#'
+        },
+        {
+            id: 'a2', category: 'vi-mockup', type: 'design-assets',
+            name: 'Clean Stationery Kit', author: 'Pixeden',
+            description: '极简风格办公文具 VI 视觉识别系统展示样机，包含名片、信纸、信封等。',
+            imageUrl: 'https://picsum.photos/id/366/600/300',
+            downloadUrl: '#'
+        },
+        {
+            id: 'a3', category: 'others', type: 'design-assets',
+            name: 'Vintage Paper Texture', author: 'ResourceBoy',
+            description: '20+ 高清复古做旧纸张纹理背景，提升设计复古质感。',
+            imageUrl: 'https://picsum.photos/id/400/600/300',
+            downloadUrl: '#'
+        },
+        {
+            id: 'a4', category: 'logo-mockup', type: 'design-assets',
+            name: 'Embossed Paper Logo', author: 'Freepik',
+            description: '精美纸张压印凹凸效果 Logo 样机，展现低调奢华的品牌调性。',
+            imageUrl: 'https://picsum.photos/id/445/600/300',
+            downloadUrl: '#'
         }
     ]
 };
