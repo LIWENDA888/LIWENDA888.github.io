@@ -3,7 +3,7 @@
  */
 const APP_DATA = {
     navData: {
-        logoHtml: '<a href="index.html" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp" alt="Logo"></a>',
+        logoHtml: '<a href="index.html" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/BOEv/249X79/logo.png/webp" alt="Logo"></a>',
         menuItems: [
             { name: '首页', link: 'index.html', dropdown: null },
             { 
@@ -74,7 +74,7 @@ function renderNavbar() {
     
     // 处理 Logo 链接
     const logoLink = resolvePath('index.html');
-    let html = `<a href="${logoLink}" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/abRh/500X180/logo.png/webp" alt="Logo"></a>`;
+    let html = `<a href="${logoLink}" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/BOEv/249X79/logo.png/webp" alt="Logo"></a>`;
 
     html += `<button class="menu-toggle"><span class="menu-toggle-icon"></span></button>`;
 
@@ -218,11 +218,11 @@ function initContactWidget() {
             <div class="contact-modal-content">
                 <button class="close-contact-modal">&times;</button>
                 <div class="qr-item">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/Bwal/251X251/iwx.webp/webp" alt="添加微信">
+                    <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/HGRq/251X251/iwx.webp/webp" alt="添加微信">
                     <p>添加微信好友</p>
                 </div>
                 <div class="qr-item">
-                    <img src="https://tc.z.wiki/autoupload/f/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20250802/XoGU/251X251/iwg.webp/webp" alt="关注公众号">
+                    <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/4dAf/251X251/iwg.webp/webp" alt="关注公众号">
                     <p>关注微信公众号</p>
                 </div>
             </div>
