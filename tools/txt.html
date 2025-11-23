@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>自在文本编辑器 Pro</title>
-    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自在文本编辑器 Pro - 自在造字(ZIZAO)</title>
+    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
+    <meta name="author" content="自在造字">
+    <meta property="og:title" content="自在文本编辑器 Pro - 自在造字(ZIZAO)">
+    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/AR9P/ico.ico">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
+
     <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/lib/index.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -14,18 +22,9 @@
           extend: {
             colors: {
               slate: {
-                50: '#f8fafc',
-                100: '#f1f5f9',
-                200: '#e2e8f0',
-                300: '#cbd5e1',
-                400: '#94a3b8',
-                500: '#64748b',
-                600: '#475569',
-                700: '#334155',
-                800: '#1e293b',
-                850: '#151e2e',
-                900: '#0f172a',
-                950: '#020617',
+                50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1',
+                400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155',
+                800: '#1e293b', 850: '#151e2e', 900: '#0f172a', 950: '#020617',
               },
             },
             fontFamily: {
@@ -38,14 +37,8 @@
               'zoom-in': 'zoomIn 0.2s ease-out',
             },
             keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-              zoomIn: {
-                '0%': { opacity: '0', transform: 'scale(0.95)' },
-                '100%': { opacity: '1', transform: 'scale(1)' },
-              },
+              fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+              zoomIn: { '0%': { opacity: '0', transform: 'scale(0.95)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
             }
           },
         },
@@ -56,60 +49,39 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&family=Fira+Code&display=swap');
       
-      body {
-        font-family: 'Noto Sans SC', 'Inter', sans-serif;
-        overflow: hidden;
-      }
+      body { font-family: 'Noto Sans SC', 'Inter', sans-serif; overflow: hidden; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+      .light .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      .light .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
       
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
+      /* Loading Screen Styles */
+      #app-loading {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #f8fafc; z-index: 99999;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        color: #475569; transition: opacity 0.5s;
       }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+      .spinner {
+        width: 40px; height: 40px; border: 4px solid #cbd5e1; border-top-color: #059669; border-radius: 50%;
+        animation: spin 1s linear infinite; margin-bottom: 16px;
       }
-
-      /* Custom Scrollbar */
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      
-      /* Dark Mode Scrollbar */
-      .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 4px;
-      }
-      .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #475569;
-      }
-
-      /* Light Mode Scrollbar */
-      .light .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
-      }
-      .light .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 
-    <!-- 3. React & ReactDOM (UMD) -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- 3. React & ReactDOM (UMD - Global Variables for Stability) -->
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
     
     <!-- 4. Babel (Standalone) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.5/babel.min.js"></script>
 
-    <!-- 5. Libraries (UMD) -->
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.min.js"></script>
-    <!-- Pinyin Pro -->
-    <script src="https://unpkg.com/pinyin-pro@3.18.3/dist/index.js"></script>
+    <!-- 5. Pinyin Pro UMD -->
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.3/dist/index.js"></script>
   <script type="importmap">
 {
   "imports": {
@@ -117,69 +89,115 @@
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
     "pinyin-pro": "https://aistudiocdn.com/pinyin-pro@^3.27.0"
   }
 }
 </script>
 </head>
   <body>
+    <!-- Loading State -->
+    <div id="app-loading">
+      <div class="spinner"></div>
+      <p>正在加载资源...</p>
+      <p style="font-size: 12px; margin-top: 10px; color: #94a3b8;">无需配置，双击即用</p>
+    </div>
+
     <div id="root"></div>
 
     <!-- MAIN APPLICATION SCRIPT -->
-    <script type="text/babel">
+    <script type="text/babel" data-presets="env,react">
+      // --- ERROR SAFETY CHECK ---
+      if (!window.React || !window.ReactDOM) {
+        document.getElementById('app-loading').innerHTML = '<p style="color:red">核心库加载失败。请检查网络。</p>';
+        throw new Error("React libs missing");
+      }
+
       // --- GLOBALS DESTUCTURING ---
-      // Instead of imports, we grab from the global window objects
       const { useState, useEffect, useRef, useMemo, useCallback } = React;
       const { createPortal } = ReactDOM;
-      const { pinyin } = pinyinPro;
+      // Safety check for pinyin
+      const pinyinProLib = window.pinyinPro || { pinyin: (t) => t }; 
+      const { pinyin } = pinyinProLib;
 
-      // Destructure Icons from lucideReact
-      const { 
-        AlignLeft, AlignCenter, AlignRight, 
-        ArrowUpToLine, ArrowDownToLine, 
-        Search, Copy, Eraser, Languages, SplitSquareHorizontal,
-        Minus, Plus, MoveVertical, X, Sun, Moon,
-        Maximize2, Minimize2, FileText, Download, FolderOpen,
-        Home, Check, Loader2, ArrowLeft, ArrowRight, PlusCircle
-      } = lucideReact;
+      // --- INLINE ICONS (Pure SVG) ---
+      const IconBase = ({ size = 24, className = "", children, ...props }) => (
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width={size} 
+          height={size} 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className={className}
+          {...props}
+        >
+          {children}
+        </svg>
+      );
 
-      // --- CONSTANTS & HELPERS ---
-      
-      const PinyinType = {
-        LOWER_TONE: 'Lowercase with Tone',
-        LOWER_NO_TONE: 'Lowercase no Tone',
-        UPPERCASE: 'Uppercase',
+      const Icons = {
+        Home: (p) => <IconBase {...p}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></IconBase>,
+        Minus: (p) => <IconBase {...p}><path d="M5 12h14"/></IconBase>,
+        Plus: (p) => <IconBase {...p}><path d="M5 12h14"/><path d="M12 5v14"/></IconBase>,
+        MoveVertical: (p) => <IconBase {...p}><polyline points="8 18 12 22 16 18"/><polyline points="8 6 12 2 16 6"/><line x1="12" x2="12" y1="2" y2="22"/></IconBase>,
+        AlignLeft: (p) => <IconBase {...p}><line x1="21" x2="3" y1="6" y2="6"/><line x1="15" x2="3" y1="12" y2="12"/><line x1="17" x2="3" y1="18" y2="18"/></IconBase>,
+        AlignCenter: (p) => <IconBase {...p}><line x1="21" x2="3" y1="6" y2="6"/><line x1="17" x2="7" y1="12" y2="12"/><line x1="19" x2="5" y1="18" y2="18"/></IconBase>,
+        AlignRight: (p) => <IconBase {...p}><line x1="21" x2="3" y1="6" y2="6"/><line x1="21" x2="9" y1="12" y2="12"/><line x1="21" x2="7" y1="18" y2="18"/></IconBase>,
+        Minimize2: (p) => <IconBase {...p}><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" x2="21" y1="10" y2="3"/><line x1="3" x2="10" y1="21" y2="14"/></IconBase>,
+        Maximize2: (p) => <IconBase {...p}><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></IconBase>,
+        Sun: (p) => <IconBase {...p}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></IconBase>,
+        Moon: (p) => <IconBase {...p}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></IconBase>,
+        Search: (p) => <IconBase {...p}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></IconBase>,
+        X: (p) => <IconBase {...p}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></IconBase>,
+        Download: (p) => <IconBase {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></IconBase>,
+        Copy: (p) => <IconBase {...p}><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></IconBase>,
+        FileText: (p) => <IconBase {...p}><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></IconBase>,
+        FolderOpen: (p) => <IconBase {...p}><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></IconBase>,
+        Eraser: (p) => <IconBase {...p}><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></IconBase>,
+        Languages: (p) => <IconBase {...p}><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></IconBase>,
+        SplitSquareHorizontal: (p) => <IconBase {...p}><path d="M8 19H5c-1 0-2-1-2-2V7c0-1 1-2 2-2h3"/><path d="M16 5h3c1 0 2 1 2 2v10c0 1-1 2-2 2h-3"/><line x1="12" x2="12" y1="4" y2="20"/></IconBase>,
+        ArrowUpToLine: (p) => <IconBase {...p}><path d="M5 3h14"/><path d="m18 13-6-6-6 6"/><path d="M12 7v14"/></IconBase>,
+        ArrowDownToLine: (p) => <IconBase {...p}><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></IconBase>,
+        Check: (p) => <IconBase {...p}><polyline points="20 6 9 17 4 12"/></IconBase>,
+        Loader2: (p) => <IconBase {...p}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></IconBase>,
+        ArrowLeft: (p) => <IconBase {...p}><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></IconBase>,
+        ArrowRight: (p) => <IconBase {...p}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></IconBase>
       };
 
-      // Service: Pinyin
-      const convertToPinyinLocal = (text, mode) => {
+      // --- HELPERS ---
+
+      // Service: Pinyin (Local)
+      const convertToPinyinLocal = (text, type) => {
         if (!text || !text.trim()) return "";
         let options = { v: true, nonZh: 'consecutive' };
-        switch (mode) {
-          case PinyinType.LOWER_TONE: options.toneType = 'symbol'; break;
-          case PinyinType.LOWER_NO_TONE: options.toneType = 'none'; break;
-          case PinyinType.UPPERCASE: options.toneType = 'none'; break;
+        
+        if (type === 'upper') {
+            options.toneType = 'none';
+        } else {
+            options.toneType = 'symbol';
         }
+        
         let result = pinyin(text, options);
-        if (mode === PinyinType.UPPERCASE) result = result.toUpperCase();
+        if (type === 'upper') result = result.toUpperCase();
         return result;
       };
 
-      // Service: Diff (Local)
+      // Service: Diff (Local - Set Based)
       const compareTextsLocal = (textA, textB) => {
-        const cleanA = textA.replace(/\s/g, '');
-        const cleanB = textB.replace(/\s/g, '');
+        const cleanA = textA.replace(/\r\n/g, "\n");
+        const cleanB = textB.replace(/\r\n/g, "\n");
         
         const setA = new Set(cleanA.split(''));
         const setB = new Set(cleanB.split(''));
         
-        // Find Unique
-        const uniqueToLeft = [...setA].filter(x => !setB.has(x)).sort();
-        const uniqueToRight = [...setB].filter(x => !setA.has(x)).sort();
+        const uniqueToLeft = [...setA].filter(x => !setB.has(x) && x.trim() !== '').sort();
+        const uniqueToRight = [...setB].filter(x => !setA.has(x) && x.trim() !== '').sort();
 
-        // Calculate a basic similarity score
         const intersection = new Set([...setA].filter(x => setB.has(x)));
         const union = new Set([...setA, ...setB]);
         
@@ -195,23 +213,31 @@
             summary = `文本相似度为 ${similarityScore}%。左侧有 ${uniqueToLeft.length} 个独有字符，右侧有 ${uniqueToRight.length} 个独有字符。`;
         }
 
-        return {
-          uniqueToLeft,
-          uniqueToRight,
-          similarityScore,
-          summary
-        };
+        return { uniqueToLeft, uniqueToRight, similarityScore, summary };
       };
 
       // --- COMPONENTS ---
 
-      // Tooltip
+      // Toast Notification
+      const Toast = ({ message }) => (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[10000] animate-in slide-in-from-bottom-5 fade-in duration-300 pointer-events-none">
+           <div className="bg-slate-800/90 backdrop-blur text-white px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 border border-slate-700/50">
+             <div className="bg-emerald-500 rounded-full p-0.5"><Icons.Check size={12} className="text-white" /></div>
+             <span className="text-sm font-medium tracking-wide">{message}</span>
+           </div>
+        </div>
+      );
+
+      // Tooltip - Fixed Origin Bug
       const Tooltip = ({ content, children, placement = 'top' }) => {
-        const [isVisible, setIsVisible] = useState(false);
-        const [coords, setCoords] = useState({ top: 0, left: 0 });
+        const [tooltipState, setTooltipState] = useState({
+          isVisible: false,
+          top: 0,
+          left: 0
+        });
         const triggerRef = useRef(null);
 
-        const updatePosition = () => {
+        const calculatePosition = () => {
           if (triggerRef.current) {
             const rect = triggerRef.current.getBoundingClientRect();
             let top = 0;
@@ -219,55 +245,56 @@
             const gap = 8;
 
             switch (placement) {
-              case 'top':
-                top = rect.top - gap;
-                left = rect.left + rect.width / 2;
-                break;
-              case 'bottom':
-                top = rect.bottom + gap;
-                left = rect.left + rect.width / 2;
-                break;
-              case 'left':
-                top = rect.top + rect.height / 2;
-                left = rect.left - gap;
-                break;
-              case 'right':
-                top = rect.top + rect.height / 2;
-                left = rect.right + gap;
-                break;
+              case 'top': top = rect.top - gap; left = rect.left + rect.width / 2; break;
+              case 'bottom': top = rect.bottom + gap; left = rect.left + rect.width / 2; break;
+              case 'left': top = rect.top + rect.height / 2; left = rect.left - gap; break;
+              case 'right': top = rect.top + rect.height / 2; left = rect.right + gap; break;
             }
-            setCoords({ top, left });
+            return { top, left };
           }
+          return { top: 0, left: 0 };
+        };
+
+        const handleMouseEnter = () => {
+          const { top, left } = calculatePosition();
+          setTooltipState({ isVisible: true, top, left });
+        };
+
+        const handleMouseLeave = () => {
+          setTooltipState(prev => ({ ...prev, isVisible: false }));
         };
 
         useEffect(() => {
-          if (isVisible) {
-            updatePosition();
-            window.addEventListener('scroll', updatePosition);
-            window.addEventListener('resize', updatePosition);
+          if (tooltipState.isVisible) {
+            const handleScrollOrResize = () => {
+               const { top, left } = calculatePosition();
+               setTooltipState(prev => ({ ...prev, top, left }));
+            };
+            window.addEventListener('scroll', handleScrollOrResize);
+            window.addEventListener('resize', handleScrollOrResize);
             return () => {
-              window.removeEventListener('scroll', updatePosition);
-              window.removeEventListener('resize', updatePosition);
+              window.removeEventListener('scroll', handleScrollOrResize);
+              window.removeEventListener('resize', handleScrollOrResize);
             };
           }
-        }, [isVisible]);
+        }, [tooltipState.isVisible, placement]);
 
         return (
           <React.Fragment>
             <div 
               ref={triggerRef}
               className="inline-flex"
-              onMouseEnter={() => { setIsVisible(true); }}
-              onMouseLeave={() => setIsVisible(false)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               {children}
             </div>
-            {isVisible && createPortal(
+            {tooltipState.isVisible && createPortal(
               <div 
-                className="fixed z-[9999] px-2 py-1 text-xs font-medium text-slate-100 bg-slate-800 dark:bg-slate-700 rounded shadow-lg whitespace-nowrap pointer-events-none animate-in fade-in zoom-in-95 duration-150 border border-slate-700/50"
+                className="fixed z-[9999] px-2.5 py-1.5 text-xs font-medium text-slate-100 bg-slate-800 dark:bg-slate-700 rounded shadow-lg whitespace-nowrap pointer-events-none animate-in fade-in zoom-in-95 duration-150 border border-slate-700/50"
                 style={{
-                  top: coords.top,
-                  left: coords.left,
+                  top: tooltipState.top,
+                  left: tooltipState.left,
                   transform: placement === 'left' || placement === 'right' 
                     ? 'translateY(-50%) translateX(' + (placement === 'left' ? '-100%' : '0') + ')'
                     : 'translateX(-50%) translateY(' + (placement === 'top' ? '-100%' : '0') + ')'
@@ -300,7 +327,7 @@
                   onClick={onClose}
                   className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 >
-                  <X size={20} />
+                  <Icons.X size={20} />
                 </button>
               </div>
               <div className="p-6 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-900">
@@ -312,29 +339,40 @@
       };
 
       // Dedup View
-      const DedupView = ({ result, onApply }) => {
+      const DedupView = ({ result, onApply, triggerToast }) => {
         const [copied, setCopied] = useState(false);
 
         if (!result) return <div className="text-slate-600 dark:text-slate-400">暂无内容可处理。</div>;
 
-        const handleCopy = () => {
+        const handleCopyResult = () => {
           navigator.clipboard.writeText(result.cleaned);
           setCopied(true);
+          triggerToast("已复制");
           setTimeout(() => setCopied(false), 2000);
+        };
+
+        const handleCopyChar = (char) => {
+            navigator.clipboard.writeText(char);
+            triggerToast("已复制");
         };
 
         return (
           <div className="space-y-6">
             <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
-              <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">已移除字符 ({result.removedCount})</h4>
+              <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">重复字符 ({result.removedCount})</h4>
               <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto custom-scrollbar">
                 {result.removedChars.length === 0 ? (
                   <span className="text-slate-400 dark:text-slate-500 italic text-sm">未发现重复字符。</span>
                 ) : (
                   result.removedChars.map((char, i) => (
-                    <span key={i} className="inline-flex items-center justify-center w-8 h-8 rounded bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 font-mono text-sm">
+                    <button 
+                      key={i} 
+                      onClick={() => handleCopyChar(char)}
+                      title="点击复制"
+                      className="inline-flex items-center justify-center w-8 h-8 rounded bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 font-mono text-sm hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                    >
                       {char === ' ' ? '空' : char}
-                    </span>
+                    </button>
                   ))
                 )}
               </div>
@@ -344,10 +382,10 @@
               <div className="flex justify-between items-center mb-2">
                   <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400">去重预览</h4>
                    <button 
-                    onClick={handleCopy}
+                    onClick={handleCopyResult}
                     className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
                   >
-                    {copied ? <Check size={14} /> : <Copy size={14} />}
+                    {copied ? <Icons.Check size={14} /> : <Icons.Copy size={14} />}
                     {copied ? "已复制" : "复制结果"}
                   </button>
               </div>
@@ -367,17 +405,16 @@
       };
 
       // Pinyin View
-      const PinyinView = ({ currentText }) => {
+      const PinyinView = ({ currentText, triggerToast }) => {
         const [loading, setLoading] = useState(false);
         const [result, setResult] = useState(null);
-        const [mode, setMode] = useState(PinyinType.LOWER_TONE);
         const [copied, setCopied] = useState(false);
 
-        const handleConvert = async () => {
+        const handleConvert = async (type) => {
           if (!currentText.trim()) return;
           setLoading(true);
           await new Promise(r => setTimeout(r, 100)); 
-          const res = convertToPinyinLocal(currentText, mode);
+          const res = convertToPinyinLocal(currentText, type);
           setResult(res);
           setLoading(false);
         };
@@ -386,45 +423,29 @@
           if (result) {
               navigator.clipboard.writeText(result);
               setCopied(true);
+              triggerToast("已复制");
               setTimeout(() => setCopied(false), 2000);
           }
         };
 
-        const modeLabels = {
-          [PinyinType.LOWER_TONE]: '小写带音调 (nǐ hǎo)',
-          [PinyinType.LOWER_NO_TONE]: '小写无音调 (ni hao)',
-          [PinyinType.UPPERCASE]: '大写 (NI HAO)',
-        };
-
         return (
           <div className="space-y-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-slate-500 dark:text-slate-400">转换模式</label>
-              <div className="flex flex-wrap gap-2">
-                {Object.values(PinyinType).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setMode(t)}
-                    className={`px-3 py-1.5 rounded-md text-sm border transition-all ${
-                      mode === t 
-                      ? 'bg-emerald-600 border-emerald-500 text-white' 
-                      : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-600'
-                    }`}
-                  >
-                    {modeLabels[t]}
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-4">
+               <button
+                  onClick={() => handleConvert('normal')}
+                  disabled={loading || !currentText.trim()}
+                  className="py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2 shadow-sm"
+               >
+                 {loading ? <Icons.Loader2 className="animate-spin" size={18} /> : '转换为拼音'}
+               </button>
+               <button
+                  onClick={() => handleConvert('upper')}
+                  disabled={loading || !currentText.trim()}
+                  className="py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2 shadow-sm"
+               >
+                 {loading ? <Icons.Loader2 className="animate-spin" size={18} /> : '转换为大写'}
+               </button>
             </div>
-
-            <button
-              onClick={handleConvert}
-              disabled={loading || !currentText.trim()}
-              className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
-            >
-              {loading && <Loader2 className="animate-spin" size={18} />}
-              {loading ? '转换中...' : '生成拼音'}
-            </button>
 
             {result && (
               <div className="animate-in fade-in slide-in-from-bottom-2">
@@ -434,11 +455,11 @@
                         onClick={handleCopy}
                         className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
                       >
-                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                        {copied ? <Icons.Check size={14} /> : <Icons.Copy size={14} />}
                         {copied ? "已复制" : "复制"}
                       </button>
                   </div>
-                  <div className="p-4 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-800 dark:text-slate-200 font-mono text-sm leading-relaxed max-h-60 overflow-y-auto custom-scrollbar">
+                  <div className="p-4 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-800 dark:text-slate-200 font-mono text-sm leading-relaxed max-h-60 overflow-y-auto custom-scrollbar select-text">
                       {result}
                   </div>
               </div>
@@ -447,8 +468,8 @@
         );
       };
 
-      // Diff View
-      const DiffView = () => {
+      // Diff View (Local)
+      const DiffView = ({ triggerToast }) => {
           const [leftText, setLeftText] = useState("");
           const [rightText, setRightText] = useState("");
           const [loading, setLoading] = useState(false);
@@ -457,10 +478,15 @@
           const handleCompare = async () => {
               if (!leftText && !rightText) return;
               setLoading(true);
-              await new Promise(r => setTimeout(r, 300));
+              await new Promise(r => setTimeout(r, 200));
               const res = compareTextsLocal(leftText, rightText);
               setResult(res);
               setLoading(false);
+          };
+
+          const handleCopyChar = (char) => {
+             navigator.clipboard.writeText(char);
+             triggerToast("已复制");
           };
 
           return (
@@ -492,7 +518,7 @@
                           disabled={loading}
                           className="px-8 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-full font-medium transition-colors flex items-center gap-2 shadow-lg shadow-indigo-900/20"
                       >
-                          {loading && <Loader2 className="animate-spin" size={18} />}
+                          {loading && <Icons.Loader2 className="animate-spin" size={18} />}
                           {loading ? '正在分析...' : '开始比对'}
                       </button>
                   </div>
@@ -501,32 +527,40 @@
                       <div className="flex-1 bg-slate-100 dark:bg-slate-800/30 rounded-xl border border-slate-200 dark:border-slate-800 p-4 overflow-y-auto custom-scrollbar animate-in slide-in-from-bottom-4">
                           <div className="flex items-center gap-3 mb-4">
                               <span className="text-xl font-bold text-slate-800 dark:text-white">差异分析</span>
-                              <span className="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-xs text-slate-600 dark:text-slate-300">字符相似度: {result.similarityScore}%</span>
+                              <span className="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-xs text-slate-600 dark:text-slate-300">相似度: {result.similarityScore}%</span>
                           </div>
                           <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{result.summary}</p>
                           
                           <div className="grid grid-cols-2 gap-6">
                               <div>
                                    <h5 className="text-xs font-bold text-rose-500 dark:text-rose-400 uppercase mb-2 flex items-center gap-2">
-                                      <ArrowLeft size={14} /> 仅在左侧出现 (A)
+                                      <Icons.ArrowLeft size={14} /> 仅在左侧出现 (A)
                                    </h5>
                                    <div className="flex flex-wrap gap-2">
                                       {result.uniqueToLeft.length > 0 ? result.uniqueToLeft.map((item, i) => (
-                                          <span key={i} className="px-2 py-1 bg-rose-100 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-300 text-xs rounded font-mono">
+                                          <button 
+                                            key={i} 
+                                            onClick={() => handleCopyChar(item)}
+                                            className="px-2 py-1 bg-rose-100 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-300 text-xs rounded font-mono hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                                          >
                                               {item}
-                                          </span>
+                                          </button>
                                       )) : <span className="text-slate-400 dark:text-slate-600 text-xs italic">无。</span>}
                                    </div>
                               </div>
                               <div>
                                    <h5 className="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase mb-2 flex items-center gap-2">
-                                      仅在右侧出现 (B) <ArrowRight size={14} />
+                                      仅在右侧出现 (B) <Icons.ArrowRight size={14} />
                                    </h5>
                                    <div className="flex flex-wrap gap-2">
                                       {result.uniqueToRight.length > 0 ? result.uniqueToRight.map((item, i) => (
-                                          <span key={i} className="px-2 py-1 bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 text-emerald-600 dark:text-emerald-300 text-xs rounded font-mono">
+                                          <button 
+                                            key={i} 
+                                            onClick={() => handleCopyChar(item)}
+                                            className="px-2 py-1 bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 text-emerald-600 dark:text-emerald-300 text-xs rounded font-mono hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                                          >
                                               {item}
-                                          </span>
+                                          </button>
                                       )) : <span className="text-slate-400 dark:text-slate-600 text-xs italic">无。</span>}
                                    </div>
                               </div>
@@ -544,6 +578,8 @@
           try {
             const savedDocs = localStorage.getItem('zen_documents');
             if (savedDocs) return JSON.parse(savedDocs);
+            const legacyContent = localStorage.getItem('zen_content');
+            if (legacyContent) return [{ id: 'doc-' + Date.now(), title: '未命名-1', content: legacyContent, updatedAt: Date.now() }];
           } catch (e) {}
           return [{ id: 'doc-' + Date.now(), title: '未命名-1', content: '', updatedAt: Date.now() }];
         });
@@ -567,6 +603,7 @@
         const [cursorStats, setCursorStats] = useState({ line: 1, col: 1 });
         const [isSearchOpen, setIsSearchOpen] = useState(false);
         const [searchTerm, setSearchTerm] = useState("");
+        const [toastMessage, setToastMessage] = useState(null);
         
         // Modals
         const [dedupModalOpen, setDedupModalOpen] = useState(false);
@@ -625,6 +662,11 @@
         }, []);
 
         // Logic
+        const triggerToast = useCallback((msg) => {
+           setToastMessage(msg);
+           setTimeout(() => setToastMessage(null), 2000);
+        }, []);
+
         const updateActiveDoc = (newContent) => {
           setDocuments(prev => prev.map(doc => 
             doc.id === activeDocId ? { ...doc, content: newContent, updatedAt: Date.now() } : doc
@@ -717,6 +759,7 @@
 
         const handleCopy = () => {
           navigator.clipboard.writeText(text);
+          triggerToast("已复制");
         };
 
         const scrollToTop = () => {
@@ -806,7 +849,7 @@
                     rel="noopener noreferrer"
                     className="flex items-center justify-center p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
                   >
-                    <Home size={20} />
+                    <Icons.Home size={20} />
                   </a>
                 </Tooltip>
 
@@ -821,7 +864,7 @@
                       onClick={() => setConfig(p => ({...p, fontSize: Math.max(12, p.fontSize - 1)}))}
                       className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                    >
-                     <Minus size={16} />
+                     <Icons.Minus size={16} />
                    </button>
                    <input 
                       type="number"
@@ -836,7 +879,7 @@
                       onClick={() => setConfig(p => ({...p, fontSize: Math.min(64, p.fontSize + 1)}))}
                       className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                    >
-                     <Plus size={16} />
+                     <Icons.Plus size={16} />
                    </button>
                 </div>
 
@@ -846,7 +889,7 @@
                         onClick={() => setConfig(p => ({...p, spacing: 'compact'}))}
                         className={`p-2 rounded-md transition-colors ${config.spacing === 'compact' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
                       >
-                        <MoveVertical size={20} className="scale-75" />
+                        <Icons.MoveVertical size={20} className="scale-75" />
                       </button>
                    </Tooltip>
                    <Tooltip content="宽松模式" placement="bottom">
@@ -854,7 +897,7 @@
                          onClick={() => setConfig(p => ({...p, spacing: 'loose'}))}
                          className={`p-2 rounded-md transition-colors ${config.spacing === 'loose' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
                       >
-                         <MoveVertical size={20} />
+                         <Icons.MoveVertical size={20} />
                       </button>
                    </Tooltip>
                    <div className="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
@@ -862,19 +905,19 @@
                      onClick={() => setConfig(p => ({...p, alignment: 'left'}))}
                      className={`p-2 rounded-md transition-colors ${config.alignment === 'left' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
                    >
-                     <AlignLeft size={20} />
+                     <Icons.AlignLeft size={20} />
                    </button>
                    <button 
                      onClick={() => setConfig(p => ({...p, alignment: 'center'}))}
                      className={`p-2 rounded-md transition-colors ${config.alignment === 'center' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
                    >
-                     <AlignCenter size={20} />
+                     <Icons.AlignCenter size={20} />
                    </button>
                    <button 
                      onClick={() => setConfig(p => ({...p, alignment: 'right'}))}
                      className={`p-2 rounded-md transition-colors ${config.alignment === 'right' ? 'bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
                    >
-                     <AlignRight size={20} />
+                     <Icons.AlignRight size={20} />
                    </button>
                 </div>
 
@@ -893,7 +936,7 @@
                          onClick={() => setConfig(p => ({...p, width: p.width === 'full' ? 'narrow' : 'full'}))}
                          className="p-2 rounded-md text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors"
                        >
-                          {config.width === 'full' ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+                          {config.width === 'full' ? <Icons.Minimize2 size={20} /> : <Icons.Maximize2 size={20} />}
                        </button>
                    </Tooltip>
                 </div>
@@ -905,7 +948,7 @@
                       onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
                       className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 transition-colors"
                   >
-                      {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                      {theme === 'dark' ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
                   </button>
                 </Tooltip>
 
@@ -924,7 +967,7 @@
                               onClick={() => { setIsSearchOpen(false); setSearchTerm(''); }}
                               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white"
                           >
-                              <X size={16} />
+                              <Icons.X size={16} />
                           </button>
                       </div>
                   ) : (
@@ -933,7 +976,7 @@
                               onClick={() => setIsSearchOpen(true)}
                               className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                           >
-                              <Search size={20} />
+                              <Icons.Search size={20} />
                           </button>
                       </Tooltip>
                   )}
@@ -946,16 +989,16 @@
                     onClick={handleExportFile}
                     className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
-                    <Download size={20} />
+                    <Icons.Download size={20} />
                   </button>
                 </Tooltip>
 
-                <Tooltip content="复制当前页全部字符" placement="bottom">
+                <Tooltip content="复制当前页字符" placement="bottom">
                   <button 
                     onClick={handleCopy}
                     className="p-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full transition-colors shadow-lg shadow-emerald-900/20 dark:shadow-emerald-900/40"
                   >
-                    <Copy size={20} />
+                    <Icons.Copy size={20} />
                   </button>
                 </Tooltip>
               </div>
@@ -975,7 +1018,7 @@
                           : 'text-slate-500 dark:text-slate-500 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 hover:text-slate-700 dark:hover:text-slate-400'}
                    `}
                  >
-                   <FileText size={16} className={activeDocId === doc.id ? 'text-emerald-500' : 'opacity-50'} />
+                   <Icons.FileText size={16} className={activeDocId === doc.id ? 'text-emerald-500' : 'opacity-50'} />
                    
                    {editingDocId === doc.id ? (
                       <input 
@@ -995,7 +1038,7 @@
                       onClick={(e) => closeDoc(e, doc.id)}
                       className={`p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 ${activeDocId === doc.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`}
                    >
-                     <X size={14} />
+                     <Icons.X size={14} />
                    </button>
                    {activeDocId === doc.id && (
                       <div className="absolute top-0 left-0 right-0 h-[3px] bg-emerald-500" />
@@ -1009,7 +1052,7 @@
                           onClick={createNewDoc}
                           className="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
                       >
-                          <Plus size={20} />
+                          <Icons.Plus size={20} />
                       </button>
                   </Tooltip>
                   <Tooltip content="打开本地 TXT" placement="right">
@@ -1017,7 +1060,7 @@
                           onClick={() => fileInputRef.current?.click()}
                           className="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
                       >
-                          <FolderOpen size={20} />
+                          <Icons.FolderOpen size={20} />
                       </button>
                   </Tooltip>
                   <input 
@@ -1050,30 +1093,30 @@
 
               {/* Float Buttons */}
               <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-5 z-10">
-                 <Tooltip content="去除重复" placement="left">
+                 <Tooltip content="去除重复字符" placement="left">
                     <button 
                       onClick={handleDedupAnalysis}
                       className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:border-rose-500/50 shadow-lg transition-all hover:scale-110"
                     >
-                      <Eraser size={22} />
+                      <Icons.Eraser size={22} />
                     </button>
                  </Tooltip>
 
-                 <Tooltip content="拼音转换" placement="left">
+                 <Tooltip content="汉字转拼音" placement="left">
                     <button 
                       onClick={() => setPinyinModalOpen(true)}
                       className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 hover:border-indigo-500/50 shadow-lg transition-all hover:scale-110"
                     >
-                      <Languages size={22} />
+                      <Icons.Languages size={22} />
                     </button>
                  </Tooltip>
 
-                 <Tooltip content="文本比对 (本地)" placement="left">
+                 <Tooltip content="文本差异对比" placement="left">
                     <button 
                       onClick={() => setDiffModalOpen(true)}
                       className="w-12 h-12 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 hover:border-sky-500/50 shadow-lg transition-all hover:scale-110"
                     >
-                      <SplitSquareHorizontal size={22} />
+                      <Icons.SplitSquareHorizontal size={22} />
                     </button>
                  </Tooltip>
               </div>
@@ -1085,7 +1128,7 @@
                           onClick={scrollToTop}
                           className="p-3 bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg backdrop-blur-sm transition-colors border border-slate-200 dark:border-slate-700 shadow-sm"
                       >
-                          <ArrowUpToLine size={20} />
+                          <Icons.ArrowUpToLine size={20} />
                       </button>
                   </Tooltip>
                   <Tooltip content="去到底部" placement="left">
@@ -1093,7 +1136,7 @@
                           onClick={scrollToBottom}
                           className="p-3 bg-white/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg backdrop-blur-sm transition-colors border border-slate-200 dark:border-slate-700 shadow-sm"
                       >
-                          <ArrowDownToLine size={20} />
+                          <Icons.ArrowDownToLine size={20} />
                       </button>
                   </Tooltip>
               </div>
@@ -1114,32 +1157,36 @@
                       重复: {stats.redundantCount}
                   </span>
               </div>
+
+              {/* Toast */}
+              {toastMessage && <Toast message={toastMessage} />}
+
             </main>
 
             {/* Modals */}
             <Modal 
               isOpen={dedupModalOpen} 
               onClose={() => setDedupModalOpen(false)} 
-              title="去重报告"
+              title="去除重复字符"
             >
-              <DedupView result={dedupResult} onApply={applyDedup} />
+              <DedupView result={dedupResult} onApply={applyDedup} triggerToast={triggerToast} />
             </Modal>
 
             <Modal 
               isOpen={pinyinModalOpen} 
               onClose={() => setPinyinModalOpen(false)} 
-              title="拼音转换工具"
+              title="汉字转拼音"
             >
-              <PinyinView currentText={text} />
+              <PinyinView currentText={text} triggerToast={triggerToast} />
             </Modal>
 
             <Modal 
               isOpen={diffModalOpen} 
               onClose={() => setDiffModalOpen(false)} 
-              title="字符差异比对 (纯本地)"
+              title="文本差异对比"
               width="max-w-5xl"
             >
-              <DiffView />
+              <DiffView triggerToast={triggerToast} />
             </Modal>
           </div>
         );
@@ -1148,6 +1195,11 @@
       // Mount the app
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(<App />);
+      
+      // Remove loading screen when done
+      const loader = document.getElementById('app-loading');
+      if (loader) loader.style.display = 'none';
+
     </script>
   </body>
 </html>
