@@ -6,11 +6,7 @@ const APP_DATA = {
         logoHtml: '<a href="index.html" class="navbar-logo"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/BOEv/249X79/logo.png/webp" alt="Logo"></a>',
         menuItems: [
             { name: '首页', link: 'index.html', dropdown: null },
-            { 
-                name: '字体产品', 
-                link: 'fonts.html', 
-                dropdown: null // 移除下拉菜单，直接跳转
-            },
+            { name: '字体产品', link: 'fonts.html', dropdown: null },
             { name: '字体授权', link: 'license.html', dropdown: null },
             { name: '定制服务', link: 'custom-font.html', dropdown: null },
             { 
@@ -19,15 +15,15 @@ const APP_DATA = {
                 dropdown: [
                     { name: '授权问题', link: 'us.html#auth_faq' },
                     { name: '用户协议', link: 'us.html#service_agreement' },
-                    { name: '建议反馈', link: 'us.html#font_feedback' }
-                    // 移除了底部分割线选项
+                    { name: '建议反馈', link: 'us.html#font_feedback' },
+                    { name: '关于我们', link: 'us.html' }
                 ]
             },
         ],
         actionButton: {
             text: '获取字体授权',
-            link: 'license.html',
-            target: '_self', 
+            link: 'https://zzfonts.taobao.com',
+            target: '_blank', 
             rel: ''
         }
     },
