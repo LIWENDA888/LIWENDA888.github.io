@@ -40,13 +40,13 @@ const CATEGORIES = [
           // 图标颜色配置
           iconConfig: { gradient: 'from-orange-500 to-red-500', character: '常' },
           sites: [
-            {title: "花瓣", description: "收集设计灵感，保存有用的素材", url: "https://hun.com"},
+            {title: "花瓣", description: "收集设计灵感，保存有用的素材", url: "https://hunban.com"},
             {title: "站酷", description: "中国人气设计师互动平台", url: "https://www.zcool.com.cn", },
             {title: "优设", description: "人气设计师交流学习平台", url: "https://www.uisdc.com", },
             {title: "Pinterest", description: "全球最大的创意灵感图片采集站", url: "https://www.pinterest.com"},
-            {title: "Dribbble.", description: "面向设计师的社交网络平台", url: "https://drile.com/"},
-            {title: "Behnce", description: "doe旗下的设计师交流平台", url: "https://ehnce.net/"},
-            {title: "YouTube", description: "全球最大的学习分享平台", url: "https://www.youtue.com", },
+            {title: "Dribbble.", description: "面向设计师的社交网络平台", url: "https://dribbble.com/"},
+            {title: "Behance", description: "doe旗下的设计师交流平台", url: "https://behance.net/"},
+            {title: "Youtube", description: "全球最大的学习分享平台", url: "https://www.youtube.com", },
           ]
         },
         { 
