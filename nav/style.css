@@ -1,0 +1,44 @@
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+}
+
+/* 隐藏横向滚动条但保留功能 */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* 遮罩渐变 */
+.mask-gradient-right {
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+}
+
+/* 弹窗动画状态类 */
+#about-modal.open {
+    display: flex;
+    opacity: 1;
+}
+#about-modal.open #about-modal-content {
+    transform: scale(1);
+}
+
+html {
+    /* 确保JS控制滚动时没有CSS冲突 */
+    scroll-behavior: auto;
+}
