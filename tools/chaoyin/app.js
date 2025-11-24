@@ -4,7 +4,8 @@ const State = {
     activeChar: null,
     searchMode: 'similar', // Default: 'similar'
     data: [],
-    stats: {}
+    stats: {},
+    isHotListExpanded: false
 };
 
 // 初始化
@@ -214,6 +215,62 @@ function openZdic(e, char) {
     window.open(`https://www.zdic.net/hans/${char}`, '_blank');
 }
 
+function toggleHotList() {
+    State.isHotListExpanded = !State.isHotListExpanded;
+    renderContent();
+}
+
+// ---------------- 模态框逻辑 ----------------
+
+function showHeatSources(e, char) {
+    e.stopPropagation(); // 阻止点击卡片触发搜索
+    
+    // 查找反向索引 (谁包含了我?)
+    const parents = State.data.filter(d => d.similars.includes(char) || d.radicals.includes(char));
+    const heat = State.stats.frequencyMap[char] || 0;
+
+    // 填充模态框
+    document.getElementById('modal-char-icon').textContent = char;
+    document.getElementById('modal-heat-val').textContent = heat;
+    
+    const listEl = document.getElementById('modal-source-list');
+    listEl.innerHTML = parents.map(p => `
+        <div onclick="closeHeatModal(); handleSearch('${p.key}')" class="flex flex-col items-center justify-center aspect-square bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5 hover:bg-orange-50 dark:hover:bg-orange-500/20 hover:border-orange-200 dark:hover:border-orange-500/30 cursor-pointer transition-colors group">
+            <span class="text-xl font-serif-sc font-bold text-slate-700 dark:text-slate-200 group-hover:text-orange-600 dark:group-hover:text-orange-400">${p.key}</span>
+        </div>
+    `).join('');
+
+    // 显示动画
+    const modal = document.getElementById('heat-source-modal');
+    const backdrop = modal.querySelector('.modal-backdrop');
+    const content = modal.querySelector('.modal-content');
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // 小延时触发 CSS transition
+    requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        content.classList.remove('opacity-0', 'scale-95');
+        content.classList.add('opacity-100', 'scale-100');
+    });
+}
+
+function closeHeatModal() {
+    const modal = document.getElementById('heat-source-modal');
+    const backdrop = modal.querySelector('.modal-backdrop');
+    const content = modal.querySelector('.modal-content');
+
+    backdrop.classList.add('opacity-0');
+    content.classList.remove('opacity-100', 'scale-100');
+    content.classList.add('opacity-0', 'scale-95');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
+}
+
 function animateValue(id, start, end, duration) {
     const obj = document.getElementById(id);
     if(!obj) return;
@@ -299,40 +356,60 @@ function renderContent() {
 }
 
 function renderDashboard(container) {
-    const hotChars = Object.entries(State.stats.frequencyMap)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 24);
+    const allHotChars = Object.entries(State.stats.frequencyMap).sort((a, b) => b[1] - a[1]);
+    
+    // 根据状态决定显示数量 (默认24, 展开则全部)
+    const displayChars = State.isHotListExpanded ? allHotChars : allHotChars.slice(0, 24);
+    const hasMore = allHotChars.length > 24;
+
+    // 动态控制右侧说明栏的高度行为
+    // 默认状态(未展开): h-full (跟随左侧高度，保持对齐)
+    // 展开状态: self-start (自身高度，不被左侧拉长)
+    const instructionClass = State.isHotListExpanded ? 'self-start' : 'h-full';
 
     container.innerHTML = `
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
-            <!-- 热力榜 (Glass) -->
+            <!-- 热力榜 (Glass + Grid Layout) -->
             <div class="lg:col-span-2 bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none relative overflow-hidden group">
                 <!-- Decorative Gradient -->
                 <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-orange-100/40 to-transparent dark:from-orange-900/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                 
-                <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200 mb-8 flex items-center gap-3 relative z-10">
-                    <div class="p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
-                        <i data-lucide="trending-up" width="18" class="text-orange-500"></i>
-                    </div>
-                    <span>高频热字榜</span>
-                </h3>
-                <div class="flex flex-wrap gap-3 relative z-10">
-                    ${hotChars.map(([char, heat]) => `
-                        <button onclick="handleSearch('${char}')" class="px-5 py-3 bg-white/80 dark:bg-[#1a1a1a]/80 hover:bg-white dark:hover:bg-[#222] text-slate-700 dark:text-slate-300 rounded-xl border border-white dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2 hover:-translate-y-0.5 active:scale-95 active:shadow-none">
-                            <span class="font-serif-sc text-xl font-bold leading-none">${char}</span>
-                            <span class="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded-md min-w-[20px] flex items-center gap-0.5">
+                <div class="flex items-center justify-between mb-8 relative z-10">
+                    <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200 flex items-center gap-3">
+                        <div class="p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-slate-100 dark:border-slate-600">
+                            <i data-lucide="trending-up" width="18" class="text-orange-500"></i>
+                        </div>
+                        <span>高频热字榜</span>
+                    </h3>
+                    
+                    ${hasMore ? `
+                    <button onclick="toggleHotList()" class="text-xs font-bold text-slate-400 hover:text-blue-500 dark:text-slate-500 dark:hover:text-blue-400 bg-white/50 dark:bg-white/5 px-3 py-1.5 rounded-full border border-white dark:border-white/5 hover:border-blue-100 dark:hover:border-blue-900 transition-all flex items-center gap-1">
+                        <span>${State.isHotListExpanded ? '收起' : '查看全部'}</span>
+                        <i data-lucide="${State.isHotListExpanded ? 'chevron-up' : 'chevron-down'}" width="12"></i>
+                    </button>
+                    ` : ''}
+                </div>
+
+                <!-- Strict Grid Layout for Hot Cards -->
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 relative z-10">
+                    ${displayChars.map(([char, heat]) => `
+                        <div onclick="handleSearch('${char}')" class="group/card cursor-pointer bg-white/80 dark:bg-[#1a1a1a]/80 hover:bg-white dark:hover:bg-[#222] rounded-xl border border-white dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-between px-3 py-2.5 hover:-translate-y-0.5 active:scale-95 active:shadow-none">
+                            <span class="font-serif-sc text-lg font-bold text-slate-700 dark:text-slate-200 leading-none group-hover/card:text-teal-700 dark:group-hover/card:text-teal-400 transition-colors">${char}</span>
+                            
+                            <!-- Heat Badge (Clickable for Modal) -->
+                            <div onclick="showHeatSources(event, '${char}')" class="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-500 px-1.5 py-0.5 rounded-md flex items-center gap-0.5 hover:bg-orange-100 dark:hover:bg-orange-900/30 hover:text-orange-600 dark:hover:text-orange-400 transition-colors cursor-pointer" title="点击查看热力溯源">
                                 <i data-lucide="flame" width="10" class="fill-orange-400 text-orange-400 dark:text-orange-500 dark:fill-orange-500"></i>
                                 ${heat}
-                            </span>
-                        </button>
+                            </div>
+                        </div>
                     `).join('')}
                 </div>
             </div>
             
             <!-- 说明区 (Glass) -->
-            <div class="bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col relative h-full">
+            <div class="bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col relative ${instructionClass}">
                 <h3 class="font-bold text-lg mb-8 flex items-center gap-3 text-slate-800 dark:text-slate-200">
-                    <div class="p-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
+                    <div class="p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                          <i data-lucide="book-open" width="18" class="text-slate-500 dark:text-slate-400"></i>
                     </div>
                     使用说明
@@ -344,7 +421,7 @@ function renderDashboard(container) {
                     </li>
                     <li class="flex items-start gap-4">
                         <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600 mt-2 shrink-0"></span>
-                        <span>切换“形近字”或“部首”查看不同关系。</span>
+                        <span>点击热榜 <i data-lucide="flame" width="10" class="inline"></i> 数字查看出现位置。</span>
                     </li>
                     <li class="flex items-start gap-4">
                         <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600 mt-2 shrink-0"></span>
@@ -404,7 +481,7 @@ function generateCardHtml(char, isSmall = false) {
             class="group relative flex flex-col items-center justify-center bg-white/80 dark:bg-[#161616] backdrop-blur-sm rounded-2xl ${heightClass} shadow-[0_4px_12px_rgba(0,0,0,0.02)] dark:shadow-none border border-white/80 dark:border-white/5 hover:border-blue-100 dark:hover:border-slate-700 hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.08)] dark:hover:shadow-none hover:-translate-y-1 transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) cursor-pointer select-none overflow-hidden"
         >
             <!-- 汉典链接 -->
-            <button onclick="openZdic(event, '${char}')" class="absolute top-2.5 right-2.5 p-1.5 text-slate-300 dark:text-slate-700 hover:text-slate-600 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-300 z-20" title="汉典">
+            <button onclick="openZdic(event, '${char}')" class="absolute top-2.5 right-2.5 p-1.5 text-slate-300 dark:text-slate-700 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-300 z-20" title="汉典">
                 <i data-lucide="external-link" width="14"></i>
             </button>
             

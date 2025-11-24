@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字·形 - 汉字关联探索</title>
+    <title>超引-形近字查询神器 - 自在造字(ZIZAO)</title>
+    
+    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
+    <meta name="author" content="自在造字">
+    <meta property="og:title" content="超引-形近字查询神器 - 自在造字(ZIZAO)">
+    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/AR9P/ico.ico">
+    <meta property="og:url" content="https://www.zizao.top">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -57,16 +66,13 @@
         <!-- Search Container -->
         <div id="search-container" class="w-full max-w-2xl px-4 flex flex-col items-center transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] mt-16 mb-8">
             
-            <!-- Logo Container (Dual Image Support) -->
-            <!-- 注意：id="main-logo" 现在是一个 div 容器，JS 控制这个容器的 margin 和 height -->
+            <!-- Logo Container -->
             <div id="main-logo" class="h-14 w-auto mb-10 transition-all duration-500 cursor-pointer drop-shadow-sm hover:opacity-80 dark:brightness-125 dark:contrast-125 flex justify-center items-center" onclick="resetApp()">
-                
-                <!-- 日间模式 Logo -->
+                <!-- Light Mode Logo -->
                 <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/D8a9/219X79/haologo.png/webp" 
                      alt="字·形 Logo (Light)" 
                      class="h-full w-auto object-contain block dark:hidden">
-                
-                <!-- 深色模式 Logo (当前使用相同图片，请在此处替换 src) -->
+                <!-- Dark Mode Logo -->
                 <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/D8a9/219X79/haologo.png/webp" 
                      alt="字·形 Logo (Dark)" 
                      class="h-full w-auto object-contain hidden dark:block">
@@ -132,9 +138,8 @@
 
     </main>
 
-    <!-- Footer (Modified for Mobile Single Line) -->
+    <!-- Footer -->
     <footer class="flex-none py-6 z-10">
-        <!-- flex-row 强制单行, text-[10px] 缩小字体, gap-3 缩小间距 -->
         <div class="max-w-5xl mx-auto px-4 flex flex-row items-center justify-center gap-3 sm:gap-6 text-[10px] sm:text-[11px] text-slate-400/80 dark:text-slate-700 font-medium tracking-wide">
             <span class="whitespace-nowrap">Copyright © 2024 字·形 Explorer</span>
             <span class="text-slate-300/50 dark:text-slate-800">|</span>
@@ -143,6 +148,46 @@
             <a href="#" class="hover:text-slate-600 dark:hover:text-slate-500 transition-colors whitespace-nowrap">意见反馈</a>
         </div>
     </footer>
+
+    <!-- Heat Source Modal (Hidden by default) -->
+    <div id="heat-source-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/20 dark:bg-black/40 backdrop-blur-sm transition-opacity opacity-0 modal-backdrop" onclick="closeHeatModal()"></div>
+        <!-- Modal Content -->
+        <div class="relative bg-white/90 dark:bg-[#161616]/90 backdrop-blur-xl w-full max-w-md rounded-3xl shadow-2xl border border-white/50 dark:border-white/10 p-6 sm:p-8 transform scale-95 opacity-0 transition-all duration-300 modal-content flex flex-col max-h-[80vh]">
+            <button onclick="closeHeatModal()" class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 rounded-full transition-colors">
+                <i data-lucide="x" width="20"></i>
+            </button>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 rounded-2xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center text-3xl font-serif-sc font-bold text-slate-800 dark:text-white border border-orange-100 dark:border-orange-500/20" id="modal-char-icon">
+                    ?
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        热力溯源
+                        <span class="text-[10px] font-bold bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded-full flex items-center gap-1">
+                            <i data-lucide="flame" width="10" class="fill-orange-500"></i>
+                            <span id="modal-heat-val">0</span>
+                        </span>
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">该字出现在以下字符组中：</p>
+                </div>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto custom-scrollbar -mr-2 pr-2">
+                 <div id="modal-source-list" class="grid grid-cols-5 sm:grid-cols-6 gap-3">
+                     <!-- Sources will be injected here -->
+                 </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-slate-100 dark:border-white/5 text-center">
+                 <button onclick="closeHeatModal(); handleSearch(document.getElementById('modal-char-icon').innerText.trim())" class="text-xs font-medium text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">
+                     搜索该字符详情 &rarr;
+                 </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-2.5 rounded-full shadow-2xl bg-slate-900/80 dark:bg-white/90 backdrop-blur-md text-white/90 dark:text-black/90 transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) opacity-0 translate-y-8 scale-95 pointer-events-none ring-1 ring-white/10">
