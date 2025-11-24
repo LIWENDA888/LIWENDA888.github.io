@@ -1,18 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>超引-形近字查询神器 - 自在造字(ZIZAO)</title>
-    
-    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <meta name="author" content="自在造字">
-    <meta property="og:title" content="超引-形近字查询神器 - 自在造字(ZIZAO)">
-    <meta property="og:image" content="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/AR9P/ico.ico">
-    <meta property="og:url" content="https://www.zizao.top">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251101/8hkj/ico.ico" type="zizaoicon">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>字·形 - 汉字关联探索</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,11 +11,18 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    // 使用 Tailwind 默认系统字体栈
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                    }
                 }
             }
         }
     </script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Icons (Lucide) -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Custom Styles -->
@@ -103,8 +101,8 @@
                             </button>
                         </div>
                     </div>
-                    <!-- Random Button -->
-                    <button onclick="handleRandom()" class="flex-shrink-0 w-14 h-14 bg-white/60 dark:bg-[#111111]/80 backdrop-blur-md border border-white/50 dark:border-white/5 rounded-full hover:bg-white dark:hover:bg-[#1a1a1a] text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md flex items-center justify-center transition-all duration-300 active:scale-95 group" title="随机探索">
+                    <!-- Random Button (Hidden on Mobile: hidden sm:flex) -->
+                    <button onclick="handleRandom()" class="flex-shrink-0 w-14 h-14 bg-white/60 dark:bg-[#111111]/80 backdrop-blur-md border border-white/50 dark:border-white/5 rounded-full hover:bg-white dark:hover:bg-[#1a1a1a] text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md hidden sm:flex items-center justify-center transition-all duration-300 active:scale-95 group" title="随机探索">
                          <i data-lucide="dices" width="22" class="group-hover:rotate-[20deg] transition-transform duration-500"></i>
                     </button>
                 </div>

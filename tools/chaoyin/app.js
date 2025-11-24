@@ -5,8 +5,10 @@ const State = {
     searchMode: 'similar', 
     data: [],
     stats: {},
-    isHotListExpanded: false
+    hotListPage: 0 // 0-indexed
 };
+
+const HOT_PAGE_SIZE = 36; // 3, 4, 6 columns compatible
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lucide.createIcons();
     
+    // URL 直达逻辑优化
     const urlParams = new URLSearchParams(window.location.search);
     const q = urlParams.get('q');
     const mode = urlParams.get('mode');
@@ -31,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (q) {
+        // 立即调整布局，避免动画跳变
+        adjustLayoutForSearch(true);
         handleSearch(q, false);
     } else {
         renderContent();
@@ -56,6 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const popMode = params.get('mode') || 'similar';
         State.searchMode = popMode;
         updateTabStyles();
+        
+        if(popQ) adjustLayoutForSearch(true);
+        else adjustLayoutForSearch(false);
+        
         handleSearch(popQ, false); 
     });
 });
@@ -163,6 +172,7 @@ function updateURLState() {
 function adjustLayoutForSearch(isSearching) {
     const logo = document.getElementById('main-logo');
     const container = document.getElementById('search-container');
+    
     if (isSearching) {
         logo.classList.replace('h-14', 'h-9');
         logo.classList.add('mb-6');
@@ -195,21 +205,24 @@ function openZdic(e, char) {
     window.open(`https://www.zdic.net/hans/${char}`, '_blank');
 }
 
-function toggleHotList() {
-    State.isHotListExpanded = !State.isHotListExpanded;
-    renderContent();
+function changeHotPage(delta) {
+    const maxPages = Math.ceil(Object.keys(State.stats.frequencyMap).length / HOT_PAGE_SIZE);
+    const newPage = State.hotListPage + delta;
+    
+    if (newPage >= 0 && newPage < maxPages) {
+        State.hotListPage = newPage;
+        renderContent(); // Re-render dashboard
+    }
 }
 
 // ---------------- 模态框逻辑 ----------------
 
 function showHeatSources(e, char) {
-    e.stopPropagation(); // 阻止点击卡片触发搜索
+    e.stopPropagation();
     
-    // 查找反向索引 (谁包含了我?)
     const parents = State.data.filter(d => d.similars.includes(char) || d.radicals.includes(char));
     const heat = State.stats.frequencyMap[char] || 0;
 
-    // 填充模态框
     document.getElementById('modal-char-icon').textContent = char;
     document.getElementById('modal-heat-val').textContent = heat;
     
@@ -220,7 +233,6 @@ function showHeatSources(e, char) {
         </div>
     `).join('');
 
-    // 显示动画
     const modal = document.getElementById('heat-source-modal');
     const backdrop = modal.querySelector('.modal-backdrop');
     const content = modal.querySelector('.modal-content');
@@ -228,7 +240,6 @@ function showHeatSources(e, char) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     
-    // 小延时触发 CSS transition
     requestAnimationFrame(() => {
         backdrop.classList.remove('opacity-0');
         content.classList.remove('opacity-0', 'scale-95');
@@ -322,7 +333,7 @@ function renderContent() {
         const modeName = mode === 'similar' ? '形近字' : '部首';
         html = `
             <div class="text-center py-28 bg-white/60 dark:bg-[#111111]/60 backdrop-blur-xl rounded-[2rem] border border-white/50 dark:border-white/5 mt-8 shadow-sm">
-                <div class="w-20 h-20 bg-slate-100/50 dark:bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div class="w-20 h-20 bg-slate-100/50 dark:bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i data-lucide="search-x" class="text-slate-300 dark:text-slate-600" width="32"></i>
                 </div>
                 <h3 class="text-xl font-bold text-slate-700 dark:text-slate-300">暂无"${State.activeChar}"的${modeName}数据</h3>
@@ -337,13 +348,17 @@ function renderContent() {
 
 function renderDashboard(container) {
     const allHotChars = Object.entries(State.stats.frequencyMap).sort((a, b) => b[1] - a[1]);
+    const totalItems = allHotChars.length;
+    const totalPages = Math.ceil(totalItems / HOT_PAGE_SIZE);
     
-    // 根据状态决定显示数量 (默认24, 展开则全部)
-    const displayChars = State.isHotListExpanded ? allHotChars : allHotChars.slice(0, 24);
-    const hasMore = allHotChars.length > 24;
+    // 分页切片
+    const startIdx = State.hotListPage * HOT_PAGE_SIZE;
+    const endIdx = startIdx + HOT_PAGE_SIZE;
+    const displayChars = allHotChars.slice(startIdx, endIdx);
 
-    // 动态控制右侧说明栏的高度行为
-    const instructionClass = State.isHotListExpanded ? 'self-start' : 'h-full';
+    // 翻页按钮是否禁用
+    const prevDisabled = State.hotListPage === 0;
+    const nextDisabled = State.hotListPage >= totalPages - 1;
 
     container.innerHTML = `
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
@@ -358,14 +373,18 @@ function renderDashboard(container) {
                             <i data-lucide="trending-up" width="18" class="text-orange-500"></i>
                         </div>
                         <span>高频热字榜</span>
+                        <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 ml-2">Page ${State.hotListPage + 1}/${totalPages}</span>
                     </h3>
                     
-                    ${hasMore ? `
-                    <button onclick="toggleHotList()" class="text-xs font-bold text-slate-400 hover:text-blue-500 dark:text-slate-500 dark:hover:text-blue-400 bg-white/50 dark:bg-white/5 px-3 py-1.5 rounded-full border border-white dark:border-white/5 hover:border-blue-100 dark:hover:border-blue-900 transition-all flex items-center gap-1">
-                        <span>${State.isHotListExpanded ? '收起' : '查看全部'}</span>
-                        <i data-lucide="${State.isHotListExpanded ? 'chevron-up' : 'chevron-down'}" width="12"></i>
-                    </button>
-                    ` : ''}
+                    <!-- Pagination Controls -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeHotPage(-1)" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all" ${prevDisabled ? 'disabled' : ''}>
+                            <i data-lucide="chevron-left" width="16"></i>
+                        </button>
+                        <button onclick="changeHotPage(1)" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all" ${nextDisabled ? 'disabled' : ''}>
+                            <i data-lucide="chevron-right" width="16"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Strict Grid Layout for Hot Cards -->
@@ -385,7 +404,7 @@ function renderDashboard(container) {
             </div>
             
             <!-- 说明区 (Glass) -->
-            <div class="bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col relative ${instructionClass}">
+            <div class="bg-white/60 dark:bg-slate-800/50 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col relative h-full">
                 <h3 class="font-bold text-lg mb-8 flex items-center gap-3 text-slate-800 dark:text-slate-200">
                     <div class="p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                          <i data-lucide="book-open" width="18" class="text-slate-500 dark:text-slate-400"></i>
