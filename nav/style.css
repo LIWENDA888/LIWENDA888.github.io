@@ -1,44 +1,68 @@
-/* 自定义滚动条样式 */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.5);
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 163, 175, 0.8);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* 隐藏横向滚动条但保留功能 */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+html { scroll-behavior: auto; }
+body { -webkit-font-smoothing: antialiased; }
 
-/* 遮罩渐变 */
-.mask-gradient-right {
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-}
+/* 滚动条 */
+::-webkit-scrollbar { width: 0px; height: 0px; }
+aside:hover::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 99px; }
+.dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 
-/* 弹窗动画状态类 */
-#about-modal.open {
-    display: flex;
-    opacity: 1;
-}
-#about-modal.open #about-modal-content {
-    transform: scale(1);
-}
+.mask-gradient-right { mask-image: linear-gradient(to right, black 90%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%); }
 
-html {
-    /* 确保JS控制滚动时没有CSS冲突 */
-    scroll-behavior: auto;
+#about-modal.open { display: flex; opacity: 1; }
+#about-modal.open #about-modal-content { transform: scale(1); }
+
+#search-form:focus-within { border-color: #FF8C19; box-shadow: 0 0 0 3px rgba(255, 140, 25, 0.1); background: #fff; }
+.dark #search-form:focus-within { background: #1f2937; }
+
+@keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
 }
+.animate-blob { animation: blob 10s infinite; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+
+/* --- 模式定义 --- */
+
+/* 1. 默认实体模式 */
+.panel-container { background-color: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); }
+.dark .panel-container { background-color: #111827; border-color: #1f2937; }
+
+.site-card { background-color: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+.dark .site-card { background-color: #1f2937; border-color: #374151; }
+.site-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #FF8C19; }
+.dark .site-card:hover { background-color: #374151; border-color: #9ca3af; }
+
+/* 2. 玻璃模式 (body.enable-glass) */
+body.enable-glass { background-color: #F5F5F7; }
+.dark body.enable-glass { background-color: #000000; }
+body.enable-glass #ambient-bg { opacity: 1; }
+
+body.enable-glass #header-bg { background: linear-gradient(to bottom, rgba(245,245,247,0.9), rgba(245,245,247,0.5)); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.2); }
+.dark body.enable-glass #header-bg { background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.5)); border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+body.enable-glass .panel-container {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.45) 100%);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.dark body.enable-glass .panel-container {
+    background: linear-gradient(180deg, rgba(30, 30, 30, 0.6) 0%, rgba(20, 20, 20, 0.4) 100%);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+body.enable-glass .glass-decoration { opacity: 1; }
+
+body.enable-glass .site-card { background-color: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+.dark body.enable-glass .site-card { background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
+body.enable-glass .site-card:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.85); border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 14px 40px -12px rgba(255, 140, 25, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.8); }
+.dark body.enable-glass .site-card:hover { background: rgba(50, 50, 50, 0.6); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 14px 40px -12px rgba(0, 0, 0, 0.4); }
