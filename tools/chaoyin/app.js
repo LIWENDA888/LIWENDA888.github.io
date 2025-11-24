@@ -2,7 +2,7 @@
 const State = {
     searchTerm: '',
     activeChar: null,
-    searchMode: 'similar', // Default: 'similar'
+    searchMode: 'similar', 
     data: [],
     stats: {},
     isHotListExpanded: false
@@ -10,21 +10,16 @@ const State = {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // 0. 主题初始化
     initTheme();
 
-    // 1. 加载数据
     State.data = window.AppLibrary.parseData();
     State.stats = window.AppLibrary.calculateStats(State.data);
     
-    // 2. 启动计数动画
     animateValue("header-stat-groups", 0, State.stats.totalGroups, 1500);
     animateValue("header-stat-relations", 0, State.stats.totalRelations, 2000);
 
-    // 3. 初始化图标
     lucide.createIcons();
     
-    // 4. URL 状态同步
     const urlParams = new URLSearchParams(window.location.search);
     const q = urlParams.get('q');
     const mode = urlParams.get('mode');
@@ -41,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderContent();
     }
     
-    // 5. 绑定输入事件
     const mainInput = document.getElementById('main-search-input');
     mainInput.addEventListener('keydown', (e) => {
         if(e.key === 'Enter') triggerSearch();
@@ -56,12 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearBtn = document.getElementById('main-clear-btn');
     if(clearBtn) clearBtn.onclick = () => resetApp();
 
-    // 6. 监听浏览器历史
     window.addEventListener('popstate', () => {
         const params = new URLSearchParams(window.location.search);
         const popQ = params.get('q') || '';
         const popMode = params.get('mode') || 'similar';
-        
         State.searchMode = popMode;
         updateTabStyles();
         handleSearch(popQ, false); 
@@ -69,9 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==================== 主题控制 ====================
-
 function initTheme() {
-    // Check local storage or system preference
     const btn = document.getElementById('theme-toggle-btn');
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -85,7 +75,6 @@ function initTheme() {
 function toggleTheme() {
     const html = document.documentElement;
     const btn = document.getElementById('theme-toggle-btn');
-    
     if (html.classList.contains('dark')) {
         html.classList.remove('dark');
         localStorage.theme = 'light';
@@ -95,7 +84,6 @@ function toggleTheme() {
         localStorage.theme = 'dark';
         if(btn) btn.title = "切换到日间模式";
     }
-    // Refresh Lucide icons if any were dynamically added (though CSS handles toggle mostly)
     lucide.createIcons();
 }
 
@@ -141,14 +129,8 @@ function handleRandom() {
 function setSearchMode(mode, updateUrl = true) {
     State.searchMode = mode;
     updateTabStyles();
-
-    if (updateUrl) {
-        updateURLState();
-    }
-    
-    if (State.activeChar) {
-        renderContent();
-    }
+    if (updateUrl) updateURLState();
+    if (State.activeChar) renderContent();
 }
 
 function updateTabStyles() {
@@ -181,7 +163,6 @@ function updateURLState() {
 function adjustLayoutForSearch(isSearching) {
     const logo = document.getElementById('main-logo');
     const container = document.getElementById('search-container');
-    
     if (isSearching) {
         logo.classList.replace('h-14', 'h-9');
         logo.classList.add('mb-6');
@@ -202,7 +183,6 @@ function copyToClipboard(char) {
         const toast = document.getElementById('toast');
         const msg = document.getElementById('toast-message');
         msg.textContent = `${char} 已复制`;
-        
         toast.classList.remove('opacity-0', 'translate-y-8', 'scale-95', 'pointer-events-none');
         setTimeout(() => {
             toast.classList.add('opacity-0', 'translate-y-8', 'scale-95', 'pointer-events-none');
@@ -236,7 +216,7 @@ function showHeatSources(e, char) {
     const listEl = document.getElementById('modal-source-list');
     listEl.innerHTML = parents.map(p => `
         <div onclick="closeHeatModal(); handleSearch('${p.key}')" class="flex flex-col items-center justify-center aspect-square bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5 hover:bg-orange-50 dark:hover:bg-orange-500/20 hover:border-orange-200 dark:hover:border-orange-500/30 cursor-pointer transition-colors group">
-            <span class="text-xl font-serif-sc font-bold text-slate-700 dark:text-slate-200 group-hover:text-orange-600 dark:group-hover:text-orange-400">${p.key}</span>
+            <span class="text-xl font-serif font-bold text-slate-700 dark:text-slate-200 group-hover:text-orange-600 dark:group-hover:text-orange-400">${p.key}</span>
         </div>
     `).join('');
 
@@ -363,8 +343,6 @@ function renderDashboard(container) {
     const hasMore = allHotChars.length > 24;
 
     // 动态控制右侧说明栏的高度行为
-    // 默认状态(未展开): h-full (跟随左侧高度，保持对齐)
-    // 展开状态: self-start (自身高度，不被左侧拉长)
     const instructionClass = State.isHotListExpanded ? 'self-start' : 'h-full';
 
     container.innerHTML = `
@@ -394,7 +372,7 @@ function renderDashboard(container) {
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 relative z-10">
                     ${displayChars.map(([char, heat]) => `
                         <div onclick="handleSearch('${char}')" class="group/card cursor-pointer bg-white/80 dark:bg-[#1a1a1a]/80 hover:bg-white dark:hover:bg-[#222] rounded-xl border border-white dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-between px-3 py-2.5 hover:-translate-y-0.5 active:scale-95 active:shadow-none">
-                            <span class="font-serif-sc text-lg font-bold text-slate-700 dark:text-slate-200 leading-none group-hover/card:text-teal-700 dark:group-hover/card:text-teal-400 transition-colors">${char}</span>
+                            <span class="font-serif text-lg font-bold text-slate-700 dark:text-slate-200 leading-none group-hover/card:text-teal-700 dark:group-hover/card:text-teal-400 transition-colors">${char}</span>
                             
                             <!-- Heat Badge (Clickable for Modal) -->
                             <div onclick="showHeatSources(event, '${char}')" class="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-500 px-1.5 py-0.5 rounded-md flex items-center gap-0.5 hover:bg-orange-100 dark:hover:bg-orange-900/30 hover:text-orange-600 dark:hover:text-orange-400 transition-colors cursor-pointer" title="点击查看热力溯源">
@@ -438,7 +416,7 @@ function generateSectionHtml(activeChar, title, subTitle, titleColor, badgeClass
     return `
         <div class="bg-white/70 dark:bg-[#111111]/70 backdrop-blur-xl rounded-[2.5rem] p-10 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.05)] dark:shadow-none border border-white/60 dark:border-white/5 mb-8">
             <div class="flex items-center gap-6 mb-10 pb-8 border-b border-slate-100/80 dark:border-slate-800">
-                <div class="w-20 h-20 rounded-[1.2rem] bg-white dark:bg-[#1a1a1a] border border-slate-100 dark:border-white/5 flex items-center justify-center font-serif-sc font-bold text-5xl text-slate-800 dark:text-white shadow-[0_8px_16px_-4px_rgba(0,0,0,0.05)] dark:shadow-none">
+                <div class="w-20 h-20 rounded-[1.2rem] bg-white dark:bg-[#1a1a1a] border border-slate-100 dark:border-white/5 flex items-center justify-center font-serif font-bold text-5xl text-slate-800 dark:text-white shadow-[0_8px_16px_-4px_rgba(0,0,0,0.05)] dark:shadow-none">
                     ${activeChar}
                 </div>
                 <div class="flex flex-col">
@@ -486,7 +464,7 @@ function generateCardHtml(char, isSmall = false) {
             </button>
             
             <!-- 主字符 -->
-            <div class="${sizeClass} font-serif-sc font-medium text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white group-hover:scale-110 transition-all duration-500 z-10 mb-2">
+            <div class="${sizeClass} font-serif font-medium text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white group-hover:scale-110 transition-all duration-500 z-10 mb-2">
                 ${char}
             </div>
 
