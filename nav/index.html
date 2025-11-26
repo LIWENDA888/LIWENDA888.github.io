@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-pt-[100px]">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>木头与字的设计导航</title>
     <meta name="description" content="字体设计师-木头与字">
     <meta name="author" content="木头与字">
@@ -28,34 +27,38 @@
                     boxShadow: {
                         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
                         'inner-light': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.4)',
+                    },
+                    screens: {
+                        'xs': '475px',
                     }
                 },
             },
         }
     </script>
     <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/index.css">
 </head>
 <body class="min-h-screen bg-[#F2F2F7] text-gray-900 transition-colors duration-500 dark:bg-[#000000] dark:text-gray-100 font-sans selection:bg-[#FF8C19]/30 overflow-x-hidden">
 
     <!-- 环境光斑 (仅在开启玻璃模式时显示) -->
     <div id="ambient-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-0 transition-opacity duration-700">
-        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-400/10 blur-[120px] dark:bg-blue-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob"></div>
-        <div class="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-orange-400/10 blur-[120px] dark:bg-orange-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000"></div>
-        <div class="absolute bottom-[-20%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-purple-400/10 blur-[120px] dark:bg-purple-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-4000"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-400/10 blur-[80px] md:blur-[120px] dark:bg-blue-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob"></div>
+        <div class="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-orange-400/10 blur-[80px] md:blur-[120px] dark:bg-orange-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-20%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-purple-400/10 blur-[80px] md:blur-[120px] dark:bg-purple-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-4000"></div>
     </div>
 
     <!-- Header -->
-    <header class="fixed top-0 left-0 z-50 w-full pt-4 pb-4 pointer-events-none">
+    <header class="fixed top-0 left-0 z-50 w-full py-3 md:py-4 pointer-events-none">
         <div id="header-bg" class="absolute inset-0 bg-[#F2F2F7]/95 dark:bg-black/95 transition-colors duration-500 border-b border-gray-200 dark:border-white/5"></div>
         
         <div class="relative z-10 mx-auto flex w-full max-w-[1920px] px-4 md:px-8 items-center justify-between">
             <!-- 顶部左侧链接 -->
-            <div class="relative z-50 flex items-center gap-6 overflow-x-auto no-scrollbar mask-gradient-right pb-1 pointer-events-auto max-w-[calc(100%-240px)]" id="header-links">
+            <div class="relative z-50 flex items-center gap-4 md:gap-6 overflow-x-auto no-scrollbar mask-gradient-right pb-1 pointer-events-auto max-w-[calc(100%-140px)] md:max-w-[calc(100%-240px)]" id="header-links">
                 <!-- JS 渲染 -->
             </div>
             
             <!-- 顶部右侧功能 -->
-            <div class="relative z-50 flex items-center gap-4 pl-4 shrink-0 pointer-events-auto">
+            <div class="relative z-50 flex items-center gap-2 md:gap-4 pl-4 shrink-0 pointer-events-auto">
                 <button id="about-btn" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-gray-500 hover:text-[#FF8C19] hover:bg-black/5 transition-all dark:text-gray-400 dark:hover:text-[#FF8C19] dark:hover:bg-white/10">
                     <i data-lucide="info" class="w-4 h-4"></i>
                     <span>关于</span>
@@ -64,38 +67,38 @@
                 <div class="h-5 w-px bg-gray-300 dark:bg-gray-700 hidden sm:block"></div>
 
                 <!-- 材质切换 -->
-                <button id="glass-toggle" class="group flex items-center gap-2" title="切换材质风格">
-                    <i data-lucide="toggle-left" class="h-8 w-8 text-gray-400 group-hover:text-gray-600 transition-colors dark:text-gray-500 dark:group-hover:text-gray-300" id="glass-icon-off"></i>
-                    <i data-lucide="toggle-right" class="h-8 w-8 text-[#FF8C19] hidden" id="glass-icon-on"></i>
+                <button id="glass-toggle" class="group flex items-center justify-center h-8 w-8 md:h-auto md:w-auto" title="切换材质风格">
+                    <i data-lucide="toggle-left" class="h-6 w-6 md:h-8 md:w-8 text-gray-400 group-hover:text-gray-600 transition-colors dark:text-gray-500 dark:group-hover:text-gray-300" id="glass-icon-off"></i>
+                    <i data-lucide="toggle-right" class="h-6 w-6 md:h-8 md:w-8 text-[#FF8C19] hidden" id="glass-icon-on"></i>
                 </button>
 
-                <button id="theme-toggle" class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition-all hover:text-[#FF8C19] hover:border-[#FF8C19] dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">
-                    <i data-lucide="moon" class="h-5 w-5 block dark:hidden"></i>
-                    <i data-lucide="sun" class="h-5 w-5 hidden dark:block"></i>
+                <button id="theme-toggle" class="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition-all hover:text-[#FF8C19] hover:border-[#FF8C19] dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">
+                    <i data-lucide="moon" class="h-4 w-4 md:h-5 md:w-5 block dark:hidden"></i>
+                    <i data-lucide="sun" class="h-4 w-4 md:h-5 md:w-5 hidden dark:block"></i>
                 </button>
             </div>
         </div>
     </header>
 
     <!-- 移动端菜单按钮 -->
-    <button id="mobile-menu-btn" class="fixed bottom-6 right-6 z-50 rounded-full bg-[#FF8C19] p-4 text-white shadow-lg shadow-[#FF8C19]/40 lg:hidden hover:bg-[#e67e17] transition-all active:scale-95">
+    <button id="mobile-menu-btn" class="fixed bottom-6 right-6 z-[60] rounded-full bg-[#FF8C19] p-3.5 md:p-4 text-white shadow-lg shadow-[#FF8C19]/40 lg:hidden hover:bg-[#e67e17] transition-all active:scale-95">
         <i data-lucide="menu" class="h-6 w-6"></i>
     </button>
 
     <!-- 移动端侧边栏 -->
-    <div id="mobile-sidebar-overlay" class="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm hidden lg:hidden"></div>
-    <aside id="mobile-sidebar" class="fixed left-0 top-0 z-40 h-full w-72 transform translate-x-[-100%] overflow-y-auto bg-white border-r border-gray-200 px-6 py-8 transition-transform duration-300 lg:hidden dark:bg-gray-900 dark:border-gray-800">
+    <div id="mobile-sidebar-overlay" class="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm hidden lg:hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="mobile-sidebar" class="fixed left-0 top-0 z-[70] h-full w-[280px] transform translate-x-[-100%] overflow-y-auto bg-white border-r border-gray-200 px-6 py-8 transition-transform duration-300 lg:hidden dark:bg-gray-900 dark:border-gray-800 shadow-2xl">
         <div class="mb-8 px-2 flex flex-col items-center">
-             <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/D8a9/219X79/haologo.png/webp" alt="Logo" class="h-12 w-auto object-contain mb-2">
+             <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/D8a9/219X79/haologo.png/webp" alt="Logo" class="h-10 w-auto object-contain mb-2">
              <div class="mt-2 text-xs text-gray-500 font-medium tracking-wide uppercase opacity-70">已收录 <span id="mobile-site-count" class="font-bold text-[#FF8C19]">0</span> 个资源</div>
         </div>
-        <nav id="mobile-nav-links" class="space-y-2"></nav>
+        <nav id="mobile-nav-links" class="space-y-2 pb-20"></nav>
     </aside>
 
     <!-- 主内容区域 -->
-    <main class="relative z-10 mx-auto w-full max-w-[95%] 2xl:max-w-[1920px] px-4 pt-[92px] pb-8 lg:px-8">
+    <main class="relative z-10 mx-auto w-full max-w-full lg:max-w-[95%] 2xl:max-w-[1920px] px-3 pt-[72px] md:pt-[92px] pb-8 md:px-8">
         
-        <div class="grid grid-cols-1 lg:grid-cols-[256px_1fr] gap-8 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-[256px_1fr] gap-6 md:gap-8 items-start">
             
             <!-- 1. 左侧栏 (Sticky) -->
             <div class="hidden lg:block sticky top-[92px] z-40 h-[calc(100vh-92px-32px)]">
@@ -118,29 +121,29 @@
             </div>
 
             <!-- 2. 右侧内容区域 -->
-            <div class="min-w-0 flex flex-col gap-8">
+            <div class="min-w-0 flex flex-col gap-5 md:gap-8">
                
                <!-- 搜索 & 快捷链接面板 -->
-               <div class="panel-container p-8 flex flex-col justify-center gap-6 relative overflow-hidden rounded-3xl transition-all duration-500">
+               <div class="panel-container p-5 md:p-8 flex flex-col justify-center gap-4 md:gap-6 relative overflow-hidden rounded-2xl md:rounded-3xl transition-all duration-500">
                     <div class="glass-decoration absolute -right-20 -top-20 w-64 h-64 bg-blue-400/10 blur-[80px] rounded-full pointer-events-none opacity-0 transition-opacity"></div>
                     
                     <div class="flex flex-col transition-all duration-500 w-full relative z-10">
-                        <div id="engine-switcher" class="flex gap-6 mb-4 pl-2 text-[15px]"></div>
-                        <form id="search-form" class="relative group flex items-center overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 transition-all duration-300 ease-out hover:bg-white hover:border-gray-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <div class="pl-5 text-gray-400 group-focus-within:text-[#FF8C19] transition-colors duration-300">
-                                <i data-lucide="search" class="h-6 w-6"></i>
+                        <div id="engine-switcher" class="flex gap-4 md:gap-6 mb-3 md:mb-4 pl-1 md:pl-2 text-sm md:text-[15px] overflow-x-auto no-scrollbar mask-gradient-right"></div>
+                        <form id="search-form" class="relative group flex items-center overflow-hidden rounded-xl md:rounded-2xl border border-gray-200 bg-gray-50 transition-all duration-300 ease-out hover:bg-white hover:border-gray-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <div class="pl-3 md:pl-5 text-gray-400 group-focus-within:text-[#FF8C19] transition-colors duration-300">
+                                <i data-lucide="search" class="h-5 w-5 md:h-6 md:w-6"></i>
                             </div>
-                            <input type="text" id="search-input" class="h-[68px] w-full bg-transparent px-4 text-xl text-gray-800 placeholder-gray-400 outline-none dark:text-gray-100 font-medium tracking-wide" placeholder="搜索 百度...">
-                            <button type="submit" class="mr-2 flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-[#FF8C19] text-white transition-all duration-300 hover:bg-[#ff9d33] hover:scale-105 active:scale-95 shadow-[0_4px_12px_rgba(255,140,25,0.4)]">
-                                <i data-lucide="arrow-right" class="h-6 w-6"></i>
+                            <input type="text" id="search-input" class="h-12 md:h-[68px] w-full bg-transparent px-3 md:px-4 text-base md:text-xl text-gray-800 placeholder-gray-400 outline-none dark:text-gray-100 font-medium tracking-wide" placeholder="搜索 百度...">
+                            <button type="submit" class="mr-1 md:mr-2 flex h-10 w-10 md:h-[52px] md:w-[52px] shrink-0 items-center justify-center rounded-lg md:rounded-xl bg-[#FF8C19] text-white transition-all duration-300 hover:bg-[#ff9d33] hover:scale-105 active:scale-95 shadow-[0_4px_12px_rgba(255,140,25,0.4)]">
+                                <i data-lucide="arrow-right" class="h-5 w-5 md:h-6 md:w-6"></i>
                             </button>
                         </form>
                     </div>
-                    <div id="quick-links" class="flex flex-wrap gap-3 pl-2 relative z-10"></div>
+                    <div id="quick-links" class="flex flex-wrap gap-2 md:gap-3 pl-1 md:pl-2 relative z-10"></div>
                </div>
 
                <!-- 卡片分类内容区域 -->
-               <div id="content-area" class="flex flex-col gap-8"></div>
+               <div id="content-area" class="flex flex-col gap-5 md:gap-8"></div>
             </div>
         </div>
     </main>
@@ -155,7 +158,7 @@
                 <div class="mb-5 h-14 w-14 rounded-2xl bg-gradient-to-tr from-[#FF8C19] to-amber-300 flex items-center justify-center shadow-lg shadow-orange-500/20">
                    <i data-lucide="sparkles" class="h-7 w-7 text-white"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">关于导航</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight">关于导航</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
                   这是一个由设计师 木头与字 个人整理和收集的导航站，如果您也很喜欢，不妨收藏本站以作日常使用
                 </p>
@@ -169,5 +172,6 @@
 
     <script src="data.js"></script>
     <script src="main.js"></script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
