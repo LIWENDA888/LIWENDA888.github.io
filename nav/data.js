@@ -1,7 +1,7 @@
 // --- 搜索引擎配置 ---
 const SEARCH_ENGINES = [
     { name: '百度', url: 'https://www.baidu.com/s?wd=', placeholder: '搜索 百度...' },
-    { name: '形近字', url: 'https://www.zizao.top/tools/chaoyin/?mode=similar', placeholder: '请输入单字...' },
+    { name: '形近字', url: 'https://www.zizao.top/tools/chaoyin/?mode=similar&q=', placeholder: '请输入单字...' },
     { name: '百度AI', url: 'https://chat.baidu.com/search?word=', placeholder: '搜索 百度AI...' },
     { name: '图片', url: 'https://image.baidu.com/search/index?tn=baiduimage&fm=result&ie=utf-8&word=', placeholder: '搜索百度图片...' },
     { name: '免版权图片', url: 'https://www.logosc.cn/so/?s=', placeholder: '搜索免版权图片' },
