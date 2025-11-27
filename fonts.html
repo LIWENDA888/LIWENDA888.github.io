@@ -3,235 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字库产品 - 自在造字(ZIZAO)</title>
-    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/AR9P/ico.ico">
-    
-    <!-- 引入公共样式 -->
-    <link rel="stylesheet" href="common.css">
+    <title>字体产品 - 自在造字</title>
 
-    <style>
-        /* --- 页面特有样式 --- */
-        body { background-color: #ffffff; }
-
-        .doc-container {
-            width: 100%; max-width: 1600px; 
-            margin: 60px auto 40px; /* 增加顶部间距，避免贴顶 */
-            padding: 0 30px; 
-            display: flex; gap: 30px; 
-        }
-
-        /* 侧边栏 */
-        .sidebar {
-            width: 300px; flex-shrink: 0; position: sticky; top: 120px; 
-            max-height: calc(100vh - 160px); overflow-y: auto; 
-            border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 12px; padding: 10px 0; 
-        }
-        .sidebar::-webkit-scrollbar { width: 0; }
-        .sidebar-menu { list-style: none; padding: 0 10px; }
-        .category-header { 
-            padding: 12px 15px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; margin-top: 10px;
-        }
-        .category-header:hover { background-color: rgba(0,0,0,0.03); }
-        .category-header span { font-size: 10px; transform: rotate(-90deg); transition: transform 0.3s; }
-        .category-header.open span { transform: rotate(0deg); }
-        .subcategory-list { list-style: none; overflow: hidden; max-height: 0; transition: max-height 0.4s ease-out; padding: 0 5px; }
-        .subcategory-link { display: flex; justify-content: space-between; padding: 10px 15px; color: #666; font-size: 15px; border-radius: 6px; }
-        .subcategory-link:hover { color: #1a1a1a; background-color: rgba(0,0,0,0.02); }
-        .subcategory-link.active { color: #1a1a1a; font-weight: 600; background-color: rgba(0,0,0,0.05); }
-        .count-badge { font-size: 12px; background: rgba(0,0,0,0.04); padding: 2px 8px; border-radius: 10px; }
-
-        /* 风格筛选网格 */
-        .subcategory-list.style-grid { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px !important; }
-        .subcategory-list.style-grid .subcategory-link { padding: 8px 12px; width: auto; flex-grow: 0; justify-content: center; }
-
-        /* 内容区 */
-        .content-area { flex-grow: 1; display: flex; flex-direction: column; }
-        .grid-header { margin-bottom: 20px; }
-        .grid-header h2 { font-size: 24px; font-weight: 700; }
-        .grid-header p { font-size: 14px; color: #666; margin-top: 5px; }
-
-        /* Font Grid Layout Optimization */
-        .font-grid { 
-            display: grid; 
-            /* 使用 auto-fill 和 minmax 确保响应式。
-               当容器变宽时，列数增加；变窄时，列数减少。
-               minmax(260px, 1fr) 意味着列宽至少 260px，若空间不足则换行。
-            */
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-            gap: 25px; 
-        }
-        
-        /* 字体卡片 */
-        .font-card {
-            background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.03);
-            transition: all 0.3s; display: flex; flex-direction: column; text-decoration: none; color: inherit;
-            
-            /* --- 桌面端优化 --- */
-            /* 限制最大宽度，防止结果很少(如只有1个)时，卡片被 auto-fill 拉伸成巨型横幅。
-               width: 100% 确保在正常列宽内填满。
-            */
-            max-width: 380px; 
-            width: 100%;
-        }
-        .font-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(0,0,0,0.06); }
-        .card-cover { height: 180px; background: #f0f0f0; overflow: hidden; }
-        .card-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .font-card:hover .card-cover img { transform: scale(1.05); }
-        .card-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
-        .font-name { font-size: 18px; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .font-author { font-size: 13px; color: #888; margin-bottom: 15px; }
-        .card-footer { margin-top: auto; display: flex; justify-content: space-between; border-top: 1px solid #f5f5f5; padding-top: 12px; }
-        .font-specs { font-size: 12px; color: #999; }
-        .btn-view { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-
-        /* 分页 */
-        .pagination-container { margin-top: 30px; display: flex; justify-content: center; gap: 8px; }
-        .page-link { padding: 8px 14px; border: 1px solid #ddd; border-radius: 6px; color: #666; font-size: 14px; cursor: pointer; }
-        .page-link.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-
-        /* 平板及移动端统一适配 (< 1024px) */
-        @media (max-width: 1024px) {
-            /* 布局改为垂直堆叠: 侧边栏在上，内容在下 */
-            .doc-container { flex-direction: column; padding: 0 20px; margin-top: 20px; }
-            
-            /* 侧边栏样式重置 */
-            .sidebar { width: 100%; position: static; max-height: none; border: none; padding: 0; }
-            .category-header { background: #fff; border: 1px solid #eee; }
-            .subcategory-list { background: #fff; border: 1px solid #eee; border-top: none; }
-            
-            /* Grid 逻辑调整 */
-            .font-grid { gap: 20px; } 
-
-            /* --- 移动端卡片优化 --- */
-            /* 
-               在移动端，取消 max-width 限制。
-               - 如果屏幕很窄 (只能放1列)，Grid 分配给卡片 100% 宽度，卡片就全宽显示。
-               - 如果屏幕稍宽 (能放2列)，Grid 分配给卡片 50% 宽度，卡片就自适应填满这 50%。
-               这样既满足了“单行时满宽”，也满足了“能显示两行时正常显示”。
-            */
-            .font-card {
-                max-width: 100% !important; 
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="page-wrapper">
-        <nav class="navbar" id="navbar"></nav>
-
-        <div class="main-content">
-            <div class="doc-container">
-                <aside class="sidebar" id="sidebar">
-                    <!-- 侧边栏搜索 -->
-                    <div class="sidebar-search">
-                        <input type="text" id="sidebarSearch" placeholder="搜索字体名称...">
-                    </div>
-
-                    <ul class="sidebar-menu">
-                        <li class="category-item">
-                            <div class="category-header open">字体分类<span>▼</span></div>
-                            <ul class="subcategory-list" style="max-height: 500px;">
-                                <li><a href="#all" class="subcategory-link" data-hash="all">全部字体 <span class="count-badge" id="count-all">0</span></a></li>
-                                <li><a href="#sans_serif" class="subcategory-link" data-hash="sans_serif">黑体 / Sans <span class="count-badge" id="count-sans_serif">0</span></a></li>
-                                <li><a href="#serif" class="subcategory-link" data-hash="serif">宋体 / Serif <span class="count-badge" id="count-serif">0</span></a></li>
-                                <li><a href="#display" class="subcategory-link" data-hash="display">创意 / Display <span class="count-badge" id="count-display">0</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="category-item">
-                            <div class="category-header open">风格筛选<span>▼</span></div>
-                            <ul class="subcategory-list style-grid" style="max-height: 500px;">
-                                <li><a href="#modern" class="subcategory-link" data-hash="modern">现代</a></li>
-                                <li><a href="#retro" class="subcategory-link" data-hash="retro">复古</a></li>
-                                <li><a href="#tech" class="subcategory-link" data-hash="tech">科技</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </aside>
-
-                <main class="content-area">
-                    <div class="grid-header">
-                        <div><h2 id="grid-title">全部字体</h2><p id="grid-desc">浏览我们精心挑选的字体库</p></div>
-                    </div>
-                    <div class="font-grid" id="font-grid-container"></div>
-                    <div class="pagination-container" id="pagination-container"></div>
-                </main>
-            </div>
-        </div>
-        
-        <footer class="footer" id="footer"></footer>
-    </div> 
-    
-    <script src="common.js"></script> 
-    
-    <!-- 字体列表逻辑 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
     <script>
-        // 注意：url 请根据实际部署位置调整
-        const FONT_DATA = [
-            { id: 1, name: "自在起点黑VF", author: "免费商用双轴可变字体", category: "sans_serif", style: "modern", weight: "2025年8月7日", cover: "https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/CX0k/4084X2500/1.png/webp", url: "fonts/qidiansans.html" },
-        ];
-        const FILTER_MAP = { 'all': '全部字体', 'sans_serif': '黑体', 'serif': '宋体', 'display': '创意', 'modern': '现代', 'retro': '复古', 'tech': '科技' };
-        
-        let currentFilter = 'all';
-        let searchTerm = '';
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
+    <!-- 导航栏占位 -->
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
-        function renderGrid() {
-            const container = document.getElementById('font-grid-container');
-            const title = document.getElementById('grid-title');
-            const desc = document.getElementById('grid-desc');
+    <div class="animate-fade-in mx-auto max-w-[1800px] px-6 pt-32 lg:px-12 pb-20">
+        <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
+            
+            <!-- 侧边筛选栏 -->
+            <aside class="w-full lg:w-72 lg:shrink-0 space-y-10 lg:sticky lg:top-32 h-fit">
+                <!-- 搜索 -->
+                <div>
+                    <h3 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">搜索</h3>
+                    <input id="search-input" type="text" placeholder="查找字体..." class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:focus:border-white" />
+                </div>
 
-            let data = currentFilter === 'all' ? FONT_DATA : FONT_DATA.filter(i => i.category === currentFilter || i.style === currentFilter);
-            
-            if (searchTerm) {
-                data = data.filter(i => i.name.toLowerCase().includes(searchTerm.toLowerCase()));
-                title.innerText = `搜索: "${searchTerm}"`;
-                desc.innerText = `找到 ${data.length} 个结果`;
-            } else {
-                title.innerText = FILTER_MAP[currentFilter] || "搜索结果";
-                desc.innerText = `该分类下共有 ${data.length} 款字体`;
-            }
-            
-            container.innerHTML = data.length ? data.map(f => `
-                <a href="${f.url}" class="font-card" target="_blank">
-                    <div class="card-cover"><img src="${f.cover}" loading="lazy"></div>
-                    <div class="card-info">
-                        <div class="font-name">${f.name}</div>
-                        <div class="font-author">${f.author}</div>
-                        <div class="card-footer"><div class="font-specs">${f.weight}</div><span class="btn-view">查看</span></div>
+                <!-- 分类 -->
+                <div>
+                    <h3 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">分类</h3>
+                    <ul class="space-y-1">
+                        <li><button class="cat-btn block w-full rounded-lg px-4 py-2 text-left text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-colors" data-category="全部">全部</button></li>
+                        <li><button class="cat-btn block w-full rounded-lg px-4 py-2 text-left text-sm font-medium text-gray-600 hover:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-900 transition-colors" data-category="黑体">黑体</button></li>
+                    </ul>
+                </div>
+
+                <!-- 风格标签 -->
+                <div>
+                    <h3 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">风格</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="tag-btn rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-400 transition-colors" data-tag="免费商用">免费商用</button>
+                        <button class="tag-btn rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-400 transition-colors" data-tag="可变">可变</button>
                     </div>
-                </a>`).join('') : '<div style="padding:40px; text-align:center; width:100%; color:#999">暂无匹配字体</div>';
+                </div>
+            </aside>
 
-            document.querySelectorAll('.subcategory-link').forEach(l => {
-                l.classList.toggle('active', l.getAttribute('data-hash') === currentFilter);
-            });
-        }
+            <!-- 产品网格 -->
+            <main class="flex-1">
+                <div class="mb-6 flex items-center justify-between">
+                    <span id="result-count" class="text-sm text-gray-500 dark:text-neutral-500">显示 0 个结果</span>
+                </div>
+                <div id="products-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- JS 自动填充 -->
+                </div>
+            </main>
+        </div>
+    </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('count-all').innerText = FONT_DATA.length;
-            ['sans_serif', 'serif', 'display'].forEach(c => {
-                document.getElementById(`count-${c}`).innerText = FONT_DATA.filter(i => i.category === c).length;
-            });
+    <!-- 底部栏占位 -->
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
+    
+    <script src="components.js"></script>
+    <script src="script.js"></script>
 
-            const updateFromHash = () => {
-                currentFilter = window.location.hash.slice(1) || 'all';
-                renderGrid();
-            };
-            window.addEventListener('hashchange', updateFromHash);
-            updateFromHash();
-
-            const searchInput = document.getElementById('sidebarSearch');
-            if (searchInput) {
-                searchInput.addEventListener('input', (e) => {
-                    searchTerm = e.target.value.trim();
-                    renderGrid();
-                });
+    <!-- 全部产品页专用数据与逻辑 -->
+    <script>
+        // 1. 全部产品数据 (在这里修改产品列表)
+        const ALL_PRODUCTS = [
+            {
+                title: '自在起点黑',
+                subtitle: '免费商用 • 双轴可变',
+                category: '黑体',
+                tags: ['免费商用', '可变'],
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/Btd0/680X600/1-08.jpg/webp', 
+                link: 'fonts/qidiansans.html'
             }
+        ];
+
+        // 2. 筛选逻辑
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('products-grid');
+            const searchInput = document.getElementById('search-input');
+            const countLabel = document.getElementById('result-count');
+            const categoryBtns = document.querySelectorAll('.cat-btn');
+            const tagBtns = document.querySelectorAll('.tag-btn');
             
-            document.querySelectorAll('.category-header').forEach(h => h.addEventListener('click', (e) => {
-                const list = e.currentTarget.nextElementSibling;
-                e.currentTarget.classList.toggle('open');
-                list.style.maxHeight = e.currentTarget.classList.contains('open') ? list.scrollHeight + 'px' : '0';
+            let activeCategory = '全部';
+            let activeTags = [];
+            let searchQuery = '';
+
+            function render() {
+                const filtered = ALL_PRODUCTS.filter(p => {
+                    const matchSearch = p.title.toLowerCase().includes(searchQuery) || p.subtitle.toLowerCase().includes(searchQuery);
+                    const matchCat = activeCategory === '全部' || p.category === activeCategory;
+                    const matchTags = activeTags.length === 0 || activeTags.every(t => p.tags.includes(t));
+                    return matchSearch && matchCat && matchTags;
+                });
+                
+                countLabel.textContent = `显示 ${filtered.length} 个结果`;
+                
+                if (filtered.length > 0) {
+                    grid.innerHTML = filtered.map(item => createBentoCard({
+                        ...item, 
+                        colSpan: 'col-span-1', 
+                        rowSpan: 'row-span-1'
+                    })).join('');
+                } else {
+                    grid.innerHTML = '<div class="col-span-full py-20 text-center text-gray-500">没有找到匹配的字体</div>';
+                }
+            }
+
+            // 搜索事件
+            searchInput.addEventListener('input', (e) => { 
+                searchQuery = e.target.value.toLowerCase(); 
+                render(); 
+            });
+
+            // 分类事件
+            categoryBtns.forEach(btn => btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => { 
+                    b.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black'); 
+                    b.classList.add('text-gray-600', 'hover:bg-gray-100'); 
+                });
+                btn.classList.remove('text-gray-600', 'hover:bg-gray-100'); 
+                btn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+                activeCategory = btn.dataset.category; 
+                render();
             }));
+
+            // 标签事件
+            tagBtns.forEach(btn => btn.addEventListener('click', () => {
+                const tag = btn.dataset.tag;
+                if (activeTags.includes(tag)) {
+                    activeTags = activeTags.filter(t => t !== tag);
+                    btn.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black', 'border-black', 'dark:border-white'); 
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                } else {
+                    activeTags.push(tag);
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200'); 
+                    btn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black', 'border-black', 'dark:border-white');
+                }
+                render();
+            }));
+
+            // 初始渲染
+            render();
         });
     </script>
 </body>

@@ -3,114 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页 - 自在造字(ZIZAO)</title>
+    <title>自在造字ZizaoType Studio</title>
     <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/AR9P/ico.ico">
-    
-    <!-- 引入公共样式 -->
-    <link rel="stylesheet" href="common.css">
 
-    <style>
-        /* --- 首页特有样式 --- */
-        body { background-color: #f5f5f5; }
-        
-        .main-content {
-            padding-top: 80px; 
-            display: block; 
-        }
-
-        /* 移动端微调：确保内容区紧贴导航栏 */
-        @media (max-width: 1024px) {
-            .main-content {
-                padding-top: 60px !important; 
-            }
-        }
-    </style>
-<link rel="stylesheet" href="/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            colors: { brand: { 50: '#f9fafb', 900: '#111827' } }
+          },
+        },
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
 </head>
-<body>
-
-    <nav class="navbar" id="navbar"></nav>
-
-    <div class="main-content">
-        
-        <!-- 全屏轮播图 (纯图，点击跳转新标签页) -->
-        <div class="hero-carousel">
-            <!-- 左右切换按钮 (SVG 图标) -->
-            <button class="carousel-arrow prev">
-                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-            </button>
-            <button class="carousel-arrow next">
-                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-            </button>
-
-            <div class="carousel-track">
-                <!-- 链接设为 target="_blank" -->
-                <a href="https://www.zizao.top" target="_blank" class="carousel-slide" style="background-image: url('https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/0bVz/10625X2500/1-11.png/webp');"></a>
-                <a href="fonts/qidiansans.html" target="_blank" class="carousel-slide" style="background-image: url('https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/VlyL/10625X2500/1-12.png/webp');"></a>
-                <a href="fonts/qidiansans.html" target="_blank" class="carousel-slide" style="background-image: url('https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/OfzO/2550X600/1-13.png/webp');"></a>
-            </div>
-            <!-- 指示器 -->
-            <div class="carousel-dots"></div>
-        </div>
-
-        <!-- 1. 设计工具区域 (每排4个，手机端2个) -->
-        <div class="tools-grid">
-            
-            <a href="https://www.zizao.top/fonts" target="_blank" class="tool-card">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/CX0k/4084X2500/1.png/webp" alt="字体产品">
-                <div class="tool-overlay"><span class="tool-title">字体产品</span></div>
-            </a>
-
-            <a href="https://www.zizao.top/hao" target="_blank" class="tool-card">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/BZZk/980X600/2.png/webp" alt="设计导航">
-                <div class="tool-overlay"><span class="tool-title">设计师的灵感百宝库</span></div>
-            </a>
-
-            <a href="https://www.zizao.top/bao" target="_blank" class="tool-card">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/xcID/4084X2500/3.png/webp" alt="设计百宝库">
-                <div class="tool-overlay"><span class="tool-title">AI提示词 ｜ 设计软件 ｜ 工具推荐</span></div>
-            </a>
-
-            <a href="https://www.zizao.top/tools/chaoyin" target="_blank" class="tool-card">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/aiIT/980X600/4.png/webp" alt="超引">
-                <div class="tool-overlay"><span class="tool-title">超引 · 形近字查询</span></div>
-            </a>
-
-        </div>
-
-        <!-- 2. 社交媒体区域 (圆形图标，居中) -->
-        <div class="social-section">
-             <a href="https://www.douyin.com/user/MS4wLjABAAAAHS3xXmx-djagMBtv5pfJpJ_awJuC5Du8SnXDC8AYPI4Wr4lQpJllFxZDUEOCpZ8k" target="_blank" class="social-item">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/25Zm/834X834/1-04.png/webp" alt="抖音">
-            </a>
-            
-             <a href="https://www.xiaohongshu.com/user/profile/678f47130000000007000eaa" target="_blank" class="social-item">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/MyKf/834X834/1-05.png/webp" alt="小红书">
-            </a>
-
-             <a href="https://www.zcool.com.cn/u/15462186" target="_blank" class="social-item">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/6st1/834X834/1-06.png/webp" alt="站酷">
-            </a>
-
-             <a href="https://space.bilibili.com/339715446" target="_blank" class="social-item">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/JzPh/834X834/1-07.png/webp" alt="B站">
-            </a>
-
-             <a href="https://weibo.com/u/7931697572" target="_blank" class="social-item">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/Lm8A/834X834/1-08.png/webp" alt="微博">
-            </a>
-             <a href="https://www.youtube.com/@zizaotop" target="_blank" class="social-item">
-                <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/WxmZ/200X200/1-09.png/webp" alt="Youtube">
-            </a>
-        </div>
-        
-    </div>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100 transition-colors duration-500">
     
-    <footer class="footer" id="footer"></footer>
+    <!-- 导航栏 (由 components.js 注入) -->
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
-    <!-- 引入公共逻辑 (包含 Navbar/Footer/Carousel 渲染/全局客服挂件) -->
-    <script src="common.js"></script> 
-<script type="module" src="/index.tsx"></script>
+    <div class="animate-fade-in">
+        <!-- Hero 区域 -->
+        <header class="mx-auto max-w-[1800px] px-6 lg:px-12 pt-32 pb-20 lg:pt-48 lg:pb-32">
+            <div class="flex flex-col lg:flex-row gap-12 lg:items-end">
+                <div class="flex-1">
+                    <div class="mb-8 flex items-center gap-3">
+                        <div class="h-px w-12 bg-gray-900 dark:bg-white"></div>
+                        <span class="text-sm font-bold uppercase tracking-widest text-gray-500">心之所向，超越想象的界限。</span>
+                    </div>
+                    <h1 class="text-7xl font-black tracking-tighter text-gray-900 dark:text-white sm:text-[9rem] xl:text-[11rem] leading-[0.85] mb-12">
+                        ZizaoType<br/>Studio.
+                    </h1>
+                    <div class="flex flex-col sm:flex-row gap-8 sm:items-end justify-between border-t border-gray-200 dark:border-neutral-800 pt-8">
+                        <p class="max-w-md text-lg font-medium leading-relaxed text-gray-600 dark:text-neutral-400">
+                           无所限，无所畏。只凭心意开创。<br/>
+                            ZizaoType Studio.
+                        </p>
+                        <button onclick="document.getElementById('featured-work').scrollIntoView({behavior: 'smooth'})" class="group flex items-center gap-4 text-sm font-bold uppercase tracking-widest hover:opacity-60 transition-opacity">
+                            <div class="flex size-10 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800 group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                            </div>
+                            <span>Scroll Down</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Hero 右侧大图 (Stacked Style) -->
+                <div class="lg:w-[400px] xl:w-[480px] shrink-0 relative z-10 perspective-[1000px] group">
+                    <!-- Decorative Gradient Blob -->
+                    <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl dark:from-blue-600/10 dark:to-purple-600/10 pointer-events-none"></div>
+                    
+                    <!-- Stack Layer 2 (Back) -->
+                    <div class="absolute inset-0 translate-x-6 translate-y-6 rotate-6 rounded-[2.5rem] border border-gray-200 bg-white shadow-xl transition-transform duration-500 ease-out group-hover:translate-x-8 group-hover:translate-y-8 group-hover:rotate-12 dark:border-neutral-800 dark:bg-neutral-900"></div>
+
+                    <!-- Stack Layer 1 (Middle) -->
+                    <div class="absolute inset-0 translate-x-3 translate-y-3 rotate-3 rounded-[2.5rem] border border-gray-200 bg-white/80 shadow-xl backdrop-blur-sm transition-transform duration-500 ease-out group-hover:translate-x-4 group-hover:translate-y-4 group-hover:rotate-6 dark:border-neutral-800 dark:bg-neutral-900/80"></div>
+                    
+                    <!-- Main Card (Front) -->
+                    <div class="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] bg-gray-100 dark:bg-neutral-900 shadow-2xl transition-transform duration-500 hover:-translate-y-1">
+                         <!-- 修改图片：请替换下方的 src="#" -->
+                         <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp" alt="Studio" class="size-full object-cover"> <!-- CHANGE: Hero Image URL -->
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                         <div class="absolute bottom-6 left-6 text-white">
+                            <p class="font-mono text-xs uppercase tracking-widest mb-1">免费商用双轴可变中文字体</p>
+                            <p class="text-2xl font-bold">自在起点黑VF 即将上线</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="mx-auto max-w-[1800px] px-6 lg:px-12 py-12">
+            <!-- 推荐产品 (Featured) -->
+            <section id="featured-work" class="mb-32">
+                <div class="mb-8 flex items-end justify-between border-b border-gray-100 pb-4 dark:border-neutral-800">
+                    <div class="flex items-center gap-3">
+                        <div class="h-2 w-2 rounded-full bg-black dark:bg-white"></div>
+                        <h2 class="text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-white">为您推荐的设计工具</h2>
+                    </div>
+                    <a href="all-products.html" class="group flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-black dark:text-neutral-400 dark:hover:text-white">
+                        全部
+                        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+                <!-- 容器：内容由底部脚本注入 -->
+                <div id="featured-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"></div>
+            </section>
+
+            <!-- 设计工具 (Tools) -->
+            <section class="mb-24">
+                <div class="mb-8 flex items-center gap-3 border-b border-gray-100 pb-4 dark:border-neutral-800">
+                    <div class="h-2 w-2 rounded-full bg-gray-300 dark:bg-neutral-700"></div>
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-gray-500">为您推荐的设计工具</h2>
+                </div>
+                <!-- 容器：内容由底部脚本注入 -->
+                <div id="tools-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 底部栏 (由 components.js 注入) -->
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
+
+    <!-- 引入脚本 -->
+    <script src="components.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- 首页专用数据配置 (在此修改首页卡片) -->
+    <script>
+        // 1. 首页字体卡片配置
+        const HOME_FONTS = [
+            {
+                title: '自在起点黑 (Qidian Sans)',
+                subtitle: '免费商用 • 双轴可变',
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/YAWh/1400X600/1-07.jpg/webp', // CHANGE: 首页字体卡片图 1
+                link: 'product.html', 
+                colSpan: 'md:col-span-2',
+                rowSpan: 'md:row-span-2',
+            },
+            {
+                title: '自在飞落体',
+                subtitle: '衬线体 • 典雅',
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/Btd0/680X600/1-08.jpg/webp', // CHANGE: 首页字体卡片图 2
+                link: '#',
+                colSpan: 'md:col-span-1',
+                rowSpan: 'md:row-span-2',
+            },
+            {
+                title: '虚位以待',
+                subtitle: '敬请期待',
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp', // CHANGE: 首页字体卡片图 3
+                link: '#',
+                colSpan: 'md:col-span-1',
+                rowSpan: 'md:row-span-2',
+            },
+                        {
+                title: '虚位以待',
+                subtitle: '敬请期待',
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp', // CHANGE: 首页字体卡片图 5
+                link: '#',
+                colSpan: 'md:col-span-1',
+            },
+                        {
+                title: '虚位以待',
+                subtitle: '敬请期待',
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp', // CHANGE: 首页字体卡片图 5
+                link: '#',
+                colSpan: 'md:col-span-1',
+            },
+            {
+                title: '虚位以待',
+                subtitle: '敬请期待',
+                imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/rpgw/1400X600/222.jpg/webp', // CHANGE: 首页字体卡片图 4
+                link: '#',
+                colSpan: 'md:col-span-2',
+            }
+        ];
+
+        // 2. 首页工具卡片配置
+        const HOME_TOOLS = [
+            { title: '设计导航', subtitle: '设计师的灵感百宝库', imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/hfoR/680X600/1-09.jpg/webp', link: 'https://www.zizao.top/hao', colSpan: 'md:col-span-1' }, // CHANGE: 工具图 1
+            { title: '文本编辑器Pro', subtitle: 'web端TXT编辑器', imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/EiE8/680X600/1-10.jpg/webp', link: 'https://www.zizao.top/tools/txt', colSpan: 'md:col-span-1' }, // CHANGE: 工具图 2
+            { title: '超引-形近字查询', subtitle: '独家整理的设计师“造字神器“', imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/clE7/1400X600/1-11.jpg/webp', link: 'https://www.zizao.top/tools/chaoyin', colSpan: 'md:col-span-2' }, // CHANGE: 工具图 3
+            { title: '设计百宝库', subtitle: 'AI提示词 • 字体 • 设计资源', imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/xD17/1400X600/1-12.jpg/webp', link: 'https://www.zizao.top/bao', colSpan: 'md:col-span-2' }, // CHANGE: 工具图 6
+            { title: '虚位以待', subtitle: '敬请期待', imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp', link: '#', colSpan: 'md:col-span-1' }, // CHANGE: 工具图 4
+            { title: '虚位以待', subtitle: '敬请期待', imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp', link: '#', colSpan: 'md:col-span-1' } // CHANGE: 工具图 5
+        ];
+
+        // 3. 渲染逻辑
+        document.addEventListener('DOMContentLoaded', () => {
+            const featuredContainer = document.getElementById('featured-grid');
+            const toolsContainer = document.getElementById('tools-grid');
+            if (featuredContainer) featuredContainer.innerHTML = HOME_FONTS.map(item => createBentoCard(item)).join('');
+            if (toolsContainer) toolsContainer.innerHTML = HOME_TOOLS.map(item => createBentoCard(item)).join('');
+        });
+    </script>
 </body>
 </html>

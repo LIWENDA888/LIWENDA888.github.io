@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 自在造字</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
+
+    <div class="animate-fade-in mx-auto max-w-[1800px] px-6 pt-32 lg:px-12 pb-20">
+        <!-- Header -->
+        <h1 class="text-6xl font-black uppercase tracking-tighter sm:text-[8rem] leading-[0.9] mb-8">
+          We Craft<br />The Voice.
+        </h1>
+        <p class="mt-8 max-w-xl text-xl font-light text-gray-500 dark:text-neutral-400 mb-24">
+          既然文字是声音的图像，那么我们就是打造声音质感的工匠。我们致力于探索汉字设计的边界。
+        </p>
+
+        <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
+            <!-- Sidebar -->
+            <aside class="w-full lg:w-72 lg:shrink-0 sticky top-32 h-fit self-start">
+                <div>
+                    <h3 class="mb-6 text-xs font-bold uppercase tracking-widest text-gray-400">Directory</h3>
+                    <nav class="flex flex-col space-y-1">
+                        <a href="#studio" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
+                            <span>工作室</span><span class="text-[10px]">01</span>
+                        </a>
+                        <a href="#philosophy" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
+                            <span>设计理念</span><span class="text-[10px]">02</span>
+                        </a>
+                        <a href="#copyright" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
+                            <span>版权声明</span><span class="text-[10px]">03</span>
+                        </a>
+                        <a href="#contact" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
+                            <span>联系方式</span><span class="text-[10px]">04</span>
+                        </a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 space-y-32">
+                <section id="studio" class="scroll-mt-32">
+                    <div class="aspect-video w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-neutral-900 mb-12">
+                      <!-- CHANGE: Studio Image -->
+                      <img src="#" class="size-full object-cover">
+                    </div>
+                    <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+                      <h2 class="text-3xl font-bold leading-tight">成立于 2020 年，<br />立足上海的独立字体事务所。</h2>
+                      <div class="prose prose-lg dark:prose-invert text-gray-500 dark:text-neutral-400">
+                        <p>TypeFoundry Studio 的团队由一群热爱文字的设计师、工程师和排版专家组成。我们相信，字体不仅是信息的载体，更是情感与品牌声音的扩音器。</p>
+                      </div>
+                    </div>
+                </section>
+
+                <section id="philosophy" class="scroll-mt-32 border-t border-gray-100 pt-32 dark:border-neutral-800">
+                    <h2 class="mb-12 text-4xl font-bold lg:text-5xl">"Details make the design."</h2>
+                    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                         <div class="rounded-xl bg-gray-50 p-8 dark:bg-neutral-900">
+                            <span class="mb-4 block text-2xl font-bold opacity-30">01</span>
+                            <h3 class="mb-3 text-xl font-bold">人文温度</h3>
+                            <p class="text-sm opacity-70">在几何构建中注入手写的温度。</p>
+                         </div>
+                         <div class="rounded-xl bg-gray-50 p-8 dark:bg-neutral-900">
+                            <span class="mb-4 block text-2xl font-bold opacity-30">02</span>
+                            <h3 class="mb-3 text-xl font-bold">屏幕优先</h3>
+                            <p class="text-sm opacity-70">针对高分屏阅读环境深度优化。</p>
+                         </div>
+                         <div class="rounded-xl bg-gray-50 p-8 dark:bg-neutral-900">
+                            <span class="mb-4 block text-2xl font-bold opacity-30">03</span>
+                            <h3 class="mb-3 text-xl font-bold">全球视野</h3>
+                            <p class="text-sm opacity-70">支持多语言字符集。</p>
+                         </div>
+                    </div>
+                </section>
+
+                <section id="copyright" class="scroll-mt-32 border-t border-gray-100 pt-32 dark:border-neutral-800">
+                     <span class="mb-6 block text-xs font-bold uppercase tracking-widest text-gray-400">03 — Copyright</span>
+                     <div class="rounded-2xl bg-gray-50 p-12 dark:bg-neutral-900">
+                        <h2 class="mb-6 text-2xl font-bold">知识产权声明</h2>
+                        <p class="mb-6 max-w-3xl text-gray-600 dark:text-neutral-400">本网站展示的所有字体作品及相关素材，其知识产权均归 TypeFoundry Studio 所有。</p>
+                        <a href="licensing.html" target="_blank" class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-2 text-sm font-bold transition-colors hover:bg-black hover:text-white dark:border-neutral-700 dark:hover:bg-white dark:hover:text-black">查看授权详情</a>
+                     </div>
+                </section>
+                
+                <section id="contact" class="scroll-mt-32 border-t border-gray-100 pt-32 dark:border-neutral-800">
+                     <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+                       <div>
+                          <h2 class="mb-8 text-5xl font-black">Let's Talk.</h2>
+                          <div class="space-y-8">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Business</p>
+                                <a href="mailto:business@typestudio.com" target="_blank" class="inline-flex items-center gap-2 text-xl font-bold hover:underline">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    business@typestudio.com
+                                </a>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Visit Us</p>
+                                <p class="text-lg font-medium">上海市徐汇区衡山路 888 号</p>
+                            </div>
+                          </div>
+                       </div>
+                     </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
+    <script src="components.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
