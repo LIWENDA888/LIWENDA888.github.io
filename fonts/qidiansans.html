@@ -3,330 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>字造起点黑 - 自在造字(ZIZAO)</title>
-    <meta name="description" content="自在造字，专注字体字库产品制作与分享">
-    <link rel="icon" href="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/AR9P/ico.ico">
-    
-    <link rel="stylesheet" href="../common.css">
+    <title>自在起点黑Qidiansans - 自在造字</title>
 
-    <style>
-        /* --- 页面特有样式 --- */
-        body {
-            background-color: #f5f5f5;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-        :root {
-            --deep-grey: #222222; 
-            --light-grey: #CCCCCC;
-            --accent-color: #E0B973; 
-            --sub-text-color: #6c7a89;
-        }
-
-        /* 修复：移除 padding-top !important，使用 common.css 的 80px 即可 */
-        .main-content { 
-            padding-bottom: 0; 
-            display: block; 
-            width: 100%; 
-        }
-        
-        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
-        
-        /* Hero 区域 */
-        .font-hero-section {
-            width: 100vw; margin-left: calc(50% - 50vw); 
-            background-color: transparent; height: 650px; 
-            display: flex; justify-content: center; align-items: center; 
-            position: relative; overflow: hidden; 
-        }
-        .font-hero-section .hero-img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.1s ease-out; transform-origin: center center; cursor: grab; 
-        }
-        .font-hero-section .hero-img.dragging { cursor: grabbing; }
-        
-        /* 详情内容 */
-        .font-detail-header { padding: 40px 0 20px; }
-        .font-header-and-buttons { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .font-header-and-buttons h1 { font-size: 48px; font-weight: 700; color: var(--deep-grey); }
-        
-        /* 按钮组 */
-        .action-group.horizontal-actions { display: flex; gap: 15px; align-items: center; flex-wrap: nowrap; }
-        .header-separator { width: 100%; height: 1px; background-color: var(--light-grey); }
-        
-        /* 双栏布局 */
-        .font-two-column-layout { display: flex; gap: 40px; padding: 30px 0; }
-        .design-text-content { flex: 2; }
-        .design-text-content p { font-size: 17px; color: #333; margin-bottom: 20px; line-height: 1.9; text-align: justify; }
-        
-        /* 按钮 */
-        .cta-button { 
-            white-space: nowrap; padding: 12px 30px; border-radius: 50px; 
-            font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; 
-            border: 1px solid var(--deep-grey); display: inline-flex; 
-            justify-content: center; align-items: center; text-decoration: none;
-        }
-        .download-btn { background-color: var(--deep-grey); color: white; }
-        .download-btn:hover { background-color: #444; border-color: #444; }
-        .license-detail-link { background-color: transparent; color: var(--deep-grey); }
-        .license-detail-link:hover { background-color: var(--deep-grey); color: white; }
-        
-        /* 规格列表 */
-        .font-specs-band { 
-            flex: 1; 
-            height: fit-content; 
-            border: 1px solid #E5E5E5; border-radius: 6px; padding: 20px 25px; background: #fff; 
-        }
-        .font-meta-list { list-style: none; }
-        .font-meta-list li { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-        .font-meta-list li:last-child { border-bottom: none; }
-        .font-meta-list .meta-label { color: #888; font-size: 14px; }
-        .font-meta-list .meta-value { color: var(--deep-grey); font-weight: 600; font-size: 14px; }
-
-        /* 图片展示 */
-        .image-showcase-container { width: 90%; max-width: 1200px; margin: 30px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .full-width-image { width: 100%; display: block; }
-
-        /* 模态框 */
-        .modal-backdrop { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-            z-index: 2000; display: flex; justify-content: center; align-items: center; 
-            opacity: 0; visibility: hidden; transition: all 0.3s; 
-        }
-        .modal-backdrop.active { opacity: 1; visibility: visible; }
-        
-        .modal-content { 
-            background: #FFF; padding: 40px; border-radius: 16px; 
-            width: 90%; max-width: 420px; text-align: center;
-            position: relative; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-        .modal-backdrop.active .modal-content { transform: scale(1); }
-        
-        .close-btn { 
-            position: absolute; top: 15px; right: 15px; border: none; background: none; 
-            font-size: 24px; color: #999; cursor: pointer; transition: color 0.2s;
-        }
-        .close-btn:hover { color: #333; }
-
-        .modal-header h2 { margin-bottom: 10px; font-size: 24px; color: #1a1a1a; }
-        .copyright-tip { margin-bottom: 30px; color: #666; font-size: 14px; line-height: 1.5; }
-        .copyright-tip strong { color: #d32f2f; }
-
-        .modal-cta-group { display: flex; flex-direction: column; gap: 12px; }
-        .modal-download-link { 
-            display: flex; justify-content: space-between; align-items: center;
-            width: 100%; padding: 15px 20px; 
-            background: #f9f9f9; border-radius: 10px; border: 1px solid #eee; 
-            text-decoration: none; color: #333; font-weight: 600; font-size: 15px;
-            transition: all 0.2s; 
-        }
-        .modal-download-link:hover { background: #fff; border-color: #000; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .file-format { color: #999; font-weight: 400; font-size: 13px; }
-
-        /* 控制条 */
-        .zoom-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 20; background: rgba(34,34,34,0.6); border-radius: 20px; padding: 6px 15px; display: flex; align-items: center; gap: 10px; }
-        .toggle-button { background: transparent; border: none; color: white; cursor: pointer; width: 30px; height: 30px; }
-        .slider-group { display: flex; align-items: center; width: 250px; }
-        .zoom-slider { -webkit-appearance: none; width: 100%; height: 4px; background: #999; border-radius: 2px; }
-        .zoom-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent-color); border-radius: 50%; border: 2px solid white; cursor: grab; }
-
-        @media (max-width: 1024px) {
-            .font-hero-section { height: 400px; }
-            .font-header-and-buttons { flex-direction: column; align-items: flex-start; gap: 20px; }
-            .action-group.horizontal-actions { width: 100%; flex-direction: column; }
-            .cta-button { width: 100%; }
-            .font-two-column-layout { flex-direction: column; }
-            .image-showcase-container { width: 100vw; margin-left: calc(50% - 50vw); border-radius: 0; }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+          },
+        },
+      }
+    </script>
 </head>
-<body>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
+    <!-- 导航栏占位 -->
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
-    <nav class="navbar" id="navbar"></nav>
-
-    <div class="main-content">
-        <section class="font-hero-section" id="heroSection">
-            <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" 
-                 alt="字体详情背景图" class="hero-img" id="heroImageDesktop">
-            <div class="zoom-controls">
-                <div class="slider-group">
-                    <span style="color:white; margin-right:5px">-</span>
-                    <input type="range" min="100" max="300" value="100" class="zoom-slider" id="zoomSlider">
-                    <span style="color:white; margin-left:5px">+</span>
+    <div class="animate-fade-in pb-20">
+        
+        <!-- 1. 图片查看器区域 -->
+        <section class="mx-auto max-w-[1800px] px-6 pt-32 lg:px-12">
+            <div id="image-viewer-container" class="relative h-[50vh] w-full overflow-hidden rounded-xl border border-gray-200 dark:border-neutral-800 bg-gray-50 dark:bg-[#0f0f0f] transition-colors select-none cursor-grab active:cursor-grabbing">
+                
+                <!-- 
+                   CHANGE: 产品主图 
+                   1. src: 浅色模式图片
+                   2. data-dark-src: (可选) 深色模式图片
+                -->
+                <img id="p-image" 
+                     src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/zTEv/6803X1701/123-02.jpg/webp" 
+                     data-dark-src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" 
+                     alt="Hero" 
+                     class="size-full object-cover transition-transform duration-75 ease-linear will-change-transform origin-center" 
+                     draggable="false">
+                
+                <!-- 控件层 (无需修改) -->
+                <div class="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between pointer-events-none">
+                    <div id="zoom-hint" class="rounded-full bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">使用滑杆放大</div>
+                    <div class="pointer-events-auto flex w-48 flex-col items-center gap-2">
+                         <input id="zoom-slider" type="range" min="1" max="3" step="0.01" value="1" class="h-1 w-full cursor-pointer appearance-none rounded-full bg-white/30 backdrop-blur-sm [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md hover:[&::-webkit-slider-thumb]:scale-125 transition-all">
+                    </div>
+                    <div class="pointer-events-auto">
+                        <button id="img-toggle-btn" class="flex size-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md transition-all hover:bg-black/50 hover:scale-110" title="切换背景">
+                           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        </button>
+                    </div>
                 </div>
-                <button class="toggle-button" id="toggleImageButton">白</button>
             </div>
         </section>
 
-        <main class="container">
-            <section class="font-detail-header">
-                <div class="font-header-and-buttons">
-                    <h1>自在起点黑 VF</h1>
-                    <div class="action-group horizontal-actions">
-                        <button class="cta-button download-btn" id="showDownloadModalBtn">下载字体</button>
-                        <a href="https://zzfonts.taobao.com" class="cta-button license-detail-link">获取授权 ></a>
+        <!-- 2. 产品详细信息 (文字直接在这里修改) -->
+        <section class="mx-auto mt-12 grid max-w-[1800px] grid-cols-1 gap-12 px-6 lg:grid-cols-12 lg:px-12">
+            <div class="lg:col-span-8">
+                <!-- 标题 -->
+                <h1 class="text-4xl font-black tracking-tighter sm:text-5xl mb-3">自在起点黑(Qidian Sans)</h1>
+                <!-- 副标题 -->
+                <p class="text-lg text-gray-500 dark:text-neutral-400 mb-8 font-light">免费商用的双轴可变黑体</p>
+                <!-- 简介 -->
+                <div class="prose prose-lg dark:prose-invert text-gray-600 dark:text-neutral-400 mb-10 leading-relaxed max-w-3xl">
+                    融合线条和骨感美，极具视觉张力的字形结构，多字重增添了使用场景，而宽度为多设备协同带来了更多可能性。
+                </div>
+                <!-- 下载按钮 -->
+                <button onclick="openDownloadModal()" class="flex items-center gap-2 rounded-full bg-black px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-black">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>下载字体</span>
+                </button>
+            </div>
+            
+            <!-- 右侧规格表 -->
+            <div class="lg:col-span-4 lg:border-l lg:border-gray-100 lg:pl-12 lg:dark:border-neutral-800">
+                <div class="flex flex-col gap-4">
+                    <div class="grid grid-cols-3 gap-4 text-sm"><span class="text-gray-400 dark:text-neutral-500">设计师</span><span class="col-span-2 font-medium text-gray-900 dark:text-white">Mutou And Type</span></div>
+                    <div class="grid grid-cols-3 gap-4 text-sm"><span class="text-gray-400 dark:text-neutral-500">授权类型</span><span class="col-span-2 font-medium text-gray-900 dark:text-white">免费商用</span></div>
+                    <div class="grid grid-cols-3 gap-4 text-sm"><span class="text-gray-400 dark:text-neutral-500">字形数量</span><span class="col-span-2 font-medium text-gray-900 dark:text-white">7000+</span></div>
+                    <div class="grid grid-cols-3 gap-4 text-sm"><span class="text-gray-400 dark:text-neutral-500">发布日期</span><span class="col-span-2 font-medium text-gray-900 dark:text-white">预计2026上半年</span></div>
+                    <div class="grid grid-cols-3 gap-4 text-sm"><span class="text-gray-400 dark:text-neutral-500">格式</span><span class="col-span-2 font-medium text-gray-900 dark:text-white">OTF, TTF, WOFF2</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 细节展示画廊 -->
+        <section class="mx-auto mt-24 max-w-[1800px] px-6 lg:px-12">
+            <h2 class="mb-12 text-xl font-bold tracking-tight border-t border-gray-100 dark:border-neutral-800 pt-8">细节展示</h2>
+            <div class="flex flex-col gap-6">
+                <!-- CHANGE: 细节图 1 -->
+                <div class="overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-900"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="w-full object-cover shadow-sm" loading="lazy" /></div>
+                <!-- CHANGE: 细节图 2 -->
+                <div class="overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-900"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/zTEv/6803X1701/123-02.jpg/webp" class="w-full object-cover shadow-sm" loading="lazy" /></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 下载弹窗 (内容固定) -->
+    <div id="download-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDownloadModal()"></div>
+        <div class="relative w-full max-w-md scale-100 overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-neutral-900">
+            <div class="flex items-center justify-between border-b border-gray-100 p-6 dark:border-neutral-800">
+                <h3 class="text-lg font-bold">下载字体</h3>
+
+                <button onclick="closeDownloadModal()" class="rounded-full bg-gray-100 p-2 dark:bg-neutral-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                
+            </div>
+            <div class="p-2 space-y-2">
+                <!-- 下载选项 1: Desktop -->
+                <!-- CHANGE: href="#" 替换为实际下载链接 -->
+                <a href="#" target="_blank" class="group flex cursor-pointer items-center justify-between rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-neutral-800">
+                    <div class="flex items-center gap-4">
+                        <div class="flex size-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-neutral-300">
+                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900 dark:text-white">Desktop (.OTF)</p>
+                            <p class="text-xs text-gray-500">2.4 MB</p>
+                        </div>
                     </div>
-                </div>
-                <div class="header-separator"></div>
-            </section>
+                    <div class="rounded-full bg-black p-2 text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-white dark:text-black">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </div>
+                </a>
 
-            <section class="font-two-column-layout">
-                <div class="design-text-content">
-                    <p><strong>这是一款结合中国古代隶书的线条美和骨感美，融合现代屏显黑体以及加上更具视觉张力的字形结构，打造的一款免费商用“黑体“字。</strong> </p>
-                    <p>这款字可能第一眼粗略看，并不会相较于常规黑体有太多的不同。</p>
-                    <p>但是仔细观察就会发现这款字有我个人的一些小巧思。</p>
-                    <p>在做这款字之前我就希望这是在几乎任何尺寸设备或场景都能使用的字体产品。</p>
-                    <p>如果和我有同样的需求，那这款字重、宽度双轴可变的自在起点黑可能会是您目前的唯一选择。</p>
-                </div>
-                <div class="font-specs-band">
-                    <ul class="font-meta-list detailed-specs">
-                        <li><span class="meta-label">字重数量</span><span class="meta-value">10字重+可变</span></li>
-                        <li><span class="meta-label">版权类型</span><span class="meta-value" style="color: #28a745;">免费商用</span></li>
-                        <li><span class="meta-label">发布日期</span><span class="meta-value">预计2026年上半年</span></li>
-                        <li><span class="meta-label">设计师</span><span class="meta-value">木头与字</span></li>
-                        <li><span class="meta-label">字符集</span><span class="meta-value">GB2312(7000+常用字符)</span></li>
-                    </ul>
-                </div>
-            </section>
-        </main>
-        
-        <div class="image-showcase-container">
-            <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/CX0k/4084X2500/1.png/webp" alt="图片" class="full-width-image">
-            <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/BZZk/980X600/2.png/webp" alt="图片" class="full-width-image">
-            <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/xcID/4084X2500/3.png/webp" alt="图片" class="full-width-image">
+                <!-- 下载选项 2: Web -->
+                <!-- CHANGE: href="#" 替换为实际下载链接 -->
+                <a href="#" target="_blank" class="group flex cursor-pointer items-center justify-between rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-neutral-800">
+                    <div class="flex items-center gap-4">
+                        <div class="flex size-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-neutral-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900 dark:text-white">Web (.WOFF2)</p>
+                            <p class="text-xs text-gray-500">1.1 MB</p>
+                        </div>
+                    </div>
+                    <div class="rounded-full bg-black p-2 text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-white dark:text-black">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </div>
+                </a>
+            </div>
+            <div class="bg-gray-50 p-6 dark:bg-neutral-950/50">
+                 <p class="text-xs text-center text-gray-400">
+                   请尊重版权！下载即代表您同意我们的<a href="#" target="_blank" class="underline hover:text-gray-900 dark:hover:text-white">最终用户许可协议 (EULA)</a>
+                 </p>
+            </div>
         </div>
     </div>
+
+    <!-- 底部栏占位 -->
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
     
-    <footer class="footer" id="footer"></footer>
-
-    <div id="downloadModal" class="modal-backdrop">
-        <div class="modal-content">
-            <button class="close-btn" id="closeModalBtn">&times;</button>
-            <div class="modal-header">
-                <h2>下载字体</h2>
-            </div>
-            <p class="copyright-tip">
-                请<strong>尊重版权</strong>！<br>此字体为 <strong>个人/教育用途免费商用</strong>
-            </p>
-            <div class="modal-cta-group">
-                <a href="trial_font_ttf.zip" download class="modal-download-link" data-close-modal>
-                    <span>TTF 格式</span>
-                    <span class="file-format">Win/Mac 通用</span>
-                </a>
-                <a href="trial_font_otf.zip" download class="modal-download-link" data-close-modal>
-                    <span>OTF 格式</span>
-                    <span class="file-format">设计专业版</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script src="../common.js"></script>
-
-    <script>
-        // 模态框逻辑
-        const modal = document.getElementById('downloadModal');
-        const showBtn = document.getElementById('showDownloadModalBtn');
-        const closeBtn = document.getElementById('closeModalBtn');
-        
-        // 修复：移除了 document.body.style.overflow = 'hidden'; 防止抖动
-        if(showBtn) showBtn.addEventListener('click', () => { modal.classList.add('active'); });
-        const hideModal = () => { modal.classList.remove('active'); };
-        if(closeBtn) closeBtn.addEventListener('click', hideModal);
-        if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) hideModal(); });
-        document.querySelectorAll('[data-close-modal]').forEach(btn => btn.addEventListener('click', () => setTimeout(hideModal, 100)));
-
-        // 图片交互逻辑
-        const zoomSlider = document.getElementById('zoomSlider');
-        const toggleButton = document.getElementById('toggleImageButton');
-        const heroImageDesktop = document.getElementById('heroImageDesktop');
-        
-        let scale = 1.0, isDragging = false, startX, startY;
-        // 这两个变量用于记录图片被拖动的位置，我们现在将保留它们的值
-        let currentTranslateX = 0, currentTranslateY = 0; 
-        
-        // 维护图片 URL 简化，只保留两个URL
-        const WHITE_IMAGE_URL = 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp'; // 默认白图
-        const BLACK_IMAGE_URL = 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/zTEv/6803X1701/123-02.jpg/webp'; // 黑图
-
-        if (zoomSlider && heroImageDesktop) {
-            zoomSlider.addEventListener('input', function() {
-                scale = this.value / 100;
-                applyTransform();
-            });
-            
-            const startDrag = (e) => {
-                // 不允许在未放大时拖动
-                if (scale <= 1.0) return;
-                e.preventDefault(); e.currentTarget.classList.add('dragging');
-                const event = e.touches ? e.touches[0] : e;
-                startX = event.clientX - currentTranslateX; startY = event.clientY - currentTranslateY;
-                isDragging = true;
-                document.addEventListener('mousemove', drag); document.addEventListener('mouseup', stopDrag);
-                document.addEventListener('touchmove', drag); document.addEventListener('touchend', stopDrag);
-            };
-
-            const drag = (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const event = e.touches ? e.touches[0] : e;
-                // 更新 currentTranslateX/Y，这些值是全局的平移量（以像素为单位）
-                currentTranslateX = event.clientX - startX; 
-                currentTranslateY = event.clientY - startY;
-                // 注意：这里没有做边界限制，如果需要，可以在这里加入
-                applyTransform();
-            };
-
-            const stopDrag = () => {
-                isDragging = false; heroImageDesktop.classList.remove('dragging');
-                document.removeEventListener('mousemove', drag); document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchmove', drag); document.removeEventListener('touchend', stopDrag);
-            };
-
-            // 关键修改：修复缩放时平移位置丢失的问题
-            const applyTransform = () => {
-                let translateXForDisplay = currentTranslateX;
-                let translateYForDisplay = currentTranslateY;
-
-                // 当图片缩放回原始大小 (scale <= 1.0) 时：
-                // 1. 视觉上：平移量必须为 0，让图片居中显示。
-                // 2. 逻辑上：保留 currentTranslateX/Y 的值，以便下次放大时能恢复位置。
-                if (scale <= 1.0) {
-                    translateXForDisplay = 0;
-                    translateYForDisplay = 0;
-                }
-                
-                // 应用最终的 transform。注意：CSS transform 的 translate 是相对于元素的尺寸计算的，
-                // 所以需要除以 scale 来保持视觉上的平移量正确。
-                heroImageDesktop.style.transform = `scale(${scale}) translate(${translateXForDisplay / scale}px, ${translateYForDisplay / scale}px)`;
-                
-                // 设置鼠标样式
-                heroImageDesktop.style.cursor = scale <= 1.0 ? 'default' : 'grab';
-            };
-            
-            heroImageDesktop.addEventListener('mousedown', startDrag);
-            heroImageDesktop.addEventListener('touchstart', startDrag);
-            
-            // 图片切换逻辑 (保留缩放/拖动状态)
-            toggleButton.addEventListener('click', () => {
-                const isCurrentlyWhite = toggleButton.textContent === '白';
-                
-                // 切换按钮文字
-                toggleButton.textContent = isCurrentlyWhite ? '黑' : '白';
-
-                // 切换图片 URL
-                heroImageDesktop.src = isCurrentlyWhite ? 
-                    BLACK_IMAGE_URL : 
-                    WHITE_IMAGE_URL;  
-                
-                // 保持当前的 scale 和 currentTranslateX/Y，并重新应用 transform 到新图片上
-                applyTransform();
-            });
-        }
-        
-        document.body.style.opacity = '1';
-    </script>
+    <script src="../components.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
