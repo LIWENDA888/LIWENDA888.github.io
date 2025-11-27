@@ -11,7 +11,7 @@ aside:hover::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 99px; }
 .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 
-.mask-gradient-right { mask-image: linear-gradient(to right, black 90%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%); }
+.mask-gradient-right { mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
 
 #about-modal.open { display: flex; opacity: 1; }
 #about-modal.open #about-modal-content { transform: scale(1); }

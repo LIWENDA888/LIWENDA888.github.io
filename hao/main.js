@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('header-links');
         container.innerHTML = HEADER_LINKS.map(link => `
             <a href="${link.url}" target="_blank" rel="noopener noreferrer" 
-               class="whitespace-nowrap text-[14px] font-medium text-gray-600/90 dark:text-gray-400 px-3 py-1.5 rounded-lg hover:bg-black/5 hover:text-[#FF8C19] transition-all dark:hover:bg-white/10 dark:hover:text-[#FF8C19]">
+               class="whitespace-nowrap text-[13px] md:text-[14px] font-medium text-gray-600/90 dark:text-gray-400 px-2.5 py-1.5 md:px-3 md:py-1.5 rounded-lg hover:bg-black/5 hover:text-[#FF8C19] transition-all dark:hover:bg-white/10 dark:hover:text-[#FF8C19]">
                ${link.title}
             </a>
         `).join('');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('quick-links');
         container.innerHTML = QUICK_LINKS.map(link => `
             <a href="${link.url}" target="_blank" rel="noopener noreferrer"
-               class="group relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 px-5 py-2.5 text-sm font-medium text-gray-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:bg-white hover:text-[#FF8C19] hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-[#FF8C19] dark:hover:border-gray-600">
+               class="group relative overflow-hidden rounded-lg md:rounded-xl border border-gray-200 bg-gray-50/50 px-3 py-2 md:px-5 md:py-2.5 text-xs md:text-sm font-medium text-gray-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:bg-white hover:text-[#FF8C19] hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-[#FF8C19] dark:hover:border-gray-600">
                <span class="relative z-10">${link.title}</span>
             </a>
         `).join('');
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isActive = state.activeEngine.name === engine.name;
             return `
             <button type="button" data-name="${engine.name}" 
-                class="engine-btn relative pb-2 font-medium transition-all duration-300 ${isActive ? 'text-gray-900 dark:text-white scale-105' : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300'}">
+                class="engine-btn relative pb-2 font-medium shrink-0 transition-all duration-300 ${isActive ? 'text-gray-900 dark:text-white scale-105' : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300'}">
                 ${engine.name}
                 ${isActive ? '<span class="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-5 rounded-full bg-[#FF8C19] shadow-[0_0_10px_rgba(255,140,25,0.8)] transition-all"></span>' : ''}
             </button>`;
@@ -91,19 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderContent = () => {
         const container = document.getElementById('content-area');
         container.innerHTML = CATEGORIES.map(cat => `
-            <section id="category-${cat.id}" class="animate-fade-in group/section">
-                <div class="panel-container p-8 rounded-3xl transition-all duration-500">
-                    <div class="mb-6 flex flex-col items-start gap-4 md:flex-row md:items-center flex-wrap pl-2 border-b border-gray-100 pb-4 dark:border-gray-800">
+            <section id="category-${cat.id}" class="animate-fade-in group/section scroll-mt-[100px]">
+                <div class="panel-container p-5 md:p-8 rounded-2xl md:rounded-3xl transition-all duration-500">
+                    <div class="mb-4 md:mb-6 flex flex-col items-start gap-4 md:flex-row md:items-center flex-wrap pl-1 md:pl-2 border-b border-gray-100 pb-3 md:pb-4 dark:border-gray-800">
                         <div class="flex items-center gap-3">
-                             <div class="p-2 rounded-lg bg-orange-50 dark:bg-gray-800 text-[#FF8C19]">
-                                <i data-lucide="${cat.icon}" class="w-6 h-6"></i>
+                             <div class="p-1.5 md:p-2 rounded-lg bg-orange-50 dark:bg-gray-800 text-[#FF8C19]">
+                                <i data-lucide="${cat.icon}" class="w-5 h-5 md:w-6 md:h-6"></i>
                              </div>
-                             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">${cat.name}</h2>
+                             <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">${cat.name}</h2>
                         </div>
                         <span class="hidden h-5 w-px bg-gray-300 dark:bg-gray-700 md:block mx-2"></span>
                         <div class="flex flex-wrap w-full md:w-auto gap-2" id="tabs-${cat.id}"></div>
                     </div>
-                    <div id="grid-${cat.id}" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6"></div>
+                    <div id="grid-${cat.id}" class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6"></div>
                 </div>
             </section>
         `).join('');
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     };
 
-    // 二级分类按钮渲染 (已更新为全圆角+毛玻璃)
+    // 二级分类按钮渲染
     const renderSubCategoryTabs = (cat) => {
         const container = document.getElementById(`tabs-${cat.id}`);
         const activeSubId = state.activeSubCategoryIds[cat.id];
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isActive = sub.id === activeSubId;
             return `
             <button type="button" data-main="${cat.id}" data-sub="${sub.id}"
-                class="subcat-btn relative whitespace-nowrap rounded-full px-6 py-2.5 text-[15px] font-semibold transition-all duration-300 ease-out border backdrop-blur-sm ${
+                class="subcat-btn relative whitespace-nowrap rounded-full px-4 py-1.5 md:px-6 md:py-2.5 text-xs md:text-[15px] font-semibold transition-all duration-300 ease-out border backdrop-blur-sm ${
                     isActive
                     ? 'border-[#FF8C19] bg-[#FF8C19] text-white shadow-sm'
                     : 'border-white/40 bg-white/40 text-gray-500 hover:bg-white/80 hover:text-gray-700 dark:bg-white/5 dark:text-gray-400 dark:border-white/10 dark:hover:bg-white/10'
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // 卡片渲染 (已精简视觉效果)
+    // 卡片渲染
     const renderCards = (cat) => {
         const container = document.getElementById(`grid-${cat.id}`);
         const activeSubId = state.activeSubCategoryIds[cat.id];
@@ -153,12 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.innerHTML = activeSub.sites.map(site => `
             <a href="${site.url}" target="_blank" rel="noopener noreferrer"
-               class="site-card group relative flex h-full flex-row items-start gap-4 overflow-hidden rounded-2xl p-5 transition-all duration-300">
-                <div class="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${gradient} shadow-md text-white font-bold text-sm leading-none select-none ring-1 ring-black/5 dark:ring-white/10">
+               class="site-card group relative flex h-full flex-row items-start gap-3 md:gap-4 overflow-hidden rounded-xl md:rounded-2xl p-4 md:p-5 transition-all duration-300">
+                <div class="relative flex h-9 w-9 md:h-11 md:w-11 shrink-0 items-center justify-center rounded-lg md:rounded-xl bg-gradient-to-br ${gradient} shadow-md text-white font-bold text-xs md:text-sm leading-none select-none ring-1 ring-black/5 dark:ring-white/10">
                     ${character}
                 </div>
                 <div class="relative min-w-0 flex-1 pt-0.5">
-                    <h3 class="truncate text-[16px] font-bold text-gray-800 dark:text-gray-100 mb-1">${site.title}</h3>
+                    <h3 class="truncate text-[15px] md:text-[16px] font-bold text-gray-800 dark:text-gray-100 mb-0.5 md:mb-1">${site.title}</h3>
                     <p class="line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">${site.description}</p>
                 </div>
             </a>
@@ -172,7 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSidebarUI();
         const el = document.getElementById(`category-${id}`);
         if (el) {
-            window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 110, behavior: "smooth" });
+            // Adjust scroll offset based on window width (mobile vs desktop)
+            const offset = window.innerWidth < 1024 ? 80 : 110;
+            window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - offset, behavior: "smooth" });
             setTimeout(() => { state.isProgrammaticScroll = false; }, 1200);
         }
     };
@@ -185,9 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
         if (state.isProgrammaticScroll) return;
         let newActiveId = CATEGORIES[0].id;
+        // Adjusted threshold for mobile
+        const threshold = window.innerWidth < 1024 ? 150 : 200;
+        
         for (const cat of CATEGORIES) {
             const el = document.getElementById(`category-${cat.id}`);
-            if (el && el.getBoundingClientRect().top <= 200) newActiveId = cat.id; else break;
+            if (el && el.getBoundingClientRect().top <= threshold) newActiveId = cat.id; else break;
         }
         if (newActiveId !== state.activeCategoryId) {
             state.activeCategoryId = newActiveId;
@@ -228,8 +233,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const toggleMobileMenu = (show) => {
-        document.getElementById('mobile-sidebar').classList.toggle('translate-x-[-100%]', !show);
-        document.getElementById('mobile-sidebar-overlay').classList.toggle('hidden', !show);
+        const sidebar = document.getElementById('mobile-sidebar');
+        const overlay = document.getElementById('mobile-sidebar-overlay');
+        
+        if (show) {
+            overlay.classList.remove('hidden');
+            // Small timeout to allow transition
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                sidebar.classList.remove('translate-x-[-100%]');
+            }, 10);
+        } else {
+            overlay.classList.add('opacity-0');
+            sidebar.classList.add('translate-x-[-100%]');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
     };
     document.getElementById('mobile-menu-btn').addEventListener('click', () => toggleMobileMenu(true));
     document.getElementById('mobile-sidebar-overlay').addEventListener('click', () => toggleMobileMenu(false));
