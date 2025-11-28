@@ -31,11 +31,9 @@
 </head>
 <body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100 transition-colors duration-500">
     
-    <!-- 导航栏 (由 components.js 注入) -->
     <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
     <div class="animate-fade-in">
-        <!-- Hero 区域 -->
         <header class="mx-auto max-w-[1800px] px-6 lg:px-12 pt-32 pb-20 lg:pt-48 lg:pb-32">
             <div class="flex flex-col lg:flex-row gap-12 lg:items-end">
                 <div class="flex-1">
@@ -59,33 +57,25 @@
                         </button>
                     </div>
                 </div>
-                <!-- Hero 右侧大图 (Stacked Style) -->
                 <div class="lg:w-[400px] xl:w-[480px] shrink-0 relative z-10 perspective-[1000px] group">
-                    <!-- Decorative Gradient Blob -->
                     <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl dark:from-blue-600/10 dark:to-purple-600/10 pointer-events-none"></div>
                     
-                    <!-- Stack Layer 2 (Back) -->
                     <div class="absolute inset-0 translate-x-6 translate-y-6 rotate-6 rounded-[2.5rem] border border-gray-200 bg-white shadow-xl transition-transform duration-500 ease-out group-hover:translate-x-8 group-hover:translate-y-8 group-hover:rotate-12 dark:border-neutral-800 dark:bg-neutral-900"></div>
 
-                    <!-- Stack Layer 1 (Middle) -->
                     <div class="absolute inset-0 translate-x-3 translate-y-3 rotate-3 rounded-[2.5rem] border border-gray-200 bg-white/80 shadow-xl backdrop-blur-sm transition-transform duration-500 ease-out group-hover:translate-x-4 group-hover:translate-y-4 group-hover:rotate-6 dark:border-neutral-800 dark:bg-neutral-900/80"></div>
                     
-                    <!-- Main Card (Front) -->
-                    <div class="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] bg-gray-100 dark:bg-neutral-900 shadow-2xl transition-transform duration-500 hover:-translate-y-1">
-                         <!-- 修改图片：请替换下方的 src="#" -->
-                         <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp" alt="Studio" class="size-full object-cover"> <!-- CHANGE: Hero Image URL -->
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    <a href="#" target="_blank" class="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] bg-gray-100 dark:bg-neutral-900 shadow-2xl transition-transform duration-500 hover:-translate-y-1 block">
+                         <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp" alt="Studio" class="size-full object-cover"> <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                          <div class="absolute bottom-6 left-6 text-white">
                             <p class="font-mono text-xs uppercase tracking-widest mb-1">免费商用双轴可变中文字体</p>
                             <p class="text-2xl font-bold">自在起点黑VF 即将上线</p>
                          </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </header>
 
         <main class="mx-auto max-w-[1800px] px-6 lg:px-12 py-12">
-            <!-- 推荐产品 (Featured) -->
             <section id="featured-work" class="mb-32">
                 <div class="mb-8 flex items-end justify-between border-b border-gray-100 pb-4 dark:border-neutral-800">
                     <div class="flex items-center gap-3">
@@ -97,30 +87,24 @@
                         <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                 </div>
-                <!-- 容器：内容由底部脚本注入 -->
                 <div id="featured-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"></div>
             </section>
 
-            <!-- 设计工具 (Tools) -->
             <section class="mb-24">
                 <div class="mb-8 flex items-center gap-3 border-b border-gray-100 pb-4 dark:border-neutral-800">
                     <div class="h-2 w-2 rounded-full bg-gray-300 dark:bg-neutral-700"></div>
                     <h2 class="text-sm font-bold uppercase tracking-widest text-gray-500">为您推荐的设计工具</h2>
                 </div>
-                <!-- 容器：内容由底部脚本注入 -->
                 <div id="tools-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"></div>
             </section>
         </main>
     </div>
 
-    <!-- 底部栏 (由 components.js 注入) -->
     <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
 
-    <!-- 引入脚本 -->
     <script src="components.js"></script>
     <script src="script.js"></script>
     
-    <!-- 首页专用数据配置 (在此修改首页卡片) -->
     <script>
         // 1. 首页字体卡片配置
         const HOME_FONTS = [
