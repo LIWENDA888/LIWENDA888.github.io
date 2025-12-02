@@ -49,7 +49,7 @@ const CATEGORIES = [
       subCategories: [
         { 
           id: 'A1', 
-          name: '#每日常用', 
+          name: '#日常必备', 
           iconConfig: { gradient: 'from-orange-500 to-red-500', iconName: 'star' },
           sites: [
             {title: "花瓣", description: "设计师寻找灵感，采集保存可用素材", url: "https://hunban.com"},
