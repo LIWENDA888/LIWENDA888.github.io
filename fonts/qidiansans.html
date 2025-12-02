@@ -1,13 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>自在起点黑Qidiansans - 自在造字</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -19,21 +19,16 @@
       }
     </script>
 </head>
-<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
-    <!-- 导航栏占位 -->
-    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100 flex flex-col min-h-screen">
+    
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
-    <div class="animate-fade-in pb-20">
+    <main class="animate-fade-in pb-20 flex-1">
         
-        <!-- 1. 图片查看器区域 -->
+        <!-- 1. Image Viewer -->
         <section class="mx-auto max-w-[1800px] px-6 pt-32 lg:px-12">
-            <div id="image-viewer-container" class="relative h-[50vh] w-full overflow-hidden rounded-xl border border-gray-200 dark:border-neutral-800 bg-gray-50 dark:bg-[#0f0f0f] transition-colors select-none cursor-grab active:cursor-grabbing">
+            <div id="image-viewer-container" class="relative h-[60vh] w-full overflow-hidden rounded-xl border border-gray-200 dark:border-neutral-800 bg-gray-50 dark:bg-[#0f0f0f] transition-colors select-none cursor-grab active:cursor-grabbing group">
                 
-                <!-- 
-                   CHANGE: 产品主图 
-                   1. src: 浅色模式图片
-                   2. data-dark-src: (可选) 深色模式图片
-                -->
                 <img id="p-image" 
                      src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/zTEv/6803X1701/123-02.jpg/webp" 
                      data-dark-src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" 
@@ -41,40 +36,43 @@
                      class="size-full object-cover transition-transform duration-75 ease-linear will-change-transform origin-center" 
                      draggable="false">
                 
-                <!-- 控件层 (无需修改) -->
-                <div class="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between pointer-events-none">
-                    <div id="zoom-hint" class="rounded-full bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">使用滑杆放大</div>
-                    <div class="pointer-events-auto flex w-48 flex-col items-center gap-2">
-                         <input id="zoom-slider" type="range" min="1" max="3" step="0.01" value="1" class="h-1 w-full cursor-pointer appearance-none rounded-full bg-white/30 backdrop-blur-sm [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md hover:[&::-webkit-slider-thumb]:scale-125 transition-all">
-                    </div>
-                    <div class="pointer-events-auto">
-                        <button id="img-toggle-btn" class="flex size-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md transition-all hover:bg-black/50 hover:scale-110" title="切换背景">
-                           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                        </button>
+                <!-- Floating Control Island -->
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
+                    <div class="flex items-center gap-4 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-gray-200 dark:border-neutral-700 shadow-xl px-4 py-2 pointer-events-auto transition-opacity duration-300">
+                        
+                        <div id="zoom-hint" class="text-xs font-bold text-gray-500 w-24 text-center">使用滑杆放大</div>
+                        
+                        <div class="flex items-center gap-2 border-l border-gray-300 dark:border-neutral-600 pl-4">
+                            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m-3-3h6"></path></svg>
+                            <!-- e.stopPropagation() handled in script.js -->
+                            <input id="zoom-slider" type="range" min="1" max="3" step="0.01" value="1" class="h-1 w-24 lg:w-32 cursor-pointer appearance-none rounded-full bg-gray-300 dark:bg-neutral-600 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black dark:[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md transition-all">
+                        </div>
+
+                        <div class="border-l border-gray-300 dark:border-neutral-600 pl-2">
+                             <button id="img-toggle-btn" class="flex size-8 items-center justify-center rounded-full bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors" title="切换背景">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                             </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. 产品详细信息 (文字直接在这里修改) -->
+        <!-- 2. Product Info -->
         <section class="mx-auto mt-12 grid max-w-[1800px] grid-cols-1 gap-12 px-6 lg:grid-cols-12 lg:px-12">
             <div class="lg:col-span-8">
-                <!-- 标题 -->
                 <h1 class="text-4xl font-black tracking-tighter sm:text-5xl mb-3">自在起点黑(Qidian Sans)</h1>
-                <!-- 副标题 -->
                 <p class="text-lg text-gray-500 dark:text-neutral-400 mb-8 font-light">免费商用的双轴可变黑体</p>
-                <!-- 简介 -->
                 <div class="prose prose-lg dark:prose-invert text-gray-600 dark:text-neutral-400 mb-10 leading-relaxed max-w-3xl">
                     融合线条和骨感美，极具视觉张力的字形结构，多字重增添了使用场景，而宽度为多设备协同带来了更多可能性。
                 </div>
-                <!-- 下载按钮 -->
-                <button onclick="openDownloadModal()" class="flex items-center gap-2 rounded-full bg-black px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-black">
+                <button onclick="openDownloadModal()" class="flex items-center gap-2 rounded-full bg-black px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-black shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform duration-200">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <span>下载字体</span>
                 </button>
             </div>
             
-            <!-- 右侧规格表 -->
+            <!-- Specs -->
             <div class="lg:col-span-4 lg:border-l lg:border-gray-100 lg:pl-12 lg:dark:border-neutral-800">
                 <div class="flex flex-col gap-4">
                     <div class="grid grid-cols-3 gap-4 text-sm"><span class="text-gray-400 dark:text-neutral-500">设计师</span><span class="col-span-2 font-medium text-gray-900 dark:text-white">Mutou And Type</span></div>
@@ -86,34 +84,28 @@
             </div>
         </section>
 
-        <!-- 3. 细节展示画廊 -->
+        <!-- 3. Details Gallery - No Gaps -->
         <section class="mx-auto mt-24 max-w-[1800px] px-6 lg:px-12">
             <h2 class="mb-12 text-xl font-bold tracking-tight border-t border-gray-100 dark:border-neutral-800 pt-8">细节展示</h2>
-            <div class="flex flex-col gap-6">
-                <!-- CHANGE: 细节图 1 -->
-                <div class="overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-900"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="w-full object-cover shadow-sm" loading="lazy" /></div>
-                <!-- CHANGE: 细节图 2 -->
-                <div class="overflow-hidden rounded-xl bg-gray-100 dark:bg-neutral-900"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/zTEv/6803X1701/123-02.jpg/webp" class="w-full object-cover shadow-sm" loading="lazy" /></div>
+            <div class="flex flex-col space-y-0 rounded-2xl overflow-hidden shadow-sm">
+                <div class="bg-gray-100 dark:bg-neutral-900"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="w-full object-cover block" loading="lazy" /></div>
+                <div class="bg-gray-100 dark:bg-neutral-900"><img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/zTEv/6803X1701/123-02.jpg/webp" class="w-full object-cover block" loading="lazy" /></div>
             </div>
         </section>
-    </div>
+    </main>
 
-    <!-- 下载弹窗 (内容固定) -->
+    <!-- Download Modal -->
     <div id="download-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDownloadModal()"></div>
-        <div class="relative w-full max-w-md scale-100 overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-neutral-900">
+        <div class="relative w-full max-w-md scale-100 overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-neutral-900 animate-fade-in">
             <div class="flex items-center justify-between border-b border-gray-100 p-6 dark:border-neutral-800">
                 <h3 class="text-lg font-bold">下载字体</h3>
-
-                <button onclick="closeDownloadModal()" class="rounded-full bg-gray-100 p-2 dark:bg-neutral-800">
+                <button onclick="closeDownloadModal()" class="rounded-full bg-gray-100 p-2 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                
             </div>
             <div class="p-2 space-y-2">
-                <!-- 下载选项 1: Desktop -->
-                <!-- CHANGE: href="#" 替换为实际下载链接 -->
-                <a href="#" target="_blank" class="group flex cursor-pointer items-center justify-between rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-neutral-800">
+                <a href="#" target="_blank" class="group flex cursor-pointer items-center justify-between rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                     <div class="flex items-center gap-4">
                         <div class="flex size-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-neutral-300">
                              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -128,9 +120,7 @@
                     </div>
                 </a>
 
-                <!-- 下载选项 2: Web -->
-                <!-- CHANGE: href="#" 替换为实际下载链接 -->
-                <a href="#" target="_blank" class="group flex cursor-pointer items-center justify-between rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-neutral-800">
+                <a href="#" target="_blank" class="group flex cursor-pointer items-center justify-between rounded-xl p-4 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                     <div class="flex items-center gap-4">
                         <div class="flex size-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-neutral-300">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
@@ -153,10 +143,9 @@
         </div>
     </div>
 
-    <!-- 底部栏占位 -->
-    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900 mt-auto"></footer>
     
-    <script src="./components.js"></script>
-    <script src="./script.js"></script>
+    <script src="../components.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
