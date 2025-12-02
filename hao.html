@@ -32,12 +32,12 @@
             },
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages/style.css">
 </head>
-<body class="min-h-screen bg-[#F2F2F7] text-gray-900 transition-colors duration-500 dark:bg-[#000000] dark:text-gray-100 font-sans selection:bg-[#FF8C19]/30 overflow-x-hidden">
+<body class="min-h-screen bg-[#F5F5F7] text-gray-900 transition-colors duration-500 dark:bg-[#000000] dark:text-gray-100 font-sans selection:bg-[#FF8C19]/30 overflow-x-hidden">
 
-    <!-- 环境光斑 (仅在开启玻璃模式时显示) -->
-    <div id="ambient-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-0 transition-opacity duration-700">
+    <!-- 环境光斑 (默认显示) -->
+    <div id="ambient-bg" class="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-opacity duration-700">
         <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-400/10 blur-[80px] md:blur-[120px] dark:bg-blue-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob"></div>
         <div class="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-orange-400/10 blur-[80px] md:blur-[120px] dark:bg-orange-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-2000"></div>
         <div class="absolute bottom-[-20%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-purple-400/10 blur-[80px] md:blur-[120px] dark:bg-purple-900/10 mix-blend-multiply dark:mix-blend-screen animate-blob animation-delay-4000"></div>
@@ -61,12 +61,6 @@
                 </button>
                 
                 <div class="h-5 w-px bg-gray-300 dark:bg-gray-700 hidden sm:block"></div>
-
-                <!-- 材质切换 -->
-                <button id="glass-toggle" class="group flex items-center justify-center h-8 w-8 md:h-auto md:w-auto" title="切换材质风格">
-                    <i data-lucide="toggle-left" class="h-6 w-6 md:h-8 md:w-8 text-gray-400 group-hover:text-gray-600 transition-colors dark:text-gray-500 dark:group-hover:text-gray-300" id="glass-icon-off"></i>
-                    <i data-lucide="toggle-right" class="h-6 w-6 md:h-8 md:w-8 text-[#FF8C19] hidden" id="glass-icon-on"></i>
-                </button>
 
                 <button id="theme-toggle" class="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition-all hover:text-[#FF8C19] hover:border-[#FF8C19] dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">
                     <i data-lucide="moon" class="h-4 w-4 md:h-5 md:w-5 block dark:hidden"></i>
@@ -166,7 +160,7 @@
         </div>
     </div>
 
-    <script src="hao-data.js"></script>
-    <script src="main.js"></script>
+    <script src="pages/hao-data.js"></script>
+    <script src="pages/main.js"></script>
 </body>
 </html>
