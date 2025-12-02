@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>字体产品 - 自在造字</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
@@ -19,61 +19,57 @@
       }
     </script>
 </head>
-<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
-    <!-- 导航栏占位 -->
-    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100 flex flex-col min-h-screen">
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
-    <div class="animate-fade-in mx-auto max-w-[1800px] px-6 pt-32 lg:px-12 pb-20">
+    <main class="animate-fade-in mx-auto max-w-[1800px] px-6 pt-32 lg:px-12 pb-20 flex-1 w-full">
         <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
             
-            <!-- 侧边筛选栏 -->
+            <!-- Sidebar -->
             <aside class="w-full lg:w-72 lg:shrink-0 space-y-10 lg:sticky lg:top-32 h-fit">
-                <!-- 搜索 -->
+                <!-- Search -->
                 <div>
                     <h3 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">搜索</h3>
-                    <input id="search-input" type="text" placeholder="查找字体..." class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:focus:border-white" />
+                    <input id="search-input" type="text" placeholder="查找字体..." class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:focus:border-white transition-colors" />
                 </div>
 
-                <!-- 分类 -->
+                <!-- Category -->
                 <div>
                     <h3 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">分类</h3>
                     <ul class="space-y-1">
-                        <li><button class="cat-btn block w-full rounded-lg px-4 py-2 text-left text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-colors" data-category="全部">全部</button></li>
+                        <li><button class="cat-btn block w-full rounded-lg px-4 py-2 text-left text-sm font-medium bg-black text-white dark:bg-white dark:text-black transition-colors shadow-md" data-category="全部">全部</button></li>
                         <li><button class="cat-btn block w-full rounded-lg px-4 py-2 text-left text-sm font-medium text-gray-600 hover:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-900 transition-colors" data-category="黑体">黑体</button></li>
                     </ul>
                 </div>
 
-                <!-- 风格标签 -->
+                <!-- Tags -->
                 <div>
                     <h3 class="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">风格</h3>
                     <div class="flex flex-wrap gap-2">
-                        <button class="tag-btn rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-400 transition-colors" data-tag="免费商用">免费商用</button>
-                        <button class="tag-btn rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-400 transition-colors" data-tag="可变">可变</button>
+                        <button class="tag-btn rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-400 transition-colors hover:border-gray-400" data-tag="免费商用">免费商用</button>
+                        <button class="tag-btn rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-400 transition-colors hover:border-gray-400" data-tag="可变">可变</button>
                     </div>
                 </div>
             </aside>
 
-            <!-- 产品网格 -->
-            <main class="flex-1">
+            <!-- Product Grid -->
+            <section class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
                     <span id="result-count" class="text-sm text-gray-500 dark:text-neutral-500">显示 0 个结果</span>
                 </div>
                 <div id="products-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    <!-- JS 自动填充 -->
+                    <!-- JS Auto Fill -->
                 </div>
-            </main>
+            </section>
         </div>
-    </div>
+    </main>
 
-    <!-- 底部栏占位 -->
-    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900 mt-auto"></footer>
     
     <script src="components.js"></script>
     <script src="script.js"></script>
 
-    <!-- 全部产品页专用数据与逻辑 -->
     <script>
-        // 1. 全部产品数据 (在这里修改产品列表)
         const ALL_PRODUCTS = [
             {
                 title: '自在起点黑',
@@ -81,11 +77,10 @@
                 category: '黑体',
                 tags: ['免费商用', '可变'],
                 imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/Btd0/680X600/1-08.jpg/webp', 
-                link: 'fonts/qidiansans.html'
+                link: 'product.html' // Pointing to the detail page
             }
         ];
 
-        // 2. 筛选逻辑
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('products-grid');
             const searchInput = document.getElementById('search-input');
@@ -118,25 +113,22 @@
                 }
             }
 
-            // 搜索事件
             searchInput.addEventListener('input', (e) => { 
                 searchQuery = e.target.value.toLowerCase(); 
                 render(); 
             });
 
-            // 分类事件
             categoryBtns.forEach(btn => btn.addEventListener('click', () => {
                 categoryBtns.forEach(b => { 
-                    b.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black'); 
+                    b.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black', 'shadow-md'); 
                     b.classList.add('text-gray-600', 'hover:bg-gray-100'); 
                 });
                 btn.classList.remove('text-gray-600', 'hover:bg-gray-100'); 
-                btn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+                btn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black', 'shadow-md');
                 activeCategory = btn.dataset.category; 
                 render();
             }));
 
-            // 标签事件
             tagBtns.forEach(btn => btn.addEventListener('click', () => {
                 const tag = btn.dataset.tag;
                 if (activeTags.includes(tag)) {
@@ -151,7 +143,6 @@
                 render();
             }));
 
-            // 初始渲染
             render();
         });
     </script>

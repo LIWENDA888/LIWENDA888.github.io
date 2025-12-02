@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我们 - 自在造字</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
@@ -19,110 +18,161 @@
       }
     </script>
 </head>
-<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100">
-    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100 flex flex-col min-h-screen">
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-md dark:border-neutral-900 dark:bg-neutral-950/90"></nav>
 
-    <div class="animate-fade-in mx-auto max-w-[1800px] px-6 pt-32 lg:px-12 pb-20">
+    <main class="animate-fade-in mx-auto max-w-[1800px] px-6 pt-32 lg:px-12 pb-20 flex-1">
+        
         <!-- Header -->
-        <h1 class="text-6xl font-black uppercase tracking-tighter sm:text-[8rem] leading-[0.9] mb-8">
-          We Craft<br />The Voice.
-        </h1>
-        <p class="mt-8 max-w-xl text-xl font-light text-gray-500 dark:text-neutral-400 mb-24">
-          既然文字是声音的图像，那么我们就是打造声音质感的工匠。我们致力于探索汉字设计的边界。
-        </p>
-
-        <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
-            <!-- Sidebar -->
-            <aside class="w-full lg:w-72 lg:shrink-0 sticky top-32 h-fit self-start">
-                <div>
-                    <h3 class="mb-6 text-xs font-bold uppercase tracking-widest text-gray-400">Directory</h3>
-                    <nav class="flex flex-col space-y-1">
-                        <a href="#studio" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
-                            <span>工作室</span><span class="text-[10px]">01</span>
-                        </a>
-                        <a href="#philosophy" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
-                            <span>设计理念</span><span class="text-[10px]">02</span>
-                        </a>
-                        <a href="#copyright" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
-                            <span>版权声明</span><span class="text-[10px]">03</span>
-                        </a>
-                        <a href="#contact" class="about-nav-btn group flex items-center justify-between border-l-2 px-4 py-3 text-sm font-medium transition-all text-gray-400 border-transparent">
-                            <span>联系方式</span><span class="text-[10px]">04</span>
-                        </a>
-                    </nav>
+        <header class="mb-32 lg:mb-48">
+            <h1 class="text-[12vw] leading-[0.8] font-black uppercase tracking-tighter mix-blend-difference mb-12">
+                ZizaoType<br />
+                Studio.<br />
+            </h1>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t border-black dark:border-white pt-8">
+                <div class="lg:col-span-4 text-sm font-mono uppercase tracking-widest text-gray-500">
+                    2025-2026 / 自在造字
                 </div>
+                <div class="lg:col-span-8">
+                    <p class="text-2xl lg:text-4xl font-light leading-tight">
+                        双眼洞察品牌美学，双手构建参数化逻辑<br>
+                        为您实现字体可变、可控、可迭代的解决方案
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-16 lg:gap-24">
+            <!-- Sticky Navigation -->
+            <aside class="hidden lg:block w-48 shrink-0 sticky top-32 h-fit">
+                <nav class="flex flex-col gap-4 text-sm">
+                    <a href="#vision" class="about-nav-btn text-gray-400 hover:text-black dark:hover:text-white transition-colors">01. 品牌介绍</a>
+                    <a href="#business" class="about-nav-btn text-gray-400 hover:text-black dark:hover:text-white transition-colors">02. 核心业务</a>
+                    <a href="#docs" class="about-nav-btn text-gray-400 hover:text-black dark:hover:text-white transition-colors">03. 说明文档</a>
+                    <a href="#contact" class="about-nav-btn text-gray-400 hover:text-black dark:hover:text-white transition-colors">04. 联系我们</a>
+                </nav>
             </aside>
 
-            <!-- Main Content -->
-            <main class="flex-1 space-y-32">
-                <section id="studio" class="scroll-mt-32">
-                    <div class="aspect-video w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-neutral-900 mb-12">
-                      <!-- CHANGE: Studio Image -->
-                      <img src="#" class="size-full object-cover">
-                    </div>
-                    <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
-                      <h2 class="text-3xl font-bold leading-tight">成立于 2020 年，<br />立足上海的独立字体事务所。</h2>
-                      <div class="prose prose-lg dark:prose-invert text-gray-500 dark:text-neutral-400">
-                        <p>TypeFoundry Studio 的团队由一群热爱文字的设计师、工程师和排版专家组成。我们相信，字体不仅是信息的载体，更是情感与品牌声音的扩音器。</p>
-                      </div>
-                    </div>
-                </section>
-
-                <section id="philosophy" class="scroll-mt-32 border-t border-gray-100 pt-32 dark:border-neutral-800">
-                    <h2 class="mb-12 text-4xl font-bold lg:text-5xl">"Details make the design."</h2>
-                    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                         <div class="rounded-xl bg-gray-50 p-8 dark:bg-neutral-900">
-                            <span class="mb-4 block text-2xl font-bold opacity-30">01</span>
-                            <h3 class="mb-3 text-xl font-bold">人文温度</h3>
-                            <p class="text-sm opacity-70">在几何构建中注入手写的温度。</p>
-                         </div>
-                         <div class="rounded-xl bg-gray-50 p-8 dark:bg-neutral-900">
-                            <span class="mb-4 block text-2xl font-bold opacity-30">02</span>
-                            <h3 class="mb-3 text-xl font-bold">屏幕优先</h3>
-                            <p class="text-sm opacity-70">针对高分屏阅读环境深度优化。</p>
-                         </div>
-                         <div class="rounded-xl bg-gray-50 p-8 dark:bg-neutral-900">
-                            <span class="mb-4 block text-2xl font-bold opacity-30">03</span>
-                            <h3 class="mb-3 text-xl font-bold">全球视野</h3>
-                            <p class="text-sm opacity-70">支持多语言字符集。</p>
-                         </div>
-                    </div>
-                </section>
-
-                <section id="copyright" class="scroll-mt-32 border-t border-gray-100 pt-32 dark:border-neutral-800">
-                     <span class="mb-6 block text-xs font-bold uppercase tracking-widest text-gray-400">03 — Copyright</span>
-                     <div class="rounded-2xl bg-gray-50 p-12 dark:bg-neutral-900">
-                        <h2 class="mb-6 text-2xl font-bold">知识产权声明</h2>
-                        <p class="mb-6 max-w-3xl text-gray-600 dark:text-neutral-400">本网站展示的所有字体作品及相关素材，其知识产权均归 TypeFoundry Studio 所有。</p>
-                        <a href="licensing.html" target="_blank" class="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-2 text-sm font-bold transition-colors hover:bg-black hover:text-white dark:border-neutral-700 dark:hover:bg-white dark:hover:text-black">查看授权详情</a>
-                     </div>
-                </section>
+            <!-- Content -->
+            <div class="flex-1 space-y-32">
                 
-                <section id="contact" class="scroll-mt-32 border-t border-gray-100 pt-32 dark:border-neutral-800">
-                     <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
-                       <div>
-                          <h2 class="mb-8 text-5xl font-black">Let's Talk.</h2>
-                          <div class="space-y-8">
-                            <div>
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Business</p>
-                                <a href="mailto:business@typestudio.com" target="_blank" class="inline-flex items-center gap-2 text-xl font-bold hover:underline">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                    business@typestudio.com
-                                </a>
-                            </div>
-                            <div>
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Visit Us</p>
-                                <p class="text-lg font-medium">上海市徐汇区衡山路 888 号</p>
-                            </div>
-                          </div>
-                       </div>
-                     </div>
+                <!-- 01 Brand Intro (Vision) -->
+                <section id="vision" class="scroll-mt-32">
+                    <div class="relative aspect-video w-full overflow-hidden rounded-none mb-12 grayscale hover:grayscale-0 transition-all duration-700">
+                        <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/pFUu/680X600/111.jpg/webp" class="size-full object-cover">
+                        <div class="absolute bottom-4 left-4 text-white text-xs font-mono uppercase">"Desperate love"</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <h2 class="text-4xl font-bold">无拘束、自设计</h2>
+                        <div class="space-y-6 text-lg text-gray-600 dark:text-gray-400">
+                            <p>自在造字是一家专注中文可变字体开发的独立字体工作室。</p>
+                            <p>我们坚信未来字体不仅是信息的载体，“会动的字体“才是人类情感与产品的扩音器。</p>
+                        </div>
+                    </div>
                 </section>
-            </main>
-        </div>
-    </div>
 
-    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900"></footer>
+                <!-- 02 Main Business (Grid) -->
+                <section id="business" class="scroll-mt-32">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8">我们的四大核心产品</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-200 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-800">
+                        <!-- Item 1 -->
+                        <a href="fonts.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 h-72 flex flex-col justify-between group transition-colors">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3">字体产品</h3>
+                                <p class="text-gray-500 dark:text-neutral-400 text-sm leading-relaxed">提供原创设计的高质量商业字库产品，满足多样的视觉需求。</p>
+                            </div>
+                            <div class="flex items-end justify-between">
+                                <div class="flex items-center justify-center size-8 rounded-full border border-gray-200 dark:border-neutral-800 text-gray-400 group-hover:text-black dark:group-hover:text-white group-hover:border-black dark:group-hover:border-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest font-mono text-gray-400 group-hover:text-black dark:group-hover:text-white border-b border-transparent group-hover:border-black dark:group-hover:border-white transition-all pb-0.5">Retail</span>
+                            </div>
+                        </a>
+                        
+                        <!-- Item 2 -->
+                        <a href="licensing.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 h-72 flex flex-col justify-between group transition-colors">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3">轻定制字体</h3>
+                                <p class="text-gray-500 dark:text-neutral-400 text-sm leading-relaxed">为企业打造独一无二的品牌专用字体，构建统一的视觉声音。</p>
+                            </div>
+                            <div class="flex items-end justify-between">
+                                <div class="flex items-center justify-center size-8 rounded-full border border-gray-200 dark:border-neutral-800 text-gray-400 group-hover:text-black dark:group-hover:text-white group-hover:border-black dark:group-hover:border-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest font-mono text-gray-400 group-hover:text-black dark:group-hover:text-white border-b border-transparent group-hover:border-black dark:group-hover:border-white transition-all pb-0.5">Bespoke</span>
+                            </div>
+                        </a>
+                        
+                        <!-- Item 3 -->
+                        <a href="licensing.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 h-72 flex flex-col justify-between group transition-colors">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3">设计百宝库</h3>
+                                <p class="text-gray-500 dark:text-neutral-400 text-sm leading-relaxed">屏幕显示优化 (Hinting)、OpenType 特性开发及可变字体技术支持。</p>
+                            </div>
+                            <div class="flex items-end justify-between">
+                                <div class="flex items-center justify-center size-8 rounded-full border border-gray-200 dark:border-neutral-800 text-gray-400 group-hover:text-black dark:group-hover:text-white group-hover:border-black dark:group-hover:border-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest font-mono text-gray-400 group-hover:text-black dark:group-hover:text-white border-b border-transparent group-hover:border-black dark:group-hover:border-white transition-all pb-0.5">Engineering</span>
+                            </div>
+                        </a>
+                        
+                        <!-- Item 4 -->
+                        <a href="licensing.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 h-72 flex flex-col justify-between group transition-colors">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3">超引形近字</h3>
+                                <p class="text-gray-500 dark:text-neutral-400 text-sm leading-relaxed">提供多语言字符集匹配与咨询，确保全球范围内的品牌形象统一。</p>
+                            </div>
+                            <div class="flex items-end justify-between">
+                                <div class="flex items-center justify-center size-8 rounded-full border border-gray-200 dark:border-neutral-800 text-gray-400 group-hover:text-black dark:group-hover:text-white group-hover:border-black dark:group-hover:border-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest font-mono text-gray-400 group-hover:text-black dark:group-hover:text-white border-b border-transparent group-hover:border-black dark:group-hover:border-white transition-all pb-0.5">Global</span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- 03 Docs Resources (Grid) -->
+                <section id="docs" class="scroll-mt-32">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8">说明文档</h2>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-800">
+                        <a href="licensing.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 aspect-square flex flex-col justify-between group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                            <span class="text-2xl font-bold">版权说明</span>
+                            <span class="text-xs uppercase tracking-widest font-mono">Copyright</span>
+                        </a>
+                        <a href="licensing.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 aspect-square flex flex-col justify-between group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                            <span class="text-2xl font-bold">授权说明</span>
+                            <span class="text-xs uppercase tracking-widest font-mono">Licensing</span>
+                        </a>
+                        <a href="#" target="_blank" class="bg-white dark:bg-neutral-950 p-8 aspect-square flex flex-col justify-between group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                            <span class="text-2xl font-bold">使用条款</span>
+                            <span class="text-xs uppercase tracking-widest font-mono">Terms</span>
+                        </a>
+                        <a href="licensing.html" target="_blank" class="bg-white dark:bg-neutral-950 p-8 aspect-square flex flex-col justify-between group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                            <span class="text-2xl font-bold">其他问题</span>
+                            <span class="text-xs uppercase tracking-widest font-mono">FAQ</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- 04 Contact -->
+                <section id="contact" class="scroll-mt-32">
+                    <div class="bg-black text-white dark:bg-white dark:text-black p-12 lg:p-24 rounded-[2rem] text-center">
+                        <h2 class="text-5xl md:text-7xl font-black mb-8 tracking-tighter">与我们联系</h2>
+                        <p class="text-lg opacity-80 mb-12 max-w-lg mx-auto">无论是授权咨询，或是字体定制，我们都期待与您交流</p>
+                        <a href="mailto:business@zizaotop.com" class="inline-flex items-center gap-2 border-b-2 border-white dark:border-black pb-1 text-xl font-bold hover:opacity-70 transition-opacity">
+                            type@zizao.top
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900 mt-auto"></footer>
     <script src="components.js"></script>
     <script src="script.js"></script>
 </body>

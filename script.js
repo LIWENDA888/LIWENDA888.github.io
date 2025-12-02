@@ -1,111 +1,215 @@
 
+
+
+
 /**
  * TYPEFOUNDRY STUDIO - CORE LOGIC
- * 此文件仅包含交互逻辑（夜间模式、菜单、图片查看器等）。
- * 不包含任何产品数据。
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initScrollLogic(); 
     highlightCurrentPage();
-    setupAccordion(); // For Licensing page
-    setupAboutScrollSpy(); // For About page
-    setupGlobalImageViewer(); // For Product page
+    setupAccordion(); 
+    setupAboutScrollSpy(); 
+    setupGlobalImageViewer();
+    injectBackToTop(); 
+    initHeroStack(); // Start the card stack animation
 });
 
-// ================= 1. 主题切换 (Theme Logic) =================
-
+// ================= 1. Theme Logic =================
 function initTheme() {
     const isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
     applyTheme(isDark);
 }
-
 function toggleTheme() {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     updateIcons(isDark);
 }
-
 function applyTheme(isDark) {
     if (isDark) document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
     updateIcons(isDark);
 }
-
 function updateIcons(isDark) {
-    // 延迟一点执行以确保 DOM 已加载
+    // Timeout ensures DOM update for dynamically injected mobile menu
     setTimeout(() => {
         const sunIcons = document.querySelectorAll('.icon-sun');
         const moonIcons = document.querySelectorAll('.icon-moon');
         sunIcons.forEach(icon => icon.style.display = isDark ? 'block' : 'none');
         moonIcons.forEach(icon => icon.style.display = isDark ? 'none' : 'block');
         
+        // Force logo to pure white in dark mode using brightness(0) invert(1)
         const logos = document.querySelectorAll('.nav-logo');
-        logos.forEach(logo => logo.style.filter = isDark ? 'invert(1)' : 'none');
+        logos.forEach(logo => {
+            logo.style.filter = isDark ? 'brightness(0) invert(1)' : 'none';
+        });
     }, 50);
 }
 
-// ================= 2. 导航栏交互 (Navigation) =================
+// ================= 2. Scroll Logic (Smart Nav & Back to Top) =================
+function injectBackToTop() {
+    if (document.getElementById('back-to-top')) return;
+
+    const btn = document.createElement('button');
+    btn.id = 'back-to-top';
+    btn.className = 'back-to-top flex size-12 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 cursor-pointer shadow-2xl';
+    btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>';
+    btn.onclick = (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    document.body.appendChild(btn);
+}
+
+function initScrollLogic() {
+    let lastScrollY = window.scrollY;
+    const nav = document.getElementById('nav-placeholder');
+    
+    if(nav) nav.classList.add('nav-transition');
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        const backToTop = document.getElementById('back-to-top');
+        
+        // Smart Nav Logic
+        if (nav) {
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                nav.classList.add('nav-hidden');
+                nav.classList.remove('nav-visible');
+            } else {
+                nav.classList.remove('nav-hidden');
+                nav.classList.add('nav-visible');
+            }
+        }
+
+        // Back to Top Logic
+        if (backToTop) {
+            if (currentScrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+
+        lastScrollY = currentScrollY;
+    });
+}
 
 function highlightCurrentPage() {
     setTimeout(() => {
         const path = window.location.pathname;
         let page = 'home';
-        if (path.includes('all-products')) page = 'products';
+        
+        if (path.includes('fonts') || path.includes('product')) page = 'products';
         else if (path.includes('licensing')) page = 'licensing';
         else if (path.includes('about')) page = 'about';
-        
+
         document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('text-black', 'dark:text-white', 'opacity-100');
+            link.classList.add('text-gray-500', 'dark:text-neutral-500');
+
             if (link.dataset.page === page) {
                 link.classList.remove('text-gray-500', 'dark:text-neutral-500');
-                link.classList.add('text-black', 'dark:text-white');
+                link.classList.add('text-black', 'dark:text-white', 'opacity-100');
             }
         });
     }, 100);
 }
 
+// Updated toggleMenu with Animation and Lock Scroll with Layout Shift Compensation
 function toggleMenu() {
     const menu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
+    const top = document.getElementById('hamburger-top');
+    const mid = document.getElementById('hamburger-mid');
+    const bot = document.getElementById('hamburger-bot');
+    const nav = document.getElementById('nav-placeholder');
     
-    if (menu.classList.contains('hidden')) {
-        menu.classList.remove('hidden');
-        menuIcon.classList.add('hidden');
-        closeIcon.classList.remove('hidden');
+    if (!menu) return;
+    
+    const isOpen = menu.classList.contains('is-open');
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    
+    if (!isOpen) {
+        // OPEN
+        menu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        menu.classList.add('is-open', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
+        
+        // Lock Scroll & Compensate layout shift
+        document.body.style.overflow = 'hidden'; 
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+        if (nav) nav.style.borderRight = `${scrollbarWidth}px solid transparent`;
+
+        // Animate Hamburger
+        if(top && mid && bot) {
+            top.classList.add('rotate-45', 'translate-y-[8px]');
+            mid.classList.add('opacity-0');
+            bot.classList.add('-rotate-45', '-translate-y-[8px]');
+        }
+
+        // Stagger Items
+        const items = document.querySelectorAll('.mobile-nav-item');
+        items.forEach((item, idx) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                item.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 100 + (idx * 60));
+        });
+
     } else {
-        menu.classList.add('hidden');
-        menuIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
+        // CLOSE
+        menu.classList.remove('is-open', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
+        menu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        
+        // Unlock Scroll & Reset padding
+        document.body.style.overflow = ''; 
+        document.body.style.paddingRight = '';
+        if (nav) nav.style.borderRight = '';
+
+        // Reset Hamburger
+        if(top && mid && bot) {
+            top.classList.remove('rotate-45', 'translate-y-[8px]');
+            mid.classList.remove('opacity-0');
+            bot.classList.remove('-rotate-45', '-translate-y-[8px]');
+        }
+        
+        // Reset Items instantly so they are ready for next animation
+        const items = document.querySelectorAll('.mobile-nav-item');
+        items.forEach((item) => {
+             item.style.transition = 'none';
+        });
     }
 }
 
-// ================= 3. 辅助功能函数 (Helpers) =================
-
-// 用于生成 Bento 卡片的 HTML (供首页和全部产品页调用)
+// ================= 3. Bento Card Generator (Premium Interaction) =================
 function createBentoCard(item) {
     const href = item.link || '#';
     return `
-        <a href="${href}" target="_blank" class="group relative isolate overflow-hidden rounded-2xl bg-gray-200 dark:bg-neutral-800 ${item.colSpan || 'md:col-span-1'} ${item.rowSpan || 'md:row-span-1'} min-h-[300px] lg:min-h-[360px] transition-all duration-500 hover:shadow-2xl hover:scale-[1.01] block">
+        <a href="${href}" class="group relative isolate overflow-hidden rounded-2xl bg-gray-200 dark:bg-neutral-800 ${item.colSpan || 'md:col-span-1'} ${item.rowSpan || 'md:row-span-1'} min-h-[300px] lg:min-h-[360px] block transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
             <div class="absolute inset-0 size-full overflow-hidden rounded-2xl">
-                <img src="${item.imageUrl}" alt="${item.title}" class="size-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80"></div>
+                <img src="${item.imageUrl}" alt="${item.title}" class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+                <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-50"></div>
             </div>
             <div class="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
                 <div class="flex items-end justify-between">
-                    <div class="transform transition-transform duration-300 group-hover:-translate-y-2">
-                        <span class="mb-2 block text-xs font-medium uppercase tracking-widest text-white/80 backdrop-blur-sm">${item.subtitle}</span>
-                        <h3 class="text-2xl font-bold text-white md:text-4xl">${item.title}</h3>
+                    <div class="transform transition-transform duration-500 ease-out group-hover:-translate-y-1 text-shadow-subtle">
+                        <span class="mb-2 block text-xs font-bold uppercase tracking-widest text-white/90">${item.subtitle}</span>
+                        <h3 class="text-2xl font-black text-white md:text-3xl lg:text-4xl tracking-tight">${item.title}</h3>
                     </div>
-                    <div class="flex size-12 -translate-x-4 translate-y-4 items-center justify-center rounded-full bg-white text-black opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></div>
+                    <div class="flex size-12 -translate-x-4 translate-y-4 items-center justify-center rounded-full bg-white text-black opacity-0 transition-all duration-500 ease-out group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 shadow-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                    </div>
                 </div>
             </div>
         </a>
     `;
 }
 
-// ================= 4. 图片查看器 (Product Page Image Viewer) =================
-
+// ================= 4. Image Viewer =================
 function setupGlobalImageViewer() {
     const container = document.getElementById('image-viewer-container');
     const img = document.getElementById('p-image');
@@ -113,39 +217,35 @@ function setupGlobalImageViewer() {
     const hint = document.getElementById('zoom-hint');
     const toggleBtn = document.getElementById('img-toggle-btn');
     
-    if (!container || !img || !slider) return; // 只有在产品页才执行
+    if (!container || !img || !slider) return;
 
     let zoom = 1;
     let pan = { x: 0, y: 0 };
     let startPan = { x: 0, y: 0 };
     let isDragging = false;
     let viewMode = 'light';
-
-    // 获取深色模式图片 (通过 HTML 属性 data-dark-src 读取)
     const lightSrc = img.src;
     const darkSrc = img.getAttribute('data-dark-src');
 
-    // 如果没有深色图，隐藏切换按钮
-    if (!darkSrc && toggleBtn) {
-        toggleBtn.style.display = 'none';
-    }
+    slider.addEventListener('mousedown', (e) => e.stopPropagation());
+    slider.addEventListener('touchstart', (e) => e.stopPropagation());
 
-    // 1. 缩放逻辑
+    if (!darkSrc && toggleBtn) toggleBtn.style.display = 'none';
+
     slider.addEventListener('input', (e) => {
         zoom = parseFloat(e.target.value);
-        if (zoom === 1) pan = { x: 0, y: 0 }; // 重置平移
+        if (zoom === 1) pan = { x: 0, y: 0 };
         updateTransform();
-        hint.textContent = zoom > 1 ? '拖拽查看细节' : '使用滑杆放大';
+        hint.textContent = zoom > 1 ? '拖拽移动' : '缩放查看细节';
         container.style.cursor = zoom > 1 ? 'grab' : 'default';
     });
 
-    // 2. 拖拽逻辑
     const constrainPan = (x, y, currentZoom) => {
         const width = container.offsetWidth;
         const height = container.offsetHeight;
+        if (currentZoom <= 1) return { x: 0, y: 0 };
         const maxOverflowX = (width * currentZoom - width) / 2;
         const maxOverflowY = (height * currentZoom - height) / 2;
-        if (currentZoom <= 1) return { x: 0, y: 0 };
         return {
             x: Math.min(Math.max(x, -maxOverflowX), maxOverflowX),
             y: Math.min(Math.max(y, -maxOverflowY), maxOverflowY)
@@ -176,62 +276,56 @@ function setupGlobalImageViewer() {
             container.style.cursor = zoom > 1 ? 'grab' : 'default';
         }
     });
+    
+    container.addEventListener('mouseleave', () => {
+        if (isDragging) {
+            isDragging = false;
+            container.style.cursor = 'default';
+        }
+    });
 
     function updateTransform() {
         img.style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
     }
 
-    // 3. 背景切换逻辑
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
             viewMode = viewMode === 'light' ? 'dark' : 'light';
-            // 切换图片源
-            if (darkSrc) {
-                img.src = viewMode === 'light' ? lightSrc : darkSrc;
-            }
-            // 切换容器背景色
+            if (darkSrc) img.src = viewMode === 'light' ? lightSrc : darkSrc;
             container.style.backgroundColor = viewMode === 'light' ? '#f9fafb' : '#0f0f0f';
         });
     }
 }
 
-// 弹窗控制
-function openDownloadModal() { document.getElementById('download-modal').classList.remove('hidden'); }
-function closeDownloadModal() { document.getElementById('download-modal').classList.add('hidden'); }
+function openDownloadModal() { document.getElementById('download-modal')?.classList.remove('hidden'); }
+function closeDownloadModal() { document.getElementById('download-modal')?.classList.add('hidden'); }
 
-
-// ================= 5. 其他页面逻辑 =================
-
-// 授权页手风琴
+// ================= 5. Page Specifics =================
 function setupAccordion() {
     document.querySelectorAll('.accordion-btn').forEach(button => {
         button.addEventListener('click', () => {
             const content = button.nextElementSibling;
             const icon = button.querySelector('.accordion-icon');
-            const isOpen = content.classList.contains('grid-rows-[1fr]');
+            const isOpen = content.classList.contains('accordion-open');
             
-            // 关闭所有
             document.querySelectorAll('.accordion-content').forEach(c => { 
-                c.classList.remove('grid-rows-[1fr]'); 
-                c.classList.add('grid-rows-[0fr]'); 
+                c.classList.remove('accordion-open'); 
+                c.classList.add('accordion-closed'); 
             });
             document.querySelectorAll('.accordion-icon').forEach(i => i.classList.remove('rotate-45'));
             
-            // 打开当前
             if (!isOpen) { 
-                content.classList.remove('grid-rows-[0fr]'); 
-                content.classList.add('grid-rows-[1fr]'); 
+                content.classList.remove('accordion-closed'); 
+                content.classList.add('accordion-open'); 
                 icon.classList.add('rotate-45'); 
             }
         });
     });
 }
 
-// 关于我们页侧边栏高亮
 function setupAboutScrollSpy() {
-    if (!window.location.pathname.includes('about.html')) return;
-    
-    const sections = ['studio', 'philosophy', 'copyright', 'contact'];
+    if (!window.location.pathname.includes('about')) return;
+    const sections = ['vision', 'business', 'docs', 'contact'];
     const navItems = document.querySelectorAll('.about-nav-btn');
     
     window.addEventListener('scroll', () => {
@@ -242,13 +336,80 @@ function setupAboutScrollSpy() {
         });
         
         navItems.forEach(btn => {
-            btn.classList.remove('border-black', 'text-black', 'dark:border-white', 'dark:text-white', 'bg-gray-50', 'dark:bg-white/5');
-            btn.classList.add('border-transparent', 'text-gray-400');
+            btn.classList.remove('text-black', 'dark:text-white');
+            btn.classList.add('text-gray-400', 'font-medium');
             
             if (btn.getAttribute('href') === '#' + current) {
-                btn.classList.add('border-black', 'text-black', 'dark:border-white', 'dark:text-white', 'bg-gray-50', 'dark:bg-white/5');
-                btn.classList.remove('border-transparent', 'text-gray-400');
+                btn.classList.add('text-black', 'dark:text-white');
+                btn.classList.remove('text-gray-400');
             }
         });
     });
+}
+
+// ================= 6. Hero Stack Animation =================
+function initHeroStack() {
+    const cards = document.querySelectorAll('.hero-card');
+    if(cards.length === 0) return;
+
+    let activeIndex = 0;
+    const total = cards.length;
+    let autoPlayInterval;
+
+    const updateCards = () => {
+        cards.forEach((card, i) => {
+            let diff = (i - activeIndex + total) % total;
+            
+            card.style.pointerEvents = 'auto'; 
+            card.classList.remove('active'); 
+
+            if (diff === 0) {
+                card.style.zIndex = '30';
+                card.style.transform = 'translateY(0) scale(1)';
+                card.style.opacity = '1';
+                card.style.filter = 'brightness(1)';
+                card.classList.add('active');
+            } else if (diff === 1) {
+                card.style.zIndex = '20';
+                card.style.transform = 'translateY(-32px) scale(0.92)';
+                card.style.opacity = '0.7'; 
+                card.style.filter = 'brightness(0.9)';
+            } else if (diff === 2) {
+                card.style.zIndex = '10';
+                card.style.transform = 'translateY(-64px) scale(0.84)';
+                card.style.opacity = '0.4';
+                card.style.filter = 'brightness(0.8)';
+            } else {
+                card.style.zIndex = '0';
+                card.style.transform = 'translateY(-64px) scale(0.8)';
+                card.style.opacity = '0';
+                card.style.pointerEvents = 'none';
+            }
+        });
+    };
+
+    const nextCard = () => {
+        activeIndex = (activeIndex + 1) % total;
+        updateCards();
+    };
+
+    const startAutoPlay = () => {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = setInterval(nextCard, 5000); 
+    };
+
+    cards.forEach((card, index) => {
+        card.addEventListener('click', (e) => {
+            if (index === activeIndex) {
+                const link = card.getAttribute('data-link');
+                if (link) window.open(link, '_blank');
+            } else {
+                nextCard();
+                startAutoPlay(); 
+            }
+        });
+    });
+
+    updateCards();
+    startAutoPlay();
 }
