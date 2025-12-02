@@ -1,3 +1,4 @@
+
 // --- 搜索引擎配置 ---
 const SEARCH_ENGINES = [
     { name: '百度', url: 'https://www.baidu.com/s?wd=', placeholder: '搜索 百度...' },
@@ -27,32 +28,43 @@ const QUICK_LINKS = [
     { title: 'Github', url: 'https://github.com' },
 ];
 
-// --- 核心分类数据 (请在此处修改或添加卡片) ---
+// --- 核心分类数据 ---
+// 策略：每个一级分类使用统一的主题色系，减少视觉杂乱感
+// A: 橙红色 (Warm/Hot)
+// B: 水墨灰 (Ink/Font)
+// C: 玫粉色 (Visual/Art)
+// D: 蓝紫色 (AI/Tech)
+// E: 青绿色 (Free/Safe)
+// F: 天蓝色 (Tools/Sky)
+// G: 琥珀色 (Assets/Gold)
+// H: 多彩紫 (Colors)
+// I: 靛青色 (Learn)
+// J: 蓝灰色 (Soft/System)
+
 const CATEGORIES = [
     {
       id: 'A',
       name: '热门推荐',
-      icon: 'flame', // 图标名来自 Lucide Icons
+      icon: 'flame',
       subCategories: [
         { 
           id: 'A1', 
           name: '#每日常用', 
-          // 图标颜色配置
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '常' },
+          iconConfig: { gradient: 'from-orange-500 to-red-500', iconName: 'star' },
           sites: [
-            {title: "花瓣", description: "收集设计灵感，保存有用的素材", url: "https://hunban.com"},
-            {title: "站酷", description: "中国人气设计师互动平台", url: "https://www.zcool.com.cn", },
-            {title: "优设", description: "人气设计师交流学习平台", url: "https://www.uisdc.com", },
-            {title: "Pinterest", description: "全球最大的创意灵感图片采集站", url: "https://www.pinterest.com"},
-            {title: "Dribbble.", description: "面向设计师的社交网络平台", url: "https://dribbble.com/"},
-            {title: "Behance", description: "doe旗下的设计师交流平台", url: "https://behance.net/"},
-            {title: "Youtube", description: "全球最大的学习分享平台", url: "https://www.youtube.com", },
+            {title: "花瓣", description: "设计师寻找灵感，采集保存可用素材", url: "https://hunban.com"},
+            {title: "站酷", description: "当前国内最具人气的设计师作品展示平台", url: "https://www.zcool.com.cn", },
+            {title: "优设", description: "设计行业优质文章设计资讯分享站点", url: "https://www.uisdc.com", },
+            {title: "Pinterest", description: "全球最大的创意灵感图片素材采集站", url: "https://www.pinterest.com"},
+            {title: "Dribbble.", description: "知名的面向设计师的社交网络平台", url: "https://dribbble.com/"},
+            {title: "Behance", description: "Addoe旗下的设计师作品展示交流平台", url: "https://behance.net/"},
+            {title: "Youtube", description: "全球最大的网络视频影片分享平台", url: "https://www.youtube.com", }
           ]
         },
         { 
           id: 'A2', 
           name: '#影音视听', 
-          iconConfig: { gradient: 'from-blue-500 to-indigo-500', character: '影' },
+          iconConfig: { gradient: 'from-orange-500 to-red-500', iconName: 'play-circle' },
           sites: [
             { title: '抖音短视频', description: '字节跳动旗下，用短视频记录分享多彩生活', url: 'https://www.douyin.com/'},
             { title: '哔哩哔哩', description: '年轻人潮流文化娱乐社区，有多元视频', url: 'https://www.bilibili.com/'},
@@ -64,7 +76,7 @@ const CATEGORIES = [
         { 
           id: 'A3', 
           name: '#博客社区', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '社' },
+          iconConfig: { gradient: 'from-orange-500 to-red-500', iconName: 'message-circle-heart' },
           sites: [
             { title: '小红书', description: '年轻人生活分享平台，涵盖多元生活方式', url: 'https://www.xiaohongshu.com/'},
             { title: '新浪微博', description: '多媒体即时分享，热点与互动传播平台', url: 'https://weibo.com/'},
@@ -77,7 +89,7 @@ const CATEGORIES = [
         { 
           id: 'A4', 
           name: '#在线娱乐', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '乐' },
+          iconConfig: { gradient: 'from-orange-500 to-red-500', iconName: 'gamepad-2' },
           sites: [
             { title: 'Tetr.io', description: '多人联机俄罗斯方块，吃鸡版本的特趣思', url: 'https://tetr.io'},
             { title: 'Mikutap', description: '一定开声音，然后点击任意键或者屏幕，非常Happy！', url: 'https://aidn.jp/mikutap/'},
@@ -97,7 +109,7 @@ const CATEGORIES = [
         { 
           id: 'B1', 
           name: '#古风书法', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '书' },
+          iconConfig: { gradient: 'from-gray-600 to-gray-800', iconName: 'feather' },
           sites: [
             { title: '以观书法', description: '类别详细风格多，页面UI比较简约，很推荐', url: 'https://web.ygsf.com'},
             { title: '字根书法字典', description: '动画很丝滑，湖南字根研究中心推出的web端书法工具', url: 'https://zgzd.wantuyun.cn/dictionary/search'},
@@ -112,7 +124,7 @@ const CATEGORIES = [
         { 
           id: 'B2', 
           name: '#字体灵感', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '灵' },
+          iconConfig: { gradient: 'from-gray-600 to-gray-800', iconName: 'sparkles' },
           sites: [
             { title: '站酷-字体', description: '站酷站内的字体设计师会在这里展示最新的设计作品', url: 'https://www.zcool.com.cn/discover?cate=8&subCate=14' },
             { title: '图像处理工具集', description: '书法字典 搜汉字的各种书写风格', url: 'https://www.shufazidian.com/' },
@@ -126,7 +138,7 @@ const CATEGORIES = [
         { 
           id: 'B3', 
           name: '#字体厂商', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '品' },
+          iconConfig: { gradient: 'from-gray-600 to-gray-800', iconName: 'factory' },
           sites: [
             { title:'方正字库', description:'中国最早的中文字库开发厂商，源于北大“汉字处理系统”',url:'https://www.foundertype.com/ '},
             { title:'汉仪字库', description:'中文字库老牌厂商，出厂超千款字库产品，众多品牌定制字体',url:'https://www.hanyi.com.cn/ '},
@@ -149,7 +161,7 @@ const CATEGORIES = [
         { 
           id: 'B4', 
           name: '#字体工具', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '工' },
+          iconConfig: { gradient: 'from-gray-600 to-gray-800', iconName: 'case-lower' },
           sites: [
             { title:'字体大师', description:'在线写字，生成自己的字库字体',url:'https://v.ziti163.com/Font#/ '},
             { title:'Z2H字帖', description:'自己定制一套适合自己的练字字帖',url:'https://paper.z2h.cn/ '},
@@ -165,7 +177,7 @@ const CATEGORIES = [
         { 
           id: 'B5', 
           name: '#字体动效', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '动' },
+          iconConfig: { gradient: 'from-gray-600 to-gray-800', iconName: 'clapperboard' },
           sites: [
             { title:'Photo Animation', description:'上传图片生成类似PPT转场动画',url:'https://boolpic.fun/animation '},
             { title:'Endless tools', description:'Web端字体视觉效果编辑工具',url:'https://beta.endlesstools.io '},
@@ -177,13 +189,13 @@ const CATEGORIES = [
     },
     {
       id: 'C',
-      name: '平面视觉',
-      icon: 'image',
+      name: '版式灵感',
+      icon: 'sparkles',
       subCategories: [
         { 
           id: 'C1', 
           name: '#版式设计', 
-          iconConfig: { gradient: 'from-pink-400 to-rose-500', character: '版' },
+          iconConfig: { gradient: 'from-pink-500 to-rose-600', iconName: 'layout-template' },
           sites: [
             { title: 'Typeroom', description: '字体排版设计前沿网站', url: 'https://www.typeroom.eu/' },
             { title: 'Typographicposters', description: '专注于文字排版和抽象图形类的海报设计网站', url: 'https://www.typographicposters.com/archive' },
@@ -200,7 +212,7 @@ const CATEGORIES = [
         { 
           id: 'C2', 
           name: '#品牌VI', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '牌' },
+          iconConfig: { gradient: 'from-pink-500 to-rose-600', iconName: 'badge-check' },
           sites: [
             { title:'Abdudo', description:'每日分享高品质设计创意灵感',url:'https://abduzeedo.com/ '},
             { title:'Trend List', description:'一位大牛眼中的平面设计之美',url:'https://www.trendlist.org/ '},
@@ -211,7 +223,7 @@ const CATEGORIES = [
         { 
           id: 'C3', 
           name: '#LOGO设计', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '标' },
+          iconConfig: { gradient: 'from-pink-500 to-rose-600', iconName: 'shapes' },
           sites: [
             { title:'Logostock', description:'一个日本logo设计社区',url:'http://logostock.jp '},
             { title:'Worldvectorlogo', description:'免费下载各种品牌logo',url:'https://worldvectorlogo.com '},
@@ -222,7 +234,7 @@ const CATEGORIES = [
         { 
           id: 'C4', 
           name: '#摄影鉴赏', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '影' },
+          iconConfig: { gradient: 'from-pink-500 to-rose-600', iconName: 'aperture' },
           sites: [
             { title:'CNU', description:'高质量摄影社区',url:'http://www.cnu.cc/ '},
             { title:'色影无忌', description:'中国影像生活门户',url:'https://vision.xitek.com/sight/ '},
@@ -241,7 +253,7 @@ const CATEGORIES = [
         { 
           id: 'D1', 
           name: '#AI对话', 
-          iconConfig: { gradient: 'from-violet-500 to-fuchsia-500', character: '聊' },
+          iconConfig: { gradient: 'from-violet-500 to-purple-600', iconName: 'bot-message-square' },
           sites: [
             { title:'Deekseek', description:'全球领先的国产推理性“AI助手”',url:'https://chat.deepseek.com/ '},
             { title:'腾讯元宝', description:'腾讯混元大模型，并有Deekseek R1加持，对微信超强兼容功能强大',url:'https://yuanbao.tencent.com/chat/naQivTmsDa '},
@@ -260,7 +272,7 @@ const CATEGORIES = [
         { 
           id: 'D2', 
           name: '#AI绘画', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '绘' },
+          iconConfig: { gradient: 'from-violet-500 to-purple-600', iconName: 'palette' },
           sites: [
             { title:'Stable Diffusion', description:'开源AI图像生成工具”',url:'https://stability.ai/ '},
             { title:'DALL-E', description:'OpenAI的AI图像生成工具',url:'https://www.dall-e.com/ '},
@@ -276,7 +288,7 @@ const CATEGORIES = [
         { 
           id: 'D3', 
           name: '#AI视频', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '视' },
+          iconConfig: { gradient: 'from-violet-500 to-purple-600', iconName: 'video' },
           sites: [
             { title: '度加', description: 'AI生成视频文案和匹配视频', url: 'https://aigc.baidu.com/home' }
           ]
@@ -284,7 +296,7 @@ const CATEGORIES = [
         { 
           id: 'D4', 
           name: '#AI音频', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '音' },
+          iconConfig: { gradient: 'from-violet-500 to-purple-600', iconName: 'audio-waveform' },
           sites: [
             { title: '天工AI', description: 'AI智能音乐+AI智能生图', url: 'https://xinghuo.xfyun.cn/desk' }
           ]
@@ -299,7 +311,7 @@ const CATEGORIES = [
         { 
           id: 'E1', 
           name: '#免版权中文字体', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '中' },
+          iconConfig: { gradient: 'from-emerald-400 to-teal-600', iconName: 'type' },
           sites: [
             { title:'字体天下', description:'网站汇集超多字体，部分免商可下载',url:'https://www.fonts.net.cn/ '},
             { title:'字体搬运工', description:'整理收集来自全网的免商用字体',url:'https://font.sucai999.com/ '},
@@ -310,7 +322,7 @@ const CATEGORIES = [
         { 
           id: 'E2', 
           name: '#免版权英文字体', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '英' },
+          iconConfig: { gradient: 'from-emerald-400 to-teal-600', iconName: 'languages' },
           sites: [
             { title:'Fontspace', description:'好看的英文字体这里都有',url:'https://www.fontspace.com '},
             { title:'Urban Fonts', description:'英文字体资源搜索与下载',url:'https://www.urbanfonts.com '},
@@ -329,7 +341,7 @@ const CATEGORIES = [
         { 
           id: 'E3', 
           name: '#免版权图片', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '图' },
+          iconConfig: { gradient: 'from-emerald-400 to-teal-600', iconName: 'image' },
           sites: [
             { title:'搜图神器', description:'多站点免版权图片搜索一键搜索',url:'https://www.logosc.cn/so/ '},
             { title:'Pexels', description:'全球知名图片视频网站 还支持中文',url:'https://www.pexels.com/zh-cn/ '},
@@ -356,7 +368,7 @@ const CATEGORIES = [
         { 
           id: 'E4', 
           name: '#免版权视频', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '视' },
+          iconConfig: { gradient: 'from-emerald-400 to-teal-600', iconName: 'film' },
           sites: [
             { title:'Coverr', description:'使用免费的视频素材无需注明出处',url:'https://coverr.co/stock-video-footage '},
             { title:'Mazwai', description:'专为视频剪辑打造的免版权视频站',url:'https://mazwai.com '},
@@ -369,7 +381,7 @@ const CATEGORIES = [
         { 
           id: 'E5', 
           name: '#免版权音频', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '音' },
+          iconConfig: { gradient: 'from-emerald-400 to-teal-600', iconName: 'music-2' },
           sites: [
             { title:'Dova-s', description:'提供超过上万首免费音乐素材',url:'https://dova-s.jp/ '},
             { title:'Chagasi', description:'原创的自由使用免版权音乐素材',url:'http://amachamusic.chagasi.com/ '},
@@ -383,7 +395,7 @@ const CATEGORIES = [
         { 
           id: 'E6', 
           name: '#免版权音效', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '效' },
+          iconConfig: { gradient: 'from-emerald-400 to-teal-600', iconName: 'volume-2' },
           sites: [
              { title:'Tam-music', description:'免费提供分类详细的音乐音效素材',url:'https://www.tam-music.com/ '}
           ]
@@ -398,7 +410,7 @@ const CATEGORIES = [
         { 
           id: 'F1', 
           name: '#在线设计平台', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '设' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'monitor-smartphone' },
           sites: [
             { title:'Figma', description:'在线协作UI设计工具',url:'https://www.figma.com '},
             { title:'Mega Creator', description:'Web端矢量插画设计工具',url:'https://icons8.com/mega-creator/ '},
@@ -409,7 +421,7 @@ const CATEGORIES = [
         { 
           id: 'F2', 
           name: '#LOGO生成', 
-          iconConfig: { gradient: 'from-violet-500 to-fuchsia-500', character: '标' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'wand-2' },
           sites: [
             { title:'Logoaa', description:'基于事先设计LOGO基础上在线修改',url:'https://www.logoaa.com '},
             { title:'Designevo', description:'可以调整图标颜色和英文字体选择',url:'https://www.designevo.com/cn/ '},
@@ -422,7 +434,7 @@ const CATEGORIES = [
         { 
           id: 'F3', 
           name: '#背景生成', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '图' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'wallpaper' },
           sites: [
             { title:'Getwaves', description:'波浪图形 可调节形态，支持SVG下载',url:'https://getwaves.io/ '},
             { title:'Resonate', description:'炫酷图形 炫酷图形生成，可以改位置形态',url:'https://demo.marpi.pl/resonate/ '},
@@ -442,9 +454,9 @@ const CATEGORIES = [
         { 
           id: 'F4', 
           name: '#去除背景', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '抠' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'scissors' },
           sites: [
-             { title:'Foco Clipping', description:'一次最多支持30张图片',url:'https://www.fococlipping.com/ '},
+            { title:'Foco Clipping', description:'一次最多支持30张图片',url:'https://www.fococlipping.com/ '},
             { title:'Idify', description:'界面美观，只有一个上传图片按钮',url:'https://idify.netlify.app/ '},
             { title:'Unscreen', description:'不止免费，还有更为全面的PRO版本',url:'https://www.unscreen.com/upload '}
           ]
@@ -452,7 +464,7 @@ const CATEGORIES = [
         { 
           id: 'F5', 
           name: '#抹除物体', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '除' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'eraser' },
           sites: [
             { title:'Experte Background Remover', description:'无需注册，上传即抠',url:'https://www.experte.com/background-remover '},
             { title:'Bgsub', description:'支持在线抠图并换上自己想要的背景',url:'https://zh.bgsub.com/ '},
@@ -468,7 +480,7 @@ const CATEGORIES = [
         { 
           id: 'F6', 
           name: '#画质增强', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '增' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'zoom-in' },
           sites: [
             { title:'Img.upscaler', description:'免费最高支持至4000px*4000px',url:'https://imgupscaler.com/zh-tw '},
             { title:'Modyfi', description:'老照片修复 支持老照片修复、老照片上色和魔法动态照片',url:'https://www.modyfi.com/ '},
@@ -484,7 +496,7 @@ const CATEGORIES = [
         { 
           id: 'F7', 
           name: '#图像压缩', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '压' },
+          iconConfig: { gradient: 'from-blue-400 to-indigo-500', iconName: 'shrink' },
           sites: [
             { title:'Compresspng', description:'支持格式-PNG、JPG、PDF、GIF',url:'https://compresspng.com/ '},
             { title:'Imgtool', description:'图片极致压缩 只有一个功能-极致压缩',url:'https://imgtool.v1.mk/ '},
@@ -506,7 +518,7 @@ const CATEGORIES = [
         { 
           id: 'G1', 
           name: '#VI样机', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: 'V' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'package' },
           sites: [
             { title:'Mockups-design', description:'一个可免费可商用的样机素材网站',url:'https://mockups-design.com/ '},
             { title:'Unblast', description:'网站搜集了大量的免费样机',url:'https://unblast.com/ '},
@@ -521,7 +533,7 @@ const CATEGORIES = [
         { 
           id: 'G2', 
           name: '#PNG素材', 
-          iconConfig: { gradient: 'from-violet-500 to-fuchsia-500', character: 'P' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'file-image' },
           sites: [
             { title:'Pngall', description:'类型丰富的免费PNG下载站',url:'http://www.pngall.com/ '},
             { title:'Pngimg', description:'号称全世界最大的PNG透明背景图库',url:'http://pngimg.com/ '},
@@ -535,7 +547,7 @@ const CATEGORIES = [
         { 
           id: 'G3', 
           name: '#矢量素材', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: 'A' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'pen-tool' },
           sites: [
             { title:'Undraw', description:'提供完全免费的 SVG/PNG 图片',url:'https://undraw.co/ '},
             { title:'Dealjumbo', description:'网站整体质量较高 下载需要输入邮箱',url:'https://dealjumbo.com/ '},
@@ -551,7 +563,7 @@ const CATEGORIES = [
         { 
           id: 'G4', 
           name: '#插画素材', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '插' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'paintbrush' },
           sites: [
             { title:'Handz', description:'网站拥有各种手势人物造型下载',url:'https://www.handz.design '},
             { title:'Superscene', description:'高质量3D插画模型部分提供免费下载',url:'https://superscene.pro '},
@@ -569,7 +581,7 @@ const CATEGORIES = [
         { 
           id: 'G5', 
           name: '#PSD素材', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: 'PS' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'layers' },
           sites: [
             { title:'Freebiesbug', description:'提供精心挑选的PSD资源',url:'https://freebiesbug.com '},
             { title:'Freepik', description:'收录了很多高质量PSD素材图片',url:'https://www.freepik.com '},
@@ -582,7 +594,7 @@ const CATEGORIES = [
         { 
           id: 'G6', 
           name: '#背景纹理', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '纹' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'scan-line' },
           sites: [
             { title:'Patterninja', description:'纹理背景用来做PPT的背景图超赞',url:'https://patterninja.com/ '},
             { title:'Heropatterns', description:'纹理颇有质感特别大气的材质贴图',url:'http://www.heropatterns.com/ '},
@@ -592,13 +604,12 @@ const CATEGORIES = [
             { title:'Patternico', description:'自选图标以生成好看的背景图',url:'https://patternico.com/emoji/ '},
             { title:'Toptal', description:'纹理背景简约，适合古风类型',url:'https://www.toptal.com/designers/subtlepatterns/ '},
             { title:'Transpare', description:'根据色彩选择精美纹理背景',url:'https://www.transparenttextures.com/ '}
-
           ]
         },
         { 
           id: 'G7', 
           name: '#图标Emoji', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '标' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'smile-plus' },
           sites: [
             { title:'Iconfont', description:'由阿里巴巴打造的矢量图标交流平台',url:'http://www.iconfont.cn '},
             { title:'Iconsdb', description:'目前拥有4000多个图标的免费图标库',url:'https://www.iconsdb.com/ '},
@@ -613,7 +624,7 @@ const CATEGORIES = [
         { 
           id: 'G8', 
           name: '#PPT模板', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: 'P' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'presentation' },
           sites: [
             { title:'Pptstore', description:'国内高质量原创设计模板',url:'https://www.pptstore.net/ '},
             { title:'1ppt', description:'网站颜值不高，但是内容免费下载',url:'http://www.1ppt.com/ '},
@@ -629,7 +640,7 @@ const CATEGORIES = [
         { 
           id: 'G9', 
           name: '#PS笔刷', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '刷' },
+          iconConfig: { gradient: 'from-amber-400 to-orange-500', iconName: 'brush' },
           sites: [
             { title:'Brushlovers', description:'比较全面的PS资源网站集合',url:'https://www.brushlovers.com/tag/brush '},
             { title:'Brushes', description:'简洁的搜索菜单方便进行过滤',url:'https://myphotoshopbrushes.com/ '},
@@ -651,7 +662,7 @@ const CATEGORIES = [
         { 
           id: 'H1', 
           name: '#纯色搭配', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '色' },
+          iconConfig: { gradient: 'from-fuchsia-400 to-pink-600', iconName: 'paint-bucket' },
           sites: [
             { title:'Colorsafe', description:'选择一个颜色，会给出不一样的方案',url:'http://colorsafe.co/ '},
             { title:'Colllor', description:'一个色系给出50种深浅的选择',url:'http://colllor.com/ '},
@@ -668,7 +679,7 @@ const CATEGORIES = [
         { 
           id: 'H2', 
           name: '#渐变配色', 
-          iconConfig: { gradient: 'from-violet-500 to-fuchsia-500', character: '变' },
+          iconConfig: { gradient: 'from-fuchsia-400 to-pink-600', iconName: 'rainbow' },
           sites: [
             { title:'Uigradients', description:'点击左上角显示全部，右上角旋转角度',url:'https://uigradients.com/#Passion '},
             { title:'Gradient', description:'点击色块上的圆圈可以改变角度',url:'https://gradient.shapefactory.co '},
@@ -688,7 +699,7 @@ const CATEGORIES = [
         { 
           id: 'I1', 
           name: '设计书籍', 
-          iconConfig: { gradient: 'from-red-400 to-orange-400', character: '书' },
+          iconConfig: { gradient: 'from-cyan-500 to-blue-600', iconName: 'book-open' },
           sites: [
              { title: '千本设计书籍', description: '搜集来自全球的知名设计书籍-设计师必备推荐', url: 'https://mp.weixin.qq.com/s/6A9ef-6Ik6Y7OebwuOGFDw' }
           ]
@@ -703,7 +714,7 @@ const CATEGORIES = [
         { 
           id: 'J1', 
           name: '#软件下载', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '软' },
+          iconConfig: { gradient: 'from-slate-500 to-gray-600', iconName: 'hard-drive-download' },
           sites: [
             { title: '脚本之家', description: '提供互联网全方位在线工具无套路分享', url: 'https://www.jb51.net/' },
             { title: '免费资源社区', description: '来自湾湾的免费资源分享网站', url: 'https://free.com.tw/'},
@@ -718,7 +729,7 @@ const CATEGORIES = [
         { 
           id: 'J2', 
           name: '#资源搜索', 
-          iconConfig: { gradient: 'from-purple-500 to-pink-500', character: '资' },
+          iconConfig: { gradient: 'from-slate-500 to-gray-600', iconName: 'search-code' },
           sites: [
             { title: 'SearXNG', description: '全世界最强大的元搜索引擎', url: 'https://searx.org' },
             { title: '虫部落 · 快搜', description: '聚合了全球所有的搜索工具', url: 'https://search.chongbuluo.com/' },
@@ -729,7 +740,7 @@ const CATEGORIES = [
         { 
           id: 'J3', 
           name: '#格式转换', 
-          iconConfig: { gradient: 'from-sky-400 to-blue-500', character: '转' },
+          iconConfig: { gradient: 'from-slate-500 to-gray-600', iconName: 'refresh-ccw' },
           sites: [
             { title: 'Aconvert', description: '【推荐】支持转换各类格式文件，包括PNG转ICO', url: 'https://www.aconvert.com/cn/icon/' },
             { title: 'AC文件转换', description: '【推荐】支持的类型全-使用方便', url: 'https://www.aconvert.com/cn' },
@@ -743,7 +754,7 @@ const CATEGORIES = [
         { 
           id: 'J4', 
           name: '#偏门利器', 
-          iconConfig: { gradient: 'from-orange-500 to-red-500', character: '器' },
+          iconConfig: { gradient: 'from-slate-500 to-gray-600', iconName: 'settings' },
           sites: [
             { title: '文本生成二维码', description: '仅支持文本生成二维码', url: 'https://swiftqr.tanpok.com' },
             { title: 'SMS', description: '虚拟国外手机号码短信验证', url: 'https://sms-activate.io/cn?%2Fcn=' },

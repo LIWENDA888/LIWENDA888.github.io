@@ -1,9 +1,9 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const { SEARCH_ENGINES, HEADER_LINKS, QUICK_LINKS, CATEGORIES } = window.AppConfig;
     
     let state = {
         isDark: localStorage.getItem('theme') === 'dark',
-        glassMode: localStorage.getItem('glassMode') === 'true',
         activeEngine: SEARCH_ENGINES[0],
         activeCategoryId: CATEGORIES[0].id,
         activeSubCategoryIds: {},
@@ -149,20 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeSub = cat.subCategories.find(sub => sub.id === activeSubId);
         
         if (!activeSub) return;
-        const { gradient, character } = activeSub.iconConfig || { gradient: 'from-blue-400 to-cyan-400', character: 'S' };
+        // 获取配置，增加默认值防止报错
+        const { gradient, iconName } = activeSub.iconConfig || { gradient: 'from-blue-400 to-cyan-400', iconName: 'link' };
 
         container.innerHTML = activeSub.sites.map(site => `
             <a href="${site.url}" target="_blank" rel="noopener noreferrer"
                class="site-card group relative flex h-full flex-row items-start gap-3 md:gap-4 overflow-hidden rounded-xl md:rounded-2xl p-4 md:p-5 transition-all duration-300">
-                <div class="relative flex h-9 w-9 md:h-11 md:w-11 shrink-0 items-center justify-center rounded-lg md:rounded-xl bg-gradient-to-br ${gradient} shadow-md text-white font-bold text-xs md:text-sm leading-none select-none ring-1 ring-black/5 dark:ring-white/10">
-                    ${character}
+                <div class="relative flex h-9 w-9 md:h-11 md:w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${gradient} shadow-md text-white ring-1 ring-black/5 dark:ring-white/10">
+                    <i data-lucide="${iconName}" class="w-5 h-5 md:w-6 md:h-6"></i>
                 </div>
                 <div class="relative min-w-0 flex-1 pt-0.5">
                     <h3 class="truncate text-[15px] md:text-[16px] font-bold text-gray-800 dark:text-gray-100 mb-0.5 md:mb-1">${site.title}</h3>
-                    <p class="line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">${site.description}</p>
+                    <p class="h-[40px] overflow-hidden text-xs leading-relaxed text-gray-500 dark:text-gray-400">${site.description}</p>
                 </div>
             </a>
         `).join('');
+        
+        // 渲染完卡片后需要重新初始化图标
+        lucide.createIcons({ root: container });
     };
 
     // --- Actions ---
@@ -203,13 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleTheme = () => { state.isDark = !state.isDark; localStorage.setItem('theme', state.isDark ? 'dark' : 'light'); applyTheme(); };
     const applyTheme = () => { document.documentElement.classList.toggle('dark', state.isDark); };
     
-    const toggleGlassMode = () => { state.glassMode = !state.glassMode; localStorage.setItem('glassMode', state.glassMode); applyGlassMode(); };
-    const applyGlassMode = () => {
-        document.body.classList.toggle('enable-glass', state.glassMode);
-        document.getElementById('glass-icon-off').classList.toggle('hidden', state.glassMode);
-        document.getElementById('glass-icon-on').classList.toggle('hidden', !state.glassMode);
-    };
-
+    // 初始化时不再有 toggleGlassMode 逻辑
+    
     const animateCount = () => {
         const els = [document.getElementById('site-count'), document.getElementById('mobile-site-count')];
         const total = CATEGORIES.reduce((acc, cat) => acc + (cat.subCategories ? cat.subCategories.reduce((s, sub) => s + (sub.sites ? sub.sites.length : 0), 0) : 0), 0);
@@ -224,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('desktop-logo').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-    document.getElementById('glass-toggle').addEventListener('click', toggleGlassMode);
     
     document.getElementById('search-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -260,7 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
 
     applyTheme();
-    applyGlassMode();
     renderHeaderLinks();
     renderQuickLinks();
     renderEngineSwitcher();
