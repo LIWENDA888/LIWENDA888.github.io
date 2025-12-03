@@ -77,7 +77,7 @@
                 category: '黑体',
                 tags: ['免费商用', '可变'],
                 imageUrl: 'https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251127/Btd0/680X600/1-08.jpg/webp', 
-                link: 'product.html' // Pointing to the detail page
+                link: 'fonts/qidiansans.html' // Updated to nested folder structure
             }
         ];
 
@@ -103,6 +103,7 @@
                 countLabel.textContent = `显示 ${filtered.length} 个结果`;
                 
                 if (filtered.length > 0) {
+                    // Note: target="_blank" is now default in script.js createBentoCard
                     grid.innerHTML = filtered.map(item => createBentoCard({
                         ...item, 
                         colSpan: 'col-span-1', 

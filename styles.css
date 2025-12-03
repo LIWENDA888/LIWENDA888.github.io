@@ -1,4 +1,5 @@
 
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
 /* Base Settings */
@@ -36,6 +37,15 @@ main {
 }
 .nav-visible {
     transform: translateY(0);
+}
+
+/* Docs Nav Active State */
+.active-doc-btn {
+    color: #000 !important;
+    font-weight: 700 !important;
+}
+.dark .active-doc-btn {
+    color: #fff !important;
 }
 
 /* Text Utilities */

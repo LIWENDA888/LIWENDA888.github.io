@@ -1,7 +1,5 @@
 
 
-
-
 /**
  * TYPEFOUNDRY STUDIO - CORE LOGIC
  */
@@ -14,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAboutScrollSpy(); 
     setupGlobalImageViewer();
     injectBackToTop(); 
-    initHeroStack(); // Start the card stack animation
+    initHeroStack(); 
+    initDocsNavigation();
 });
 
 // ================= 1. Theme Logic =================
@@ -33,14 +32,12 @@ function applyTheme(isDark) {
     updateIcons(isDark);
 }
 function updateIcons(isDark) {
-    // Timeout ensures DOM update for dynamically injected mobile menu
     setTimeout(() => {
         const sunIcons = document.querySelectorAll('.icon-sun');
         const moonIcons = document.querySelectorAll('.icon-moon');
         sunIcons.forEach(icon => icon.style.display = isDark ? 'block' : 'none');
         moonIcons.forEach(icon => icon.style.display = isDark ? 'none' : 'block');
         
-        // Force logo to pure white in dark mode using brightness(0) invert(1)
         const logos = document.querySelectorAll('.nav-logo');
         logos.forEach(logo => {
             logo.style.filter = isDark ? 'brightness(0) invert(1)' : 'none';
@@ -48,10 +45,9 @@ function updateIcons(isDark) {
     }, 50);
 }
 
-// ================= 2. Scroll Logic (Smart Nav & Back to Top) =================
+// ================= 2. Scroll & Nav Logic =================
 function injectBackToTop() {
     if (document.getElementById('back-to-top')) return;
-
     const btn = document.createElement('button');
     btn.id = 'back-to-top';
     btn.className = 'back-to-top flex size-12 items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 cursor-pointer shadow-2xl';
@@ -66,15 +62,15 @@ function injectBackToTop() {
 function initScrollLogic() {
     let lastScrollY = window.scrollY;
     const nav = document.getElementById('nav-placeholder');
-    
     if(nav) nav.classList.add('nav-transition');
 
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
         const backToTop = document.getElementById('back-to-top');
         
-        // Smart Nav Logic
+        // Smart Nav
         if (nav) {
+            // Only hide if scrolled down significantly
             if (currentScrollY > lastScrollY && currentScrollY > 100) {
                 nav.classList.add('nav-hidden');
                 nav.classList.remove('nav-visible');
@@ -84,41 +80,52 @@ function initScrollLogic() {
             }
         }
 
-        // Back to Top Logic
         if (backToTop) {
-            if (currentScrollY > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
+            if (currentScrollY > 300) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
         }
-
         lastScrollY = currentScrollY;
     });
 }
 
 function highlightCurrentPage() {
     setTimeout(() => {
-        const path = window.location.pathname;
-        let page = 'home';
+        const path = window.location.href; 
+        let page = '';
         
-        if (path.includes('fonts') || path.includes('product')) page = 'products';
-        else if (path.includes('licensing')) page = 'licensing';
-        else if (path.includes('about')) page = 'about';
+        // Logic: Check keywords in the URL
+        if (path.includes('index.html') && !path.includes('fonts') && !path.includes('licensing') && !path.includes('about')) {
+            page = 'home';
+        } else if (path.includes('/fonts/') || path.includes('fonts.html') || path.includes('product.html')) {
+            page = 'products'; 
+        } else if (path.includes('licensing')) {
+            page = 'licensing';
+        } else if (path.includes('about')) {
+            page = 'about';
+        } else if (path.includes('docs.html')) {
+            page = 'about'; // Keep About highlited or create new logic
+        }
 
+        // Highlight Desktop Links
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('text-black', 'dark:text-white', 'opacity-100');
+            link.classList.remove('text-black', 'dark:text-white', 'opacity-100', 'font-bold');
             link.classList.add('text-gray-500', 'dark:text-neutral-500');
 
             if (link.dataset.page === page) {
                 link.classList.remove('text-gray-500', 'dark:text-neutral-500');
-                link.classList.add('text-black', 'dark:text-white', 'opacity-100');
+                link.classList.add('text-black', 'dark:text-white', 'opacity-100', 'font-bold');
             }
         });
+        
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+             if (link.dataset.page === page) {
+                link.classList.add('text-black', 'dark:text-white');
+            }
+        });
+
     }, 100);
 }
 
-// Updated toggleMenu with Animation and Lock Scroll with Layout Shift Compensation
 function toggleMenu() {
     const menu = document.getElementById('mobile-menu');
     const top = document.getElementById('hamburger-top');
@@ -132,23 +139,18 @@ function toggleMenu() {
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
     if (!isOpen) {
-        // OPEN
         menu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
         menu.classList.add('is-open', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
-        
-        // Lock Scroll & Compensate layout shift
         document.body.style.overflow = 'hidden'; 
         document.body.style.paddingRight = `${scrollbarWidth}px`;
         if (nav) nav.style.borderRight = `${scrollbarWidth}px solid transparent`;
 
-        // Animate Hamburger
         if(top && mid && bot) {
             top.classList.add('rotate-45', 'translate-y-[8px]');
             mid.classList.add('opacity-0');
             bot.classList.add('-rotate-45', '-translate-y-[8px]');
         }
 
-        // Stagger Items
         const items = document.querySelectorAll('.mobile-nav-item');
         items.forEach((item, idx) => {
             item.style.opacity = '0';
@@ -159,37 +161,80 @@ function toggleMenu() {
                 item.style.transform = 'translateY(0)';
             }, 100 + (idx * 60));
         });
-
     } else {
-        // CLOSE
         menu.classList.remove('is-open', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
         menu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
-        
-        // Unlock Scroll & Reset padding
         document.body.style.overflow = ''; 
         document.body.style.paddingRight = '';
         if (nav) nav.style.borderRight = '';
 
-        // Reset Hamburger
         if(top && mid && bot) {
             top.classList.remove('rotate-45', 'translate-y-[8px]');
             mid.classList.remove('opacity-0');
             bot.classList.remove('-rotate-45', '-translate-y-[8px]');
         }
         
-        // Reset Items instantly so they are ready for next animation
         const items = document.querySelectorAll('.mobile-nav-item');
-        items.forEach((item) => {
-             item.style.transition = 'none';
-        });
+        items.forEach((item) => { item.style.transition = 'none'; });
     }
 }
 
-// ================= 3. Bento Card Generator (Premium Interaction) =================
+// ================= 3. Docs Page Logic =================
+function initDocsNavigation() {
+    // Only run if we are on the docs page
+    if (!document.getElementById('docs-content')) return;
+
+    const buttons = document.querySelectorAll('.docs-nav-btn');
+    const sections = document.querySelectorAll('.docs-section');
+    
+    // Check URL Params for initial section
+    const params = new URLSearchParams(window.location.search);
+    const initialSection = params.get('section') || 'copyright';
+
+    const activateSection = (id) => {
+        // Update Buttons
+        buttons.forEach(btn => {
+            if (btn.dataset.target === id) {
+                btn.classList.add('active-doc-btn');
+                btn.classList.remove('text-gray-500', 'dark:text-neutral-500');
+            } else {
+                btn.classList.remove('active-doc-btn');
+                btn.classList.add('text-gray-500', 'dark:text-neutral-500');
+            }
+        });
+
+        // Update Sections (Fade effect)
+        sections.forEach(sec => {
+            if (sec.id === id) {
+                sec.classList.remove('hidden');
+                // Small timeout to allow display:block to apply before opacity
+                setTimeout(() => sec.classList.remove('opacity-0', 'translate-y-4'), 10);
+            } else {
+                sec.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            }
+        });
+    };
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.target;
+            // Update URL without reload
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('section', target);
+            window.history.pushState({}, '', newUrl);
+            activateSection(target);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    activateSection(initialSection);
+}
+
+// ================= 4. Bento Card Generator =================
 function createBentoCard(item) {
     const href = item.link || '#';
     return `
-        <a href="${href}" class="group relative isolate overflow-hidden rounded-2xl bg-gray-200 dark:bg-neutral-800 ${item.colSpan || 'md:col-span-1'} ${item.rowSpan || 'md:row-span-1'} min-h-[300px] lg:min-h-[360px] block transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
+        <a href="${href}" target="_blank" class="group relative isolate overflow-hidden rounded-2xl bg-gray-200 dark:bg-neutral-800 ${item.colSpan || 'md:col-span-1'} ${item.rowSpan || 'md:row-span-1'} min-h-[300px] lg:min-h-[360px] block transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
             <div class="absolute inset-0 size-full overflow-hidden rounded-2xl">
                 <img src="${item.imageUrl}" alt="${item.title}" class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
                 <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-50"></div>
@@ -209,12 +254,11 @@ function createBentoCard(item) {
     `;
 }
 
-// ================= 4. Image Viewer =================
+// ================= 5. Image Viewer =================
 function setupGlobalImageViewer() {
     const container = document.getElementById('image-viewer-container');
     const img = document.getElementById('p-image');
     const slider = document.getElementById('zoom-slider');
-    const hint = document.getElementById('zoom-hint');
     const toggleBtn = document.getElementById('img-toggle-btn');
     
     if (!container || !img || !slider) return;
@@ -236,7 +280,6 @@ function setupGlobalImageViewer() {
         zoom = parseFloat(e.target.value);
         if (zoom === 1) pan = { x: 0, y: 0 };
         updateTransform();
-        hint.textContent = zoom > 1 ? '拖拽移动' : '缩放查看细节';
         container.style.cursor = zoom > 1 ? 'grab' : 'default';
     });
 
@@ -300,7 +343,7 @@ function setupGlobalImageViewer() {
 function openDownloadModal() { document.getElementById('download-modal')?.classList.remove('hidden'); }
 function closeDownloadModal() { document.getElementById('download-modal')?.classList.add('hidden'); }
 
-// ================= 5. Page Specifics =================
+// ================= 6. Page Utils =================
 function setupAccordion() {
     document.querySelectorAll('.accordion-btn').forEach(button => {
         button.addEventListener('click', () => {
@@ -308,12 +351,14 @@ function setupAccordion() {
             const icon = button.querySelector('.accordion-icon');
             const isOpen = content.classList.contains('accordion-open');
             
+            // Close all
             document.querySelectorAll('.accordion-content').forEach(c => { 
                 c.classList.remove('accordion-open'); 
                 c.classList.add('accordion-closed'); 
             });
             document.querySelectorAll('.accordion-icon').forEach(i => i.classList.remove('rotate-45'));
             
+            // Open clicked if closed
             if (!isOpen) { 
                 content.classList.remove('accordion-closed'); 
                 content.classList.add('accordion-open'); 
@@ -347,7 +392,7 @@ function setupAboutScrollSpy() {
     });
 }
 
-// ================= 6. Hero Stack Animation =================
+// ================= 7. Hero Stack Animation =================
 function initHeroStack() {
     const cards = document.querySelectorAll('.hero-card');
     if(cards.length === 0) return;

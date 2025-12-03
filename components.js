@@ -1,23 +1,25 @@
 
 
 /**
- * 公共组件文件 (Components)
+ * TYPEFOUNDRY STUDIO - SHARED COMPONENTS
+ * Note: Uses root-relative paths (e.g., "/fonts.html") to support nested folders.
+ * Ensure you are running this on a local server (e.g., Live Server) for best results.
  */
 
 // 1. Top Navigation
 const SHARED_NAV_HTML = `
 <div class="mx-auto flex h-20 max-w-[1800px] items-center justify-between px-6 lg:px-12 relative z-[110]">
     <!-- Logo -->
-    <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity z-[110]">
+    <a href="https://www.zizao.top" class="flex items-center gap-2 hover:opacity-80 transition-opacity z-[110]">
         <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/BOEv/249X79/logo.png/webp" alt="Logo" class="nav-logo h-7 w-auto object-contain">
     </a>
 
-    <!-- Desktop Menu -->
-    <div class="hidden items-center gap-8 md:flex">
-        <a href="fonts.html" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white nav-link transition-colors" data-page="fonts">字体产品</a>
-        <a href="licensing.html" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white nav-link transition-colors" data-page="licensing">授权定制</a>
-        <a href="https://zzfonts.taobao.com" target="_blank" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white transition-colors">获取授权</a>
-        <a href="about.html" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white nav-link transition-colors" data-page="about">关于</a>
+    <!-- Desktop Menu (Pure Flat Links) -->
+    <div class="hidden items-center gap-8 md:flex h-full">
+        <a href="https://www.zizao.top/fonts" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white nav-link transition-colors" data-page="products">字体产品</a>
+        <a href="https://www.zizao.top/licensing" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white nav-link transition-colors" data-page="licensing">授权定制</a>
+        <a href="https://zzfonts.taobao.com" target="_blank" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white transition-colors">获取版权</a>
+        <a href="https://www.zizao.top/about" class="text-xs uppercase tracking-widest text-gray-500 hover:text-black dark:text-neutral-500 dark:hover:text-white nav-link transition-colors" data-page="about">关于我们</a>
         
         <div class="h-4 w-px bg-gray-200 dark:bg-neutral-800"></div>
         
@@ -28,7 +30,7 @@ const SHARED_NAV_HTML = `
         </button>
     </div>
 
-    <!-- Mobile Menu Toggle Button (Animated Hamburger) -->
+    <!-- Mobile Menu Toggle -->
     <button id="mobile-menu-btn" onclick="toggleMenu()" class="relative z-[110] flex flex-col justify-center gap-[6px] p-2 md:hidden group">
         <span class="h-[2px] w-6 rounded-full bg-black transition-transform duration-300 dark:bg-white origin-center" id="hamburger-top"></span>
         <span class="h-[2px] w-6 rounded-full bg-black transition-opacity duration-300 dark:bg-white" id="hamburger-mid"></span>
@@ -36,42 +38,40 @@ const SHARED_NAV_HTML = `
     </button>
 </div>
 
-<!-- Full Screen Mobile Menu Overlay -->
+<!-- Mobile Menu Overlay -->
 <div id="mobile-menu" class="fixed inset-0 z-[100] bg-white dark:bg-neutral-950 transition-all duration-500 opacity-0 pointer-events-none translate-y-4 md:hidden flex flex-col h-[100dvh]">
     
-    <!-- Menu Content -->
     <div class="flex-1 flex flex-col px-6 pt-28 pb-8 overflow-y-auto no-scrollbar justify-between">
-        <nav class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-2">
             <!-- Home -->
-            <a href="index.html" class="mobile-nav-item group flex items-center justify-between py-2 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
-                <span class="text-3xl font-medium tracking-tight text-black dark:text-white">首页</span>
-                <span class="text-sm font-bold text-gray-400 group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white transition-colors uppercase tracking-widest">Home</span>
+            <a href="https://www.zizao.top" class="mobile-nav-item mobile-nav-link flex items-center justify-between py-4 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
+                <span class="text-2xl font-medium tracking-tight">首页</span>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Home</span>
             </a>
             
             <!-- Fonts -->
-            <a href="fonts.html" class="mobile-nav-item group flex items-center justify-between py-2 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
-                <span class="text-3xl font-medium tracking-tight text-black dark:text-white">字体产品</span>
-                <span class="text-sm font-bold text-gray-400 group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white transition-colors uppercase tracking-widest">Fonts</span>
+            <a href="https://www.zizao.top/fonts" class="mobile-nav-item mobile-nav-link flex items-center justify-between py-4 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
+                <span class="text-2xl font-medium tracking-tight">字体产品</span>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Fonts</span>
             </a>
 
             <!-- Licensing -->
-            <a href="licensing.html" class="mobile-nav-item group flex items-center justify-between py-2 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
-                <span class="text-3xl font-medium tracking-tight text-black dark:text-white">授权定制</span>
-                <span class="text-sm font-bold text-gray-400 group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white transition-colors uppercase tracking-widest">Licensing</span>
+            <a href="https://www.zizao.top/licensing" class="mobile-nav-item mobile-nav-link flex items-center justify-between py-4 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
+                <span class="text-2xl font-medium tracking-tight">授权定制</span>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Licensing</span>
             </a>
 
-             <!-- Shop -->
-            <a href="https://zzfonts.taobao.com" target="_blank" class="mobile-nav-item group flex items-center justify-between py-2 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
-                <span class="text-3xl font-medium tracking-tight text-black dark:text-white">获取授权</span>
-                <span class="text-sm font-bold text-gray-400 group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white transition-colors uppercase tracking-widest">Shop</span>
+            <!-- Shop -->
+            <a href="https://zzfonts.taobao.com" target="_blank" class="mobile-nav-item flex items-center justify-between py-4 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
+                <span class="text-2xl font-medium tracking-tight">商店</span>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Shop</span>
             </a>
 
             <!-- About -->
-            <a href="about.html" class="mobile-nav-item group flex items-center justify-between py-2 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
-                <span class="text-3xl font-medium tracking-tight text-black dark:text-white">关于我们</span>
-                <span class="text-sm font-bold text-gray-400 group-hover:text-black dark:text-neutral-500 dark:group-hover:text-white transition-colors uppercase tracking-widest">About</span>
+            <a href="https://www.zizao.top/about" class="mobile-nav-item mobile-nav-link flex items-center justify-between py-4 border-b border-gray-100 dark:border-neutral-900" style="opacity: 0">
+                <span class="text-2xl font-medium tracking-tight">关于我们</span>
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">About</span>
             </a>
-
         </nav>
         
         <div class="mt-8 mobile-nav-item" style="opacity: 0">
@@ -81,7 +81,7 @@ const SHARED_NAV_HTML = `
 </div>
 `;
 
-// 2. Footer (Unchanged)
+// 2. Footer
 const SHARED_FOOTER_HTML = `
 <div class="mx-auto max-w-[1800px] px-6 lg:px-12">
     <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
@@ -135,12 +135,21 @@ const SHARED_FOOTER_HTML = `
 
     <!-- Copyright -->
     <div class="mt-20 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 border-t border-gray-100 pt-8 dark:border-neutral-900">
-        <p class="text-xs text-gray-400">© 2025 ZIZAO.TOP. 自在造字. All rights reserved.</p>
+        <div class="flex flex-col gap-4">
+            <p class="text-xs text-gray-400">© 2025 ZIZAO.TOP. 自在造字. All rights reserved.</p>
+            <div class="flex gap-4 text-[10px] uppercase tracking-widest text-gray-400">
+                <a href="https://www.zizao.top//docs.html?section=copyright" class="hover:text-black dark:hover:text-white transition-colors">版权说明</a>
+                <a href="https://www.zizao.top//docs.html?section=licensing" class="hover:text-black dark:hover:text-white transition-colors">授权说明</a>
+                <a href="https://www.zizao.top//docs.html?section=terms" class="hover:text-black dark:hover:text-white transition-colors">使用条款</a>
+                <a href="https://www.zizao.top//docs.html?section=faq" class="hover:text-black dark:hover:text-white transition-colors">FAQ</a>
+            </div>
+        </div>
         <div class="flex flex-col items-start md:items-end gap-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-gray-300 dark:text-neutral-700">友情链接</span>
             <div class="flex flex-wrap gap-6 text-xs text-gray-500 dark:text-neutral-500">
               <a href="https://github.com/" target="_blank" class="hover:text-black dark:hover:text-white transition-colors">Github</a>
               <a href="https://imgbed.cn" target="_blank" class="hover:text-black dark:hover:text-white transition-colors">图床小镇</a>
+              <a href="https://www.cloudflare.com/zh-cn/" target="_blank" class="hover:text-black dark:hover:text-white transition-colors">Cloudflare</a>
             </div>
         </div>
     </div>
