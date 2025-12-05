@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://www.zizao.top/">
     <title>跳转中...</title>
+    <script type="text/javascript">
+        // 将当前窗口的位置设置为目标 URL
+        window.location.replace("https://www.zizao.top/");
+    </script>
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=https://www.zizao.top/">
+    </noscript>
     <style>
+        /* 仅在 JavaScript 被禁用且 Meta Refresh 生效时，显示此提示 */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -13,7 +20,9 @@
     </style>
 </head>
 <body>
-    <p>正在跳转到 <a href="https://www.zizao.top/">https://www.zizao.top/</a>...</p>
-    <p>如果浏览器没有自动跳转，请点击上方链接。</p>
+    <noscript>
+        <p>您的浏览器禁用了 JavaScript。正在跳转到 <a href="https://www.zizao.top/">https://www.zizao.top/</a>...</p>
+        <p>如果浏览器没有自动跳转，请点击上方链接。</p>
+    </noscript>
 </body>
 </html>
