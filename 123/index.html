@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>设计百宝库 - Design Treasure</title>
+    
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            colors: { 
+              primary: { 
+                50: '#FFF8F0', 
+                100: '#FFEAD6', 
+                200: '#FFCD99',
+                300: '#FFB05C',
+                400: '#FF992E',
+                500: '#FF8C19', 
+                600: '#E67300', 
+                700: '#CC6000',
+                800: '#A34D00',
+                900: '#7A3A00'
+              },
+              gray: {
+                50: '#F9F9FB', 
+                100: '#F2F2F7', 
+                200: '#E5E5EA', 
+                300: '#D1D1D6', 
+                400: '#C7C7CC', 
+                500: '#AEAEB2', 
+                600: '#8E8E93', 
+                700: '#404040',
+                800: '#262626',
+                900: '#171717',
+                950: '#000000'
+              }
+            },
+            boxShadow: {
+              'glass-light': '0 4px 20px 0 rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.8)',
+              'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.08)',
+              'glass-hover-light': '0 12px 30px -4px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.9)',
+              'glass-hover-dark': '0 14px 40px -4px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15)',
+              'dock-light': '0 10px 25px -5px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255,255,255,0.8), 0 0 0 1px rgba(0,0,0,0.03)',
+              'dock-dark': '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.1)',
+              'glow': '0 0 20px rgba(255, 140, 25, 0.3)',
+            },
+            animation: {
+              'blob': 'blob 30s infinite alternate cubic-bezier(0.4, 0, 0.2, 1)',
+              'float': 'float 6s ease-in-out infinite',
+            },
+            keyframes: {
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(20px, -30px) scale(1.05)' },
+                '66%': { transform: 'translate(-15px, 15px) scale(0.95)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-6px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- React & Babel (UMD Versions for Browser) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Load Data First -->
+    <script src="data.js"></script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="antialiased text-gray-900 dark:text-gray-100 selection:bg-primary-500 selection:text-white">
+    <div class="noise-overlay"></div>
+    <div class="liquid-bg">
+        <div class="liquid-blob blob-1"></div>
+        <div class="liquid-blob blob-2"></div>
+        <div class="liquid-blob blob-3"></div>
+    </div>
+    <div class="liquid-bg-dark">
+        <div class="liquid-blob blob-1"></div>
+        <div class="liquid-blob blob-2"></div>
+        <div class="liquid-blob blob-3"></div>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useRef, useEffect } = React;
+        
+        // Ensure data is loaded
+        const APP_DATA = window.APP_DATA || { BANNER_CONFIG: {}, CATEGORIES: {} };
+        const { BANNER_CONFIG, CATEGORIES, MOCK_AI_PROMPTS, MOCK_FONTS, MOCK_SOFTWARE, MOCK_TOOLS, MOCK_ASSETS } = APP_DATA;
+
+        // Icons (Defined Inline to avoid Import issues locally)
+        const Icons = {
+            Sparkles: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 9v4"/><path d="M20 21v-4"/><path d="M16 16v-4"/></svg>,
+            Type: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>,
+            Box: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>,
+            Home: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+            Copy: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>,
+            Check: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="20 6 9 17 4 12"/></svg>,
+            Maximize2: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></svg>,
+            Wand2: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H5"/><path d="M21 16h-2"/><path d="M11 3H9"/></svg>,
+            Download: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>,
+            ExternalLink: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>,
+            DownloadCloud: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><polyline points="12 12 12 21"/><polyline points="8 17 12 21 16 17"/></svg>,
+            Zap: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+            Layers: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
+            Search: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+            Smile: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>,
+            X: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
+            Moon: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>,
+            Sun: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>,
+            ArrowRight: (props) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+        };
+
+        const TopNavigationBar = ({ currentView, onViewChange, isDark, toggleTheme, onSearch, searchQuery }) => {
+            const navTabsRef = useRef([]);
+            const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
+
+            const navItems = [
+                { id: 'recommend', label: '精选', icon: Icons.Zap },
+                { id: 'ai-prompts', label: 'AI灵感', icon: Icons.Sparkles },
+                { id: 'fonts', label: '字体库', icon: Icons.Type },
+                { id: 'design-assets', label: '素材集', icon: Icons.Layers },
+                { id: 'software', label: '工具箱', icon: Icons.Box },
+            ];
+
+            useEffect(() => {
+                const activeIndex = navItems.findIndex(item => item.id === currentView);
+                const currentTab = navTabsRef.current[activeIndex];
+
+                if (currentTab) {
+                    setIndicatorStyle({
+                        left: currentTab.offsetLeft,
+                        width: currentTab.offsetWidth,
+                        opacity: 1
+                    });
+                }
+            }, [currentView]);
+
+            return (
+                <header className="fixed top-0 left-0 right-0 z-50 px-6 py-6 pointer-events-none">
+                    <div className="max-w-[1800px] mx-auto flex items-center justify-between">
+                        
+                        {/* Left: Logo (Image) */}
+                        <div className="pointer-events-auto flex items-center select-none group cursor-pointer" onClick={() => onViewChange('recommend')}>
+                            <img 
+                                src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251121/DEbD/153X51/logo.png/webp" 
+                                alt="ZIZAO Design" 
+                                className="h-10 w-auto object-contain dark:brightness-0 dark:invert transition-all duration-300 group-hover:opacity-80"
+                            />
+                        </div>
+
+                        {/* Center: Navigation (Liquid Glass Dock with Sliding Animation) */}
+                        <nav className="pointer-events-auto hidden md:flex items-center relative p-1.5 rounded-full liquid-glass border border-white/40 dark:border-white/10 shadow-dock-light dark:shadow-dock-dark backdrop-blur-2xl">
+                            <div 
+                                className="absolute h-[calc(100%-0.75rem)] top-1.5 bg-gray-900 dark:bg-white rounded-full transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] shadow-md z-0"
+                                style={{ 
+                                    left: indicatorStyle.left, 
+                                    width: indicatorStyle.width,
+                                    opacity: indicatorStyle.opacity 
+                                }}
+                            />
+
+                            {navItems.map((item, index) => {
+                                const isActive = currentView === item.id;
+                                const Icon = item.icon;
+                                return (
+                                    <button 
+                                        key={item.id} 
+                                        ref={el => { navTabsRef.current[index] = el; }}
+                                        onClick={() => onViewChange(item.id)} 
+                                        className={`relative px-5 py-2.5 rounded-full transition-colors duration-300 group overflow-hidden flex items-center gap-2.5 z-10 ${
+                                            isActive 
+                                            ? 'text-white dark:text-black' 
+                                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                                        }`}
+                                    >
+                                        <Icon size={16} className={`relative z-10 ${isActive ? 'text-white dark:text-black' : 'group-hover:text-primary-500 dark:group-hover:text-primary-400'} transition-colors duration-300`} strokeWidth={2.5} />
+                                        <span className={`relative z-10 font-bold text-xs tracking-wide transition-colors duration-300`}>{item.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </nav>
+
+                        {/* Right: Actions (Refined Glass Pill Search & Theme Toggle) */}
+                        <div className="pointer-events-auto flex items-center gap-3">
+                            {/* Glass Pill Search Bar */}
+                            <div className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/5 backdrop-blur-xl shadow-sm focus-within:shadow-glass-hover-light dark:focus-within:shadow-glass-hover-dark focus-within:bg-white/60 dark:focus-within:bg-black/40 focus-within:w-56 transition-all duration-500 w-44 group">
+                                <Icons.Search size={14} className="text-gray-400 dark:text-gray-500 shrink-0 group-focus-within:text-primary-500 transition-colors" strokeWidth={2.5} />
+                                <input 
+                                    type="text" 
+                                    value={searchQuery}
+                                    onChange={(e) => onSearch(e.target.value)}
+                                    placeholder="搜索..."
+                                    className="bg-transparent border-none outline-none text-xs font-semibold text-gray-800 dark:text-gray-100 placeholder-gray-400 w-full"
+                                />
+                            </div>
+
+                            <button 
+                                onClick={toggleTheme}
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/40 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-primary-500 transition-all shadow-sm backdrop-blur-xl border border-white/40 dark:border-white/5"
+                            >
+                                {isDark ? <Icons.Moon size={18} strokeWidth={2.5} /> : <Icons.Sun size={18} strokeWidth={2.5} />}
+                            </button>
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        const MobileNav = ({ currentView, onViewChange }) => {
+            const navItems = [
+                { id: 'recommend', icon: Icons.Zap, label: '精选' },
+                { id: 'ai-prompts', icon: Icons.Sparkles, label: 'AI' },
+                { id: 'fonts', icon: Icons.Type, label: '字体' },
+                { id: 'design-assets', icon: Icons.Layers, label: '素材' },
+                { id: 'software', icon: Icons.Box, label: '软件' },
+            ];
+
+            return (
+                <div className="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-sm">
+                    <div className="liquid-glass shadow-dock-light dark:shadow-dock-dark rounded-[2rem] p-1.5 flex justify-between border border-white/40 dark:border-white/10 backdrop-blur-xl">
+                        {navItems.map((item) => {
+                            const isActive = currentView === item.id;
+                            const Icon = item.icon;
+                            return (
+                                <button key={item.id} onClick={() => onViewChange(item.id)} className={`relative flex-1 py-3.5 rounded-[1.5rem] transition-all duration-300 flex flex-col items-center justify-center gap-1 ${isActive ? 'bg-white dark:bg-white/10 shadow-sm' : 'hover:bg-white/20'}`}>
+                                    <Icon size={22} className={isActive ? 'text-primary-500 dark:text-white stroke-[2.5px]' : 'text-gray-400 dark:text-gray-500'} />
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            );
+        };
+
+        const HeroSection = ({ currentView, banner }) => {
+            const isHome = currentView === 'recommend';
+            const today = new Date();
+            const dateString = today.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+            return (
+                <section className="mb-8 pt-6">
+                    <div className="relative rounded-[2.5rem] p-8 md:p-12 min-h-[300px] flex flex-col justify-center overflow-hidden group">
+                         {/* Custom Background for Hero */}
+                         <div className="absolute inset-0 liquid-glass border border-white/40 dark:border-white/5 shadow-glass-light dark:shadow-glass-dark"></div>
+                         
+                         {/* Content */}
+                         <div className="relative z-10 w-full flex flex-col justify-center h-full">
+                            {isHome ? (
+                                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
+                                    <div className="flex-1 space-y-6">
+                                        <div>
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/40 dark:bg-white/5 border border-white/50 dark:border-white/5 backdrop-blur-sm mb-4">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{dateString}</span>
+                                            </div>
+                                            <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-[0.9] hero-title-text mb-2">
+                                                Design<br/>Treasure.
+                                            </h1>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <button className="h-12 px-6 rounded-full bg-gray-900 dark:bg-white text-white dark:text-black font-bold text-sm hover:scale-105 transition-transform shadow-xl flex items-center gap-2">
+                                                开始探索 <Icons.ArrowRight size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex-1 flex flex-col items-start md:items-end text-left md:text-right">
+                                        <p className="text-xl md:text-2xl font-medium text-gray-600 dark:text-gray-300 max-w-md leading-snug tracking-tight">
+                                            精选全网最实用的神兵利器，<br/>让您的创意设计事半功倍。
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                                    <div className="text-center md:text-left">
+                                        <div className="text-[10px] uppercase tracking-[0.3em] font-black text-primary-500 dark:text-primary-400 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-700">{banner.englishTitle}</div>
+                                        <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter hero-title-text">
+                                            {banner.title}
+                                        </h1>
+                                        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl leading-relaxed mx-auto md:mx-0">
+                                            {banner.subtitle}
+                                        </p>
+                                    </div>
+                                    <div className="hidden md:block">
+                                        <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white shadow-2xl shadow-primary-500/30 transform rotate-6 hover:rotate-12 transition-transform duration-500">
+                                            <Icons.Zap size={48} fill="currentColor" />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                         </div>
+
+                         {/* Decorative Elements */}
+                         <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-white/30 to-transparent dark:from-white/5 pointer-events-none skew-x-[-20deg] origin-bottom transform translate-x-1/3"></div>
+                    </div>
+                </section>
+            );
+        };
+
+        const CategoryBar = ({ categories, activeCategory, onSelect }) => {
+            const tabsRef = useRef([]);
+            const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 });
+
+            useEffect(() => {
+                if (!categories || categories.length === 0) return;
+                
+                const activeIndex = categories.findIndex(c => c.id === activeCategory);
+                if (activeIndex === -1 && categories.length > 0) return;
+
+                const currentTab = tabsRef.current[activeIndex];
+                if (currentTab) {
+                    setIndicatorStyle({
+                        left: currentTab.offsetLeft,
+                        width: currentTab.offsetWidth,
+                        opacity: 1
+                    });
+                }
+            }, [activeCategory, categories]);
+
+            if (!categories || categories.length === 0) return null;
+
+            return (
+                <div className="sticky top-24 z-40 mb-8 -mx-4 md:mx-0 px-4 md:px-0">
+                    <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-2 mask-linear-fade">
+                        <div className="relative p-1.5 rounded-full bg-white/60 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/10 flex items-center shadow-sm">
+                           
+                           <div 
+                                className="absolute h-[calc(100%-0.75rem)] top-1.5 bg-gray-900 dark:bg-white rounded-full transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] shadow-md"
+                                style={{ 
+                                    left: indicatorStyle.left, 
+                                    width: indicatorStyle.width,
+                                    opacity: indicatorStyle.opacity 
+                                }}
+                           />
+
+                           {categories.map((cat, index) => (
+                                <button 
+                                    key={cat.id} 
+                                    ref={el => { tabsRef.current[index] = el; }}
+                                    onClick={() => onSelect(cat.id)} 
+                                    className={`relative px-5 py-2 rounded-full text-xs font-bold transition-colors duration-300 whitespace-nowrap z-10 ${
+                                        activeCategory === cat.id 
+                                        ? 'text-white dark:text-black' 
+                                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                                    }`}
+                                >
+                                    {cat.label}
+                                </button>
+                            ))} 
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const AiPromptCard = ({ item, onEnlarge }) => {
+            const [promptText, setPromptText] = useState(item.prompt);
+            const [copied, setCopied] = useState(false);
+            const handleCopy = async () => {
+                try { await navigator.clipboard.writeText(promptText); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch (err) {}
+            };
+
+            return (
+                <div className="liquid-glass rounded-[2rem] overflow-hidden flex flex-col h-full group border border-white/40 dark:border-white/5 transition-all duration-500 hover:shadow-2xl hover:shadow-black/5 dark:hover:shadow-black/50 hover:-translate-y-2 bg-white/40 dark:bg-black/20">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden shrink-0">
+                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                        
+                        <button onClick={() => onEnlarge(item.imageUrl)} className="absolute top-4 right-4 p-2 bg-black/30 hover:bg-black/60 backdrop-blur-md rounded-full text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                            <Icons.Maximize2 size={16} />
+                        </button>
+                        
+                        <div className="absolute bottom-4 left-4">
+                             <span className="px-3 py-1 bg-black/40 backdrop-blur-md rounded-lg text-[10px] font-bold text-white border border-white/10 flex items-center gap-1.5">
+                                <Icons.Wand2 size={12} className="text-primary-300" />{item.model}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="p-5 flex-1 flex flex-col gap-3">
+                        <div className="flex items-start justify-between">
+                            <h3 className="font-bold text-gray-900 dark:text-white truncate text-base">{item.title}</h3>
+                        </div>
+                        <div className="relative flex-1 group/text">
+                            <textarea 
+                                value={promptText} 
+                                readOnly
+                                className="w-full h-24 bg-gray-50/50 dark:bg-black/20 rounded-xl border border-transparent focus:border-primary-500/20 resize-none p-3 text-xs text-gray-500 dark:text-gray-400 leading-relaxed outline-none custom-scrollbar transition-colors" 
+                            />
+                            <button 
+                                onClick={handleCopy} 
+                                className={`absolute bottom-2 right-2 flex items-center justify-center w-8 h-8 rounded-lg transition-all shadow-sm ${
+                                    copied 
+                                    ? 'bg-green-500 text-white' 
+                                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }`}
+                                title="Copy Prompt"
+                            >
+                                {copied ? <Icons.Check size={14} /> : <Icons.Copy size={14} />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const CommonCard = ({ item, ctaText, icon: Icon, isDownload = false }) => {
+            const isPaid = item.isPaid;
+            const url = isDownload && item.downloadUrl ? item.downloadUrl : item.url;
+
+            return (
+                <a href={url} target="_blank" rel="noreferrer" className="block h-full">
+                    <div className="liquid-glass rounded-[2rem] overflow-hidden flex flex-col h-full group border border-white/40 dark:border-white/5 transition-all duration-500 hover:shadow-2xl hover:shadow-black/5 dark:hover:shadow-black/50 hover:-translate-y-2 bg-white/40 dark:bg-black/20">
+                        <div className="relative aspect-[16/10] w-full bg-gray-50 dark:bg-gray-900/50 overflow-hidden flex items-center justify-center shrink-0">
+                            <img src={item.imageUrl} alt={item.name} className={`w-full h-full object-cover transition-all duration-500 ${isDownload ? 'grayscale group-hover:grayscale-0' : 'group-hover:scale-110'} dark:opacity-80 dark:group-hover:opacity-100`} loading="lazy" />
+                        </div>
+                        
+                        <div className="p-6 flex-1 flex flex-col border-t border-white/40 dark:border-white/5 bg-white/30 dark:bg-white/5 backdrop-blur-sm">
+                            <div className="flex items-start justify-between mb-2 gap-2">
+                                <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight line-clamp-1">{item.name}</h3>
+                                {isPaid !== undefined && (
+                                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0 border ${isPaid ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 border-orange-100 dark:border-orange-900/30' : 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-green-100 dark:border-green-900/30'}`}>
+                                        {isPaid ? 'PAID' : 'FREE'}
+                                    </span>
+                                )}
+                            </div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4">{item.description}</p>
+                            
+                            <div className="mt-auto pt-4 flex items-center text-xs font-bold text-gray-400 group-hover:text-primary-500 transition-colors gap-1 uppercase tracking-wide">
+                                <span>{ctaText}</span>
+                                <Icons.ArrowRight size={12} className="transform group-hover:translate-x-1 transition-transform" />
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            )
+        }
+
+        const SoftwareCard = ({ item }) => {
+            return (
+                <div className="liquid-glass rounded-[2.5rem] p-6 flex flex-col md:flex-row gap-8 hover:shadow-xl dark:hover:shadow-black/40 transition-all duration-300 hover:-translate-y-1 border border-white/40 dark:border-white/5 group bg-white/40 dark:bg-black/20">
+                     <div className="w-full md:w-40 h-40 shrink-0 bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-white/5 relative flex items-center justify-center shadow-inner">
+                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+                    </div>
+                    <div className="flex-1 flex flex-col min-w-0 py-2">
+                        <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                                <h3 className="text-2xl font-black text-gray-900 dark:text-white">{item.title}</h3>
+                                <span className="px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded text-[10px] font-bold text-gray-500 dark:text-gray-400">v{item.version}</span>
+                            </div>
+                            <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-6 max-w-lg">{item.description}</p>
+                        </div>
+                        <div className="flex flex-wrap gap-3">
+                            {item.downloads.map((dl, idx) => (
+                                <a key={idx} href={dl.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 hover:bg-primary-50 dark:hover:bg-primary-900/20 text-xs font-bold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 hover:border-primary-200 dark:hover:border-primary-500/30 transition-all shadow-sm">
+                                    <Icons.DownloadCloud size={14} className="text-primary-500" />
+                                    {dl.label}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ImageViewer = ({ isOpen, imageUrl, onClose }) => {
+            useEffect(() => {
+                const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+                if (isOpen) window.addEventListener('keydown', handleEsc);
+                return () => window.removeEventListener('keydown', handleEsc);
+            }, [isOpen, onClose]);
+            
+            if (!isOpen || !imageUrl) return null;
+            
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-in fade-in duration-300" onClick={onClose}>
+                    <button onClick={onClose} className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors backdrop-blur-md border border-white/20 z-10"><Icons.X size={24} /></button>
+                    <img 
+                        src={imageUrl} 
+                        alt="Enlarged preview" 
+                        className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-lg shadow-2xl cursor-zoom-out"
+                        onClick={(e) => e.stopPropagation()} 
+                    />
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [currentView, setCurrentView] = useState('recommend');
+            // Initialize with the first category of the default view
+            const [activeCategory, setActiveCategory] = useState(CATEGORIES['recommend']?.[0]?.id || '');
+            const [enlargedImage, setEnlargedImage] = useState(null);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [isDark, setIsDark] = useState(false);
+
+            useEffect(() => {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    setIsDark(true);
+                    document.documentElement.classList.add('dark');
+                }
+            }, []);
+
+            const toggleTheme = () => {
+                setIsDark(!isDark);
+                document.documentElement.classList.toggle('dark');
+            };
+
+            const handleViewChange = (view) => { 
+                setCurrentView(view); 
+                // Automatically select the first category for the new view
+                const firstCategory = CATEGORIES[view]?.[0]?.id || '';
+                setActiveCategory(firstCategory); 
+                setSearchQuery(''); 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            };
+            
+            const handleCategoryClick = (catId) => { setActiveCategory(catId); setSearchQuery(''); };
+
+            const handleSearch = (query) => {
+                setSearchQuery(query);
+                if (query.trim() !== '') {
+                    setCurrentView('fonts');
+                    setActiveCategory(''); 
+                } else {
+                    if (currentView === 'fonts' && activeCategory === '') {
+                         setActiveCategory(CATEGORIES['fonts']?.[0]?.id || '');
+                    }
+                }
+            };
+
+            const filteredData = useMemo(() => {
+                if (searchQuery.trim() !== '') {
+                    return MOCK_FONTS.filter(item => 
+                        item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        item.author.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
+
+                let data = [];
+                if (currentView === 'recommend') data = MOCK_TOOLS || [];
+                else if (currentView === 'ai-prompts') data = MOCK_AI_PROMPTS || [];
+                else if (currentView === 'fonts') data = MOCK_FONTS || [];
+                else if (currentView === 'software') data = MOCK_SOFTWARE || [];
+                else if (currentView === 'design-assets') data = MOCK_ASSETS || [];
+                
+                if (activeCategory) {
+                     data = data.filter(item => item.category === activeCategory);
+                }
+                
+                return data;
+            }, [currentView, activeCategory, searchQuery]);
+
+            const currentCategories = CATEGORIES[currentView] || [];
+            const banner = BANNER_CONFIG[currentView] || { title: 'Loading...', englishTitle: '', subtitle: '', bgImage: '' };
+
+            const renderContent = () => {
+                if (!filteredData || filteredData.length === 0) return <div className="text-center py-32 text-gray-400 font-medium dark:text-gray-500 animate-in fade-in zoom-in-95 duration-500">Nothing found here yet.</div>;
+                
+                if (searchQuery.trim() !== '') {
+                        return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-[2000px]:grid-cols-5 gap-6 md:gap-8">{filteredData.map((item) => <CommonCard key={item.id} item={item} ctaText="Get Font" icon={Icons.Download} isDownload />)}</div>;
+                }
+
+                if (currentView === 'software') return <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">{filteredData.map((item) => <SoftwareCard key={item.id} item={item} />)}</div>;
+                if (currentView === 'recommend') return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-[2000px]:grid-cols-5 gap-6 md:gap-8">{filteredData.map((item) => <CommonCard key={item.id} item={item} ctaText="Visit Site" icon={Icons.ExternalLink} />)}</div>;
+                if (currentView === 'design-assets') return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-[2000px]:grid-cols-5 gap-6 md:gap-8">{filteredData.map((item) => <CommonCard key={item.id} item={item} ctaText="Download Asset" icon={Icons.Download} isDownload />)}</div>;
+                if (currentView === 'fonts') return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-[2000px]:grid-cols-5 gap-6 md:gap-8">{filteredData.map((item) => <CommonCard key={item.id} item={item} ctaText="Get Font" icon={Icons.Download} isDownload />)}</div>;
+
+                return (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-[2000px]:grid-cols-5 gap-6 md:gap-8">
+                        {filteredData.map((item) => <AiPromptCard key={item.id} item={item} onEnlarge={setEnlargedImage} />)}
+                    </div>
+                );
+            };
+
+            return (
+                <div className="min-h-screen font-sans text-gray-900 dark:text-gray-100 pb-24 md:pb-10">
+                    <TopNavigationBar currentView={currentView} onViewChange={handleViewChange} isDark={isDark} toggleTheme={toggleTheme} onSearch={handleSearch} searchQuery={searchQuery} />
+                    <MobileNav currentView={currentView} onViewChange={handleViewChange} />
+
+                    <main className="max-w-[1800px] mx-auto pt-24 md:pt-32 px-4 md:px-8">
+                        <HeroSection 
+                            currentView={currentView} 
+                            banner={banner} 
+                        />
+                        
+                        <CategoryBar 
+                            categories={currentCategories} 
+                            activeCategory={activeCategory} 
+                            onSelect={handleCategoryClick} 
+                        />
+                        
+                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            {renderContent()}
+                        </div>
+                    </main>
+
+                    <ImageViewer isOpen={!!enlargedImage} imageUrl={enlargedImage} onClose={() => setEnlargedImage(null)} />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
