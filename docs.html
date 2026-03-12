@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 - 自在造字</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            animation: {
+                'fade-in': 'fadeIn 0.5s ease-out forwards',
+            },
+            keyframes: {
+                fadeIn: {
+                    '0%': { opacity: '0', transform: 'translateY(10px)' },
+                    '100%': { opacity: '1', transform: 'translateY(0)' }
+                }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        /* --- 文档基础排版加强版 --- */
+        
+        /* 标题层级 */
+        .doc-content h2 { 
+            font-size: 2rem; 
+            letter-spacing: -0.05em; 
+            font-weight: 900; 
+            margin-top: 0; 
+            margin-bottom: 2rem; 
+            color: #000; 
+            line-height: 1.1;
+        }
+        @media (min-width: 1024px) { .doc-content h2 { font-size: 2.5rem; margin-bottom: 2.5rem; } }
+        .dark .doc-content h2 { color: #fff; }
+        
+        .doc-content h3 { 
+            font-size: 1.35rem; 
+            font-weight: 800; 
+            margin-top: 3.5rem; 
+            margin-bottom: 1.5rem; 
+            color: #111; 
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+        }
+        .dark .doc-content h3 { color: #fff; }
+
+        .doc-content h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+        .dark .doc-content h4 { color: #e5e5e5; }
+        
+        /* 正文与列表 */
+        .doc-content p, .doc-content li { 
+            max-width: 70ch; 
+            line-height: 1.8; 
+            color: #4b5563; 
+            font-size: 1.0625rem;
+            margin-bottom: 1.5rem;
+        }
+        .dark .doc-content p, .dark .doc-content li { color: #a3a3a3; }
+        
+        .doc-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; marker: #9ca3af; }
+        .doc-content ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; }
+
+        /* 链接样式 */
+        .doc-content a:not(.btn):not(.no-underline) {
+            color: #000;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+            text-decoration-color: #d1d5db;
+            transition: all 0.2s;
+        }
+        .dark .doc-content a:not(.btn):not(.no-underline) { color: #fff; text-decoration-color: #525252; }
+        .doc-content a:not(.btn):not(.no-underline):hover { text-decoration-color: #000; background: #f3f4f6; }
+        .dark .doc-content a:not(.btn):not(.no-underline):hover { text-decoration-color: #fff; background: #262626; }
+
+        .doc-content hr { border: 0; height: 1px; background: #e5e7eb; margin: 4rem 0; }
+        .dark .doc-content hr { background: #262626; }
+
+        /* 引用块 */
+        .doc-content blockquote {
+            border-left: 4px solid #000;
+            padding-left: 1.5rem;
+            margin: 2.5rem 0;
+            font-style: italic;
+            color: #111;
+            font-size: 1.15rem;
+            background: linear-gradient(to right, #f9fafb, transparent);
+        }
+        .dark .doc-content blockquote {
+            border-left-color: #fff;
+            color: #e5e5e5;
+            background: linear-gradient(to right, #111, transparent);
+        }
+
+        /* 左侧导航项 */
+        .docs-nav-btn {
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-btn-active { 
+            background-color: #f3f4f6; 
+            color: #000 !important; 
+            font-weight: 700;
+        }
+        .dark .nav-btn-active { 
+            background-color: #1a1a1a; 
+            color: #fff !important; 
+        }
+        .nav-btn-active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 16px;
+            width: 3px;
+            background-color: #000;
+            border-radius: 0 4px 4px 0;
+        }
+        .dark .nav-btn-active::before { background-color: #fff; }
+
+        /* 步骤条 */
+        .steps-list {
+            counter-reset: step;
+            list-style: none !important;
+            padding-left: 0 !important;
+            border-left: 1px solid #e5e7eb;
+            margin-left: 1rem;
+        }
+        .dark .steps-list { border-left-color: #262626; }
+        .steps-list li {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .steps-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: -1rem;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #000;
+        }
+        .dark .steps-list li::before { background: #000; border-color: #404040; color: #fff; }
+
+        /* 移动端弹出层动画 */
+        #mobile-menu-overlay { transition: opacity 0.3s ease; }
+        #mobile-menu-panel { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 dark:bg-neutral-950 dark:text-gray-100 flex flex-col min-h-screen antialiased selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    
+    <nav id="nav-placeholder" class="fixed inset-x-0 top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md dark:border-neutral-900 dark:bg-neutral-950/80"></nav>
+
+    <!-- 移动端目录按钮 (左下角，纯图标) -->
+    <button id="open-mobile-menu" class="lg:hidden fixed bottom-6 left-6 z-40 flex items-center justify-center w-14 h-14 bg-black text-white dark:bg-white dark:text-black rounded-full shadow-2xl active:scale-95 transition-transform">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+    </button>
+
+    <!-- 移动端菜单弹窗 -->
+    <div id="mobile-menu-container" class="hidden fixed inset-0 z-[60]">
+        <div id="mobile-menu-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0"></div>
+        <div id="mobile-menu-panel" class="absolute bottom-0 inset-x-0 bg-white dark:bg-neutral-950 rounded-t-[2.5rem] p-8 translate-y-full border-t border-gray-100 dark:border-neutral-900">
+            <div class="w-12 h-1.5 bg-gray-200 dark:bg-neutral-800 rounded-full mx-auto mb-8"></div>
+            <div id="mobile-nav-content" class="max-h-[60vh] overflow-y-auto no-scrollbar">
+                <!-- 由脚本自动填充 -->
+            </div>
+            <button id="close-mobile-menu" class="w-full mt-6 py-4 bg-gray-50 dark:bg-neutral-900 rounded-2xl font-bold text-sm">关闭</button>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <main class="mx-auto w-full max-w-[1800px] px-6 lg:px-12 pt-28 lg:pt-36 pb-20 flex-1">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12 lg:gap-32 items-start">
+            
+            <!-- 左侧导航：桌面端显示 -->
+            <aside id="docs-sidebar" class="hidden lg:block sticky top-32 rounded-[2rem] h-fit border border-gray-200 dark:border-neutral-800 p-6">
+                <nav class="flex flex-col">
+                    <div class="pb-8 mb-8 border-b border-gray-100 dark:border-neutral-900">
+                        <h4 class="mb-4 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-neutral-600">Studio</h4>
+                        <div class="space-y-1">
+                            <button class="docs-nav-btn flex w-full items-center rounded-lg px-4 py-2 text-[14px] font-medium text-gray-500 dark:text-neutral-400" data-target="about">关于我们</button>
+                        </div>
+                    </div>
+
+                    <div class="pb-8 mb-8 border-b border-gray-100 dark:border-neutral-900">
+                        <h4 class="mb-4 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-neutral-600">Legal</h4>
+                        <div class="space-y-1">
+                            <button class="docs-nav-btn flex w-full items-center rounded-lg px-4 py-2 text-[14px] font-medium text-gray-500 dark:text-neutral-400" data-target="copyright">版权归属</button>
+                            <button class="docs-nav-btn flex w-full items-center rounded-lg px-4 py-2 text-[14px] font-medium text-gray-500 dark:text-neutral-400" data-target="licensing">授权指南</button>
+                            <button class="docs-nav-btn flex w-full items-center rounded-lg px-4 py-2 text-[14px] font-medium text-gray-500 dark:text-neutral-400" data-target="terms">使用条款 (EULA)</button>
+                        </div>
+                    </div>
+
+                    <div class="pb-2">
+                        <h4 class="mb-4 px-4 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-neutral-600">Support</h4>
+                        <div class="space-y-1">
+                            <button class="docs-nav-btn flex w-full items-center rounded-lg px-4 py-2 text-[14px] font-medium text-gray-500 dark:text-neutral-400" data-target="faq">常见问题 (FAQ)</button>
+                            <button class="docs-nav-btn flex w-full items-center rounded-lg px-4 py-2 text-[14px] font-medium text-gray-500 dark:text-neutral-400" data-target="contact">联系我们</button>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 右侧正文 -->
+            <div id="docs-content" class="w-full">
+                
+                <!-- 关于我们 -->
+                <article id="about" class="docs-section doc-content hidden animate-fade-in">
+                    <h2 class="tracking-tighter">关于自在造字</h2>
+                    <p class="text-xl lg:text-2xl font-medium text-gray-800 dark:text-neutral-200 mb-8 leading-tight">自在造字 (Zizao Type Studio) 致力于探索汉字在 <a href="#">可变字体 (Variable Font)</a> 技术下的无限可能。我们认为设计应摆脱重叠参数的束缚，“可变，才自在”。</p>
+
+                    <blockquote>
+                        "Type design is not about drawing shapes, it's about programming a system." <br>
+                        <span class="text-sm not-italic text-gray-400 mt-2 block">— Zizao Type Studio Manifesto</span>
+                    </blockquote>
+
+                    <p>我们构建的不止是静态的字形，而是一套可实时生长的视觉系统。在自在造字，每一个锚点的移动、每一条曲线的弹性，都通过严格的网格逻辑进行推演。</p>
+
+                    <div class="p-8 rounded-3xl border border-gray-100 dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-900/30 my-8">
+                        <h4 class="!mt-0 mb-4">算法驱动的设计</h4>
+                        <p class="text-sm !mb-0 text-gray-500 leading-relaxed">我们将字体视为精密的几何算法，通过代码与设计的融合，实现从 Thin 到 Black，从 Condensed 到 Extended 的无级调节。</p>
+                    </div>
+
+                    <h3>设计哲学</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                        <div class="p-8 rounded-3xl border border-gray-100 dark:border-neutral-900 bg-white dark:bg-neutral-950">
+                            <h4 class="!mt-0 !mb-2">Geometric 几何构建</h4>
+                            <p class="text-sm !mb-0 text-gray-500">通过数学化的网格体系确立字形骨架，确保在任何极值下字形比例的稳定性。</p>
+                        </div>
+                        <div class="p-8 rounded-3xl border border-gray-100 dark:border-neutral-900 bg-white dark:bg-neutral-950">
+                            <h4 class="!mt-0 !mb-2">Interpolation 动态插值</h4>
+                            <p class="text-sm !mb-0 text-gray-500">利用最前沿的插值技术，实现多轴向（字重、字宽、倾斜）的无缝切换。</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 版权归属 -->
+                <article id="copyright" class="docs-section doc-content hidden animate-fade-in">
+                    <h2 class="tracking-tighter">版权归属</h2>
+                    <p class="text-xl mb-12">自在造字 (Zizao Type Studio) 是其所发布所有字体软件及相关创意设计的唯一合法版权所有者。</p>
+                    
+                    <div class="p-6 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 mb-12">
+                        <strong class="block mb-1">禁止行为</strong>
+                        <p class="text-sm !mb-0">严禁对本工作室字体软件进行反编译、修改、重命名、拆分或用于 <code>Generative AI</code> 模型训练。</p>
+                    </div>
+
+                    <h3>原创性声明</h3>
+                    <p>我们郑重声明：自在造字所有作品均为 100% 独立原创。每一个笔画、每一个字符集均由本工作室设计师亲自手绘，不基于任何开源或其他版权字体进行修改。</p>
+                </article>
+
+                <!-- 授权指南 -->
+                <article id="licensing" class="docs-section doc-content hidden animate-fade-in">
+                    <h2 class="tracking-tighter">授权指南</h2>
+                    <p class="text-xl mb-10">我们提供极简、透明且极具竞争力的授权模式。</p>
+
+                    <h3>如何获取授权？</h3>
+                    <ul class="steps-list">
+                        <li>
+                            <strong class="text-black dark:text-white">选择字体与场景</strong>
+                            <p class="text-sm mt-1">确认您需要商用的字体款式，以及主要的使用场景（线上/线下/App嵌入）。</p>
+                        </li>
+                        <li>
+                            <strong class="text-black dark:text-white">购买许可证</strong>
+                            <p class="text-sm mt-1">通过官网或淘宝店铺下单。支持支付宝和微信支付。</p>
+                        </li>
+                        <li>
+                            <strong class="text-black dark:text-white">获取授权书</strong>
+                            <p class="text-sm mt-1">付款后您将收到一份包含唯一授权码的 PDF 授权证书。</p>
+                        </li>
+                    </ul>
+
+                    <hr />
+
+                    <h3>授权范围对比</h3>
+                    <div class="overflow-x-auto rounded-2xl border border-gray-200 dark:border-neutral-800">
+                        <table class="w-full text-left border-collapse min-w-[500px]">
+                            <thead class="bg-gray-50 dark:bg-neutral-900 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4">使用场景</th>
+                                    <th class="px-6 py-4">个人非商用</th>
+                                    <th class="px-6 py-4">标准商业版</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 dark:divide-neutral-900 text-sm">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-black dark:text-white">个人作品集展示</td>
+                                    <td class="px-6 py-4 text-green-600">✔ 允许</td>
+                                    <td class="px-6 py-4 text-green-600">✔ 允许</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-black dark:text-white">甲方商业设计</td>
+                                    <td class="px-6 py-4 text-red-500">✘ 禁止</td>
+                                    <td class="px-6 py-4 text-green-600">✔ 允许</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-black dark:text-white">App/游戏内嵌</td>
+                                    <td class="px-6 py-4 text-red-500">✘ 禁止</td>
+                                    <td class="px-6 py-4 text-orange-500">需定制</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <!-- 使用条款 -->
+                <article id="terms" class="docs-section doc-content hidden animate-fade-in">
+                    <h2 class="tracking-tighter">使用条款 (EULA)</h2>
+                    <p class="text-lg mb-8">本《最终用户许可协议》是您（个人或单一实体）与自在造字之间关于字体软件的法律协议。</p>
+
+                    <h3>1. 授予许可</h3>
+                    <p>自在造字授予您一项非排他的、不可转让的、有限的许可，允许您在您拥有或控制的计算机上安装和使用本软件。</p>
+
+                    <h3>2. 限制</h3>
+                    <ul>
+                        <li><strong>不得分发：</strong> 您不得向第三方提供字体文件的副本。</li>
+                        <li><strong>不得修改：</strong> 除非为了将字体转换为轮廓路径（Outline）进行设计，否则不得修改字体文件的内部数据。</li>
+                    </ul>
+
+                    <h3>3. 终止</h3>
+                    <p>如果您未能遵守本协议的任何条款或条件，您的许可权利将自动终止。在这种情况下，您必须销毁本软件的所有副本。</p>
+                </article>
+
+                <!-- 常见问题 -->
+                <article id="faq" class="docs-section doc-content hidden animate-fade-in">
+                    <h2 class="tracking-tighter">常见问题</h2>
+                    
+                    <div class="space-y-12 mt-8">
+                        <div>
+                            <h4 class="!mt-0 flex items-start gap-4">
+                                <span class="bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold px-2 py-1 rounded mt-1">Q</span>
+                                购买授权后可以为多个客户做设计吗？
+                            </h4>
+                            <p class="pl-12 text-gray-600 dark:text-neutral-400">授权属于设计师本人或设计公司。您可以为无限量的客户提供设计作品（输出为图片或转曲后的矢量文件）。但如果您的客户需要直接获得字体文件进行二次编辑，则客户需要单独购买授权。</p>
+                        </div>
+
+                        <hr class="!my-0 opacity-50">
+
+                        <div>
+                            <h4 class="!mt-0 flex items-start gap-4">
+                                <span class="bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold px-2 py-1 rounded mt-1">Q</span>
+                                可以在多台电脑上同时安装吗？
+                            </h4>
+                            <p class="pl-12 text-gray-600 dark:text-neutral-400">标准商业授权 (Standard Desktop) 允许在同一家公司内部的最多 5 台物理设备上安装。如果需要在更多设备上部署，请联系我们升级为企业版授权。</p>
+                        </div>
+
+                        <hr class="!my-0 opacity-50">
+
+                        <div>
+                            <h4 class="!mt-0 flex items-start gap-4">
+                                <span class="bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold px-2 py-1 rounded mt-1">Q</span>
+                                支持发票开具吗？
+                            </h4>
+                            <p class="pl-12 text-gray-600 dark:text-neutral-400">支持。企业购买满 ¥200 可申请开具增值税普通电子发票。请在购买后将订单号及开票信息发送至财务邮箱。</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 联系我们 -->
+                <article id="contact" class="docs-section doc-content hidden animate-fade-in">
+                    <!-- 标题区域 -->
+                    <h2 class="!mb-4 tracking-tighter">联系我们</h2>
+                    <p class="text-lg text-gray-500 dark:text-gray-400 mb-8">无论是商务洽谈、全案定制咨询还是加入社群，我们都随时欢迎您的联络。</p>
+
+                    <!-- 分隔线 1 -->
+                    <hr class="border-0 h-px bg-gray-100 dark:bg-neutral-800 my-10" />
+
+                    <!-- Block 1. 邮箱联系 -->
+                    <div class="mb-12">
+                        <h3 class="!mt-0 mb-6 text-base font-bold text-gray-900 dark:text-white">邮箱联系</h3>
+                        <a href="mailto:type@zizao.top" class="no-underline group w-full p-8 md:p-10 rounded-[2rem] bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div class="flex items-center gap-6">
+                                <div class="w-14 h-14 rounded-full bg-white dark:bg-neutral-800 flex items-center justify-center shrink-0 border border-gray-100 dark:border-neutral-800 transition-colors group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="!m-0 font-black text-xl md:text-2xl">General Inquiry</h4>
+                                    <p class="text-xs text-gray-400 uppercase tracking-widest font-bold !m-0 mt-1">Business & Support</p>
+                                </div>
+                            </div>
+                            <!-- 邮箱地址带下划线交互 -->
+                            <span class="text-xl md:text-3xl font-bold font-mono underline decoration-2 underline-offset-8 decoration-transparent group-hover:decoration-black dark:group-hover:decoration-white transition-all duration-300 break-all">type@zizao.top</span>
+                        </a>
+                    </div>
+
+                    <!-- 分隔线 2 -->
+                    <hr class="border-0 h-px bg-gray-100 dark:bg-neutral-800 my-10" />
+
+                    <!-- Block 2. 即时通讯 -->
+                    <div class="mb-12">
+                        <h3 class="!mt-0 mb-6 text-base font-bold text-gray-900 dark:text-white">即时通讯</h3>
+                        <div class="flex flex-col gap-4">
+                            
+                            <!-- 微信公众号 -->
+                            <div class="flex flex-col sm:flex-row items-center sm:justify-between p-6 rounded-2xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-900">
+                                <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-5">
+                                    <div class="w-16 h-16 shrink-0 p-1 bg-white dark:bg-neutral-800 rounded-xl border border-gray-100 dark:border-neutral-800">
+                                        <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/4dAf/251X251/iwg.webp/webp" class="w-full h-full object-cover rounded-lg" alt="公众号">
+                                    </div>
+                                    <div>
+                                        <h4 class="!m-0 text-base font-bold">微信公众号</h4>
+                                        <p class="text-xs text-gray-400 !m-0 mt-1">最新发布与口令获取</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 sm:mt-0">
+                                    <span class="px-3 py-1.5 bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400 text-[11px] font-bold rounded-full">ZizaoType</span>
+                                </div>
+                            </div>
+
+                            <!-- 微信客服 -->
+                            <div class="flex flex-col sm:flex-row items-center sm:justify-between p-6 rounded-2xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-900">
+                                <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-5">
+                                    <div class="w-16 h-16 shrink-0 p-1 bg-white dark:bg-neutral-800 rounded-xl border border-gray-100 dark:border-neutral-800">
+                                        <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/HGRq/251X251/iwx.webp/webp" class="w-full h-full object-cover rounded-lg" alt="客服微信">
+                                    </div>
+                                    <div>
+                                        <h4 class="!m-0 text-base font-bold">客服微信</h4>
+                                        <p class="text-xs text-gray-400 !m-0 mt-1">授权咨询与售后服务</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 sm:mt-0">
+                                    <span class="px-3 py-1.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 text-[11px] font-bold rounded-full">ID: ZizaoCS</span>
+                                </div>
+                            </div>
+
+                            <!-- QQ 咨询 -->
+                            <div class="flex flex-col sm:flex-row items-center sm:justify-between p-6 rounded-2xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-900">
+                                <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-5">
+                                    <div class="w-16 h-16 shrink-0 p-1 bg-white dark:bg-neutral-800 rounded-xl border border-gray-100 dark:border-neutral-800 flex items-center justify-center">
+                                        <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/HGRq/251X251/iwx.webp/webp" class="w-full h-full object-cover rounded-lg opacity-40 grayscale" alt="QQ QR">
+                                    </div>
+                                    <div>
+                                        <h4 class="!m-0 text-base font-bold">QQ 咨询</h4>
+                                        <p class="text-xs text-gray-400 !m-0 mt-1">用户交流与社群</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 sm:mt-0">
+                                    <span class="px-3 py-1.5 bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 text-[11px] font-bold rounded-full">Group: 888888</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 分隔线 3 -->
+                    <hr class="border-0 h-px bg-gray-100 dark:bg-neutral-800 my-10" />
+
+                    <!-- Block 3. 社交媒体 -->
+                    <div class="mt-12">
+                        <h3 class="!mt-0 mb-6 text-base font-bold text-gray-900 dark:text-white">社交媒体</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#" target="_blank" class="no-underline px-6 py-3 rounded-full bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 font-bold text-sm text-gray-500 hover:text-black dark:hover:text-white hover:-translate-y-1 transition-all duration-300">
+                                小红书 RedNote
+                            </a>
+                            <a href="#" target="_blank" class="no-underline px-6 py-3 rounded-full bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 font-bold text-sm text-gray-500 hover:text-black dark:hover:text-white hover:-translate-y-1 transition-all duration-300">
+                                Bilibili
+                            </a>
+                            <a href="#" target="_blank" class="no-underline px-6 py-3 rounded-full bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 font-bold text-sm text-gray-500 hover:text-black dark:hover:text-white hover:-translate-y-1 transition-all duration-300">
+                                站酷 Zcool
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer-placeholder" class="bg-white pt-20 pb-12 dark:bg-neutral-950 border-t border-gray-100 dark:border-neutral-900 mt-auto"></footer>
+    
+    <script src="components.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const SECTIONS_CONFIG = {
+                'about':     { title: '关于我们 - 自在造字' },
+                'copyright': { title: '版权归属 - 自在造字' },
+                'licensing': { title: '授权指南 - 自在造字' },
+                'terms':     { title: '使用条款 - 自在造字' },
+                'faq':       { title: '常见问题 - 自在造字' },
+                'contact':   { title: '联系我们 - 自在造字' }
+            };
+
+            const sections = document.querySelectorAll('.docs-section');
+            const desktopNavBtns = document.querySelectorAll('#docs-sidebar .docs-nav-btn');
+            
+            // --- 移动端目录逻辑 ---
+            const openBtn = document.getElementById('open-mobile-menu');
+            const closeBtn = document.getElementById('close-mobile-menu');
+            const menuContainer = document.getElementById('mobile-menu-container');
+            const menuOverlay = document.getElementById('mobile-menu-overlay');
+            const menuPanel = document.getElementById('mobile-menu-panel');
+            const mobileNavContent = document.getElementById('mobile-nav-content');
+
+            // 初始化移动端导航内容 (克隆桌面端)
+            mobileNavContent.innerHTML = document.querySelector('#docs-sidebar nav').innerHTML;
+            const mobileNavBtns = mobileNavContent.querySelectorAll('.docs-nav-btn');
+
+            const toggleMobileMenu = (isOpen) => {
+                if(isOpen) {
+                    menuContainer.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; 
+                    setTimeout(() => {
+                        menuOverlay.classList.replace('opacity-0', 'opacity-100');
+                        menuPanel.classList.replace('translate-y-full', 'translate-y-0');
+                    }, 10);
+                } else {
+                    document.body.style.overflow = '';
+                    menuOverlay.classList.replace('opacity-100', 'opacity-0');
+                    menuPanel.classList.replace('translate-y-0', 'translate-y-full');
+                    setTimeout(() => menuContainer.classList.add('hidden'), 300);
+                }
+            };
+
+            openBtn.addEventListener('click', () => toggleMobileMenu(true));
+            closeBtn.addEventListener('click', () => toggleMobileMenu(false));
+            menuOverlay.addEventListener('click', () => toggleMobileMenu(false));
+
+            const switchSection = (targetId, updateHistory = true) => {
+                if (!SECTIONS_CONFIG[targetId]) targetId = 'about'; 
+
+                sections.forEach(sec => sec.classList.add('hidden'));
+                const targetSec = document.getElementById(targetId);
+                if(targetSec) targetSec.classList.remove('hidden');
+
+                // 更新所有导航按钮的激活状态
+                document.querySelectorAll('.docs-nav-btn').forEach(btn => {
+                    if(btn.dataset.target === targetId) btn.classList.add('nav-btn-active');
+                    else btn.classList.remove('nav-btn-active');
+                });
+
+                if (SECTIONS_CONFIG[targetId]) document.title = SECTIONS_CONFIG[targetId].title;
+
+                if (updateHistory) {
+                    const newUrl = new URL(window.location);
+                    newUrl.searchParams.set('section', targetId);
+                    window.history.pushState({ section: targetId }, '', newUrl);
+                }
+                
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                toggleMobileMenu(false); 
+            };
+
+            [...desktopNavBtns, ...mobileNavBtns].forEach(btn => {
+                btn.addEventListener('click', () => switchSection(btn.dataset.target, true));
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            const initSection = params.get('section') || 'about'; 
+            switchSection(initSection, false);
+
+            window.addEventListener('popstate', (e) => switchSection((e.state && e.state.section) ? e.state.section : 'about', false));
+        });
+    </script>
+</body>
+</html>
