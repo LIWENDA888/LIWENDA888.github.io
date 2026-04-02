@@ -43,9 +43,35 @@
             }
         }
 
-        /* 提升文字在图片上的清晰度 */
-        .text-overlay-shadow {
-            text-shadow: 0 2px 12px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1);
+        /* 轮播平滑切换 */
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 10;
+        }
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 20;
+        }
+
+        /* 指示器样式优化 */
+        .indicator-bar {
+            height: 3px;
+            width: 24px;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.4s ease;
+            border-radius: 99px;
+        }
+        .indicator-wrapper:hover .indicator-bar {
+            background: rgba(255,255,255,0.5);
+        }
+        .indicator-wrapper.active .indicator-bar {
+            width: 48px;
+            background: rgba(255,255,255,1);
         }
     </style>
 </head>
@@ -55,100 +81,65 @@
 
     <main class="w-full flex-1">
         
-        <!-- HERO SECTION -->
+        <!-- HERO SECTION (高度增加至 760px) -->
         <section class="w-full px-4 pt-24 pb-8 lg:px-12 lg:pt-28 lg:pb-8 max-w-[1800px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:h-[540px] min-h-0 animate-fade-up">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:h-[760px] min-h-0 animate-fade-up">
                 
-                <!-- LEFT WRAPPER -->
-                <div class="lg:col-span-7 flex flex-col gap-4 h-full order-2 lg:order-none">
+                <!-- LEFT WRAPPER (9/12) -->
+                <div class="lg:col-span-9 flex flex-col gap-4 h-full order-1 lg:order-none">
                     
-                    <!-- 1. 全部字体产品 (Hero Main Image) -->
-                    <a href="https://www.zizao.top/fonts" target="_blank" class="hidden lg:block relative lg:flex-1 w-full rounded-[1.75rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 shadow-sm border border-gray-100 dark:border-neutral-800 group cursor-pointer isolate">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16, 1, 0.3, 1)] group-hover:scale-105" alt="Hero Background">
+                    <!-- 轮播图区域 (左上) -->
+                    <div class="relative flex-[2] lg:flex-1 w-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 shadow-sm border border-gray-100 dark:border-neutral-800 isolate min-h-[400px] lg:min-h-0">
                         
-                        <div class="absolute top-8 left-8 z-20 pointer-events-none">
-                            <h1 class="text-4xl lg:text-5xl font-black text-white tracking-tighter leading-none text-overlay-shadow mb-3">全部字体产品</h1>
-                            <p class="text-white/90 text-sm font-bold tracking-widest uppercase text-overlay-shadow opacity-90">Explore Full Collection</p>
+                        <!-- 幻灯片内容 -->
+                        <div id="carousel-slides" class="absolute inset-0">
+                            <a href="fonts.html" target="_blank" class="slide active">
+                                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 1">
+                            </a>
+                            <a href="https://hao.zizao.top" target="_blank" class="slide">
+                                <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 2">
+                            </a>
+                            <a href="licensing.html" target="_blank" class="slide">
+                                <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 3">
+                            </a>
                         </div>
-                        
-                        <div class="absolute bottom-8 right-8 z-30 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]">
-                            <div class="w-14 h-14 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95">
-                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
-                    </a>
 
-                    <!-- 2. 手风琴导航 -->
-                    <div class="accordion-container flex flex-col lg:flex-row gap-3 lg:gap-4 h-auto lg:h-44 shrink-0">
-                        <!-- Item 1 -->
-                        <a href="https://hao.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 cursor-pointer border border-gray-100 dark:border-neutral-800 group/item">
-                            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Design Nav">
-                            <div class="absolute inset-0 bg-black/5 lg:bg-transparent lg:group-hover/item:bg-black/10 transition-colors duration-500"></div>
-                            <div class="absolute left-6 top-1/2 -translate-y-1/2 lg:top-auto lg:translate-y-0 lg:bottom-6 lg:left-6 text-white flex items-center lg:block gap-4 lg:gap-0">
-                                <div class="w-8 h-8 lg:mb-3 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shrink-0">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                                </div>
-                                <div class="text-overlay-shadow">
-                                    <h3 class="font-black text-lg leading-none mb-0 lg:mb-1 tracking-tight">设计导航</h3>
-                                    <p class="text-[10px] text-white/80 uppercase tracking-widest font-mono hidden lg:block lg:opacity-0 group-hover/item:opacity-100 transition-all transform translate-y-2 group-hover/item:translate-y-0 duration-300">Navigation Hub</p>
-                                </div>
+                        <!-- 指示器 (居中下移) -->
+                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1">
+                            <div class="indicator-wrapper active cursor-pointer py-4 px-2" onclick="goToSlide(0)">
+                                <div class="indicator-bar"></div>
                             </div>
+                            <div class="indicator-wrapper cursor-pointer py-4 px-2" onclick="goToSlide(1)">
+                                <div class="indicator-bar"></div>
+                            </div>
+                            <div class="indicator-wrapper cursor-pointer py-4 px-2" onclick="goToSlide(2)">
+                                <div class="indicator-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 手风琴导航 (左下) -->
+                    <div class="accordion-container flex flex-col lg:flex-row gap-3 lg:gap-4 h-auto lg:h-56 shrink-0">
+                        <a href="https://hao.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
+                            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Nav">
                         </a>
-                        <!-- Item 2 -->
-                        <a href="https://vf.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 cursor-pointer border border-gray-100 dark:border-neutral-800 group/item">
-                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Variable Space">
-                            <div class="absolute inset-0 bg-black/5 lg:bg-transparent lg:group-hover/item:bg-black/10 transition-colors duration-500"></div>
-                            <div class="absolute left-6 top-1/2 -translate-y-1/2 lg:top-auto lg:translate-y-0 lg:bottom-6 lg:left-6 text-white flex items-center lg:block gap-4 lg:gap-0 text-overlay-shadow">
-                                <div class="w-8 h-8 lg:mb-3 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shrink-0">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-black text-lg leading-none mb-0 lg:mb-1 tracking-tight">可变实验室</h3>
-                                    <p class="text-[10px] text-white/80 uppercase tracking-widest font-mono hidden lg:block lg:opacity-0 group-hover/item:opacity-100 transition-all transform translate-y-2 group-hover/item:translate-y-0 duration-300">VF Playground</p>
-                                </div>
-                            </div>
+                        <a href="https://vf.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
+                            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="VF">
                         </a>
-                        <!-- Item 3 -->
-                        <a href="https://chaoyin.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 cursor-pointer border border-gray-100 dark:border-neutral-800 group/item">
-                            <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Ke Serif">
-                            <div class="absolute inset-0 bg-black/5 lg:bg-transparent lg:group-hover/item:bg-black/10 transition-colors duration-500"></div>
-                            <div class="absolute left-6 top-1/2 -translate-y-1/2 lg:top-auto lg:translate-y-0 lg:bottom-6 lg:left-6 text-white flex items-center lg:block gap-4 lg:gap-0 text-overlay-shadow">
-                                <div class="w-8 h-8 lg:mb-3 rounded-full bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shrink-0">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-black text-lg leading-none mb-0 lg:mb-1 tracking-tight">超引形近字</h3>
-                                    <p class="text-[10px] text-white/80 uppercase tracking-widest font-mono hidden lg:block lg:opacity-0 group-hover/item:opacity-100 transition-all transform translate-y-2 group-hover/item:translate-y-0 duration-300">Zizao Ke Serif</p>
-                                </div>
-                            </div>
+                        <a href="https://chaoyin.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
+                            <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Zizao">
                         </a>
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN (近期上新) -->
-                <a href="fonts/zhisans.html" target="_blank" class="lg:col-span-5 relative w-full aspect-square lg:aspect-auto lg:h-full rounded-[1.75rem] overflow-hidden group shadow-sm border border-gray-100 dark:border-neutral-800 block cursor-pointer isolate order-1 lg:order-none">
-                    <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16, 1, 0.3, 1)] group-hover:scale-105" alt="Zhisans Poster">
-                    
-                    <div class="absolute bottom-10 left-10 z-10 text-white pointer-events-none text-overlay-shadow">
-                        <p class="text-white/90 text-sm font-bold tracking-widest uppercase mb-3 opacity-90">New Release</p>
-                        <h2 class="text-4xl lg:text-5xl font-black leading-tight tracking-tighter">近期上新</h2>
+                <!-- RIGHT COLUMN (3/12) -->
+                <a href="fonts/zhisans.html" target="_blank" class="lg:col-span-3 relative w-full aspect-square lg:aspect-auto lg:h-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden group shadow-sm border border-gray-100 dark:border-neutral-800 block cursor-pointer isolate order-2 lg:order-none">
+                    <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Right">
+                    <div class="absolute bottom-8 right-8 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                        <div class="w-12 h-12 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                        </div>
                     </div>
-
-                    <div class="absolute top-8 right-8 mix-blend-overlay opacity-60 pointer-events-none scale-90 origin-top-right">
-                        <div class="relative flex items-center justify-center size-24">
-                           <svg class="absolute inset-0 w-full h-full animate-spin-slow text-white" viewBox="0 0 100 100">
-                               <defs><path id="circle" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" /></defs>
-                               <text font-size="11" font-weight="900" letter-spacing="2"><textPath xlink:href="#circle" fill="currentColor">SCROLL TO EXPLORE • ZIZAO TYPE • </textPath></text>
-                           </svg>
-                           <div class="text-2xl font-black text-white">Z</div>
-                       </div>
-                   </div>
-
-                   <div class="absolute bottom-10 right-10 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]">
-                       <div class="w-14 h-14 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95">
-                           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                       </div>
-                   </div>
                 </a>
             </div>
         </section>
@@ -160,9 +151,6 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-black dark:bg-white animate-pulse"></span>
                     <span class="font-mono text-[11px] font-bold uppercase tracking-[0.3em] text-gray-500 dark:text-neutral-500">Zizao Type Studio</span>
                 </div>
-                <div class="hidden md:block">
-                    <span class="font-mono text-xs uppercase tracking-[0.25em] font-black text-black dark:text-white">Variable, is Free.</span>
-                </div>
                 <div class="text-right hidden sm:block">
                     <span class="block font-mono text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">Location</span>
                     <span class="block font-mono text-xs font-black text-black dark:text-white">HUBEI, CHINA</span>
@@ -172,7 +160,6 @@
 
         <!-- SELECTED WORKS -->
         <section id="featured" class="py-16 lg:py-24 px-4 lg:px-12 max-w-[1800px] mx-auto">
-            
             <div class="flex items-end justify-between mb-12 border-b border-gray-100 dark:border-neutral-900 pb-8">
                 <h2 class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">Selected Works</h2>
                 <div class="hidden sm:block">
@@ -181,154 +168,123 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-                
                 <!-- Card 1 -->
                 <a href="fonts/zhisans.html" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                        <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
+                        <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W1">
                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
                              <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">自在致黑</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Retail Font</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">自在致黑</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Retail Font</span></div>
                 </a>
 
                 <!-- Card 2 -->
                 <a href="https://hao.zizao.top" target="_blank" class="group block">
-                    <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
+                    <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
+                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W2">
                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
                              <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">设计导航</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Web Service</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">设计导航</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Web Service</span></div>
                 </a>
 
                 <!-- Card 3 -->
                 <a href="https://tools.zizao.top" target="_blank" class="group block">
-                    <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                        <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
+                    <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
+                        <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W3">
                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
                              <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">在线工具箱</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Toolkit</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">在线工具箱</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Toolkit</span></div>
                 </a>
 
                 <!-- Card 4 -->
                 <a href="licensing.html" target="_blank" class="group block">
-                    <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                        <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
+                    <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
+                        <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W4">
                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
                              <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">品牌定制</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Bespoke</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">品牌定制</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Bespoke</span></div>
                 </a>
 
                 <!-- Card 5 -->
                 <a href="#" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                         <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
-                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W5">
+                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">字体样张</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Specimen</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">字体样张</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Specimen</span></div>
                 </a>
 
                 <!-- Card 6 -->
                 <a href="#" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                         <img src="https://images.unsplash.com/photo-1614850523060-8da1d56e37ad?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
-                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1614850523060-8da1d56e37ad?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W6">
+                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">视觉实验室</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Type Lab</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">视觉实验室</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Type Lab</span></div>
                 </a>
 
                 <!-- Card 7 -->
                 <a href="#" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                         <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
-                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W7">
+                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">应用展示</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">Gallery</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">应用展示</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Gallery</span></div>
                 </a>
 
                 <!-- Card 8 -->
                 <a href="docs.html?section=about" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
-                         <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Work">
-                         <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W8">
+                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-black text-black dark:text-white mb-1 tracking-tight">关于我们</h3>
-                        <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400">About Studio</span>
-                    </div>
+                    <div><h3 class="text-xl font-black mb-1">关于我们</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">About Studio</span></div>
                 </a>
-
             </div>
 
             <!-- Have a Project -->
-            <div class="mt-20 lg:mt-36 px-6 py-20 lg:p-28 bg-gray-50 dark:bg-neutral-900 rounded-[2.5rem] text-center border border-gray-100 dark:border-neutral-800">
+            <div class="mt-20 lg:mt-36 px-6 py-20 lg:p-28 bg-gray-50 dark:bg-neutral-900 rounded-[2.5rem] lg:rounded-[3rem] text-center border border-gray-100 dark:border-neutral-800">
                 <h3 class="text-4xl md:text-6xl font-black mb-8 tracking-tighter">Have a Project?</h3>
                 <p class="text-gray-500 dark:text-neutral-400 max-w-xl mx-auto mb-12 text-lg lg:text-xl font-medium leading-relaxed">
                     寻找独特的品牌声音？我们提供专业的企业定制字体服务，从 Logotype 到全球化字符集。
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-5">
-                     <a href="licensing.html" target="_blank" class="h-16 px-12 rounded-full bg-black text-white font-bold text-sm flex items-center justify-center hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 dark:bg-white dark:text-black">
-                         定制咨询
-                     </a>
-                     <a href="mailto:type@zizao.top" class="h-16 px-12 rounded-full border border-gray-200 text-black font-bold text-sm flex items-center justify-center hover:border-black transition-all hover:scale-105 active:scale-95 dark:border-neutral-700 dark:text-white">
-                         type@zizao.top
-                     </a>
+                     <a href="licensing.html" target="_blank" class="h-16 px-12 rounded-full bg-black text-white font-bold text-sm flex items-center justify-center hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 dark:bg-white dark:text-black">定制咨询</a>
+                     <a href="mailto:type@zizao.top" class="h-16 px-12 rounded-full border border-gray-200 text-black font-bold text-sm flex items-center justify-center hover:border-black transition-all hover:scale-105 active:scale-95 dark:border-neutral-700 dark:text-white">type@zizao.top</a>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer id="footer-placeholder" class="bg-white/90 backdrop-blur-md pt-24 pb-12 dark:bg-neutral-950/90 border-t border-gray-100 dark:border-neutral-900 mt-auto"></footer>
@@ -336,5 +292,33 @@
     <script src="components.js"></script>
     <script src="script.js"></script>
 
+    <script>
+        // 轮播逻辑控制
+        let currentIdx = 0;
+        let slideTimer;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator-wrapper');
+
+        function goToSlide(index) {
+            slides[currentIdx].classList.remove('active');
+            indicators[currentIdx].classList.remove('active');
+            currentIdx = index;
+            slides[currentIdx].classList.add('active');
+            indicators[currentIdx].classList.add('active');
+            resetTimer();
+        }
+
+        function nextSlide() {
+            let next = (currentIdx + 1) % slides.length;
+            goToSlide(next);
+        }
+
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, 5000); 
+        }
+
+        document.addEventListener('DOMContentLoaded', resetTimer);
+    </script>
 </body>
 </html>
