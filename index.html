@@ -35,7 +35,7 @@
         @media (min-width: 1024px) {
             .accordion-item {
                 flex: 1;
-                transition: all 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+                transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
                 will-change: flex, transform;
             }
             .accordion-container:hover .accordion-item:hover {
@@ -58,21 +58,41 @@
             z-index: 20;
         }
 
-        /* 指示器样式优化 */
-        .indicator-bar {
-            height: 3px;
-            width: 24px;
-            background: rgba(255,255,255,0.2);
-            transition: all 0.4s ease;
-            border-radius: 99px;
+        /* 动态位移胶囊样式 */
+        .indicator-capsule {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            padding: 4px;
+            border-radius: 999px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .indicator-wrapper:hover .indicator-bar {
-            background: rgba(255,255,255,0.5);
+        .capsule-pill {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: calc(100% - 8px);
+            background: white;
+            border-radius: 999px;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .indicator-wrapper.active .indicator-bar {
-            width: 48px;
-            background: rgba(255,255,255,1);
+        .indicator-step {
+            position: relative;
+            z-index: 2;
+            width: 48px; 
+            height: 6px;
+            cursor: pointer;
         }
+
+        /* 鼠标抓取状态 */
+        .carousel-grab { cursor: grab; }
+        .carousel-grabbing { cursor: grabbing; }
+        
+        /* 优化图片拖拽默认行为 */
+        #carousel-slides img { -webkit-user-drag: none; user-select: none; }
     </style>
 </head>
 <body class="bg-white text-black dark:bg-neutral-950 dark:text-gray-100 flex flex-col min-h-screen selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black font-sans antialiased overflow-x-hidden">
@@ -81,61 +101,56 @@
 
     <main class="w-full flex-1">
         
-        <!-- HERO SECTION (高度增加至 760px) -->
+        <!-- HERO SECTION -->
         <section class="w-full px-4 pt-24 pb-8 lg:px-12 lg:pt-28 lg:pb-8 max-w-[1800px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:h-[760px] min-h-0 animate-fade-up">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:h-[800px] animate-fade-up">
                 
                 <!-- LEFT WRAPPER (9/12) -->
-                <div class="lg:col-span-9 flex flex-col gap-4 h-full order-1 lg:order-none">
+                <div class="lg:col-span-9 flex flex-col gap-4 h-full">
                     
-                    <!-- 轮播图区域 (左上) -->
-                    <div class="relative flex-[2] lg:flex-1 w-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 shadow-sm border border-gray-100 dark:border-neutral-800 isolate min-h-[400px] lg:min-h-0">
-                        
-                        <!-- 幻灯片内容 -->
+                    <!-- 轮播图区域 (权重增加) -->
+                    <div id="carousel-container" class="relative flex-[4] w-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 shadow-sm border border-gray-100 dark:border-neutral-800 isolate carousel-grab aspect-[4/3] lg:aspect-auto">
                         <div id="carousel-slides" class="absolute inset-0">
-                            <a href="fonts.html" target="_blank" class="slide active">
+                            <a href="fonts.html" class="slide active">
                                 <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 1">
                             </a>
                             <a href="https://hao.zizao.top" target="_blank" class="slide">
                                 <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 2">
                             </a>
-                            <a href="licensing.html" target="_blank" class="slide">
+                            <a href="licensing.html" class="slide">
                                 <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 3">
                             </a>
                         </div>
 
-                        <!-- 指示器 (居中下移) -->
-                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1">
-                            <div class="indicator-wrapper active cursor-pointer py-4 px-2" onclick="goToSlide(0)">
-                                <div class="indicator-bar"></div>
-                            </div>
-                            <div class="indicator-wrapper cursor-pointer py-4 px-2" onclick="goToSlide(1)">
-                                <div class="indicator-bar"></div>
-                            </div>
-                            <div class="indicator-wrapper cursor-pointer py-4 px-2" onclick="goToSlide(2)">
-                                <div class="indicator-bar"></div>
+                        <!-- 动态位移胶囊指示器 -->
+                        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
+                            <div class="indicator-capsule">
+                                <div id="active-pill" class="capsule-pill" style="width: 48px;"></div>
+                                <div class="indicator-step" onclick="goToSlide(0)"></div>
+                                <div class="indicator-step" onclick="goToSlide(1)"></div>
+                                <div class="indicator-step" onclick="goToSlide(2)"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 手风琴导航 (左下) -->
-                    <div class="accordion-container flex flex-col lg:flex-row gap-3 lg:gap-4 h-auto lg:h-56 shrink-0">
-                        <a href="https://hao.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
+                    <!-- 手风琴导航 (高度压缩，手机端隐藏) -->
+                    <div class="accordion-container hidden lg:flex flex-row gap-4 h-40 shrink-0">
+                        <a href="https://hao.zizao.top" target="_blank" class="accordion-item relative rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
                             <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Nav">
                         </a>
-                        <a href="https://vf.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
+                        <a href="https://vf.zizao.top" target="_blank" class="accordion-item relative rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
                             <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="VF">
                         </a>
-                        <a href="https://chaoyin.zizao.top" target="_blank" class="accordion-item w-full h-24 lg:h-auto lg:w-auto lg:flex-1 relative rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
+                        <a href="https://chaoyin.zizao.top" target="_blank" class="accordion-item relative rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
                             <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Zizao">
                         </a>
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN (3/12) -->
-                <a href="fonts/zhisans.html" target="_blank" class="lg:col-span-3 relative w-full aspect-square lg:aspect-auto lg:h-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden group shadow-sm border border-gray-100 dark:border-neutral-800 block cursor-pointer isolate order-2 lg:order-none">
+                <!-- RIGHT COLUMN (手机端隐藏) -->
+                <a href="fonts/zhisans.html" class="hidden lg:block lg:col-span-3 relative w-full h-full rounded-[2.5rem] overflow-hidden group shadow-sm border border-gray-100 dark:border-neutral-800 block cursor-pointer isolate">
                     <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Right">
-                    <div class="absolute bottom-8 right-8 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                    <div class="absolute bottom-8 right-8 z-30 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                         <div class="w-12 h-12 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                         </div>
@@ -158,7 +173,7 @@
              </div>
         </div>
 
-        <!-- SELECTED WORKS -->
+        <!-- SELECTED WORKS (8卡片补全) -->
         <section id="featured" class="py-16 lg:py-24 px-4 lg:px-12 max-w-[1800px] mx-auto">
             <div class="flex items-end justify-between mb-12 border-b border-gray-100 dark:border-neutral-900 pb-8">
                 <h2 class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">Selected Works</h2>
@@ -168,104 +183,104 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-                <!-- Card 1 -->
-                <a href="fonts/zhisans.html" target="_blank" class="group block">
+                <!-- 01 自在致黑 -->
+                <a href="fonts/zhisans.html" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W1">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                             <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                             </div>
                         </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">自在致黑</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Retail Font</span></div>
                 </a>
 
-                <!-- Card 2 -->
+                <!-- 02 设计导航 -->
                 <a href="https://hao.zizao.top" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W2">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">设计导航</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Web Service</span></div>
                 </a>
 
-                <!-- Card 3 -->
+                <!-- 03 在线工具箱 -->
                 <a href="https://tools.zizao.top" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W3">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">在线工具箱</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Toolkit</span></div>
                 </a>
 
-                <!-- Card 4 -->
-                <a href="licensing.html" target="_blank" class="group block">
+                <!-- 04 品牌定制 -->
+                <a href="licensing.html" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W4">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                             <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
-                            </div>
-                        </div>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                           </div>
+                       </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">品牌定制</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Bespoke</span></div>
                 </a>
 
-                <!-- Card 5 -->
-                <a href="#" target="_blank" class="group block">
+                <!-- 05 字体样张 -->
+                <a href="#" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W5">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                            </div>
                        </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">字体样张</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Specimen</span></div>
                 </a>
 
-                <!-- Card 6 -->
-                <a href="#" target="_blank" class="group block">
+                <!-- 06 视觉实验室 -->
+                <a href="#" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1614850523060-8da1d56e37ad?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W6">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                            </div>
                        </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">视觉实验室</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Type Lab</span></div>
                 </a>
 
-                <!-- Card 7 -->
-                <a href="#" target="_blank" class="group block">
+                <!-- 07 应用展示 -->
+                <a href="#" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W7">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                            </div>
                        </div>
                     </div>
                     <div><h3 class="text-xl font-black mb-1">应用展示</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Gallery</span></div>
                 </a>
 
-                <!-- Card 8 -->
-                <a href="docs.html?section=about" target="_blank" class="group block">
+                <!-- 08 关于我们 -->
+                <a href="docs.html?section=about" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W8">
-                        <div class="absolute bottom-5 right-5 z-30 opacity-100 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
-                            <div class="w-11 h-11 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
-                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
+                        <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+                            <div class="w-10 h-10 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
+                               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 17L17 7M17 7H7M17 7V17"></path></svg>
                            </div>
                        </div>
                     </div>
@@ -280,7 +295,7 @@
                     寻找独特的品牌声音？我们提供专业的企业定制字体服务，从 Logotype 到全球化字符集。
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-5">
-                     <a href="licensing.html" target="_blank" class="h-16 px-12 rounded-full bg-black text-white font-bold text-sm flex items-center justify-center hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 dark:bg-white dark:text-black">定制咨询</a>
+                     <a href="licensing.html" class="h-16 px-12 rounded-full bg-black text-white font-bold text-sm flex items-center justify-center hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 dark:bg-white dark:text-black">定制咨询</a>
                      <a href="mailto:type@zizao.top" class="h-16 px-12 rounded-full border border-gray-200 text-black font-bold text-sm flex items-center justify-center hover:border-black transition-all hover:scale-105 active:scale-95 dark:border-neutral-700 dark:text-white">type@zizao.top</a>
                 </div>
             </div>
@@ -293,30 +308,57 @@
     <script src="script.js"></script>
 
     <script>
-        // 轮播逻辑控制
+        // 轮播逻辑与手势控制
         let currentIdx = 0;
         let slideTimer;
+        let startX = 0;
+        let isDragging = false;
+        
+        const container = document.getElementById('carousel-container');
         const slides = document.querySelectorAll('.slide');
-        const indicators = document.querySelectorAll('.indicator-wrapper');
+        const activePill = document.getElementById('active-pill');
+        const stepWidth = 48; 
 
         function goToSlide(index) {
             slides[currentIdx].classList.remove('active');
-            indicators[currentIdx].classList.remove('active');
-            currentIdx = index;
+            currentIdx = (index + slides.length) % slides.length; 
             slides[currentIdx].classList.add('active');
-            indicators[currentIdx].classList.add('active');
+            activePill.style.transform = `translateX(${currentIdx * stepWidth}px)`;
             resetTimer();
         }
 
-        function nextSlide() {
-            let next = (currentIdx + 1) % slides.length;
-            goToSlide(next);
-        }
+        function nextSlide() { goToSlide(currentIdx + 1); }
+        function prevSlide() { goToSlide(currentIdx - 1); }
 
         function resetTimer() {
             clearInterval(slideTimer);
             slideTimer = setInterval(nextSlide, 5000); 
         }
+
+        // 手势与拖拽逻辑
+        const handleStart = (e) => {
+            isDragging = true;
+            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            container.classList.replace('carousel-grab', 'carousel-grabbing');
+        };
+
+        const handleEnd = (e) => {
+            if (!isDragging) return;
+            const endX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
+            const deltaX = startX - endX;
+
+            if (Math.abs(deltaX) > 50) {
+                if (deltaX > 0) nextSlide();
+                else prevSlide();
+            }
+            isDragging = false;
+            container.classList.replace('carousel-grabbing', 'carousel-grab');
+        };
+
+        container.addEventListener('touchstart', handleStart, { passive: true });
+        container.addEventListener('touchend', handleEnd, { passive: true });
+        container.addEventListener('mousedown', handleStart);
+        window.addEventListener('mouseup', handleEnd);
 
         document.addEventListener('DOMContentLoaded', resetTimer);
     </script>
