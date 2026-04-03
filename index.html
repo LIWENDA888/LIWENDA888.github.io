@@ -57,7 +57,7 @@
             z-index: 20;
         }
 
-        /* 动态位移胶囊指示器 */
+        /* 动态位移胶囊样式 */
         .indicator-capsule {
             display: flex;
             background: rgba(0, 0, 0, 0.2);
@@ -86,9 +86,11 @@
             cursor: pointer;
         }
 
-        /* 鼠标状态控制 */
+        /* 鼠标抓取状态 */
         .carousel-grab { cursor: grab; }
         .carousel-grabbing { cursor: grabbing; }
+        
+        /* 优化图片拖拽默认行为，防止与滑动冲突 */
         #carousel-slides img { -webkit-user-drag: none; user-select: none; }
     </style>
 </head>
@@ -98,28 +100,28 @@
 
     <main class="w-full flex-1">
         
-        <!-- HERO SECTION (高度减矮至精致的 700px) -->
+        <!-- HERO SECTION (高度 700px) -->
         <section class="w-full px-4 pt-24 pb-8 lg:px-12 lg:pt-28 lg:pb-8 max-w-[1800px] mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:h-[700px] animate-fade-up">
                 
                 <!-- LEFT WRAPPER (9/12) -->
                 <div class="lg:col-span-9 flex flex-col gap-4 h-full">
                     
-                    <!-- 核心轮播图 (权重 flex-[4]，移动端 aspect-[4/3]) -->
+                    <!-- 核心轮播图 (支持手势滑动，链接新标签打开) -->
                     <div id="carousel-container" class="relative flex-[4] w-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 shadow-sm border border-gray-100 dark:border-neutral-800 isolate carousel-grab aspect-[4/3] lg:aspect-auto">
                         <div id="carousel-slides" class="absolute inset-0">
-                            <a href="fonts.html" class="slide active">
+                            <a href="fonts.html" target="_blank" class="slide active">
                                 <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 1">
                             </a>
                             <a href="https://hao.zizao.top" target="_blank" class="slide">
                                 <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 2">
                             </a>
-                            <a href="licensing.html" class="slide">
+                            <a href="licensing.html" target="_blank" class="slide">
                                 <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=2564&auto=format&fit=crop" class="size-full object-cover" alt="Slide 3">
                             </a>
                         </div>
 
-                        <!-- 动态位移胶囊指示器 -->
+                        <!-- 位移胶囊指示器 -->
                         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
                             <div class="indicator-capsule">
                                 <div id="active-pill" class="capsule-pill" style="width: 48px;"></div>
@@ -130,7 +132,7 @@
                         </div>
                     </div>
 
-                    <!-- 手风琴导航 (高度压缩 h-40，手机端隐藏) -->
+                    <!-- 手风琴导航 (高度压缩 h-40) -->
                     <div class="accordion-container hidden lg:flex flex-row gap-4 h-40 shrink-0">
                         <a href="https://hao.zizao.top" target="_blank" class="accordion-item relative rounded-[2rem] overflow-hidden bg-gray-100 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 group/item">
                             <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Nav">
@@ -144,8 +146,8 @@
                     </div>
                 </div>
 
-                <!-- 右侧固定图 (手机端隐藏) -->
-                <a href="fonts/zhisans.html" class="hidden lg:block lg:col-span-3 relative w-full h-full rounded-[2.5rem] overflow-hidden group shadow-sm border border-gray-100 dark:border-neutral-800 block cursor-pointer isolate">
+                <!-- 右侧固定图 (新标签打开) -->
+                <a href="fonts/zhisans.html" target="_blank" class="hidden lg:block lg:col-span-3 relative w-full h-full rounded-[2.5rem] overflow-hidden group shadow-sm border border-gray-100 dark:border-neutral-800 block cursor-pointer isolate">
                     <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Right">
                     <div class="absolute bottom-8 right-8 z-30 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                         <div class="w-12 h-12 rounded-full bg-white ring-1 ring-black/5 flex items-center justify-center text-black shadow-xl hover:scale-110 active:scale-95 transition-transform">
@@ -170,7 +172,7 @@
              </div>
         </div>
 
-        <!-- SELECTED WORKS (完整 8 卡片，包含全部悬停效果) -->
+        <!-- SELECTED WORKS (完整 8 卡片 + 新标签打开) -->
         <section id="featured" class="py-16 lg:py-24 px-4 lg:px-12 max-w-[1800px] mx-auto">
             <div class="flex items-end justify-between mb-12 border-b border-gray-100 dark:border-neutral-900 pb-8">
                 <h2 class="text-3xl lg:text-4xl font-black tracking-tighter uppercase">Selected Works</h2>
@@ -181,8 +183,8 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
                 
-                <!-- Card 01 -->
-                <a href="fonts/zhisans.html" class="group block">
+                <!-- 01 -->
+                <a href="fonts/zhisans.html" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://pic3.fukit.cn/autoupload/NWINCyTOTWqNUcPQazQq69iO_OyvX7mIgxFBfDMDErs/20251123/i4a1/6803X1701/123-01.jpg/webp" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W1">
                         <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
@@ -194,7 +196,7 @@
                     <div><h3 class="text-xl font-black mb-1">自在致黑</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Retail Font</span></div>
                 </a>
 
-                <!-- Card 02 -->
+                <!-- 02 -->
                 <a href="https://hao.zizao.top" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W2">
@@ -207,7 +209,7 @@
                     <div><h3 class="text-xl font-black mb-1">设计导航</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Web Service</span></div>
                 </a>
 
-                <!-- Card 03 -->
+                <!-- 03 -->
                 <a href="https://tools.zizao.top" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W3">
@@ -220,8 +222,8 @@
                     <div><h3 class="text-xl font-black mb-1">在线工具箱</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Toolkit</span></div>
                 </a>
 
-                <!-- Card 04 -->
-                <a href="licensing.html" class="group block">
+                <!-- 04 -->
+                <a href="licensing.html" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2670&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W4">
                         <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
@@ -233,8 +235,8 @@
                     <div><h3 class="text-xl font-black mb-1">品牌定制</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Bespoke</span></div>
                 </a>
 
-                <!-- Card 05 -->
-                <a href="#" class="group block">
+                <!-- 05 -->
+                <a href="#" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W5">
                         <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
@@ -246,8 +248,8 @@
                     <div><h3 class="text-xl font-black mb-1">字体样张</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Specimen</span></div>
                 </a>
 
-                <!-- Card 06 -->
-                <a href="#" class="group block">
+                <!-- 06 -->
+                <a href="#" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1614850523060-8da1d56e37ad?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W6">
                         <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
@@ -259,8 +261,8 @@
                     <div><h3 class="text-xl font-black mb-1">视觉实验室</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Type Lab</span></div>
                 </a>
 
-                <!-- Card 07 -->
-                <a href="#" class="group block">
+                <!-- 07 -->
+                <a href="#" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W7">
                         <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
@@ -272,8 +274,8 @@
                     <div><h3 class="text-xl font-black mb-1">应用展示</h3><span class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Gallery</span></div>
                 </a>
 
-                <!-- Card 08 -->
-                <a href="docs.html?section=about" class="group block">
+                <!-- 08 -->
+                <a href="docs.html?section=about" target="_blank" class="group block">
                     <div class="relative aspect-[4/3] w-full rounded-[1.5rem] overflow-hidden border border-gray-100 dark:border-neutral-800 isolate mb-5">
                         <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="W8">
                         <div class="absolute bottom-5 right-5 z-30 lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
@@ -287,14 +289,14 @@
 
             </div>
 
-            <!-- CTA SECTION -->
+            <!-- CTA SECTION (按钮新标签打开) -->
             <div class="mt-20 lg:mt-36 px-6 py-20 lg:p-28 bg-gray-50 dark:bg-neutral-900 rounded-[2.5rem] lg:rounded-[3rem] text-center border border-gray-100 dark:border-neutral-800">
                 <h3 class="text-4xl md:text-6xl font-black mb-8 tracking-tighter">Have a Project?</h3>
                 <p class="text-gray-500 dark:text-neutral-400 max-w-xl mx-auto mb-12 text-lg lg:text-xl font-medium leading-relaxed">
                     寻找独特的品牌声音？我们提供专业的企业定制字体服务，从 Logotype 到全球化字符集。
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-5">
-                     <a href="licensing.html" class="h-16 px-12 rounded-full bg-black text-white font-bold text-sm flex items-center justify-center hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 dark:bg-white dark:text-black">定制咨询</a>
+                     <a href="licensing.html" target="_blank" class="h-16 px-12 rounded-full bg-black text-white font-bold text-sm flex items-center justify-center hover:bg-gray-800 transition-all hover:scale-105 active:scale-95 dark:bg-white dark:text-black">定制咨询</a>
                      <a href="mailto:type@zizao.top" class="h-16 px-12 rounded-full border border-gray-200 text-black font-bold text-sm flex items-center justify-center hover:border-black transition-all hover:scale-105 active:scale-95 dark:border-neutral-700 dark:text-white">type@zizao.top</a>
                 </div>
             </div>
@@ -307,7 +309,7 @@
     <script src="script.js"></script>
 
     <script>
-        // --- 轮播与手势核心逻辑 ---
+        // --- 核心轮播与交互逻辑 ---
         let currentIdx = 0;
         let slideTimer;
         let startX = 0;
@@ -316,7 +318,7 @@
         const container = document.getElementById('carousel-container');
         const slides = document.querySelectorAll('.slide');
         const activePill = document.getElementById('active-pill');
-        const stepWidth = 48; // 滑块步长
+        const stepWidth = 48; // 滑块单个间隔像素
 
         function goToSlide(index) {
             slides[currentIdx].classList.remove('active');
@@ -334,7 +336,7 @@
             slideTimer = setInterval(nextSlide, 5000); 
         }
 
-        // 手势/鼠标拖拽实现
+        // --- 手势与拖拽交互实现 ---
         const handleStart = (e) => {
             isDragging = true;
             startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
@@ -346,6 +348,7 @@
             const endX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
             const deltaX = startX - endX;
 
+            // 划动超过 50px 触发切换
             if (Math.abs(deltaX) > 50) {
                 if (deltaX > 0) nextSlide();
                 else prevSlide();
@@ -360,7 +363,7 @@
         container.addEventListener('mousedown', handleStart);
         window.addEventListener('mouseup', handleEnd);
 
-        // 启动定时器
+        // 页面加载后启动
         document.addEventListener('DOMContentLoaded', resetTimer);
     </script>
 </body>
