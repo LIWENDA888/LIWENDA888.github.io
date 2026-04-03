@@ -96,7 +96,7 @@
             animation: slideImgNext var(--slide-duration) var(--slide-easing) forwards;
         }
         @keyframes slideImgNext {
-            0% { transform: translateX(12%); } /* 从 12% 位置开始推入 */
+            0% { transform: translateX(12%); } 
             100% { transform: translateX(0); }
         }
 
@@ -107,7 +107,7 @@
         }
         @keyframes slideOutNext {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-12%); } /* 被推到 -12% 位置 */
+            100% { transform: translateX(-12%); } 
         }
         .slide.leaving-next::after {
             animation: fadeDark var(--slide-duration) var(--slide-easing) forwards;
@@ -130,7 +130,7 @@
             animation: slideImgPrev var(--slide-duration) var(--slide-easing) forwards;
         }
         @keyframes slideImgPrev {
-            0% { transform: translateX(-12%); } /* 从 -12% 位置开始推入 */
+            0% { transform: translateX(-12%); } 
             100% { transform: translateX(0); }
         }
 
@@ -141,7 +141,7 @@
         }
         @keyframes slideOutPrev {
             0% { transform: translateX(0); }
-            100% { transform: translateX(12%); } /* 被推到 12% 位置 */
+            100% { transform: translateX(12%); } 
         }
         .slide.leaving-prev::after {
             animation: fadeDark var(--slide-duration) var(--slide-easing) forwards;
@@ -167,8 +167,8 @@
                 <!-- LEFT WRAPPER (9/12) -->
                 <div class="lg:col-span-9 flex flex-col gap-4 h-full relative">
                     
-                    <!-- 核心轮播图 -->
-                    <div id="carousel-container" class="relative flex-[4] w-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-black shadow-sm isolate aspect-[4/3] lg:aspect-auto group">
+                    <!-- 核心轮播图 (统一修改为 aspect-[16/9] 以保持多端图片不被错误裁切) -->
+                    <div id="carousel-container" class="relative flex-[4] w-full rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden bg-black shadow-sm isolate aspect-[16/9] lg:aspect-auto group">
                         <div id="carousel-slides" class="absolute inset-0 bg-black">
                             <a href="fonts.html" target="_blank" class="slide active">
                                 <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Slide 1">
@@ -390,19 +390,15 @@
             nextSlide.classList.add(direction === 'next' ? 'entering-next' : 'entering-prev');
 
             // 3. 动画结束后的绝对清理
-            // 等待时间与 CSS 中的 --slide-duration: 1.1s 绝对同步
             setTimeout(() => {
-                // 彻底剥离所有动画状态，让 DOM 恢复为纯粹的 .slide 和 .slide.active
                 prevSlide.classList.remove('leaving-next', 'leaving-prev');
                 nextSlide.classList.remove('entering-next', 'entering-prev');
-                
                 isAnimating = false;
             }, 1100);
 
             resetTimer();
         }
 
-        // 绑定给按钮的全局事件 (阻止冒泡防误触)
         window.nextSlide = function(e) { 
             if(e) { e.preventDefault(); e.stopPropagation(); }
             goToSlide(currentIdx + 1, 'next'); 
@@ -412,7 +408,6 @@
             goToSlide(currentIdx - 1, 'prev'); 
         }
 
-        // 定时轮播
         function resetTimer() {
             clearInterval(slideTimer);
             slideTimer = setInterval(() => goToSlide(currentIdx + 1, 'next'), 5500); 
