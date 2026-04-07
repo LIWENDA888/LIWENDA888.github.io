@@ -49,7 +49,7 @@ const SITE_CONFIG = {
             }
         ],
         // 底部版权区配置
-        copyright: "© 2025 ZIZAO.TOP. 自在造字. All rights reserved.",
+        copyright: "© 2026 ZIZAO.TOP. 自在造字. All rights reserved.",
         icp: 
             { name: "使用条款", path: "https://www.zizao.top/docs.html?section=terms" },
         
