@@ -50,8 +50,18 @@ const SITE_CONFIG = {
         ],
         // 底部版权区配置
         copyright: "© 2026 ZIZAO.TOP. 自在造字. All rights reserved.",
-        icp: 
-            { name: "使用条款", path: "https://www.zizao.top/docs.html?section=terms" },
+        icp: [
+            { 
+                name: "鄂ICP备2026xxxx号-1", 
+                path: "https://beian.miit.gov.cn/" 
+            },
+            { 
+                name: "鄂公网安备 xxxxxxxxxxxxxx号", 
+                path: "https://beian.mps.gov.cn/",
+                // 使用了官方的警徽图标，如果有你自己的图床链接可以替换掉这个
+                icon: "https://www.beian.gov.cn/img/new/gongan.png" 
+            }
+        ],
         
         recommendTitle: "推荐链接", 
         bottomLinks: [ 
@@ -239,15 +249,20 @@ const SHARED_FOOTER_HTML = `
     <div class="mt-20 border-t border-gray-100 pt-8 dark:border-neutral-900 flex flex-col md:flex-row md:items-end justify-between gap-8">
         
         <div class="flex flex-col gap-2">
-            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">${SITE_CONFIG.footer.copyright}</p>
-            <a href="${SITE_CONFIG.footer.icp.path}" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black dark:hover:text-white transition-colors w-fit">
-                ${SITE_CONFIG.footer.icp.name}
-            </a>
+            <p class="text-[10px] font-medium uppercase tracking-widest text-gray-400">${SITE_CONFIG.footer.copyright}</p>
+            <div class="flex flex-wrap items-center gap-2.5">
+                ${SITE_CONFIG.footer.icp.map(link => `
+                    <a href="${link.path}" target="_blank" class="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-widest text-gray-400 hover:text-black dark:hover:text-white transition-colors w-fit">
+                        ${link.icon ? `<img src="${link.icon}" class="w-3.5 h-3.5 object-contain" alt="备案图标">` : ''}
+                        ${link.name}
+                    </a>
+                `).join('<span class="text-gray-200 dark:text-neutral-800 text-[10px] font-medium">|</span>')}
+            </div>
         </div>
 
-        <div class="flex flex-col gap-2 md:items-end">
-            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">${SITE_CONFIG.footer.recommendTitle}</p>
-            <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+        <div class="flex flex-col gap-2 md:items-end mt-6 md:mt-0">
+            <p class="text-[10px] font-medium uppercase tracking-widest text-gray-400">${SITE_CONFIG.footer.recommendTitle}</p>
+            <div class="flex flex-wrap gap-6 text-[10px] font-medium uppercase tracking-widest text-gray-400">
                 ${SITE_CONFIG.footer.bottomLinks.map(link => `<a href="${link.path}" target="_blank" class="hover:text-black dark:hover:text-white transition-colors">${link.name}</a>`).join('')}
             </div>
         </div>
