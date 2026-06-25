@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FontManager - 字体数据管家</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/pinyin-pro"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            brand: ['Outfit', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.15s ease-out',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 沉浸式输入框 */
+    .stealth-input {
+      width: 100%;
+      background: transparent;
+      outline: none;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .stealth-input:hover { border-color: #e4e4e7; background: #f4f4f5; }
+    .stealth-input:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+
+    /* 滚动条美化 */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+    [v-cloak] { display: none; }
+    
+    .dragging { opacity: 0.5; background-color: #eff6ff; }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 antialiased font-sans h-screen overflow-hidden">
+  
+  <div id="app" v-cloak class="w-full h-full flex flex-col">
+    
+    <!-- 顶部固定栏 -->
+    <header class="flex-shrink-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-[60]">
+      
+      <div class="flex items-center gap-4 whitespace-nowrap">
+        <h1 class="font-brand font-bold text-xl tracking-tight text-gray-800">FontManager</h1>
+        
+        <button @click.stop="openFile" class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+          置入 JS
+        </button>
+      </div>
+      
+      <!-- 满宽搜索框 (智能融合提示) -->
+      <div class="flex-1 mx-8 sm:mx-16">
+        <div class="relative group w-full">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 group-focus-within:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          </div>
+          <input type="text" v-model="searchQuery" 
+                 :placeholder="fileName ? `当前数据来自：${fileName}   /   搜索字体名称...` : '搜索字体名称...'"
+                 class="block w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 focus:border-blue-400 sm:text-sm transition-all shadow-sm" />
+        </div>
+      </div>
+
+      <!-- 极简保存按钮 -->
+      <div class="flex items-center justify-end whitespace-nowrap">
+        <button id="saveBtn" @click.stop="saveFile" :disabled="!fileHandle" title="保存并覆盖文件" 
+                class="flex items-center justify-center w-10 h-10 text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 rounded-lg transition-all shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-auto w-full relative pb-40">
+      <table class="w-full text-sm text-left min-w-[1200px] border-separate border-spacing-0">
+        
+        <thead class="text-xs text-gray-500">
+          <tr>
+            <th class="sticky top-0 z-40 bg-gray-50 px-2 py-3 w-14 text-center border-b border-r border-gray-200 shadow-[0_1px_0_#e5e7eb]">
+              <span v-if="searchQuery" class="text-gray-300">禁用</span>
+              <span v-else>#</span>
+            </th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 w-64 border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">字体名称</th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 w-32 font-brand border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">ID</th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 w-40 border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">标签</th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 min-w-[150px] border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">多选分类</th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 w-[260px] border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">图片路径</th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 min-w-[260px] border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">下载地址</th>
+            <th class="sticky top-0 z-40 bg-gray-50 px-3 py-3 w-12 text-center border-b border-gray-200 shadow-[0_1px_0_#e5e7eb]">删除</th>
+          </tr>
+        </thead>
+
+        <tbody class="bg-white">
+          
+          <tr v-if="!fileHandle && fontDatabase.length === 0">
+            <td colspan="8" class="text-center py-24 text-gray-400 border-b border-gray-100">
+              <div class="flex flex-col items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" /></svg>
+                <p>表格暂无数据，请点击左上角「置入 JS 文件」</p>
+              </div>
+            </td>
+          </tr>
+
+          <tr v-if="searchQuery && filteredFontDatabase.length === 0" class="bg-gray-50/50">
+            <td colspan="8" class="text-center py-12 text-gray-400 border-b border-gray-100">没有找到符合搜索条件的字体</td>
+          </tr>
+
+          <tr v-for="(font, index) in filteredFontDatabase" :key="font.__uid" 
+              class="group hover:bg-gray-50/70 transition-colors duration-150"
+              :class="{'dragging': dragItem === font}"
+              :draggable="isRowDraggable && !searchQuery"
+              @dragstart="!searchQuery && dragStart(font, $event)"
+              @dragenter.prevent
+              @dragover.prevent
+              @drop="!searchQuery && drop(font)">
+            
+            <td class="px-2 py-1.5 border-b border-r border-gray-100"
+                @mouseenter="!searchQuery && (isRowDraggable = true)" 
+                @mouseleave="isRowDraggable = false">
+              <div class="flex items-center justify-center gap-1 transition-colors p-1.5 rounded"
+                   :class="searchQuery ? 'text-gray-200 cursor-not-allowed' : 'cursor-grab active:cursor-grabbing text-gray-400 hover:text-blue-500 hover:bg-blue-50'">
+                <span class="text-xs font-mono w-4 text-right select-none">{{ fontDatabase.indexOf(font) + 1 }}</span>
+                <svg v-if="!searchQuery" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" /></svg>
+              </div>
+            </td>
+            
+            <td class="px-2 py-1.5 border-b border-gray-100"><input type="text" v-model="font.name" @input="handleNameInput(font)" class="stealth-input font-bold" placeholder="输入名称"></td>
+            <td class="px-2 py-1.5 border-b border-gray-100"><input type="text" v-model="font.id" class="stealth-input text-gray-500 font-brand text-sm" placeholder="自动生成"></td>
+            <td class="px-2 py-1.5 border-b border-gray-100"><input type="text" v-model="font.badge" class="stealth-input text-xs" placeholder="选填..."></td>
+            
+            <td class="px-3 py-1.5 border-b border-gray-100 whitespace-normal">
+              <div class="flex flex-wrap gap-1.5">
+                <label v-for="(cat, cIndex) in categories" :key="cat.id" class="cursor-pointer">
+                  <input type="checkbox" :value="cat.id" v-model="font.categoryIds" class="hidden peer">
+                  <span class="inline-block px-2 py-1 text-xs rounded border border-gray-200 text-gray-500 transition-all select-none hover:bg-gray-100 hover:border-gray-300 peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500 peer-checked:shadow-sm">
+                    {{ cat.name }}
+                  </span>
+                </label>
+              </div>
+            </td>
+            
+            <td class="px-2 py-1.5 border-b border-gray-100">
+              <div class="flex items-center bg-gray-50 border border-gray-200 rounded-md overflow-hidden focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-100 transition-all">
+                <div class="pl-2 pr-1 py-1 flex items-center justify-center pointer-events-none border-r border-gray-100 bg-gray-100/50">
+                  <span class="text-[10px] text-gray-400 font-mono tracking-tighter select-none">/data/img-index/</span>
+                </div>
+                <input type="text" v-model="font.imageName" class="w-8 min-w-[30px] flex-1 bg-transparent text-xs font-bold text-gray-700 outline-none px-2 py-1" placeholder="名称">
+                <div class="pr-1 bg-transparent flex items-center border-l border-gray-100">
+                  <select v-model="font.imageExt" class="bg-transparent text-xs font-mono text-blue-500 outline-none cursor-pointer py-1 hover:text-blue-700 font-bold transition-colors">
+                    <option value=".png">.png</option>
+                    <option value=".jpg">.jpg</option>
+                    <option value=".svg">.svg</option>
+                    <option value=".gif">.gif</option>
+                    <option value=".webp">.webp</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+            
+            <td class="px-3 py-1.5 border-b border-gray-100 relative">
+              <div @click.stop="toggleDownloadsPopover(font)" class="flex flex-wrap gap-1.5 cursor-pointer p-1 rounded hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200 min-h-[32px] items-center">
+                <template v-if="font.downloads && font.downloads.length > 0">
+                  <span v-for="(dl, i) in font.downloads" :key="i" class="px-2 py-0.5 bg-white border border-gray-200 text-gray-700 rounded text-xs shadow-sm">
+                    {{ dl.name || '未命名' }}
+                  </span>
+                </template>
+                <span v-else class="text-xs text-gray-400 flex items-center gap-1 px-1 py-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                  添加下载地址
+                </span>
+              </div>
+
+              <!-- 气泡面板 -->
+              <div v-if="activePopoverId === font.__uid" @click.stop 
+                   class="absolute top-full left-0 mt-2 w-[460px] bg-white rounded-xl p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] z-[100] border border-gray-100 animate-fade-in before:content-[''] before:absolute before:-top-2 before:left-6 before:border-8 before:border-transparent before:border-b-gray-100 after:content-[''] after:absolute after:-top-[7px] after:left-[25px] after:border-[7px] after:border-transparent after:border-b-white">
+                
+                <div class="text-xs font-bold text-gray-500 mb-3 border-b border-gray-100 pb-2.5 flex justify-between items-center">
+                  <span>配置下载地址</span>
+                  <button @click.stop="activePopoverId = null" class="text-gray-400 hover:text-gray-800 p-1 hover:bg-gray-100 rounded transition-colors" title="关闭弹窗">✕</button>
+                </div>
+                
+                <div class="space-y-2 max-h-[320px] overflow-y-auto pr-1">
+                  <div v-for="(dl, i) in font.downloads" :key="i" class="flex gap-1.5 items-center bg-gray-50 p-1.5 rounded-lg border border-gray-200 group focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-100 transition-all shadow-sm">
+                    <input type="text" v-model="dl.name" placeholder="名称" class="w-20 text-xs px-2 py-1.5 bg-transparent outline-none border-r border-gray-200 font-medium text-gray-800">
+                    <input type="text" v-model="dl.url" placeholder="URL 链接地址" class="flex-1 text-xs px-2 py-1.5 bg-transparent outline-none border-r border-gray-200 text-blue-600 font-brand placeholder-gray-400">
+                    <input type="text" v-model="dl.pwd" placeholder="选填" class="w-16 text-xs px-2 py-1.5 bg-transparent outline-none text-center placeholder-gray-400">
+                    <button @click="removeDownload(font, i)" class="text-gray-400 hover:text-red-500 px-1.5 transition-colors" title="删除此条配置">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                  </div>
+                  <div v-if="!font.downloads || font.downloads.length === 0" class="text-center py-8 text-gray-400 text-xs bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                    当前暂无配置，请点击下方添加
+                  </div>
+                </div>
+
+                <button @click="addDownload(font)" class="mt-3 w-full py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-xs font-bold transition flex justify-center items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                  新增下载方式
+                </button>
+              </div>
+            </td>
+
+            <td class="px-3 py-1.5 border-b border-gray-100 text-center">
+              <button @click.stop="deleteFont(font)" class="p-1.5 text-gray-400 hover:text-red-600 rounded hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              </button>
+            </td>
+          </tr>
+          
+          <tr v-if="!searchQuery && fontDatabase.length > 0">
+            <td colspan="8" class="p-3 border-b border-gray-100">
+              <button @click.stop="addFont" class="w-full py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-1.5 font-medium border border-dashed border-transparent hover:border-blue-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                在底部新增字体
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+  </div>
+
+  <script>
+    const { createApp, ref, computed, nextTick, onMounted, onUnmounted } = Vue;
+    const { pinyin } = pinyinPro;
+
+    createApp({
+      setup() {
+        const fileHandle = ref(null);
+        const fileName = ref('');
+        const categories = ref([]);
+        const fontDatabase = ref([]);
+        
+        const searchQuery = ref('');
+        const activePopoverId = ref(null);
+        
+        const isRowDraggable = ref(false);
+        const dragItem = ref(null);
+
+        const closePopoverListener = () => {
+          activePopoverId.value = null;
+        };
+
+        onMounted(() => {
+          document.addEventListener('click', closePopoverListener);
+        });
+
+        onUnmounted(() => {
+          document.removeEventListener('click', closePopoverListener);
+        });
+
+        const parseImage = (url) => {
+          const prefix = '/data/img-index/';
+          if (!url) return { name: '', ext: '.png' };
+          if (url.startsWith(prefix)) {
+            const rest = url.substring(prefix.length);
+            const lastDot = rest.lastIndexOf('.');
+            if (lastDot > -1) {
+              return { name: rest.substring(0, lastDot), ext: rest.substring(lastDot) };
+            }
+            return { name: rest, ext: '.png' };
+          }
+          return { name: url, ext: '' }; 
+        };
+
+        const initFont = (font = {}) => {
+          const parsedImg = parseImage(font.imageUrl);
+          return {
+            __uid: Math.random().toString(36).substring(2),
+            id: '', name: '', badge: '', categoryIds: [], downloads: [],
+            imageName: parsedImg.name,
+            imageExt: parsedImg.ext,
+            ...font
+          };
+        };
+
+        const filteredFontDatabase = computed(() => {
+          if (!searchQuery.value) return fontDatabase.value;
+          const q = searchQuery.value.toLowerCase();
+          return fontDatabase.value.filter(font => 
+            (font.name && font.name.toLowerCase().includes(q)) || 
+            (font.id && font.id.toLowerCase().includes(q))
+          );
+        });
+
+        const dragStart = (font, event) => {
+          if(searchQuery.value) return; 
+          dragItem.value = font;
+          event.dataTransfer.effectAllowed = 'move';
+        };
+        
+        const drop = (font) => {
+          if(searchQuery.value) return;
+          if (dragItem.value && dragItem.value !== font) {
+            const from = fontDatabase.value.indexOf(dragItem.value);
+            const to = fontDatabase.value.indexOf(font);
+            if(from > -1 && to > -1) {
+              const item = fontDatabase.value.splice(from, 1)[0];
+              fontDatabase.value.splice(to, 0, item);
+            }
+          }
+          dragItem.value = null;
+          isRowDraggable.value = false;
+        };
+
+        const toggleDownloadsPopover = (font) => {
+          activePopoverId.value = activePopoverId.value === font.__uid ? null : font.__uid;
+        };
+
+        const openFile = async () => {
+          try {
+            const [handle] = await window.showOpenFilePicker({
+              types: [{ description: 'JS Files', accept: { 'text/javascript': ['.js'] } }],
+            });
+            fileHandle.value = handle;
+            fileName.value = handle.name;
+            const file = await handle.getFile();
+            const content = await file.text();
+
+            const parseScript = `${content}\nreturn { categories, fontDatabase };`;
+            const parsedData = new Function(parseScript)();
+            
+            categories.value = parsedData.categories || [];
+            fontDatabase.value = (parsedData.fontDatabase || []).map(font => initFont(font));
+            
+            searchQuery.value = ''; 
+          } catch (error) {
+            if(error.name !== 'AbortError') alert("读取失败，请检查文件格式。");
+          }
+        };
+
+        const saveFile = async () => {
+          if (!fileHandle.value) return;
+          try {
+            let catStr = '[\n';
+            categories.value.forEach((cat, index) => {
+              catStr += `  { "id": ${JSON.stringify(cat.id)}, "name": ${JSON.stringify(cat.name)} }`;
+              if (index < categories.value.length - 1) catStr += ',';
+              catStr += '\n';
+            });
+            catStr += ']';
+
+            let fontStr = '[\n';
+            fontDatabase.value.forEach((font, index) => {
+              const parts = [];
+              parts.push(`"id": ${JSON.stringify(font.id || "")}`);
+              parts.push(`"name": ${JSON.stringify(font.name || "")}`);
+              if (font.badge) parts.push(`"badge": ${JSON.stringify(font.badge)}`);
+              parts.push(`"categoryIds": ${JSON.stringify(font.categoryIds || [])}`);
+              
+              const imgName = font.imageName || "";
+              const imgExt = font.imageExt || ".png";
+              const fullImgUrl = imgName ? `/data/img-index/${imgName}${imgExt}` : "";
+              parts.push(`"imageUrl": ${JSON.stringify(fullImgUrl)}`);
+              
+              const cleanDownloads = (font.downloads || []).map(dl => {
+                const cleanDl = { ...dl };
+                if (!cleanDl.pwd) delete cleanDl.pwd;
+                return cleanDl;
+              });
+              parts.push(`"downloads": ${JSON.stringify(cleanDownloads)}`);
+
+              let objStr = '{ ' + parts.join(', ') + ' }';
+              fontStr += '  ' + objStr;
+              if (index < fontDatabase.value.length - 1) fontStr += ',';
+              fontStr += '\n';
+            });
+            fontStr += ']';
+
+            const newContent = `const categories = ${catStr};\n\nconst fontDatabase = ${fontStr};\n`;
+
+            const writable = await fileHandle.value.createWritable();
+            await writable.write(newContent);
+            await writable.close();
+
+            const btn = document.getElementById('saveBtn');
+            const originalIcon = btn.innerHTML;
+            
+            // 纯图标成功反馈动画
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+            btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+            btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            
+            setTimeout(() => {
+              btn.innerHTML = originalIcon;
+              btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+              btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }, 1500);
+          } catch (error) {
+            alert("保存失败！请确保赋予了写入权限。");
+          }
+        };
+
+        const handleNameInput = (font) => {
+          if (!font.name) { font.id = ''; return; }
+          font.id = pinyin(font.name, { toneType: 'none', type: 'array' }).join('').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        };
+
+        // --- 主要修改在这里：新增字体时注入默认的网盘结构 ---
+        const addFont = () => {
+          fontDatabase.value.push(initFont({ 
+            imageName: '', 
+            imageExt: '.png',
+            downloads: [
+              { name: '百度网盘', url: '', pwd: '推荐' },
+              { name: '夸克网盘', url: '', pwd: '' },
+              { name: '蓝奏云', url: '', pwd: '' }
+            ]
+          }));
+          nextTick(() => {
+            const mainContainer = document.querySelector('main');
+            if(mainContainer) mainContainer.scrollTo({ top: mainContainer.scrollHeight, behavior: 'smooth' });
+          });
+        };
+
+        const deleteFont = (font) => {
+          if(confirm(`确定删除该行数据？`)) {
+            const idx = fontDatabase.value.indexOf(font);
+            if(idx > -1) fontDatabase.value.splice(idx, 1);
+          }
+        };
+
+        const addDownload = (font) => {
+          if (!font.downloads) font.downloads = [];
+          font.downloads.push({ name: '', url: '', pwd: '' });
+          nextTick(() => {
+            const container = document.querySelector('.overflow-y-auto');
+            if(container) container.scrollTop = container.scrollHeight;
+          });
+        };
+        const removeDownload = (font, index) => { font.downloads.splice(index, 1); };
+
+        return {
+          fileHandle, fileName, categories, fontDatabase, searchQuery, filteredFontDatabase, 
+          activePopoverId, isRowDraggable, dragItem, dragStart, drop, 
+          toggleDownloadsPopover, openFile, saveFile, 
+          handleNameInput, addFont, deleteFont, addDownload, removeDownload
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
