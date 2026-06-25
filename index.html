@@ -57,12 +57,19 @@
     <!-- 顶部固定栏 -->
     <header class="flex-shrink-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-[60]">
       
-      <div class="flex items-center gap-4 whitespace-nowrap">
-        <h1 class="font-brand font-bold text-xl tracking-tight text-gray-800">FontManager</h1>
+      <div class="flex items-center gap-2 whitespace-nowrap">
+        <h1 class="font-brand font-bold text-xl tracking-tight text-gray-800 mr-4">FontManager</h1>
         
-        <button @click.stop="openFile" class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition">
+        <!-- 新增：读取同目录路径文件 -->
+        <button @click.stop="loadFromPath" class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-md transition border border-blue-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+          读取路径 JS
+        </button>
+
+        <!-- 之前的功能：通过文件系统置入本地文件 -->
+        <button @click.stop="openFile" class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-          置入 JS
+          置入本地 JS
         </button>
       </div>
       
@@ -80,9 +87,11 @@
 
       <!-- 极简保存按钮 -->
       <div class="flex items-center justify-end whitespace-nowrap">
-        <button id="saveBtn" @click.stop="saveFile" :disabled="!fileHandle" title="保存并覆盖文件" 
+        <!-- 移除了 :disabled="!fileHandle" ，只要有数据就可以保存/下载 -->
+        <button id="saveBtn" @click.stop="saveFile" :disabled="fontDatabase.length === 0" :title="fileHandle ? '保存并直接覆盖本地文件' : '生成并下载 JS 文件'" 
                 class="flex items-center justify-center w-10 h-10 text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 rounded-lg transition-all shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+          <svg v-if="fileHandle" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
         </button>
       </div>
     </header>
@@ -108,11 +117,11 @@
 
         <tbody class="bg-white">
           
-          <tr v-if="!fileHandle && fontDatabase.length === 0">
+          <tr v-if="fontDatabase.length === 0">
             <td colspan="8" class="text-center py-24 text-gray-400 border-b border-gray-100">
               <div class="flex flex-col items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" /></svg>
-                <p>表格暂无数据，请点击左上角「置入 JS 文件」</p>
+                <p>表格暂无数据，请点击左上角加载 JS 文件</p>
               </div>
             </td>
           </tr>
@@ -254,6 +263,9 @@
         const isRowDraggable = ref(false);
         const dragItem = ref(null);
 
+        // 如果你的数据文件叫别的名字，或者在别的文件夹里，改这里即可。例如：'./js/data.js'
+        const defaultPath = './data.js';
+
         const closePopoverListener = () => {
           activePopoverId.value = null;
         };
@@ -324,6 +336,28 @@
           activePopoverId.value = activePopoverId.value === font.__uid ? null : font.__uid;
         };
 
+        // --- 新增：识别本地路径文件的功能 ---
+        const loadFromPath = async () => {
+          try {
+            // 通过 Fetch 读取同目录或指定路径的文件
+            const response = await fetch(defaultPath + '?t=' + new Date().getTime()); // 加时间戳防止浏览器缓存
+            if (!response.ok) throw new Error(`找不到文件 ${defaultPath}`);
+            const content = await response.text();
+
+            const parseScript = `${content}\nreturn { categories, fontDatabase };`;
+            const parsedData = new Function(parseScript)();
+            
+            categories.value = parsedData.categories || [];
+            fontDatabase.value = (parsedData.fontDatabase || []).map(font => initFont(font));
+            
+            searchQuery.value = ''; 
+            fileName.value = defaultPath;
+            fileHandle.value = null; // 清除本地句柄状态，标记为通过网络读取
+          } catch (error) {
+            alert(`读取文件失败！\n原因: ${error.message}\n请检查 ${defaultPath} 文件是否存在。`);
+          }
+        };
+
         const openFile = async () => {
           try {
             const [handle] = await window.showOpenFilePicker({
@@ -346,8 +380,22 @@
           }
         };
 
+        // 按钮点击动画反馈
+        const showSuccessAnimation = () => {
+          const btn = document.getElementById('saveBtn');
+          const originalIcon = btn.innerHTML;
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+          btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+          btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          setTimeout(() => {
+            btn.innerHTML = originalIcon;
+            btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+            btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+          }, 1500);
+        };
+
         const saveFile = async () => {
-          if (!fileHandle.value) return;
+          if (fontDatabase.value.length === 0) return;
           try {
             let catStr = '[\n';
             categories.value.forEach((cat, index) => {
@@ -386,23 +434,24 @@
 
             const newContent = `const categories = ${catStr};\n\nconst fontDatabase = ${fontStr};\n`;
 
-            const writable = await fileHandle.value.createWritable();
-            await writable.write(newContent);
-            await writable.close();
-
-            const btn = document.getElementById('saveBtn');
-            const originalIcon = btn.innerHTML;
-            
-            // 纯图标成功反馈动画
-            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
-            btn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
-            btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-            
-            setTimeout(() => {
-              btn.innerHTML = originalIcon;
-              btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
-              btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-            }, 1500);
+            if (fileHandle.value) {
+              // 模式 1：如果之前是走“置入本地 JS”选的文件，由于获得了权限，直接静默覆盖硬盘原文件
+              const writable = await fileHandle.value.createWritable();
+              await writable.write(newContent);
+              await writable.close();
+              showSuccessAnimation();
+            } else {
+              // 模式 2：如果是走“读取路径 JS”进来的，由于在 Web 端没法修改服务器文件，则触发下载
+              const blob = new Blob([newContent], { type: 'text/javascript' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              // 从路径里提取文件名，如果是 ./data.js 就下载 data.js
+              a.download = fileName.value ? fileName.value.split('/').pop() : 'data.js';
+              a.click();
+              URL.revokeObjectURL(url);
+              showSuccessAnimation();
+            }
           } catch (error) {
             alert("保存失败！请确保赋予了写入权限。");
           }
@@ -413,7 +462,6 @@
           font.id = pinyin(font.name, { toneType: 'none', type: 'array' }).join('').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
         };
 
-        // --- 主要修改在这里：新增字体时注入默认的网盘结构 ---
         const addFont = () => {
           fontDatabase.value.push(initFont({ 
             imageName: '', 
@@ -450,7 +498,7 @@
         return {
           fileHandle, fileName, categories, fontDatabase, searchQuery, filteredFontDatabase, 
           activePopoverId, isRowDraggable, dragItem, dragStart, drop, 
-          toggleDownloadsPopover, openFile, saveFile, 
+          toggleDownloadsPopover, loadFromPath, openFile, saveFile, 
           handleNameInput, addFont, deleteFont, addDownload, removeDownload
         }
       }
