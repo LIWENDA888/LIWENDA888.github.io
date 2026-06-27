@@ -2,14 +2,15 @@ const categories = [
   { "id": "rec", "name": "推荐" },
   { "id": "vf", "name": "可变" },
   { "id": "sans", "name": "黑体" },
+  { "id": "title", "name": "标题黑" },
+  { "id": "bold", "name": "超粗黑" },
   { "id": "round", "name": "圆体" },
-  { "id": "title", "name": "标题" },
   { "id": "serif", "name": "宋体" },
+  { "id": "kai", "name": "楷体" },
+  { "id": "kai", "name": "隶书" },
   { "id": "brush", "name": "书法" },
   { "id": "hand", "name": "手写" },
   { "id": "comic", "name": "卡通" },
-  { "id": "en", "name": "英文" },
-  { "id": "fanti", "name": "繁体" },
   { "id": "misc", "name": "其他" }
 ];
 
