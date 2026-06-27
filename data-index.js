@@ -1,6 +1,7 @@
 const categories = [
   { "id": "rec", "name": "推荐" },
   { "id": "vf", "name": "可变" },
+  { "id": "weight", "name": "多字重" },
   { "id": "sans", "name": "黑体" },
   { "id": "title", "name": "标题黑" },
   { "id": "bold", "name": "超粗黑" },
