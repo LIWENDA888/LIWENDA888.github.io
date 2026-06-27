@@ -139,9 +139,15 @@
             <td colspan="8" class="text-center py-12 text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-800/50">没有找到符合搜索条件的字体</td>
           </tr>
 
+          <!-- ============================ -->
+          <!-- 行状态优化：悬浮加深与持续高亮 -->
+          <!-- ============================ -->
           <tr v-for="(font, index) in filteredFontDatabase" :key="font.__uid" 
-              class="group hover:bg-gray-50/70 dark:hover:bg-[#18181b] transition-colors duration-150"
-              :class="{'dragging': dragItem === font}"
+              class="group transition-all duration-200 hover:bg-gray-100 dark:hover:bg-[#27272a]"
+              :class="{
+                'bg-gray-100 dark:bg-[#27272a] shadow-sm relative z-10': activePopoverId === font.__uid,
+                'dragging': dragItem === font
+              }"
               :draggable="isRowDraggable && !searchQuery"
               @dragstart="!searchQuery && dragStart(font, $event)"
               @dragenter.prevent
@@ -198,7 +204,15 @@
             </td>
             
             <td class="px-3 py-1.5 border-b border-gray-100 dark:border-gray-800/50 relative">
-              <div @click.stop="toggleDownloadsPopover(font)" class="flex flex-wrap gap-1.5 cursor-pointer p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-700 min-h-[32px] items-center">
+              
+              <!-- ============================ -->
+              <!-- 按钮点击激活状态优化 -->
+              <!-- ============================ -->
+              <div @click.stop="toggleDownloadsPopover(font)" 
+                   class="flex flex-wrap gap-1.5 cursor-pointer p-1 rounded transition-all border min-h-[32px] items-center"
+                   :class="activePopoverId === font.__uid 
+                     ? 'bg-white dark:bg-[#18181b] border-blue-300/60 dark:border-blue-500/30 ring-1 ring-blue-500/20 shadow-sm' 
+                     : 'border-transparent hover:bg-white dark:hover:bg-[#18181b] hover:border-gray-200 dark:hover:border-gray-700 hover:shadow-sm'">
                 <template v-if="font.downloads && font.downloads.length > 0">
                   <span v-for="(dl, i) in font.downloads" :key="i" class="px-2 py-0.5 bg-white dark:bg-[#27272a] border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs shadow-sm">
                     {{ dl.name || '未命名' }}
