@@ -7,7 +7,7 @@ const categories = [
   { "id": "round", "name": "圆体" },
   { "id": "serif", "name": "宋体" },
   { "id": "kai", "name": "楷体" },
-  { "id": "kai", "name": "隶书" },
+  { "id": "lishu", "name": "隶书" },
   { "id": "brush", "name": "书法" },
   { "id": "hand", "name": "手写" },
   { "id": "comic", "name": "卡通" },
